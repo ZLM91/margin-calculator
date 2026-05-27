@@ -1066,6 +1066,18 @@ function isBrandAccount(acct) {
   return acct.toLowerCase().startsWith('matern');
 }
 
+function findObjCol(row, candidates) {
+  // Flexible column name matching: try each candidate, ignoring spaces/underscores/case
+  var keys = Object.keys(row);
+  for (var ci = 0; ci < candidates.length; ci++) {
+    var c = candidates[ci].replace(/[\s_]+/g, '').toLowerCase();
+    for (var ki = 0; ki < keys.length; ki++) {
+      if (keys[ki].replace(/[\s_]+/g, '').toLowerCase() === c) return row[keys[ki]];
+    }
+  }
+  return '';
+}
+
 function isCurrentMonth(dateStr) {
   // Robustly extract year+month from date strings like "2026-05-15", "2026/5/15", "2026-05-15 10:30:00"
   if (!dateStr) return false;
@@ -1266,7 +1278,7 @@ function handleAdDataUpload(input) {
         // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
-        var acct = String(r['TikTok账号'] || '');
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
         return {
           vid: vid,
           title: String(r['视频标题'] || ''),
@@ -1621,7 +1633,7 @@ function renderMappingPanel() {
     });
     document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
-      var acct = r.account || '';
+      var acct = r.account || acctLookup[r.vid] || '';
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
@@ -1925,7 +1937,7 @@ function exportMappingCSV() {
   if (videoJoined) {
     var seenVid = {};
     videoJoined.forEach(function(r) {
-      var acct = r.account || '';
+      var acct = r.account || acctLookup[r.vid] || '';
       if (!isBrandAccount(acct)) return; // skip 达人 content
       if (seenVid[r.vid]) return;
       seenVid[r.vid] = true;
@@ -2257,7 +2269,7 @@ function handleAdDataUploadUK(input) {
         var rawVid = String(r['视频 ID'] || '').trim();
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
-        var acct = String(r['TikTok账号'] || '');
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
         return {
           vid: vid,
           title: String(r['视频标题'] || ''),
@@ -2625,7 +2637,7 @@ function renderMappingPanelUK() {
     });
     document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
-      var acct = r.account || '';
+      var acct = r.account || acctLookup[r.vid] || '';
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
@@ -2882,7 +2894,7 @@ function exportMappingCSVUK() {
   if (videoJoinedUK) {
     var seenVid = {};
     videoJoinedUK.forEach(function(r) {
-      var acct = r.account || '';
+      var acct = r.account || acctLookup[r.vid] || '';
       if (!isBrandAccount(acct)) return;
       if (seenVid[r.vid]) return;
       seenVid[r.vid] = true;
