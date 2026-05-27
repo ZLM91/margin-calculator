@@ -1,0 +1,300 @@
+<h2 class="sr-only">4SKU综合毛利率自动计算器 — 填写数据即时出结果</h2>
+
+<div style="margin-bottom:16px;">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px 0;">填写下方蓝色字段，毛利率和图表自动更新</p>
+  
+  <!-- 达人销售占比全局控制 -->
+  <div style="background:#FFF8E1;border:1px solid #FAC775;border-radius:var(--border-radius-md);padding:14px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:14px;font-weight:500;">达人销售占比</span>
+      <input id="affiliateRatio" type="number" value="100" min="0" max="100" step="1" style="width:60px;text-align:center;padding:5px;font-size:14px;font-weight:500;color:#B45309;border:2px solid #FAC775;border-radius:6px;background:#fff;">
+      <span style="font-size:14px;">%</span>
+    </div>
+    <div style="flex:1;min-width:200px;height:24px;background:#E8E8E8;border-radius:12px;overflow:hidden;position:relative;" id="ratioBar">
+      <div id="ratioBarAffiliate" style="height:100%;background:linear-gradient(90deg,#F5A623,#E8821A);border-radius:12px 0 0 12px;transition:width .3s;"></div>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-secondary);min-width:160px;text-align:right;" id="ratioLabel"></div>
+  </div>
+</div>
+
+<div style="overflow-x:auto;">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;">
+  <thead>
+    <tr style="background:#2B579A;color:#fff;">
+      <th style="padding:8px 6px;text-align:center;width:6%;">SKU</th>
+      <th style="padding:8px 6px;text-align:center;width:8%;">售价 £</th>
+      <th style="padding:8px 6px;text-align:center;width:8%;">产品成本 £</th>
+      <th style="padding:8px 6px;text-align:center;width:7%;">头尾程<br>物流 £</th>
+      <th style="padding:8px 6px;text-align:center;width:7%;">平台<br>扣点 %</th>
+      <th style="padding:8px 6px;text-align:center;width:7%;">达人<br>佣金 %</th>
+      <th style="padding:8px 6px;text-align:center;width:7%;">附加<br>费用 £</th>
+      <th style="padding:8px 6px;text-align:center;width:8%;">SKU<br>占比 %</th>
+      <th style="padding:8px 6px;text-align:center;width:9%;">总成本 £</th>
+      <th style="padding:8px 6px;text-align:center;width:8%;">利润 £</th>
+      <th style="padding:8px 6px;text-align:center;width:9%;">毛利率</th>
+      <th style="padding:8px 6px;text-align:center;width:8%;">ROI<br>平衡点</th>
+    </tr>
+  </thead>
+  <tbody id="skuBody"></tbody>
+</table>
+</div>
+
+<div style="display:flex;gap:12px;margin-top:16px;align-items:stretch;">
+  <button onclick="addSku()" style="padding:6px 16px;font-size:13px;border-radius:6px;">+ 添加 SKU</button>
+  <button onclick="removeSku()" style="padding:6px 16px;font-size:13px;border-radius:6px;">- 删除 SKU</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;" id="summaryCards"></div>
+
+<div style="margin-top:20px;">
+  <div style="font-size:14px;font-weight:500;margin-bottom:8px;">成本构成与利润（堆叠图）</div>
+  <div style="position:relative;width:100%;height:300px;">
+    <canvas id="costChart" role="img" aria-label="Stacked bar chart of cost breakdown per SKU">Cost breakdown chart</canvas>
+  </div>
+</div>
+
+<div style="margin-top:16px;">
+  <div style="font-size:14px;font-weight:500;margin-bottom:8px;">各SKU毛利率对比</div>
+  <div style="position:relative;width:100%;height:220px;">
+    <canvas id="marginChart2" role="img" aria-label="Bar chart comparing gross margin per SKU">Margin comparison chart</canvas>
+  </div>
+</div>
+
+<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;margin-top:16px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;">
+  <b>计算公式说明：</b><br>
+  达人佣金 = 售价 × 达人佣金率 × 达人销售占比（只有达人带货的部分才产生佣金）<br>
+  平台扣点 = 售价 × 平台扣点率（全部销售额都要扣）<br>
+  总成本 = 产品成本 + 头尾程物流 + 平台扣点 + 达人佣金 + 附加费用<br>
+  利润 = 售价 - 总成本<br>
+  毛利率 = 利润 ÷ 售价<br>
+  综合毛利率 = Σ(各SKU毛利率 × SKU销售占比)<br>
+  ROI平衡点 = 1 ÷ 毛利率（每投入$1需产出多少营收才能回本）<br>
+  综合ROI平衡点 = 1 ÷ 综合毛利率
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const MONEY = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 });
+const PCT  = new Intl.NumberFormat('en-GB', { style: 'percent', minimumFractionDigits: 2 });
+
+let data = [
+  { sku:'FA01', price:'14.99', cost:'1.59', logistics:'4.62', platform:'25.6', commission:'5', extra:'0', share:'62.68' },
+  { sku:'FA02', price:'23.99', cost:'3.18', logistics:'6.16', platform:'25.6', commission:'5', extra:'0', share:'18.95' },
+  { sku:'FA03', price:'32.99', cost:'4.77', logistics:'7.65', platform:'25.6', commission:'5', extra:'0', share:'13.41' },
+  { sku:'FC01', price:'20.99', cost:'2.59', logistics:'5.82', platform:'25.6', commission:'5', extra:'0', share:'4.96' },
+];
+
+let costChart, marginChart;
+
+function fmoney(v) { return MONEY.format(v); }
+function fpct(v)   { return PCT.format(v); }
+
+function getAffiliateRatio() {
+  let v = parseFloat(document.getElementById('affiliateRatio').value) || 0;
+  return Math.min(100, Math.max(0, v)) / 100;
+}
+
+function calc(d, affRatio) {
+  let p = parseFloat(d.price) || 0;
+  let c = parseFloat(d.cost) || 0;
+  let l = parseFloat(d.logistics) || 0;
+  let pf = parseFloat(d.platform) / 100 || 0;
+  let cm = parseFloat(d.commission) / 100 || 0;
+  let ex = parseFloat(d.extra) || 0;
+  let fee = p * pf;
+  let comm = p * cm * affRatio;  // 只对达人成交部分计佣金
+  let total = c + l + fee + comm + ex;
+  let profit = p - total;
+  let margin = p > 0 ? profit / p : 0;
+  return { fee, comm, total, profit, margin };
+}
+
+function render() {
+  let affRatio = getAffiliateRatio();
+  
+  // 更新比例条
+  let barAff = document.getElementById('ratioBarAffiliate');
+  barAff.style.width = (affRatio * 100) + '%';
+  barAff.style.borderRadius = affRatio >= 1 ? '12px' : '12px 0 0 12px';
+  let nonAff = (1 - affRatio) * 100;
+  document.getElementById('ratioLabel').innerHTML = 
+    '<span style="color:#B45309;font-weight:500;">达人 ' + (affRatio*100).toFixed(0) + '%</span>' +
+    ' &nbsp;|&nbsp; <span style="color:#666;">自播/素材 ' + nonAff.toFixed(0) + '%</span>';
+  
+  // 有效达人佣金率提示
+  let effRate = parseFloat(data[0].commission) * affRatio;
+  let hintEl = document.getElementById('effCommRate');
+  if (!hintEl) {
+    hintEl = document.createElement('div');
+    hintEl.id = 'effCommRate';
+    hintEl.style.cssText = 'font-size:12px;color:#B45309;margin-top:4px;padding-left:4px;';
+    document.getElementById('ratioBar').parentElement.appendChild(hintEl);
+  }
+  if (affRatio < 1) {
+    hintEl.textContent = '实际达人佣金费率: ' + data[0].commission + '% × ' + (affRatio*100).toFixed(0) + '% = ' + effRate.toFixed(1) + '%（综合摊薄后）';
+    hintEl.style.display = '';
+  } else {
+    hintEl.style.display = 'none';
+  }
+
+  let tbody = document.getElementById('skuBody');
+  let rows = [];
+  let weightedSum = 0, totalShare = 0;
+  for (let i = 0; i < data.length; i++) {
+    let d = data[i];
+    let r = calc(d, affRatio);
+    let sh = parseFloat(d.share) / 100 || 0;
+    weightedSum += r.margin * sh;
+    totalShare += sh;
+    rows.push({ d, r, sh });
+  }
+  let wavg = totalShare > 0 ? weightedSum : 0;
+
+  tbody.innerHTML = rows.map((row, i) => {
+    let bg = i % 2 === 0 ? '#fff' : '#FAFAFA';
+    let mbg = row.r.margin < 0.15 ? '#FCEBEB' : row.r.margin > 0.35 ? '#EAF3DE' : '#fff';
+    return `<tr style="background:${bg};">
+      <td style="padding:6px;text-align:center;font-weight:500;">${row.d.sku}</td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.price}" data-row="${i}" data-field="price" style="width:72px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.cost}" data-row="${i}" data-field="cost" style="width:72px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.logistics}" data-row="${i}" data-field="logistics" style="width:72px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.platform}" data-row="${i}" data-field="platform" style="width:56px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.commission}" data-row="${i}" data-field="commission" style="width:56px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.extra}" data-row="${i}" data-field="extra" style="width:56px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;">
+        <input value="${row.d.share}" data-row="${i}" data-field="share" style="width:56px;text-align:center;padding:4px;font-size:12px;color:#185FA5;border:1px solid #ccc;border-radius:4px;">
+      </td>
+      <td style="padding:6px;text-align:center;font-size:12px;">${fmoney(row.r.total)}</td>
+      <td style="padding:6px;text-align:center;font-weight:500;font-size:13px;color:${row.r.profit >= 0 ? '#0F6E56' : '#A32D2D'};">${fmoney(row.r.profit)}</td>
+      <td style="padding:6px;text-align:center;font-weight:500;background:${mbg};border-radius:4px;font-size:13px;">${fpct(row.r.margin)}</td>
+      <td style="padding:6px;text-align:center;font-weight:500;font-size:13px;color:#A32D2D;">${row.r.margin > 0 ? (1 / row.r.margin).toFixed(2) : '--'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('summaryCards').innerHTML = `
+    <div style="flex:1;min-width:140px;background:#E2EFDA;border-radius:var(--border-radius-md);padding:14px;text-align:center;">
+      <div style="font-size:13px;color:#27500A;margin-bottom:4px;">综合毛利率</div>
+      <div style="font-size:32px;font-weight:500;color:#0F6E56;">${fpct(wavg)}</div>
+    </div>
+    <div style="flex:1;min-width:140px;background:#FCEBEB;border-radius:var(--border-radius-md);padding:14px;text-align:center;">
+      <div style="font-size:13px;color:#6A1B1B;margin-bottom:4px;">综合ROI平衡点</div>
+      <div style="font-size:32px;font-weight:500;color:#A32D2D;">${wavg > 0 ? (1 / wavg).toFixed(2) : '--'}</div>
+    </div>
+    <div style="flex:1;min-width:140px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center;">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">SKU总数</div>
+      <div style="font-size:32px;font-weight:500;">${data.length}</div>
+    </div>
+    <div style="flex:1;min-width:140px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center;">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">最低毛利率</div>
+      <div style="font-size:32px;font-weight:500;">${fpct(Math.min(...rows.map(r=>r.r.margin)))}</div>
+    </div>
+    <div style="flex:1;min-width:140px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center;">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;">最高毛利率</div>
+      <div style="font-size:32px;font-weight:500;color:#0F6E56;">${fpct(Math.max(...rows.map(r=>r.r.margin)))}</div>
+    </div>
+  `;
+
+  let labels = data.map(d => d.sku);
+  let productLogistics = rows.map(r => parseFloat(r.d.cost) + parseFloat(r.d.logistics));
+  let platformFees    = rows.map(r => r.r.fee);
+  let commissions     = rows.map(r => r.r.comm);
+  let extras          = rows.map(r => parseFloat(r.d.extra));
+  let profits         = rows.map(r => r.r.profit);
+
+  if (costChart) costChart.destroy();
+  let ctx1 = document.getElementById('costChart');
+  costChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: '产品成本+物流', data: productLogistics, backgroundColor: '#B5D4F4', stack:'s' },
+        { label: '平台扣点',       data: platformFees,    backgroundColor: '#F5C4B3', stack:'s' },
+        { label: '达人佣金(' + (affRatio*100).toFixed(0) + '%)', data: commissions, backgroundColor: '#FAC775', stack:'s' },
+        { label: '附加费用',       data: extras,          backgroundColor: '#D3D1C7', stack:'s' },
+        { label: '利润',           data: profits,         backgroundColor: '#9FE1CB', stack:'s' }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 16, font: { size: 11 } } },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': £' + ctx.raw.toFixed(2) } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 11 } } },
+        y: { stacked: true, title: { display: true, text: '£' }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+
+  if (marginChart) marginChart.destroy();
+  let ctx2 = document.getElementById('marginChart2');
+  let marginValues = rows.map(r => r.r.margin * 100);
+  marginChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '毛利率 %',
+        data: marginValues,
+        backgroundColor: marginValues.map(v => v < 15 ? '#E24B4A' : v > 35 ? '#639922' : '#378ADD'),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw.toFixed(2) + '%' } }
+      },
+      scales: {
+        x: { ticks: { font: { size: 11 } } },
+        y: { title: { display: true, text: '%' }, ticks: { font: { size: 11 }, callback: v => v + '%' } }
+      }
+    }
+  });
+}
+
+function addSku() {
+  let n = data.length + 1;
+  data.push({ sku:'SKU'+n, price:'0', cost:'0', logistics:'0', platform:data.length>0?data[0].platform:'25.6', commission:data.length>0?data[0].commission:'5', extra:'0', share:'0' });
+  render();
+}
+
+function removeSku() {
+  if (data.length <= 1) return;
+  data.pop();
+  render();
+}
+
+document.getElementById('skuBody').addEventListener('input', function(e) {
+  if (!e.target.dataset.row) return;
+  let row = parseInt(e.target.dataset.row);
+  let field = e.target.dataset.field;
+  data[row][field] = e.target.value;
+  render();
+});
+
+document.getElementById('affiliateRatio').addEventListener('input', function() {
+  let v = parseInt(this.value) || 0;
+  this.value = Math.min(100, Math.max(0, v));
+  render();
+});
+
+render();
+</script>
