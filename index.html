@@ -88,9 +88,28 @@ button:hover { background: #F0EDE6; }
 </table>
 </div>
 
-<div style="display:flex;gap:10px;margin-bottom:14px;">
+<div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
   <button onclick="addSku()" style="padding:6px 16px;">+ 添加 SKU</button>
   <button onclick="removeSku()" style="padding:6px 16px;">- 删除 SKU</button>
+  <button onclick="toggleImport()" id="importBtn" style="padding:6px 16px;color:#2B579A;border-color:#2B579A;">📥 导入</button>
+</div>
+
+<!-- 导入面板（默认隐藏）-->
+<div id="importPanel" style="display:none;background:#F5F7FA;border:1px solid #C5D3E8;border-radius:var(--border-radius-md);padding:14px;margin-bottom:14px;">
+  <div style="font-size:13px;font-weight:500;margin-bottom:8px;color:#2B579A;">📥 导入 CSV / 粘贴数据</div>
+  <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px;">
+    在 Excel 中选中数据区域复制 → 粘贴到下方 → 点击「解析导入」<br>
+    格式：第一行为列名（sku,price,cost,firstMile,inboundFee,outboundFee,logisticsSvc,lastMile,platform,commission,extra,share），之后每行一条SKU
+  </div>
+  <textarea id="importText" rows="6" style="width:100%;font-size:11px;font-family:monospace;padding:8px;border:1px solid #C5D3E8;border-radius:6px;box-sizing:border-box;" placeholder="sku,price,cost,firstMile,inboundFee,outboundFee,logisticsSvc,lastMile,platform,commission,extra,share&#10;FA01,14.99,1.59,0,0,0,0,0,25.6,5,0,62.68&#10;FA02,23.99,3.18,0,0,0,0,0,25.6,5,0,18.95"></textarea>
+  <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+    <button onclick="parseImport()" style="background:#2B579A;color:#fff;border-color:#2B579A;padding:6px 16px;">解析导入</button>
+    <label style="cursor:pointer;padding:6px 16px;border:1px solid #2B579A;border-radius:4px;font-size:13px;color:#2B579A;">
+      📁 上传 CSV
+      <input type="file" accept=".csv,.txt,.tsv" onchange="handleFileUpload(this)" style="display:none;">
+    </label>
+    <span id="importMsg" style="font-size:12px;"></span>
+  </div>
 </div>
 
 <!-- 汇总卡片 -->
@@ -193,6 +212,81 @@ function resetData() {
   let st = document.getElementById('saveStatus');
   if (st) { st.innerHTML = '🔄 已重置为默认'; st.style.color = '#666'; }
   render();
+}
+
+// --- CSV 导入 ---
+const EXPECTED_FIELDS = ['sku','price','cost','firstMile','inboundFee','outboundFee','logisticsSvc','lastMile','platform','commission','extra','share'];
+
+function toggleImport() {
+  let p = document.getElementById('importPanel');
+  p.style.display = p.style.display === 'none' ? '' : 'none';
+}
+
+function showImportMsg(msg, ok) {
+  let el = document.getElementById('importMsg');
+  el.textContent = msg;
+  el.style.color = ok ? '#0F6E56' : '#A32D2D';
+}
+
+function parseCSV(text) {
+  // 自动检测分隔符：优先 tab，其次逗号
+  let sep = text.indexOf('\t') >= 0 ? '\t' : ',';
+  let lines = text.trim().split(/\r?\n/).filter(function(l) { return l.trim(); });
+  if (lines.length < 2) return null;
+  
+  let headers = lines[0].split(sep).map(function(h) { return h.trim().toLowerCase(); });
+  let colMap = {};
+  for (let i = 0; i < headers.length; i++) {
+    if (EXPECTED_FIELDS.indexOf(headers[i]) >= 0) {
+      colMap[headers[i]] = i;
+    }
+  }
+  
+  // 至少要有 sku 列
+  if (!('sku' in colMap)) return null;
+  
+  let rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    let vals = lines[i].split(sep);
+    let row = {};
+    for (let f of EXPECTED_FIELDS) {
+      let idx = colMap[f];
+      // 数字字段默认 '0'，sku 默认 ''
+      if (f === 'sku') {
+        row[f] = (idx !== undefined && vals[idx]) ? vals[idx].trim() : '';
+      } else {
+        row[f] = (idx !== undefined && vals[idx]) ? vals[idx].trim() : '0';
+      }
+    }
+    if (row.sku) rows.push(row);
+  }
+  return rows.length > 0 ? rows : null;
+}
+
+function parseImport() {
+  let text = document.getElementById('importText').value;
+  let rows = parseCSV(text);
+  if (!rows) {
+    showImportMsg('❌ 格式错误：第一行为列名（含 sku），之后每行一条数据', false);
+    return;
+  }
+  data = rows;
+  render();
+  saveData();
+  showImportMsg('✅ 成功导入 ' + rows.length + ' 个 SKU', true);
+  setTimeout(function() { document.getElementById('importPanel').style.display = 'none'; }, 2000);
+}
+
+function handleFileUpload(input) {
+  let file = input.files[0];
+  if (!file) return;
+  let reader = new FileReader();
+  reader.onload = function() {
+    document.getElementById('importText').value = reader.result;
+    parseImport();
+    input.value = '';
+  };
+  reader.readAsText(file);
 }
 
 function fmoney(v) { return MONEY.format(v); }
