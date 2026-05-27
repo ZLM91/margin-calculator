@@ -1259,6 +1259,7 @@ function handleAdDataUpload(input) {
       });
       document.getElementById('adUploadBox').classList.add('has-file');
       document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
+      saveVideoData(); // 立刻持久化广告数据，即使映射表未上传
       processJoin();
     } catch(err) {
       document.getElementById('videoStatus').textContent = '\u274C 广告数据解析失败: ' + err.message;
@@ -2218,6 +2219,7 @@ function handleAdDataUploadUK(input) {
       });
       document.getElementById('adUploadBoxUK').classList.add('has-file');
       document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
+      saveVideoDataUK(); // 立刻持久化广告数据，即使映射表未上传
       processJoinUK();
     } catch(err) {
       document.getElementById('videoStatusUK').textContent = '\u274C 广告数据解析失败: ' + err.message;
