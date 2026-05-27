@@ -78,8 +78,9 @@ button:hover { background: #F0EDE6; }
 <div class="container">
 
 <div class="tabs-nav">
-  <button class="tab-btn active" onclick="switchTab('margin')">📊 毛利率计算</button>
-  <button class="tab-btn" onclick="switchTab('video')">📹 视频数据</button>
+  <button class="tab-btn active" data-tab="margin" onclick="switchTab('margin')">📊 毛利率计算</button>
+  <button class="tab-btn" data-tab="video" onclick="switchTab('video')">📹 视频数据 (美国)</button>
+  <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -181,7 +182,7 @@ button:hover { background: #F0EDE6; }
 </div><!-- /tab-margin -->
 
 <div id="tab-video" class="tab-content">
-<h1 style="color:#2B579A;">Matern'ella 视频数据看板</h1>
+<h1 style="color:#2B579A;">Matern'ella 美国站 视频数据看板</h1>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span>
 </p>
@@ -268,7 +269,97 @@ button:hover { background: #F0EDE6; }
 <div style="font-size:13px;font-weight:500;margin-bottom:6px;">视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="detailCount"></span></div>
 <div id="personFilter" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
 <div class="video-scroll" id="videoDetail"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
+</div><!-- /tab-video -->
+
+<div id="tab-video-uk" class="tab-content">
+<h1 style="color:#2B579A;">Matern'ella 英国站 视频数据看板</h1>
+<p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
+  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatusUK" style="color:#0F6E56;font-weight:500;"></span>
+</p>
+
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+  <label class="video-upload-box" id="adUploadBoxUK" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📊</div>
+    <div id="adUploadLabelUK" style="font-size:13px;font-weight:500;">上传广告数据报表</div>
+    <div style="font-size:11px;color:#888;">Creative Data 导出 .xlsx / .csv</div>
+    <input type="file" accept=".xlsx,.csv,.xls" onchange="handleAdDataUploadUK(this)" style="display:none;">
+  </label>
+  <label class="video-upload-box" id="mapUploadBoxUK" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">🗂️</div>
+    <div id="mapUploadLabelUK" style="font-size:13px;font-weight:500;">上传人员映射表</div>
+    <div style="font-size:11px;color:#888;">云视频id汇总表 .xlsx（含Sheet1 + 线上表格）</div>
+    <input type="file" accept=".xlsx,.csv,.xls" onchange="handleMappingUploadUK(this)" style="display:none;">
+  </label>
 </div>
+
+<div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
+
+<!-- Person cards -->
+<div id="personCardsUK" style="margin-bottom:14px;"></div>
+
+<!-- Person summary table -->
+<div id="personTableUK" style="margin-bottom:14px;"></div>
+
+<!-- Mapping Panel -->
+<div id="mappingPanelUK" style="display:none;">
+  <div style="font-size:13px;font-weight:500;margin-bottom:6px;">🔗 映射关系管理</div>
+
+  <!-- Unmapped alerts -->
+  <div id="mapAlertSectionUK" style="margin-bottom:10px;"></div>
+
+  <!-- Unmapped videos with GMV -->
+  <div class="map-section" id="unmappedSectionUK" style="display:none;">
+    <div class="map-section-header warn" onclick="toggleMapSectionUK('unmappedBodyUK')">
+      <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCountUK" style="font-weight:400;margin-left:6px;"></span></span>
+      <span id="unmappedArrowUK" style="font-size:11px;">▼</span>
+    </div>
+    <div class="map-section-body" id="unmappedBodyUK">
+      <div style="font-size:10px;color:#888;margin-bottom:6px;">填写云视频id、剪辑、编导 → 点「保存并重新关联」</div>
+      <div class="video-scroll" style="max-height:300px;">
+        <table style="min-width:600px;">
+          <thead><tr>
+            <th style="padding:4px;">视频ID(末10位)</th>
+            <th style="padding:4px;">GMV</th>
+            <th style="padding:4px;">云视频id</th>
+            <th style="padding:4px;">剪辑</th>
+            <th style="padding:4px;">编导</th>
+            <th style="padding:4px;">操作</th>
+          </tr></thead>
+          <tbody id="unmappedBodyTbodyUK"></tbody>
+        </table>
+      </div>
+      <button onclick="saveEditedMappingsUK()" style="margin-top:6px;padding:5px 14px;background:#2B579A;color:#fff;border:none;border-radius:4px;font-size:12px;">💾 保存并重新关联</button>
+      <span id="mapSaveMsgUK" style="font-size:11px;margin-left:8px;"></span>
+    </div>
+  </div>
+
+  <!-- All mappings -->
+  <div class="map-section" id="allMapSectionUK" style="display:none;">
+    <div class="map-section-header info" onclick="toggleMapSectionUK('allMapBodyUK')">
+      <span>📋 全部映射关系（云视频id → 剪辑/编导）<span id="allMapCountUK" style="font-weight:400;margin-left:6px;"></span></span>
+      <span id="allMapArrowUK" style="font-size:11px;">▶</span>
+    </div>
+    <div class="map-section-body" id="allMapBodyUK" style="display:none;">
+      <div class="video-scroll" style="max-height:400px;">
+        <table style="min-width:500px;">
+          <thead><tr>
+            <th style="padding:4px;">云视频id</th>
+            <th style="padding:4px;">剪辑</th>
+            <th style="padding:4px;">编导</th>
+            <th style="padding:4px;">操作</th>
+          </tr></thead>
+          <tbody id="allMapBodyTbodyUK"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter + Video detail -->
+<div style="font-size:13px;font-weight:500;margin-bottom:6px;">视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="detailCountUK"></span></div>
+<div id="personFilterUK" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
+<div class="video-scroll" id="videoDetailUK"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
+</div><!-- /tab-video-uk -->
 
 </div><!-- /container -->
 
@@ -788,6 +879,7 @@ if (!loadData()) {
 }
 render();
 loadVideoData();
+loadVideoDataUK();
 
 // ====== 视频数据 Tab ======
 const VID_STORAGE = 'maternella_video_data';
@@ -801,10 +893,11 @@ function cleanName(n) {
 
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(function(b) {
-    b.classList.toggle('active', b.textContent.indexOf(tab === 'margin' ? '毛利率' : '视频') >= 0);
+    b.classList.toggle('active', b.dataset.tab === tab);
   });
   document.getElementById('tab-margin').classList.toggle('active', tab === 'margin');
   document.getElementById('tab-video').classList.toggle('active', tab === 'video');
+  document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
 }
 
 function loadVideoData() {
@@ -1246,6 +1339,424 @@ function renderVideoDetail(filter) {
     }).join('') + '</tbody></table>';
 
   document.getElementById('videoDetail').innerHTML = html;
+}
+
+// ====== 英国站 视频数据 Tab ======
+const VID_STORAGE_UK = 'maternella_video_data_uk';
+let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPersonSummaryUK = null, videoDetailFilterUK = null;
+let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
+
+function loadVideoDataUK() {
+  try {
+    var raw = localStorage.getItem(VID_STORAGE_UK);
+    if (raw) {
+      var saved = JSON.parse(raw);
+      videoAdDataUK = saved.adData || null;
+      videoMappingUK = saved.mapping || null;
+      videoJoinedUK = saved.joined || null;
+      videoPersonSummaryUK = saved.summary || null;
+      editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
+      if (videoAdDataUK) {
+        document.getElementById('adUploadBoxUK').classList.add('has-file');
+        document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
+      }
+      if (videoMappingUK) {
+        document.getElementById('mapUploadBoxUK').classList.add('has-file');
+        document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(videoMappingUK.cloudToPerson).length + ' 人（已缓存）';
+      }
+      if (videoPersonSummaryUK) { renderVideoTabUK(); renderMappingPanelUK(); }
+      document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
+    }
+  } catch(e) {}
+}
+
+function saveVideoDataUK() {
+  try {
+    localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
+      adData: videoAdDataUK, mapping: videoMappingUK,
+      joined: videoJoinedUK, summary: videoPersonSummaryUK,
+      editedMapping: editedMappingUK
+    }));
+    document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
+  } catch(e) {
+    try {
+      localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
+        adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK, editedMapping: editedMappingUK
+      }));
+    } catch(e2) {}
+    document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
+  }
+}
+
+function handleAdDataUploadUK(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
+      videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+        var vid = String(r['视频 ID'] || '');
+        if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        return {
+          vid: vid,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0
+        };
+      });
+      document.getElementById('adUploadBoxUK').classList.add('has-file');
+      document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
+      processJoinUK();
+    } catch(err) {
+      document.getElementById('videoStatusUK').textContent = '\u274C 广告数据解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleMappingUploadUK(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      var sheet1Rows = parseXlsxSheet(wb, 'Sheet1');
+      var onlineRows = parseXlsxSheet(wb, '线上表格');
+
+      var vidToCloud = {};
+      sheet1Rows.forEach(function(r) {
+        var vid = String(r['视频 ID'] || '');
+        var cid = String(r['云视频id'] || '').replace(/\.0$/, '');
+        if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
+          vidToCloud[vid.replace(/\.0$/, '')] = cid;
+        }
+      });
+
+      var cloudToPerson = {};
+      onlineRows.forEach(function(r) {
+        var cid = String(r['成片ID'] || '').replace(/\.0$/, '');
+        var editor = cleanName(String(r['剪辑'] || ''));
+        var director = cleanName(String(r['编导'] || ''));
+        if (cid && cid !== 'nan' && (editor || director)) {
+          cloudToPerson[cid] = { editor: editor, director: director };
+        }
+      });
+
+      videoMappingUK = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+      document.getElementById('mapUploadBoxUK').classList.add('has-file');
+      document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人';
+      processJoinUK();
+    } catch(err) {
+      document.getElementById('videoStatusUK').textContent = '\u274C 映射表解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function getEffectiveMappingUK() {
+  var vidToCloud = {};
+  var cloudToPerson = {};
+  if (videoMappingUK) {
+    for (var k in videoMappingUK.vidToCloud) { vidToCloud[k] = videoMappingUK.vidToCloud[k]; }
+    for (var k in videoMappingUK.cloudToPerson) { cloudToPerson[k] = videoMappingUK.cloudToPerson[k]; }
+  }
+  for (var k in editedMappingUK.vidToCloud) { vidToCloud[k] = editedMappingUK.vidToCloud[k]; }
+  for (var k in editedMappingUK.cloudToPerson) { cloudToPerson[k] = editedMappingUK.cloudToPerson[k]; }
+  return { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+}
+
+function processJoinUK() {
+  if (!videoAdDataUK || !videoMappingUK) return;
+  var effective = getEffectiveMappingUK();
+  var joined = videoAdDataUK.map(function(row) {
+    var cloudId = effective.vidToCloud[row.vid] || '';
+    var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
+    return {
+      vid: row.vid, title: row.title, tags: row.tags,
+      gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
+      date: row.date, views: row.views,
+      cloudId: cloudId,
+      editor: cleanName(person ? person.editor : ''),
+      director: cleanName(person ? person.director : '')
+    };
+  });
+  videoJoinedUK = joined;
+
+  var personMap = {};
+  joined.forEach(function(r) {
+    if (!r.editor && !r.director) return;
+    var key = cleanName(r.editor || '未分配') + '|||' + cleanName(r.director || '未分配');
+    if (!personMap[key]) {
+      personMap[key] = { editor: r.editor || '未分配', director: r.director || '未分配',
+        gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    personMap[key].gmv += r.gmv;
+    personMap[key].orders += r.orders;
+    personMap[key].cost += r.cost;
+    personMap[key].vidSet.add(r.vid);
+  });
+
+  videoPersonSummaryUK = Object.keys(personMap).map(function(k) {
+    var p = personMap[k];
+    return {
+      editor: p.editor, director: p.director,
+      gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  saveVideoDataUK();
+  renderVideoTabUK();
+  renderMappingPanelUK();
+}
+
+function renderVideoTabUK() {
+  var statusEl = document.getElementById('videoStatusUK');
+  if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
+    statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    return;
+  }
+  var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
+  statusEl.textContent = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+
+  var maxGmv = videoPersonSummaryUK[0] ? videoPersonSummaryUK[0].gmv : 1;
+  var cards = document.getElementById('personCardsUK');
+  cards.innerHTML = videoPersonSummaryUK.slice(0, 10).map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    return '<div class="person-card" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
+      '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '</div>' +
+      '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">编导: ' + p.director + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
+      '</div>';
+  }).join('') + (videoPersonSummaryUK.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummaryUK.length - 10) + ' 人</div>' : '');
+
+  var tableEl = document.getElementById('personTableUK');
+  tableEl.innerHTML = '<div style="overflow-x:auto;"><table style="min-width:700px;"><thead><tr style="background:#2B579A;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">剪辑</th><th style="padding:6px 5px;">编导</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoPersonSummaryUK.map(function(p, i) {
+      return '<tr style="cursor:pointer;" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
+        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td>' + p.editor + '</td><td>' + p.director + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  var editors = [];
+  var seen = {};
+  videoPersonSummaryUK.forEach(function(p) {
+    if (p.editor && !seen[p.editor]) { seen[p.editor] = true; editors.push(p.editor); }
+  });
+  editors.sort();
+  var allOn = videoDetailFilterUK === null;
+  document.getElementById('personFilterUK').innerHTML =
+    '<button class="filter-btn' + (allOn ? ' on' : '') + '" onclick="renderVideoDetailUK(null)">全部</button>' +
+    editors.map(function(e) {
+      return '<button class="filter-btn' + (videoDetailFilterUK === e ? ' on' : '') + '" onclick="renderVideoDetailUK(\'' + e.replace(/'/g, "\\'") + '\')">' + e + '</button>';
+    }).join('');
+
+  renderVideoDetailUK(videoDetailFilterUK);
+}
+
+function toggleMapSectionUK(id) {
+  var el = document.getElementById(id);
+  var arrowId = id === 'unmappedBodyUK' ? 'unmappedArrowUK' : 'allMapArrowUK';
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    document.getElementById(arrowId).textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    document.getElementById(arrowId).textContent = '\u25B6';
+  }
+}
+
+function renderMappingPanelUK() {
+  if (!videoJoinedUK) {
+    document.getElementById('mappingPanelUK').style.display = 'none';
+    return;
+  }
+  document.getElementById('mappingPanelUK').style.display = '';
+
+  var effective = getEffectiveMappingUK();
+
+  var unmapped = videoJoinedUK.filter(function(r) { return r.gmv > 0 && (!r.editor || !r.director); });
+  var seenVid = {};
+  var unmappedUnique = [];
+  unmapped.forEach(function(r) {
+    if (!seenVid[r.vid]) { seenVid[r.vid] = true; unmappedUnique.push(r); }
+  });
+  unmappedUnique.sort(function(a, b) { return b.gmv - a.gmv; });
+
+  var unSection = document.getElementById('unmappedSectionUK');
+  if (unmappedUnique.length > 0) {
+    unSection.style.display = '';
+    document.getElementById('unmappedCountUK').textContent = '(' + unmappedUnique.length + ' 条)';
+    var editRows = {};
+    unmappedUnique.forEach(function(r) {
+      editRows[r.vid] = {
+        cloudId: effective.vidToCloud[r.vid] || r.cloudId || '',
+        editor: effective.cloudToPerson[effective.vidToCloud[r.vid]] ? effective.cloudToPerson[effective.vidToCloud[r.vid]].editor : '',
+        director: effective.cloudToPerson[effective.vidToCloud[r.vid]] ? effective.cloudToPerson[effective.vidToCloud[r.vid]].director : ''
+      };
+      if (editedMappingUK.vidToCloud[r.vid]) {
+        editRows[r.vid].cloudId = editedMappingUK.vidToCloud[r.vid];
+        if (editedMappingUK.cloudToPerson[editRows[r.vid].cloudId]) {
+          editRows[r.vid].editor = editedMappingUK.cloudToPerson[editRows[r.vid].cloudId].editor;
+          editRows[r.vid].director = editedMappingUK.cloudToPerson[editRows[r.vid].cloudId].director;
+        }
+      }
+    });
+    document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
+      var er = editRows[r.vid];
+      return '<tr>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid.slice(-10) + '</td>' +
+        '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td><input class="map-edit-input" id="uk_ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
+        '<td><input class="map-edit-input" id="uk_ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
+        '<td><input class="map-edit-input" id="uk_udir_' + r.vid + '" value="' + (er.director || '') + '" placeholder="编导" data-vid="' + r.vid + '" data-field="director"></td>' +
+        '<td><button class="map-save-btn" onclick="saveSingleMappingUK(\'' + r.vid + '\')">保存</button></td>' +
+        '</tr>';
+    }).join('');
+  } else {
+    unSection.style.display = 'none';
+  }
+
+  var alertHtml = '';
+  var missingVidToCloud = videoJoinedUK.filter(function(r) { return !r.cloudId && r.gmv > 0; }).length;
+  var missingPerson = videoJoinedUK.filter(function(r) { return r.cloudId && !r.editor && r.gmv > 0; }).length;
+  if (missingVidToCloud > 0) {
+    alertHtml += '<span class="map-badge warn">' + missingVidToCloud + ' 条视频无云视频id</span> ';
+  }
+  if (missingPerson > 0) {
+    alertHtml += '<span class="map-badge warn">' + missingPerson + ' 条有云视频id但无对应人员</span> ';
+  }
+  var totalMatched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
+  alertHtml += '<span class="map-badge ok">' + totalMatched + '/' + videoJoinedUK.length + ' 条已匹配</span>';
+  document.getElementById('mapAlertSectionUK').innerHTML = alertHtml;
+
+  var allMap = effective.cloudToPerson;
+  var allMapKeys = Object.keys(allMap);
+  if (allMapKeys.length > 0) {
+    document.getElementById('allMapSectionUK').style.display = '';
+    document.getElementById('allMapCountUK').textContent = '(' + allMapKeys.length + ' 条)';
+    document.getElementById('allMapBodyTbodyUK').innerHTML = allMapKeys.sort().map(function(cid) {
+      var p = allMap[cid];
+      return '<tr>' +
+        '<td style="font-family:monospace;font-size:10px;">' + cid + '</td>' +
+        '<td><input class="map-edit-input" id="uk_amed_' + cid + '" value="' + (p.editor || '') + '" data-cid="' + cid + '" data-field="editor"></td>' +
+        '<td><input class="map-edit-input" id="uk_amdir_' + cid + '" value="' + (p.director || '') + '" data-cid="' + cid + '" data-field="director"></td>' +
+        '<td><button class="map-save-btn" onclick="saveCloudMappingUK(\'' + cid + '\')">更新</button></td>' +
+        '</tr>';
+    }).join('');
+  } else {
+    document.getElementById('allMapSectionUK').style.display = 'none';
+  }
+}
+
+function saveSingleMappingUK(vid) {
+  var cloudId = document.getElementById('uk_ucid_' + vid).value.trim();
+  var editor = cleanName(document.getElementById('uk_ued_' + vid).value);
+  var director = cleanName(document.getElementById('uk_udir_' + vid).value);
+
+  if (cloudId) {
+    editedMappingUK.vidToCloud[vid] = cloudId;
+  } else {
+    delete editedMappingUK.vidToCloud[vid];
+  }
+  if (cloudId && (editor || director)) {
+    editedMappingUK.cloudToPerson[cloudId] = { editor: editor, director: director };
+  } else if (cloudId) {
+    delete editedMappingUK.cloudToPerson[cloudId];
+  }
+
+  processJoinUK();
+  document.getElementById('mapSaveMsgUK').textContent = '\u2705 已更新，正在重新关联...';
+  setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 2000);
+}
+
+function saveCloudMappingUK(cid) {
+  var editor = cleanName(document.getElementById('uk_amed_' + cid).value);
+  var director = cleanName(document.getElementById('uk_amdir_' + cid).value);
+
+  if (editor || director) {
+    editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director };
+  } else {
+    delete editedMappingUK.cloudToPerson[cid];
+  }
+
+  processJoinUK();
+  document.getElementById('mapSaveMsgUK').textContent = '\u2705 已更新映射';
+  setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 2000);
+}
+
+function saveEditedMappingsUK() {
+  var inputs = document.querySelectorAll('#unmappedBodyTbodyUK input[data-vid]');
+  inputs.forEach(function(inp) {
+    var vid = inp.dataset.vid;
+    var cloudId = (document.getElementById('uk_ucid_' + vid) || {}).value || '';
+    cloudId = cloudId.trim();
+    var editor = cleanName((document.getElementById('uk_ued_' + vid) || {}).value || '');
+    var director = cleanName((document.getElementById('uk_udir_' + vid) || {}).value || '');
+
+    if (cloudId) {
+      editedMappingUK.vidToCloud[vid] = cloudId;
+      if (editor || director) {
+        editedMappingUK.cloudToPerson[cloudId] = { editor: editor, director: director };
+      }
+    }
+  });
+
+  processJoinUK();
+  document.getElementById('mapSaveMsgUK').textContent = '\u2705 已保存并重新关联';
+  setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 3000);
+}
+
+function renderVideoDetailUK(filter) {
+  videoDetailFilterUK = filter;
+  if (!videoJoinedUK) return;
+  var data = filter ? videoJoinedUK.filter(function(r) { return r.editor === filter; }) : videoJoinedUK.filter(function(r) { return r.editor; });
+  document.getElementById('detailCountUK').textContent = data.length + ' 条';
+
+  if (!data.length) {
+    document.getElementById('videoDetailUK').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
+    return;
+  }
+  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr>' +
+    '<th>视频ID(末10位)</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(r) {
+      return '<tr>' +
+        '<td title="' + r.vid + '">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td>' + r.editor + '</td><td>' + r.director + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+
+  document.getElementById('videoDetailUK').innerHTML = html;
 }
 </script>
 </body>
