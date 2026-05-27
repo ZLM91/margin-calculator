@@ -1985,23 +1985,38 @@ function importMappingCSV(input) {
   reader.onload = function(e) {
     try {
       var text = e.target.result;
+      // Strip BOM if present (Excel often adds \uFEFF)
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
-      var headers = lines[0].split(',').map(function(h) { return h.replace(/"/g, '').trim(); });
+      // Use parseCSVLine for header too (handles quoted headers from Excel)
+      var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
       var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
-      var addedVid = 0, addedCid = 0;
+      if (col.vid < 0 && col.cid < 0) {
+        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
+        return;
+      }
+      var addedVid = 0, addedCid = 0, skipped = 0;
       for (var i = 1; i < lines.length; i++) {
         var vals = parseCSVLine(lines[i]);
         var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
-        if (!cid) continue;
-        if (vid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
-        if (editor || director) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        // Allow rows with empty cid to still import (vid → vidToCloud mapping from adData)
+        if (!cid && !vid) { skipped++; continue; }
+        if (vid && cid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
+        if (cid && (editor || director)) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        // If no cid but has vid + editor/director, try to look up cid from existing mapping
+        if (!cid && vid && (editor || director)) {
+          cid = editedMapping.vidToCloud[vid] || '';
+          if (cid) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        }
       }
       saveMappingData();
-      alert('\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射');
+      var msg = '\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射';
+      if (skipped > 0) msg += '，跳过 ' + skipped + ' 条空行';
+      alert(msg);
       if (videoAdData) { processJoin(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
@@ -3002,23 +3017,34 @@ function importMappingCSVUK(input) {
   reader.onload = function(e) {
     try {
       var text = e.target.result;
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
-      var headers = lines[0].split(',').map(function(h) { return h.replace(/"/g, '').trim(); });
+      var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
       var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
-      var addedVid = 0, addedCid = 0;
+      if (col.vid < 0 && col.cid < 0) {
+        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
+        return;
+      }
+      var addedVid = 0, addedCid = 0, skipped = 0;
       for (var i = 1; i < lines.length; i++) {
         var vals = parseCSVLine(lines[i]);
         var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
-        if (!cid) continue;
-        if (vid) { editedMappingUK.vidToCloud[vid] = cid; addedVid++; }
-        if (editor || director) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        if (!cid && !vid) { skipped++; continue; }
+        if (vid && cid) { editedMappingUK.vidToCloud[vid] = cid; addedVid++; }
+        if (cid && (editor || director)) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        if (!cid && vid && (editor || director)) {
+          cid = editedMappingUK.vidToCloud[vid] || '';
+          if (cid) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        }
       }
       saveMappingDataUK();
-      alert('\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射');
+      var msg = '\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射';
+      if (skipped > 0) msg += '，跳过 ' + skipped + ' 条空行';
+      alert(msg);
       if (videoAdDataUK) { processJoinUK(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
