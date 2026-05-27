@@ -228,7 +228,7 @@ button:hover { background: #F0EDE6; }
       <div class="video-scroll" style="max-height:300px;">
         <table style="min-width:600px;">
           <thead><tr>
-            <th style="padding:4px;">视频ID(末10位)</th>
+            <th style="padding:4px;">视频ID</th>
             <th style="padding:4px;">GMV</th>
             <th style="padding:4px;">云视频id</th>
             <th style="padding:4px;">剪辑</th>
@@ -318,7 +318,7 @@ button:hover { background: #F0EDE6; }
       <div class="video-scroll" style="max-height:300px;">
         <table style="min-width:600px;">
           <thead><tr>
-            <th style="padding:4px;">视频ID(末10位)</th>
+            <th style="padding:4px;">视频ID</th>
             <th style="padding:4px;">GMV</th>
             <th style="padding:4px;">云视频id</th>
             <th style="padding:4px;">剪辑</th>
@@ -1058,21 +1058,22 @@ function processJoin() {
   var personMap = {};
   joined.forEach(function(r) {
     if (!r.editor && !r.director) return;
-    var key = cleanName(r.editor || '未分配') + '|||' + cleanName(r.director || '未分配');
+    var key = cleanName(r.editor || '未分配');
     if (!personMap[key]) {
-      personMap[key] = { editor: r.editor || '未分配', director: r.director || '未分配',
+      personMap[key] = { editor: r.editor || '未分配', directors: new Set(),
         gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
     }
     personMap[key].gmv += r.gmv;
     personMap[key].orders += r.orders;
     personMap[key].cost += r.cost;
     personMap[key].vidSet.add(r.vid);
+    if (r.director) personMap[key].directors.add(cleanName(r.director));
   });
 
   videoPersonSummary = Object.keys(personMap).map(function(k) {
     var p = personMap[k];
     return {
-      editor: p.editor, director: p.director,
+      editor: p.editor, directors: Array.from(p.directors).filter(function(d) { return d !== '未分配'; }).join(', ') || '未分配',
       gmv: p.gmv, orders: p.orders,
       videos: p.vidSet.size,
       cost: p.cost,
@@ -1101,7 +1102,7 @@ function renderVideoTab() {
     return '<div class="person-card" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
       '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '</div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
-      '<div class="pc-stat">编导: ' + p.director + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
   }).join('') + (videoPersonSummary.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummary.length - 10) + ' 人</div>' : '');
@@ -1115,7 +1116,7 @@ function renderVideoTab() {
     videoPersonSummary.map(function(p, i) {
       return '<tr style="cursor:pointer;" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
         '<td style="text-align:center;">' + (i+1) + '</td>' +
-        '<td>' + p.editor + '</td><td>' + p.director + '</td>' +
+        '<td>' + p.editor + '</td><td>' + p.directors + '</td>' +
         '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td style="text-align:center;">' + p.orders + '</td>' +
         '<td style="text-align:center;">' + p.videos + '</td>' +
@@ -1197,7 +1198,7 @@ function renderMappingPanel() {
     document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
       return '<tr>' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td><input class="map-edit-input" id="ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
         '<td><input class="map-edit-input" id="ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
@@ -1311,7 +1312,7 @@ function saveEditedMappings() {
 function renderVideoDetail(filter) {
   videoDetailFilter = filter;
   if (!videoJoined) return;
-  var data = filter ? videoJoined.filter(function(r) { return r.editor === filter; }) : videoJoined.filter(function(r) { return r.editor; });
+  var data = filter ? videoJoined.filter(function(r) { return r.editor === filter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCount').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -1321,11 +1322,11 @@ function renderVideoDetail(filter) {
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   var html = '<table><thead><tr>' +
-    '<th>视频ID(末10位)</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       return '<tr>' +
-        '<td title="' + r.vid + '">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
@@ -1491,21 +1492,22 @@ function processJoinUK() {
   var personMap = {};
   joined.forEach(function(r) {
     if (!r.editor && !r.director) return;
-    var key = cleanName(r.editor || '未分配') + '|||' + cleanName(r.director || '未分配');
+    var key = cleanName(r.editor || '未分配');
     if (!personMap[key]) {
-      personMap[key] = { editor: r.editor || '未分配', director: r.director || '未分配',
+      personMap[key] = { editor: r.editor || '未分配', directors: new Set(),
         gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
     }
     personMap[key].gmv += r.gmv;
     personMap[key].orders += r.orders;
     personMap[key].cost += r.cost;
     personMap[key].vidSet.add(r.vid);
+    if (r.director) personMap[key].directors.add(cleanName(r.director));
   });
 
   videoPersonSummaryUK = Object.keys(personMap).map(function(k) {
     var p = personMap[k];
     return {
-      editor: p.editor, director: p.director,
+      editor: p.editor, directors: Array.from(p.directors).filter(function(d) { return d !== '未分配'; }).join(', ') || '未分配',
       gmv: p.gmv, orders: p.orders,
       videos: p.vidSet.size,
       cost: p.cost,
@@ -1534,7 +1536,7 @@ function renderVideoTabUK() {
     return '<div class="person-card" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
       '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '</div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
-      '<div class="pc-stat">编导: ' + p.director + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
   }).join('') + (videoPersonSummaryUK.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummaryUK.length - 10) + ' 人</div>' : '');
@@ -1548,7 +1550,7 @@ function renderVideoTabUK() {
     videoPersonSummaryUK.map(function(p, i) {
       return '<tr style="cursor:pointer;" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
         '<td style="text-align:center;">' + (i+1) + '</td>' +
-        '<td>' + p.editor + '</td><td>' + p.director + '</td>' +
+        '<td>' + p.editor + '</td><td>' + p.directors + '</td>' +
         '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td style="text-align:center;">' + p.orders + '</td>' +
         '<td style="text-align:center;">' + p.videos + '</td>' +
@@ -1624,7 +1626,7 @@ function renderMappingPanelUK() {
     document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
       return '<tr>' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td><input class="map-edit-input" id="uk_ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
         '<td><input class="map-edit-input" id="uk_ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
@@ -1729,7 +1731,7 @@ function saveEditedMappingsUK() {
 function renderVideoDetailUK(filter) {
   videoDetailFilterUK = filter;
   if (!videoJoinedUK) return;
-  var data = filter ? videoJoinedUK.filter(function(r) { return r.editor === filter; }) : videoJoinedUK.filter(function(r) { return r.editor; });
+  var data = filter ? videoJoinedUK.filter(function(r) { return r.editor === filter && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCountUK').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -1739,11 +1741,11 @@ function renderVideoDetailUK(filter) {
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   var html = '<table><thead><tr>' +
-    '<th>视频ID(末10位)</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       return '<tr>' +
-        '<td title="' + r.vid + '">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
