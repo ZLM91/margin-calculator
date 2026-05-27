@@ -1644,7 +1644,7 @@ function renderMappingPanel() {
     });
     document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
-      var acct = r.account || acctLookup[r.vid] || '';
+      var acct = r.account || '';
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
@@ -2724,7 +2724,7 @@ function renderMappingPanelUK() {
     });
     document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
-      var acct = r.account || acctLookup[r.vid] || '';
+      var acct = r.account || '';
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
