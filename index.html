@@ -83,6 +83,10 @@ button:hover { background: #F0EDE6; }
 .recent-highlight { background: #FFFDE7; }
 .bd-card .pc-gmv { color: #A32D2D; }
 .bd-section-title { font-size: 15px; color: #A32D2D; margin: 0 0 4px 0; }
+.date-range-banner { background: linear-gradient(135deg, #E8F0FE, #D4E4FC); border: 1px solid #A8C8F0; border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; font-size: 14px; font-weight: 500; color: #2B579A; display: flex; align-items: center; gap: 10px; }
+.date-range-banner .dr-icon { font-size: 20px; }
+.date-range-banner .dr-label { font-size: 11px; color: #666; font-weight: 400; }
+.date-range-banner .dr-date { font-weight: 600; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -195,6 +199,13 @@ button:hover { background: #F0EDE6; }
 
 <div id="tab-video" class="tab-content">
 <h1 style="color:#2B579A;">Matern'ella 美国站 视频数据看板</h1>
+<div id="dateRangeUS" class="date-range-banner" style="display:none;">
+  <span class="dr-icon">📅</span>
+  <div>
+    <div class="dr-label">数据时间范围</div>
+    <div class="dr-date" id="dateRangeUSText"></div>
+  </div>
+</div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoData()">🗑 重置</button>
 </p>
@@ -305,6 +316,13 @@ button:hover { background: #F0EDE6; }
 
 <div id="tab-video-uk" class="tab-content">
 <h1 style="color:#2B579A;">Matern'ella 英国站 视频数据看板</h1>
+<div id="dateRangeUK" class="date-range-banner" style="display:none;">
+  <span class="dr-icon">📅</span>
+  <div>
+    <div class="dr-label">数据时间范围</div>
+    <div class="dr-date" id="dateRangeUKText"></div>
+  </div>
+</div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatusUK" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoDataUK()">🗑 重置</button>
 </p>
@@ -939,6 +957,7 @@ let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected map
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
 let videoDirectorSummary = null; // 编导独立排名
+let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26日"
 
 loadVideoData();
 
@@ -976,8 +995,10 @@ function loadVideoData() {
       videoPersonSummary = saved.summary || null;
       videoBdSummary = saved.bdSummary || null;
       videoDirectorSummary = saved.directorSummary || null;
+      videoDateRange = saved.dateRange || '';
       editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUS = saved.personStatus || {};
+      showDateRange(videoDateRange);
       if (videoAdData) {
         document.getElementById('adUploadBox').classList.add('has-file');
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
@@ -1002,6 +1023,7 @@ function saveVideoData() {
       joined: videoJoined, summary: videoPersonSummary,
       bdSummary: videoBdSummary,
       directorSummary: videoDirectorSummary,
+      dateRange: videoDateRange,
       editedMapping: editedMapping, personStatus: personStatusUS
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
@@ -1011,6 +1033,7 @@ function saveVideoData() {
         adData: null, mapping: null, joined: null, summary: videoPersonSummary,
         bdSummary: videoBdSummary,
         directorSummary: videoDirectorSummary,
+        dateRange: videoDateRange,
         editedMapping: editedMapping, personStatus: personStatusUS
       }));
     } catch(e2) {}
@@ -1026,6 +1049,8 @@ function resetVideoData() {
   videoPersonSummary = null;
   videoBdSummary = null;
   videoDirectorSummary = null;
+  videoDateRange = '';
+  showDateRange('');
   videoDetailFilter = null;
   videoBdDetailFilter = null;
   editedMapping = { vidToCloud: {}, cloudToPerson: {} };
@@ -1064,16 +1089,58 @@ function parseXlsxSheet(wb, name) {
   return sheet ? XLSX.utils.sheet_to_json(sheet, { defval: '' }) : [];
 }
 
+function parseDateRangeFromFilename(filename) {
+  // Extract date range from filename like "creative data for product campaigns 2026-05-01 00 ~ 2026-05-26 16"
+  if (!filename) return '';
+  // Match pattern: YYYY-MM-DD HH ~ YYYY-MM-DD HH
+  var m = filename.match(/(\d{4}-\d{2}-\d{2})\s*\d{1,2}\s*~\s*(\d{4}-\d{2}-\d{2})\s*\d{1,2}/i);
+  if (!m) return '';
+  function fmtDate(ds) {
+    var parts = ds.split('-');
+    var y = parseInt(parts[0]), mo = parseInt(parts[1]), d = parseInt(parts[2]);
+    return y + '年' + mo + '月' + d + '日';
+  }
+  return fmtDate(m[1]) + ' ~ ' + fmtDate(m[2]);
+}
+
+function showDateRange(dateRangeText) {
+  // Show the date range banner (US)
+  var el = document.getElementById('dateRangeUS');
+  var txt = document.getElementById('dateRangeUSText');
+  if (dateRangeText) {
+    el.style.display = 'flex';
+    txt.textContent = dateRangeText;
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function showDateRangeUK(dateRangeText) {
+  var el = document.getElementById('dateRangeUK');
+  var txt = document.getElementById('dateRangeUKText');
+  if (dateRangeText) {
+    el.style.display = 'flex';
+    txt.textContent = dateRangeText;
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 function handleAdDataUpload(input) {
   var file = input.files[0]; if (!file) return;
+  // Parse date range from filename
+  var dr = parseDateRangeFromFilename(file.name);
+  if (dr) { videoDateRange = dr; }
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
-        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
-        if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        var rawVid = String(r['视频 ID'] || '').trim();
+        // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
+        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
+        var vid = rawVid;
         var acct = String(r['TikTok账号'] || '');
         return {
           vid: vid,
@@ -1105,31 +1172,66 @@ function handleMappingUpload(input) {
   reader.onload = function(e) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
-      var sheet1Rows = parseXlsxSheet(wb, 'Sheet1');
-      var onlineRows = parseXlsxSheet(wb, '线上表格');
+      
+      // Find matching sheets
+      var sheet1Name = null, onlineName = null;
+      for (var i = 0; i < wb.SheetNames.length; i++) {
+        var sn = wb.SheetNames[i];
+        if (sn.indexOf('Sheet1') >= 0 || sn.toLowerCase().indexOf('sheet1') >= 0) sheet1Name = sn;
+        if (sn.indexOf('线上表格') >= 0 || sn.indexOf('线上') >= 0 || sn.toLowerCase().indexOf('online') >= 0) onlineName = sn;
+      }
+      if (!sheet1Name) sheet1Name = wb.SheetNames[0]; // fallback: first sheet
+      var sheet1Rows = parseXlsxSheet(wb, sheet1Name);
+      var onlineRows = onlineName ? parseXlsxSheet(wb, onlineName) : [];
+
+      // Helper: find column by multiple possible names
+      function findCol(row, names) {
+        for (var i = 0; i < names.length; i++) {
+          if (row[names[i]] !== undefined && row[names[i]] !== null && row[names[i]] !== '') return row[names[i]];
+          // Also check all keys of the row for case-insensitive substring match
+          for (var k in row) {
+            if (k.toLowerCase().replace(/[\s_]/g, '') === names[i].toLowerCase().replace(/[\s_]/g, '')) return row[k];
+          }
+        }
+        return '';
+      }
+      
+      // Helper: clean ID value (handle Excel numbers, floats, strings)
+      function cleanId(v) {
+        if (v === undefined || v === null || v === '') return '';
+        var s = String(v).trim();
+        // Remove Excel float suffix like ".0"
+        if (/^\d+\.0+$/.test(s)) s = s.replace(/\.0+$/, '');
+        return s;
+      }
 
       var vidToCloud = {};
+      var sheet1Count = 0;
       sheet1Rows.forEach(function(r) {
-        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
-        var cid = String(r['云视频id'] || '').replace(/\.0$/, '').trim();
-        if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
-          vidToCloud[vid.replace(/\.0$/, '')] = cid;
+        var vid = cleanId(findCol(r, ['视频 ID', '视频ID', '视频id', 'video_id', 'video id', '视频']));
+        var cid = cleanId(findCol(r, ['云视频id', '云视频ID', '云视频 id', 'cloud_id', 'cloud id', '云视频']));
+        if (vid && cid) {
+          vidToCloud[vid] = cid;
+          sheet1Count++;
         }
       });
 
       var cloudToPerson = {};
+      var onlineCount = 0;
       onlineRows.forEach(function(r) {
-        var cid = String(r['成片ID'] || '').replace(/\.0$/, '').trim();
-        var editor = cleanName(String(r['剪辑'] || ''));
-        var director = cleanName(String(r['编导'] || ''));
-        if (cid && cid !== 'nan' && (editor || director)) {
+        var cid = cleanId(findCol(r, ['成片ID', '成片 id', '成片id', 'cid', '成片', '云视频id', '云视频ID']));
+        var editor = cleanName(String(findCol(r, ['剪辑', '剪辑师', 'editor', 'cut'])));
+        var director = cleanName(String(findCol(r, ['编导', '导演', 'director'])));
+        if (cid && cid !== 'nan' && cid !== 'NaN' && cid !== 'undefined' && (editor || director)) {
           cloudToPerson[cid] = { editor: editor, director: director };
+          onlineCount++;
         }
       });
 
       videoMapping = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
       document.getElementById('mapUploadBox').classList.add('has-file');
-      document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人';
+      document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人 (' + sheet1Count + '/' + sheet1Rows.length + ' 条视频映射)';
+      document.getElementById('videoStatus').textContent = '\u2139\uFE0F Sheet1: ' + sheet1Rows.length + ' 行, 线上表格: ' + onlineRows.length + ' 行, 匹配: ' + sheet1Count + ' 条视频 -> ' + onlineCount + ' 个成片';
       processJoin();
     } catch(err) {
       document.getElementById('videoStatus').textContent = '\u274C 映射表解析失败: ' + err.message;
@@ -1249,6 +1351,7 @@ function processJoin() {
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
   saveVideoData();
+  showDateRange(videoDateRange);
   renderVideoTab();
   renderMappingPanel();
 }
@@ -1671,6 +1774,7 @@ let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
 let videoDirectorSummaryUK = null; // 编导独立排名
+let videoDateRangeUK = ''; // 日期范围
 
 loadVideoDataUK();
 
@@ -1685,8 +1789,10 @@ function loadVideoDataUK() {
       videoPersonSummaryUK = saved.summary || null;
       videoBdSummaryUK = saved.bdSummary || null;
       videoDirectorSummaryUK = saved.directorSummary || null;
+      videoDateRangeUK = saved.dateRange || '';
       editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUK = saved.personStatus || {};
+      showDateRangeUK(videoDateRangeUK);
       if (videoAdDataUK) {
         document.getElementById('adUploadBoxUK').classList.add('has-file');
         document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
@@ -1710,6 +1816,7 @@ function saveVideoDataUK() {
       joined: videoJoinedUK, summary: videoPersonSummaryUK,
       bdSummary: videoBdSummaryUK,
       directorSummary: videoDirectorSummaryUK,
+      dateRange: videoDateRangeUK,
       editedMapping: editedMappingUK, personStatus: personStatusUK
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
@@ -1719,6 +1826,7 @@ function saveVideoDataUK() {
         adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK,
         bdSummary: videoBdSummaryUK,
         directorSummary: videoDirectorSummaryUK,
+        dateRange: videoDateRangeUK,
         editedMapping: editedMappingUK, personStatus: personStatusUK
       }));
     } catch(e2) {}
@@ -1734,6 +1842,8 @@ function resetVideoDataUK() {
   videoPersonSummaryUK = null;
   videoBdSummaryUK = null;
   videoDirectorSummaryUK = null;
+  videoDateRangeUK = '';
+  showDateRangeUK('');
   videoDetailFilterUK = null;
   videoBdDetailFilterUK = null;
   editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
@@ -1763,14 +1873,17 @@ function resetVideoDataUK() {
 
 function handleAdDataUploadUK(input) {
   var file = input.files[0]; if (!file) return;
+  var dr = parseDateRangeFromFilename(file.name);
+  if (dr) { videoDateRangeUK = dr; }
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
-        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
-        if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        var rawVid = String(r['视频 ID'] || '').trim();
+        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
+        var vid = rawVid;
         var acct = String(r['TikTok账号'] || '');
         return {
           vid: vid,
@@ -1802,31 +1915,58 @@ function handleMappingUploadUK(input) {
   reader.onload = function(e) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
-      var sheet1Rows = parseXlsxSheet(wb, 'Sheet1');
-      var onlineRows = parseXlsxSheet(wb, '线上表格');
+
+      var sheet1Name = null, onlineName = null;
+      for (var i = 0; i < wb.SheetNames.length; i++) {
+        var sn = wb.SheetNames[i];
+        if (sn.indexOf('Sheet1') >= 0 || sn.toLowerCase().indexOf('sheet1') >= 0) sheet1Name = sn;
+        if (sn.indexOf('线上表格') >= 0 || sn.indexOf('线上') >= 0 || sn.toLowerCase().indexOf('online') >= 0) onlineName = sn;
+      }
+      if (!sheet1Name) sheet1Name = wb.SheetNames[0];
+      var sheet1Rows = parseXlsxSheet(wb, sheet1Name);
+      var onlineRows = onlineName ? parseXlsxSheet(wb, onlineName) : [];
+
+      function findCol(row, names) {
+        for (var j = 0; j < names.length; j++) {
+          if (row[names[j]] !== undefined && row[names[j]] !== null && row[names[j]] !== '') return row[names[j]];
+          for (var k in row) {
+            if (k.toLowerCase().replace(/[\s_]/g, '') === names[j].toLowerCase().replace(/[\s_]/g, '')) return row[k];
+          }
+        }
+        return '';
+      }
+
+      function cleanId(v) {
+        if (v === undefined || v === null || v === '') return '';
+        var s = String(v).trim();
+        if (/^\d+\.0+$/.test(s)) s = s.replace(/\.0+$/, '');
+        return s;
+      }
 
       var vidToCloud = {};
+      var sheet1Count = 0;
       sheet1Rows.forEach(function(r) {
-        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
-        var cid = String(r['云视频id'] || '').replace(/\.0$/, '').trim();
-        if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
-          vidToCloud[vid.replace(/\.0$/, '')] = cid;
-        }
+        var vid = cleanId(findCol(r, ['视频 ID', '视频ID', '视频id', 'video_id', 'video id', '视频']));
+        var cid = cleanId(findCol(r, ['云视频id', '云视频ID', '云视频 id', 'cloud_id', 'cloud id', '云视频']));
+        if (vid && cid) { vidToCloud[vid] = cid; sheet1Count++; }
       });
 
       var cloudToPerson = {};
+      var onlineCount = 0;
       onlineRows.forEach(function(r) {
-        var cid = String(r['成片ID'] || '').replace(/\.0$/, '').trim();
-        var editor = cleanName(String(r['剪辑'] || ''));
-        var director = cleanName(String(r['编导'] || ''));
-        if (cid && cid !== 'nan' && (editor || director)) {
+        var cid = cleanId(findCol(r, ['成片ID', '成片 id', '成片id', 'cid', '成片', '云视频id', '云视频ID']));
+        var editor = cleanName(String(findCol(r, ['剪辑', '剪辑师', 'editor', 'cut'])));
+        var director = cleanName(String(findCol(r, ['编导', '导演', 'director'])));
+        if (cid && cid !== 'nan' && cid !== 'NaN' && cid !== 'undefined' && (editor || director)) {
           cloudToPerson[cid] = { editor: editor, director: director };
+          onlineCount++;
         }
       });
 
       videoMappingUK = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
       document.getElementById('mapUploadBoxUK').classList.add('has-file');
-      document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人';
+      document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人 (' + sheet1Count + '/' + sheet1Rows.length + ' 条视频映射)';
+      document.getElementById('videoStatusUK').textContent = '\u2139\uFE0F Sheet1: ' + sheet1Rows.length + ' 行, 线上表格: ' + onlineRows.length + ' 行, 匹配: ' + sheet1Count + ' 条视频 -> ' + onlineCount + ' 个成片';
       processJoinUK();
     } catch(err) {
       document.getElementById('videoStatusUK').textContent = '\u274C 映射表解析失败: ' + err.message;
@@ -1943,6 +2083,7 @@ function processJoinUK() {
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
   saveVideoDataUK();
+  showDateRangeUK(videoDateRangeUK);
   renderVideoTabUK();
   renderMappingPanelUK();
 }
