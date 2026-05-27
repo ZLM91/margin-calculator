@@ -36,10 +36,40 @@ input:focus { outline: 2px solid #2B579A; outline-offset: -1px; }
 button { cursor: pointer; border: 1px solid #C4BFB5; background: #fff; font-size: 13px; }
 button:hover { background: #F0EDE6; }
 .chart-wrap { position: relative; width: 100%; height: 320px; }
+.tabs-nav { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid #E0DBD2; }
+.tab-btn { padding: 10px 24px; border: none; background: none; font-size: 15px; font-weight: 500; color: #999; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .2s; }
+.tab-btn.active, .tab-btn:hover { color: #2B579A; background: none; }
+.tab-btn.active { border-bottom-color: #2B579A; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.video-upload-box { border: 2px dashed #C5D3E8; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; cursor: pointer; transition: border-color .2s; background: #FAFBFC; text-align: center; }
+.video-upload-box:hover { border-color: #2B579A; }
+.video-upload-box.has-file { border-color: #0F6E56; background: #F0FAF5; border-style: solid; }
+.video-scroll { overflow-x: auto; margin-bottom: 14px; max-height: 520px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 8px; }
+.video-scroll table { font-size: 11px; min-width: 800px; }
+.video-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.video-scroll tbody td { padding: 4px 5px; border-bottom: 1px solid #E8E8E8; white-space: nowrap; }
+.video-scroll tbody tr:hover { background: #F0F7FF; }
+.person-card { display: inline-block; background: #F5F7FA; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px 14px; margin: 3px; min-width: 170px; vertical-align: top; cursor: pointer; transition: box-shadow .2s; }
+.person-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+.person-card .pc-name { font-weight: 600; font-size: 13px; }
+.person-card .pc-gmv { font-size: 18px; font-weight: 700; color: #2B579A; }
+.person-card .pc-stat { font-size: 10px; color: #888; }
+.person-card .pc-kpi { margin-top: 4px; height: 4px; background: #E8E8E8; border-radius: 2px; }
+.person-card .pc-kpi-bar { height: 4px; background: #2B579A; border-radius: 2px; transition: width .3s; }
+.filter-btn { padding: 3px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #D0D0D0; cursor: pointer; transition: all .15s; }
+.filter-btn:hover, .filter-btn.on { background: #2B579A; color: #fff; border-color: #2B579A; }
 </style>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="container">
+
+<div class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab('margin')">📊 毛利率计算</button>
+  <button class="tab-btn" onclick="switchTab('video')">📹 视频数据</button>
+</div>
+<div id="tab-margin" class="tab-content active">
 
 <h1>Matern'ella TikTok Shop 毛利率计算器</h1>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 18px 0;">填写 蓝色 字段 — 毛利率、策略 即时更新 &nbsp;|&nbsp; <a href="https://zlm91.github.io/margin-calculator/" style="color:#2B579A;">zlm91.github.io/margin-calculator</a> &nbsp;|&nbsp; <span id="saveStatus" style="color:#0F6E56;font-weight:500;">💾 已自动保存</span> <button onclick="resetData()" style="font-size:11px;padding:1px 8px;margin-left:6px;border-radius:4px;color:#A32D2D;">重置</button></p>
@@ -133,10 +163,47 @@ button:hover { background: #F0EDE6; }
   总成本 = 产品成本 + 物流合计 + 平台扣点 + 达人佣金 + 附加费用<br>
   利润 = 售价 - 总成本 &nbsp;|&nbsp; 毛利率 = 利润 ÷ 售价<br>
   综合毛利率 = Σ(各SKU毛利率 × SKU销售占比)<br>
-  ROI平衡点 = 1 ÷ 毛利率 &nbsp;|&nbsp; 综合ROI平衡点 = 1 ÷ 综合毛利率
+  ROI平衡点 = 1 ÷ 毛利率 &nbsp;|&nbsp;   综合ROI平衡点 = 1 ÷ 综合毛利率
 </div>
 
+</div><!-- /tab-margin -->
+
+<div id="tab-video" class="tab-content">
+<h1 style="color:#2B579A;">Matern'ella 视频数据看板</h1>
+<p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
+  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span>
+</p>
+
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+  <label class="video-upload-box" id="adUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📊</div>
+    <div id="adUploadLabel" style="font-size:13px;font-weight:500;">上传广告数据报表</div>
+    <div style="font-size:11px;color:#888;">Creative Data 导出 .xlsx / .csv</div>
+    <input type="file" accept=".xlsx,.csv,.xls" onchange="handleAdDataUpload(this)" style="display:none;">
+  </label>
+  <label class="video-upload-box" id="mapUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">🗂️</div>
+    <div id="mapUploadLabel" style="font-size:13px;font-weight:500;">上传人员映射表</div>
+    <div style="font-size:11px;color:#888;">云视频id汇总表 .xlsx（含Sheet1 + 线上表格）</div>
+    <input type="file" accept=".xlsx,.csv,.xls" onchange="handleMappingUpload(this)" style="display:none;">
+  </label>
 </div>
+
+<div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
+
+<!-- Person cards -->
+<div id="personCards" style="margin-bottom:14px;"></div>
+
+<!-- Person summary table -->
+<div id="personTable" style="margin-bottom:14px;"></div>
+
+<!-- Filter + Video detail -->
+<div style="font-size:13px;font-weight:500;margin-bottom:6px;">视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="detailCount"></span></div>
+<div id="personFilter" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
+<div class="video-scroll" id="videoDetail"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
+</div>
+
+</div><!-- /container -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -653,6 +720,273 @@ if (!loadData()) {
   saveData(); // 首次访问：保存默认数据
 }
 render();
+loadVideoData();
+
+// ====== 视频数据 Tab ======
+const VID_STORAGE = 'maternella_video_data';
+let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    b.classList.toggle('active', b.textContent.indexOf(tab === 'margin' ? '毛利率' : '视频') >= 0);
+  });
+  document.getElementById('tab-margin').classList.toggle('active', tab === 'margin');
+  document.getElementById('tab-video').classList.toggle('active', tab === 'video');
+}
+
+function loadVideoData() {
+  try {
+    var raw = localStorage.getItem(VID_STORAGE);
+    if (raw) {
+      var saved = JSON.parse(raw);
+      videoAdData = saved.adData || null;
+      videoMapping = saved.mapping || null;
+      videoJoined = saved.joined || null;
+      videoPersonSummary = saved.summary || null;
+      if (videoAdData) {
+        document.getElementById('adUploadBox').classList.add('has-file');
+        document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
+      }
+      if (videoMapping) {
+        document.getElementById('mapUploadBox').classList.add('has-file');
+        document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
+      }
+      if (videoPersonSummary) { renderVideoTab(); }
+      document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
+    }
+  } catch(e) {}
+}
+
+function saveVideoData() {
+  try {
+    localStorage.setItem(VID_STORAGE, JSON.stringify({
+      adData: videoAdData, mapping: videoMapping,
+      joined: videoJoined, summary: videoPersonSummary
+    }));
+    document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
+  } catch(e) {
+    try {
+      localStorage.setItem(VID_STORAGE, JSON.stringify({
+        adData: null, mapping: null, joined: null, summary: videoPersonSummary
+      }));
+    } catch(e2) {}
+    document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
+  }
+}
+
+function parseXlsxSheet(wb, name) {
+  var sheet = wb.Sheets[name];
+  if (!sheet) {
+    for (var i = 0; i < wb.SheetNames.length; i++) {
+      if (wb.SheetNames[i].indexOf(name) >= 0) { sheet = wb.Sheets[wb.SheetNames[i]]; break; }
+    }
+  }
+  return sheet ? XLSX.utils.sheet_to_json(sheet, { defval: '' }) : [];
+}
+
+function handleAdDataUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
+      videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+        var vid = String(r['视频 ID'] || '');
+        if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        return {
+          vid: vid,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0
+        };
+      });
+      document.getElementById('adUploadBox').classList.add('has-file');
+      document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
+      processJoin();
+    } catch(err) {
+      document.getElementById('videoStatus').textContent = '\u274C 广告数据解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleMappingUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      var sheet1Rows = parseXlsxSheet(wb, 'Sheet1');
+      var onlineRows = parseXlsxSheet(wb, '线上表格');
+
+      var vidToCloud = {};
+      sheet1Rows.forEach(function(r) {
+        var vid = String(r['视频 ID'] || '');
+        var cid = String(r['云视频id'] || '').replace(/\.0$/, '');
+        if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
+          vidToCloud[vid.replace(/\.0$/, '')] = cid;
+        }
+      });
+
+      var cloudToPerson = {};
+      onlineRows.forEach(function(r) {
+        var cid = String(r['成片ID'] || '').replace(/\.0$/, '');
+        var editor = String(r['剪辑'] || '').trim();
+        var director = String(r['编导'] || '').trim();
+        if (cid && cid !== 'nan' && (editor || director)) {
+          cloudToPerson[cid] = { editor: editor === 'nan' ? '' : editor, director: director === 'nan' ? '' : director };
+        }
+      });
+
+      videoMapping = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+      document.getElementById('mapUploadBox').classList.add('has-file');
+      document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人';
+      processJoin();
+    } catch(err) {
+      document.getElementById('videoStatus').textContent = '\u274C 映射表解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function processJoin() {
+  if (!videoAdData || !videoMapping) return;
+  var joined = videoAdData.map(function(row) {
+    var cloudId = videoMapping.vidToCloud[row.vid] || '';
+    var person = cloudId ? (videoMapping.cloudToPerson[cloudId] || null) : null;
+    return {
+      vid: row.vid, title: row.title, tags: row.tags,
+      gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
+      date: row.date, views: row.views,
+      cloudId: cloudId,
+      editor: person ? person.editor : '',
+      director: person ? person.director : ''
+    };
+  });
+  videoJoined = joined;
+
+  var personMap = {};
+  joined.forEach(function(r) {
+    if (!r.editor && !r.director) return;
+    var key = (r.editor || '未分配') + '|||' + (r.director || '未分配');
+    if (!personMap[key]) {
+      personMap[key] = { editor: r.editor || '未分配', director: r.director || '未分配',
+        gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    personMap[key].gmv += r.gmv;
+    personMap[key].orders += r.orders;
+    personMap[key].cost += r.cost;
+    personMap[key].vidSet.add(r.vid);
+  });
+
+  videoPersonSummary = Object.keys(personMap).map(function(k) {
+    var p = personMap[k];
+    return {
+      editor: p.editor, director: p.director,
+      gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  saveVideoData();
+  renderVideoTab();
+}
+
+function renderVideoTab() {
+  var statusEl = document.getElementById('videoStatus');
+  if (!videoPersonSummary || !videoPersonSummary.length) {
+    statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    return;
+  }
+  var matched = videoJoined.filter(function(r) { return r.editor; }).length;
+  statusEl.textContent = '\u2705 ' + videoPersonSummary.length + ' 位剪辑/编导 | 总视频 ' + videoJoined.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoined.length*100).toFixed(1) + '%)';
+
+  var maxGmv = videoPersonSummary[0] ? videoPersonSummary[0].gmv : 1;
+  var cards = document.getElementById('personCards');
+  cards.innerHTML = videoPersonSummary.slice(0, 10).map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    return '<div class="person-card" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
+      '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '</div>' +
+      '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">编导: ' + p.director + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
+      '</div>';
+  }).join('') + (videoPersonSummary.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummary.length - 10) + ' 人</div>' : '');
+
+  var tableEl = document.getElementById('personTable');
+  tableEl.innerHTML = '<div style="overflow-x:auto;"><table style="min-width:700px;"><thead><tr style="background:#2B579A;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">剪辑</th><th style="padding:6px 5px;">编导</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoPersonSummary.map(function(p, i) {
+      return '<tr style="cursor:pointer;" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
+        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td>' + p.editor + '</td><td>' + p.director + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  var editors = [];
+  var seen = {};
+  videoPersonSummary.forEach(function(p) {
+    if (p.editor && !seen[p.editor]) { seen[p.editor] = true; editors.push(p.editor); }
+  });
+  editors.sort();
+  var allOn = videoDetailFilter === null;
+  document.getElementById('personFilter').innerHTML =
+    '<button class="filter-btn' + (allOn ? ' on' : '') + '" onclick="renderVideoDetail(null)">全部</button>' +
+    editors.map(function(e) {
+      return '<button class="filter-btn' + (videoDetailFilter === e ? ' on' : '') + '" onclick="renderVideoDetail(\'' + e.replace(/'/g, "\\'") + '\')">' + e + '</button>';
+    }).join('');
+
+  renderVideoDetail(videoDetailFilter);
+}
+
+function renderVideoDetail(filter) {
+  videoDetailFilter = filter;
+  if (!videoJoined) return;
+  var data = filter ? videoJoined.filter(function(r) { return r.editor === filter; }) : videoJoined.filter(function(r) { return r.editor; });
+  document.getElementById('detailCount').textContent = data.length + ' 条';
+
+  if (!data.length) {
+    document.getElementById('videoDetail').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
+    return;
+  }
+  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr>' +
+    '<th>视频ID(末10位)</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(r) {
+      return '<tr>' +
+        '<td title="' + r.vid + '">' + r.vid.slice(-10) + '</td>' +
+        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td>' + r.editor + '</td><td>' + r.director + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+
+  document.getElementById('videoDetail').innerHTML = html;
+}
 </script>
 </body>
 </html>
