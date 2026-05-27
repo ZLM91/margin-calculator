@@ -1984,12 +1984,11 @@ function importMappingCSV(input) {
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var text = e.target.result;
-      // Strip BOM if present (Excel often adds \uFEFF)
-      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      var buffer = e.target.result;
+      // Try UTF-8 first, then GBK if headers are garbled
+      var text = importDecodeCSV(buffer);
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
-      // Use parseCSVLine for header too (handles quoted headers from Excel)
       var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
       var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
       if (col.vid < 0 && col.cid < 0) {
@@ -2000,14 +1999,14 @@ function importMappingCSV(input) {
       for (var i = 1; i < lines.length; i++) {
         var vals = parseCSVLine(lines[i]);
         var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
+        // Filter out #N/A and other Excel error values
+        if (vid === '#N/A' || vid === '#REF!' || vid === '#VALUE!' || vid === '#NAME?' || vid === '#DIV/0!' || vid === '#NULL!') vid = '';
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
-        // Allow rows with empty cid to still import (vid → vidToCloud mapping from adData)
         if (!cid && !vid) { skipped++; continue; }
         if (vid && cid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
         if (cid && (editor || director)) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
-        // If no cid but has vid + editor/director, try to look up cid from existing mapping
         if (!cid && vid && (editor || director)) {
           cid = editedMapping.vidToCloud[vid] || '';
           if (cid) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
@@ -2020,7 +2019,32 @@ function importMappingCSV(input) {
       if (videoAdData) { processJoin(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
-  reader.readAsText(file);
+  reader.readAsArrayBuffer(file);
+}
+
+// Decode CSV buffer: try UTF-8 first, detect garbled Chinese → fall back to GBK
+function importDecodeCSV(buffer) {
+  // Try UTF-8
+  var u8 = new Uint8Array(buffer);
+  var utf8Text = new TextDecoder('utf-8', { fatal: true });
+  try {
+    var text = utf8Text.decode(u8);
+    // Check if headers contain recognizable Chinese
+    if (text.indexOf('视频ID') >= 0 || text.indexOf('云视频') >= 0 || text.indexOf('TikTok') >= 0) return text;
+    // If BOM present but no Chinese detected, strip BOM and try again (won't help here but safe)
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    if (text.indexOf('视频ID') >= 0 || text.indexOf('云视频') >= 0) return text;
+  } catch(_) {}
+  // Fall back: try GBK
+  try {
+    var gbkText = new TextDecoder('gbk').decode(u8);
+    if (gbkText.indexOf('视频ID') >= 0 || gbkText.indexOf('云视频') >= 0 || gbkText.indexOf('TikTok') >= 0) return gbkText;
+    // Try gb2312
+    var gbText = new TextDecoder('gb2312').decode(u8);
+    if (gbText.indexOf('视频ID') >= 0 || gbText.indexOf('云视频') >= 0) return gbText;
+  } catch(_) {}
+  // Last resort: return UTF-8 interpretation
+  return new TextDecoder('utf-8').decode(u8);
 }
 
 function parseCSVLine(line) {
@@ -3016,8 +3040,8 @@ function importMappingCSVUK(input) {
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var text = e.target.result;
-      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      var buffer = e.target.result;
+      var text = importDecodeCSV(buffer);
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
       var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
@@ -3030,6 +3054,7 @@ function importMappingCSVUK(input) {
       for (var i = 1; i < lines.length; i++) {
         var vals = parseCSVLine(lines[i]);
         var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
+        if (vid === '#N/A' || vid === '#REF!' || vid === '#VALUE!' || vid === '#NAME?' || vid === '#DIV/0!' || vid === '#NULL!') vid = '';
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
@@ -3048,8 +3073,10 @@ function importMappingCSVUK(input) {
       if (videoAdDataUK) { processJoinUK(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
-  reader.readAsText(file);
+  reader.readAsArrayBuffer(file);
 }
+
+// decodeCSV shared by both US and UK import (defined above near US import)
 
 // ====== UK BD达人账号明细 ======
 // ====== BD达人账号明细（英国，按达人账号分组，可展开查看视频，可排序）======
