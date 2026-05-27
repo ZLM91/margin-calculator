@@ -1583,8 +1583,13 @@ function renderMappingPanel() {
   var hasMapping = !!videoMapping;
   var effective = getEffectiveMapping();
 
-  // --- Unmapped videos with GMV > 0 ---
-  var unmapped = videoJoined.filter(function(r) { return r.gmv > 0 && (!r.editor || !r.director); });
+  // --- Unmapped brand-account videos with GMV > 0 ---
+  // 达人内容不需要分配云视频id，只展示品牌账号（matern前缀）的待映射视频
+  var unmapped = videoJoined.filter(function(r) { return r.gmv > 0 && isBrandAccount(r.account) && (!r.cloudId || !r.editor || !r.director); });
+  // Count 达人 videos for info
+  var talentCount = 0;
+  var talentSeen = {};
+  videoJoined.forEach(function(r) { if (r.gmv > 0 && !isBrandAccount(r.account) && !talentSeen[r.vid]) { talentSeen[r.vid] = true; talentCount++; } });
   // De-duplicate by video ID
   var seenVid = {};
   var unmappedUnique = [];
@@ -1596,7 +1601,7 @@ function renderMappingPanel() {
   var unSection = document.getElementById('unmappedSection');
   if (unmappedUnique.length > 0) {
     unSection.style.display = '';
-    document.getElementById('unmappedCount').textContent = '(' + unmappedUnique.length + ' 条)';
+    document.getElementById('unmappedCount').textContent = '(' + unmappedUnique.length + ' 条品牌视频待映射' + (talentCount > 0 ? '，另有 ' + talentCount + ' 条达人视频无需映射' : '') + ')';
     var editRows = {};
     // Pre-fill from existing mapping
     unmappedUnique.forEach(function(r) {
@@ -1617,17 +1622,6 @@ function renderMappingPanel() {
     document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
       var acct = r.account || '';
-      var isBrand = isBrandAccount(acct);
-      if (!isBrand) {
-        // 达人视频：不分配人员，仅标注
-        return '<tr style="background:#FFF8F0;">' +
-          '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
-          '<td style="font-size:10px;" title="' + acct + '">' + acct + '</td>' +
-          '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
-          '<td colspan="3" style="text-align:center;color:#D97706;font-size:11px;font-weight:500;">达人内容（无需分配人员）</td>' +
-          '<td></td>' +
-          '</tr>';
-      }
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
@@ -1925,23 +1919,30 @@ function exportMappingCSV() {
     videoAdData.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
   var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
-  // Export vidToCloud entries
-  for (var vid in effective.vidToCloud) {
-    var cid = effective.vidToCloud[vid];
-    var p = effective.cloudToPerson[cid] || {};
-    var acct = acctLookup[vid] || '';
-    var isBrand = isBrandAccount(acct);
-    if (!isBrand) {
-      // 达人账号：不填云视频id，标注达人内容
-      rows.push([vid, '达人内容', acct, '', ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    } else {
-      rows.push([vid, cid, acct, p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    }
+  // Export only brand-account videos from videoJoined (not all vidToCloud entries)
+  // 达人视频不需要云视频id，只导出品牌自制内容
+  var exported = {};
+  if (videoJoined) {
+    var seenVid = {};
+    videoJoined.forEach(function(r) {
+      var acct = r.account || '';
+      if (!isBrandAccount(acct)) return; // skip 达人 content
+      if (seenVid[r.vid]) return;
+      seenVid[r.vid] = true;
+      var cid = effective.vidToCloud[r.vid] || '';
+      var editor = '', director = '';
+      if (cid && effective.cloudToPerson[cid]) {
+        editor = effective.cloudToPerson[cid].editor || '';
+        director = effective.cloudToPerson[cid].director || '';
+      }
+      rows.push([r.vid, cid, acct, editor, director].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      exported[r.vid] = true;
+    });
   }
-  // Also export cloudToPerson entries that don't have vidToCloud entry
+  // Also export cloudToPerson entries that don't have a corresponding video ID
   for (var cid in effective.cloudToPerson) {
     var hasVid = false;
-    for (var v in effective.vidToCloud) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
+    for (var v in exported) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
     if (!hasVid) {
       var p = effective.cloudToPerson[cid];
       rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
@@ -2592,7 +2593,10 @@ function renderMappingPanelUK() {
 
   var effective = getEffectiveMappingUK();
 
-  var unmapped = videoJoinedUK.filter(function(r) { return r.gmv > 0 && (!r.editor || !r.director); });
+  var unmapped = videoJoinedUK.filter(function(r) { return r.gmv > 0 && isBrandAccount(r.account) && (!r.cloudId || !r.editor || !r.director); });
+  var talentCount = 0;
+  var talentSeen = {};
+  videoJoinedUK.forEach(function(r) { if (r.gmv > 0 && !isBrandAccount(r.account) && !talentSeen[r.vid]) { talentSeen[r.vid] = true; talentCount++; } });
   var seenVid = {};
   var unmappedUnique = [];
   unmapped.forEach(function(r) {
@@ -2603,7 +2607,7 @@ function renderMappingPanelUK() {
   var unSection = document.getElementById('unmappedSectionUK');
   if (unmappedUnique.length > 0) {
     unSection.style.display = '';
-    document.getElementById('unmappedCountUK').textContent = '(' + unmappedUnique.length + ' 条)';
+    document.getElementById('unmappedCountUK').textContent = '(' + unmappedUnique.length + ' 条品牌视频待映射' + (talentCount > 0 ? '，另有 ' + talentCount + ' 条达人视频无需映射' : '') + ')';
     var editRows = {};
     unmappedUnique.forEach(function(r) {
       editRows[r.vid] = {
@@ -2622,16 +2626,6 @@ function renderMappingPanelUK() {
     document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
       var acct = r.account || '';
-      var isBrand = isBrandAccount(acct);
-      if (!isBrand) {
-        return '<tr style="background:#FFF8F0;">' +
-          '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
-          '<td style="font-size:10px;" title="' + acct + '">' + acct + '</td>' +
-          '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
-          '<td colspan="3" style="text-align:center;color:#D97706;font-size:11px;font-weight:500;">达人内容（无需分配人员）</td>' +
-          '<td></td>' +
-          '</tr>';
-      }
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
         '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
@@ -2883,20 +2877,28 @@ function exportMappingCSVUK() {
     videoAdDataUK.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
   var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
-  for (var vid in effective.vidToCloud) {
-    var cid = effective.vidToCloud[vid];
-    var p = effective.cloudToPerson[cid] || {};
-    var acct = acctLookup[vid] || '';
-    var isBrand = isBrandAccount(acct);
-    if (!isBrand) {
-      rows.push([vid, '达人内容', acct, '', ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    } else {
-      rows.push([vid, cid, acct, p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    }
+  // Export only brand-account videos from videoJoinedUK
+  var exported = {};
+  if (videoJoinedUK) {
+    var seenVid = {};
+    videoJoinedUK.forEach(function(r) {
+      var acct = r.account || '';
+      if (!isBrandAccount(acct)) return;
+      if (seenVid[r.vid]) return;
+      seenVid[r.vid] = true;
+      var cid = effective.vidToCloud[r.vid] || '';
+      var editor = '', director = '';
+      if (cid && effective.cloudToPerson[cid]) {
+        editor = effective.cloudToPerson[cid].editor || '';
+        director = effective.cloudToPerson[cid].director || '';
+      }
+      rows.push([r.vid, cid, acct, editor, director].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      exported[r.vid] = true;
+    });
   }
   for (var cid in effective.cloudToPerson) {
     var hasVid = false;
-    for (var v in effective.vidToCloud) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
+    for (var v in exported) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
     if (!hasVid) {
       var p = effective.cloudToPerson[cid];
       rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
