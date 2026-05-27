@@ -361,8 +361,8 @@ function render() {
     let bg = i % 2 === 0 ? '#fff' : '#FAFAFA';
     let mbg = row.r.margin < 0.15 ? '#FCEBEB' : row.r.margin > 0.35 ? '#EAF3DE' : '#fff';
     let logFields = ['firstMile','inboundFee','outboundFee','logisticsSvc','lastMile'];
-    let logInputs = logFields.map(f => 
-      '<input value="' + row.d[f] + '" data-row="' + i + '" data-field="' + f + '" style="width:48px;text-align:center;padding:3px;font-size:11px;color:#185FA5;border:1px solid #ccc;border-radius:3px;">'
+    let logCells = logFields.map(f => 
+      '<td style="padding:3px 1px;text-align:center;"><input value="' + row.d[f] + '" data-row="' + i + '" data-field="' + f + '" style="width:48px;text-align:center;padding:3px;font-size:11px;color:#185FA5;border:1px solid #ccc;border-radius:3px;"></td>'
     ).join('');
     return `<tr style="background:${bg};">
       <td style="padding:4px;text-align:center;font-weight:500;">${row.d.sku}</td>
@@ -372,7 +372,7 @@ function render() {
       <td style="padding:4px;text-align:center;">
         <input value="${row.d.cost}" data-row="${i}" data-field="cost" style="width:62px;text-align:center;padding:3px;font-size:11px;color:#185FA5;border:1px solid #ccc;border-radius:3px;">
       </td>
-      <td style="padding:3px 1px;text-align:center;">${logInputs}</td>
+      ${logCells}
       <td style="padding:4px;text-align:center;">
         <input value="${row.d.platform}" data-row="${i}" data-field="platform" style="width:48px;text-align:center;padding:3px;font-size:11px;color:#185FA5;border:1px solid #ccc;border-radius:3px;">
       </td>
