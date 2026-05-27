@@ -222,6 +222,14 @@ button:hover { background: #F0EDE6; }
 <!-- Person summary table -->
 <div id="personTable" style="margin-bottom:14px;"></div>
 
+<!-- 编导独立排名 -->
+<div id="directorSection" style="border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <h3 style="font-size:15px;color:#5B8C51;margin:0 0 4px 0;">🎬 编导排名</h3>
+  <div id="directorStatus" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
+  <div id="directorCards" style="margin-bottom:14px;"></div>
+  <div id="directorTable" style="margin-bottom:14px;"></div>
+</div>
+
 <!-- BD 达人数据 -->
 <div id="bdSection" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
   <h3 style="font-size:15px;color:#A32D2D;margin:0 0 4px 0;">🤝 BD 达人视频数据</h3>
@@ -323,6 +331,14 @@ button:hover { background: #F0EDE6; }
 
 <!-- Person summary table -->
 <div id="personTableUK" style="margin-bottom:14px;"></div>
+
+<!-- 编导独立排名 (英国) -->
+<div id="directorSectionUK" style="border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <h3 style="font-size:15px;color:#5B8C51;margin:0 0 4px 0;">🎬 编导排名</h3>
+  <div id="directorStatusUK" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
+  <div id="directorCardsUK" style="margin-bottom:14px;"></div>
+  <div id="directorTableUK" style="margin-bottom:14px;"></div>
+</div>
 
 <!-- BD 达人数据 (英国) -->
 <div id="bdSectionUK" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
@@ -922,12 +938,22 @@ let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSumm
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
+let videoDirectorSummary = null; // 编导独立排名
 
 loadVideoData();
 
 function cleanName(n) {
   if (!n) return '';
   return n.replace(/[\s\u3000]+/g, ' ').trim();
+}
+
+function isCurrentMonth(dateStr) {
+  // Robustly extract year+month from date strings like "2026-05-15", "2026/5/15", "2026-05-15 10:30:00"
+  if (!dateStr) return false;
+  var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
+  if (!m) return false;
+  var now = new Date();
+  return parseInt(m[1]) === now.getFullYear() && parseInt(m[2]) === (now.getMonth() + 1);
 }
 
 function switchTab(tab) {
@@ -949,6 +975,7 @@ function loadVideoData() {
       videoJoined = saved.joined || null;
       videoPersonSummary = saved.summary || null;
       videoBdSummary = saved.bdSummary || null;
+      videoDirectorSummary = saved.directorSummary || null;
       editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUS = saved.personStatus || {};
       if (videoAdData) {
@@ -959,7 +986,10 @@ function loadVideoData() {
         document.getElementById('mapUploadBox').classList.add('has-file');
         document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
       }
-      if (videoPersonSummary) { renderVideoTab(); renderMappingPanel(); }
+      // Auto-recompute if old cached data is missing new fields (account/isBrand/date on joined rows)
+      var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      if (needRecompute) { processJoin(); }
+      else if (videoPersonSummary) { renderVideoTab(); renderMappingPanel(); }
       document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
     }
   } catch(e) {}
@@ -971,6 +1001,7 @@ function saveVideoData() {
       adData: videoAdData, mapping: videoMapping,
       joined: videoJoined, summary: videoPersonSummary,
       bdSummary: videoBdSummary,
+      directorSummary: videoDirectorSummary,
       editedMapping: editedMapping, personStatus: personStatusUS
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
@@ -979,6 +1010,7 @@ function saveVideoData() {
       localStorage.setItem(VID_STORAGE, JSON.stringify({
         adData: null, mapping: null, joined: null, summary: videoPersonSummary,
         bdSummary: videoBdSummary,
+        directorSummary: videoDirectorSummary,
         editedMapping: editedMapping, personStatus: personStatusUS
       }));
     } catch(e2) {}
@@ -993,6 +1025,7 @@ function resetVideoData() {
   videoJoined = null;
   videoPersonSummary = null;
   videoBdSummary = null;
+  videoDirectorSummary = null;
   videoDetailFilter = null;
   videoBdDetailFilter = null;
   editedMapping = { vidToCloud: {}, cloudToPerson: {} };
@@ -1005,6 +1038,8 @@ function resetVideoData() {
   document.getElementById('videoStatus').textContent = '';
   document.getElementById('personCards').innerHTML = '';
   document.getElementById('personTable').innerHTML = '';
+  document.getElementById('directorCards').innerHTML = '';
+  document.getElementById('directorTable').innerHTML = '';
   document.getElementById('bdCards').innerHTML = '';
   document.getElementById('bdTable').innerHTML = '';
   document.getElementById('mappingPanel').style.display = 'none';
@@ -1037,7 +1072,7 @@ function handleAdDataUpload(input) {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
-        var vid = String(r['视频 ID'] || '');
+        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
         if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
         var acct = String(r['TikTok账号'] || '');
         return {
@@ -1075,8 +1110,8 @@ function handleMappingUpload(input) {
 
       var vidToCloud = {};
       sheet1Rows.forEach(function(r) {
-        var vid = String(r['视频 ID'] || '');
-        var cid = String(r['云视频id'] || '').replace(/\.0$/, '');
+        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
+        var cid = String(r['云视频id'] || '').replace(/\.0$/, '').trim();
         if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
           vidToCloud[vid.replace(/\.0$/, '')] = cid;
         }
@@ -1084,7 +1119,7 @@ function handleMappingUpload(input) {
 
       var cloudToPerson = {};
       onlineRows.forEach(function(r) {
-        var cid = String(r['成片ID'] || '').replace(/\.0$/, '');
+        var cid = String(r['成片ID'] || '').replace(/\.0$/, '').trim();
         var editor = cleanName(String(r['剪辑'] || ''));
         var director = cleanName(String(r['编导'] || ''));
         if (cid && cid !== 'nan' && (editor || director)) {
@@ -1187,6 +1222,32 @@ function processJoin() {
     };
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
+  // Director ranking (separate from editor, ranked by GMV)
+  var directorMap = {};
+  joined.forEach(function(r) {
+    if (!r.director) return;
+    var key = cleanName(r.director);
+    if (!directorMap[key]) {
+      directorMap[key] = { director: r.director, editors: new Set(), gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    directorMap[key].gmv += r.gmv;
+    directorMap[key].orders += r.orders;
+    directorMap[key].cost += r.cost;
+    directorMap[key].vidSet.add(r.vid);
+    if (r.editor) directorMap[key].editors.add(cleanName(r.editor));
+  });
+
+  videoDirectorSummary = Object.keys(directorMap).map(function(k) {
+    var p = directorMap[k];
+    return {
+      director: p.director, editors: Array.from(p.editors).join(', ') || '-',
+      gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
   saveVideoData();
   renderVideoTab();
   renderMappingPanel();
@@ -1201,20 +1262,24 @@ function renderVideoTab() {
   var matched = videoJoined.filter(function(r) { return r.editor; }).length;
   statusEl.textContent = '\u2705 ' + videoPersonSummary.length + ' 位剪辑/编导 | 总视频 ' + videoJoined.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoined.length*100).toFixed(1) + '%)';
 
+  function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+
+  // === 剪辑排名 (全部展示) ===
   var maxGmv = videoPersonSummary[0] ? videoPersonSummary[0].gmv : 1;
   var cards = document.getElementById('personCards');
-  cards.innerHTML = videoPersonSummary.slice(0, 10).map(function(p, i) {
+  cards.innerHTML = videoPersonSummary.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
     var isInactive = personStatusUS[p.editor] === 'inactive';
     var statusCls = isInactive ? 'inactive' : 'active';
     var statusText = isInactive ? '已离职' : '在职';
+    var m = medal(i);
     return '<div class="person-card' + (isInactive ? ' inactive' : '') + '" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
-      '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatus(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatus(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
-  }).join('') + (videoPersonSummary.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummary.length - 10) + ' 人</div>' : '');
+  }).join('');
 
   var tableEl = document.getElementById('personTable');
   tableEl.innerHTML = '<div style="overflow-x:auto;"><table style="min-width:750px;"><thead><tr style="background:#2B579A;color:#fff;">' +
@@ -1224,8 +1289,9 @@ function renderVideoTab() {
     '</tr></thead><tbody>' +
     videoPersonSummary.map(function(p, i) {
       var isInactive = personStatusUS[p.editor] === 'inactive';
+      var m = medal(i);
       return '<tr style="cursor:pointer;' + (isInactive ? 'opacity:0.5;' : '') + '" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
-        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td style="text-align:center;">' + (m ? m + ' ' : '') + (i+1) + '</td>' +
         '<td>' + p.editor + '</td>' +
         '<td><span class="status-badge ' + (isInactive ? 'inactive' : 'active') + '" onclick="event.stopPropagation();togglePersonStatus(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换">' + (isInactive ? '已离职' : '在职') + '</span></td>' +
         '<td>' + p.directors + '</td>' +
@@ -1253,6 +1319,8 @@ function renderVideoTab() {
 
   renderVideoDetail(videoDetailFilter);
 
+  // === 编导独立排名 ===
+  renderDirectorSection();
   // BD 达人数据渲染
   renderBdSection();
 }
@@ -1435,13 +1503,8 @@ function renderVideoDetail(filter) {
     document.getElementById('videoDetail').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
     return;
   }
-  var now = new Date();
-  var curMonth = now.getMonth();
-  var curYear = now.getFullYear();
   function isRecentHigh(dateStr, gmv, threshold) {
-    if (!dateStr || gmv < threshold) return false;
-    var d = new Date(dateStr);
-    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+    return gmv >= threshold && isCurrentMonth(dateStr);
   }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -1476,6 +1539,41 @@ function togglePersonStatus(editor) {
   renderMappingPanel();
 }
 
+// ====== 编导独立排名 (美国) ======
+function renderDirectorSection() {
+  if (!videoDirectorSummary || !videoDirectorSummary.length) { return; }
+  document.getElementById('directorStatus').textContent = '\u2705 ' + videoDirectorSummary.length + ' 位编导';
+  function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+  var maxGmv = videoDirectorSummary[0].gmv || 1;
+  document.getElementById('directorCards').innerHTML = videoDirectorSummary.map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    var m = medal(i);
+    return '<div class="person-card" onclick="renderVideoDetail(null)" style="min-width:200px;border-left:3px solid #5B8C51;">' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.director + '</div>' +
+      '<div class="pc-gmv" style="color:#5B8C51;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">剪辑: ' + p.editors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#5B8C51;"></div></div>' +
+      '</div>';
+  }).join('');
+  document.getElementById('directorTable').innerHTML = '<div style="overflow-x:auto;"><table style="min-width:700px;"><thead><tr style="background:#5B8C51;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">编导</th><th style="padding:6px 5px;">合作剪辑</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoDirectorSummary.map(function(p, i) {
+      var m = medal(i);
+      return '<tr>' +
+        '<td style="text-align:center;">' + (m ? m + ' ' : '') + (i+1) + '</td>' +
+        '<td>' + p.director + '</td><td>' + p.editors + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+}
+
 // ====== BD 达人数据渲染 (美国) ======
 function renderBdSection() {
   var section = document.getElementById('bdSection');
@@ -1486,11 +1584,13 @@ function renderBdSection() {
   section.style.display = '';
   document.getElementById('bdStatus').textContent = '\u2705 ' + videoBdSummary.length + ' 个达人账号 | ' + videoBdSummary.reduce(function(s,p){return s+p.videos;},0) + ' 条达人视频';
 
+  function bdMedal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
   var maxGmv = videoBdSummary[0].gmv || 1;
   document.getElementById('bdCards').innerHTML = videoBdSummary.slice(0, 10).map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
+    var m = bdMedal(i);
     return '<div class="person-card bd-card" onclick="renderBdDetail(\'' + p.account.replace(/'/g, "\\'") + '\')" style="min-width:200px;">' +
-      '<div class="pc-name">#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
       '<div class="pc-gmv" style="color:#A32D2D;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#A32D2D;"></div></div>' +
@@ -1538,13 +1638,8 @@ function renderBdDetail(filter) {
     document.getElementById('bdDetail').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无达人数据</div>';
     return;
   }
-  var now = new Date();
-  var curMonth = now.getMonth();
-  var curYear = now.getFullYear();
   function isRecentHigh(dateStr, gmv, threshold) {
-    if (!dateStr || gmv < threshold) return false;
-    var d = new Date(dateStr);
-    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+    return gmv >= threshold && isCurrentMonth(dateStr);
   }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -1575,6 +1670,7 @@ let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPers
 let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
+let videoDirectorSummaryUK = null; // 编导独立排名
 
 loadVideoDataUK();
 
@@ -1588,6 +1684,7 @@ function loadVideoDataUK() {
       videoJoinedUK = saved.joined || null;
       videoPersonSummaryUK = saved.summary || null;
       videoBdSummaryUK = saved.bdSummary || null;
+      videoDirectorSummaryUK = saved.directorSummary || null;
       editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUK = saved.personStatus || {};
       if (videoAdDataUK) {
@@ -1598,7 +1695,9 @@ function loadVideoDataUK() {
         document.getElementById('mapUploadBoxUK').classList.add('has-file');
         document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(videoMappingUK.cloudToPerson).length + ' 人（已缓存）';
       }
-      if (videoPersonSummaryUK) { renderVideoTabUK(); renderMappingPanelUK(); }
+      var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      if (needRecompute) { processJoinUK(); }
+      else if (videoPersonSummaryUK) { renderVideoTabUK(); renderMappingPanelUK(); }
       document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
     }
   } catch(e) {}
@@ -1610,6 +1709,7 @@ function saveVideoDataUK() {
       adData: videoAdDataUK, mapping: videoMappingUK,
       joined: videoJoinedUK, summary: videoPersonSummaryUK,
       bdSummary: videoBdSummaryUK,
+      directorSummary: videoDirectorSummaryUK,
       editedMapping: editedMappingUK, personStatus: personStatusUK
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
@@ -1618,6 +1718,7 @@ function saveVideoDataUK() {
       localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
         adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK,
         bdSummary: videoBdSummaryUK,
+        directorSummary: videoDirectorSummaryUK,
         editedMapping: editedMappingUK, personStatus: personStatusUK
       }));
     } catch(e2) {}
@@ -1632,6 +1733,7 @@ function resetVideoDataUK() {
   videoJoinedUK = null;
   videoPersonSummaryUK = null;
   videoBdSummaryUK = null;
+  videoDirectorSummaryUK = null;
   videoDetailFilterUK = null;
   videoBdDetailFilterUK = null;
   editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
@@ -1644,6 +1746,8 @@ function resetVideoDataUK() {
   document.getElementById('videoStatusUK').textContent = '';
   document.getElementById('personCardsUK').innerHTML = '';
   document.getElementById('personTableUK').innerHTML = '';
+  document.getElementById('directorCardsUK').innerHTML = '';
+  document.getElementById('directorTableUK').innerHTML = '';
   document.getElementById('bdCardsUK').innerHTML = '';
   document.getElementById('bdTableUK').innerHTML = '';
   document.getElementById('mappingPanelUK').style.display = 'none';
@@ -1665,7 +1769,7 @@ function handleAdDataUploadUK(input) {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
-        var vid = String(r['视频 ID'] || '');
+        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
         if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
         var acct = String(r['TikTok账号'] || '');
         return {
@@ -1703,8 +1807,8 @@ function handleMappingUploadUK(input) {
 
       var vidToCloud = {};
       sheet1Rows.forEach(function(r) {
-        var vid = String(r['视频 ID'] || '');
-        var cid = String(r['云视频id'] || '').replace(/\.0$/, '');
+        var vid = String(r['视频 ID'] || '').replace(/\.0$/, '').trim();
+        var cid = String(r['云视频id'] || '').replace(/\.0$/, '').trim();
         if (vid && cid && /^\d+$/.test(vid.replace(/\.0$/, ''))) {
           vidToCloud[vid.replace(/\.0$/, '')] = cid;
         }
@@ -1712,7 +1816,7 @@ function handleMappingUploadUK(input) {
 
       var cloudToPerson = {};
       onlineRows.forEach(function(r) {
-        var cid = String(r['成片ID'] || '').replace(/\.0$/, '');
+        var cid = String(r['成片ID'] || '').replace(/\.0$/, '').trim();
         var editor = cleanName(String(r['剪辑'] || ''));
         var director = cleanName(String(r['编导'] || ''));
         if (cid && cid !== 'nan' && (editor || director)) {
@@ -1812,6 +1916,32 @@ function processJoinUK() {
     };
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
+  // Director ranking (separate from editor)
+  var directorMap = {};
+  joined.forEach(function(r) {
+    if (!r.director) return;
+    var key = cleanName(r.director);
+    if (!directorMap[key]) {
+      directorMap[key] = { director: r.director, editors: new Set(), gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    directorMap[key].gmv += r.gmv;
+    directorMap[key].orders += r.orders;
+    directorMap[key].cost += r.cost;
+    directorMap[key].vidSet.add(r.vid);
+    if (r.editor) directorMap[key].editors.add(cleanName(r.editor));
+  });
+
+  videoDirectorSummaryUK = Object.keys(directorMap).map(function(k) {
+    var p = directorMap[k];
+    return {
+      director: p.director, editors: Array.from(p.editors).join(', ') || '-',
+      gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
   saveVideoDataUK();
   renderVideoTabUK();
   renderMappingPanelUK();
@@ -1826,20 +1956,24 @@ function renderVideoTabUK() {
   var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
   statusEl.textContent = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
 
+  function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+
+  // === 剪辑排名 (全部展示) ===
   var maxGmv = videoPersonSummaryUK[0] ? videoPersonSummaryUK[0].gmv : 1;
   var cards = document.getElementById('personCardsUK');
-  cards.innerHTML = videoPersonSummaryUK.slice(0, 10).map(function(p, i) {
+  cards.innerHTML = videoPersonSummaryUK.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
     var isInactive = personStatusUK[p.editor] === 'inactive';
     var statusCls = isInactive ? 'inactive' : 'active';
     var statusText = isInactive ? '已离职' : '在职';
+    var m = medal(i);
     return '<div class="person-card' + (isInactive ? ' inactive' : '') + '" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
-      '<div class="pc-name">#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatusUK(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatusUK(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
-  }).join('') + (videoPersonSummaryUK.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoPersonSummaryUK.length - 10) + ' 人</div>' : '');
+  }).join('');
 
   var tableEl = document.getElementById('personTableUK');
   tableEl.innerHTML = '<div style="overflow-x:auto;"><table style="min-width:750px;"><thead><tr style="background:#2B579A;color:#fff;">' +
@@ -1849,8 +1983,9 @@ function renderVideoTabUK() {
     '</tr></thead><tbody>' +
     videoPersonSummaryUK.map(function(p, i) {
       var isInactive = personStatusUK[p.editor] === 'inactive';
+      var m = medal(i);
       return '<tr style="cursor:pointer;' + (isInactive ? 'opacity:0.5;' : '') + '" onclick="renderVideoDetailUK(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
-        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td style="text-align:center;">' + (m ? m + ' ' : '') + (i+1) + '</td>' +
         '<td>' + p.editor + '</td>' +
         '<td><span class="status-badge ' + (isInactive ? 'inactive' : 'active') + '" onclick="event.stopPropagation();togglePersonStatusUK(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换">' + (isInactive ? '已离职' : '在职') + '</span></td>' +
         '<td>' + p.directors + '</td>' +
@@ -1878,8 +2013,42 @@ function renderVideoTabUK() {
 
   renderVideoDetailUK(videoDetailFilterUK);
 
-  // BD 达人数据渲染
+  renderDirectorSectionUK();
   renderBdSectionUK();
+}
+
+function renderDirectorSectionUK() {
+  if (!videoDirectorSummaryUK || !videoDirectorSummaryUK.length) { return; }
+  document.getElementById('directorStatusUK').textContent = '\u2705 ' + videoDirectorSummaryUK.length + ' 位编导';
+  function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+  var maxGmv = videoDirectorSummaryUK[0].gmv || 1;
+  document.getElementById('directorCardsUK').innerHTML = videoDirectorSummaryUK.map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    var m = medal(i);
+    return '<div class="person-card" style="min-width:200px;border-left:3px solid #5B8C51;">' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.director + '</div>' +
+      '<div class="pc-gmv" style="color:#5B8C51;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">剪辑: ' + p.editors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#5B8C51;"></div></div>' +
+      '</div>';
+  }).join('');
+  document.getElementById('directorTableUK').innerHTML = '<div style="overflow-x:auto;"><table style="min-width:700px;"><thead><tr style="background:#5B8C51;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">编导</th><th style="padding:6px 5px;">合作剪辑</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoDirectorSummaryUK.map(function(p, i) {
+      var m = medal(i);
+      return '<tr>' +
+        '<td style="text-align:center;">' + (m ? m + ' ' : '') + (i+1) + '</td>' +
+        '<td>' + p.director + '</td><td>' + p.editors + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
 }
 
 function toggleMapSectionUK(id) {
@@ -2045,13 +2214,8 @@ function renderVideoDetailUK(filter) {
     document.getElementById('videoDetailUK').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
     return;
   }
-  var now = new Date();
-  var curMonth = now.getMonth();
-  var curYear = now.getFullYear();
   function isRecentHigh(dateStr, gmv, threshold) {
-    if (!dateStr || gmv < threshold) return false;
-    var d = new Date(dateStr);
-    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+    return gmv >= threshold && isCurrentMonth(dateStr);
   }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -2096,11 +2260,13 @@ function renderBdSectionUK() {
   section.style.display = '';
   document.getElementById('bdStatusUK').textContent = '\u2705 ' + videoBdSummaryUK.length + ' 个达人账号 | ' + videoBdSummaryUK.reduce(function(s,p){return s+p.videos;},0) + ' 条达人视频';
 
+  function bdMedal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
   var maxGmv = videoBdSummaryUK[0].gmv || 1;
   document.getElementById('bdCardsUK').innerHTML = videoBdSummaryUK.slice(0, 10).map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
+    var m = bdMedal(i);
     return '<div class="person-card bd-card" onclick="renderBdDetailUK(\'' + p.account.replace(/'/g, "\\'") + '\')" style="min-width:200px;">' +
-      '<div class="pc-name">#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
+      '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
       '<div class="pc-gmv" style="color:#A32D2D;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#A32D2D;"></div></div>' +
@@ -2147,13 +2313,8 @@ function renderBdDetailUK(filter) {
     document.getElementById('bdDetailUK').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无达人数据</div>';
     return;
   }
-  var now = new Date();
-  var curMonth = now.getMonth();
-  var curYear = now.getFullYear();
   function isRecentHigh(dateStr, gmv, threshold) {
-    if (!dateStr || gmv < threshold) return false;
-    var d = new Date(dateStr);
-    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+    return gmv >= threshold && isCurrentMonth(dateStr);
   }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
