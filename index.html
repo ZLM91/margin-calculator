@@ -112,31 +112,83 @@ function calc(d, affRatio) {
   return { fee, comm, total, profit, margin };
 }
 
-function getSkuStrategy(r, share, allData, wavg) {
+function getSkuStrategy(r, share, d, wavg, affRatio) {
   let margin = r.margin;
   let sharePct = share * 100;
+  let price = parseFloat(d.price) || 0;
+  let cost = parseFloat(d.cost) || 0;
+  let logistics = parseFloat(d.logistics) || 0;
+  let pfRate = parseFloat(d.platform) / 100 || 0;
+  let cmRate = parseFloat(d.commission) / 100 || 0;
+  let extra = parseFloat(d.extra) || 0;
   let lines = [];
 
-  // SKU利润率判断
-  if (margin >= 0.30) {
-    if (sharePct < 10) lines.push('<span style="color:#0F6E56;font-weight:500;">🚀 高利润低占比</span>，加大推广可拉升综合毛利率');
-    else if (sharePct < 25) lines.push('<span style="color:#0F6E56;font-weight:500;">📈 高利润品</span>，建议提升销售占比');
-    else lines.push('<span style="color:#0F6E56;font-weight:500;">✅ 核心利润品</span>，维持当前占比');
-  } else if (margin >= 0.15) {
-    if (sharePct >= 25) lines.push('<span style="color:#B45309;font-weight:500;">⚠️ 中利润高占比</span>，考虑优化成本或适当提价');
-    else if (sharePct < 10) lines.push('<span style="color:#666;">📊 中利润低占比</span>，可适度推广测试');
-    else lines.push('<span style="color:#666;">📊 中利润品</span>，观察成本变化趋势');
-  } else {
-    if (sharePct >= 25) lines.push('<span style="color:#A32D2D;font-weight:500;">🔻 低利润高占比</span>，紧急优化成本或考虑淘汰');
-    else if (sharePct >= 10) lines.push('<span style="color:#A32D2D;">❗ 低利润品</span>，控制占比，优先降本');
-    else lines.push('<span style="color:#A32D2D;">🗑️ 低利润低占比</span>，考虑淘汰或重新定价');
+  // ===== 1. 诊断标签 =====
+  let diag = { color: '#0F6E56', icon: '✅', label: '核心利润品' };
+  if (margin >= 0.35 && sharePct < 15)      diag = { color: '#0F6E56', icon: '🚀', label: '高利润潜力品' };
+  else if (margin >= 0.35 && sharePct >= 15) diag = { color: '#0F6E56', icon: '⭐', label: '超级利润品' };
+  else if (margin >= 0.28 && margin < 0.35)  diag = { color: '#1A7BBF', icon: '📈', label: '健康利润品' };
+  else if (margin >= 0.22 && margin < 0.28  && sharePct >= 25) diag = { color: '#B45309', icon: '⚡', label: '中等利润·高占比需优化' };
+  else if (margin >= 0.22 && margin < 0.28)  diag = { color: '#1A7BBF', icon: '📊', label: '中等利润品' };
+  else if (margin >= 0.15 && margin < 0.22)  diag = { color: '#D97026', icon: '⚠️', label: '薄利品·优先降本' };
+  else if (margin < 0.15)                    diag = { color: '#A32D2D', icon: '🔴', label: '极薄利·紧急处理' };
+  lines.push('<b style="color:' + diag.color + '">' + diag.icon + ' ' + diag.label + '</b>');
+
+  // ===== 2. 定价路径（精确计算） =====
+  if (price > 0 && sharePct >= 10 && margin < 0.32) {
+    let scenarios = margin < 0.20 ? [0.10, 0.18] : [0.05, 0.12];
+    let found = false;
+    for (let h of scenarios) {
+      let np = +(price * (1 + h)).toFixed(2);
+      let fee = np * pfRate;
+      let comm = np * cmRate * affRatio;
+      let totalNew = cost + logistics + fee + comm + extra;
+      let newMargin = (np - totalNew) / np;
+      if (newMargin >= 0.28 && !found) {
+        lines.push('<span style="color:#0F6E56;">💰 提价' + (h*100).toFixed(0) + '%→£' + np.toFixed(2) + ' 毛利率→' + (newMargin*100).toFixed(1) + '%</span>');
+        found = true;
+      }
+    }
+    if (!found && margin < 0.25) {
+      lines.push('<span style="color:#B45309;">💰 纯提价难以达到28%毛利率，需配合降本</span>');
+    }
+  } else if (margin >= 0.32 && sharePct >= 25) {
+    lines.push('<span style="color:#0F6E56;">💰 定价健康，保持价格锚点稳定</span>');
   }
 
-  // 与综合毛利率对比
-  if (margin < wavg && sharePct >= 15) {
-    lines.push('<span style="color:#B45309;">拉低综合毛利率 ' + ((wavg - margin) * 100).toFixed(1) + 'pp</span>');
-  } else if (margin > wavg && sharePct < 10) {
-    lines.push('<span style="color:#0F6E56;">高于均值 ' + ((margin - wavg) * 100).toFixed(1) + 'pp，提升占比可获益</span>');
+  // ===== 3. 成本结构拆解 =====
+  let priceBase = Math.max(price, r.total + r.profit, 1);
+  let costShare = ((cost + logistics) / priceBase * 100).toFixed(0);
+  let feeShare = (r.fee / priceBase * 100).toFixed(0);
+  let commShare = (r.comm / priceBase * 100).toFixed(0);
+  
+  // 找出最大成本项
+  let items = [
+    { name: '产品+物流', pct: parseFloat(costShare) },
+    { name: '平台扣点', pct: parseFloat(feeShare) },
+    { name: '达人佣金', pct: parseFloat(commShare) }
+  ];
+  items.sort((a,b) => b.pct - a.pct);
+  if (items[0].pct > 30) {
+    lines.push('<span style="color:#A32D2D;">📊 最大成本：' + items[0].name + '占' + items[0].pct + '% → 优先优化此项</span>');
+  }
+  if (logistics / Math.max(price,1) > 0.25 && sharePct >= 15) {
+    lines.push('<span style="color:#D97026;">🚚 物流占比' + (logistics/price*100).toFixed(0) + '%偏高，考虑海外仓或集中发货</span>');
+  }
+
+  // ===== 4. 占比策略 =====
+  if (margin < wavg - 0.03 && sharePct >= 20) {
+    let target = (sharePct * 0.7).toFixed(0);
+    lines.push('<span style="color:#B45309;">📉 拖累综合' + ((wavg-margin)*100).toFixed(1) + 'pp，建议占比→' + target + '%以内</span>');
+  } else if (margin > wavg + 0.03 && sharePct < 12) {
+    lines.push('<span style="color:#0F6E56;">📈 高于均值' + ((margin-wavg)*100).toFixed(1) + 'pp，扩大推广可拉升整体</span>');
+  }
+
+  // ===== 5. 套装/捆绑建议 =====
+  if (margin >= 0.25 && sharePct < 20) {
+    lines.push('<span style="color:#1A7BBF;">📦 考虑×2/×3套装，摊薄单件物流，毛利率可再提升2-4pp</span>');
+  } else if (sharePct >= 30 && margin < 0.28) {
+    lines.push('<span style="color:#1A7BBF;">📦 用套装变相提价：2-pack £' + (price*1.7).toFixed(2) + '，客单价提升70%</span>');
   }
 
   return lines.join('<br>') || '<span style="color:#999;">—</span>';
@@ -144,43 +196,80 @@ function getSkuStrategy(r, share, allData, wavg) {
 
 function getGlobalStrategy(rows, affRatio, wavg) {
   let items = [];
+  let dataArr = rows.map(r => r.d);
   
-  // 达人占比策略
+  // ===== 1. 达人占比深度分析 =====
+  items.push('<div style="font-weight:500;color:#2B579A;margin-bottom:2px;">📊 达人 vs 自播 结构分析</div>');
   if (affRatio > 0.7) {
-    items.push('<div style="color:#B45309;">⚠️ 达人占比' + (affRatio*100).toFixed(0) + '%偏高，达人佣金压缩利润，提升自播/素材占比可提高 ' + ((affRatio-0.3)*5).toFixed(1) + '% 毛利率</div>');
+    let noAffWavg = 0, noAffSum = 0;
+    rows.forEach(r => {
+      let p = parseFloat(r.d.price) || 0;
+      let c = parseFloat(r.d.cost) || 0;
+      let l = parseFloat(r.d.logistics) || 0;
+      let pf = parseFloat(r.d.platform)/100 || 0;
+      let ex = parseFloat(r.d.extra) || 0;
+      let total0 = c + l + p*pf + ex;
+      let m0 = p > 0 ? (p - total0) / p : 0;
+      noAffWavg += m0 * r.sh;
+      noAffSum += r.sh;
+    });
+    let noAffW = noAffSum > 0 ? noAffWavg : 0;
+    items.push('<div style="color:#B45309;">⚠️ 达人占比'+(affRatio*100).toFixed(0)+'%偏高，达人佣金年化成本约 '+(affRatio*100*0.05).toFixed(1)+'%</div>');
+    items.push('<div style="color:#0F6E56;">若达人占比降至50%，综合毛利率从'+(wavg*100).toFixed(1)+'% → '+(noAffW*100).toFixed(1)+'%</div>');
+    items.push('<div style="color:#666;">💡 优先将高利润SKU转为自播/素材，低利润SKU用达人冲量</div>');
   } else if (affRatio < 0.2) {
-    items.push('<div style="color:#0F6E56;">💡 达人占比' + (affRatio*100).toFixed(0) + '%偏低，可适度增加达人合作扩大销量</div>');
+    items.push('<div style="color:#1A7BBF;">💡 达人占比仅'+(affRatio*100).toFixed(0)+'%，达人渠道利用不足</div>');
+    items.push('<div style="color:#666;">适度增加达人合作可扩大曝光，注意控制在高利润SKU上投放</div>');
   } else {
-    items.push('<div style="color:#0F6E56;">✅ 达人/自播比例合理（' + (affRatio*100).toFixed(0) + '/' + ((1-affRatio)*100).toFixed(0) + '）</div>');
+    items.push('<div style="color:#0F6E56;">✅ 达人/自播比例'+(affRatio*100).toFixed(0)+'/'+((1-affRatio)*100).toFixed(0)+'，结构合理</div>');
   }
 
-  // 综合毛利率评估
+  // ===== 2. 跨SKU捆绑方案 =====
+  items.push('<div style="font-weight:500;color:#2B579A;margin-top:8px;margin-bottom:2px;">📦 跨SKU捆绑策略</div>');
+  let highMarginSkus = rows.filter(r => r.r.margin >= 0.28);
+  let lowMarginSkus = rows.filter(r => r.r.margin < 0.28);
+  if (highMarginSkus.length >= 2) {
+    let pair = highMarginSkus.slice(0,2);
+    let bundlePrice = pair.reduce((s,r) => s + parseFloat(r.d.price), 0) * 0.85;
+    items.push('<div style="color:#0F6E56;">套装方案：' + pair[0].d.sku + ' + ' + pair[1].d.sku + ' 捆绑价£' + bundlePrice.toFixed(2) + '（85折），物流成本共享提升利润</div>');
+  }
+  if (highMarginSkus.length >= 1 && lowMarginSkus.length >= 1) {
+    items.push('<div style="color:#1A7BBF;">🎯 用' + highMarginSkus[0].d.sku + '带' + lowMarginSkus[0].d.sku + '：组合套装以高利润品补贴低利润品引流</div>');
+  }
+
+  // ===== 3. 综合毛利率诊断 =====
+  items.push('<div style="font-weight:500;color:#2B579A;margin-top:8px;margin-bottom:2px;">📈 综合健康度</div>');
   if (wavg < 0.20) {
-    items.push('<div style="color:#A32D2D;">🔴 综合毛利率' + (wavg*100).toFixed(1) + '%偏低，系统性优化成本或提价</div>');
-  } else if (wavg < 0.30) {
-    items.push('<div style="color:#B45309;">🟡 综合毛利率' + (wavg*100).toFixed(1) + '%中等，关注达人占比和SKU结构</div>');
+    items.push('<div style="color:#A32D2D;">🔴 综合毛利率'+(wavg*100).toFixed(1)+'%低于20%警戒线，建议：①优化物流成本 ②提升高利润SKU占比 ③降低达人佣金</div>');
+  } else if (wavg < 0.28) {
+    items.push('<div style="color:#B45309;">🟡 综合毛利率'+(wavg*100).toFixed(1)+'%处于行业中游，目标30%：优先提升FA系列套装占比</div>');
   } else {
-    items.push('<div style="color:#0F6E56;">🟢 综合毛利率' + (wavg*100).toFixed(1) + '%健康</div>');
+    items.push('<div style="color:#0F6E56;">🟢 综合毛利率'+(wavg*100).toFixed(1)+'%健康，当前重点：维持利润结构，扩大规模</div>');
   }
 
-  // 找出毛利率最高&最低的SKU
-  let maxM = rows.reduce((a,b)=>a.r.margin>b.r.margin?a:b);
-  let minM = rows.reduce((a,b)=>a.r.margin<b.r.margin?a:b);
-  if (maxM !== minM && maxM.r.margin - minM.r.margin > 0.05) {
-    items.push('<div style="color:#666;">📐 ' + maxM.d.sku + '毛利率最高(' + (maxM.r.margin*100).toFixed(1) + '%)，' + minM.d.sku + '最低(' + (minM.r.margin*100).toFixed(1) + '%)，差距' + ((maxM.r.margin-minM.r.margin)*100).toFixed(1) + 'pp</div>');
-  }
-
-  // 机会SKU（高利润低占比）
-  let opp = rows.filter(r => r.r.margin > wavg && r.sh < 0.15);
-  if (opp.length > 0) {
-    items.push('<div style="color:#0F6E56;font-weight:500;">🎯 机会SKU：' + opp.map(r=>r.d.sku).join('、') + ' —— 提升占比可直接拉升综合毛利率</div>');
-  }
-
-  // 风险SKU（低利润高占比）
-  let risk = rows.filter(r => r.r.margin < wavg && r.sh > 0.20);
-  if (risk.length > 0) {
-    items.push('<div style="color:#A32D2D;font-weight:500;">⚠️ 风险SKU：' + risk.map(r=>r.d.sku).join('、') + ' —— 低利润高占比拉低整体，优先降本</div>');
-  }
+  // ===== 4. 行动优先级 =====
+  items.push('<div style="font-weight:500;color:#2B579A;margin-top:8px;margin-bottom:2px;">🎯 行动优先级排序</div>');
+  let actions = [];
+  
+  // 检查是否需要降物流
+  let avgLogisticsRatio = rows.reduce((s,r) => s + parseFloat(r.d.logistics)/(parseFloat(r.d.price)||1), 0) / rows.length;
+  if (avgLogisticsRatio > 0.25) actions.push('P1：优化物流成本（当前占售价'+(avgLogisticsRatio*100).toFixed(0)+'%）');
+  
+  // 检查高利润低占比SKU
+  let opp = rows.filter(r => r.r.margin > wavg + 0.02 && r.sh < 0.12);
+  if (opp.length > 0) actions.push('P1：提升' + opp.map(r=>r.d.sku).join('、') + '销售占比');
+  
+  // 检查低利润高占比
+  let risk = rows.filter(r => r.r.margin < wavg - 0.02 && r.sh > 0.20);
+  if (risk.length > 0) actions.push('P1：控制' + risk.map(r=>r.d.sku).join('、') + '占比或优化成本');
+  
+  if (affRatio > 0.6 && wavg < 0.28) actions.push('P2：降低达人占比至50%，预计提升毛利率' + ((affRatio-0.5)*2.5).toFixed(1) + 'pp');
+  
+  if (rows.length >= 3) actions.push('P2：测试2-SKU捆绑套装，提升客单价和综合利润');
+  
+  if (actions.length === 0) actions.push('✅ 当前各项指标健康，可维持现有策略');
+  
+  items.push('<div style="color:#333;">' + actions.map((a,i) => (i+1) + '. ' + a).join('<br>') + '</div>');
 
   return items.join('');
 }
@@ -255,7 +344,7 @@ function render() {
       <td style="padding:6px;text-align:center;font-weight:500;font-size:13px;color:${row.r.profit >= 0 ? '#0F6E56' : '#A32D2D'};">${fmoney(row.r.profit)}</td>
       <td style="padding:6px;text-align:center;font-weight:500;background:${mbg};border-radius:4px;font-size:13px;">${fpct(row.r.margin)}</td>
       <td style="padding:6px;text-align:center;font-weight:500;font-size:13px;color:#A32D2D;">${row.r.margin > 0 ? (1 / row.r.margin).toFixed(2) : '--'}</td>
-      <td style="padding:6px 8px;font-size:11px;line-height:1.5;">${getSkuStrategy(row.r, row.sh, data, wavg)}</td>
+      <td style="padding:6px 8px;font-size:11px;line-height:1.5;">${getSkuStrategy(row.r, row.sh, row.d, wavg, affRatio)}</td>
     </tr>`;
   }).join('');
 
