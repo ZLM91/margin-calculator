@@ -207,7 +207,7 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
-  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoData()">🗑 重置</button>
+  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoData()">🗑 重置数据</button> <button class="reset-btn" onclick="resetMappingData()" style="margin-left:4px;">🗑 重置映射</button>
 </p>
 
 <div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
@@ -253,9 +253,27 @@ button:hover { background: #F0EDE6; }
   <div class="video-scroll" id="bdDetail"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
 </div>
 
+<!-- BD达人账号明细（全部非品牌账号，可排序） -->
+<div id="bdAllSection" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+    <span style="font-size:13px;font-weight:500;">📋 达人账号明细</span>
+    <span style="font-weight:400;font-size:11px;color:#888;" id="bdAllCount"></span>
+    <span style="font-size:10px;color:#888;">（点击列标题排序）</span>
+  </div>
+  <div class="video-scroll" id="bdAllDetail" style="max-height:600px;"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
+</div>
+
 <!-- Mapping Panel -->
 <div id="mappingPanel" style="display:none;">
-  <div style="font-size:13px;font-weight:500;margin-bottom:6px;">🔗 映射关系管理</div>
+  <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span>🔗 映射关系管理</span>
+    <button onclick="exportMappingCSV()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
+    <label style="cursor:pointer;font-size:11px;padding:2px 10px;border:1px solid #C4BFB5;border-radius:4px;background:#fff;">
+      📤 导入映射
+      <input type="file" accept=".csv,.xlsx" onchange="importMappingCSV(this)" style="display:none;">
+    </label>
+    <button class="reset-btn" onclick="resetMappingData()" style="font-size:11px;">🗑 重置映射</button>
+  </div>
 
   <!-- Unmapped alerts -->
   <div id="mapAlertSection" style="margin-bottom:10px;"></div>
@@ -324,7 +342,7 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
-  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatusUK" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoDataUK()">🗑 重置</button>
+  上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatusUK" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoDataUK()">🗑 重置数据</button> <button class="reset-btn" onclick="resetMappingDataUK()" style="margin-left:4px;">🗑 重置映射</button>
 </p>
 
 <div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
@@ -370,9 +388,27 @@ button:hover { background: #F0EDE6; }
   <div class="video-scroll" id="bdDetailUK"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
 </div>
 
+<!-- BD达人账号明细（英国） -->
+<div id="bdAllSectionUK" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+    <span style="font-size:13px;font-weight:500;">📋 达人账号明细</span>
+    <span style="font-weight:400;font-size:11px;color:#888;" id="bdAllCountUK"></span>
+    <span style="font-size:10px;color:#888;">（点击列标题排序）</span>
+  </div>
+  <div class="video-scroll" id="bdAllDetailUK" style="max-height:600px;"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
+</div>
+
 <!-- Mapping Panel -->
 <div id="mappingPanelUK" style="display:none;">
-  <div style="font-size:13px;font-weight:500;margin-bottom:6px;">🔗 映射关系管理</div>
+  <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span>🔗 映射关系管理</span>
+    <button onclick="exportMappingCSVUK()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
+    <label style="cursor:pointer;font-size:11px;padding:2px 10px;border:1px solid #C4BFB5;border-radius:4px;background:#fff;">
+      📤 导入映射
+      <input type="file" accept=".csv,.xlsx" onchange="importMappingCSVUK(this)" style="display:none;">
+    </label>
+    <button class="reset-btn" onclick="resetMappingDataUK()" style="font-size:11px;">🗑 重置映射</button>
+  </div>
 
   <!-- Unmapped alerts -->
   <div id="mapAlertSectionUK" style="margin-bottom:10px;"></div>
@@ -952,6 +988,7 @@ render();
 
 // ====== 视频数据 Tab (美国) ======
 const VID_STORAGE = 'maternella_video_data';
+const VID_MAP_KEY = 'maternella_video_mapping_us';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
@@ -959,7 +996,62 @@ let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
 let videoDirectorSummary = null; // 编导独立排名
 let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26日"
 
+function saveMappingData() {
+  try {
+    localStorage.setItem(VID_MAP_KEY, JSON.stringify({
+      mapping: videoMapping,
+      editedMapping: editedMapping,
+      personStatus: personStatusUS
+    }));
+  } catch(e) {}
+}
+
+function loadMappingData() {
+  try {
+    var raw = localStorage.getItem(VID_MAP_KEY);
+    if (raw) {
+      var saved = JSON.parse(raw);
+      videoMapping = saved.mapping || null;
+      editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
+      personStatusUS = saved.personStatus || {};
+      if (videoMapping) {
+        document.getElementById('mapUploadBox').classList.add('has-file');
+        document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
+      }
+    }
+  } catch(e) {}
+}
+
+function resetMappingData() {
+  if (!confirm('确定要清除所有人员映射关系吗？广告数据不受影响。')) return;
+  videoMapping = null;
+  editedMapping = { vidToCloud: {}, cloudToPerson: {} };
+  personStatusUS = {};
+  localStorage.removeItem(VID_MAP_KEY);
+  document.getElementById('mapUploadBox').classList.remove('has-file');
+  document.getElementById('mapUploadLabel').textContent = '上传人员映射表';
+  document.getElementById('videoStatus').textContent = '\u23F3 请上传人员映射表';
+  document.getElementById('personCards').innerHTML = '';
+  document.getElementById('personTable').innerHTML = '';
+  document.getElementById('directorCards').innerHTML = '';
+  document.getElementById('directorTable').innerHTML = '';
+  document.getElementById('bdCards').innerHTML = '';
+  document.getElementById('bdTable').innerHTML = '';
+  document.getElementById('mappingPanel').style.display = 'none';
+  document.getElementById('personFilter').innerHTML = '';
+  document.getElementById('bdFilter').innerHTML = '';
+  document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
+  document.getElementById('bdDetail').innerHTML = '';
+  document.getElementById('bdSection').style.display = 'none';
+  document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
+  document.getElementById('bdAllSection').style.display = 'none';
+  document.querySelector('#mapUploadBox input').value = '';
+  videoJoined = null; videoPersonSummary = null; videoBdSummary = null; videoDirectorSummary = null;
+  saveVideoData();
+}
+
 loadVideoData();
+loadMappingData();
 
 function cleanName(n) {
   if (!n) return '';
@@ -990,22 +1082,15 @@ function loadVideoData() {
     if (raw) {
       var saved = JSON.parse(raw);
       videoAdData = saved.adData || null;
-      videoMapping = saved.mapping || null;
       videoJoined = saved.joined || null;
       videoPersonSummary = saved.summary || null;
       videoBdSummary = saved.bdSummary || null;
       videoDirectorSummary = saved.directorSummary || null;
       videoDateRange = saved.dateRange || '';
-      editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
-      personStatusUS = saved.personStatus || {};
       showDateRange(videoDateRange);
       if (videoAdData) {
         document.getElementById('adUploadBox').classList.add('has-file');
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
-      }
-      if (videoMapping) {
-        document.getElementById('mapUploadBox').classList.add('has-file');
-        document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
       }
       // Auto-recompute if old cached data is missing new fields (account/isBrand/date on joined rows)
       var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
@@ -1019,22 +1104,20 @@ function loadVideoData() {
 function saveVideoData() {
   try {
     localStorage.setItem(VID_STORAGE, JSON.stringify({
-      adData: videoAdData, mapping: videoMapping,
+      adData: videoAdData,
       joined: videoJoined, summary: videoPersonSummary,
       bdSummary: videoBdSummary,
       directorSummary: videoDirectorSummary,
-      dateRange: videoDateRange,
-      editedMapping: editedMapping, personStatus: personStatusUS
+      dateRange: videoDateRange
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
     try {
       localStorage.setItem(VID_STORAGE, JSON.stringify({
-        adData: null, mapping: null, joined: null, summary: videoPersonSummary,
+        adData: null, joined: null, summary: videoPersonSummary,
         bdSummary: videoBdSummary,
         directorSummary: videoDirectorSummary,
-        dateRange: videoDateRange,
-        editedMapping: editedMapping, personStatus: personStatusUS
+        dateRange: videoDateRange
       }));
     } catch(e2) {}
     document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
@@ -1042,9 +1125,8 @@ function saveVideoData() {
 }
 
 function resetVideoData() {
-  if (!confirm('确定要重置美国站所有视频数据和映射关系吗？此操作不可撤销。')) return;
+  if (!confirm('确定要重置美国站广告数据吗？人员映射关系会保留。如需清除映射请点「重置映射」。')) return;
   videoAdData = null;
-  videoMapping = null;
   videoJoined = null;
   videoPersonSummary = null;
   videoBdSummary = null;
@@ -1053,13 +1135,9 @@ function resetVideoData() {
   showDateRange('');
   videoDetailFilter = null;
   videoBdDetailFilter = null;
-  editedMapping = { vidToCloud: {}, cloudToPerson: {} };
-  personStatusUS = {};
   localStorage.removeItem(VID_STORAGE);
   document.getElementById('adUploadBox').classList.remove('has-file');
   document.getElementById('adUploadLabel').textContent = '上传广告数据报表';
-  document.getElementById('mapUploadBox').classList.remove('has-file');
-  document.getElementById('mapUploadLabel').textContent = '上传人员映射表';
   document.getElementById('videoStatus').textContent = '';
   document.getElementById('personCards').innerHTML = '';
   document.getElementById('personTable').innerHTML = '';
@@ -1072,11 +1150,12 @@ function resetVideoData() {
   document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
   document.getElementById('bdDetail').innerHTML = '';
-  document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 已重置';
+  document.getElementById('bdSection').style.display = 'none';
+  document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 已重置广告数据';
   setTimeout(function() { document.getElementById('vidSaveStatus').textContent = ''; }, 2000);
-  // Also clear file inputs
   document.querySelector('#adUploadBox input').value = '';
-  document.querySelector('#mapUploadBox input').value = '';
+  document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
+  document.getElementById('bdAllSection').style.display = 'none';
 }
 
 function parseXlsxSheet(wb, name) {
@@ -1229,6 +1308,7 @@ function handleMappingUpload(input) {
       });
 
       videoMapping = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+      saveMappingData();
       document.getElementById('mapUploadBox').classList.add('has-file');
       document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人 (' + sheet1Count + '/' + sheet1Rows.length + ' 条视频映射)';
       document.getElementById('videoStatus').textContent = '\u2139\uFE0F Sheet1: ' + sheet1Rows.length + ' 行, 线上表格: ' + onlineRows.length + ' 行, 匹配: ' + sheet1Count + ' 条视频 -> ' + onlineCount + ' 个成片';
@@ -1547,6 +1627,7 @@ function saveSingleMapping(vid) {
     delete editedMapping.cloudToPerson[cloudId];
   }
 
+  saveMappingData();
   processJoin();
 
   // Show success
@@ -1565,6 +1646,7 @@ function saveCloudMapping(cid) {
     delete editedMapping.cloudToPerson[cid];
   }
 
+  saveMappingData();
   processJoin();
   document.getElementById('mapSaveMsg').textContent = '\u2705 已更新映射';
   setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 2000);
@@ -1591,6 +1673,7 @@ function saveEditedMappings() {
     }
   });
 
+  saveMappingData();
   processJoin();
   document.getElementById('mapSaveMsg').textContent = '\u2705 已保存并重新关联';
   setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 3000);
@@ -1637,7 +1720,7 @@ function renderVideoDetail(filter) {
 
 function togglePersonStatus(editor) {
   personStatusUS[editor] = (personStatusUS[editor] === 'inactive') ? 'active' : 'inactive';
-  saveVideoData();
+  saveMappingData();
   renderVideoTab();
   renderMappingPanel();
 }
@@ -1727,6 +1810,7 @@ function renderBdSection() {
     }).join('');
 
   renderBdDetail(videoBdDetailFilter);
+  renderBdAllDetail();
 }
 
 function renderBdDetail(filter) {
@@ -1767,8 +1851,150 @@ function renderBdDetail(filter) {
   document.getElementById('bdDetail').innerHTML = html;
 }
 
+// ====== 映射导出/导入 (美国) ======
+function exportMappingCSV() {
+  var effective = getEffectiveMapping();
+  // Build account lookup from adData
+  var acctLookup = {};
+  if (videoAdData) {
+    videoAdData.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
+  }
+  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
+  var added = {};
+  // Export vidToCloud entries
+  for (var vid in effective.vidToCloud) {
+    var cid = effective.vidToCloud[vid];
+    var p = effective.cloudToPerson[cid] || {};
+    rows.push([vid, cid, acctLookup[vid] || '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    added[vid] = true;
+  }
+  // Also export cloudToPerson entries that don't have vidToCloud entry
+  for (var cid in effective.cloudToPerson) {
+    // Check if any vid maps to this cid
+    var hasVid = false;
+    for (var v in effective.vidToCloud) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
+    if (!hasVid) {
+      var p = effective.cloudToPerson[cid];
+      rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    }
+  }
+  var csv = rows.join('\n');
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'mapping_export_us.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importMappingCSV(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = e.target.result;
+      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+      if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
+      var headers = lines[0].split(',').map(function(h) { return h.replace(/"/g, '').trim(); });
+      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
+      var addedVid = 0, addedCid = 0;
+      for (var i = 1; i < lines.length; i++) {
+        var vals = parseCSVLine(lines[i]);
+        var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
+        var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
+        var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
+        var director = cleanName(col.director >= 0 ? vals[col.director] : '');
+        if (!cid) continue;
+        if (vid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
+        if (editor || director) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+      }
+      saveMappingData();
+      alert('\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射');
+      if (videoAdData) { processJoin(); }
+    } catch(err) { alert('\u274C 导入失败: ' + err.message); }
+  };
+  reader.readAsText(file);
+}
+
+function parseCSVLine(line) {
+  var result = [];
+  var current = '';
+  var inQuotes = false;
+  for (var i = 0; i < line.length; i++) {
+    var ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = false; }
+      } else { current += ch; }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { result.push(current); current = ''; }
+      else { current += ch; }
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ====== BD达人账号明细（全部非品牌账号，可点击列头排序）======
+var bdAllSortBy = 'gmv', bdAllSortDir = 'desc'; // sort state
+
+function renderBdAllDetail(sortBy, sortDir) {
+  if (sortBy) { bdAllSortBy = sortBy; bdAllSortDir = sortDir || (bdAllSortBy === sortBy ? (bdAllSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
+  var section = document.getElementById('bdAllSection');
+  if (!videoJoined) { section.style.display = 'none'; return; }
+  var data = videoJoined.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
+  if (!data.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  document.getElementById('bdAllCount').textContent = '共 ' + data.length + ' 条记录';
+
+  var sortKey = bdAllSortBy;
+  var dir = bdAllSortDir;
+  data.sort(function(a, b) {
+    var va, vb;
+    if (sortKey === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sortKey === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sortKey === 'views') { va = a.views || 0; vb = b.views || 0; }
+    else if (sortKey === 'date') { va = a.date || ''; vb = b.date || ''; }
+    else if (sortKey === 'account') { va = (a.account || '').toLowerCase(); vb = (b.account || '').toLowerCase(); }
+    else if (sortKey === 'roi') { va = a.roi || 0; vb = b.roi || 0; }
+    else if (sortKey === 'cost') { va = a.cost; vb = b.cost; }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return dir === 'asc' ? va - vb : vb - va;
+  });
+
+  function th(label, key) {
+    var arrow = (bdAllSortBy === key) ? (bdAllSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
+    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetail(\'' + key + '\')">' + label + arrow + '</th>';
+  }
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr style="background:#A32D2D;color:#fff;">' +
+    '<th style="padding:6px 5px;">视频ID</th><th style="padding:6px 5px;">标题</th>' +
+    th('账号', 'account') + th('GMV', 'gmv') + th('订单', 'orders') + th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') + th('日期', 'date') +
+    '</tr></thead><tbody>' +
+    data.map(function(r) {
+      var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
+      var trStyle = isHigh ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.account || '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  document.getElementById('bdAllDetail').innerHTML = html;
+}
+
 // ====== 英国站 视频数据 Tab ======
 const VID_STORAGE_UK = 'maternella_video_data_uk';
+const VID_MAP_KEY_UK = 'maternella_video_mapping_uk';
 let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPersonSummaryUK = null, videoDetailFilterUK = null;
 let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
@@ -1776,7 +2002,62 @@ let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
 let videoDirectorSummaryUK = null; // 编导独立排名
 let videoDateRangeUK = ''; // 日期范围
 
+function saveMappingDataUK() {
+  try {
+    localStorage.setItem(VID_MAP_KEY_UK, JSON.stringify({
+      mapping: videoMappingUK,
+      editedMapping: editedMappingUK,
+      personStatus: personStatusUK
+    }));
+  } catch(e) {}
+}
+
+function loadMappingDataUK() {
+  try {
+    var raw = localStorage.getItem(VID_MAP_KEY_UK);
+    if (raw) {
+      var saved = JSON.parse(raw);
+      videoMappingUK = saved.mapping || null;
+      editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
+      personStatusUK = saved.personStatus || {};
+      if (videoMappingUK) {
+        document.getElementById('mapUploadBoxUK').classList.add('has-file');
+        document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(videoMappingUK.cloudToPerson).length + ' 人（已缓存）';
+      }
+    }
+  } catch(e) {}
+}
+
+function resetMappingDataUK() {
+  if (!confirm('确定要清除英国站所有人员映射关系吗？广告数据不受影响。')) return;
+  videoMappingUK = null;
+  editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
+  personStatusUK = {};
+  localStorage.removeItem(VID_MAP_KEY_UK);
+  document.getElementById('mapUploadBoxUK').classList.remove('has-file');
+  document.getElementById('mapUploadLabelUK').textContent = '上传人员映射表';
+  document.getElementById('videoStatusUK').textContent = '\u23F3 请上传人员映射表';
+  document.getElementById('personCardsUK').innerHTML = '';
+  document.getElementById('personTableUK').innerHTML = '';
+  document.getElementById('directorCardsUK').innerHTML = '';
+  document.getElementById('directorTableUK').innerHTML = '';
+  document.getElementById('bdCardsUK').innerHTML = '';
+  document.getElementById('bdTableUK').innerHTML = '';
+  document.getElementById('mappingPanelUK').style.display = 'none';
+  document.getElementById('personFilterUK').innerHTML = '';
+  document.getElementById('bdFilterUK').innerHTML = '';
+  document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
+  document.getElementById('bdDetailUK').innerHTML = '';
+  document.getElementById('bdSectionUK').style.display = 'none';
+  document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
+  document.getElementById('bdAllSectionUK').style.display = 'none';
+  document.querySelector('#mapUploadBoxUK input').value = '';
+  videoJoinedUK = null; videoPersonSummaryUK = null; videoBdSummaryUK = null; videoDirectorSummaryUK = null;
+  saveVideoDataUK();
+}
+
 loadVideoDataUK();
+loadMappingDataUK();
 
 function loadVideoDataUK() {
   try {
@@ -1784,22 +2065,15 @@ function loadVideoDataUK() {
     if (raw) {
       var saved = JSON.parse(raw);
       videoAdDataUK = saved.adData || null;
-      videoMappingUK = saved.mapping || null;
       videoJoinedUK = saved.joined || null;
       videoPersonSummaryUK = saved.summary || null;
       videoBdSummaryUK = saved.bdSummary || null;
       videoDirectorSummaryUK = saved.directorSummary || null;
       videoDateRangeUK = saved.dateRange || '';
-      editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
-      personStatusUK = saved.personStatus || {};
       showDateRangeUK(videoDateRangeUK);
       if (videoAdDataUK) {
         document.getElementById('adUploadBoxUK').classList.add('has-file');
         document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
-      }
-      if (videoMappingUK) {
-        document.getElementById('mapUploadBoxUK').classList.add('has-file');
-        document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(videoMappingUK.cloudToPerson).length + ' 人（已缓存）';
       }
       var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
       if (needRecompute) { processJoinUK(); }
@@ -1812,22 +2086,20 @@ function loadVideoDataUK() {
 function saveVideoDataUK() {
   try {
     localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
-      adData: videoAdDataUK, mapping: videoMappingUK,
+      adData: videoAdDataUK,
       joined: videoJoinedUK, summary: videoPersonSummaryUK,
       bdSummary: videoBdSummaryUK,
       directorSummary: videoDirectorSummaryUK,
-      dateRange: videoDateRangeUK,
-      editedMapping: editedMappingUK, personStatus: personStatusUK
+      dateRange: videoDateRangeUK
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
     try {
       localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
-        adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK,
+        adData: null, joined: null, summary: videoPersonSummaryUK,
         bdSummary: videoBdSummaryUK,
         directorSummary: videoDirectorSummaryUK,
-        dateRange: videoDateRangeUK,
-        editedMapping: editedMappingUK, personStatus: personStatusUK
+        dateRange: videoDateRangeUK
       }));
     } catch(e2) {}
     document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
@@ -1835,9 +2107,8 @@ function saveVideoDataUK() {
 }
 
 function resetVideoDataUK() {
-  if (!confirm('确定要重置英国站所有视频数据和映射关系吗？此操作不可撤销。')) return;
+  if (!confirm('确定要重置英国站广告数据吗？人员映射关系会保留。如需清除映射请点「重置映射」。')) return;
   videoAdDataUK = null;
-  videoMappingUK = null;
   videoJoinedUK = null;
   videoPersonSummaryUK = null;
   videoBdSummaryUK = null;
@@ -1846,13 +2117,9 @@ function resetVideoDataUK() {
   showDateRangeUK('');
   videoDetailFilterUK = null;
   videoBdDetailFilterUK = null;
-  editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
-  personStatusUK = {};
   localStorage.removeItem(VID_STORAGE_UK);
   document.getElementById('adUploadBoxUK').classList.remove('has-file');
   document.getElementById('adUploadLabelUK').textContent = '上传广告数据报表';
-  document.getElementById('mapUploadBoxUK').classList.remove('has-file');
-  document.getElementById('mapUploadLabelUK').textContent = '上传人员映射表';
   document.getElementById('videoStatusUK').textContent = '';
   document.getElementById('personCardsUK').innerHTML = '';
   document.getElementById('personTableUK').innerHTML = '';
@@ -1865,10 +2132,12 @@ function resetVideoDataUK() {
   document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
   document.getElementById('bdDetailUK').innerHTML = '';
-  document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 已重置';
+  document.getElementById('bdSectionUK').style.display = 'none';
+  document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
+  document.getElementById('bdAllSectionUK').style.display = 'none';
+  document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 已重置广告数据';
   setTimeout(function() { document.getElementById('vidSaveStatusUK').textContent = ''; }, 2000);
   document.querySelector('#adUploadBoxUK input').value = '';
-  document.querySelector('#mapUploadBoxUK input').value = '';
 }
 
 function handleAdDataUploadUK(input) {
@@ -1964,6 +2233,7 @@ function handleMappingUploadUK(input) {
       });
 
       videoMappingUK = { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+      saveMappingDataUK();
       document.getElementById('mapUploadBoxUK').classList.add('has-file');
       document.getElementById('mapUploadLabelUK').textContent = '\u2705 人员映射: ' + Object.keys(cloudToPerson).length + ' 人 (' + sheet1Count + '/' + sheet1Rows.length + ' 条视频映射)';
       document.getElementById('videoStatusUK').textContent = '\u2139\uFE0F Sheet1: ' + sheet1Rows.length + ' 行, 线上表格: ' + onlineRows.length + ' 行, 匹配: ' + sheet1Count + ' 条视频 -> ' + onlineCount + ' 个成片';
@@ -2303,6 +2573,7 @@ function saveSingleMappingUK(vid) {
     delete editedMappingUK.cloudToPerson[cloudId];
   }
 
+  saveMappingDataUK();
   processJoinUK();
   document.getElementById('mapSaveMsgUK').textContent = '\u2705 已更新，正在重新关联...';
   setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 2000);
@@ -2318,6 +2589,7 @@ function saveCloudMappingUK(cid) {
     delete editedMappingUK.cloudToPerson[cid];
   }
 
+  saveMappingDataUK();
   processJoinUK();
   document.getElementById('mapSaveMsgUK').textContent = '\u2705 已更新映射';
   setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 2000);
@@ -2340,6 +2612,7 @@ function saveEditedMappingsUK() {
     }
   });
 
+  saveMappingDataUK();
   processJoinUK();
   document.getElementById('mapSaveMsgUK').textContent = '\u2705 已保存并重新关联';
   setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 3000);
@@ -2386,7 +2659,7 @@ function renderVideoDetailUK(filter) {
 
 function togglePersonStatusUK(editor) {
   personStatusUK[editor] = (personStatusUK[editor] === 'inactive') ? 'active' : 'inactive';
-  saveVideoDataUK();
+  saveMappingDataUK();
   renderVideoTabUK();
   renderMappingPanelUK();
 }
@@ -2440,6 +2713,7 @@ function renderBdSectionUK() {
     }).join('');
 
   renderBdDetailUK(videoBdDetailFilterUK);
+  renderBdAllDetailUK();
 }
 
 function renderBdDetailUK(filter) {
@@ -2478,6 +2752,122 @@ function renderBdDetailUK(filter) {
         '</tr>';
     }).join('') + '</tbody></table>';
   document.getElementById('bdDetailUK').innerHTML = html;
+}
+
+// ====== UK mapping export/import ======
+function exportMappingCSVUK() {
+  var effective = getEffectiveMappingUK();
+  var acctLookup = {};
+  if (videoAdDataUK) {
+    videoAdDataUK.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
+  }
+  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
+  var added = {};
+  for (var vid in effective.vidToCloud) {
+    var cid = effective.vidToCloud[vid];
+    var p = effective.cloudToPerson[cid] || {};
+    rows.push([vid, cid, acctLookup[vid] || '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    added[vid] = true;
+  }
+  for (var cid in effective.cloudToPerson) {
+    var hasVid = false;
+    for (var v in effective.vidToCloud) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
+    if (!hasVid) {
+      var p = effective.cloudToPerson[cid];
+      rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    }
+  }
+  var csv = rows.join('\n');
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'mapping_export_uk.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importMappingCSVUK(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = e.target.result;
+      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+      if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
+      var headers = lines[0].split(',').map(function(h) { return h.replace(/"/g, '').trim(); });
+      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
+      var addedVid = 0, addedCid = 0;
+      for (var i = 1; i < lines.length; i++) {
+        var vals = parseCSVLine(lines[i]);
+        var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
+        var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
+        var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
+        var director = cleanName(col.director >= 0 ? vals[col.director] : '');
+        if (!cid) continue;
+        if (vid) { editedMappingUK.vidToCloud[vid] = cid; addedVid++; }
+        if (editor || director) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+      }
+      saveMappingDataUK();
+      alert('\u2705 导入完成：更新 ' + addedVid + ' 条视频映射, ' + addedCid + ' 个人员映射');
+      if (videoAdDataUK) { processJoinUK(); }
+    } catch(err) { alert('\u274C 导入失败: ' + err.message); }
+  };
+  reader.readAsText(file);
+}
+
+// ====== UK BD达人账号明细 ======
+var bdAllSortByUK = 'gmv', bdAllSortDirUK = 'desc';
+
+function renderBdAllDetailUK(sortBy, sortDir) {
+  if (sortBy) { bdAllSortByUK = sortBy; bdAllSortDirUK = sortDir || (bdAllSortByUK === sortBy ? (bdAllSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
+  var section = document.getElementById('bdAllSectionUK');
+  if (!videoJoinedUK) { section.style.display = 'none'; return; }
+  var data = videoJoinedUK.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
+  if (!data.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  document.getElementById('bdAllCountUK').textContent = '共 ' + data.length + ' 条记录';
+
+  var sortKey = bdAllSortByUK;
+  var dir = bdAllSortDirUK;
+  data.sort(function(a, b) {
+    var va, vb;
+    if (sortKey === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sortKey === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sortKey === 'views') { va = a.views || 0; vb = b.views || 0; }
+    else if (sortKey === 'date') { va = a.date || ''; vb = b.date || ''; }
+    else if (sortKey === 'account') { va = (a.account || '').toLowerCase(); vb = (b.account || '').toLowerCase(); }
+    else if (sortKey === 'roi') { va = a.roi || 0; vb = b.roi || 0; }
+    else if (sortKey === 'cost') { va = a.cost; vb = b.cost; }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return dir === 'asc' ? va - vb : vb - va;
+  });
+
+  function th(label, key) {
+    var arrow = (bdAllSortByUK === key) ? (bdAllSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
+    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetailUK(\'' + key + '\')">' + label + arrow + '</th>';
+  }
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr style="background:#A32D2D;color:#fff;">' +
+    '<th style="padding:6px 5px;">视频ID</th><th style="padding:6px 5px;">标题</th>' +
+    th('账号', 'account') + th('GMV', 'gmv') + th('订单', 'orders') + th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') + th('日期', 'date') +
+    '</tr></thead><tbody>' +
+    data.map(function(r) {
+      var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
+      var trStyle = isHigh ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.account || '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  document.getElementById('bdAllDetailUK').innerHTML = html;
 }
 </script>
 </body>
