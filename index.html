@@ -83,6 +83,15 @@ button:hover { background: #F0EDE6; }
 .recent-highlight { background: #FFFDE7; }
 .bd-card .pc-gmv { color: #A32D2D; }
 .bd-section-title { font-size: 15px; color: #A32D2D; margin: 0 0 4px 0; }
+.bd-acct-row { cursor: pointer; font-weight: 500; transition: background .15s; }
+.bd-acct-row:hover { background: #FFF0F0 !important; }
+.bd-acct-row .expand-icon { display: inline-block; width: 16px; text-align: center; font-size: 10px; transition: transform .15s; }
+.bd-detail-row { background: #F8F8FF; }
+.bd-detail-row td { padding: 0 !important; }
+.bd-sub-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.bd-sub-table thead th { background: #F0E0E0; color: #A32D2D; padding: 4px 5px; font-size: 10px; font-weight: 500; position: sticky; top: 0; }
+.bd-sub-table tbody td { padding: 3px 5px; border-bottom: 1px solid #EEE; white-space: nowrap; }
+.bd-sub-table tbody tr:hover { background: #FFF0F0 !important; }
 .date-range-banner { background: linear-gradient(135deg, #E8F0FE, #D4E4FC); border: 1px solid #A8C8F0; border-radius: 8px; padding: 10px 16px; margin-bottom: 14px; font-size: 14px; font-weight: 500; color: #2B579A; display: flex; align-items: center; gap: 10px; }
 .date-range-banner .dr-icon { font-size: 20px; }
 .date-range-banner .dr-label { font-size: 11px; color: #666; font-weight: 400; }
@@ -1047,6 +1056,7 @@ function resetMappingData() {
   document.getElementById('bdSection').style.display = 'none';
   document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSection').style.display = 'none';
+  bdAllExpanded = {};
   document.querySelector('#mapUploadBox input').value = '';
   videoJoined = null; videoPersonSummary = null; videoBdSummary = null; videoDirectorSummary = null;
   saveVideoData();
@@ -1214,6 +1224,7 @@ function resetVideoData() {
   document.querySelector('#adUploadBox input').value = '';
   document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSection').style.display = 'none';
+  bdAllExpanded = {};
 }
 
 function parseXlsxSheet(wb, name) {
@@ -2018,33 +2029,59 @@ function parseCSVLine(line) {
   return result;
 }
 
-// ====== BD达人账号明细（全部非品牌账号，可点击列头排序）======
-var bdAllSortBy = 'gmv', bdAllSortDir = 'desc'; // sort state
+// ====== BD达人账号明细（按达人账号分组，可展开查看视频，可排序）======
+var bdAllSortBy = 'gmv', bdAllSortDir = 'desc'; // sort state (account-level)
+var bdAllExpanded = {}; // account -> true/false (expand state)
 
-function renderBdAllDetail(sortBy, sortDir) {
+function renderBdAllDetail(sortBy, sortDir, toggleAcct) {
   if (sortBy) { bdAllSortBy = sortBy; bdAllSortDir = sortDir || (bdAllSortBy === sortBy ? (bdAllSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
+  if (toggleAcct) { bdAllExpanded[toggleAcct] = !bdAllExpanded[toggleAcct]; }
+
   var section = document.getElementById('bdAllSection');
   if (!videoJoined) { section.style.display = 'none'; return; }
   var data = videoJoined.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
   if (!data.length) { section.style.display = 'none'; return; }
   section.style.display = '';
-  document.getElementById('bdAllCount').textContent = '共 ' + data.length + ' 条记录';
 
+  // Group by account
+  var acctMap = {};
+  data.forEach(function(r) {
+    var key = r.account;
+    if (!acctMap[key]) {
+      acctMap[key] = { account: key, videos: [], totalGmv: 0, totalOrders: 0, totalCost: 0, totalViews: 0 };
+    }
+    acctMap[key].videos.push(r);
+    acctMap[key].totalGmv += r.gmv;
+    acctMap[key].totalOrders += r.orders;
+    acctMap[key].totalCost += r.cost;
+    acctMap[key].totalViews += (r.views || 0);
+  });
+
+  var groups = Object.keys(acctMap).map(function(k) {
+    var g = acctMap[k];
+    g.totalRoi = g.totalCost > 0 ? g.totalGmv / g.totalCost : 0;
+    return g;
+  });
+
+  // Sort account groups
   var sortKey = bdAllSortBy;
   var dir = bdAllSortDir;
-  data.sort(function(a, b) {
+  groups.sort(function(a, b) {
     var va, vb;
-    if (sortKey === 'gmv') { va = a.gmv; vb = b.gmv; }
-    else if (sortKey === 'orders') { va = a.orders; vb = b.orders; }
-    else if (sortKey === 'views') { va = a.views || 0; vb = b.views || 0; }
-    else if (sortKey === 'date') { va = a.date || ''; vb = b.date || ''; }
-    else if (sortKey === 'account') { va = (a.account || '').toLowerCase(); vb = (b.account || '').toLowerCase(); }
-    else if (sortKey === 'roi') { va = a.roi || 0; vb = b.roi || 0; }
-    else if (sortKey === 'cost') { va = a.cost; vb = b.cost; }
-    else { va = a.gmv; vb = b.gmv; }
+    if (sortKey === 'gmv') { va = a.totalGmv; vb = b.totalGmv; }
+    else if (sortKey === 'orders') { va = a.totalOrders; vb = b.totalOrders; }
+    else if (sortKey === 'views') { va = a.totalViews; vb = b.totalViews; }
+    else if (sortKey === 'account') { va = a.account.toLowerCase(); vb = b.account.toLowerCase(); }
+    else if (sortKey === 'roi') { va = a.totalRoi; vb = b.totalRoi; }
+    else if (sortKey === 'cost') { va = a.totalCost; vb = b.totalCost; }
+    else if (sortKey === 'videos') { va = a.videos.length; vb = b.videos.length; }
+    else { va = a.totalGmv; vb = b.totalGmv; }
     if (typeof va === 'string') { return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
     return dir === 'asc' ? va - vb : vb - va;
   });
+
+  var totalVideos = groups.reduce(function(s, g) { return s + g.videos.length; }, 0);
+  document.getElementById('bdAllCount').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
     var arrow = (bdAllSortBy === key) ? (bdAllSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
@@ -2052,25 +2089,58 @@ function renderBdAllDetail(sortBy, sortDir) {
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
+  // --- Account summary table ---
   var html = '<table><thead><tr style="background:#A32D2D;color:#fff;">' +
-    '<th style="padding:6px 5px;">视频ID</th><th style="padding:6px 5px;">标题</th>' +
-    th('账号', 'account') + th('GMV', 'gmv') + th('订单', 'orders') + th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') + th('日期', 'date') +
-    '</tr></thead><tbody>' +
-    data.map(function(r) {
-      var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
-      var trStyle = isHigh ? 'background:#FFFDE7;' : '';
-      return '<tr style="' + trStyle + '">' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
-        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
-        '<td style="font-size:10px;">' + (r.account || '-') + '</td>' +
-        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
-        '<td style="text-align:center;">' + r.orders + '</td>' +
-        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
-        '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
-        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
-        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
-        '</tr>';
-    }).join('') + '</tbody></table>';
+    '<th style="padding:6px 5px;width:28px;"></th>' +
+    th('达人账号', 'account') + th('视频数', 'videos') + th('GMV', 'gmv') + th('订单', 'orders') +
+    th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') +
+    '</tr></thead><tbody>';
+
+  groups.forEach(function(g, gi) {
+    var isExpanded = bdAllExpanded[g.account] || false;
+    var escaped = g.account.replace(/'/g, "\\'");
+    var rowBg = gi % 2 === 0 ? '#FAFAFA' : '#FFF';
+
+    // Account summary row
+    html += '<tr class="bd-acct-row" style="background:' + rowBg + ';" onclick="renderBdAllDetail(null,null,\'' + escaped + '\')">' +
+      '<td style="text-align:center;"><span class="expand-icon">' + (isExpanded ? '\u25BC' : '\u25B6') + '</span></td>' +
+      '<td>' + g.account + '</td>' +
+      '<td style="text-align:center;">' + g.videos.length + '</td>' +
+      '<td style="text-align:right;color:#A32D2D;">$' + fmt(g.totalGmv) + '</td>' +
+      '<td style="text-align:center;">' + g.totalOrders + '</td>' +
+      '<td style="text-align:right;">$' + fmt(g.totalCost) + '</td>' +
+      '<td style="text-align:center;' + (g.totalRoi >= 2 ? 'color:#0F6E56;font-weight:600;' : g.totalRoi < 1 ? 'color:#A32D2D;' : '') + '">' + g.totalRoi.toFixed(2) + '</td>' +
+      '<td style="text-align:right;">' + g.totalViews.toLocaleString() + '</td>' +
+      '</tr>';
+
+    // Expanded: video detail rows
+    if (isExpanded) {
+      g.videos.sort(function(a, b) { return b.gmv - a.gmv; });
+      html += '<tr class="bd-detail-row"><td colspan="8" style="padding:0;">' +
+        '<table class="bd-sub-table"><thead><tr>' +
+        '<th style="width:36%;">视频ID</th><th style="width:22%;">标题</th><th style="text-align:right;">GMV</th>' +
+        '<th style="text-align:center;">订单</th><th style="text-align:right;">成本</th>' +
+        '<th style="text-align:center;">ROI</th><th style="text-align:right;">播放量</th><th style="text-align:center;">发布时间</th>' +
+        '</tr></thead><tbody>' +
+        g.videos.map(function(r) {
+          var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
+          var trStyle = isHigh ? 'background:#FFFDE7;' : '';
+          return '<tr style="' + trStyle + '">' +
+            '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+            '<td title="' + (r.title||'') + '" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+            '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+            '<td style="text-align:center;">' + r.orders + '</td>' +
+            '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+            '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+            '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+            '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></td></tr>';
+    }
+  });
+
+  html += '</tbody></table>';
   document.getElementById('bdAllDetail').innerHTML = html;
 }
 
@@ -2133,6 +2203,7 @@ function resetMappingDataUK() {
   document.getElementById('bdSectionUK').style.display = 'none';
   document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSectionUK').style.display = 'none';
+  bdAllExpandedUK = {};
   document.querySelector('#mapUploadBoxUK input').value = '';
   videoJoinedUK = null; videoPersonSummaryUK = null; videoBdSummaryUK = null; videoDirectorSummaryUK = null;
   saveVideoDataUK();
@@ -2251,6 +2322,7 @@ function resetVideoDataUK() {
   document.getElementById('bdSectionUK').style.display = 'none';
   document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSectionUK').style.display = 'none';
+  bdAllExpandedUK = {};
   document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 已重置广告数据';
   setTimeout(function() { document.getElementById('vidSaveStatusUK').textContent = ''; }, 2000);
   document.querySelector('#adUploadBoxUK input').value = '';
@@ -2954,32 +3026,58 @@ function importMappingCSVUK(input) {
 }
 
 // ====== UK BD达人账号明细 ======
+// ====== BD达人账号明细（英国，按达人账号分组，可展开查看视频，可排序）======
 var bdAllSortByUK = 'gmv', bdAllSortDirUK = 'desc';
+var bdAllExpandedUK = {}; // account -> true/false
 
-function renderBdAllDetailUK(sortBy, sortDir) {
+function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   if (sortBy) { bdAllSortByUK = sortBy; bdAllSortDirUK = sortDir || (bdAllSortByUK === sortBy ? (bdAllSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
+  if (toggleAcct) { bdAllExpandedUK[toggleAcct] = !bdAllExpandedUK[toggleAcct]; }
+
   var section = document.getElementById('bdAllSectionUK');
   if (!videoJoinedUK) { section.style.display = 'none'; return; }
   var data = videoJoinedUK.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
   if (!data.length) { section.style.display = 'none'; return; }
   section.style.display = '';
-  document.getElementById('bdAllCountUK').textContent = '共 ' + data.length + ' 条记录';
+
+  // Group by account
+  var acctMap = {};
+  data.forEach(function(r) {
+    var key = r.account;
+    if (!acctMap[key]) {
+      acctMap[key] = { account: key, videos: [], totalGmv: 0, totalOrders: 0, totalCost: 0, totalViews: 0 };
+    }
+    acctMap[key].videos.push(r);
+    acctMap[key].totalGmv += r.gmv;
+    acctMap[key].totalOrders += r.orders;
+    acctMap[key].totalCost += r.cost;
+    acctMap[key].totalViews += (r.views || 0);
+  });
+
+  var groups = Object.keys(acctMap).map(function(k) {
+    var g = acctMap[k];
+    g.totalRoi = g.totalCost > 0 ? g.totalGmv / g.totalCost : 0;
+    return g;
+  });
 
   var sortKey = bdAllSortByUK;
   var dir = bdAllSortDirUK;
-  data.sort(function(a, b) {
+  groups.sort(function(a, b) {
     var va, vb;
-    if (sortKey === 'gmv') { va = a.gmv; vb = b.gmv; }
-    else if (sortKey === 'orders') { va = a.orders; vb = b.orders; }
-    else if (sortKey === 'views') { va = a.views || 0; vb = b.views || 0; }
-    else if (sortKey === 'date') { va = a.date || ''; vb = b.date || ''; }
-    else if (sortKey === 'account') { va = (a.account || '').toLowerCase(); vb = (b.account || '').toLowerCase(); }
-    else if (sortKey === 'roi') { va = a.roi || 0; vb = b.roi || 0; }
-    else if (sortKey === 'cost') { va = a.cost; vb = b.cost; }
-    else { va = a.gmv; vb = b.gmv; }
+    if (sortKey === 'gmv') { va = a.totalGmv; vb = b.totalGmv; }
+    else if (sortKey === 'orders') { va = a.totalOrders; vb = b.totalOrders; }
+    else if (sortKey === 'views') { va = a.totalViews; vb = b.totalViews; }
+    else if (sortKey === 'account') { va = a.account.toLowerCase(); vb = b.account.toLowerCase(); }
+    else if (sortKey === 'roi') { va = a.totalRoi; vb = b.totalRoi; }
+    else if (sortKey === 'cost') { va = a.totalCost; vb = b.totalCost; }
+    else if (sortKey === 'videos') { va = a.videos.length; vb = b.videos.length; }
+    else { va = a.totalGmv; vb = b.totalGmv; }
     if (typeof va === 'string') { return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
     return dir === 'asc' ? va - vb : vb - va;
   });
+
+  var totalVideos = groups.reduce(function(s, g) { return s + g.videos.length; }, 0);
+  document.getElementById('bdAllCountUK').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
     var arrow = (bdAllSortByUK === key) ? (bdAllSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
@@ -2987,25 +3085,55 @@ function renderBdAllDetailUK(sortBy, sortDir) {
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
   var html = '<table><thead><tr style="background:#A32D2D;color:#fff;">' +
-    '<th style="padding:6px 5px;">视频ID</th><th style="padding:6px 5px;">标题</th>' +
-    th('账号', 'account') + th('GMV', 'gmv') + th('订单', 'orders') + th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') + th('日期', 'date') +
-    '</tr></thead><tbody>' +
-    data.map(function(r) {
-      var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
-      var trStyle = isHigh ? 'background:#FFFDE7;' : '';
-      return '<tr style="' + trStyle + '">' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
-        '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
-        '<td style="font-size:10px;">' + (r.account || '-') + '</td>' +
-        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
-        '<td style="text-align:center;">' + r.orders + '</td>' +
-        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
-        '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
-        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
-        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
-        '</tr>';
-    }).join('') + '</tbody></table>';
+    '<th style="padding:6px 5px;width:28px;"></th>' +
+    th('达人账号', 'account') + th('视频数', 'videos') + th('GMV', 'gmv') + th('订单', 'orders') +
+    th('成本', 'cost') + th('ROI', 'roi') + th('播放量', 'views') +
+    '</tr></thead><tbody>';
+
+  groups.forEach(function(g, gi) {
+    var isExpanded = bdAllExpandedUK[g.account] || false;
+    var escaped = g.account.replace(/'/g, "\\'");
+    var rowBg = gi % 2 === 0 ? '#FAFAFA' : '#FFF';
+
+    html += '<tr class="bd-acct-row" style="background:' + rowBg + ';" onclick="renderBdAllDetailUK(null,null,\'' + escaped + '\')">' +
+      '<td style="text-align:center;"><span class="expand-icon">' + (isExpanded ? '\u25BC' : '\u25B6') + '</span></td>' +
+      '<td>' + g.account + '</td>' +
+      '<td style="text-align:center;">' + g.videos.length + '</td>' +
+      '<td style="text-align:right;color:#A32D2D;">$' + fmt(g.totalGmv) + '</td>' +
+      '<td style="text-align:center;">' + g.totalOrders + '</td>' +
+      '<td style="text-align:right;">$' + fmt(g.totalCost) + '</td>' +
+      '<td style="text-align:center;' + (g.totalRoi >= 2 ? 'color:#0F6E56;font-weight:600;' : g.totalRoi < 1 ? 'color:#A32D2D;' : '') + '">' + g.totalRoi.toFixed(2) + '</td>' +
+      '<td style="text-align:right;">' + g.totalViews.toLocaleString() + '</td>' +
+      '</tr>';
+
+    if (isExpanded) {
+      g.videos.sort(function(a, b) { return b.gmv - a.gmv; });
+      html += '<tr class="bd-detail-row"><td colspan="8" style="padding:0;">' +
+        '<table class="bd-sub-table"><thead><tr>' +
+        '<th style="width:36%;">视频ID</th><th style="width:22%;">标题</th><th style="text-align:right;">GMV</th>' +
+        '<th style="text-align:center;">订单</th><th style="text-align:right;">成本</th>' +
+        '<th style="text-align:center;">ROI</th><th style="text-align:right;">播放量</th><th style="text-align:center;">发布时间</th>' +
+        '</tr></thead><tbody>' +
+        g.videos.map(function(r) {
+          var isHigh = r.gmv >= 50 && isCurrentMonth(r.date);
+          var trStyle = isHigh ? 'background:#FFFDE7;' : '';
+          return '<tr style="' + trStyle + '">' +
+            '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (isHigh ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+            '<td title="' + (r.title||'') + '" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+            '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+            '<td style="text-align:center;">' + r.orders + '</td>' +
+            '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+            '<td style="text-align:center;' + ((r.roi||0) >= 2 ? 'color:#0F6E56;font-weight:600;' : (r.roi||0) < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+            '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+            '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></td></tr>';
+    }
+  });
+
+  html += '</tbody></table>';
   document.getElementById('bdAllDetailUK').innerHTML = html;
 }
 </script>
