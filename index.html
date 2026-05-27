@@ -290,6 +290,7 @@ button:hover { background: #F0EDE6; }
         <table style="min-width:600px;">
           <thead><tr>
             <th style="padding:4px;">视频ID</th>
+            <th style="padding:4px;">TikTok账号</th>
             <th style="padding:4px;">GMV</th>
             <th style="padding:4px;">云视频id</th>
             <th style="padding:4px;">剪辑</th>
@@ -425,6 +426,7 @@ button:hover { background: #F0EDE6; }
         <table style="min-width:600px;">
           <thead><tr>
             <th style="padding:4px;">视频ID</th>
+            <th style="padding:4px;">TikTok账号</th>
             <th style="padding:4px;">GMV</th>
             <th style="padding:4px;">云视频id</th>
             <th style="padding:4px;">剪辑</th>
@@ -1058,6 +1060,12 @@ function cleanName(n) {
   return n.replace(/[\s\u3000]+/g, ' ').trim();
 }
 
+function isBrandAccount(acct) {
+  // Empty account = assume brand (backward compatible)
+  if (!acct) return true;
+  return acct.toLowerCase().startsWith('matern');
+}
+
 function isCurrentMonth(dateStr) {
   // Robustly extract year+month from date strings like "2026-05-15", "2026/5/15", "2026-05-15 10:30:00"
   if (!dateStr) return false;
@@ -1608,8 +1616,21 @@ function renderMappingPanel() {
     });
     document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
+      var acct = r.account || '';
+      var isBrand = isBrandAccount(acct);
+      if (!isBrand) {
+        // 达人视频：不分配人员，仅标注
+        return '<tr style="background:#FFF8F0;">' +
+          '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+          '<td style="font-size:10px;" title="' + acct + '">' + acct + '</td>' +
+          '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+          '<td colspan="3" style="text-align:center;color:#D97706;font-size:11px;font-weight:500;">达人内容（无需分配人员）</td>' +
+          '<td></td>' +
+          '</tr>';
+      }
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
         '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td><input class="map-edit-input" id="ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
         '<td><input class="map-edit-input" id="ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
@@ -1904,17 +1925,21 @@ function exportMappingCSV() {
     videoAdData.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
   var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
-  var added = {};
   // Export vidToCloud entries
   for (var vid in effective.vidToCloud) {
     var cid = effective.vidToCloud[vid];
     var p = effective.cloudToPerson[cid] || {};
-    rows.push([vid, cid, acctLookup[vid] || '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    added[vid] = true;
+    var acct = acctLookup[vid] || '';
+    var isBrand = isBrandAccount(acct);
+    if (!isBrand) {
+      // 达人账号：不填云视频id，标注达人内容
+      rows.push([vid, '达人内容', acct, '', ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    } else {
+      rows.push([vid, cid, acct, p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    }
   }
   // Also export cloudToPerson entries that don't have vidToCloud entry
   for (var cid in effective.cloudToPerson) {
-    // Check if any vid maps to this cid
     var hasVid = false;
     for (var v in effective.vidToCloud) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
     if (!hasVid) {
@@ -2596,8 +2621,20 @@ function renderMappingPanelUK() {
     });
     document.getElementById('unmappedBodyTbodyUK').innerHTML = unmappedUnique.map(function(r) {
       var er = editRows[r.vid];
+      var acct = r.account || '';
+      var isBrand = isBrandAccount(acct);
+      if (!isBrand) {
+        return '<tr style="background:#FFF8F0;">' +
+          '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+          '<td style="font-size:10px;" title="' + acct + '">' + acct + '</td>' +
+          '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+          '<td colspan="3" style="text-align:center;color:#D97706;font-size:11px;font-weight:500;">达人内容（无需分配人员）</td>' +
+          '<td></td>' +
+          '</tr>';
+      }
       return '<tr>' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-size:10px;color:#2B579A;" title="' + (acct || '品牌账号') + '">' + (acct || '品牌账号') + '</td>' +
         '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
         '<td><input class="map-edit-input" id="uk_ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
         '<td><input class="map-edit-input" id="uk_ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
@@ -2846,12 +2883,16 @@ function exportMappingCSVUK() {
     videoAdDataUK.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
   var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
-  var added = {};
   for (var vid in effective.vidToCloud) {
     var cid = effective.vidToCloud[vid];
     var p = effective.cloudToPerson[cid] || {};
-    rows.push([vid, cid, acctLookup[vid] || '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
-    added[vid] = true;
+    var acct = acctLookup[vid] || '';
+    var isBrand = isBrandAccount(acct);
+    if (!isBrand) {
+      rows.push([vid, '达人内容', acct, '', ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    } else {
+      rows.push([vid, cid, acct, p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+    }
   }
   for (var cid in effective.cloudToPerson) {
     var hasVid = false;
