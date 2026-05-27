@@ -1134,15 +1134,31 @@ function saveVideoData() {
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
+    // Full save failed (likely too large). Fall back progressively,
+    // NEVER null out adData since it was already persisted by the earlier call.
     try {
+      // Drop joined (biggest array), keep adData + summaries
       localStorage.setItem(VID_STORAGE, JSON.stringify({
-        adData: null, joined: null, summary: videoPersonSummary,
+        adData: videoAdData, joined: null, summary: videoPersonSummary,
         bdSummary: videoBdSummary,
         directorSummary: videoDirectorSummary,
         dateRange: videoDateRange
       }));
-    } catch(e2) {}
-    document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
+      document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 视频明细未缓存，汇总已保留';
+    } catch(e2) {
+      try {
+        // Keep only adData, summaries can be rebuilt from processJoin on next load
+        localStorage.setItem(VID_STORAGE, JSON.stringify({
+          adData: videoAdData, joined: null, summary: null,
+          bdSummary: null, directorSummary: null,
+          dateRange: videoDateRange
+        }));
+        document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 仅缓存原始数据';
+      } catch(e3) {
+        // Even adData alone is too big — very rare
+        document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大无法缓存';
+      }
+    }
   }
 }
 
@@ -2143,15 +2159,28 @@ function saveVideoDataUK() {
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
+    // Full save failed (likely too large). Fall back progressively,
+    // NEVER null out adData since it was already persisted by the earlier call.
     try {
       localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
-        adData: null, joined: null, summary: videoPersonSummaryUK,
+        adData: videoAdDataUK, joined: null, summary: videoPersonSummaryUK,
         bdSummary: videoBdSummaryUK,
         directorSummary: videoDirectorSummaryUK,
         dateRange: videoDateRangeUK
       }));
-    } catch(e2) {}
-    document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
+      document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 视频明细未缓存，汇总已保留';
+    } catch(e2) {
+      try {
+        localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
+          adData: videoAdDataUK, joined: null, summary: null,
+          bdSummary: null, directorSummary: null,
+          dateRange: videoDateRangeUK
+        }));
+        document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 仅缓存原始数据';
+      } catch(e3) {
+        document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 数据过大无法缓存';
+      }
+    }
   }
 }
 
