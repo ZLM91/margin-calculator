@@ -1050,8 +1050,8 @@ function resetMappingData() {
   saveVideoData();
 }
 
-loadVideoData();
 loadMappingData();
+loadVideoData();
 
 function cleanName(n) {
   if (!n) return '';
@@ -1081,6 +1081,23 @@ function loadVideoData() {
     var raw = localStorage.getItem(VID_STORAGE);
     if (raw) {
       var saved = JSON.parse(raw);
+
+      // MIGRATION: old VID_STORAGE may contain mapping fields
+      if ((saved.mapping || saved.editedMapping || saved.personStatus) && !localStorage.getItem(VID_MAP_KEY)) {
+        if (saved.mapping && !videoMapping) {
+          videoMapping = saved.mapping;
+          editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
+          personStatusUS = saved.personStatus || {};
+          saveMappingData();
+        }
+        // Rewrite VID_STORAGE without mapping fields
+        localStorage.setItem(VID_STORAGE, JSON.stringify({
+          adData: saved.adData, joined: saved.joined, summary: saved.summary,
+          bdSummary: saved.bdSummary, directorSummary: saved.directorSummary,
+          dateRange: saved.dateRange
+        }));
+      }
+
       videoAdData = saved.adData || null;
       videoJoined = saved.joined || null;
       videoPersonSummary = saved.summary || null;
@@ -1092,10 +1109,15 @@ function loadVideoData() {
         document.getElementById('adUploadBox').classList.add('has-file');
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
       }
-      // Auto-recompute if old cached data is missing new fields (account/isBrand/date on joined rows)
+      // Auto-recompute if needed OR if mapping was just loaded + adData exists
       var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
-      if (needRecompute) { processJoin(); }
-      else if (videoPersonSummary) { renderVideoTab(); renderMappingPanel(); }
+      var joinedMissing = !videoJoined && videoMapping && videoAdData;
+      if (needRecompute || joinedMissing) {
+        if (videoMapping && videoAdData) { processJoin(); }
+        else { renderVideoTab(); renderMappingPanel(); }
+      } else if (videoPersonSummary) {
+        renderVideoTab(); renderMappingPanel();
+      }
       document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
     }
   } catch(e) {}
@@ -1335,7 +1357,12 @@ function getEffectiveMapping() {
 }
 
 function processJoin() {
-  if (!videoAdData || !videoMapping) return;
+  if (!videoAdData || !videoMapping) {
+    if (videoAdData && !videoMapping) {
+      document.getElementById('videoStatus').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
+    }
+    return;
+  }
   var effective = getEffectiveMapping();
   var joined = videoAdData.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
@@ -2056,14 +2083,30 @@ function resetMappingDataUK() {
   saveVideoDataUK();
 }
 
-loadVideoDataUK();
 loadMappingDataUK();
+loadVideoDataUK();
 
 function loadVideoDataUK() {
   try {
     var raw = localStorage.getItem(VID_STORAGE_UK);
     if (raw) {
       var saved = JSON.parse(raw);
+
+      // MIGRATION: old VID_STORAGE_UK may contain mapping fields
+      if ((saved.mapping || saved.editedMapping || saved.personStatus) && !localStorage.getItem(VID_MAP_KEY_UK)) {
+        if (saved.mapping && !videoMappingUK) {
+          videoMappingUK = saved.mapping;
+          editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
+          personStatusUK = saved.personStatus || {};
+          saveMappingDataUK();
+        }
+        localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
+          adData: saved.adData, joined: saved.joined, summary: saved.summary,
+          bdSummary: saved.bdSummary, directorSummary: saved.directorSummary,
+          dateRange: saved.dateRange
+        }));
+      }
+
       videoAdDataUK = saved.adData || null;
       videoJoinedUK = saved.joined || null;
       videoPersonSummaryUK = saved.summary || null;
@@ -2076,8 +2119,13 @@ function loadVideoDataUK() {
         document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
       }
       var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
-      if (needRecompute) { processJoinUK(); }
-      else if (videoPersonSummaryUK) { renderVideoTabUK(); renderMappingPanelUK(); }
+      var joinedMissing = !videoJoinedUK && videoMappingUK && videoAdDataUK;
+      if (needRecompute || joinedMissing) {
+        if (videoMappingUK && videoAdDataUK) { processJoinUK(); }
+        else { renderVideoTabUK(); renderMappingPanelUK(); }
+      } else if (videoPersonSummaryUK) {
+        renderVideoTabUK(); renderMappingPanelUK();
+      }
       document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
     }
   } catch(e) {}
@@ -2258,7 +2306,12 @@ function getEffectiveMappingUK() {
 }
 
 function processJoinUK() {
-  if (!videoAdDataUK || !videoMappingUK) return;
+  if (!videoAdDataUK || !videoMappingUK) {
+    if (videoAdDataUK && !videoMappingUK) {
+      document.getElementById('videoStatusUK').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
+    }
+    return;
+  }
   var effective = getEffectiveMappingUK();
   var joined = videoAdDataUK.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
