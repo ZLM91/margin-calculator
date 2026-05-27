@@ -80,6 +80,9 @@ button:hover { background: #F0EDE6; }
 .filter-btn.inactive-filter { opacity: 0.45; }
 .reset-btn { font-size: 11px; padding: 1px 10px; margin-left: 8px; border-radius: 4px; color: #A32D2D; border-color: #E0C0C0; background: #FFF5F5; }
 .reset-btn:hover { background: #FFE8E8; border-color: #A32D2D; }
+.recent-highlight { background: #FFFDE7; }
+.bd-card .pc-gmv { color: #A32D2D; }
+.bd-section-title { font-size: 15px; color: #A32D2D; margin: 0 0 4px 0; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -219,6 +222,18 @@ button:hover { background: #F0EDE6; }
 <!-- Person summary table -->
 <div id="personTable" style="margin-bottom:14px;"></div>
 
+<!-- BD 达人数据 -->
+<div id="bdSection" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <h3 style="font-size:15px;color:#A32D2D;margin:0 0 4px 0;">🤝 BD 达人视频数据</h3>
+  <p style="font-size:11px;color:#888;margin:0 0 10px 0;">非品牌账号（TikTok账号不以 materna 开头）的达人带货视频，供BD部门对接使用</p>
+  <div id="bdStatus" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
+  <div id="bdCards" style="margin-bottom:14px;"></div>
+  <div id="bdTable" style="margin-bottom:14px;"></div>
+  <div style="font-size:13px;font-weight:500;margin-bottom:4px;">达人视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="bdDetailCount"></span></div>
+  <div id="bdFilter" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
+  <div class="video-scroll" id="bdDetail"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
+</div>
+
 <!-- Mapping Panel -->
 <div id="mappingPanel" style="display:none;">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;">🔗 映射关系管理</div>
@@ -308,6 +323,18 @@ button:hover { background: #F0EDE6; }
 
 <!-- Person summary table -->
 <div id="personTableUK" style="margin-bottom:14px;"></div>
+
+<!-- BD 达人数据 (英国) -->
+<div id="bdSectionUK" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
+  <h3 style="font-size:15px;color:#A32D2D;margin:0 0 4px 0;">🤝 BD 达人视频数据</h3>
+  <p style="font-size:11px;color:#888;margin:0 0 10px 0;">非品牌账号（TikTok账号不以 materna 开头）的达人带货视频</p>
+  <div id="bdStatusUK" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
+  <div id="bdCardsUK" style="margin-bottom:14px;"></div>
+  <div id="bdTableUK" style="margin-bottom:14px;"></div>
+  <div style="font-size:13px;font-weight:500;margin-bottom:4px;">达人视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="bdDetailCountUK"></span></div>
+  <div id="bdFilterUK" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
+  <div class="video-scroll" id="bdDetailUK"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
+</div>
 
 <!-- Mapping Panel -->
 <div id="mappingPanelUK" style="display:none;">
@@ -887,14 +914,16 @@ if (!loadData()) {
   saveData(); // 首次访问：保存默认数据
 }
 render();
-loadVideoData();
-loadVideoDataUK();
+// loadVideoData/loadVideoDataUK called after variable declarations below
 
-// ====== 视频数据 Tab ======
+// ====== 视频数据 Tab (美国) ======
 const VID_STORAGE = 'maternella_video_data';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
+let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
+
+loadVideoData();
 
 function cleanName(n) {
   if (!n) return '';
@@ -919,6 +948,7 @@ function loadVideoData() {
       videoMapping = saved.mapping || null;
       videoJoined = saved.joined || null;
       videoPersonSummary = saved.summary || null;
+      videoBdSummary = saved.bdSummary || null;
       editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUS = saved.personStatus || {};
       if (videoAdData) {
@@ -940,13 +970,16 @@ function saveVideoData() {
     localStorage.setItem(VID_STORAGE, JSON.stringify({
       adData: videoAdData, mapping: videoMapping,
       joined: videoJoined, summary: videoPersonSummary,
+      bdSummary: videoBdSummary,
       editedMapping: editedMapping, personStatus: personStatusUS
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
     try {
       localStorage.setItem(VID_STORAGE, JSON.stringify({
-        adData: null, mapping: null, joined: null, summary: videoPersonSummary, editedMapping: editedMapping, personStatus: personStatusUS
+        adData: null, mapping: null, joined: null, summary: videoPersonSummary,
+        bdSummary: videoBdSummary,
+        editedMapping: editedMapping, personStatus: personStatusUS
       }));
     } catch(e2) {}
     document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
@@ -959,7 +992,9 @@ function resetVideoData() {
   videoMapping = null;
   videoJoined = null;
   videoPersonSummary = null;
+  videoBdSummary = null;
   videoDetailFilter = null;
+  videoBdDetailFilter = null;
   editedMapping = { vidToCloud: {}, cloudToPerson: {} };
   personStatusUS = {};
   localStorage.removeItem(VID_STORAGE);
@@ -970,9 +1005,13 @@ function resetVideoData() {
   document.getElementById('videoStatus').textContent = '';
   document.getElementById('personCards').innerHTML = '';
   document.getElementById('personTable').innerHTML = '';
+  document.getElementById('bdCards').innerHTML = '';
+  document.getElementById('bdTable').innerHTML = '';
   document.getElementById('mappingPanel').style.display = 'none';
   document.getElementById('personFilter').innerHTML = '';
+  document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
+  document.getElementById('bdDetail').innerHTML = '';
   document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 已重置';
   setTimeout(function() { document.getElementById('vidSaveStatus').textContent = ''; }, 2000);
   // Also clear file inputs
@@ -1000,6 +1039,7 @@ function handleAdDataUpload(input) {
       videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
         var vid = String(r['视频 ID'] || '');
         if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        var acct = String(r['TikTok账号'] || '');
         return {
           vid: vid,
           title: String(r['视频标题'] || ''),
@@ -1009,7 +1049,9 @@ function handleAdDataUpload(input) {
           cost: parseFloat(r['成本']) || 0,
           roi: parseFloat(r['ROI']) || 0,
           date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0
+          views: parseInt(r['商品广告曝光数']) || 0,
+          account: acct,
+          isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
       document.getElementById('adUploadBox').classList.add('has-file');
@@ -1085,6 +1127,7 @@ function processJoin() {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
       date: row.date, views: row.views,
+      account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
       director: cleanName(person ? person.director : '')
@@ -1113,6 +1156,31 @@ function processJoin() {
     return {
       editor: p.editor, directors: Array.from(p.directors).filter(function(d) { return d !== '未分配'; }).join(', ') || '未分配',
       gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  // BD 达人数据汇总 (non-brand videos, grouped by TikTok account)
+  var bdMap = {};
+  joined.forEach(function(r) {
+    if (!r.account) return;
+    if (r.isBrand) return; // skip brand-owned accounts
+    var key = r.account;
+    if (!bdMap[key]) {
+      bdMap[key] = { account: r.account, gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    bdMap[key].gmv += r.gmv;
+    bdMap[key].orders += r.orders;
+    bdMap[key].cost += r.cost;
+    bdMap[key].vidSet.add(r.vid);
+  });
+
+  videoBdSummary = Object.keys(bdMap).map(function(k) {
+    var p = bdMap[k];
+    return {
+      account: p.account, gmv: p.gmv, orders: p.orders,
       videos: p.vidSet.size,
       cost: p.cost,
       roi: p.cost > 0 ? p.gmv / p.cost : 0
@@ -1184,6 +1252,9 @@ function renderVideoTab() {
     }).join('');
 
   renderVideoDetail(videoDetailFilter);
+
+  // BD 达人数据渲染
+  renderBdSection();
 }
 
 // ====== 映射关系管理 ======
@@ -1364,14 +1435,24 @@ function renderVideoDetail(filter) {
     document.getElementById('videoDetail').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
     return;
   }
+  var now = new Date();
+  var curMonth = now.getMonth();
+  var curYear = now.getFullYear();
+  function isRecentHigh(dateStr, gmv, threshold) {
+    if (!dateStr || gmv < threshold) return false;
+    var d = new Date(dateStr);
+    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+  }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>剪辑</th><th>编导</th><th>日期</th>' +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
-      return '<tr>' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+      var recent = isRecentHigh(r.date, r.gmv, 100);
+      var trStyle = recent ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
@@ -1379,6 +1460,7 @@ function renderVideoDetail(filter) {
         '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
         '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
         '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;" title="' + (r.account||'') + '">' + (r.account||'-') + '</td>' +
         '<td>' + r.editor + '</td><td>' + r.director + '</td>' +
         '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
         '</tr>';
@@ -1394,11 +1476,107 @@ function togglePersonStatus(editor) {
   renderMappingPanel();
 }
 
+// ====== BD 达人数据渲染 (美国) ======
+function renderBdSection() {
+  var section = document.getElementById('bdSection');
+  if (!videoBdSummary || !videoBdSummary.length) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  document.getElementById('bdStatus').textContent = '\u2705 ' + videoBdSummary.length + ' 个达人账号 | ' + videoBdSummary.reduce(function(s,p){return s+p.videos;},0) + ' 条达人视频';
+
+  var maxGmv = videoBdSummary[0].gmv || 1;
+  document.getElementById('bdCards').innerHTML = videoBdSummary.slice(0, 10).map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    return '<div class="person-card bd-card" onclick="renderBdDetail(\'' + p.account.replace(/'/g, "\\'") + '\')" style="min-width:200px;">' +
+      '<div class="pc-name">#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
+      '<div class="pc-gmv" style="color:#A32D2D;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#A32D2D;"></div></div>' +
+      '</div>';
+  }).join('') + (videoBdSummary.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoBdSummary.length - 10) + ' 个达人</div>' : '');
+
+  document.getElementById('bdTable').innerHTML = '<div style="overflow-x:auto;"><table style="min-width:600px;"><thead><tr style="background:#A32D2D;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">达人账号</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoBdSummary.map(function(p, i) {
+      return '<tr style="cursor:pointer;" onclick="renderBdDetail(\'' + p.account.replace(/'/g, "\\'") + '\')">' +
+        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td>' + p.account + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  // BD filter buttons
+  var accounts = videoBdSummary.map(function(p) { return p.account; });
+  var allOn = videoBdDetailFilter === null;
+  document.getElementById('bdFilter').innerHTML =
+    '<button class="filter-btn' + (allOn ? ' on' : '') + '" onclick="renderBdDetail(null)">全部</button>' +
+    accounts.map(function(a) {
+      return '<button class="filter-btn' + (videoBdDetailFilter === a ? ' on' : '') + '" onclick="renderBdDetail(\'' + a.replace(/'/g, "\\'") + '\')">' + a + '</button>';
+    }).join('');
+
+  renderBdDetail(videoBdDetailFilter);
+}
+
+function renderBdDetail(filter) {
+  videoBdDetailFilter = filter;
+  if (!videoJoined) return;
+  var data = filter
+    ? videoJoined.filter(function(r) { return r.account === filter && !r.isBrand && r.gmv > 0; })
+    : videoJoined.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
+  document.getElementById('bdDetailCount').textContent = data.length + ' 条';
+
+  if (!data.length) {
+    document.getElementById('bdDetail').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无达人数据</div>';
+    return;
+  }
+  var now = new Date();
+  var curMonth = now.getMonth();
+  var curYear = now.getFullYear();
+  function isRecentHigh(dateStr, gmv, threshold) {
+    if (!dateStr || gmv < threshold) return false;
+    var d = new Date(dateStr);
+    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+  }
+  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr>' +
+    '<th>视频ID</th><th>标题</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>日期</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(r) {
+      var recent = isRecentHigh(r.date, r.gmv, 50);
+      var trStyle = recent ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="' + r.title + '" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;">' + (r.account||'-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  document.getElementById('bdDetail').innerHTML = html;
+}
+
 // ====== 英国站 视频数据 Tab ======
 const VID_STORAGE_UK = 'maternella_video_data_uk';
 let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPersonSummaryUK = null, videoDetailFilterUK = null;
 let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
+let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
+
+loadVideoDataUK();
 
 function loadVideoDataUK() {
   try {
@@ -1409,6 +1587,7 @@ function loadVideoDataUK() {
       videoMappingUK = saved.mapping || null;
       videoJoinedUK = saved.joined || null;
       videoPersonSummaryUK = saved.summary || null;
+      videoBdSummaryUK = saved.bdSummary || null;
       editedMappingUK = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       personStatusUK = saved.personStatus || {};
       if (videoAdDataUK) {
@@ -1430,13 +1609,16 @@ function saveVideoDataUK() {
     localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
       adData: videoAdDataUK, mapping: videoMappingUK,
       joined: videoJoinedUK, summary: videoPersonSummaryUK,
+      bdSummary: videoBdSummaryUK,
       editedMapping: editedMappingUK, personStatus: personStatusUK
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
     try {
       localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
-        adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK, editedMapping: editedMappingUK, personStatus: personStatusUK
+        adData: null, mapping: null, joined: null, summary: videoPersonSummaryUK,
+        bdSummary: videoBdSummaryUK,
+        editedMapping: editedMappingUK, personStatus: personStatusUK
       }));
     } catch(e2) {}
     document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
@@ -1449,7 +1631,9 @@ function resetVideoDataUK() {
   videoMappingUK = null;
   videoJoinedUK = null;
   videoPersonSummaryUK = null;
+  videoBdSummaryUK = null;
   videoDetailFilterUK = null;
+  videoBdDetailFilterUK = null;
   editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
   personStatusUK = {};
   localStorage.removeItem(VID_STORAGE_UK);
@@ -1460,9 +1644,13 @@ function resetVideoDataUK() {
   document.getElementById('videoStatusUK').textContent = '';
   document.getElementById('personCardsUK').innerHTML = '';
   document.getElementById('personTableUK').innerHTML = '';
+  document.getElementById('bdCardsUK').innerHTML = '';
+  document.getElementById('bdTableUK').innerHTML = '';
   document.getElementById('mappingPanelUK').style.display = 'none';
   document.getElementById('personFilterUK').innerHTML = '';
+  document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
+  document.getElementById('bdDetailUK').innerHTML = '';
   document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 已重置';
   setTimeout(function() { document.getElementById('vidSaveStatusUK').textContent = ''; }, 2000);
   document.querySelector('#adUploadBoxUK input').value = '';
@@ -1479,6 +1667,7 @@ function handleAdDataUploadUK(input) {
       videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
         var vid = String(r['视频 ID'] || '');
         if (vid.indexOf('.') > 0) vid = vid.replace(/\.0$/, '');
+        var acct = String(r['TikTok账号'] || '');
         return {
           vid: vid,
           title: String(r['视频标题'] || ''),
@@ -1488,7 +1677,9 @@ function handleAdDataUploadUK(input) {
           cost: parseFloat(r['成本']) || 0,
           roi: parseFloat(r['ROI']) || 0,
           date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0
+          views: parseInt(r['商品广告曝光数']) || 0,
+          account: acct,
+          isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
       document.getElementById('adUploadBoxUK').classList.add('has-file');
@@ -1562,6 +1753,7 @@ function processJoinUK() {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
       date: row.date, views: row.views,
+      account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
       director: cleanName(person ? person.director : '')
@@ -1589,6 +1781,31 @@ function processJoinUK() {
     return {
       editor: p.editor, directors: Array.from(p.directors).filter(function(d) { return d !== '未分配'; }).join(', ') || '未分配',
       gmv: p.gmv, orders: p.orders,
+      videos: p.vidSet.size,
+      cost: p.cost,
+      roi: p.cost > 0 ? p.gmv / p.cost : 0
+    };
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  // BD 达人数据汇总 (non-brand videos, grouped by TikTok account)
+  var bdMap = {};
+  joined.forEach(function(r) {
+    if (!r.account) return;
+    if (r.isBrand) return;
+    var key = r.account;
+    if (!bdMap[key]) {
+      bdMap[key] = { account: r.account, gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
+    }
+    bdMap[key].gmv += r.gmv;
+    bdMap[key].orders += r.orders;
+    bdMap[key].cost += r.cost;
+    bdMap[key].vidSet.add(r.vid);
+  });
+
+  videoBdSummaryUK = Object.keys(bdMap).map(function(k) {
+    var p = bdMap[k];
+    return {
+      account: p.account, gmv: p.gmv, orders: p.orders,
       videos: p.vidSet.size,
       cost: p.cost,
       roi: p.cost > 0 ? p.gmv / p.cost : 0
@@ -1660,6 +1877,9 @@ function renderVideoTabUK() {
     }).join('');
 
   renderVideoDetailUK(videoDetailFilterUK);
+
+  // BD 达人数据渲染
+  renderBdSectionUK();
 }
 
 function toggleMapSectionUK(id) {
@@ -1825,14 +2045,24 @@ function renderVideoDetailUK(filter) {
     document.getElementById('videoDetailUK').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无匹配数据</div>';
     return;
   }
+  var now = new Date();
+  var curMonth = now.getMonth();
+  var curYear = now.getFullYear();
+  function isRecentHigh(dateStr, gmv, threshold) {
+    if (!dateStr || gmv < threshold) return false;
+    var d = new Date(dateStr);
+    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+  }
   var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>剪辑</th><th>编导</th><th>日期</th>' +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
-      return '<tr>' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+      var recent = isRecentHigh(r.date, r.gmv, 100);
+      var trStyle = recent ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
@@ -1840,6 +2070,7 @@ function renderVideoDetailUK(filter) {
         '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
         '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
         '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;" title="' + (r.account||'') + '">' + (r.account||'-') + '</td>' +
         '<td>' + r.editor + '</td><td>' + r.director + '</td>' +
         '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
         '</tr>';
@@ -1853,6 +2084,98 @@ function togglePersonStatusUK(editor) {
   saveVideoDataUK();
   renderVideoTabUK();
   renderMappingPanelUK();
+}
+
+// ====== BD 达人数据渲染 (英国) ======
+function renderBdSectionUK() {
+  var section = document.getElementById('bdSectionUK');
+  if (!videoBdSummaryUK || !videoBdSummaryUK.length) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  document.getElementById('bdStatusUK').textContent = '\u2705 ' + videoBdSummaryUK.length + ' 个达人账号 | ' + videoBdSummaryUK.reduce(function(s,p){return s+p.videos;},0) + ' 条达人视频';
+
+  var maxGmv = videoBdSummaryUK[0].gmv || 1;
+  document.getElementById('bdCardsUK').innerHTML = videoBdSummaryUK.slice(0, 10).map(function(p, i) {
+    var pct = Math.round(p.gmv / maxGmv * 100);
+    return '<div class="person-card bd-card" onclick="renderBdDetailUK(\'' + p.account.replace(/'/g, "\\'") + '\')" style="min-width:200px;">' +
+      '<div class="pc-name">#' + (i+1) + ' <span style="font-size:11px;font-weight:400;">' + p.account + '</span></div>' +
+      '<div class="pc-gmv" style="color:#A32D2D;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+      '<div class="pc-stat">视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#A32D2D;"></div></div>' +
+      '</div>';
+  }).join('') + (videoBdSummaryUK.length > 10 ? '<div style="font-size:11px;color:#888;margin-top:6px;">...还有 ' + (videoBdSummaryUK.length - 10) + ' 个达人</div>' : '');
+
+  document.getElementById('bdTableUK').innerHTML = '<div style="overflow-x:auto;"><table style="min-width:600px;"><thead><tr style="background:#A32D2D;color:#fff;">' +
+    '<th style="padding:6px 5px;">排名</th><th style="padding:6px 5px;">达人账号</th>' +
+    '<th style="padding:6px 5px;">GMV</th><th style="padding:6px 5px;">订单数</th><th style="padding:6px 5px;">视频数</th>' +
+    '<th style="padding:6px 5px;">成本</th><th style="padding:6px 5px;">ROI</th>' +
+    '</tr></thead><tbody>' +
+    videoBdSummaryUK.map(function(p, i) {
+      return '<tr style="cursor:pointer;" onclick="renderBdDetailUK(\'' + p.account.replace(/'/g, "\\'") + '\')">' +
+        '<td style="text-align:center;">' + (i+1) + '</td>' +
+        '<td>' + p.account + '</td>' +
+        '<td style="text-align:right;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;">' + p.orders + '</td>' +
+        '<td style="text-align:center;">' + p.videos + '</td>' +
+        '<td style="text-align:right;">$' + p.cost.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td style="text-align:center;' + (p.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : p.roi < 1 ? 'color:#A32D2D;' : '') + '">' + p.roi.toFixed(2) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  var accounts = videoBdSummaryUK.map(function(p) { return p.account; });
+  var allOn = videoBdDetailFilterUK === null;
+  document.getElementById('bdFilterUK').innerHTML =
+    '<button class="filter-btn' + (allOn ? ' on' : '') + '" onclick="renderBdDetailUK(null)">全部</button>' +
+    accounts.map(function(a) {
+      return '<button class="filter-btn' + (videoBdDetailFilterUK === a ? ' on' : '') + '" onclick="renderBdDetailUK(\'' + a.replace(/'/g, "\\'") + '\')">' + a + '</button>';
+    }).join('');
+
+  renderBdDetailUK(videoBdDetailFilterUK);
+}
+
+function renderBdDetailUK(filter) {
+  videoBdDetailFilterUK = filter;
+  if (!videoJoinedUK) return;
+  var data = filter
+    ? videoJoinedUK.filter(function(r) { return r.account === filter && !r.isBrand && r.gmv > 0; })
+    : videoJoinedUK.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
+  document.getElementById('bdDetailCountUK').textContent = data.length + ' 条';
+
+  if (!data.length) {
+    document.getElementById('bdDetailUK').innerHTML = '<div style="padding:40px;text-align:center;color:#888;">暂无达人数据</div>';
+    return;
+  }
+  var now = new Date();
+  var curMonth = now.getMonth();
+  var curYear = now.getFullYear();
+  function isRecentHigh(dateStr, gmv, threshold) {
+    if (!dateStr || gmv < threshold) return false;
+    var d = new Date(dateStr);
+    return !isNaN(d) && d.getMonth() === curMonth && d.getFullYear() === curYear;
+  }
+  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  var html = '<table><thead><tr>' +
+    '<th>视频ID</th><th>标题</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>日期</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(r) {
+      var recent = isRecentHigh(r.date, r.gmv, 50);
+      var trStyle = recent ? 'background:#FFFDE7;' : '';
+      return '<tr style="' + trStyle + '">' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="' + r.title + '" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="text-align:right;">$' + fmt(r.cost) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : r.roi < 1 ? 'color:#A32D2D;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:right;">' + (r.views||0).toLocaleString() + '</td>' +
+        '<td style="font-size:10px;">' + (r.account||'-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  document.getElementById('bdDetailUK').innerHTML = html;
 }
 </script>
 </body>
