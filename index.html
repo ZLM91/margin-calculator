@@ -59,6 +59,18 @@ button:hover { background: #F0EDE6; }
 .person-card .pc-kpi-bar { height: 4px; background: #2B579A; border-radius: 2px; transition: width .3s; }
 .filter-btn { padding: 3px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #D0D0D0; cursor: pointer; transition: all .15s; }
 .filter-btn:hover, .filter-btn.on { background: #2B579A; color: #fff; border-color: #2B579A; }
+.map-section { margin-bottom: 14px; border: 1px solid #E0E0E0; border-radius: 8px; overflow: hidden; }
+.map-section-header { padding: 8px 12px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.map-section-header.warn { background: #FFF8E1; color: #8B6914; }
+.map-section-header.info { background: #E8F0FE; color: #2B579A; }
+.map-section-body { padding: 8px 12px; max-height: 400px; overflow-y: auto; }
+.map-edit-input { width: 70px; padding: 3px 5px; font-size: 11px; border: 1px solid #C5D3E8; border-radius: 3px; text-align: center; }
+.map-edit-input:focus { outline: 2px solid #2B579A; outline-offset: -1px; }
+.map-save-btn { padding: 2px 8px; font-size: 10px; border-radius: 3px; background: #2B579A; color: #fff; border: none; cursor: pointer; }
+.map-save-btn:hover { background: #1E4373; }
+.map-badge { display: inline-block; padding: 1px 6px; border-radius: 10px; font-size: 10px; font-weight: 500; }
+.map-badge.warn { background: #FFF3CD; color: #856404; }
+.map-badge.ok { background: #D4EDDA; color: #155724; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -196,6 +208,61 @@ button:hover { background: #F0EDE6; }
 
 <!-- Person summary table -->
 <div id="personTable" style="margin-bottom:14px;"></div>
+
+<!-- Mapping Panel -->
+<div id="mappingPanel" style="display:none;">
+  <div style="font-size:13px;font-weight:500;margin-bottom:6px;">🔗 映射关系管理</div>
+
+  <!-- Unmapped alerts -->
+  <div id="mapAlertSection" style="margin-bottom:10px;"></div>
+
+  <!-- Unmapped videos with GMV -->
+  <div class="map-section" id="unmappedSection" style="display:none;">
+    <div class="map-section-header warn" onclick="toggleMapSection('unmappedBody')">
+      <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCount" style="font-weight:400;margin-left:6px;"></span></span>
+      <span id="unmappedArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="map-section-body" id="unmappedBody">
+      <div style="font-size:10px;color:#888;margin-bottom:6px;">填写云视频id、剪辑、编导 → 点「保存并重新关联」</div>
+      <div class="video-scroll" style="max-height:300px;">
+        <table style="min-width:600px;">
+          <thead><tr>
+            <th style="padding:4px;">视频ID(末10位)</th>
+            <th style="padding:4px;">GMV</th>
+            <th style="padding:4px;">云视频id</th>
+            <th style="padding:4px;">剪辑</th>
+            <th style="padding:4px;">编导</th>
+            <th style="padding:4px;">操作</th>
+          </tr></thead>
+          <tbody id="unmappedBody"></tbody>
+        </table>
+      </div>
+      <button onclick="saveEditedMappings()" style="margin-top:6px;padding:5px 14px;background:#2B579A;color:#fff;border:none;border-radius:4px;font-size:12px;">💾 保存并重新关联</button>
+      <span id="mapSaveMsg" style="font-size:11px;margin-left:8px;"></span>
+    </div>
+  </div>
+
+  <!-- All mappings -->
+  <div class="map-section" id="allMapSection" style="display:none;">
+    <div class="map-section-header info" onclick="toggleMapSection('allMapBody')">
+      <span>📋 全部映射关系（云视频id → 剪辑/编导）<span id="allMapCount" style="font-weight:400;margin-left:6px;"></span></span>
+      <span id="allMapArrow" style="font-size:11px;">▶</span>
+    </div>
+    <div class="map-section-body" id="allMapBody" style="display:none;">
+      <div class="video-scroll" style="max-height:400px;">
+        <table style="min-width:500px;">
+          <thead><tr>
+            <th style="padding:4px;">云视频id</th>
+            <th style="padding:4px;">剪辑</th>
+            <th style="padding:4px;">编导</th>
+            <th style="padding:4px;">操作</th>
+          </tr></thead>
+          <tbody id="allMapBodyTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Filter + Video detail -->
 <div style="font-size:13px;font-weight:500;margin-bottom:6px;">视频明细 <span style="font-weight:400;font-size:11px;color:#888;" id="detailCount"></span></div>
@@ -725,6 +792,12 @@ loadVideoData();
 // ====== 视频数据 Tab ======
 const VID_STORAGE = 'maternella_video_data';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
+let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
+
+function cleanName(n) {
+  if (!n) return '';
+  return n.replace(/[\s\u3000]+/g, ' ').trim();
+}
 
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(function(b) {
@@ -743,6 +816,7 @@ function loadVideoData() {
       videoMapping = saved.mapping || null;
       videoJoined = saved.joined || null;
       videoPersonSummary = saved.summary || null;
+      editedMapping = saved.editedMapping || { vidToCloud: {}, cloudToPerson: {} };
       if (videoAdData) {
         document.getElementById('adUploadBox').classList.add('has-file');
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
@@ -751,7 +825,7 @@ function loadVideoData() {
         document.getElementById('mapUploadBox').classList.add('has-file');
         document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
       }
-      if (videoPersonSummary) { renderVideoTab(); }
+      if (videoPersonSummary) { renderVideoTab(); renderMappingPanel(); }
       document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
     }
   } catch(e) {}
@@ -761,13 +835,14 @@ function saveVideoData() {
   try {
     localStorage.setItem(VID_STORAGE, JSON.stringify({
       adData: videoAdData, mapping: videoMapping,
-      joined: videoJoined, summary: videoPersonSummary
+      joined: videoJoined, summary: videoPersonSummary,
+      editedMapping: editedMapping
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
     try {
       localStorage.setItem(VID_STORAGE, JSON.stringify({
-        adData: null, mapping: null, joined: null, summary: videoPersonSummary
+        adData: null, mapping: null, joined: null, summary: videoPersonSummary, editedMapping: editedMapping
       }));
     } catch(e2) {}
     document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 数据过大，仅缓存汇总';
@@ -837,10 +912,10 @@ function handleMappingUpload(input) {
       var cloudToPerson = {};
       onlineRows.forEach(function(r) {
         var cid = String(r['成片ID'] || '').replace(/\.0$/, '');
-        var editor = String(r['剪辑'] || '').trim();
-        var director = String(r['编导'] || '').trim();
+        var editor = cleanName(String(r['剪辑'] || ''));
+        var director = cleanName(String(r['编导'] || ''));
         if (cid && cid !== 'nan' && (editor || director)) {
-          cloudToPerson[cid] = { editor: editor === 'nan' ? '' : editor, director: director === 'nan' ? '' : director };
+          cloudToPerson[cid] = { editor: editor, director: director };
         }
       });
 
@@ -855,26 +930,42 @@ function handleMappingUpload(input) {
   reader.readAsArrayBuffer(file);
 }
 
+function getEffectiveMapping() {
+  // Merge original mapping + user edits (edits take priority)
+  var vidToCloud = {};
+  var cloudToPerson = {};
+  if (videoMapping) {
+    for (var k in videoMapping.vidToCloud) { vidToCloud[k] = videoMapping.vidToCloud[k]; }
+    for (var k in videoMapping.cloudToPerson) { cloudToPerson[k] = videoMapping.cloudToPerson[k]; }
+  }
+  // Apply user edits
+  for (var k in editedMapping.vidToCloud) { vidToCloud[k] = editedMapping.vidToCloud[k]; }
+  for (var k in editedMapping.cloudToPerson) { cloudToPerson[k] = editedMapping.cloudToPerson[k]; }
+  return { vidToCloud: vidToCloud, cloudToPerson: cloudToPerson };
+}
+
 function processJoin() {
   if (!videoAdData || !videoMapping) return;
+  var effective = getEffectiveMapping();
   var joined = videoAdData.map(function(row) {
-    var cloudId = videoMapping.vidToCloud[row.vid] || '';
-    var person = cloudId ? (videoMapping.cloudToPerson[cloudId] || null) : null;
+    var cloudId = effective.vidToCloud[row.vid] || '';
+    var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
       date: row.date, views: row.views,
       cloudId: cloudId,
-      editor: person ? person.editor : '',
-      director: person ? person.director : ''
+      editor: cleanName(person ? person.editor : ''),
+      director: cleanName(person ? person.director : '')
     };
   });
   videoJoined = joined;
 
+  // Group by person with normalized name keys
   var personMap = {};
   joined.forEach(function(r) {
     if (!r.editor && !r.director) return;
-    var key = (r.editor || '未分配') + '|||' + (r.director || '未分配');
+    var key = cleanName(r.editor || '未分配') + '|||' + cleanName(r.director || '未分配');
     if (!personMap[key]) {
       personMap[key] = { editor: r.editor || '未分配', director: r.director || '未分配',
         gmv: 0, orders: 0, cost: 0, vidSet: new Set() };
@@ -898,6 +989,7 @@ function processJoin() {
 
   saveVideoData();
   renderVideoTab();
+  renderMappingPanel();
 }
 
 function renderVideoTab() {
@@ -953,6 +1045,174 @@ function renderVideoTab() {
     }).join('');
 
   renderVideoDetail(videoDetailFilter);
+}
+
+// ====== 映射关系管理 ======
+function toggleMapSection(id) {
+  var el = document.getElementById(id);
+  var arrowId = id === 'unmappedBody' ? 'unmappedArrow' : 'allMapArrow';
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    document.getElementById(arrowId).textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    document.getElementById(arrowId).textContent = '\u25B6';
+  }
+}
+
+function renderMappingPanel() {
+  if (!videoJoined) {
+    document.getElementById('mappingPanel').style.display = 'none';
+    return;
+  }
+  document.getElementById('mappingPanel').style.display = '';
+
+  var hasMapping = !!videoMapping;
+  var effective = getEffectiveMapping();
+
+  // --- Unmapped videos with GMV > 0 ---
+  var unmapped = videoJoined.filter(function(r) { return r.gmv > 0 && (!r.editor || !r.director); });
+  // De-duplicate by video ID
+  var seenVid = {};
+  var unmappedUnique = [];
+  unmapped.forEach(function(r) {
+    if (!seenVid[r.vid]) { seenVid[r.vid] = true; unmappedUnique.push(r); }
+  });
+  unmappedUnique.sort(function(a, b) { return b.gmv - a.gmv; });
+
+  var unSection = document.getElementById('unmappedSection');
+  if (unmappedUnique.length > 0) {
+    unSection.style.display = '';
+    document.getElementById('unmappedCount').textContent = '(' + unmappedUnique.length + ' 条)';
+    var editRows = {};
+    // Pre-fill from existing mapping
+    unmappedUnique.forEach(function(r) {
+      editRows[r.vid] = {
+        cloudId: effective.vidToCloud[r.vid] || r.cloudId || '',
+        editor: effective.cloudToPerson[effective.vidToCloud[r.vid]] ? effective.cloudToPerson[effective.vidToCloud[r.vid]].editor : '',
+        director: effective.cloudToPerson[effective.vidToCloud[r.vid]] ? effective.cloudToPerson[effective.vidToCloud[r.vid]].director : ''
+      };
+      // Also check if user has already edited
+      if (editedMapping.vidToCloud[r.vid]) {
+        editRows[r.vid].cloudId = editedMapping.vidToCloud[r.vid];
+        if (editedMapping.cloudToPerson[editRows[r.vid].cloudId]) {
+          editRows[r.vid].editor = editedMapping.cloudToPerson[editRows[r.vid].cloudId].editor;
+          editRows[r.vid].director = editedMapping.cloudToPerson[editRows[r.vid].cloudId].director;
+        }
+      }
+    });
+    document.getElementById('unmappedBody').innerHTML = unmappedUnique.map(function(r) {
+      var er = editRows[r.vid];
+      return '<tr>' +
+        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid.slice(-10) + '</td>' +
+        '<td style="text-align:right;color:#A32D2D;font-weight:500;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
+        '<td><input class="map-edit-input" id="ucid_' + r.vid + '" value="' + (er.cloudId || '') + '" placeholder="云视频id" data-vid="' + r.vid + '" data-field="cloudId"></td>' +
+        '<td><input class="map-edit-input" id="ued_' + r.vid + '" value="' + (er.editor || '') + '" placeholder="剪辑" data-vid="' + r.vid + '" data-field="editor"></td>' +
+        '<td><input class="map-edit-input" id="udir_' + r.vid + '" value="' + (er.director || '') + '" placeholder="编导" data-vid="' + r.vid + '" data-field="director"></td>' +
+        '<td><button class="map-save-btn" onclick="saveSingleMapping(\'' + r.vid + '\')">保存</button></td>' +
+        '</tr>';
+    }).join('');
+  } else {
+    unSection.style.display = 'none';
+  }
+
+  // --- Alert section for missing mapping ---
+  var alertHtml = '';
+  var missingVidToCloud = videoJoined.filter(function(r) { return !r.cloudId && r.gmv > 0; }).length;
+  var missingPerson = videoJoined.filter(function(r) { return r.cloudId && !r.editor && r.gmv > 0; }).length;
+  if (missingVidToCloud > 0) {
+    alertHtml += '<span class="map-badge warn">' + missingVidToCloud + ' 条视频无云视频id</span> ';
+  }
+  if (missingPerson > 0) {
+    alertHtml += '<span class="map-badge warn">' + missingPerson + ' 条有云视频id但无对应人员</span> ';
+  }
+  var totalMatched = videoJoined.filter(function(r) { return r.editor; }).length;
+  alertHtml += '<span class="map-badge ok">' + totalMatched + '/' + videoJoined.length + ' 条已匹配</span>';
+  document.getElementById('mapAlertSection').innerHTML = alertHtml;
+
+  // --- All mappings ---
+  var allMap = effective.cloudToPerson;
+  var allMapKeys = Object.keys(allMap);
+  if (allMapKeys.length > 0) {
+    document.getElementById('allMapSection').style.display = '';
+    document.getElementById('allMapCount').textContent = '(' + allMapKeys.length + ' 条)';
+    document.getElementById('allMapBodyTbody').innerHTML = allMapKeys.sort().map(function(cid) {
+      var p = allMap[cid];
+      return '<tr>' +
+        '<td style="font-family:monospace;font-size:10px;">' + cid + '</td>' +
+        '<td><input class="map-edit-input" id="amed_' + cid + '" value="' + (p.editor || '') + '" data-cid="' + cid + '" data-field="editor"></td>' +
+        '<td><input class="map-edit-input" id="amdir_' + cid + '" value="' + (p.director || '') + '" data-cid="' + cid + '" data-field="director"></td>' +
+        '<td><button class="map-save-btn" onclick="saveCloudMapping(\'' + cid + '\')">更新</button></td>' +
+        '</tr>';
+    }).join('');
+  } else {
+    document.getElementById('allMapSection').style.display = 'none';
+  }
+}
+
+function saveSingleMapping(vid) {
+  var cloudId = document.getElementById('ucid_' + vid).value.trim();
+  var editor = cleanName(document.getElementById('ued_' + vid).value);
+  var director = cleanName(document.getElementById('udir_' + vid).value);
+
+  if (cloudId) {
+    editedMapping.vidToCloud[vid] = cloudId;
+  } else {
+    delete editedMapping.vidToCloud[vid];
+  }
+  if (cloudId && (editor || director)) {
+    editedMapping.cloudToPerson[cloudId] = { editor: editor, director: director };
+  } else if (cloudId) {
+    delete editedMapping.cloudToPerson[cloudId];
+  }
+
+  processJoin();
+
+  // Show success
+  var btn = document.querySelector('[data-vid="' + vid + '"]');
+  document.getElementById('mapSaveMsg').textContent = '\u2705 已更新，正在重新关联...';
+  setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 2000);
+}
+
+function saveCloudMapping(cid) {
+  var editor = cleanName(document.getElementById('amed_' + cid).value);
+  var director = cleanName(document.getElementById('amdir_' + cid).value);
+
+  if (editor || director) {
+    editedMapping.cloudToPerson[cid] = { editor: editor, director: director };
+  } else {
+    delete editedMapping.cloudToPerson[cid];
+  }
+
+  processJoin();
+  document.getElementById('mapSaveMsg').textContent = '\u2705 已更新映射';
+  setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 2000);
+}
+
+function saveEditedMappings() {
+  // Collect all edits from unmapped section
+  var inputs = document.querySelectorAll('#unmappedBody input[data-vid]');
+  inputs.forEach(function(inp) {
+    var vid = inp.dataset.vid;
+    var cloudId = (document.getElementById('ucid_' + vid) || {}).value || '';
+    cloudId = cloudId.trim();
+    var editor = cleanName((document.getElementById('ued_' + vid) || {}).value || '');
+    var director = cleanName((document.getElementById('udir_' + vid) || {}).value || '');
+
+    if (cloudId) {
+      editedMapping.vidToCloud[vid] = cloudId;
+      if (editor || director) {
+        editedMapping.cloudToPerson[cloudId] = { editor: editor, director: director };
+      }
+    } else if (editor || director) {
+      // No cloud ID, still save person if they manually entered
+      // Skip - need cloud ID to link
+    }
+  });
+
+  processJoin();
+  document.getElementById('mapSaveMsg').textContent = '\u2705 已保存并重新关联';
+  setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 3000);
 }
 
 function renderVideoDetail(filter) {
