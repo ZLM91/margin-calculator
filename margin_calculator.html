@@ -47,7 +47,12 @@ button:hover { background: #F0EDE6; }
 .video-upload-box.has-file { border-color: #0F6E56; background: #F0FAF5; border-style: solid; }
 .video-scroll { overflow-x: auto; margin-bottom: 14px; max-height: 520px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 8px; }
 .video-scroll table { font-size: 11px; min-width: 800px; }
-.video-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.video-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; user-select: none; }
+.video-scroll thead th.sort-th { cursor: pointer; transition: background .15s; }
+.video-scroll thead th.sort-th:hover { background: #1E4080; }
+.video-scroll thead th.sort-th-active { background: #1A3668; color: #FFE066; font-weight: 700; }
+.video-scroll thead th.sort-th-active .sort-arrow { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #FFE066; color: #1A3668; border-radius: 3px; font-size: 10px; font-weight: 900; margin-left: 4px; vertical-align: middle; }
+.video-scroll thead th.sort-th .sort-arrow { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); border-radius: 3px; font-size: 10px; margin-left: 4px; vertical-align: middle; }
 .video-scroll tbody td { padding: 4px 5px; border-bottom: 1px solid #E8E8E8; white-space: nowrap; }
 .video-scroll tbody tr:hover { background: #F0F7FF; }
 .person-card { display: inline-block; background: #F5F7FA; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px 14px; margin: 3px; min-width: 170px; vertical-align: top; cursor: pointer; transition: box-shadow .2s; }
@@ -1801,8 +1806,12 @@ function renderVideoDetail(filter, sortBy, sortDir) {
   }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   function th(label, key) {
-    var arrow = (videoDetailSortBy === key) ? (videoDetailSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;' + (videoDetailSortBy === key ? 'color:#FFF8E1;' : '') + '" onclick="renderVideoDetail(void 0,\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = videoDetailSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (videoDetailSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderVideoDetail(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
   var html = '<table><thead><tr>' +
     th('视频ID','vid') + th('标题','title') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
@@ -1960,8 +1969,12 @@ function renderBdDetail(filter, sortBy, sortDir) {
   }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   function th(label, key) {
-    var arrow = (bdDetailSortBy === key) ? (bdDetailSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;' + (bdDetailSortBy === key ? 'color:#FFF8E1;' : '') + '" onclick="renderBdDetail(void 0,\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdDetailSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdDetailSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdDetail(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
   var html = '<table><thead><tr>' +
     th('视频ID','vid') + th('标题','title') + th('GMV','gmv') + th('订单','orders') + th('成本','cost') +
@@ -2175,8 +2188,12 @@ function renderBdAllDetail(sortBy, sortDir, toggleAcct) {
   document.getElementById('bdAllCount').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
-    var arrow = (bdAllSortBy === key) ? (bdAllSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetail(\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdAllSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdAllSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdAllDetail(\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -2948,8 +2965,12 @@ function renderVideoDetailUK(filter, sortBy, sortDir) {
   }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   function th(label, key) {
-    var arrow = (videoDetailSortByUK === key) ? (videoDetailSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;' + (videoDetailSortByUK === key ? 'color:#FFF8E1;' : '') + '" onclick="renderVideoDetailUK(void 0,\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = videoDetailSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (videoDetailSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderVideoDetailUK(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
   var html = '<table><thead><tr>' +
     th('视频ID','vid') + th('标题','title') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
@@ -3071,8 +3092,12 @@ function renderBdDetailUK(filter, sortBy, sortDir) {
   }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
   function th(label, key) {
-    var arrow = (bdDetailSortByUK === key) ? (bdDetailSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;' + (bdDetailSortByUK === key ? 'color:#FFF8E1;' : '') + '" onclick="renderBdDetailUK(void 0,\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdDetailSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdDetailSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdDetailUK(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
   var html = '<table><thead><tr>' +
     th('视频ID','vid') + th('标题','title') + th('GMV','gmv') + th('订单','orders') + th('成本','cost') +
@@ -3237,8 +3262,12 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   document.getElementById('bdAllCountUK').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
-    var arrow = (bdAllSortByUK === key) ? (bdAllSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetailUK(\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdAllSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdAllSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdAllDetailUK(\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
