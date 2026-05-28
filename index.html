@@ -816,20 +816,6 @@ button:hover { background: #F0EDE6; }
 <!-- Dashboard (hidden until upload) -->
 <div id="competeDashboard" style="display:none;">
 
-
-<!-- Section 3: Creator Leaderboard -->
-<div class="compete-section">
-  <div class="compete-section-header" onclick="toggleCompeteSection('creatorBody','creatorArrow')">
-    <span>👤 达人表现排行 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="creatorCount"></span></span>
-    <span id="creatorArrow" style="font-size:11px;">▼</span>
-  </div>
-  <div class="compete-section-body" id="creatorBody">
-    <div id="creatorCards" style="margin-bottom:10px;"></div>
-    <div class="compete-scroll" id="creatorTable"></div>
-  </div>
-</div>
-
-
 <!-- Comment Insights -->
 <div class="compete-section">
   <div class="compete-section-header" onclick="toggleCompeteSection('commentBody','commentArrow')">
@@ -1400,8 +1386,6 @@ const SCRIPT_STORAGE = 'maternella_script_data';
 // ====== 竞品视频分析 Tab ======
 var COMPETE_STORAGE = 'maternella_compete_data';
 var competeData = [];
-var competeCreatorSortBy = 'gmv';
-var competeCreatorSortDir = 'desc';
 
 // ====== 预抓取竞品评论数据 (EchoTik 抓取, 播放量>5w) ======
 var PRESCANNED_COMMENTS = {"total_v":52,"total_c":1290,"kw":[["wipes",485],["dude",320],["toilet",276],["paper",271],["baby",105],["butter",100],["don",96],["peanut",91],["your",85],["wipe",82],["good",77],["flushable",72],["water",51],["poop",48],["free",44],["thing",41],["bro",41],["better",40],["buy",40],["shipping",40],["flush",36],["lol",35],["clean",35],["wet",34],["love",34],["shit",33],["right",32],["ass",32],["never",31],["tiktok",31],["pack",30],["deal",29],["isn",29],["cheaper",28],["bidet",27],["time",26],["actually",26],["great",25],["packs",24],["walmart",24],["shop",24],["now",23],["down",23],["people",23],["price",22],["says",22],["septic",21],["make",21],["first",21],["brand",20]],"vm":{"7504160694250638622":91,"7597912271335066911":126,"7477395983211793710":29,"7459208469720091934":32,"7429534041902173471":136,"7401286704537029919":219,"7349194397063335210":34,"7472667914357738798":12,"7475897161016741162":41,"7461146735490977054":39,"7393700872418544942":41,"7398654561394642207":32,"7463329530544000299":11,"7482464812526587178":30,"7460661750724119854":17,"7457708867246558510":5,"7437543642706857259":3,"7449496541212970271":21,"7533312096700861726":3,"7540533303099575583":31,"7382733771294100782":7,"7506584467251694879":24,"7511119829609319726":14,"7598652318116056350":17,"7601242902127217950":5,"7402723316504726830":24,"7467621506126843178":14,"7598647493504552223":12,"7630272946090642701":26,"7441840428665605422":4,"7551093059719630111":17,"7628460225992903967":13,"7471760860302839086":4,"7514802331364494638":1,"7624333334717435166":42,"7595435431664143647":29,"7398682986901769502":16,"7609604294295244045":4,"7464759084915461407":5,"7439375108822633771":17,"7527348243034869023":17,"7387055642898353454":2,"7510339224466492702":2,"7561277397220478238":6,"7600952460005461261":7,"7596833279521623326":6,"7445272836853255466":2}};
@@ -4682,91 +4666,6 @@ function toggleCompeteSection(bodyId, arrowId) {
 }
 
 
-
-function computeCreatorStats() {
-  var map = {};
-  for (var i = 0; i < competeData.length; i++) {
-    var r = competeData[i];
-    if (!map[r.creator]) {
-      map[r.creator] = { name: r.creator, uniqueId: r.uniqueId, followers: r.followers, totalGmv: 0, totalViews: 0, videoCount: 0, totalConvRate: 0 };
-    }
-    map[r.creator].totalGmv += r.gmv;
-    map[r.creator].totalViews += r.views;
-    map[r.creator].videoCount += 1;
-    map[r.creator].totalConvRate += parseFloat(r.conversionRate) || 0;
-  }
-  var list = Object.values(map);
-  for (var j = 0; j < list.length; j++) {
-    list[j].avgConvRate = list[j].videoCount > 0 ? list[j].totalConvRate / list[j].videoCount : 0;
-  }
-  list.sort(function(a, b) { return b.totalGmv - a.totalGmv; });
-  return list;
-}
-
-function renderCreatorLeaderboard() {
-  var list = computeCreatorStats();
-  document.getElementById('creatorCount').textContent = '(' + list.length + ' 位达人)';
-
-  // Sort by current sort
-  list.sort(function(a, b) {
-    var va = a[competeCreatorSortBy], vb = b[competeCreatorSortBy];
-    if (typeof va === 'number') return competeCreatorSortDir === 'asc' ? va - vb : vb - va;
-    if (typeof va === 'string') { va = va.toLowerCase(); vb = (vb || '').toLowerCase(); return competeCreatorSortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
-    return competeCreatorSortDir === 'asc' ? va - vb : vb - va;
-  });
-
-  // Render top 12 cards
-  var top12 = list.slice(0, 12);
-  var maxGmv = top12.length > 0 ? top12[0].totalGmv : 1;
-  var cardsHtml = top12.map(function(p, i) {
-    var medal = i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : '';
-    return '<div class="person-card" style="border-left:3px solid #0F766E;cursor:default;">' +
-      '<div class="pc-name">' + medal + ' #' + (i+1) + ' ' + p.name + ' <span style="font-size:10px;color:#888;">@' + p.uniqueId + '</span></div>' +
-      '<div class="pc-gmv" style="color:#0F766E;">$' + p.totalGmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
-      '<div class="pc-stat">视频: ' + p.videoCount + ' | 均转化率: ' + p.avgConvRate.toFixed(2) + '% | 粉丝: ' + (p.followers||0).toLocaleString() + ' | 总播放: ' + p.totalViews.toLocaleString() + '</div>' +
-      '<div class="pc-kpi"><div class="pc-kpi-bar" style="background:#0F766E;width:' + (p.totalGmv / maxGmv * 100) + '%;"></div></div>' +
-      '</div>';
-  }).join('');
-  document.getElementById('creatorCards').innerHTML = cardsHtml;
-
-  // Render full sortable table
-  function th(label, key) {
-    var isActive = competeCreatorSortBy === key;
-    var arrowHtml = isActive
-      ? '<span class="sort-arrow">' + (competeCreatorSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
-      : '<span class="sort-arrow">&#x2195;</span>';
-    return '<th class="' + (isActive ? 'sort-th sort-th-active' : 'sort-th') + '" onclick="renderCreatorSort(\'' + key + '\')">' + label + arrowHtml + '</th>';
-  }
-  var tableHtml = '<table><thead><tr>' +
-    th('排名','rank') + th('达人名称','name') + th('总GMV','totalGmv') + th('视频数','videoCount') + th('均转化率','avgConvRate') +
-    th('粉丝数','followers') + th('总播放','totalViews') +
-    '</tr></thead><tbody>';
-  for (var i = 0; i < list.length; i++) {
-    var p = list[i];
-    tableHtml += '<tr>' +
-      '<td>' + (i < 3 ? '<span class="compete-rank-badge top3">' + (i+1) + '</span>' : '<span class="compete-rank-badge">' + (i+1) + '</span>') + '</td>' +
-      '<td>' + p.name + '<br><span style="font-size:10px;color:#888;">@' + p.uniqueId + '</span></td>' +
-      '<td style="text-align:right;font-weight:700;color:#0F766E;">$' + p.totalGmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right;">' + p.videoCount + '</td>' +
-      '<td style="text-align:right;">' + p.avgConvRate.toFixed(2) + '%</td>' +
-      '<td style="text-align:right;">' + (p.followers||0).toLocaleString() + '</td>' +
-      '<td style="text-align:right;">' + p.totalViews.toLocaleString() + '</td>' +
-      '</tr>';
-  }
-  tableHtml += '</tbody></table>';
-  document.getElementById('creatorTable').innerHTML = tableHtml;
-}
-
-function renderCreatorSort(key) {
-  if (competeCreatorSortBy === key) {
-    competeCreatorSortDir = competeCreatorSortDir === 'asc' ? 'desc' : 'asc';
-  } else {
-    competeCreatorSortBy = key;
-    competeCreatorSortDir = 'desc';
-  }
-  renderCreatorLeaderboard();
-}
-
 // ====== 评论洞察 Functions ======
 
 function buildCommentVideoList() {
@@ -5003,7 +4902,6 @@ function renderCompeteDashboard() {
   document.getElementById('competeDashboard').style.display = '';
 
   // Render sections
-  renderCreatorLeaderboard();
   renderCommentInsights();
 }
 
