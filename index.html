@@ -47,7 +47,12 @@ button:hover { background: #F0EDE6; }
 .video-upload-box.has-file { border-color: #0F6E56; background: #F0FAF5; border-style: solid; }
 .video-scroll { overflow-x: auto; margin-bottom: 14px; max-height: 520px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 8px; }
 .video-scroll table { font-size: 11px; min-width: 800px; }
-.video-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.video-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; user-select: none; }
+.video-scroll thead th.sort-th { cursor: pointer; transition: background .15s; }
+.video-scroll thead th.sort-th:hover { background: #1E4080; }
+.video-scroll thead th.sort-th-active { background: #1A3668; color: #FFE066; font-weight: 700; }
+.video-scroll thead th.sort-th-active .sort-arrow { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #FFE066; color: #1A3668; border-radius: 3px; font-size: 10px; font-weight: 900; margin-left: 4px; vertical-align: middle; }
+.video-scroll thead th.sort-th .sort-arrow { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); border-radius: 3px; font-size: 10px; margin-left: 4px; vertical-align: middle; }
 .video-scroll tbody td { padding: 4px 5px; border-bottom: 1px solid #E8E8E8; white-space: nowrap; }
 .video-scroll tbody tr:hover { background: #F0F7FF; }
 .person-card { display: inline-block; background: #F5F7FA; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px 14px; margin: 3px; min-width: 170px; vertical-align: top; cursor: pointer; transition: box-shadow .2s; }
@@ -96,6 +101,54 @@ button:hover { background: #F0EDE6; }
 .date-range-banner .dr-icon { font-size: 20px; }
 .date-range-banner .dr-label { font-size: 11px; color: #666; font-weight: 400; }
 .date-range-banner .dr-date { font-weight: 600; }
+.script-badge { display: inline-block; background: #E8F5E9; border: 1px solid #A5D6A7; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #2E7D32; margin: 1px 2px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.script-badge.hot { background: #FFF3E0; border-color: #FFCC80; color: #E65100; font-weight: 500; }
+.script-badge.potential { background: #E3F2FD; border-color: #90CAF9; color: #1565C0; }
+.script-section { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.script-section-header { padding: 10px 14px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.script-section-header.hot-header { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); color: #E65100; }
+.script-section-header.potential-header { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); color: #1565C0; }
+.script-section-body { padding: 10px 14px; max-height: 500px; overflow-y: auto; }
+.script-card { display: inline-block; background: #fff; border: 1px solid #E0E0E0; border-radius: 6px; padding: 8px 10px; margin: 3px; min-width: 200px; vertical-align: top; font-size: 11px; }
+.script-card .sc-title { font-weight: 600; font-size: 12px; margin-bottom: 3px; color: #333; }
+.script-card .sc-meta { color: #888; font-size: 10px; }
+.script-card .sc-gmv { font-weight: 700; color: #2B579A; }
+.script-card .sc-script { font-size: 11px; color: #555; margin-top: 4px; padding: 4px 6px; background: #FAFAFA; border-radius: 3px; max-height: 36px; overflow: hidden; line-height: 1.4; }
+
+/* 竞品评论挖掘看板 */
+.pain-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 14px; }
+.pain-card .pc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pain-card .pc-title { font-weight: 700; font-size: 14px; }
+.pain-card .pc-count { font-size: 24px; font-weight: 700; color: #C62828; }
+.pain-card .pc-keywords { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.pain-card .pc-kw { background: #FFEBEE; color: #C62828; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+.pain-card .pc-quote { font-size: 11px; color: #666; font-style: italic; border-left: 3px solid #EF9A9A; padding-left: 8px; margin-top: 6px; line-height: 1.5; max-height: 54px; overflow-y: auto; }
+
+.idea-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+.idea-card .ic-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; font-weight: 600; }
+.idea-card .ic-badge.hot { background: #FFEBEE; color: #C62828; }
+.idea-card .ic-badge.diff { background: #E3F2FD; color: #1565C0; }
+.idea-card .ic-badge.warn { background: #FFF3E0; color: #E65100; }
+.idea-card .ic-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.idea-card .ic-meta { font-size: 10px; color: #888; margin-bottom: 6px; }
+.idea-card .ic-script { font-size: 12px; color: #333; background: #FAFAFA; padding: 8px 10px; border-radius: 4px; line-height: 1.6; }
+
+.review-stars { color: #F5A623; font-size: 12px; }
+.review-kw-hl { background: #FFF9C4; padding: 0 2px; border-radius: 2px; }
+.cat-badge { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 8px; margin-right: 2px; font-weight: 600; }
+.cat-badge.safety { background: #FFCDD2; color: #C62828; }
+.cat-badge.quality { background: #F3E5F5; color: #6A1B9A; }
+.cat-badge.sustainable { background: #C8E6C9; color: #2E7D32; }
+.cat-badge.experience { background: #BBDEFB; color: #1565C0; }
+
+.rating-bar-wrap { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 11px; }
+.rating-bar-label { width: 40px; text-align: right; }
+.rating-bar-track { flex: 1; height: 14px; background: #EEE; border-radius: 7px; overflow: hidden; }
+.rating-bar-fill { height: 100%; border-radius: 7px; transition: width .3s; }
+.rating-bar-fill.pos { background: #4CAF50; }
+.rating-bar-fill.neu { background: #FFC107; }
+.rating-bar-fill.neg { background: #F44336; }
+.rating-bar-count { width: 30px; font-size: 10px; color: #888; text-align: left; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -106,6 +159,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn active" data-tab="margin" onclick="switchTab('margin')">📊 毛利率计算</button>
   <button class="tab-btn" data-tab="video" onclick="switchTab('video')">📹 视频数据 (美国)</button>
   <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
+  <button class="tab-btn" data-tab="reviews" onclick="switchTab('reviews')">🔍 竞品评论挖掘</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -232,6 +286,12 @@ button:hover { background: #F0EDE6; }
     <div style="font-size:11px;color:#888;">云视频id汇总表 .xlsx（含Sheet1 + 线上表格）</div>
     <input type="file" accept=".xlsx,.csv,.xls" onchange="handleMappingUpload(this)" style="display:none;">
   </label>
+  <label class="video-upload-box" id="scriptUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📝</div>
+    <div id="scriptUploadLabel" style="font-size:13px;font-weight:500;">上传脚本CSV</div>
+    <div style="font-size:11px;color:#888;">跨境脚本.csv（脚本ID = 云视频id）</div>
+    <input type="file" accept=".csv" onchange="handleScriptUpload(this)" style="display:none;">
+  </label>
 </div>
 
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
@@ -248,6 +308,34 @@ button:hover { background: #F0EDE6; }
   <div id="directorStatus" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
   <div id="directorCards" style="margin-bottom:14px;"></div>
   <div id="directorTable" style="margin-bottom:14px;"></div>
+</div>
+
+<!-- 爆款脚本 & 潜力脚本 -->
+<div id="scriptHotSection" class="script-section" style="display:none;">
+  <div class="script-section-header hot-header" onclick="toggleScriptSection('scriptHotBody','scriptHotArrow')">
+    <span>🔥 爆款脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptHotCount"></span></span>
+    <span id="scriptHotArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptHotBody"></div>
+</div>
+<div id="scriptPotentialSection" class="script-section" style="display:none;">
+  <div class="script-section-header potential-header" onclick="toggleScriptSection('scriptPotentialBody','scriptPotentialArrow')">
+    <span>📈 近期潜力脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptPotentialCount"></span></span>
+    <span id="scriptPotentialArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptPotentialBody"></div>
+</div>
+
+<!-- 裂变 Brief 板块 -->
+<div id="viralBriefSection" class="script-section" style="display:none;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSection('viralBriefBody','viralBriefArrow')">
+    <span>⚡ 裂变 Brief — 近期爆款视频速览 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="viralBriefCount"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="event.stopPropagation();copyViralBrief();" style="font-size:10px;padding:2px 8px;border-radius:4px;background:#E65100;color:#fff;border:none;">📋 一键复制</button>
+      <span id="viralBriefArrow" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="viralBriefBody"></div>
 </div>
 
 <!-- BD 达人数据 -->
@@ -273,7 +361,7 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <!-- Mapping Panel -->
-<div id="mappingPanel" style="display:none;">
+<div id="mappingPanel">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span>🔗 映射关系管理</span>
     <button onclick="exportMappingCSV()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
@@ -408,8 +496,46 @@ button:hover { background: #F0EDE6; }
   <div class="video-scroll" id="bdAllDetailUK" style="max-height:600px;"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
 </div>
 
+<!-- 脚本上传入口 (UK) -->
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+  <label class="video-upload-box" id="scriptUploadBoxUK" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📝</div>
+    <div id="scriptUploadLabelUK" style="font-size:13px;font-weight:500;">上传脚本CSV</div>
+    <div style="font-size:11px;color:#888;">跨境脚本.csv（脚本ID = 云视频id）</div>
+    <input type="file" accept=".csv" onchange="handleScriptUploadUK(this)" style="display:none;">
+  </label>
+</div>
+
+<!-- 脚本板块 (UK) -->
+<div id="scriptHotSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header hot-header" onclick="toggleScriptSectionUK('scriptHotBodyUK','scriptHotArrowUK')">
+    <span>🔥 爆款脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptHotCountUK"></span></span>
+    <span id="scriptHotArrowUK" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptHotBodyUK"></div>
+</div>
+<div id="scriptPotentialSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header potential-header" onclick="toggleScriptSectionUK('scriptPotentialBodyUK','scriptPotentialArrowUK')">
+    <span>📈 近期潜力脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptPotentialCountUK"></span></span>
+    <span id="scriptPotentialArrowUK" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptPotentialBodyUK"></div>
+</div>
+
+<!-- 裂变 Brief 板块 (UK) -->
+<div id="viralBriefSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSectionUK('viralBriefBodyUK','viralBriefArrowUK')">
+    <span>⚡ 裂变 Brief — 近期爆款视频速览 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="viralBriefCountUK"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="event.stopPropagation();copyViralBriefUK();" style="font-size:10px;padding:2px 8px;border-radius:4px;background:#E65100;color:#fff;border:none;">📋 一键复制</button>
+      <span id="viralBriefArrowUK" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="viralBriefBodyUK"></div>
+</div>
+
 <!-- Mapping Panel -->
-<div id="mappingPanelUK" style="display:none;">
+<div id="mappingPanelUK">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span>🔗 映射关系管理</span>
     <button onclick="exportMappingCSVUK()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
@@ -477,6 +603,84 @@ button:hover { background: #F0EDE6; }
 <div id="personFilterUK" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
 <div class="video-scroll" id="videoDetailUK"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
 </div><!-- /tab-video-uk -->
+
+<!-- ====== 竞品评论挖掘 Tab ====== -->
+<div id="tab-reviews" class="tab-content">
+
+<!-- 区域1: 数据导入 -->
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;align-items:stretch;">
+  <label class="video-upload-box" id="reviewUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📥</div>
+    <div id="reviewUploadLabel" style="font-size:13px;font-weight:500;">上传评论CSV</div>
+    <div style="font-size:11px;color:#888;">支持 product/rating/content 列</div>
+    <input type="file" accept=".csv" onchange="handleReviewUpload(this)" style="display:none;">
+  </label>
+  <div class="video-upload-box" id="reviewExampleBox" style="flex:1;min-width:240px;cursor:pointer;" onclick="downloadReviewTemplate()">
+    <div style="font-size:24px;margin-bottom:4px;">📋</div>
+    <div style="font-size:13px;font-weight:500;">下载示例模板</div>
+    <div style="font-size:11px;color:#888;">查看CSV格式要求</div>
+  </div>
+  <div class="video-upload-box" id="reviewResetBox" style="flex:1;min-width:240px;cursor:pointer;" onclick="resetReviewData()">
+    <div style="font-size:24px;margin-bottom:4px;">🗑</div>
+    <div style="font-size:13px;font-weight:500;">重置数据</div>
+    <div style="font-size:11px;color:#888;">清除所有评论数据</div>
+  </div>
+</div>
+
+<div id="reviewSummaryBar" style="display:none;padding:10px 14px;background:#E8F0FE;border-radius:8px;margin-bottom:14px;font-size:13px;gap:20px;flex-wrap:wrap;align-items:center;">
+  <span id="reviewSummaryText"></span>
+</div>
+
+<div id="reviewDashboard" style="display:none;">
+
+<!-- 区域2: 痛点分析 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0);border-left:4px solid #C62828;" onclick="toggleScriptSection('painPointsBody','painPointsArrow')">
+    <span>🔴 竞品痛点分析 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="painPointsCount"></span></span>
+    <span id="painPointsArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="painPointsBody">
+    <div id="painPointsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:14px;"></div>
+    <div id="painPointsChart" style="max-width:600px;margin:0 auto;"></div>
+  </div>
+</div>
+
+<!-- 区域3: 脚本角度生成 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSection('scriptIdeasBody','scriptIdeasArrow')">
+    <span>💡 内容脚本角度 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptIdeasCount"></span></span>
+    <span id="scriptIdeasArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptIdeasBody">
+    <div id="scriptIdeasGrid"></div>
+  </div>
+</div>
+
+<!-- 区域4: 评论明细 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-left:4px solid #2E7D32;" onclick="toggleScriptSection('reviewDetailBody','reviewDetailArrow')">
+    <span>📋 评论明细 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="reviewDetailCount"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <select id="reviewProductFilter" onchange="renderReviewTable()" style="font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid #ccc;">
+        <option value="all">全部竞品</option>
+      </select>
+      <select id="reviewRatingFilter" onchange="renderReviewTable()" style="font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid #ccc;">
+        <option value="all">全部评分</option>
+        <option value="12">⭐1-2 负面</option>
+        <option value="3">⭐3 中性</option>
+        <option value="45">⭐4-5 正面</option>
+      </select>
+      <span id="reviewDetailArrow" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="reviewDetailBody">
+    <div class="video-scroll" id="reviewDetailTable"></div>
+  </div>
+</div>
+
+</div><!-- /reviewDashboard -->
+
+</div><!-- /tab-reviews -->
 
 </div><!-- /container -->
 
@@ -1000,12 +1204,19 @@ render();
 // ====== 视频数据 Tab (美国) ======
 const VID_STORAGE = 'maternella_video_data';
 const VID_MAP_KEY = 'maternella_video_mapping_us';
+// GitHub Raw base URL for data files (change branch/tag to update)
+const DATA_BASE = 'https://raw.githubusercontent.com/zlm91/margin-calculator/main/data/';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
 let videoDirectorSummary = null; // 编导独立排名
 let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26日"
+let videoDetailSortBy = 'gmv', videoDetailSortDir = 'desc'; // 视频明细排序
+let bdDetailSortBy = 'gmv', bdDetailSortDir = 'desc'; // 达人视频明细排序
+let dataLoadingFromRemote = false; // prevent duplicate remote fetch
+let scriptMap = {}; // 云视频id -> 脚本标题 (from 跨境脚本.csv)
+const SCRIPT_STORAGE = 'maternella_script_data';
 
 function saveMappingData() {
   try {
@@ -1018,6 +1229,7 @@ function saveMappingData() {
 }
 
 function loadMappingData() {
+  // 1) Try localStorage first
   try {
     var raw = localStorage.getItem(VID_MAP_KEY);
     if (raw) {
@@ -1029,8 +1241,35 @@ function loadMappingData() {
         document.getElementById('mapUploadBox').classList.add('has-file');
         document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
       }
+      return; // got it from localStorage, done
     }
   } catch(e) {}
+  // 2) Fallback: fetch from GitHub
+  loadMappingFromRemote();
+}
+
+function loadMappingFromRemote() {
+  if (dataLoadingFromRemote) return;
+  dataLoadingFromRemote = true;
+  document.getElementById('vidSaveStatus').textContent = '\u23F3 从云端加载映射数据...';
+  fetch(DATA_BASE + 'us_mapping.json', { cache: 'no-cache' })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
+      videoMapping = data.vidToCloud && data.cloudToPerson ? data : null;
+      if (videoMapping) {
+        saveMappingData(); // persist to localStorage so next visit is instant
+        document.getElementById('mapUploadBox').classList.add('has-file');
+        document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（云端加载）';
+        document.getElementById('vidSaveStatus').textContent = '\u2601\uFE0F 云端数据已加载';
+        // If adData already loaded, try join
+        if (videoAdData) { processJoin(); }
+      }
+    })
+    .catch(function(err) {
+      console.log('Remote mapping not available:', err.message);
+      document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 云端数据不可用，请手动上传';
+    })
+    .finally(function() { dataLoadingFromRemote = false; });
 }
 
 function resetMappingData() {
@@ -1048,18 +1287,23 @@ function resetMappingData() {
   document.getElementById('directorTable').innerHTML = '';
   document.getElementById('bdCards').innerHTML = '';
   document.getElementById('bdTable').innerHTML = '';
-  document.getElementById('mappingPanel').style.display = 'none';
   document.getElementById('personFilter').innerHTML = '';
   document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
   document.getElementById('bdDetail').innerHTML = '';
   document.getElementById('bdSection').style.display = 'none';
+  document.getElementById('scriptHotSection').style.display = 'none';
+  document.getElementById('scriptPotentialSection').style.display = 'none';
   document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSection').style.display = 'none';
   bdAllExpanded = {};
   document.querySelector('#mapUploadBox input').value = '';
   videoJoined = null; videoPersonSummary = null; videoBdSummary = null; videoDirectorSummary = null;
   saveVideoData();
+  // Refresh mapping panel to show "no data" state
+  renderMappingPanel();
+  // Try reload from remote after reset
+  setTimeout(function() { loadMappingFromRemote(); }, 500);
 }
 
 loadMappingData();
@@ -1104,9 +1348,16 @@ function switchTab(tab) {
   document.getElementById('tab-margin').classList.toggle('active', tab === 'margin');
   document.getElementById('tab-video').classList.toggle('active', tab === 'video');
   document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
+  document.getElementById('tab-reviews').classList.toggle('active', tab === 'reviews');
 }
 
 function loadVideoData() {
+  // 0) Load script data from localStorage
+  try {
+    var scriptRaw = localStorage.getItem(SCRIPT_STORAGE);
+    if (scriptRaw) { scriptMap = JSON.parse(scriptRaw); }
+  } catch(e) {}
+  // 1) Try localStorage first
   try {
     var raw = localStorage.getItem(VID_STORAGE);
     if (raw) {
@@ -1140,7 +1391,7 @@ function loadVideoData() {
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
       }
       // Auto-recompute if needed OR if mapping was just loaded + adData exists
-      var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined || r.scriptTitle === undefined; });
       var joinedMissing = !videoJoined && videoMapping && videoAdData;
       if (needRecompute || joinedMissing) {
         if (videoMapping && videoAdData) { processJoin(); }
@@ -1149,8 +1400,35 @@ function loadVideoData() {
         renderVideoTab(); renderMappingPanel();
       }
       document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
+      return; // got it from localStorage, done
     }
   } catch(e) {}
+  // 2) Fallback: fetch from GitHub
+  loadVideoFromRemote();
+}
+
+function loadVideoFromRemote() {
+  if (dataLoadingFromRemote) return;
+  dataLoadingFromRemote = true;
+  document.getElementById('vidSaveStatus').textContent = '\u23F3 从云端加载广告数据...';
+  fetch(DATA_BASE + 'us_ad_data.json', { cache: 'no-cache' })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
+      videoAdData = data.adData || data; // support both wrapped and raw format
+      if (!videoAdData || !videoAdData.length) throw new Error('Empty adData');
+      // Save to localStorage for next visit
+      saveVideoData();
+      document.getElementById('adUploadBox').classList.add('has-file');
+      document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（云端加载）';
+      document.getElementById('vidSaveStatus').textContent = '\u2601\uFE0F 云端数据已加载';
+      // If mapping already loaded, process join
+      if (videoMapping) { processJoin(); }
+    })
+    .catch(function(err) {
+      console.log('Remote ad data not available:', err.message);
+      document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 云端数据不可用，请手动上传';
+    })
+    .finally(function() { dataLoadingFromRemote = false; });
 }
 
 function saveVideoData() {
@@ -1213,7 +1491,6 @@ function resetVideoData() {
   document.getElementById('directorTable').innerHTML = '';
   document.getElementById('bdCards').innerHTML = '';
   document.getElementById('bdTable').innerHTML = '';
-  document.getElementById('mappingPanel').style.display = 'none';
   document.getElementById('personFilter').innerHTML = '';
   document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -1225,6 +1502,10 @@ function resetVideoData() {
   document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSection').style.display = 'none';
   bdAllExpanded = {};
+  videoDetailSortBy = 'gmv'; videoDetailSortDir = 'desc';
+  bdDetailSortBy = 'gmv'; bdDetailSortDir = 'desc';
+  // Try reload from remote after reset
+  setTimeout(function() { loadVideoFromRemote(); }, 500);
 }
 
 function parseXlsxSheet(wb, name) {
@@ -1390,6 +1671,101 @@ function handleMappingUpload(input) {
   reader.readAsArrayBuffer(file);
 }
 
+function handleScriptUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var buf = new Uint8Array(e.target.result);
+      // Decode GBK CSV
+      var text;
+      try { text = new TextDecoder('gbk').decode(buf); } catch(_) { text = new TextDecoder('utf-8').decode(buf); }
+      // Quick check: if first line doesn't contain 脚本ID, try UTF-8
+      if (text.indexOf('脚本ID') < 0) {
+        try { text = new TextDecoder('utf-8').decode(buf); } catch(_) {}
+      }
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空或格式不对');
+      var header = parseCSVLine(lines[0]);
+      var idxId = -1, idxTitle = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].trim();
+        if (h === '脚本ID') idxId = i;
+        if (h === '脚本标题') idxTitle = i;
+      }
+      if (idxId < 0 || idxTitle < 0) throw new Error('CSV 缺少"脚本ID"或"脚本标题"列');
+      var map = {};
+      var count = 0;
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var sid = (row[idxId] || '').trim();
+        var title = (row[idxTitle] || '').trim();
+        if (!sid || !title) continue;
+        // Strip trailing tabs/spaces that may come from the CSV
+        sid = sid.replace(/[\t\s]+/g, '');
+        title = title.replace(/[\t]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (sid && title) { map[sid] = title; count++; }
+      }
+      scriptMap = map;
+      // Save to localStorage
+      try { localStorage.setItem(SCRIPT_STORAGE, JSON.stringify(map)); } catch(_) {}
+      document.getElementById('scriptUploadBox').classList.add('has-file');
+      document.getElementById('scriptUploadLabel').textContent = '\u2705 脚本数据: ' + count + ' 条（云视频id→脚本标题）';
+      // If ad data + mapping already loaded, re-process to inject scripts
+      if (videoAdData && videoMapping) { processJoin(); }
+    } catch(err) {
+      document.getElementById('videoStatus').textContent = '\u274C 脚本CSV解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleScriptUploadUK(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var buf = new Uint8Array(e.target.result);
+      var text;
+      try { text = new TextDecoder('gbk').decode(buf); } catch(_) { text = new TextDecoder('utf-8').decode(buf); }
+      if (text.indexOf('脚本ID') < 0) {
+        try { text = new TextDecoder('utf-8').decode(buf); } catch(_) {}
+      }
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空或格式不对');
+      var header = parseCSVLine(lines[0]);
+      var idxId = -1, idxTitle = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].trim();
+        if (h === '脚本ID') idxId = i;
+        if (h === '脚本标题') idxTitle = i;
+      }
+      if (idxId < 0 || idxTitle < 0) throw new Error('CSV 缺少"脚本ID"或"脚本标题"列');
+      var map = {};
+      var count = 0;
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var sid = (row[idxId] || '').trim();
+        var title = (row[idxTitle] || '').trim();
+        if (!sid || !title) continue;
+        sid = sid.replace(/[\t\s]+/g, '');
+        title = title.replace(/[\t]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (sid && title) { map[sid] = title; count++; }
+      }
+      scriptMapUK = map;
+      try { localStorage.setItem(SCRIPT_STORAGE_UK, JSON.stringify(map)); } catch(_) {}
+      document.getElementById('scriptUploadBoxUK').classList.add('has-file');
+      document.getElementById('scriptUploadLabelUK').textContent = '\u2705 脚本数据: ' + count + ' 条（云视频id→脚本标题）';
+      if (videoAdDataUK && videoMappingUK) { processJoinUK(); }
+    } catch(err) {
+      document.getElementById('videoStatusUK').textContent = '\u274C 脚本CSV解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 function getEffectiveMapping() {
   // Merge original mapping + user edits (edits take priority)
   var vidToCloud = {};
@@ -1412,9 +1788,26 @@ function processJoin() {
     return;
   }
   var effective = getEffectiveMapping();
+  var scriptKeys = Object.keys(scriptMap);
+  // Build a fuzzy lookup: try exact match first, then try trimmed/normalized variants
+  var scriptLookup = {};
+  scriptKeys.forEach(function(k) {
+    scriptLookup[k] = scriptMap[k];
+    // Also store variants: strip leading zeros, strip .0 suffix
+    var cleanK = k.replace(/^0+/, '').replace(/\.0+$/, '');
+    if (cleanK !== k && !scriptLookup[cleanK]) scriptLookup[cleanK] = scriptMap[k];
+  });
+  var scriptMatchCount = 0, totalWithCloud = 0;
   var joined = videoAdData.map(function(row) {
-    var cloudId = effective.vidToCloud[row.vid] || '';
+    var cloudId = (effective.vidToCloud[row.vid] || '').trim();
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
+    if (cloudId) {
+      totalWithCloud++;
+      var st = scriptMap[cloudId];
+      if (!st) st = scriptLookup[cloudId]; // try fuzzy
+      if (st) { scriptMatchCount++; }
+    }
+    var scriptTitle = scriptMap[cloudId] || scriptLookup[cloudId] || '';
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
@@ -1422,7 +1815,8 @@ function processJoin() {
       account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
-      director: cleanName(person ? person.director : '')
+      director: cleanName(person ? person.director : ''),
+      scriptTitle: scriptTitle
     };
   });
   videoJoined = joined;
@@ -1506,6 +1900,11 @@ function processJoin() {
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
   saveVideoData();
+  // 脚本匹配统计
+  if (scriptKeys.length > 0 && totalWithCloud > 0) {
+    var scriptMsg = '  |  📝 脚本匹配: ' + scriptMatchCount + '/' + totalWithCloud + ' 条视频关联到脚本（脚本库共 ' + scriptKeys.length + ' 条）';
+    document.getElementById('videoStatus').textContent = (document.getElementById('videoStatus').textContent || '') + scriptMsg;
+  }
   showDateRange(videoDateRange);
   renderVideoTab();
   renderMappingPanel();
@@ -1524,6 +1923,26 @@ function renderVideoTab() {
 
   // === 剪辑排名 (全部展示) ===
   var maxGmv = videoPersonSummary[0] ? videoPersonSummary[0].gmv : 1;
+  // Build per-editor hot scripts (当月 GMV>100 且有脚本的)
+  var editorHotScripts = {};
+  videoJoined.forEach(function(r) {
+    if (!r.editor || !r.scriptTitle || !isCurrentMonth(r.date) || r.gmv < 100) return;
+    var key = cleanName(r.editor);
+    if (!editorHotScripts[key]) editorHotScripts[key] = [];
+    editorHotScripts[key].push({ gmv: r.gmv, script: r.scriptTitle, vid: r.vid, title: r.title });
+  });
+  // Sort each editor's scripts by GMV desc, dedupe by script title
+  Object.keys(editorHotScripts).forEach(function(k) {
+    var arr = editorHotScripts[k];
+    arr.sort(function(a, b) { return b.gmv - a.gmv; });
+    var seenScript = {};
+    editorHotScripts[k] = arr.filter(function(s) {
+      if (seenScript[s.script]) return false;
+      seenScript[s.script] = true;
+      return true;
+    }).slice(0, 3);
+  });
+
   var cards = document.getElementById('personCards');
   cards.innerHTML = videoPersonSummary.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
@@ -1531,10 +1950,17 @@ function renderVideoTab() {
     var statusCls = isInactive ? 'inactive' : 'active';
     var statusText = isInactive ? '已离职' : '在职';
     var m = medal(i);
+    var hotScripts = editorHotScripts[cleanName(p.editor)] || [];
+    var scriptHtml = hotScripts.length > 0
+      ? '<div style="margin-top:4px;font-size:10px;color:#E65100;">🔥 爆款脚本: ' + hotScripts.map(function(s) {
+          return '<span class="script-badge hot" title="' + s.script.replace(/"/g, '&quot;') + ' | GMV: $' + s.gmv.toFixed(2) + '">' + s.script + '</span>';
+        }).join('') + '</div>'
+      : '';
     return '<div class="person-card' + (isInactive ? ' inactive' : '') + '" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
       '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatus(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      scriptHtml +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
   }).join('');
@@ -1581,6 +2007,10 @@ function renderVideoTab() {
   renderDirectorSection();
   // BD 达人数据渲染
   renderBdSection();
+  // 脚本板块渲染
+  renderScriptSections();
+  // 裂变 Brief 板块渲染
+  renderViralBrief();
 }
 
 // ====== 映射关系管理 ======
@@ -1597,11 +2027,14 @@ function toggleMapSection(id) {
 }
 
 function renderMappingPanel() {
+  // Panel always visible so export/import/reset buttons are always accessible
   if (!videoJoined) {
-    document.getElementById('mappingPanel').style.display = 'none';
+    document.getElementById('mapAlertSection').innerHTML = '<div style="padding:8px;background:#FFF8E1;border-radius:4px;font-size:12px;">⚠️ 尚未加载广告数据或映射表，请先导入数据后再查看明细。</div>';
+    document.getElementById('unmappedSection').style.display = 'none';
+    document.getElementById('mappedSection').style.display = 'none';
+    document.getElementById('mapEditSection').style.display = 'none';
     return;
   }
-  document.getElementById('mappingPanel').style.display = '';
 
   var hasMapping = !!videoMapping;
   var effective = getEffectiveMapping();
@@ -1761,10 +2194,11 @@ function saveEditedMappings() {
   setTimeout(function() { document.getElementById('mapSaveMsg').textContent = ''; }, 3000);
 }
 
-function renderVideoDetail(filter) {
-  videoDetailFilter = filter;
+function renderVideoDetail(filter, sortBy, sortDir) {
+  if (filter !== undefined) videoDetailFilter = filter;
+  if (sortBy) { videoDetailSortBy = sortBy; videoDetailSortDir = sortDir || (videoDetailSortBy === sortBy ? (videoDetailSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoined) return;
-  var data = filter ? videoJoined.filter(function(r) { return r.editor === filter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.editor && r.gmv > 0; });
+  var data = videoDetailFilter ? videoJoined.filter(function(r) { return r.editor === videoDetailFilter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCount').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -1774,17 +2208,53 @@ function renderVideoDetail(filter) {
   function isRecentHigh(dateStr, gmv, threshold) {
     return gmv >= threshold && isCurrentMonth(dateStr);
   }
-  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  // Dynamic sort
+  var sk = videoDetailSortBy, sd = videoDetailSortDir;
+  var sorted = data.slice().sort(function(a, b) {
+    var va, vb;
+    if (sk === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sk === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sk === 'views') { va = (a.views||0); vb = (b.views||0); }
+    else if (sk === 'cost') { va = a.cost; vb = b.cost; }
+    else if (sk === 'roi') { va = (a.roi||0); vb = (b.roi||0); }
+    else if (sk === 'date') { va = a.date||''; vb = b.date||''; }
+    else if (sk === 'vid') { va = a.vid; vb = b.vid; }
+    else if (sk === 'title') { va = (a.title||'').toLowerCase(); vb = (b.title||'').toLowerCase(); }
+    else if (sk === 'tags') { va = (a.tags||'').toLowerCase(); vb = (b.tags||'').toLowerCase(); }
+    else if (sk === 'account') { va = (a.account||'').toLowerCase(); vb = (b.account||'').toLowerCase(); }
+    else if (sk === 'editor') { va = a.editor.toLowerCase(); vb = b.editor.toLowerCase(); }
+    else if (sk === 'director') { va = a.director.toLowerCase(); vb = b.director.toLowerCase(); }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return sd === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return sd === 'asc' ? va - vb : vb - va;
+  }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  function th(label, key) {
+    var isActive = videoDetailSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (videoDetailSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderVideoDetail(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
+  }
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    th('视频ID','vid') + th('标题','title') + th('脚本文案','scriptTitle') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
+    th('成本','cost') + th('ROI','roi') + th('播放量','views') + th('账号','account') + th('剪辑','editor') +
+    th('编导','director') + th('日期','date') +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       var recent = isRecentHigh(r.date, r.gmv, 100);
       var trStyle = recent ? 'background:#FFFDE7;' : '';
+      var scriptHtml = r.scriptTitle
+        ? '<span class="script-badge' + (recent ? ' hot' : '') + '" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">' + r.scriptTitle + '</span>'
+        : '<span style="color:#ccc;font-size:10px;">-</span>';
+      var cidHtml = r.cloudId
+        ? '<span style="display:inline-block;background:#E8F0FE;color:#1A56B8;font-family:monospace;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-top:2px;border:1px solid #B8D4FE;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
+        : '<span style="font-size:9px;color:#ccc;display:block;">\u2601 -</span>';
       return '<tr style="' + trStyle + '">' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '<br>' + cidHtml + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:10px;">' + scriptHtml + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
         '<td style="text-align:center;">' + r.orders + '</td>' +
@@ -1800,6 +2270,333 @@ function renderVideoDetail(filter) {
   document.getElementById('videoDetail').innerHTML = html;
 }
 
+// ====== 脚本板块渲染 ======
+function toggleScriptSection(bodyId, arrowId) {
+  var el = document.getElementById(bodyId);
+  var arrow = document.getElementById(arrowId);
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    arrow.textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    arrow.textContent = '\u25B6';
+  }
+}
+
+function renderScriptSections() {
+  var hotSection = document.getElementById('scriptHotSection');
+  var potentialSection = document.getElementById('scriptPotentialSection');
+
+  if (!videoJoined || Object.keys(scriptMap).length === 0) {
+    hotSection.style.display = 'none';
+    potentialSection.style.display = 'none';
+    return;
+  }
+
+  // 爆款脚本：当月 GMV > 100 且有脚本文案的品牌视频
+  var hotVideos = videoJoined.filter(function(r) {
+    return r.scriptTitle && isCurrentMonth(r.date) && r.gmv >= 100 && r.isBrand;
+  });
+  // Dedupe by script title, keep highest GMV
+  var hotMap = {};
+  hotVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!hotMap[key] || hotMap[key].gmv < r.gmv) hotMap[key] = r;
+  });
+  var hotList = Object.values(hotMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (hotList.length > 0) {
+    hotSection.style.display = '';
+    document.getElementById('scriptHotCount').textContent = '(' + hotList.length + ' 条爆款脚本)';
+    document.getElementById('scriptHotBody').innerHTML = hotList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    hotSection.style.display = 'none';
+  }
+
+  // 潜力脚本：近期（近3个月）GMV 在 $20-$100 之间的品牌视频
+  var now = new Date();
+  var threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+  function isWithin3Months(dateStr) {
+    if (!dateStr) return false;
+    var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
+    if (!m) return false;
+    var d = new Date(parseInt(m[1]), parseInt(m[2]) - 1, 1);
+    return d >= threeMonthsAgo && d <= now;
+  }
+  var potentialVideos = videoJoined.filter(function(r) {
+    return r.scriptTitle && isWithin3Months(r.date) && r.gmv >= 20 && r.gmv < 100 && r.isBrand;
+  });
+  // Dedupe by script title, keep highest GMV
+  var potMap = {};
+  potentialVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!potMap[key] || potMap[key].gmv < r.gmv) potMap[key] = r;
+  });
+  var potList = Object.values(potMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (potList.length > 0) {
+    potentialSection.style.display = '';
+    document.getElementById('scriptPotentialCount').textContent = '(' + potList.length + ' 条潜力脚本)';
+    document.getElementById('scriptPotentialBody').innerHTML = potList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv" style="color:#1565C0;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    potentialSection.style.display = 'none';
+  }
+}
+
+// ====== 裂变 Brief 板块 ======
+function renderViralBrief() {
+  var section = document.getElementById('viralBriefSection');
+  if (!videoJoined || !videoJoined.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  // 爆款视频：当月发布 + GMV > $100 + 品牌账号
+  var hotVideos = videoJoined.filter(function(r) {
+    return r.gmv >= 100 && r.isBrand && isCurrentMonth(r.date);
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (!hotVideos.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  document.getElementById('viralBriefCount').textContent = '(' + hotVideos.length + ' 条)';
+  section.style.display = '';
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
+  // Build text brief for clipboard copy
+  window._viralBriefText = 'Matern\'ella \u7206\u6B3E\u89C6\u9891 \u88C2\u53D8 Brief\n' +
+    '========================================\n' +
+    '\u751F\u6210\u65F6\u95F4: ' + new Date().toLocaleDateString('zh-CN') + '\n' +
+    '\u6570\u636E\u8303\u56F4: \u5F53\u6708\u53D1\u5E03 | GMV > $100 | \u54C1\u724C\u81EA\u8425\n' +
+    '========================================\n\n' +
+    hotVideos.map(function(r, i) {
+      return '【#' + (i+1) + '】 GMV: $' + fmt(r.gmv) + ' | ROI: ' + (r.roi||0).toFixed(2) + '\n' +
+        '  \u89C6\u9891ID: ' + r.vid + (r.cloudId ? ' | \u4E91\u89C6\u9891ID: ' + r.cloudId : '') + '\n' +
+        '  \u6807\u9898: ' + (r.title || '-') + '\n' +
+        '  \u526A\u8F91: ' + (r.editor || '-') + ' | \u7F16\u5BFC: ' + (r.director || '-') + '\n' +
+        '  \u53D1\u5E03: ' + (r.date ? r.date.slice(0,10) : '-') + ' | \u8BA2\u5355: ' + r.orders + ' | \u64AD\u653E: ' + (r.views||0).toLocaleString() + '\n' +
+        '  \u8D26\u53F7: ' + (r.account || '-') + '\n';
+    }).join('\n') +
+    '\n========================================\n' +
+    '\uD83D\uDCA1 \u5EFA\u8BAE: \u4EE5\u4E0A\u89C6\u9891\u6570\u636E\u8868\u73B0\u7A81\u51FA\uFF0C\u5EFA\u8BAE\u4F18\u5148\u88C2\u53D8\u590D\u523B\uFF0C\u53C2\u8003\u5176\u811A\u672C\u7ED3\u6784\u3001\u62CD\u6444\u624B\u6CD5\u3001BGM \u548C\u53E3\u64AD\u98CE\u683C\u3002';
+
+  // Render table
+  var html = '<div style="overflow-x:auto;"><table style="min-width:900px;"><thead><tr style="background:#E65100;color:#fff;">' +
+    '<th style="padding:6px 5px;">#</th>' +
+    '<th style="padding:6px 5px;">\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u4E91\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u6807\u9898</th>' +
+    '<th style="padding:6px 5px;">GMV</th>' +
+    '<th style="padding:6px 5px;">ROI</th>' +
+    '<th style="padding:6px 5px;">\u8BA2\u5355</th>' +
+    '<th style="padding:6px 5px;">\u526A\u8F91</th>' +
+    '<th style="padding:6px 5px;">\u7F16\u5BFC</th>' +
+    '<th style="padding:6px 5px;">\u53D1\u5E03\u65E5\u671F</th>' +
+    '</tr></thead><tbody>' +
+    hotVideos.map(function(r, i) {
+      return '<tr style="' + (i % 2 === 0 ? 'background:#FFF8F0;' : '') + '">' +
+        '<td style="text-align:center;font-weight:600;color:#E65100;">#' + (i+1) + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;color:#1A56B8;">' + (r.cloudId || '-') + '</td>' +
+        '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:11px;" title="' + (r.title||'') + '">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;font-weight:600;color:#E65100;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="font-size:11px;">' + (r.editor || '-') + '</td>' +
+        '<td style="font-size:11px;">' + (r.director || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  document.getElementById('viralBriefBody').innerHTML = html;
+}
+
+function copyViralBrief() {
+  if (!window._viralBriefText) { alert('\u6682\u65E0\u88C2\u53D8 Brief \u6570\u636E'); return; }
+  navigator.clipboard.writeText(window._viralBriefText).then(function() {
+    alert('\u2705 \u88C2\u53D8 Brief \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01\u53EF\u76F4\u63A5\u7C98\u8D34\u5230\u98DE\u4E66/\u5FAE\u4FE1\u7FA4\u3002');
+  }).catch(function() {
+    prompt('\u8BF7\u624B\u52A8\u590D\u5236\u4EE5\u4E0B\u5185\u5BB9:', window._viralBriefText);
+  });
+}
+
+// ====== UK 脚本板块 ======
+function toggleScriptSectionUK(bodyId, arrowId) {
+  var el = document.getElementById(bodyId);
+  var arrow = document.getElementById(arrowId);
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    arrow.textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    arrow.textContent = '\u25B6';
+  }
+}
+
+function renderScriptSectionsUK() {
+  var hotSection = document.getElementById('scriptHotSectionUK');
+  var potentialSection = document.getElementById('scriptPotentialSectionUK');
+
+  if (!videoJoinedUK || Object.keys(scriptMapUK).length === 0) {
+    hotSection.style.display = 'none';
+    potentialSection.style.display = 'none';
+    return;
+  }
+
+  var hotVideos = videoJoinedUK.filter(function(r) {
+    return r.scriptTitle && isCurrentMonth(r.date) && r.gmv >= 100 && r.isBrand;
+  });
+  var hotMap = {};
+  hotVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!hotMap[key] || hotMap[key].gmv < r.gmv) hotMap[key] = r;
+  });
+  var hotList = Object.values(hotMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (hotList.length > 0) {
+    hotSection.style.display = '';
+    document.getElementById('scriptHotCountUK').textContent = '(' + hotList.length + ' 条爆款脚本)';
+    document.getElementById('scriptHotBodyUK').innerHTML = hotList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    hotSection.style.display = 'none';
+  }
+
+  var now = new Date();
+  var threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+  function isWithin3Months(dateStr) {
+    if (!dateStr) return false;
+    var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
+    if (!m) return false;
+    var d = new Date(parseInt(m[1]), parseInt(m[2]) - 1, 1);
+    return d >= threeMonthsAgo && d <= now;
+  }
+  var potentialVideos = videoJoinedUK.filter(function(r) {
+    return r.scriptTitle && isWithin3Months(r.date) && r.gmv >= 20 && r.gmv < 100 && r.isBrand;
+  });
+  var potMap = {};
+  potentialVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!potMap[key] || potMap[key].gmv < r.gmv) potMap[key] = r;
+  });
+  var potList = Object.values(potMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (potList.length > 0) {
+    potentialSection.style.display = '';
+    document.getElementById('scriptPotentialCountUK').textContent = '(' + potList.length + ' 条潜力脚本)';
+    document.getElementById('scriptPotentialBodyUK').innerHTML = potList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv" style="color:#1565C0;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    potentialSection.style.display = 'none';
+  }
+}
+
+// ====== UK 裂变 Brief ======
+function renderViralBriefUK() {
+  var section = document.getElementById('viralBriefSectionUK');
+  if (!videoJoinedUK || !videoJoinedUK.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  var hotVideos = videoJoinedUK.filter(function(r) {
+    return r.gmv >= 100 && r.isBrand && isCurrentMonth(r.date);
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (!hotVideos.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  document.getElementById('viralBriefCountUK').textContent = '(' + hotVideos.length + ' 条)';
+  section.style.display = '';
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
+  window._viralBriefTextUK = 'Matern\'ella UK \u7206\u6B3E\u89C6\u9891 \u88C2\u53D8 Brief\n' +
+    '========================================\n' +
+    '\u751F\u6210\u65F6\u95F4: ' + new Date().toLocaleDateString('zh-CN') + '\n' +
+    '\u6570\u636E\u8303\u56F4: \u5F53\u6708\u53D1\u5E03 | GMV > $100 | \u54C1\u724C\u81EA\u8425\n' +
+    '========================================\n\n' +
+    hotVideos.map(function(r, i) {
+      return '【#' + (i+1) + '】 GMV: $' + fmt(r.gmv) + ' | ROI: ' + (r.roi||0).toFixed(2) + '\n' +
+        '  \u89C6\u9891ID: ' + r.vid + (r.cloudId ? ' | \u4E91\u89C6\u9891ID: ' + r.cloudId : '') + '\n' +
+        '  \u6807\u9898: ' + (r.title || '-') + '\n' +
+        '  \u526A\u8F91: ' + (r.editor || '-') + ' | \u7F16\u5BFC: ' + (r.director || '-') + '\n' +
+        '  \u53D1\u5E03: ' + (r.date ? r.date.slice(0,10) : '-') + ' | \u8BA2\u5355: ' + r.orders + ' | \u64AD\u653E: ' + (r.views||0).toLocaleString() + '\n' +
+        '  \u8D26\u53F7: ' + (r.account || '-') + '\n';
+    }).join('\n') +
+    '\n========================================\n' +
+    '\uD83D\uDCA1 \u5EFA\u8BAE: \u4EE5\u4E0A\u89C6\u9891\u6570\u636E\u8868\u73B0\u7A81\u51FA\uFF0C\u5EFA\u8BAE\u4F18\u5148\u88C2\u53D8\u590D\u523B\uFF0C\u53C2\u8003\u5176\u811A\u672C\u7ED3\u6784\u3001\u62CD\u6444\u624B\u6CD5\u3001BGM \u548C\u53E3\u64AD\u98CE\u683C\u3002';
+
+  var html = '<div style="overflow-x:auto;"><table style="min-width:900px;"><thead><tr style="background:#E65100;color:#fff;">' +
+    '<th style="padding:6px 5px;">#</th>' +
+    '<th style="padding:6px 5px;">\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u4E91\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u6807\u9898</th>' +
+    '<th style="padding:6px 5px;">GMV</th>' +
+    '<th style="padding:6px 5px;">ROI</th>' +
+    '<th style="padding:6px 5px;">\u8BA2\u5355</th>' +
+    '<th style="padding:6px 5px;">\u526A\u8F91</th>' +
+    '<th style="padding:6px 5px;">\u7F16\u5BFC</th>' +
+    '<th style="padding:6px 5px;">\u53D1\u5E03\u65E5\u671F</th>' +
+    '</tr></thead><tbody>' +
+    hotVideos.map(function(r, i) {
+      return '<tr style="' + (i % 2 === 0 ? 'background:#FFF8F0;' : '') + '">' +
+        '<td style="text-align:center;font-weight:600;color:#E65100;">#' + (i+1) + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;color:#1A56B8;">' + (r.cloudId || '-') + '</td>' +
+        '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:11px;" title="' + (r.title||'') + '">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;font-weight:600;color:#E65100;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="font-size:11px;">' + (r.editor || '-') + '</td>' +
+        '<td style="font-size:11px;">' + (r.director || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  document.getElementById('viralBriefBodyUK').innerHTML = html;
+}
+
+function copyViralBriefUK() {
+  if (!window._viralBriefTextUK) { alert('\u6682\u65E0\u88C2\u53D8 Brief \u6570\u636E'); return; }
+  navigator.clipboard.writeText(window._viralBriefTextUK).then(function() {
+    alert('\u2705 \u88C2\u53D8 Brief \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01\u53EF\u76F4\u63A5\u7C98\u8D34\u5230\u98DE\u4E66/\u5FAE\u4FE1\u7FA4\u3002');
+  }).catch(function() {
+    prompt('\u8BF7\u624B\u52A8\u590D\u5236\u4EE5\u4E0B\u5185\u5BB9:', window._viralBriefTextUK);
+  });
+}
+
 function togglePersonStatus(editor) {
   personStatusUS[editor] = (personStatusUS[editor] === 'inactive') ? 'active' : 'inactive';
   saveMappingData();
@@ -1812,14 +2609,40 @@ function renderDirectorSection() {
   if (!videoDirectorSummary || !videoDirectorSummary.length) { return; }
   document.getElementById('directorStatus').textContent = '\u2705 ' + videoDirectorSummary.length + ' 位编导';
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+  // Build per-director hot scripts
+  var directorHotScripts = {};
+  videoJoined.forEach(function(r) {
+    if (!r.director || !r.scriptTitle || !isCurrentMonth(r.date) || r.gmv < 100) return;
+    var key = cleanName(r.director);
+    if (!directorHotScripts[key]) directorHotScripts[key] = [];
+    directorHotScripts[key].push({ gmv: r.gmv, script: r.scriptTitle });
+  });
+  Object.keys(directorHotScripts).forEach(function(k) {
+    var arr = directorHotScripts[k];
+    arr.sort(function(a, b) { return b.gmv - a.gmv; });
+    var seenScript = {};
+    directorHotScripts[k] = arr.filter(function(s) {
+      if (seenScript[s.script]) return false;
+      seenScript[s.script] = true;
+      return true;
+    }).slice(0, 3);
+  });
+
   var maxGmv = videoDirectorSummary[0].gmv || 1;
   document.getElementById('directorCards').innerHTML = videoDirectorSummary.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
     var m = medal(i);
+    var hotScripts = directorHotScripts[cleanName(p.director)] || [];
+    var scriptHtml = hotScripts.length > 0
+      ? '<div style="margin-top:4px;font-size:10px;color:#E65100;">🔥 爆款脚本: ' + hotScripts.map(function(s) {
+          return '<span class="script-badge hot" title="' + s.script.replace(/"/g, '&quot;') + ' | GMV: $' + s.gmv.toFixed(2) + '">' + s.script + '</span>';
+        }).join('') + '</div>'
+      : '';
     return '<div class="person-card" onclick="renderVideoDetail(null)" style="min-width:200px;border-left:3px solid #5B8C51;">' +
       '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.director + '</div>' +
       '<div class="pc-gmv" style="color:#5B8C51;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">剪辑: ' + p.editors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      scriptHtml +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#5B8C51;"></div></div>' +
       '</div>';
   }).join('');
@@ -1895,11 +2718,12 @@ function renderBdSection() {
   renderBdAllDetail();
 }
 
-function renderBdDetail(filter) {
-  videoBdDetailFilter = filter;
+function renderBdDetail(filter, sortBy, sortDir) {
+  if (filter !== undefined) videoBdDetailFilter = filter;
+  if (sortBy) { bdDetailSortBy = sortBy; bdDetailSortDir = sortDir || (bdDetailSortBy === sortBy ? (bdDetailSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoined) return;
-  var data = filter
-    ? videoJoined.filter(function(r) { return r.account === filter && !r.isBrand && r.gmv > 0; })
+  var data = videoBdDetailFilter
+    ? videoJoined.filter(function(r) { return r.account === videoBdDetailFilter && !r.isBrand && r.gmv > 0; })
     : videoJoined.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
   document.getElementById('bdDetailCount').textContent = data.length + ' 条';
 
@@ -1910,10 +2734,35 @@ function renderBdDetail(filter) {
   function isRecentHigh(dateStr, gmv, threshold) {
     return gmv >= threshold && isCurrentMonth(dateStr);
   }
-  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  // Dynamic sort
+  var sk = bdDetailSortBy, sd = bdDetailSortDir;
+  var sorted = data.slice().sort(function(a, b) {
+    var va, vb;
+    if (sk === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sk === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sk === 'views') { va = (a.views||0); vb = (b.views||0); }
+    else if (sk === 'cost') { va = a.cost; vb = b.cost; }
+    else if (sk === 'roi') { va = (a.roi||0); vb = (b.roi||0); }
+    else if (sk === 'date') { va = a.date||''; vb = b.date||''; }
+    else if (sk === 'vid') { va = a.vid; vb = b.vid; }
+    else if (sk === 'title') { va = (a.title||'').toLowerCase(); vb = (b.title||'').toLowerCase(); }
+    else if (sk === 'account') { va = (a.account||'').toLowerCase(); vb = (b.account||'').toLowerCase(); }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return sd === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return sd === 'asc' ? va - vb : vb - va;
+  }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  function th(label, key) {
+    var isActive = bdDetailSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdDetailSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdDetail(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
+  }
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>日期</th>' +
+    th('视频ID','vid') + th('标题','title') + th('GMV','gmv') + th('订单','orders') + th('成本','cost') +
+    th('ROI','roi') + th('播放量','views') + th('账号','account') + th('日期','date') +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       var recent = isRecentHigh(r.date, r.gmv, 50);
@@ -2123,8 +2972,12 @@ function renderBdAllDetail(sortBy, sortDir, toggleAcct) {
   document.getElementById('bdAllCount').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
-    var arrow = (bdAllSortBy === key) ? (bdAllSortDir === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetail(\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdAllSortBy === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdAllSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdAllDetail(\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -2186,12 +3039,16 @@ function renderBdAllDetail(sortBy, sortDir, toggleAcct) {
 // ====== 英国站 视频数据 Tab ======
 const VID_STORAGE_UK = 'maternella_video_data_uk';
 const VID_MAP_KEY_UK = 'maternella_video_mapping_uk';
+const SCRIPT_STORAGE_UK = 'maternella_script_data_uk';
 let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPersonSummaryUK = null, videoDetailFilterUK = null;
+let scriptMapUK = {}; // 云视频id -> 脚本标题 (UK)
 let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
 let videoDirectorSummaryUK = null; // 编导独立排名
 let videoDateRangeUK = ''; // 日期范围
+let videoDetailSortByUK = 'gmv', videoDetailSortDirUK = 'desc'; // 视频明细排序
+let bdDetailSortByUK = 'gmv', bdDetailSortDirUK = 'desc'; // 达人视频明细排序
 
 function saveMappingDataUK() {
   try {
@@ -2234,7 +3091,6 @@ function resetMappingDataUK() {
   document.getElementById('directorTableUK').innerHTML = '';
   document.getElementById('bdCardsUK').innerHTML = '';
   document.getElementById('bdTableUK').innerHTML = '';
-  document.getElementById('mappingPanelUK').style.display = 'none';
   document.getElementById('personFilterUK').innerHTML = '';
   document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -2252,6 +3108,16 @@ loadMappingDataUK();
 loadVideoDataUK();
 
 function loadVideoDataUK() {
+  // Load script data
+  try {
+    var scriptRawUK = localStorage.getItem(SCRIPT_STORAGE_UK);
+    if (scriptRawUK) {
+      scriptMapUK = JSON.parse(scriptRawUK);
+      document.getElementById('scriptUploadBoxUK').classList.add('has-file');
+      document.getElementById('scriptUploadLabelUK').textContent = '\u2705 脚本数据: ' + Object.keys(scriptMapUK).length + ' 条（云视频id→脚本标题）';
+    }
+  } catch(_) {}
+
   try {
     var raw = localStorage.getItem(VID_STORAGE_UK);
     if (raw) {
@@ -2283,7 +3149,7 @@ function loadVideoDataUK() {
         document.getElementById('adUploadBoxUK').classList.add('has-file');
         document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
       }
-      var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined || r.scriptTitle === undefined; });
       var joinedMissing = !videoJoinedUK && videoMappingUK && videoAdDataUK;
       if (needRecompute || joinedMissing) {
         if (videoMappingUK && videoAdDataUK) { processJoinUK(); }
@@ -2353,7 +3219,6 @@ function resetVideoDataUK() {
   document.getElementById('directorTableUK').innerHTML = '';
   document.getElementById('bdCardsUK').innerHTML = '';
   document.getElementById('bdTableUK').innerHTML = '';
-  document.getElementById('mappingPanelUK').style.display = 'none';
   document.getElementById('personFilterUK').innerHTML = '';
   document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -2361,7 +3226,13 @@ function resetVideoDataUK() {
   document.getElementById('bdSectionUK').style.display = 'none';
   document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSectionUK').style.display = 'none';
+  // Hide script & viral sections
+  document.getElementById('scriptHotSectionUK').style.display = 'none';
+  document.getElementById('scriptPotentialSectionUK').style.display = 'none';
+  document.getElementById('viralBriefSectionUK').style.display = 'none';
   bdAllExpandedUK = {};
+  videoDetailSortByUK = 'gmv'; videoDetailSortDirUK = 'desc';
+  bdDetailSortByUK = 'gmv'; bdDetailSortDirUK = 'desc';
   document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 已重置广告数据';
   setTimeout(function() { document.getElementById('vidSaveStatusUK').textContent = ''; }, 2000);
   document.querySelector('#adUploadBoxUK input').value = '';
@@ -2493,9 +3364,24 @@ function processJoinUK() {
     return;
   }
   var effective = getEffectiveMappingUK();
+  // Build fuzzy script lookup for UK
+  var scriptKeysUK = Object.keys(scriptMapUK);
+  var scriptLookupUK = {};
+  scriptKeysUK.forEach(function(k) {
+    if (k.length > 8) { scriptLookupUK[k.slice(0,8)] = scriptMapUK[k]; }
+    scriptLookupUK[k] = scriptMapUK[k];
+    if (k.match(/^\d+$/)) { scriptLookupUK[String(parseInt(k))] = scriptMapUK[k]; }
+  });
+  var matchedCount = 0, totalCloud = 0;
   var joined = videoAdDataUK.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
+    var scriptTitle = '';
+    if (cloudId) {
+      totalCloud++;
+      scriptTitle = scriptMapUK[cloudId] || scriptLookupUK[cloudId] || '';
+      if (scriptTitle) matchedCount++;
+    }
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
@@ -2503,7 +3389,8 @@ function processJoinUK() {
       account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
-      director: cleanName(person ? person.director : '')
+      director: cleanName(person ? person.director : ''),
+      scriptTitle: scriptTitle
     };
   });
   videoJoinedUK = joined;
@@ -2598,7 +3485,12 @@ function renderVideoTabUK() {
     return;
   }
   var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
-  statusEl.textContent = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+  var scriptMatchedUK = Object.keys(scriptMapUK).length > 0 ? videoJoinedUK.filter(function(r) { return r.scriptTitle; }).length : 0;
+  var statusMsg = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+  if (Object.keys(scriptMapUK).length > 0) {
+    statusMsg += ' | \uD83D\uDCDD 脚本匹配: ' + scriptMatchedUK + '/' + videoJoinedUK.filter(function(r) { return r.cloudId; }).length + ' 条';
+  }
+  statusEl.textContent = statusMsg;
 
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
@@ -2659,6 +3551,8 @@ function renderVideoTabUK() {
 
   renderDirectorSectionUK();
   renderBdSectionUK();
+  renderScriptSectionsUK();
+  renderViralBriefUK();
 }
 
 function renderDirectorSectionUK() {
@@ -2708,8 +3602,12 @@ function toggleMapSectionUK(id) {
 }
 
 function renderMappingPanelUK() {
+  // Panel always visible so export/import/reset buttons are always accessible
   if (!videoJoinedUK) {
-    document.getElementById('mappingPanelUK').style.display = 'none';
+    document.getElementById('mapAlertSectionUK').innerHTML = '<div style="padding:8px;background:#FFF8E1;border-radius:4px;font-size:12px;">⚠️ 尚未加载广告数据或映射表，请先导入数据后再查看明细。</div>';
+    document.getElementById('unmappedSectionUK').style.display = 'none';
+    document.getElementById('mappedSectionUK').style.display = 'none';
+    document.getElementById('mapEditSectionUK').style.display = 'none';
     return;
   }
   document.getElementById('mappingPanelUK').style.display = '';
@@ -2856,10 +3754,11 @@ function saveEditedMappingsUK() {
   setTimeout(function() { document.getElementById('mapSaveMsgUK').textContent = ''; }, 3000);
 }
 
-function renderVideoDetailUK(filter) {
-  videoDetailFilterUK = filter;
+function renderVideoDetailUK(filter, sortBy, sortDir) {
+  if (filter !== undefined) videoDetailFilterUK = filter;
+  if (sortBy) { videoDetailSortByUK = sortBy; videoDetailSortDirUK = sortDir || (videoDetailSortByUK === sortBy ? (videoDetailSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoinedUK) return;
-  var data = filter ? videoJoinedUK.filter(function(r) { return r.editor === filter && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.editor && r.gmv > 0; });
+  var data = videoDetailFilterUK ? videoJoinedUK.filter(function(r) { return r.editor === videoDetailFilterUK && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCountUK').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -2869,16 +3768,48 @@ function renderVideoDetailUK(filter) {
   function isRecentHigh(dateStr, gmv, threshold) {
     return gmv >= threshold && isCurrentMonth(dateStr);
   }
-  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  // Dynamic sort
+  var sk = videoDetailSortByUK, sd = videoDetailSortDirUK;
+  var sorted = data.slice().sort(function(a, b) {
+    var va, vb;
+    if (sk === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sk === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sk === 'views') { va = (a.views||0); vb = (b.views||0); }
+    else if (sk === 'cost') { va = a.cost; vb = b.cost; }
+    else if (sk === 'roi') { va = (a.roi||0); vb = (b.roi||0); }
+    else if (sk === 'date') { va = a.date||''; vb = b.date||''; }
+    else if (sk === 'vid') { va = a.vid; vb = b.vid; }
+    else if (sk === 'title') { va = (a.title||'').toLowerCase(); vb = (b.title||'').toLowerCase(); }
+    else if (sk === 'tags') { va = (a.tags||'').toLowerCase(); vb = (b.tags||'').toLowerCase(); }
+    else if (sk === 'account') { va = (a.account||'').toLowerCase(); vb = (b.account||'').toLowerCase(); }
+    else if (sk === 'editor') { va = a.editor.toLowerCase(); vb = b.editor.toLowerCase(); }
+    else if (sk === 'director') { va = a.director.toLowerCase(); vb = b.director.toLowerCase(); }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return sd === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return sd === 'asc' ? va - vb : vb - va;
+  }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  function th(label, key) {
+    var isActive = videoDetailSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (videoDetailSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderVideoDetailUK(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
+  }
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>话题标签</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>剪辑</th><th>编导</th><th>日期</th>' +
+    th('视频ID','vid') + th('标题','title') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
+    th('成本','cost') + th('ROI','roi') + th('播放量','views') + th('账号','account') + th('剪辑','editor') +
+    th('编导','director') + th('日期','date') +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       var recent = isRecentHigh(r.date, r.gmv, 100);
       var trStyle = recent ? 'background:#FFFDE7;' : '';
+      var cidHtml = r.cloudId
+        ? '<span style="display:inline-block;background:#E8F0FE;color:#1A56B8;font-family:monospace;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-top:2px;border:1px solid #B8D4FE;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
+        : '<span style="font-size:9px;color:#ccc;display:block;">\u2601 -</span>';
       return '<tr style="' + trStyle + '">' +
-        '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
+        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '<br>' + cidHtml + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
@@ -2954,11 +3885,12 @@ function renderBdSectionUK() {
   renderBdAllDetailUK();
 }
 
-function renderBdDetailUK(filter) {
-  videoBdDetailFilterUK = filter;
+function renderBdDetailUK(filter, sortBy, sortDir) {
+  if (filter !== undefined) videoBdDetailFilterUK = filter;
+  if (sortBy) { bdDetailSortByUK = sortBy; bdDetailSortDirUK = sortDir || (bdDetailSortByUK === sortBy ? (bdDetailSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoinedUK) return;
-  var data = filter
-    ? videoJoinedUK.filter(function(r) { return r.account === filter && !r.isBrand && r.gmv > 0; })
+  var data = videoBdDetailFilterUK
+    ? videoJoinedUK.filter(function(r) { return r.account === videoBdDetailFilterUK && !r.isBrand && r.gmv > 0; })
     : videoJoinedUK.filter(function(r) { return r.account && !r.isBrand && r.gmv > 0; });
   document.getElementById('bdDetailCountUK').textContent = data.length + ' 条';
 
@@ -2969,10 +3901,35 @@ function renderBdDetailUK(filter) {
   function isRecentHigh(dateStr, gmv, threshold) {
     return gmv >= threshold && isCurrentMonth(dateStr);
   }
-  var sorted = data.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 300);
+  // Dynamic sort
+  var sk = bdDetailSortByUK, sd = bdDetailSortDirUK;
+  var sorted = data.slice().sort(function(a, b) {
+    var va, vb;
+    if (sk === 'gmv') { va = a.gmv; vb = b.gmv; }
+    else if (sk === 'orders') { va = a.orders; vb = b.orders; }
+    else if (sk === 'views') { va = (a.views||0); vb = (b.views||0); }
+    else if (sk === 'cost') { va = a.cost; vb = b.cost; }
+    else if (sk === 'roi') { va = (a.roi||0); vb = (b.roi||0); }
+    else if (sk === 'date') { va = a.date||''; vb = b.date||''; }
+    else if (sk === 'vid') { va = a.vid; vb = b.vid; }
+    else if (sk === 'title') { va = (a.title||'').toLowerCase(); vb = (b.title||'').toLowerCase(); }
+    else if (sk === 'account') { va = (a.account||'').toLowerCase(); vb = (b.account||'').toLowerCase(); }
+    else { va = a.gmv; vb = b.gmv; }
+    if (typeof va === 'string') { return sd === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return sd === 'asc' ? va - vb : vb - va;
+  }).slice(0, 500);
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+  function th(label, key) {
+    var isActive = bdDetailSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdDetailSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdDetailUK(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
+  }
   var html = '<table><thead><tr>' +
-    '<th>视频ID</th><th>标题</th><th>GMV</th><th>订单</th><th>成本</th><th>ROI</th><th>播放量</th><th>账号</th><th>日期</th>' +
+    th('视频ID','vid') + th('标题','title') + th('GMV','gmv') + th('订单','orders') + th('成本','cost') +
+    th('ROI','roi') + th('播放量','views') + th('账号','account') + th('日期','date') +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       var recent = isRecentHigh(r.date, r.gmv, 50);
@@ -3133,8 +4090,12 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   document.getElementById('bdAllCountUK').textContent = '共 ' + groups.length + ' 个达人账号, ' + totalVideos + ' 条视频';
 
   function th(label, key) {
-    var arrow = (bdAllSortByUK === key) ? (bdAllSortDirUK === 'asc' ? ' \u25B2' : ' \u25BC') : '';
-    return '<th style="cursor:pointer;padding:6px 5px;white-space:nowrap;" onclick="renderBdAllDetailUK(\'' + key + '\')">' + label + arrow + '</th>';
+    var isActive = bdAllSortByUK === key;
+    var arrowHtml = isActive
+      ? '<span class="sort-arrow">' + (bdAllSortDirUK === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
+      : '<span class="sort-arrow">&#x2195;</span>';
+    var cls = isActive ? 'sort-th sort-th-active' : 'sort-th';
+    return '<th class="' + cls + '" onclick="renderBdAllDetailUK(\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
 
   var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
@@ -3189,6 +4150,404 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   html += '</tbody></table>';
   document.getElementById('bdAllDetailUK').innerHTML = html;
 }
+
+// ====== 竞品评论挖掘看板 ======
+const REVIEWS_STORAGE = 'maternella_review_data';
+let reviewData = []; // [{product, rating, title, content, date, categories:[], sentiment}]
+let reviewProducts = [];
+let reviewPainSummary = {}; // {category: {count, keywords:{}, quotes:[]}}
+let reviewScriptIdeas = [];
+
+// 关键词词典
+const PAIN_DICT = {
+  '成分安全': {
+    icon: '🧪',
+    keywords: ['chemical', '防腐剂', 'preservative', 'alcohol', 'fragrance', 'bleach', 'benzalkonium', 'paraben', 'sulfate', 'phthalate', '甲醛', 'formaldehyde', 'ammonia', 'phenoxyethanol'],
+    negativeWords: ['irritat', 'allerg', 'rash', 'burn', 'sting', 'red', 'hive', '过敏', '红肿', '灼烧', '刺痛', 'itchy', 'breakout', 'sensitive', 'react']
+  },
+  '产品品质': {
+    icon: '📦',
+    keywords: ['dry out', '干', 'thin', '薄', 'tear', 'rip', 'break', 'mold', 'mildew', '发霉', '掉毛', 'lint', 'weak', 'flimsy', 'fell apart'],
+    negativeWords: ['too thin', 'useless', 'waste', 'poor quality', '质量差', '垃圾', 'cheap', 'fall apart', 'rip']
+  },
+  '环保可持续': {
+    icon: '🌿',
+    keywords: ['biodegradable', 'flushable', '可降解', '可冲散', 'plastic', '塑料', 'waste', '浪费', 'greenwash', 'fake', '虚假', 'clog', '堵塞', 'pipe', 'septic', 'landfill'],
+    negativeWords: ['not flushable', '不可降解', 'fake claim', 'lie', 'deceive', 'mislead', 'clog', 'block']
+  },
+  '使用体验': {
+    icon: '😣',
+    keywords: ['smell', '味道', 'odor', 'scent', 'sticky', '黏', 'residue', '残留', 'rough', '粗糙', 'absorb', '吸水', 'packaging', '包装', 'seal', '密封', 'expensive', '贵', 'price', 'waste'],
+    negativeWords: ['hate', 'terrible', 'worst', 'disappoint', '失望', '难用', '不好用', 'regret', '后悔', 'return', 'refund', '退']
+  }
+};
+
+// 脚本角度模板（基于痛点生成）
+const SCRIPT_TEMPLATES = {
+  '成分安全': [
+    { type: 'hot', title: '「无添加」对比实测', template: '竞品宣称"温和无刺激"，实测成分表里藏着{kw1}和{kw2}。消费者不是傻子，成分透明才是王道。#CleanBeauty #成分党' },
+    { type: 'hot', title: '敏感肌安全测试', template: '用{product}的评论区炸了——{count}个过敏反馈。Matern\\'ella 益生菌配方，温和清洁不刺激。#SensitiveSkin #DermatologistTested' },
+    { type: 'diff', title: '成分透明度优势', template: '别的品牌说"99.9%水"但偷偷加防腐剂？我们直接标全成分，每一项都敢让你查。#IngredientTransparency #CleanIngredients' }
+  ],
+  '产品品质': [
+    { type: 'hot', title: '「开箱即干」痛点对比', template: '{product}用户反馈：开封一周就干了。我们的密封包装实测30天不干，这才叫品质。#PackagingMatters #QualityControl' },
+    { type: 'hot', title: '厚度对比实测', template: '9毛一张的{product}，薄到一擦就破？用料扎实的洗脸巾，一张就够了。#ThickAndStrong #OneIsEnough' },
+    { type: 'diff', title: '不掉毛实测', template: '{product}擦脸留下毛絮？Matern\\'ella 无尘工艺，不掉毛不残留。#LintFree #CleanFinish' }
+  ],
+  '环保可持续': [
+    { type: 'hot', title: '「可冲散」谎言揭秘', template: '{product}被集体诉讼了——号称可冲散但堵了下水道。真正的生物降解需要认证，不是口号。#FlushableLies #PlumberApproved' },
+    { type: 'warn', title: '别踩竞品的坑', template: '竞品宣传"可冲散"已被起诉。我们标注真实降解周期，不夸大。#HonestMarketing #SustainableLiving' },
+    { type: 'diff', title: '可降解认证展示', template: '{product}说自己是环保产品？Matern\\'ella 有真实可降解认证，你敢查我敢给。#BiodegradableCertified #EcoFriendly' }
+  ],
+  '使用体验': [
+    { type: 'hot', title: '「一抽一坨」痛点解决', template: '最烦湿巾一抽出来一堆？{product}用户也烦。我们单抽设计，不浪费。#SinglePull #NoWaste' },
+    { type: 'diff', title: '性价比计算', template: '{product}一次要用3-4张，算下来比 Matern\\'ella 贵3倍。实际使用成本对比，真相在这里。#CostPerUse #ValueComparison' },
+    { type: 'diff', title: '包装使用对比', template: '磁吸翻盖 vs {product}的普通盖，用过就回不去了。#PremiumPackaging #UserExperience' }
+  ]
+};
+
+function handleReviewUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = new TextDecoder('utf-8').decode(new Uint8Array(e.target.result));
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空');
+      var header = parseCSVLine(lines[0]);
+      // 自动识别列名
+      var idxProduct = -1, idxRating = -1, idxContent = -1, idxTitle = -1, idxDate = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].toLowerCase().trim();
+        if (h.match(/product|产品|竞品|brand|品牌/)) idxProduct = i;
+        if (h.match(/rating|评分|star|星级/)) idxRating = i;
+        if (h.match(/content|评论|review|text|内容|body/)) idxContent = i;
+        if (h.match(/^title|标题|subject/)) idxTitle = i;
+        if (h.match(/date|日期|time|时间/)) idxDate = i;
+      }
+      if (idxContent < 0) throw new Error('未找到"评论内容"列，请确保CSV包含 content/review/text 列');
+      if (idxRating < 0) throw new Error('未找到"评分"列，请确保CSV包含 rating/star 列');
+
+      var newReviews = [];
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var content = (row[idxContent] || '').trim().replace(/"/g, '');
+        if (!content) continue;
+        var rating = parseInt(row[idxRating]) || 3;
+        rating = Math.max(1, Math.min(5, rating));
+        newReviews.push({
+          product: (row[idxProduct] || '未标注').trim(),
+          rating: rating,
+          title: idxTitle >= 0 ? (row[idxTitle] || '').trim() : '',
+          content: content,
+          date: idxDate >= 0 ? (row[idxDate] || '').trim() : ''
+        });
+      }
+      if (newReviews.length === 0) throw new Error('未解析到有效评论');
+
+      // 合并到已有数据
+      reviewData = reviewData.concat(newReviews);
+      analyzeReviews();
+      try { localStorage.setItem(REVIEWS_STORAGE, JSON.stringify(reviewData)); } catch(_) {}
+
+      document.getElementById('reviewUploadBox').classList.add('has-file');
+      document.getElementById('reviewUploadLabel').textContent = '\u2705 已加载: ' + reviewData.length + ' 条评论';
+
+      renderReviewsDashboard();
+    } catch(err) {
+      document.getElementById('reviewSummaryBar').style.display = '';
+      document.getElementById('reviewSummaryText').innerHTML = '\u274C ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function downloadReviewTemplate() {
+  var csv = 'product,rating,title,content,date\n' +
+    'DUDE Wipes,2,"Dried out after a week","I bought these for my bathroom but after just one week the wipes were completely dried out. The seal is terrible.",2026-03-15\n' +
+    'WaterWipes,1,"Caused rash on my baby","Used these on my newborn and within hours she developed a red rash. Checked ingredients and found benzalkonium chloride.",2026-02-20\n' +
+    'Goodwipes,3,"Just okay","They work fine but are way too thin. I have to use 3-4 at a time. Also they claim flushable but my plumber said never flush any wipes.",2026-04-01\n';
+  var blob = new Blob(['\uFEFF' + csv], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url; a.download = 'review_template.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetReviewData() {
+  if (!confirm('\u786E\u5B9A\u8981\u6E05\u9664\u6240\u6709\u8BC4\u8BBA\u6570\u636E\u5417\uFF1F')) return;
+  reviewData = [];
+  reviewProducts = [];
+  reviewPainSummary = {};
+  reviewScriptIdeas = [];
+  try { localStorage.removeItem(REVIEWS_STORAGE); } catch(_) {}
+  document.getElementById('reviewUploadBox').classList.remove('has-file');
+  document.getElementById('reviewUploadLabel').textContent = '\u4E0A\u4F20\u8BC4\u8BBACSV';
+  document.getElementById('reviewDashboard').style.display = 'none';
+  document.getElementById('reviewSummaryBar').style.display = 'none';
+}
+
+function analyzeReviews() {
+  // 构建竞品列表
+  var productSet = {};
+  reviewData.forEach(function(r) { productSet[r.product] = true; });
+  reviewProducts = Object.keys(productSet).sort();
+
+  // 每条评论分类
+  reviewData.forEach(function(r) {
+    var text = (r.content + ' ' + (r.title||'')).toLowerCase();
+    var cats = [];
+    Object.keys(PAIN_DICT).forEach(function(cat) {
+      var dict = PAIN_DICT[cat];
+      var matched = false;
+      for (var k = 0; k < dict.keywords.length; k++) {
+        if (text.indexOf(dict.keywords[k].toLowerCase()) >= 0) { matched = true; break; }
+      }
+      if (!matched) {
+        for (var n = 0; n < dict.negativeWords.length; n++) {
+          if (text.indexOf(dict.negativeWords[n].toLowerCase()) >= 0) { matched = true; break; }
+        }
+      }
+      if (matched) cats.push(cat);
+    });
+    r.categories = cats;
+    r.sentiment = r.rating >= 4 ? 'positive' : r.rating <= 2 ? 'negative' : 'neutral';
+  });
+
+  // 统计痛点
+  reviewPainSummary = {};
+  Object.keys(PAIN_DICT).forEach(function(cat) {
+    var catReviews = reviewData.filter(function(r) { return r.categories.indexOf(cat) >= 0 && r.sentiment === 'negative'; });
+    var keywordCounts = {};
+    catReviews.forEach(function(r) {
+      var text = (r.content + ' ' + (r.title||'')).toLowerCase();
+      PAIN_DICT[cat].keywords.forEach(function(kw) {
+        var count = (text.match(new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length;
+        if (count > 0) keywordCounts[kw] = (keywordCounts[kw] || 0) + count;
+      });
+    });
+    // 取前6个高频词
+    var sortedKw = Object.entries(keywordCounts).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+    var quotes = catReviews.slice(0, 3).map(function(r) {
+      var excerpt = r.content.length > 150 ? r.content.slice(0, 150) + '...' : r.content;
+      return { text: excerpt, product: r.product, rating: r.rating };
+    });
+    reviewPainSummary[cat] = { count: catReviews.length, keywords: Object.fromEntries(sortedKw), quotes: quotes, icon: PAIN_DICT[cat].icon };
+  });
+
+  // 生成脚本角度
+  reviewScriptIdeas = [];
+  Object.keys(PAIN_DICT).forEach(function(cat) {
+    var summary = reviewPainSummary[cat];
+    if (!summary || summary.count === 0) return;
+    var templates = SCRIPT_TEMPLATES[cat] || [];
+    templates.forEach(function(tpl, idx) {
+      if (idx > 1 && summary.count < 5) return; // 只有痛点够多才生成更多角度
+      var topKw = Object.keys(summary.keywords).slice(0, 3);
+      var script = tpl.template
+        .replace('{product}', reviewProducts[0] || '竞品')
+        .replace('{kw1}', topKw[0] || '')
+        .replace('{kw2}', topKw[1] || '')
+        .replace('{count}', summary.count);
+      reviewScriptIdeas.push({
+        type: tpl.type,
+        category: cat,
+        icon: summary.icon,
+        title: tpl.title,
+        meta: '\u75DB\u70B9\u6765\u6E90: ' + cat + ' | \u76F8\u5173\u8BC4\u8BBA: ' + summary.count + ' \u6761 | \u5173\u952E\u8BCD: ' + topKw.join(', '),
+        script: script
+      });
+    });
+  });
+}
+
+function renderReviewsDashboard() {
+  var bar = document.getElementById('reviewSummaryBar');
+  bar.style.display = 'flex';
+
+  var totalReviews = reviewData.length;
+  var negCount = reviewData.filter(function(r) { return r.sentiment === 'negative'; }).length;
+  var posCount = reviewData.filter(function(r) { return r.sentiment === 'positive'; }).length;
+  var neuCount = totalReviews - negCount - posCount;
+  var avgRating = totalReviews > 0 ? (reviewData.reduce(function(s, r) { return s + r.rating; }, 0) / totalReviews).toFixed(2) : 0;
+  var painTotal = Object.values(reviewPainSummary).reduce(function(s, v) { return s + v.count; }, 0);
+
+  bar.innerHTML = '\uD83D\uDCCA \u603B\u8BC4\u8BBA: <b>' + totalReviews + '</b> \u6761 | \u7ADE\u54C1: <b>' + reviewProducts.length + '</b> \u4E2A | \u5E73\u5747\u8BC4\u5206: <b>' + avgRating + '</b> | \uD83D\uDFE2\u6B63\u9762: ' + posCount + ' | \uD83D\uDFE1\u4E2D\u6027: ' + neuCount + ' | \uD83D\uDD34\u8D1F\u9762: ' + negCount + ' | \u75DB\u70B9\u63D0\u53CA: <b>' + painTotal + '</b> \u6B21';
+
+  var dashboard = document.getElementById('reviewDashboard');
+  dashboard.style.display = '';
+
+  renderPainPoints();
+  renderScriptIdeas();
+  renderReviewTable();
+}
+
+function renderPainPoints() {
+  document.getElementById('painPointsCount').textContent = '';
+  var grid = document.getElementById('painPointsGrid');
+  var chartDiv = document.getElementById('painPointsChart');
+
+  var categories = Object.keys(reviewPainSummary);
+  if (categories.length === 0) {
+    grid.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无痛点数据，请上传包含负面评论的CSV</div>';
+    chartDiv.innerHTML = '';
+    return;
+  }
+
+  var totalPain = Object.values(reviewPainSummary).reduce(function(s, v) { return s + v.count; }, 0);
+  document.getElementById('painPointsCount').textContent = '(' + totalPain + ' 次提及)';
+
+  // 痛点卡片
+  grid.innerHTML = categories.map(function(cat) {
+    var s = reviewPainSummary[cat];
+    var pct = totalPain > 0 ? (s.count / totalPain * 100).toFixed(1) : 0;
+    var kwTags = Object.keys(s.keywords).map(function(k) {
+      return '<span class="pc-kw">' + k + '(' + s.keywords[k] + ')</span>';
+    }).join('');
+    var quotesHtml = s.quotes.map(function(q) {
+      return '<div class="pc-quote">"' + q.text + '"<br><span style="font-size:10px;color:#999;">— ' + q.product + '  ' + '\u2605'.repeat(q.rating) + '</span></div>';
+    }).join('');
+    return '<div class="pain-card">' +
+      '<div class="pc-header"><span class="pc-title">' + s.icon + ' ' + cat + '</span><span class="pc-count">' + s.count + '<span style="font-size:12px;font-weight:400;"> (' + pct + '%)</span></span></div>' +
+      '<div class="pc-keywords">' + kwTags + '</div>' +
+      quotesHtml +
+      '</div>';
+  }).join('');
+
+  // 正负面分布条形图
+  var negCount = reviewData.filter(function(r) { return r.sentiment === 'negative'; }).length;
+  var posCount = reviewData.filter(function(r) { return r.sentiment === 'positive'; }).length;
+  var neuCount = reviewData.length - negCount - posCount;
+  var maxCount = Math.max(negCount, posCount, neuCount, 1);
+
+  chartDiv.innerHTML = '<div style="padding:10px 0;"><div style="font-weight:600;font-size:13px;margin-bottom:8px;">📊 情感分布</div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🟢 正面</span><div class="rating-bar-track"><div class="rating-bar-fill pos" style="width:' + (posCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + posCount + '</span></div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🟡 中性</span><div class="rating-bar-track"><div class="rating-bar-fill neu" style="width:' + (neuCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + neuCount + '</span></div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🔴 负面</span><div class="rating-bar-track"><div class="rating-bar-fill neg" style="width:' + (negCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + negCount + '</span></div>' +
+    '</div>';
+
+  // 按竞品的痛点统计表
+  if (reviewProducts.length > 1) {
+    var tableHtml = '<div style="margin-top:14px;"><div style="font-weight:600;font-size:13px;margin-bottom:6px;">📋 竞品痛点对比</div>' +
+      '<table style="width:100%;font-size:11px;border-collapse:collapse;"><thead><tr style="background:#F5F5F5;">' +
+      '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;">竞品</th>' +
+      categories.map(function(c) { return '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;">' + PAIN_DICT[c].icon + ' ' + c + '</th>'; }).join('') +
+      '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;">总评论</th></tr></thead><tbody>' +
+      reviewProducts.map(function(p) {
+        var pReviews = reviewData.filter(function(r) { return r.product === p; });
+        var pNeg = pReviews.filter(function(r) { return r.sentiment === 'negative'; });
+        return '<tr>' +
+          '<td style="padding:4px;border:1px solid #E0E0E0;font-weight:600;">' + p + '</td>' +
+          categories.map(function(c) {
+            var count = pNeg.filter(function(r) { return r.categories.indexOf(c) >= 0; }).length;
+            var color = count > 10 ? '#C62828' : count > 5 ? '#E65100' : '#888';
+            return '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;color:' + color + ';font-weight:' + (count > 5 ? '600' : '400') + ';">' + count + '</td>';
+          }).join('') +
+          '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;">' + pReviews.length + '</td>' +
+          '</tr>';
+      }).join('') +
+      '</tbody></table></div>';
+    chartDiv.innerHTML += tableHtml;
+  }
+}
+
+function renderScriptIdeas() {
+  document.getElementById('scriptIdeasCount').textContent = reviewScriptIdeas.length > 0 ? '(' + reviewScriptIdeas.length + ' 个角度)' : '';
+  var grid = document.getElementById('scriptIdeasGrid');
+  if (reviewScriptIdeas.length === 0) {
+    grid.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无足够数据生成脚本角度，请上传更多竞品评论</div>';
+    return;
+  }
+
+  var typeLabels = { hot: '\uD83D\uDD25 \u9AD8\u6F5C\u529B\u811A\u672C', diff: '\uD83D\uDCA1 \u5DEE\u5F02\u5316\u89D2\u5EA6', warn: '\u26A0\uFE0F \u907F\u5751\u63D0\u9192' };
+
+  grid.innerHTML = reviewScriptIdeas.map(function(idea) {
+    return '<div class="idea-card">' +
+      '<span class="ic-badge ' + idea.type + '">' + typeLabels[idea.type] + '</span>' +
+      '<div class="ic-title">' + idea.icon + ' ' + idea.title + '</div>' +
+      '<div class="ic-meta">' + idea.meta + '</div>' +
+      '<div class="ic-script">' + idea.script.replace(/\n/g, '<br>') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function renderReviewTable() {
+  var productFilter = document.getElementById('reviewProductFilter').value;
+  var ratingFilter = document.getElementById('reviewRatingFilter').value;
+
+  // 更新筛选下拉
+  var sel = document.getElementById('reviewProductFilter');
+  sel.innerHTML = '<option value="all">全部竞品 (' + reviewData.length + ')</option>' +
+    reviewProducts.map(function(p) {
+      var count = reviewData.filter(function(r) { return r.product === p; }).length;
+      return '<option value="' + p + '">' + p + ' (' + count + ')</option>';
+    }).join('');
+
+  var filtered = reviewData.filter(function(r) {
+    if (productFilter !== 'all' && r.product !== productFilter) return false;
+    if (ratingFilter === '12' && r.rating > 2) return false;
+    if (ratingFilter === '3' && r.rating !== 3) return false;
+    if (ratingFilter === '45' && r.rating < 4) return false;
+    return true;
+  });
+
+  document.getElementById('reviewDetailCount').textContent = '\u5171 ' + filtered.length + ' \u6761';
+
+  if (filtered.length === 0) {
+    document.getElementById('reviewDetailTable').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">无匹配评论</div>';
+    return;
+  }
+
+  // 取前200条展示
+  var display = filtered.slice(0, 200);
+  var html = '<table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F5F5F5;position:sticky;top:0;">' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;min-width:80px;">竞品</th>' +
+    '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;width:50px;">评分</th>' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;min-width:100px;">痛点分类</th>' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;">评论内容</th>' +
+    '</tr></thead><tbody>' +
+    display.map(function(r, i) {
+      var catsHtml = r.categories.map(function(c) {
+        var short = c === '成分安全' ? 'safety' : c === '产品品质' ? 'quality' : c === '环保可持续' ? 'sustainable' : 'experience';
+        return '<span class="cat-badge ' + short + '">' + c + '</span>';
+      }).join('');
+      var stars = '\u2605'.repeat(r.rating) + '\u2606'.repeat(5 - r.rating);
+      var content = r.content;
+      // 高亮关键词
+      Object.keys(PAIN_DICT).forEach(function(cat) {
+        PAIN_DICT[cat].keywords.forEach(function(kw) {
+          var regex = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+          content = content.replace(regex, '<span class="review-kw-hl">$1</span>');
+        });
+      });
+      var rowBg = r.sentiment === 'negative' ? 'background:#FFF5F5;' : r.sentiment === 'positive' ? 'background:#F5FFF5;' : '';
+      return '<tr style="' + rowBg + '">' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:11px;font-weight:500;">' + r.product + '</td>' +
+        '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;"><span class="review-stars">' + stars + '</span></td>' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:10px;">' + (catsHtml || '-') + '</td>' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:11px;line-height:1.5;max-width:500px;">' + (r.title ? '<b>' + r.title + '</b><br>' : '') + content + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  if (filtered.length > 200) {
+    html += '<div style="padding:8px;text-align:center;color:#888;font-size:11px;">显示前200条，共' + filtered.length + '条</div>';
+  }
+  document.getElementById('reviewDetailTable').innerHTML = html;
+}
+
+// 页面加载时恢复评论数据
+(function() {
+  try {
+    var saved = localStorage.getItem(REVIEWS_STORAGE);
+    if (saved) {
+      reviewData = JSON.parse(saved);
+      if (reviewData.length > 0) {
+        analyzeReviews();
+        document.getElementById('reviewUploadBox').classList.add('has-file');
+        document.getElementById('reviewUploadLabel').textContent = '\u2705 已加载: ' + reviewData.length + ' 条评论';
+      }
+    }
+  } catch(_) {}
+})();
 </script>
 </body>
 </html>
