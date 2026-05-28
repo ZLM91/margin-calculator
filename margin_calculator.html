@@ -290,6 +290,18 @@ button:hover { background: #F0EDE6; }
   <div class="script-section-body" id="scriptPotentialBody"></div>
 </div>
 
+<!-- 裂变 Brief 板块 -->
+<div id="viralBriefSection" class="script-section" style="display:none;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSection('viralBriefBody','viralBriefArrow')">
+    <span>⚡ 裂变 Brief — 近期爆款视频速览 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="viralBriefCount"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="event.stopPropagation();copyViralBrief();" style="font-size:10px;padding:2px 8px;border-radius:4px;background:#E65100;color:#fff;border:none;">📋 一键复制</button>
+      <span id="viralBriefArrow" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="viralBriefBody"></div>
+</div>
+
 <!-- BD 达人数据 -->
 <div id="bdSection" style="display:none;border-top:2px solid #E0DBD2;padding-top:14px;margin-bottom:14px;">
   <h3 style="font-size:15px;color:#A32D2D;margin:0 0 4px 0;">🤝 BD 达人视频数据</h3>
@@ -1799,6 +1811,8 @@ function renderVideoTab() {
   renderBdSection();
   // 脚本板块渲染
   renderScriptSections();
+  // 裂变 Brief 板块渲染
+  renderViralBrief();
 }
 
 // ====== 映射关系管理 ======
@@ -2143,6 +2157,86 @@ function renderScriptSections() {
   } else {
     potentialSection.style.display = 'none';
   }
+}
+
+// ====== 裂变 Brief 板块 ======
+function renderViralBrief() {
+  var section = document.getElementById('viralBriefSection');
+  if (!videoJoined || !videoJoined.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  // 爆款视频：当月发布 + GMV > $100 + 品牌账号
+  var hotVideos = videoJoined.filter(function(r) {
+    return r.gmv >= 100 && r.isBrand && isCurrentMonth(r.date);
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (!hotVideos.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  document.getElementById('viralBriefCount').textContent = '(' + hotVideos.length + ' 条)';
+  section.style.display = '';
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
+  // Build text brief for clipboard copy
+  window._viralBriefText = 'Matern\'ella \u7206\u6B3E\u89C6\u9891 \u88C2\u53D8 Brief\n' +
+    '\u2501'.repeat(40) + '\n' +
+    '\u751F\u6210\u65F6\u95F4: ' + new Date().toLocaleDateString('zh-CN') + '\n' +
+    '\u6570\u636E\u8303\u56F4: \u5F53\u6708\u53D1\u5E03 | GMV > $100 | \u54C1\u724C\u81EA\u8425\n' +
+    '\u2501'.repeat(40) + '\n\n' +
+    hotVideos.map(function(r, i) {
+      return '【#' + (i+1) + '】 GMV: $' + fmt(r.gmv) + ' | ROI: ' + (r.roi||0).toFixed(2) + '\n' +
+        '  \u89C6\u9891ID: ' + r.vid + (r.cloudId ? ' | \u4E91\u89C6\u9891ID: ' + r.cloudId : '') + '\n' +
+        '  \u6807\u9898: ' + (r.title || '-') + '\n' +
+        '  \u526A\u8F91: ' + (r.editor || '-') + ' | \u7F16\u5BFC: ' + (r.director || '-') + '\n' +
+        '  \u53D1\u5E03: ' + (r.date ? r.date.slice(0,10) : '-') + ' | \u8BA2\u5355: ' + r.orders + ' | \u64AD\u653E: ' + (r.views||0).toLocaleString() + '\n' +
+        '  \u8D26\u53F7: ' + (r.account || '-') + '\n';
+    }).join('\n') +
+    '\n\u2501'.repeat(40) + '\n' +
+    '\uD83D\uDCA1 \u5EFA\u8BAE: \u4EE5\u4E0A\u89C6\u9891\u6570\u636E\u8868\u73B0\u7A81\u51FA\uFF0C\u5EFA\u8BAE\u4F18\u5148\u88C2\u53D8\u590D\u523B\uFF0C\u53C2\u8003\u5176\u811A\u672C\u7ED3\u6784\u3001\u62CD\u6444\u624B\u6CD5\u3001BGM \u548C\u53E3\u64AD\u98CE\u683C\u3002';
+
+  // Render table
+  var html = '<div style="overflow-x:auto;"><table style="min-width:900px;"><thead><tr style="background:#E65100;color:#fff;">' +
+    '<th style="padding:6px 5px;">#</th>' +
+    '<th style="padding:6px 5px;">\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u4E91\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u6807\u9898</th>' +
+    '<th style="padding:6px 5px;">GMV</th>' +
+    '<th style="padding:6px 5px;">ROI</th>' +
+    '<th style="padding:6px 5px;">\u8BA2\u5355</th>' +
+    '<th style="padding:6px 5px;">\u526A\u8F91</th>' +
+    '<th style="padding:6px 5px;">\u7F16\u5BFC</th>' +
+    '<th style="padding:6px 5px;">\u53D1\u5E03\u65E5\u671F</th>' +
+    '</tr></thead><tbody>' +
+    hotVideos.map(function(r, i) {
+      return '<tr style="' + (i % 2 === 0 ? 'background:#FFF8F0;' : '') + '">' +
+        '<td style="text-align:center;font-weight:600;color:#E65100;">#' + (i+1) + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;color:#1A56B8;">' + (r.cloudId || '-') + '</td>' +
+        '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:11px;" title="' + (r.title||'') + '">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;font-weight:600;color:#E65100;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="font-size:11px;">' + (r.editor || '-') + '</td>' +
+        '<td style="font-size:11px;">' + (r.director || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  document.getElementById('viralBriefBody').innerHTML = html;
+}
+
+function copyViralBrief() {
+  if (!window._viralBriefText) { alert('\u6682\u65E0\u88C2\u53D8 Brief \u6570\u636E'); return; }
+  navigator.clipboard.writeText(window._viralBriefText).then(function() {
+    alert('\u2705 \u88C2\u53D8 Brief \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01\u53EF\u76F4\u63A5\u7C98\u8D34\u5230\u98DE\u4E66/\u5FAE\u4FE1\u7FA4\u3002');
+  }).catch(function() {
+    prompt('\u8BF7\u624B\u52A8\u590D\u5236\u4EE5\u4E0B\u5185\u5BB9:', window._viralBriefText);
+  });
 }
 
 function togglePersonStatus(editor) {
