@@ -2037,10 +2037,10 @@ function renderVideoDetail(filter, sortBy, sortDir) {
         ? '<span class="script-badge' + (recent ? ' hot' : '') + '" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">' + r.scriptTitle + '</span>'
         : '<span style="color:#ccc;font-size:10px;">-</span>';
       var cidHtml = r.cloudId
-        ? '<span style="font-family:monospace;font-size:9px;color:#888;display:block;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
+        ? '<span style="display:inline-block;background:#E8F0FE;color:#1A56B8;font-family:monospace;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-top:2px;border:1px solid #B8D4FE;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
         : '<span style="font-size:9px;color:#ccc;display:block;">\u2601 -</span>';
       return '<tr style="' + trStyle + '">' +
-        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + cidHtml + '</td>' +
+        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '<br>' + cidHtml + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:10px;">' + scriptHtml + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
@@ -3315,10 +3315,10 @@ function renderVideoDetailUK(filter, sortBy, sortDir) {
       var recent = isRecentHigh(r.date, r.gmv, 100);
       var trStyle = recent ? 'background:#FFFDE7;' : '';
       var cidHtml = r.cloudId
-        ? '<span style="font-family:monospace;font-size:9px;color:#888;display:block;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
+        ? '<span style="display:inline-block;background:#E8F0FE;color:#1A56B8;font-family:monospace;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-top:2px;border:1px solid #B8D4FE;" title="Cloud ID: ' + r.cloudId + '">\u2601 ' + r.cloudId + '</span>'
         : '<span style="font-size:9px;color:#ccc;display:block;">\u2601 -</span>';
       return '<tr style="' + trStyle + '">' +
-        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + cidHtml + '</td>' +
+        '<td title="Video ID: ' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '<br>' + cidHtml + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
