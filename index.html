@@ -131,6 +131,8 @@ button:hover { background: #F0EDE6; }
 .repurchase-badge.high { background: #D4EDDA; color: #0F6E56; }
 .repurchase-badge.mid { background: #FFF3CD; color: #856404; }
 .repurchase-badge.low { background: #FEE2E2; color: #991B1B; }
+.repurchase-sku-map-box { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.repurchase-sku-map-header { padding: 8px 14px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 500; background: #F5F7FA; color: #2B579A; }
 
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -595,6 +597,21 @@ button:hover { background: #F0EDE6; }
   <div style="font-size:14px;font-weight:500;">点击上传订单 CSV</div>
   <div style="font-size:11px;color:#888;margin-top:4px;" id="repurchaseUploadLabel">支持 TikTok Shop 订单导出 .csv 文件</div>
   <input type="file" id="repurchaseFileInput" accept=".csv" style="display:none" onchange="handleRepurchaseUpload(this)">
+</div>
+
+<div class="repurchase-sku-map-box" id="repurchaseSkuMapBox">
+  <div class="repurchase-sku-map-header" onclick="toggleRepurchaseSection('skuMapBody')">
+    <span>SKU 映射配置（可选）</span>
+    <span style="font-size:11px;color:#888;">同一产品的不同 SKU 合并计算复购率 ▾</span>
+    <span id="skuMapBodyArrow" style="font-size:11px;margin-left:auto;">▼</span>
+  </div>
+  <div class="repurchase-section-body" id="skuMapBody">
+    <textarea id="repurchaseSkuMapText" placeholder="每行一个产品组，格式：产品名: SKU1, SKU2, SKU3&#10;&#10;示例：&#10;洗脸巾 166抽: FA01, FA02, FA03, X004GGBN4R&#10;牙膏: YA01, YA03&#10;婴儿湿巾: BA03, BA08, X00478IVBR" style="width:100%;height:120px;border:1px solid #D0D0D0;border-radius:4px;padding:8px;font-size:11px;font-family:monospace;resize:vertical;line-height:1.6;"></textarea>
+    <div style="margin-top:6px;display:flex;gap:8px;align-items:center;">
+      <button onclick="applyRepurchaseSkuMap()" style="padding:4px 14px;border-radius:4px;background:#2B579A;color:#fff;border:none;font-size:12px;">应用映射</button>
+      <span id="repurchaseSkuMapStatus" style="font-size:11px;color:#888;"></span>
+    </div>
+  </div>
 </div>
 
 <div id="repurchaseFieldMap" style="display:none;margin-bottom:14px;padding:12px 16px;background:#FFF8E1;border:1px solid #F0D060;border-radius:8px;font-size:12px;">
@@ -4118,7 +4135,84 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
 // ====== 复购分析 Tab ======
 var repurchaseOrders = [];
 var repurchaseFieldMap = {};
+var repurchaseSkuMap = {};
 var REPURCHASE_STORAGE = 'materna_repurchase';
+var REPURCHASE_SKUMAP_STORAGE = 'materna_repurchase_skumap';
+
+// ---- SKU Mapping ----
+function parseRepurchaseSkuMap(text) {
+  var map = {};
+  if (!text || !text.trim()) return map;
+  var lines = text.split('\n');
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim();
+    if (!line || line.charAt(0) === '#') continue;
+    var colonIdx = line.indexOf(':');
+    if (colonIdx === -1) continue;
+    var groupName = line.substring(0, colonIdx).trim();
+    var skusStr = line.substring(colonIdx + 1).trim();
+    if (!groupName || !skusStr) continue;
+    var skus = skusStr.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
+    for (var j = 0; j < skus.length; j++) {
+      map[skus[j].toLowerCase()] = groupName;
+    }
+  }
+  return map;
+}
+
+function applySkuMapToOrders() {
+  if (!repurchaseOrders.length) return;
+  var count = 0;
+  for (var i = 0; i < repurchaseOrders.length; i++) {
+    var o = repurchaseOrders[i];
+    var orig = (o.skuOriginal || o.sku).toLowerCase();
+    var mapped = repurchaseSkuMap[orig];
+    if (mapped && o.sku !== mapped) {
+      if (!o.skuOriginal && o.sku !== orig) o.skuOriginal = o.sku;
+      else if (!o.skuOriginal) o.skuOriginal = o.sku;
+      o.sku = mapped;
+      count++;
+    } else if (o.skuOriginal && o.sku !== o.skuOriginal && !mapped) {
+      // Unmapped — restore original
+      o.sku = o.skuOriginal;
+      delete o.skuOriginal;
+    }
+  }
+  return count;
+}
+
+function applyRepurchaseSkuMap() {
+  var text = document.getElementById('repurchaseSkuMapText').value;
+  repurchaseSkuMap = parseRepurchaseSkuMap(text);
+  var groupCount = 0;
+  var skuCount = 0;
+  for (var k in repurchaseSkuMap) { skuCount++; }
+  // Count unique groups
+  var groups = {};
+  for (var k in repurchaseSkuMap) { groups[repurchaseSkuMap[k]] = true; }
+  for (var g in groups) { groupCount++; }
+
+  if (skuCount === 0) {
+    document.getElementById('repurchaseSkuMapStatus').textContent = '未配置映射（使用原始SKU）';
+    document.getElementById('repurchaseSkuMapStatus').style.color = '#888';
+  } else {
+    var changed = 0;
+    if (repurchaseOrders.length > 0) changed = applySkuMapToOrders();
+    document.getElementById('repurchaseSkuMapStatus').textContent =
+      '已映射 ' + skuCount + ' 个 SKU → ' + groupCount + ' 个产品组' +
+      (changed > 0 ? '，已更新 ' + changed + ' 条订单' : '');
+    document.getElementById('repurchaseSkuMapStatus').style.color = '#0F6E56';
+  }
+
+  // Persist mapping text
+  try { localStorage.setItem(REPURCHASE_SKUMAP_STORAGE, text); } catch(e) {}
+
+  // If orders exist, re-render dashboard with new mapping
+  if (repurchaseOrders.length > 0) {
+    saveRepurchaseData();
+    renderRepurchaseDashboard();
+  }
+}
 
 function parseRepurchaseCSV(text) {
   // Remove BOM if present
@@ -4405,11 +4499,15 @@ function processRepurchaseOrders(raw, fieldMap) {
 
     var qty = parseInt(qtyStr) || 1;
 
+    // Apply SKU mapping if available
+    var mappedSku = repurchaseSkuMap[sku.toLowerCase()] || sku;
+
     orders.push({
       buyer: buyer.toLowerCase(),
       buyerOriginal: buyer,
       date: orderDate,
-      sku: sku,
+      sku: mappedSku,
+      skuOriginal: mappedSku !== sku ? sku : undefined,
       amount: amount,
       qty: qty
     });
@@ -4692,7 +4790,7 @@ function toggleRepurchaseSection(id) {
 function saveRepurchaseData() {
   try {
     localStorage.setItem(REPURCHASE_STORAGE, JSON.stringify(repurchaseOrders.map(function(o) {
-      return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: o.date.toISOString(), sku: o.sku, amount: o.amount, qty: o.qty };
+      return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: o.date.toISOString(), sku: o.sku, skuOriginal: o.skuOriginal, amount: o.amount, qty: o.qty };
     })));
   } catch(e) {}
 }
@@ -4700,7 +4798,11 @@ function saveRepurchaseData() {
 function resetRepurchase() {
   if (confirm('确认清除复购数据？')) {
     repurchaseOrders = [];
+    repurchaseSkuMap = {};
     localStorage.removeItem(REPURCHASE_STORAGE);
+    localStorage.removeItem(REPURCHASE_SKUMAP_STORAGE);
+    document.getElementById('repurchaseSkuMapText').value = '';
+    document.getElementById('repurchaseSkuMapStatus').textContent = '';
     document.getElementById('repurchaseDashboard').style.display = 'none';
     document.getElementById('repurchaseUploadBox').classList.remove('has-file');
     document.getElementById('repurchaseUploadLabel').textContent = '支持 TikTok Shop 订单导出 .csv 文件';
@@ -4716,10 +4818,27 @@ function resetRepurchase() {
     if (saved) {
       var raw = JSON.parse(saved);
       repurchaseOrders = raw.map(function(o) {
-        return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: new Date(o.date), sku: o.sku, amount: o.amount, qty: o.qty };
+        return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: new Date(o.date), sku: o.sku, skuOriginal: o.skuOriginal, amount: o.amount, qty: o.qty };
       });
       document.getElementById('repurchaseUploadBox').classList.add('has-file');
       document.getElementById('repurchaseUploadLabel').textContent = '已缓存: ' + repurchaseOrders.length + ' 行订单数据';
+    }
+    var savedMap = localStorage.getItem(REPURCHASE_SKUMAP_STORAGE);
+    if (savedMap) {
+      document.getElementById('repurchaseSkuMapText').value = savedMap;
+      repurchaseSkuMap = parseRepurchaseSkuMap(savedMap);
+      if (Object.keys(repurchaseSkuMap).length > 0) {
+        var groups = {};
+        for (var k in repurchaseSkuMap) { groups[repurchaseSkuMap[k]] = true; }
+        var gc = 0; for (var g in groups) { gc++; }
+        document.getElementById('repurchaseSkuMapStatus').textContent =
+          '已映射 ' + Object.keys(repurchaseSkuMap).length + ' 个 SKU → ' + gc + ' 个产品组';
+        document.getElementById('repurchaseSkuMapStatus').style.color = '#0F6E56';
+      }
+    }
+    // Re-apply mapping to ensure SKU consistency with current config
+    if (repurchaseOrders.length > 0 && Object.keys(repurchaseSkuMap).length > 0) {
+      applySkuMapToOrders();
     }
   } catch(_) {}
 })();
