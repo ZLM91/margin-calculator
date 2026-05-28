@@ -201,9 +201,6 @@ button:hover { background: #F0EDE6; }
 .compete-scroll thead th.sort-th .sort-arrow { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); border-radius: 3px; font-size: 10px; margin-left: 4px; vertical-align: middle; }
 .compete-scroll tbody td { padding: 4px 5px; border-bottom: 1px solid #E8E8E8; white-space: nowrap; }
 .compete-scroll tbody tr:hover { background: #F0FDFA; }
-.compete-highlight { background: #ECFDF5; }
-.compete-highlight-viral { background: #FEF3C7; }
-.compete-chart-wrap { position: relative; width: 100%; height: 400px; margin-bottom: 14px; }
 .compete-rank-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: #0F766E; color: #fff; font-size: 11px; font-weight: 700; text-align: center; line-height: 22px; margin-right: 4px; }
 .compete-rank-badge.top3 { background: #F59E0B; color: #fff; }
 .compete-file-info { background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #0F766E; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
@@ -211,13 +208,8 @@ button:hover { background: #F0EDE6; }
 .compete-btn:hover { background: #0D9488; }
 .compete-reset-btn { font-size: 11px; padding: 2px 10px; margin-left: 8px; border-radius: 4px; color: #A32D2D; border-color: #E0C0C0; background: #FFF5F5; cursor: pointer; }
 .compete-reset-btn:hover { background: #FFE8E8; border-color: #A32D2D; }
-.compete-pair-tag { display: inline-block; background: #E6FFFA; border: 1px solid #5EEAD4; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #0F766E; margin: 2px; cursor: default; }
-.compete-pair-tag .tag-highlight { color: #F59E0B; font-weight: 600; }
 
 /* Comment Insights styles */
-.comment-kw-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.comment-kw-tag { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; cursor: pointer; transition: transform .15s; }
-.comment-kw-tag:hover { transform: scale(1.08); }
 .comment-video-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
 .comment-video-card:hover { border-color: #0F766E; box-shadow: 0 2px 8px rgba(15,118,110,0.1); }
 .comment-video-card.active { border-color: #0F766E; background: #F0FDFA; }
@@ -824,32 +816,6 @@ button:hover { background: #F0EDE6; }
 <!-- Dashboard (hidden until upload) -->
 <div id="competeDashboard" style="display:none;">
 
-<!-- Section 1: Hashtag Analysis -->
-<div class="compete-section">
-  <div class="compete-section-header" onclick="toggleCompeteSection('hashtagBody','hashtagArrow')">
-    <span>#️⃣ Hashtag 分析 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="hashtagCount"></span></span>
-    <span id="hashtagArrow" style="font-size:11px;">▼</span>
-  </div>
-  <div class="compete-section-body" id="hashtagBody">
-    <div style="display:flex;gap:10px;margin-bottom:10px;">
-      <button class="filter-btn on" id="htBtnHot" onclick="switchHashtagView('hot')">🔥 热度榜</button>
-      <button class="filter-btn" id="htBtnGmv" onclick="switchHashtagView('gmv')">💰 GMV榜</button>
-    </div>
-    <div class="compete-chart-wrap"><canvas id="hashtagChart"></canvas></div>
-    <div id="hashtagTable"></div>
-  </div>
-</div>
-
-<!-- Section 2: Top Video Rankings -->
-<div class="compete-section">
-  <div class="compete-section-header" onclick="toggleCompeteSection('videoRankBody','videoRankArrow')">
-    <span>🎬 高转化视频榜 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="videoRankCount"></span></span>
-    <span id="videoRankArrow" style="font-size:11px;">▼</span>
-  </div>
-  <div class="compete-section-body" id="videoRankBody">
-    <div class="compete-scroll" id="videoRankTable"></div>
-  </div>
-</div>
 
 <!-- Section 3: Creator Leaderboard -->
 <div class="compete-section">
@@ -863,21 +829,8 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
-<!-- Section 4: Content Pattern Analysis -->
-<div class="compete-section">
-  <div class="compete-section-header" onclick="toggleCompeteSection('patternBody','patternArrow')">
-    <span>🧬 内容特征分析 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="patternCount"></span></span>
-    <span id="patternArrow" style="font-size:11px;">▼</span>
-  </div>
-  <div class="compete-section-body" id="patternBody">
-    <div style="font-weight:600;font-size:13px;margin-bottom:6px;">🔗 高GMV视频常用Hashtag组合 (Top 10)</div>
-    <div id="patternPairs" style="margin-bottom:12px;"></div>
-    <div style="font-weight:600;font-size:13px;margin-bottom:6px;">📊 转化率分布</div>
-    <div id="conversionDist" style="max-width:600px;"></div>
-  </div>
-</div>
 
-<!-- Section 5: Comment Insights (Pre-scraped from EchoTik) -->
+<!-- Comment Insights -->
 <div class="compete-section">
   <div class="compete-section-header" onclick="toggleCompeteSection('commentBody','commentArrow')">
     <span>💬 评论洞察 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="commentCount"></span></span>
@@ -885,24 +838,15 @@ button:hover { background: #F0EDE6; }
   </div>
   <div class="compete-section-body" id="commentBody">
     <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-      <span style="font-size:12px;color:#888;">📌 预抓取 <strong id="commentPreCount">47条视频 / 1290条评论</strong>（播放量&gt;5w）</span>
       <label class="compete-btn" style="cursor:pointer;font-size:11px;padding:4px 10px;">
         📤 上传完整评论JSON
         <input type="file" accept=".json" onchange="handleCommentJsonUpload(this)" style="display:none;">
       </label>
       <span id="commentJsonStatus" style="font-size:11px;color:#0F766E;"></span>
-      <span style="font-size:10px;color:#999;">（预抓取显示关键词 + 评论数，上传后可逐条浏览）</span>
     </div>
     
-    <!-- Keywords Cloud -->
-    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🔑 评论高频关键词 <span style="font-weight:400;font-size:11px;color:#888;">（点击筛选）</span></div>
-    <div class="comment-kw-cloud" id="commentKwCloud"></div>
-    
-    <!-- Keyword Chart -->
-    <div style="height:300px;margin-bottom:14px;"><canvas id="commentKwChart"></canvas></div>
-    
     <!-- Video list with comments -->
-    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">📋 按视频查看评论 <span id="commentFilterTag" style="font-weight:400;font-size:11px;color:#F59E0B;"></span></div>
+    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">📋 按视频查看评论</div>
     <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
       <button class="filter-btn on" id="cmtSortLikes" onclick="switchCommentSort('likes')">👍 热度排序</button>
       <button class="filter-btn" id="cmtSortPlays" onclick="switchCommentSort('plays')">👁 播放量排序</button>
@@ -1456,10 +1400,6 @@ const SCRIPT_STORAGE = 'maternella_script_data';
 // ====== 竞品视频分析 Tab ======
 var COMPETE_STORAGE = 'maternella_compete_data';
 var competeData = [];
-var competeHashtagView = 'hot';
-var competeChart = null;
-var competeVideoSortBy = 'gmv';
-var competeVideoSortDir = 'desc';
 var competeCreatorSortBy = 'gmv';
 var competeCreatorSortDir = 'desc';
 
@@ -4726,7 +4666,6 @@ function resetCompeteData() {
   document.getElementById('competeFileInfo').style.display = 'none';
   document.getElementById('competeOverview').style.display = 'none';
   document.getElementById('competeDashboard').style.display = 'none';
-  if (competeChart) { competeChart.destroy(); competeChart = null; }
   document.querySelector('#competeUploadBox input').value = '';
 }
 
@@ -4742,179 +4681,7 @@ function toggleCompeteSection(bodyId, arrowId) {
   }
 }
 
-function parseHashtags(text) {
-  var matches = text.match(/#[\w\u4e00-\u9fff\u3400-\u4dbf\uac00-\ud7af-]+/g);
-  if (!matches) return [];
-  var seen = {};
-  var result = [];
-  for (var i = 0; i < matches.length; i++) {
-    var tag = matches[i].toLowerCase();
-    if (!seen[tag]) { seen[tag] = true; result.push(tag); }
-  }
-  return result;
-}
 
-function computeHashtagStats() {
-  var stats = {};
-  for (var i = 0; i < competeData.length; i++) {
-    var row = competeData[i];
-    var tags = parseHashtags(row.title);
-    for (var j = 0; j < tags.length; j++) {
-      var tag = tags[j];
-      if (!stats[tag]) { stats[tag] = { count: 0, totalGmv: 0, totalViews: 0 }; }
-      stats[tag].count += 1;
-      stats[tag].totalGmv += row.gmv;
-      stats[tag].totalViews += row.views;
-    }
-  }
-  var keys = Object.keys(stats);
-  for (var k = 0; k < keys.length; k++) {
-    var t = keys[k];
-    stats[t].avgGmv = stats[t].count > 0 ? stats[t].totalGmv / stats[t].count : 0;
-  }
-  return stats;
-}
-
-function renderHashtagAnalysis() {
-  var stats = computeHashtagStats();
-  var keys = Object.keys(stats);
-  if (competeHashtagView === 'hot') {
-    keys.sort(function(a, b) { return stats[b].count - stats[a].count; });
-  } else {
-    keys.sort(function(a, b) { return stats[b].totalGmv - stats[a].totalGmv; });
-  }
-  var top30 = keys.slice(0, 30);
-
-  document.getElementById('hashtagCount').textContent = '(' + keys.length + ' 个Hashtag)';
-
-  if (competeChart) { competeChart.destroy(); }
-  var ctx = document.getElementById('hashtagChart');
-  var chartLabels = top30.slice().reverse();
-  var chartValues = chartLabels.map(function(t) {
-    return competeHashtagView === 'hot' ? stats[t].count : stats[t].totalGmv;
-  });
-
-  competeChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: chartLabels,
-      datasets: [{
-        label: competeHashtagView === 'hot' ? '使用次数' : '总GMV ($)',
-        data: chartValues,
-        backgroundColor: chartLabels.map(function(_, i) {
-          return i < 3 ? '#F59E0B' : i < 10 ? '#0D9488' : '#5EEAD4';
-        }),
-        borderColor: '#0F766E',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: true, position: 'top' } },
-      scales: { x: { beginAtZero: true } }
-    }
-  });
-
-  var tableHtml = '<table style="width:100%;font-size:11px;border-collapse:collapse;">' +
-    '<thead><tr style="background:#CCFBF1;">' +
-    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;">Hashtag</th>' +
-    '<th style="padding:4px;text-align:right;border:1px solid #E0E0E0;">视频数</th>' +
-    '<th style="padding:4px;text-align:right;border:1px solid #E0E0E0;">总GMV</th>' +
-    '<th style="padding:4px;text-align:right;border:1px solid #E0E0E0;">均GMV</th>' +
-    '<th style="padding:4px;text-align:right;border:1px solid #E0E0E0;">浏览</th>' +
-    '</tr></thead><tbody>';
-
-  var topForTable = keys.slice(0, 30);
-  for (var i = 0; i < topForTable.length; i++) {
-    var t = topForTable[i];
-    var s = stats[t];
-    tableHtml += '<tr>' +
-      '<td style="padding:4px;border:1px solid #E0E0E0;font-weight:600;">' + t + '</td>' +
-      '<td style="padding:4px;text-align:right;border:1px solid #E0E0E0;">' + s.count + '</td>' +
-      '<td style="padding:4px;text-align:right;border:1px solid #E0E0E0;">$' + s.totalGmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) + '</td>' +
-      '<td style="padding:4px;text-align:right;border:1px solid #E0E0E0;">$' + s.avgGmv.toFixed(2) + '</td>' +
-      '<td style="padding:4px;text-align:right;border:1px solid #E0E0E0;">' + s.totalViews.toLocaleString() + '</td>' +
-      '</tr>';
-  }
-  tableHtml += '</tbody></table>';
-  document.getElementById('hashtagTable').innerHTML = tableHtml;
-}
-
-function switchHashtagView(view) {
-  competeHashtagView = view;
-  document.getElementById('htBtnHot').classList.toggle('on', view === 'hot');
-  document.getElementById('htBtnGmv').classList.toggle('on', view === 'gmv');
-  renderHashtagAnalysis();
-}
-
-function renderVideoRankings() {
-  var fmt = function(n, d) { return n != null ? n.toLocaleString('en-US', {minimumFractionDigits: d||0, maximumFractionDigits: d||0}) : '-'; };
-  function th(label, key) {
-    var isActive = competeVideoSortBy === key;
-    var arrowHtml = isActive
-      ? '<span class="sort-arrow">' + (competeVideoSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>'
-      : '<span class="sort-arrow">&#x2195;</span>';
-    return '<th class="' + (isActive ? 'sort-th sort-th-active' : 'sort-th') + '" onclick="renderVideoRankingsSort(\'' + key + '\')">' + label + arrowHtml + '</th>';
-  }
-
-  document.getElementById('videoRankCount').textContent = '(' + competeData.length + ' 条)';
-
-  var rows = competeData.slice();
-  rows.sort(function(a, b) {
-    var va = a[competeVideoSortBy], vb = b[competeVideoSortBy];
-    if (competeVideoSortBy === 'conversionRate' || competeVideoSortBy === 'gmv' || competeVideoSortBy === 'views' || competeVideoSortBy === 'sales' || competeVideoSortBy === 'likes' || competeVideoSortBy === 'comments' || competeVideoSortBy === 'shares') {
-      va = parseFloat(va) || 0; vb = parseFloat(vb) || 0;
-      return competeVideoSortDir === 'asc' ? va - vb : vb - va;
-    }
-    if (typeof va === 'string') { va = va.toLowerCase(); vb = (vb || '').toLowerCase(); return competeVideoSortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
-    return competeVideoSortDir === 'asc' ? va - vb : vb - va;
-  });
-
-  var html = '<table><thead><tr>' +
-    th('排名','rank') + th('视频标题','title') + th('创作者','creator') + th('播放量','views') + th('点赞','likes') +
-    th('评论','comments') + th('转发','shares') + th('转化率','conversionRate') + th('销量','sales') + th('GMV','gmv') + th('发布时间','publishTime') +
-    '</tr></thead><tbody>';
-
-  for (var i = 0; i < rows.length; i++) {
-    var r = rows[i];
-    var convNum = parseFloat(r.conversionRate) || 0;
-    var isViral = convNum > 2;
-    var isHighGmv = r.gmv > 1000;
-    var rowCls = '';
-    if (isViral && isHighGmv) rowCls = ' class="compete-highlight-viral"';
-    else if (isViral) rowCls = ' class="compete-highlight"';
-    html += '<tr' + rowCls + '>' +
-      '<td>' + (i < 3 ? '<span class="compete-rank-badge top3">' + (i+1) + '</span>' : '<span class="compete-rank-badge">' + (i+1) + '</span>') + '</td>' +
-      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="' + r.title.replace(/"/g, '&quot;') + '">' +
-        (r.url ? '<a href="' + r.url + '" target="_blank" style="color:#0F766E;text-decoration:none;" title="打开TikTok链接">' + (r.title || '-') + '</a>' : (r.title || '-')) +
-        (isViral ? ' <span style="color:#F59E0B;font-size:10px;">&#x26A1;</span>' : '') +
-      '</td>' +
-      '<td>' + r.creator + '<br><span style="font-size:10px;color:#888;">@' + r.uniqueId + '</span></td>' +
-      '<td style="text-align:right;">' + fmt(r.views) + '</td>' +
-      '<td style="text-align:right;">' + fmt(r.likes) + '</td>' +
-      '<td style="text-align:right;">' + fmt(r.comments) + '</td>' +
-      '<td style="text-align:right;">' + fmt(r.shares) + '</td>' +
-      '<td style="text-align:right;' + (convNum > 2 ? 'color:#F59E0B;font-weight:700;' : convNum < 0.5 ? 'color:#888;' : '') + '">' + r.conversionRate + '%</td>' +
-      '<td style="text-align:right;">' + fmt(r.sales) + '</td>' +
-      '<td style="text-align:right;font-weight:700;color:#0F766E;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>' +
-      '<td style="font-size:10px;">' + (r.publishTime ? r.publishTime.replace('T', ' ').slice(0, 16) : '-') + '</td>' +
-      '</tr>';
-  }
-  html += '</tbody></table>';
-  document.getElementById('videoRankTable').innerHTML = html;
-}
-
-function renderVideoRankingsSort(key) {
-  if (competeVideoSortBy === key) {
-    competeVideoSortDir = competeVideoSortDir === 'asc' ? 'desc' : 'asc';
-  } else {
-    competeVideoSortBy = key;
-    competeVideoSortDir = 'desc';
-  }
-  renderVideoRankings();
-}
 
 function computeCreatorStats() {
   var map = {};
@@ -5000,77 +4767,7 @@ function renderCreatorSort(key) {
   renderCreatorLeaderboard();
 }
 
-function renderPatternAnalysis() {
-  var top50 = competeData.slice().sort(function(a, b) { return b.gmv - a.gmv; }).slice(0, 50);
-  document.getElementById('patternCount').textContent = '(基于Top 50 GMV视频)';
-
-  // Hashtag pair/triplet analysis
-  var pairCounts = {};
-  var tripletCounts = {};
-  for (var i = 0; i < top50.length; i++) {
-    var tags = parseHashtags(top50[i].title);
-    // Pairs
-    for (var a = 0; a < tags.length; a++) {
-      for (var b = a + 1; b < tags.length; b++) {
-        var pair = tags[a] < tags[b] ? tags[a] + ' + ' + tags[b] : tags[b] + ' + ' + tags[a];
-        pairCounts[pair] = (pairCounts[pair] || 0) + 1;
-      }
-    }
-    // Triplets
-    for (var a = 0; a < tags.length; a++) {
-      for (var b = a + 1; b < tags.length; b++) {
-        for (var c = b + 1; c < tags.length; c++) {
-          var arr = [tags[a], tags[b], tags[c]].sort();
-          var tri = arr.join(' + ');
-          tripletCounts[tri] = (tripletCounts[tri] || 0) + 1;
-        }
-      }
-    }
-  }
-
-  var pairs = Object.keys(pairCounts).sort(function(a, b) { return pairCounts[b] - pairCounts[a]; }).slice(0, 10);
-  var pairsHtml = pairs.map(function(p) {
-    return '<span class="compete-pair-tag">' + p.replace(/\+/g, '<span class="tag-highlight">+</span>') + ' <span style="font-weight:600;">(' + pairCounts[p] + '次)</span></span>';
-  }).join('');
-  if (!pairsHtml) pairsHtml = '<span style="color:#888;">暂无足够数据</span>';
-  document.getElementById('patternPairs').innerHTML = '<div style="line-height:2.2;">' + pairsHtml + '</div>';
-
-  // Conversion rate distribution
-  var buckets = [
-    { label: '0-0.5%', min: 0, max: 0.5 },
-    { label: '0.5-1%', min: 0.5, max: 1 },
-    { label: '1-2%', min: 1, max: 2 },
-    { label: '2-5%', min: 2, max: 5 },
-    { label: '5-10%', min: 5, max: 10 },
-    { label: '>10%', min: 10, max: Infinity }
-  ];
-  var dists = buckets.map(function(b) {
-    var count = 0;
-    for (var i = 0; i < competeData.length; i++) {
-      var v = parseFloat(competeData[i].conversionRate) || 0;
-      if (v >= b.min && v < b.max) count++;
-    }
-    return { label: b.label, count: count };
-  });
-  var allCounts = dists.map(function(d) { return d.count; });
-  var maxDist = 0;
-  for (var m = 0; m < allCounts.length; m++) { if (allCounts[m] > maxDist) maxDist = allCounts[m]; }
-  if (maxDist === 0) maxDist = 1;
-  var distHtml = dists.map(function(d) {
-    var pct = (d.count / competeData.length * 100).toFixed(1);
-    return '<div class="rating-bar-wrap">' +
-      '<span class="rating-bar-label" style="width:60px;">' + d.label + '</span>' +
-      '<div class="rating-bar-track"><div class="rating-bar-fill" style="width:' + (d.count/maxDist*100) + '%;background:linear-gradient(90deg,#0D9488,#2DD4BF);"></div></div>' +
-      '<span class="rating-bar-count" style="width:60px;">' + d.count + ' (' + pct + '%)</span>' +
-      '</div>';
-  }).join('');
-  document.getElementById('conversionDist').innerHTML = distHtml;
-}
-
 // ====== 评论洞察 Functions ======
-
-var commentKwChart = null;
-var activeCommentKw = null;
 
 function buildCommentVideoList() {
   var list = [];
@@ -5142,13 +4839,8 @@ function renderCommentInsights() {
   if (!competeData || competeData.length === 0) return;
 
   var videoList = buildCommentVideoList();
-  var totalPrescan = 0;
-  for (var i = 0; i < videoList.length; i++) { totalPrescan += videoList[i].prescanComments; }
+  document.getElementById('commentCount').textContent = '(' + videoList.length + ' 条视频可查看)';
 
-  document.getElementById('commentPreCount').textContent = videoList.length + '条视频 / ' + totalPrescan + '条评论';
-  document.getElementById('commentCount').textContent = '(' + PRESCANNED_COMMENTS.total_v + ' 条视频, ' + PRESCANNED_COMMENTS.total_c + ' 条评论预抓取)';
-
-  renderCommentKeywords();
   renderCommentVideoCards(videoList);
 
   // 尝试加载本地缓存的视频元数据
@@ -5157,93 +4849,18 @@ function renderCommentInsights() {
       var cached = localStorage.getItem(COMMENTS_STORAGE);
       if (cached) {
         competeFullComments = JSON.parse(cached);
-        var hasComments = competeFullComments.length > 0 && competeFullComments[0].comments && competeFullComments[0].comments.length > 0;
         renderCommentVideoCards(buildCommentVideoList());
-        document.getElementById('commentJsonStatus').textContent = hasComments ?
-          '✅ 已加载完整评论 (缓存)' :
-          '✅ 已加载 ' + competeFullComments.length + ' 条视频元数据 (缓存) | 需重新上传JSON查看逐条评论';
+        document.getElementById('commentJsonStatus').textContent = '✅ 已加载 ' + competeFullComments.length + ' 条视频元数据 (缓存) | 上传JSON查看逐条评论';
       }
     } catch(e) {}
   }
 }
 
-function renderCommentKeywords() {
-  var keywords = PRESCANNED_COMMENTS.kw;
-  var maxCount = keywords[0][1];
-
-  // Color scale
-  function colorFor(count) {
-    var ratio = count / maxCount;
-    if (ratio > 0.7) return '#0F766E';  // dark teal
-    if (ratio > 0.4) return '#0D9488';
-    if (ratio > 0.2) return '#14B8A6';
-    return '#5EEAD4';
-  }
-
-  var html = '';
-  for (var i = 0; i < keywords.length; i++) {
-    var kw = keywords[i][0];
-    var count = keywords[i][1];
-    var size = 11 + Math.round((count / maxCount) * 12);
-    var clr = colorFor(count);
-    var bg = clr === '#5EEAD4' ? '#CCFBF1' : clr;
-    var txtColor = clr === '#5EEAD4' ? '#0F766E' : '#fff';
-    var isActive = activeCommentKw === kw;
-    html += '<span class="comment-kw-tag" style="font-size:' + size + 'px;background:' + bg + ';color:' + txtColor + ';' + (isActive ? 'outline:2px solid #F59E0B;outline-offset:2px;' : '') + '" onclick="filterCommentByKw(\'' + kw + '\')" title="' + count + ' 条提及">' + kw + ' (' + count + ')</span>';
-  }
-  document.getElementById('commentKwCloud').innerHTML = html;
-
-  // Chart.js bar chart for top 20
-  if (commentKwChart) { commentKwChart.destroy(); }
-  var top20 = keywords.slice(0, 20).reverse();
-  var ctx = document.getElementById('commentKwChart');
-  commentKwChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: top20.map(function(k) { return k[0]; }),
-      datasets: [{
-        label: '提及次数',
-        data: top20.map(function(k) { return k[1]; }),
-        backgroundColor: top20.map(function(k, i) {
-          return i < 3 ? '#F59E0B' : '#0D9488';
-        }),
-        borderColor: '#0F766E',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: true, position: 'top' }, tooltip: { callbacks: { label: function(ctx) { return ctx.raw + ' 条评论'; } } } },
-      scales: { x: { beginAtZero: true, title: { display: true, text: '提及次数 (unique)' } } }
-    }
-  });
-}
-
 function renderCommentVideoCards(videoList) {
   var hasAnyFull = competeFullComments !== null;
 
-  // Filter by keyword if active
-  if (activeCommentKw) {
-    videoList = videoList.filter(function(v) {
-      if (!competeFullComments) return v.prescanComments > 0;
-      for (var i = 0; i < competeFullComments.length; i++) {
-        if (competeFullComments[i].video_id === v.video_id && competeFullComments[i].comments) {
-          for (var j = 0; j < competeFullComments[i].comments.length; j++) {
-            if (competeFullComments[i].comments[j].text.toLowerCase().indexOf(activeCommentKw) >= 0) return true;
-          }
-        }
-      }
-      return false;
-    });
-    document.getElementById('commentFilterTag').textContent = '筛选: "' + activeCommentKw + '" (' + videoList.length + ' 条视频)';
-  } else {
-    document.getElementById('commentFilterTag').textContent = '';
-  }
-
   if (videoList.length === 0) {
-    document.getElementById('commentVideoList').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">没有匹配 \"' + activeCommentKw + '\" 的视频</div>';
+    document.getElementById('commentVideoList').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无视频数据</div>';
     return;
   }
 
@@ -5251,7 +4868,6 @@ function renderCommentVideoCards(videoList) {
   for (var i = 0; i < videoList.length; i++) {
     var v = videoList[i];
     var commentCount = v.fullComments || v.echoTikCount || v.prescanComments;
-    if (commentCount === 0 && !activeCommentKw) continue;
 
     var playStr = v.views >= 1000000 ? (v.views/1000000).toFixed(1)+'M' : v.views >= 1000 ? (v.views/1000).toFixed(0)+'K' : v.views;
     var gmvStr = '$' + v.gmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
@@ -5281,12 +4897,6 @@ function renderCommentVideoCards(videoList) {
           break;
         }
       }
-      // Filter by keyword
-      if (activeCommentKw) {
-        fcomments = fcomments.filter(function(c) {
-          return c.text.toLowerCase().indexOf(activeCommentKw) >= 0;
-        });
-      }
       var showCount = Math.min(fcomments.length, 20);
       for (var k = 0; k < showCount; k++) {
         var c = fcomments[k];
@@ -5300,7 +4910,7 @@ function renderCommentVideoCards(videoList) {
         html += '<div class="comment-load-more" style="color:#888;font-size:11px;">... 还有 ' + (fcomments.length - showCount) + ' 条评论</div>';
       }
     } else {
-      html += '<div style="padding:8px;text-align:center;color:#888;font-size:11px;">📌 预抓取数据：约 ' + v.prescanComments + ' 条评论 | 上传完整JSON查看逐条内容</div>';
+      html += '<div style="padding:8px;text-align:center;color:#888;font-size:11px;">📌 上传完整JSON查看逐条评论内容</div>';
     }
     html += '</div>';
     html += '</div>';
@@ -5318,16 +4928,6 @@ function toggleCommentCard(index) {
     body.style.display = 'none';
     card.classList.remove('active');
   }
-}
-
-function filterCommentByKw(kw) {
-  if (activeCommentKw === kw) {
-    activeCommentKw = null;
-  } else {
-    activeCommentKw = kw;
-  }
-  renderCommentKeywords();
-  renderCommentVideoCards(buildCommentVideoList());
 }
 
 function switchCommentSort(sort) {
@@ -5403,10 +5003,7 @@ function renderCompeteDashboard() {
   document.getElementById('competeDashboard').style.display = '';
 
   // Render sections
-  renderHashtagAnalysis();
-  renderVideoRankings();
   renderCreatorLeaderboard();
-  renderPatternAnalysis();
   renderCommentInsights();
 }
 
