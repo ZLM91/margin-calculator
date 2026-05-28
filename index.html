@@ -1313,7 +1313,6 @@ function switchTab(tab) {
     renderRepurchaseDashboard();
   }
 }
-}
 
 function loadVideoData() {
   // 0) Load script data from localStorage
@@ -4122,43 +4121,91 @@ var repurchaseFieldMap = {};
 var REPURCHASE_STORAGE = 'materna_repurchase';
 
 function parseRepurchaseCSV(text) {
+  // Remove BOM if present
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+  // Detect delimiter: count commas vs tabs in first line (non-quoted sections only)
+  var firstNewline = text.indexOf('\n');
+  if (firstNewline === -1) firstNewline = text.length;
+  var firstLine = text.slice(0, firstNewline);
+  var tabs = 0, commas = 0, inQ2 = false;
+  for (var di = 0; di < firstLine.length; di++) {
+    var dc = firstLine[di];
+    if (dc === '"') { inQ2 = !inQ2; }
+    else if (!inQ2 && dc === '\t') { tabs++; }
+    else if (!inQ2 && dc === ',') { commas++; }
+  }
+  var delim = tabs > commas ? '\t' : ',';
+
+  // RFC 4180 compliant CSV/TSV parser
   var rows = [];
-  var current = '';
+  var row = [];
+  var field = '';
   var inQuotes = false;
+
   for (var i = 0; i < text.length; i++) {
     var c = text[i];
-    if (c === '"') {
-      if (inQuotes && text[i + 1] === '"') { current += '"'; i++; }
-      else { inQuotes = !inQuotes; }
-    } else if (c === ',' && !inQuotes) {
-      rows.push(current.trim()); current = '';
-    } else if (c === '\n' && !inQuotes) {
-      rows.push(current.trim()); current = '';
-    } else if (c === '\r') {
-      // skip
+    if (inQuotes) {
+      if (c === '"') {
+        if (i + 1 < text.length && text[i + 1] === '"') {
+          field += '"'; i++; // escaped quote
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += c;
+      }
     } else {
-      current += c;
+      if (c === '"') {
+        inQuotes = true;
+      } else if (c === delim) {
+        row.push(field.trim());
+        field = '';
+      } else if (c === '\n') {
+        row.push(field.trim());
+        field = '';
+        if (row.length > 1 || row[0] !== '') {
+          rows.push(row);
+        }
+        row = [];
+      } else if (c === '\r') {
+        // skip standalone CR
+        if (i + 1 < text.length && text[i + 1] === '\n') {
+          // CRLF handled by \n above
+        } else {
+          row.push(field.trim());
+          field = '';
+          if (row.length > 1 || row[0] !== '') {
+            rows.push(row);
+          }
+          row = [];
+        }
+      } else {
+        field += c;
+      }
     }
   }
-  if (current) rows.push(current.trim());
+  // Last field
+  if (field !== '') { row.push(field.trim()); }
+  if (row.length > 0 && (row.length > 1 || row[0] !== '')) { rows.push(row); }
 
-  // Find header row
-  var headerIdx = -1;
-  for (var j = 0; j < Math.min(100, rows.length); j++) {
-    if (rows[j].length > 20 && rows[j].indexOf(',') > 0) {
-      headerIdx = j; break;
-    }
-  }
-  if (headerIdx === -1) return [];
+  if (rows.length === 0) return [];
 
-  var headers = rows[headerIdx].split(',').map(function(h) { return h.replace(/^"|"$/g, '').trim(); });
+  // Header is first row
+  var headers = rows[0].map(function(h) {
+    return h.replace(/^"|"$/g, '').replace(/^\uFEFF/, '').trim();
+  });
+
+  // Build data objects
   var data = [];
-  for (var k = headerIdx + 1; k < rows.length; k++) {
-    var vals = rows[k].split(',').map(function(v) { return v.replace(/^"|"$/g, '').trim(); });
-    if (vals.length < 3) continue;
+  for (var k = 1; k < rows.length; k++) {
+    var r = rows[k];
+    if (r.length < 3) continue;
+    // Pad row to match header length (in case trailing empty fields are dropped)
+    while (r.length < headers.length) r.push('');
     var obj = {};
     for (var h = 0; h < headers.length; h++) {
-      obj[headers[h]] = vals[h] || '';
+      obj[headers[h]] = (r[h] !== undefined ? r[h] : '');
     }
     data.push(obj);
   }
@@ -4198,7 +4245,7 @@ function detectRepurchaseFields(headers) {
   }
 
   // sku
-  var skuCandidates = ['sku', 'product name', 'product_name', 'item name', 'product title', 'goods name'];
+  var skuCandidates = ['seller sku', 'sku', 'product name', 'product_name', 'item name', 'product title', 'goods name'];
   for (var s = 0; s < skuCandidates.length; s++) {
     var idx3 = hl.indexOf(skuCandidates[s]);
     if (idx3 >= 0) { map.sku = headers[idx3]; break; }
@@ -4297,7 +4344,9 @@ function handleRepurchaseUpload(input) {
     }
 
     document.getElementById('repurchaseUploadBox').classList.add('has-file');
-    document.getElementById('repurchaseUploadLabel').textContent = '已加载: ' + raw.length + ' 行数据';
+    var skippedMsg = (window._repurchaseSampleSkipped || 0) > 0 ? ' (已剔除 ' + window._repurchaseSampleSkipped + ' 条样品)' : '';
+    var countMsg = repurchaseOrders.length > 0 ? ' → ' + repurchaseOrders.length + ' 条有效订单' + skippedMsg : (hasAuto ? '' : ' (需完成字段映射)');
+    document.getElementById('repurchaseUploadLabel').textContent = '已加载: ' + raw.length + ' 行原始数据' + countMsg;
     input.value = '';
   };
   reader.readAsText(file);
@@ -4315,24 +4364,17 @@ function applyRepurchaseFieldMap() {
   }
   document.getElementById('repurchaseFieldMap').style.display = 'none';
   processRepurchaseOrders(window._repurchaseRaw, repurchaseFieldMap);
+  var skippedMsg = (window._repurchaseSampleSkipped || 0) > 0 ? ' (已剔除 ' + window._repurchaseSampleSkipped + ' 条样品)' : '';
+  document.getElementById('repurchaseUploadLabel').textContent = '已加载: ' + window._repurchaseRaw.length + ' 行原始数据 → ' + repurchaseOrders.length + ' 条有效订单' + skippedMsg;
 }
 
 function processRepurchaseOrders(raw, fieldMap) {
   var orders = [];
-  var excludedStatuses = ['cancelled', 'cancel', 'refund', 'return', '已取消', '退款', '退货'];
+  var excludedStatuses = ['cancelled', 'cancel', 'refund', 'return', '已取消', '退款', '退货', 'canceled'];
+  var sampleCount = 0;
 
   for (var i = 0; i < raw.length; i++) {
     var row = raw[i];
-
-    // Skip cancelled/refund orders
-    if (fieldMap.status) {
-      var st = (row[fieldMap.status] || '').toLowerCase();
-      var skip = false;
-      for (var x = 0; x < excludedStatuses.length; x++) {
-        if (st.indexOf(excludedStatuses[x]) >= 0) { skip = true; break; }
-      }
-      if (skip) continue;
-    }
 
     var buyer = (row[fieldMap.buyer] || '').trim();
     var dateStr = (row[fieldMap.date] || '').trim();
@@ -4342,13 +4384,24 @@ function processRepurchaseOrders(raw, fieldMap) {
 
     if (!buyer || !dateStr || !sku) continue;
 
+    // Parse amount — skip sample orders (amount = 0) FIRST, regardless of status
+    var amount = parseFloat(amountStr.replace(/[^0-9.\-]/g, ''));
+    if (isNaN(amount)) amount = 0;
+    if (amount <= 0) { sampleCount++; continue; }
+
+    // Skip cancelled/refund/return orders
+    if (fieldMap.status) {
+      var st = (row[fieldMap.status] || '').toLowerCase();
+      var skip = false;
+      for (var x = 0; x < excludedStatuses.length; x++) {
+        if (st.indexOf(excludedStatuses[x]) >= 0) { skip = true; break; }
+      }
+      if (skip) continue;
+    }
+
     // Parse date
     var orderDate = parseRepurchaseDate(dateStr);
     if (!orderDate) continue;
-
-    // Parse amount
-    var amount = parseFloat(amountStr.replace(/[^0-9.\-]/g, ''));
-    if (isNaN(amount)) amount = 0;
 
     var qty = parseInt(qtyStr) || 1;
 
@@ -4363,6 +4416,7 @@ function processRepurchaseOrders(raw, fieldMap) {
   }
 
   repurchaseOrders = orders;
+  window._repurchaseSampleSkipped = sampleCount;
   saveRepurchaseData();
   renderRepurchaseDashboard();
 }
@@ -4488,6 +4542,9 @@ function renderRepurchaseDashboard() {
     { label: '复购GMV占比', value: (stats.repeatGMVPct * 100).toFixed(1) + '%', cls: stats.repeatGMVPct > 0.3 ? 'good' : '' },
     { label: '总GMV', value: '$' + stats.totalGMV.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), cls: '' }
   ];
+  if ((window._repurchaseSampleSkipped || 0) > 0) {
+    cards.push({ label: '已剔除样品', value: window._repurchaseSampleSkipped.toLocaleString(), cls: 'warn' });
+  }
   document.getElementById('repurchaseMetrics').innerHTML = cards.map(function(c) {
     return '<div class="repurchase-metric-card"><div class="rm-value ' + c.cls + '">' + c.value + '</div><div class="rm-label">' + c.label + '</div></div>';
   }).join('');
