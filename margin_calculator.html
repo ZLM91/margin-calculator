@@ -278,7 +278,7 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <!-- Mapping Panel -->
-<div id="mappingPanel" style="display:none;">
+<div id="mappingPanel">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span>🔗 映射关系管理</span>
     <button onclick="exportMappingCSV()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
@@ -414,7 +414,7 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <!-- Mapping Panel -->
-<div id="mappingPanelUK" style="display:none;">
+<div id="mappingPanelUK">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span>🔗 映射关系管理</span>
     <button onclick="exportMappingCSVUK()" style="font-size:11px;padding:2px 10px;border-radius:4px;">📥 导出映射</button>
@@ -1086,7 +1086,6 @@ function resetMappingData() {
   document.getElementById('directorTable').innerHTML = '';
   document.getElementById('bdCards').innerHTML = '';
   document.getElementById('bdTable').innerHTML = '';
-  document.getElementById('mappingPanel').style.display = 'none';
   document.getElementById('personFilter').innerHTML = '';
   document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -1098,6 +1097,8 @@ function resetMappingData() {
   document.querySelector('#mapUploadBox input').value = '';
   videoJoined = null; videoPersonSummary = null; videoBdSummary = null; videoDirectorSummary = null;
   saveVideoData();
+  // Refresh mapping panel to show "no data" state
+  renderMappingPanel();
   // Try reload from remote after reset
   setTimeout(function() { loadMappingFromRemote(); }, 500);
 }
@@ -1281,7 +1282,6 @@ function resetVideoData() {
   document.getElementById('directorTable').innerHTML = '';
   document.getElementById('bdCards').innerHTML = '';
   document.getElementById('bdTable').innerHTML = '';
-  document.getElementById('mappingPanel').style.display = 'none';
   document.getElementById('personFilter').innerHTML = '';
   document.getElementById('bdFilter').innerHTML = '';
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -1669,11 +1669,14 @@ function toggleMapSection(id) {
 }
 
 function renderMappingPanel() {
+  // Panel always visible so export/import/reset buttons are always accessible
   if (!videoJoined) {
-    document.getElementById('mappingPanel').style.display = 'none';
+    document.getElementById('mapAlertSection').innerHTML = '<div style="padding:8px;background:#FFF8E1;border-radius:4px;font-size:12px;">⚠️ 尚未加载广告数据或映射表，请先导入数据后再查看明细。</div>';
+    document.getElementById('unmappedSection').style.display = 'none';
+    document.getElementById('mappedSection').style.display = 'none';
+    document.getElementById('mapEditSection').style.display = 'none';
     return;
   }
-  document.getElementById('mappingPanel').style.display = '';
 
   var hasMapping = !!videoMapping;
   var effective = getEffectiveMapping();
@@ -2368,7 +2371,6 @@ function resetMappingDataUK() {
   document.getElementById('directorTableUK').innerHTML = '';
   document.getElementById('bdCardsUK').innerHTML = '';
   document.getElementById('bdTableUK').innerHTML = '';
-  document.getElementById('mappingPanelUK').style.display = 'none';
   document.getElementById('personFilterUK').innerHTML = '';
   document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -2487,7 +2489,6 @@ function resetVideoDataUK() {
   document.getElementById('directorTableUK').innerHTML = '';
   document.getElementById('bdCardsUK').innerHTML = '';
   document.getElementById('bdTableUK').innerHTML = '';
-  document.getElementById('mappingPanelUK').style.display = 'none';
   document.getElementById('personFilterUK').innerHTML = '';
   document.getElementById('bdFilterUK').innerHTML = '';
   document.getElementById('videoDetailUK').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
@@ -2844,8 +2845,12 @@ function toggleMapSectionUK(id) {
 }
 
 function renderMappingPanelUK() {
+  // Panel always visible so export/import/reset buttons are always accessible
   if (!videoJoinedUK) {
-    document.getElementById('mappingPanelUK').style.display = 'none';
+    document.getElementById('mapAlertSectionUK').innerHTML = '<div style="padding:8px;background:#FFF8E1;border-radius:4px;font-size:12px;">⚠️ 尚未加载广告数据或映射表，请先导入数据后再查看明细。</div>';
+    document.getElementById('unmappedSectionUK').style.display = 'none';
+    document.getElementById('mappedSectionUK').style.display = 'none';
+    document.getElementById('mapEditSectionUK').style.display = 'none';
     return;
   }
   document.getElementById('mappingPanelUK').style.display = '';
