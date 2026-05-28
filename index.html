@@ -5076,11 +5076,14 @@ function buildCommentVideoList() {
   var list = [];
   
   if (competeFullComments) {
-    // Use full comments data (has creator, plays, gmv metadata)
+    // Use full comments data or cached metadata (creator, plays, gmv metadata)
     for (var i = 0; i < competeFullComments.length; i++) {
       var fv = competeFullComments[i];
       var vid = fv.video_id;
-      var ccount = fv.comments ? fv.comments.length : 0;
+      // comments_scraped = EchoTik count (always available); comments array may be absent in cache
+      var echoTikCount = fv.comments_scraped || 0;
+      var hasFullComments = fv.comments && fv.comments.length > 0;
+      var ccount = hasFullComments ? fv.comments.length : 0;
       list.push({
         video_id: vid,
         title: (fv.video_title || '').substring(0, 80),
@@ -5088,22 +5091,39 @@ function buildCommentVideoList() {
         views: fv.plays || 0,
         gmv: fv.gmv || 0,
         echoTikLink: 'https://echotik.live/videos/' + vid,
-        prescanComments: PRESCANNED_COMMENTS.vm[vid] || ccount,
-        fullComments: ccount
+        prescanComments: PRESCANNED_COMMENTS.vm[vid] || echoTikCount,
+        fullComments: ccount,
+        echoTikCount: echoTikCount,
+        hasFullComments: hasFullComments
       });
     }
   } else {
-    // Fallback: prescanned data only (limited metadata)
+    // Fallback: prescanned data, cross-reference competeData for metadata
     var vm = PRESCANNED_COMMENTS.vm;
     var vids = Object.keys(vm);
+
+    // Build competeData lookup by EchoTik video_id (extract from detailLink/url)
+    var competeMap = {};
+    if (competeData && competeData.length > 0) {
+      for (var k = 0; k < competeData.length; k++) {
+        var row = competeData[k];
+        var echoUrl = row.detailLink || row.echoTikLink || row.url || '';
+        var match = echoUrl.match(/\/videos?\/(\d+)/);
+        if (match) {
+          competeMap[match[1]] = row;
+        }
+      }
+    }
+
     for (var j = 0; j < vids.length; j++) {
       var vid = vids[j];
+      var cd = competeMap[vid] || {};
       list.push({
         video_id: vid,
-        title: '',
-        creator: '',
-        views: 0,
-        gmv: 0,
+        title: cd.title || '',
+        creator: cd.creator || '',
+        views: cd.views || 0,
+        gmv: cd.gmv || 0,
         echoTikLink: 'https://echotik.live/videos/' + vid,
         prescanComments: vm[vid],
         fullComments: 0
@@ -5131,14 +5151,17 @@ function renderCommentInsights() {
   renderCommentKeywords();
   renderCommentVideoCards(videoList);
 
-  // 尝试加载本地缓存的完整评论
+  // 尝试加载本地缓存的视频元数据
   if (!competeFullComments) {
     try {
       var cached = localStorage.getItem(COMMENTS_STORAGE);
       if (cached) {
         competeFullComments = JSON.parse(cached);
+        var hasComments = competeFullComments.length > 0 && competeFullComments[0].comments && competeFullComments[0].comments.length > 0;
         renderCommentVideoCards(buildCommentVideoList());
-        document.getElementById('commentJsonStatus').textContent = '✅ 已加载完整评论 (缓存)';
+        document.getElementById('commentJsonStatus').textContent = hasComments ?
+          '✅ 已加载完整评论 (缓存)' :
+          '✅ 已加载 ' + competeFullComments.length + ' 条视频元数据 (缓存) | 需重新上传JSON查看逐条评论';
       }
     } catch(e) {}
   }
@@ -5199,12 +5222,11 @@ function renderCommentKeywords() {
 }
 
 function renderCommentVideoCards(videoList) {
-  var hasFull = competeFullComments !== null;
+  var hasAnyFull = competeFullComments !== null;
 
   // Filter by keyword if active
   if (activeCommentKw) {
     videoList = videoList.filter(function(v) {
-      // Only show videos that have comments matching keyword
       if (!competeFullComments) return v.prescanComments > 0;
       for (var i = 0; i < competeFullComments.length; i++) {
         if (competeFullComments[i].video_id === v.video_id && competeFullComments[i].comments) {
@@ -5228,7 +5250,7 @@ function renderCommentVideoCards(videoList) {
   var html = '';
   for (var i = 0; i < videoList.length; i++) {
     var v = videoList[i];
-    var commentCount = hasFull ? v.fullComments : v.prescanComments;
+    var commentCount = v.fullComments || v.echoTikCount || v.prescanComments;
     if (commentCount === 0 && !activeCommentKw) continue;
 
     var playStr = v.views >= 1000000 ? (v.views/1000000).toFixed(1)+'M' : v.views >= 1000 ? (v.views/1000).toFixed(0)+'K' : v.views;
@@ -5237,17 +5259,20 @@ function renderCommentVideoCards(videoList) {
 
     html += '<div class="comment-video-card" id="cvc-' + i + '" onclick="toggleCommentCard(' + i + ')">';
     html += '<div class="cvc-header">';
-    html += '<span class="cvc-creator">' + (i+1) + '. ' + v.creator + '</span>';
+    html += '<span class="cvc-creator">' + (i+1) + '. ' + (v.creator || '未知创作者') + '</span>';
     html += '<span class="cvc-meta">' + playStr + ' plays | ' + gmvStr + ' | 💬 ' + commentCount + '</span>';
     html += '</div>';
-    html += '<div style="font-size:11px;color:#666;">' + (v.title.length > 80 ? v.title.substring(0, 80) + '...' : v.title) + '</div>';
+    if (v.title) {
+      html += '<div style="font-size:11px;color:#666;">' + (v.title.length > 80 ? v.title.substring(0, 80) + '...' : v.title) + '</div>';
+    }
     html += '<div style="margin-top:2px;">';
     html += '<a href="' + echoUrl + '" target="_blank" style="font-size:10px;color:#0F766E;text-decoration:none;" onclick="event.stopPropagation();">🔗 EchoTik查看</a>';
     html += '</div>';
 
-    // Show comments if full data loaded, or show prescan summary
+    // Show comments if this video has full comments, or show prescan summary
     html += '<div id="cvc-body-' + i + '" style="display:none;margin-top:8px;border-top:1px solid #E8E8E8;padding-top:8px;">';
-    if (hasFull) {
+    var thisHasFull = v.hasFullComments && hasAnyFull;
+    if (thisHasFull) {
       // Find full comments for this video
       var fcomments = [];
       for (var j = 0; j < competeFullComments.length; j++) {
@@ -5316,16 +5341,29 @@ function switchCommentSort(sort) {
 
 function handleCommentJsonUpload(input) {
   var file = input.files[0]; if (!file) return;
+  document.getElementById('commentJsonStatus').textContent = '⏳ 读取中...';
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
       var data = JSON.parse(e.target.result);
       if (!data.videos) throw new Error('无效格式: 缺少 videos 字段');
       competeFullComments = data.videos;
-      localStorage.setItem(COMMENTS_STORAGE, JSON.stringify(competeFullComments));
-      document.getElementById('commentJsonStatus').textContent = '✅ 已加载 ' + competeFullComments.length + ' 条视频完整评论';
+      // Save only metadata to localStorage (strip comments, ~15KB vs ~229KB)
+      try {
+        var metaOnly = competeFullComments.map(function(v) {
+          return { video_id: v.video_id, video_title: v.video_title, creator: v.creator,
+                   plays: v.plays, gmv: v.gmv, comment_count_echotik: v.comment_count_echotik,
+                   comments_scraped: v.comments_scraped };
+        });
+        localStorage.setItem(COMMENTS_STORAGE, JSON.stringify(metaOnly));
+      } catch(storeErr) {
+        // localStorage may fail silently on quota / privacy mode
+        // Keep going — data is still in memory
+      }
+      document.getElementById('commentJsonStatus').textContent = '✅ 已加载 ' + competeFullComments.length + ' 条视频完整评论 (内存)';
       renderCommentVideoCards(buildCommentVideoList());
     } catch(err) {
+      document.getElementById('commentJsonStatus').textContent = '❌ 导入失败';
       alert('❌ JSON解析失败: ' + err.message);
     }
   };
