@@ -101,6 +101,19 @@ button:hover { background: #F0EDE6; }
 .date-range-banner .dr-icon { font-size: 20px; }
 .date-range-banner .dr-label { font-size: 11px; color: #666; font-weight: 400; }
 .date-range-banner .dr-date { font-weight: 600; }
+.script-badge { display: inline-block; background: #E8F5E9; border: 1px solid #A5D6A7; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #2E7D32; margin: 1px 2px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.script-badge.hot { background: #FFF3E0; border-color: #FFCC80; color: #E65100; font-weight: 500; }
+.script-badge.potential { background: #E3F2FD; border-color: #90CAF9; color: #1565C0; }
+.script-section { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.script-section-header { padding: 10px 14px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.script-section-header.hot-header { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); color: #E65100; }
+.script-section-header.potential-header { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); color: #1565C0; }
+.script-section-body { padding: 10px 14px; max-height: 500px; overflow-y: auto; }
+.script-card { display: inline-block; background: #fff; border: 1px solid #E0E0E0; border-radius: 6px; padding: 8px 10px; margin: 3px; min-width: 200px; vertical-align: top; font-size: 11px; }
+.script-card .sc-title { font-weight: 600; font-size: 12px; margin-bottom: 3px; color: #333; }
+.script-card .sc-meta { color: #888; font-size: 10px; }
+.script-card .sc-gmv { font-weight: 700; color: #2B579A; }
+.script-card .sc-script { font-size: 11px; color: #555; margin-top: 4px; padding: 4px 6px; background: #FAFAFA; border-radius: 3px; max-height: 36px; overflow: hidden; line-height: 1.4; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -237,6 +250,12 @@ button:hover { background: #F0EDE6; }
     <div style="font-size:11px;color:#888;">云视频id汇总表 .xlsx（含Sheet1 + 线上表格）</div>
     <input type="file" accept=".xlsx,.csv,.xls" onchange="handleMappingUpload(this)" style="display:none;">
   </label>
+  <label class="video-upload-box" id="scriptUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📝</div>
+    <div id="scriptUploadLabel" style="font-size:13px;font-weight:500;">上传脚本CSV</div>
+    <div style="font-size:11px;color:#888;">跨境脚本.csv（脚本ID = 云视频id）</div>
+    <input type="file" accept=".csv" onchange="handleScriptUpload(this)" style="display:none;">
+  </label>
 </div>
 
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
@@ -253,6 +272,22 @@ button:hover { background: #F0EDE6; }
   <div id="directorStatus" style="font-size:12px;margin-bottom:10px;min-height:18px;"></div>
   <div id="directorCards" style="margin-bottom:14px;"></div>
   <div id="directorTable" style="margin-bottom:14px;"></div>
+</div>
+
+<!-- 爆款脚本 & 潜力脚本 -->
+<div id="scriptHotSection" class="script-section" style="display:none;">
+  <div class="script-section-header hot-header" onclick="toggleScriptSection('scriptHotBody','scriptHotArrow')">
+    <span>🔥 爆款脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptHotCount"></span></span>
+    <span id="scriptHotArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptHotBody"></div>
+</div>
+<div id="scriptPotentialSection" class="script-section" style="display:none;">
+  <div class="script-section-header potential-header" onclick="toggleScriptSection('scriptPotentialBody','scriptPotentialArrow')">
+    <span>📈 近期潜力脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptPotentialCount"></span></span>
+    <span id="scriptPotentialArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptPotentialBody"></div>
 </div>
 
 <!-- BD 达人数据 -->
@@ -1016,6 +1051,8 @@ let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26�
 let videoDetailSortBy = 'gmv', videoDetailSortDir = 'desc'; // 视频明细排序
 let bdDetailSortBy = 'gmv', bdDetailSortDir = 'desc'; // 达人视频明细排序
 let dataLoadingFromRemote = false; // prevent duplicate remote fetch
+let scriptMap = {}; // 云视频id -> 脚本标题 (from 跨境脚本.csv)
+const SCRIPT_STORAGE = 'maternella_script_data';
 
 function saveMappingData() {
   try {
@@ -1091,6 +1128,8 @@ function resetMappingData() {
   document.getElementById('videoDetail').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div>';
   document.getElementById('bdDetail').innerHTML = '';
   document.getElementById('bdSection').style.display = 'none';
+  document.getElementById('scriptHotSection').style.display = 'none';
+  document.getElementById('scriptPotentialSection').style.display = 'none';
   document.getElementById('bdAllDetail').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSection').style.display = 'none';
   bdAllExpanded = {};
@@ -1148,6 +1187,11 @@ function switchTab(tab) {
 }
 
 function loadVideoData() {
+  // 0) Load script data from localStorage
+  try {
+    var scriptRaw = localStorage.getItem(SCRIPT_STORAGE);
+    if (scriptRaw) { scriptMap = JSON.parse(scriptRaw); }
+  } catch(e) {}
   // 1) Try localStorage first
   try {
     var raw = localStorage.getItem(VID_STORAGE);
@@ -1182,7 +1226,7 @@ function loadVideoData() {
         document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（已缓存）';
       }
       // Auto-recompute if needed OR if mapping was just loaded + adData exists
-      var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      var needRecompute = videoJoined && videoJoined.some(function(r) { return r.account === undefined || r.isBrand === undefined || r.scriptTitle === undefined; });
       var joinedMissing = !videoJoined && videoMapping && videoAdData;
       if (needRecompute || joinedMissing) {
         if (videoMapping && videoAdData) { processJoin(); }
@@ -1462,6 +1506,56 @@ function handleMappingUpload(input) {
   reader.readAsArrayBuffer(file);
 }
 
+function handleScriptUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var buf = new Uint8Array(e.target.result);
+      // Decode GBK CSV
+      var text;
+      try { text = new TextDecoder('gbk').decode(buf); } catch(_) { text = new TextDecoder('utf-8').decode(buf); }
+      // Quick check: if first line doesn't contain 脚本ID, try UTF-8
+      if (text.indexOf('脚本ID') < 0) {
+        try { text = new TextDecoder('utf-8').decode(buf); } catch(_) {}
+      }
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空或格式不对');
+      var header = parseCSVLine(lines[0]);
+      var idxId = -1, idxTitle = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].trim();
+        if (h === '脚本ID') idxId = i;
+        if (h === '脚本标题') idxTitle = i;
+      }
+      if (idxId < 0 || idxTitle < 0) throw new Error('CSV 缺少"脚本ID"或"脚本标题"列');
+      var map = {};
+      var count = 0;
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var sid = (row[idxId] || '').trim();
+        var title = (row[idxTitle] || '').trim();
+        if (!sid || !title) continue;
+        // Strip trailing tabs/spaces that may come from the CSV
+        sid = sid.replace(/[\t\s]+/g, '');
+        title = title.replace(/[\t]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (sid && title) { map[sid] = title; count++; }
+      }
+      scriptMap = map;
+      // Save to localStorage
+      try { localStorage.setItem(SCRIPT_STORAGE, JSON.stringify(map)); } catch(_) {}
+      document.getElementById('scriptUploadBox').classList.add('has-file');
+      document.getElementById('scriptUploadLabel').textContent = '\u2705 脚本数据: ' + count + ' 条（云视频id→脚本标题）';
+      // If ad data + mapping already loaded, re-process to inject scripts
+      if (videoAdData && videoMapping) { processJoin(); }
+    } catch(err) {
+      document.getElementById('videoStatus').textContent = '\u274C 脚本CSV解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 function getEffectiveMapping() {
   // Merge original mapping + user edits (edits take priority)
   var vidToCloud = {};
@@ -1485,8 +1579,9 @@ function processJoin() {
   }
   var effective = getEffectiveMapping();
   var joined = videoAdData.map(function(row) {
-    var cloudId = effective.vidToCloud[row.vid] || '';
+    var cloudId = (effective.vidToCloud[row.vid] || '').trim();
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
+    var scriptTitle = scriptMap[cloudId] || '';
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
@@ -1494,7 +1589,8 @@ function processJoin() {
       account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
-      director: cleanName(person ? person.director : '')
+      director: cleanName(person ? person.director : ''),
+      scriptTitle: scriptTitle
     };
   });
   videoJoined = joined;
@@ -1596,6 +1692,26 @@ function renderVideoTab() {
 
   // === 剪辑排名 (全部展示) ===
   var maxGmv = videoPersonSummary[0] ? videoPersonSummary[0].gmv : 1;
+  // Build per-editor hot scripts (当月 GMV>100 且有脚本的)
+  var editorHotScripts = {};
+  videoJoined.forEach(function(r) {
+    if (!r.editor || !r.scriptTitle || !isCurrentMonth(r.date) || r.gmv < 100) return;
+    var key = cleanName(r.editor);
+    if (!editorHotScripts[key]) editorHotScripts[key] = [];
+    editorHotScripts[key].push({ gmv: r.gmv, script: r.scriptTitle, vid: r.vid, title: r.title });
+  });
+  // Sort each editor's scripts by GMV desc, dedupe by script title
+  Object.keys(editorHotScripts).forEach(function(k) {
+    var arr = editorHotScripts[k];
+    arr.sort(function(a, b) { return b.gmv - a.gmv; });
+    var seenScript = {};
+    editorHotScripts[k] = arr.filter(function(s) {
+      if (seenScript[s.script]) return false;
+      seenScript[s.script] = true;
+      return true;
+    }).slice(0, 3);
+  });
+
   var cards = document.getElementById('personCards');
   cards.innerHTML = videoPersonSummary.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
@@ -1603,10 +1719,17 @@ function renderVideoTab() {
     var statusCls = isInactive ? 'inactive' : 'active';
     var statusText = isInactive ? '已离职' : '在职';
     var m = medal(i);
+    var hotScripts = editorHotScripts[cleanName(p.editor)] || [];
+    var scriptHtml = hotScripts.length > 0
+      ? '<div style="margin-top:4px;font-size:10px;color:#E65100;">🔥 爆款脚本: ' + hotScripts.map(function(s) {
+          return '<span class="script-badge hot" title="' + s.script.replace(/"/g, '&quot;') + ' | GMV: $' + s.gmv.toFixed(2) + '">' + s.script + '</span>';
+        }).join('') + '</div>'
+      : '';
     return '<div class="person-card' + (isInactive ? ' inactive' : '') + '" onclick="renderVideoDetail(\'' + p.editor.replace(/'/g, "\\'") + '\')">' +
       '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.editor + '<span class="status-badge ' + statusCls + '" onclick="event.stopPropagation();togglePersonStatus(\'' + p.editor.replace(/'/g, "\\'") + '\')" title="点击切换在职/离职">' + statusText + '</span></div>' +
       '<div class="pc-gmv">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">编导: ' + p.directors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      scriptHtml +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;"></div></div>' +
       '</div>';
   }).join('');
@@ -1653,6 +1776,8 @@ function renderVideoTab() {
   renderDirectorSection();
   // BD 达人数据渲染
   renderBdSection();
+  // 脚本板块渲染
+  renderScriptSections();
 }
 
 // ====== 映射关系管理 ======
@@ -1880,16 +2005,20 @@ function renderVideoDetail(filter, sortBy, sortDir) {
     return '<th class="' + cls + '" onclick="renderVideoDetail(void 0,\'' + key + '\')">' + label + arrowHtml + '</th>';
   }
   var html = '<table><thead><tr>' +
-    th('视频ID','vid') + th('标题','title') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
+    th('视频ID','vid') + th('标题','title') + th('脚本文案','scriptTitle') + th('话题标签','tags') + th('GMV','gmv') + th('订单','orders') +
     th('成本','cost') + th('ROI','roi') + th('播放量','views') + th('账号','account') + th('剪辑','editor') +
     th('编导','director') + th('日期','date') +
     '</tr></thead><tbody>' +
     sorted.map(function(r) {
       var recent = isRecentHigh(r.date, r.gmv, 100);
       var trStyle = recent ? 'background:#FFFDE7;' : '';
+      var scriptHtml = r.scriptTitle
+        ? '<span class="script-badge' + (recent ? ' hot' : '') + '" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">' + r.scriptTitle + '</span>'
+        : '<span style="color:#ccc;font-size:10px;">-</span>';
       return '<tr style="' + trStyle + '">' +
         '<td title="' + r.vid + '" style="font-family:monospace;font-size:10px;">' + r.vid + (recent ? ' <span style="color:#D97706;font-size:9px;">&#x2605;</span>' : '') + '</td>' +
         '<td title="' + r.title + '" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">' + (r.title || '-') + '</td>' +
+        '<td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;font-size:10px;">' + scriptHtml + '</td>' +
         '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;font-size:10px;" title="' + r.tags + '">' + (r.tags ? r.tags.replace(/#/g, ' #') : '-') + '</td>' +
         '<td style="text-align:right;">$' + fmt(r.gmv) + '</td>' +
         '<td style="text-align:center;">' + r.orders + '</td>' +
@@ -1905,6 +2034,93 @@ function renderVideoDetail(filter, sortBy, sortDir) {
   document.getElementById('videoDetail').innerHTML = html;
 }
 
+// ====== 脚本板块渲染 ======
+function toggleScriptSection(bodyId, arrowId) {
+  var el = document.getElementById(bodyId);
+  var arrow = document.getElementById(arrowId);
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    arrow.textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    arrow.textContent = '\u25B6';
+  }
+}
+
+function renderScriptSections() {
+  var hotSection = document.getElementById('scriptHotSection');
+  var potentialSection = document.getElementById('scriptPotentialSection');
+
+  if (!videoJoined || Object.keys(scriptMap).length === 0) {
+    hotSection.style.display = 'none';
+    potentialSection.style.display = 'none';
+    return;
+  }
+
+  // 爆款脚本：当月 GMV > 100 且有脚本文案的品牌视频
+  var hotVideos = videoJoined.filter(function(r) {
+    return r.scriptTitle && isCurrentMonth(r.date) && r.gmv >= 100 && r.isBrand;
+  });
+  // Dedupe by script title, keep highest GMV
+  var hotMap = {};
+  hotVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!hotMap[key] || hotMap[key].gmv < r.gmv) hotMap[key] = r;
+  });
+  var hotList = Object.values(hotMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (hotList.length > 0) {
+    hotSection.style.display = '';
+    document.getElementById('scriptHotCount').textContent = '(' + hotList.length + ' 条爆款脚本)';
+    document.getElementById('scriptHotBody').innerHTML = hotList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    hotSection.style.display = 'none';
+  }
+
+  // 潜力脚本：近期（近3个月）GMV 在 $20-$100 之间的品牌视频
+  var now = new Date();
+  var threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+  function isWithin3Months(dateStr) {
+    if (!dateStr) return false;
+    var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
+    if (!m) return false;
+    var d = new Date(parseInt(m[1]), parseInt(m[2]) - 1, 1);
+    return d >= threeMonthsAgo && d <= now;
+  }
+  var potentialVideos = videoJoined.filter(function(r) {
+    return r.scriptTitle && isWithin3Months(r.date) && r.gmv >= 20 && r.gmv < 100 && r.isBrand;
+  });
+  // Dedupe by script title, keep highest GMV
+  var potMap = {};
+  potentialVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!potMap[key] || potMap[key].gmv < r.gmv) potMap[key] = r;
+  });
+  var potList = Object.values(potMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (potList.length > 0) {
+    potentialSection.style.display = '';
+    document.getElementById('scriptPotentialCount').textContent = '(' + potList.length + ' 条潜力脚本)';
+    document.getElementById('scriptPotentialBody').innerHTML = potList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv" style="color:#1565C0;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    potentialSection.style.display = 'none';
+  }
+}
+
 function togglePersonStatus(editor) {
   personStatusUS[editor] = (personStatusUS[editor] === 'inactive') ? 'active' : 'inactive';
   saveMappingData();
@@ -1917,14 +2133,40 @@ function renderDirectorSection() {
   if (!videoDirectorSummary || !videoDirectorSummary.length) { return; }
   document.getElementById('directorStatus').textContent = '\u2705 ' + videoDirectorSummary.length + ' 位编导';
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
+  // Build per-director hot scripts
+  var directorHotScripts = {};
+  videoJoined.forEach(function(r) {
+    if (!r.director || !r.scriptTitle || !isCurrentMonth(r.date) || r.gmv < 100) return;
+    var key = cleanName(r.director);
+    if (!directorHotScripts[key]) directorHotScripts[key] = [];
+    directorHotScripts[key].push({ gmv: r.gmv, script: r.scriptTitle });
+  });
+  Object.keys(directorHotScripts).forEach(function(k) {
+    var arr = directorHotScripts[k];
+    arr.sort(function(a, b) { return b.gmv - a.gmv; });
+    var seenScript = {};
+    directorHotScripts[k] = arr.filter(function(s) {
+      if (seenScript[s.script]) return false;
+      seenScript[s.script] = true;
+      return true;
+    }).slice(0, 3);
+  });
+
   var maxGmv = videoDirectorSummary[0].gmv || 1;
   document.getElementById('directorCards').innerHTML = videoDirectorSummary.map(function(p, i) {
     var pct = Math.round(p.gmv / maxGmv * 100);
     var m = medal(i);
+    var hotScripts = directorHotScripts[cleanName(p.director)] || [];
+    var scriptHtml = hotScripts.length > 0
+      ? '<div style="margin-top:4px;font-size:10px;color:#E65100;">🔥 爆款脚本: ' + hotScripts.map(function(s) {
+          return '<span class="script-badge hot" title="' + s.script.replace(/"/g, '&quot;') + ' | GMV: $' + s.gmv.toFixed(2) + '">' + s.script + '</span>';
+        }).join('') + '</div>'
+      : '';
     return '<div class="person-card" onclick="renderVideoDetail(null)" style="min-width:200px;border-left:3px solid #5B8C51;">' +
       '<div class="pc-name">' + (m ? m + ' ' : '') + '#' + (i+1) + ' ' + p.director + '</div>' +
       '<div class="pc-gmv" style="color:#5B8C51;">$' + p.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
       '<div class="pc-stat">剪辑: ' + p.editors + ' | 视频: ' + p.videos + ' | 订单: ' + p.orders + ' | ROI: ' + p.roi.toFixed(2) + '</div>' +
+      scriptHtml +
       '<div class="pc-kpi"><div class="pc-kpi-bar" style="width:' + pct + '%;background:#5B8C51;"></div></div>' +
       '</div>';
   }).join('');
