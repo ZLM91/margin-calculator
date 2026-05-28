@@ -109,11 +109,28 @@ button:hover { background: #F0EDE6; }
 .script-section-header.hot-header { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); color: #E65100; }
 .script-section-header.potential-header { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); color: #1565C0; }
 .script-section-body { padding: 10px 14px; max-height: 500px; overflow-y: auto; }
-.script-card { display: inline-block; background: #fff; border: 1px solid #E0E0E0; border-radius: 6px; padding: 8px 10px; margin: 3px; min-width: 200px; vertical-align: top; font-size: 11px; }
-.script-card .sc-title { font-weight: 600; font-size: 12px; margin-bottom: 3px; color: #333; }
-.script-card .sc-meta { color: #888; font-size: 10px; }
-.script-card .sc-gmv { font-weight: 700; color: #2B579A; }
-.script-card .sc-script { font-size: 11px; color: #555; margin-top: 4px; padding: 4px 6px; background: #FAFAFA; border-radius: 3px; max-height: 36px; overflow: hidden; line-height: 1.4; }
+.repurchase-upload-box { border: 2px dashed #C5D3E8; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; cursor: pointer; transition: border-color .2s; background: #FAFBFC; text-align: center; }
+.repurchase-upload-box:hover { border-color: #2B579A; }
+.repurchase-upload-box.has-file { border-color: #0F6E56; background: #F0FAF5; border-style: solid; }
+.repurchase-metric-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.repurchase-metric-card { flex: 1; min-width: 140px; background: #F5F3EE; border-radius: 10px; padding: 12px 16px; text-align: center; }
+.repurchase-metric-card .rm-value { font-size: 24px; font-weight: 700; color: #2B579A; }
+.repurchase-metric-card .rm-value.good { color: #0F6E56; }
+.repurchase-metric-card .rm-value.warn { color: #A32D2D; }
+.repurchase-metric-card .rm-label { font-size: 11px; color: #888; margin-top: 2px; }
+.repurchase-section { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+.repurchase-section-header { padding: 10px 14px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #F5F7FA; color: #2B579A; }
+.repurchase-section-body { padding: 10px 14px; }
+.repurchase-scroll { overflow-x: auto; margin-bottom: 4px; max-height: 420px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 6px; }
+.repurchase-scroll table { font-size: 11px; min-width: 700px; }
+.repurchase-scroll thead th { background: #2B579A; color: #fff; padding: 6px 5px; position: sticky; top: 0; z-index: 2; white-space: nowrap; user-select: none; cursor: pointer; }
+.repurchase-scroll thead th:hover { background: #1E4080; }
+.repurchase-scroll tbody td { padding: 4px 5px; border-bottom: 1px solid #E8E8E8; white-space: nowrap; }
+.repurchase-scroll tbody tr:hover { background: #F0F7FF; }
+.repurchase-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.repurchase-badge.high { background: #D4EDDA; color: #0F6E56; }
+.repurchase-badge.mid { background: #FFF3CD; color: #856404; }
+.repurchase-badge.low { background: #FEE2E2; color: #991B1B; }
 
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -125,6 +142,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn active" data-tab="margin" onclick="switchTab('margin')">📊 毛利率计算</button>
   <button class="tab-btn" data-tab="video" onclick="switchTab('video')">📹 视频数据 (美国)</button>
   <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
+  <button class="tab-btn" data-tab="repurchase" onclick="switchTab('repurchase')">🔄 复购分析</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -568,6 +586,60 @@ button:hover { background: #F0EDE6; }
 <div id="personFilterUK" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
 <div class="video-scroll" id="videoDetailUK"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
 </div><!-- /tab-video-uk -->
+
+<div id="tab-repurchase" class="tab-content">
+<h1>复购分析</h1>
+<p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">上传 TikTok Shop 订单导出 CSV，自动计算复购率、复购间隔、SKU 复购排行</p>
+
+<div class="repurchase-upload-box" id="repurchaseUploadBox" onclick="document.getElementById('repurchaseFileInput').click()">
+  <div style="font-size:14px;font-weight:500;">点击上传订单 CSV</div>
+  <div style="font-size:11px;color:#888;margin-top:4px;" id="repurchaseUploadLabel">支持 TikTok Shop 订单导出 .csv 文件</div>
+  <input type="file" id="repurchaseFileInput" accept=".csv" style="display:none" onchange="handleRepurchaseUpload(this)">
+</div>
+
+<div id="repurchaseFieldMap" style="display:none;margin-bottom:14px;padding:12px 16px;background:#FFF8E1;border:1px solid #F0D060;border-radius:8px;font-size:12px;">
+  <strong style="color:#8B6914;">字段映射（已自动识别）</strong>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;" id="repurchaseFieldMapSelects"></div>
+  <button onclick="applyRepurchaseFieldMap()" style="margin-top:8px;padding:4px 14px;border-radius:4px;background:#2B579A;color:#fff;border:none;font-size:12px;">确认并分析</button>
+</div>
+
+<div id="repurchaseDashboard" style="display:none;">
+  <div class="repurchase-metric-row" id="repurchaseMetrics"></div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('skuSection')">
+      <span>SKU 复购排行</span><span id="skuSectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="skuSection">
+      <div class="repurchase-scroll" id="repurchaseSkuTable"></div>
+    </div>
+  </div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('intervalSection')">
+      <span>复购间隔分布</span><span id="intervalSectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="intervalSection">
+      <div class="chart-wrap" id="repurchaseIntervalChart"><canvas id="intervalChartCanvas"></canvas></div>
+    </div>
+  </div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('buyerSection')">
+      <span>复购用户明细</span><span id="buyerSectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="buyerSection">
+      <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center;">
+        <input type="text" id="repurchaseBuyerSearch" placeholder="搜索买家" style="padding:4px 8px;border:1px solid #D0D0D0;border-radius:4px;font-size:12px;width:200px;" oninput="renderRepurchaseBuyerTable()">
+        <select id="repurchaseSkuFilter" onchange="renderRepurchaseBuyerTable()" style="padding:4px 8px;border:1px solid #D0D0D0;border-radius:4px;font-size:12px;"><option value="">全部 SKU</option></select>
+      </div>
+      <div class="repurchase-scroll" id="repurchaseBuyerTable"></div>
+    </div>
+  </div>
+
+  <button onclick="resetRepurchase()" class="reset-btn" style="margin-top:10px;">清除数据</button>
+</div>
+</div><!-- /tab-repurchase -->
 
 </div><!-- /container -->
 
@@ -1236,6 +1308,10 @@ function switchTab(tab) {
   document.getElementById('tab-margin').classList.toggle('active', tab === 'margin');
   document.getElementById('tab-video').classList.toggle('active', tab === 'video');
   document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
+  document.getElementById('tab-repurchase').classList.toggle('active', tab === 'repurchase');
+  if (tab === 'repurchase' && repurchaseOrders.length > 0) {
+    renderRepurchaseDashboard();
+  }
 }
 }
 
@@ -4040,6 +4116,556 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
 }
 
 
+// ====== 复购分析 Tab ======
+var repurchaseOrders = [];
+var repurchaseFieldMap = {};
+var REPURCHASE_STORAGE = 'materna_repurchase';
+
+function parseRepurchaseCSV(text) {
+  var rows = [];
+  var current = '';
+  var inQuotes = false;
+  for (var i = 0; i < text.length; i++) {
+    var c = text[i];
+    if (c === '"') {
+      if (inQuotes && text[i + 1] === '"') { current += '"'; i++; }
+      else { inQuotes = !inQuotes; }
+    } else if (c === ',' && !inQuotes) {
+      rows.push(current.trim()); current = '';
+    } else if (c === '\n' && !inQuotes) {
+      rows.push(current.trim()); current = '';
+    } else if (c === '\r') {
+      // skip
+    } else {
+      current += c;
+    }
+  }
+  if (current) rows.push(current.trim());
+
+  // Find header row
+  var headerIdx = -1;
+  for (var j = 0; j < Math.min(100, rows.length); j++) {
+    if (rows[j].length > 20 && rows[j].indexOf(',') > 0) {
+      headerIdx = j; break;
+    }
+  }
+  if (headerIdx === -1) return [];
+
+  var headers = rows[headerIdx].split(',').map(function(h) { return h.replace(/^"|"$/g, '').trim(); });
+  var data = [];
+  for (var k = headerIdx + 1; k < rows.length; k++) {
+    var vals = rows[k].split(',').map(function(v) { return v.replace(/^"|"$/g, '').trim(); });
+    if (vals.length < 3) continue;
+    var obj = {};
+    for (var h = 0; h < headers.length; h++) {
+      obj[headers[h]] = vals[h] || '';
+    }
+    data.push(obj);
+  }
+  return data;
+}
+
+function detectRepurchaseFields(headers) {
+  var map = { buyer: '', date: '', sku: '', amount: '', status: '', qty: '', orderId: '' };
+  var hl = headers.map(function(h) { return h.toLowerCase(); });
+
+  // buyer
+  var buyerCandidates = ['buyer email', 'buyer name', 'user id', 'buyer_id', 'email', 'customer email', 'username', 'buyer username'];
+  for (var i = 0; i < buyerCandidates.length; i++) {
+    var idx = hl.indexOf(buyerCandidates[i]);
+    if (idx >= 0) { map.buyer = headers[idx]; break; }
+  }
+  if (!map.buyer) {
+    for (var j = 0; j < hl.length; j++) {
+      if (hl[j].indexOf('buyer') >= 0 || hl[j].indexOf('email') >= 0 || hl[j].indexOf('user') >= 0) {
+        map.buyer = headers[j]; break;
+      }
+    }
+  }
+
+  // date
+  var dateCandidates = ['order created time', 'order date', 'created time', 'order_time', 'purchase date', 'paid time', 'payment time'];
+  for (var d = 0; d < dateCandidates.length; d++) {
+    var idx2 = hl.indexOf(dateCandidates[d]);
+    if (idx2 >= 0) { map.date = headers[idx2]; break; }
+  }
+  if (!map.date) {
+    for (var d2 = 0; d2 < hl.length; d2++) {
+      if (hl[d2].indexOf('date') >= 0 || hl[d2].indexOf('time') >= 0 || hl[d2].indexOf('created') >= 0) {
+        map.date = headers[d2]; break;
+      }
+    }
+  }
+
+  // sku
+  var skuCandidates = ['sku', 'product name', 'product_name', 'item name', 'product title', 'goods name'];
+  for (var s = 0; s < skuCandidates.length; s++) {
+    var idx3 = hl.indexOf(skuCandidates[s]);
+    if (idx3 >= 0) { map.sku = headers[idx3]; break; }
+  }
+  if (!map.sku) {
+    for (var s2 = 0; s2 < hl.length; s2++) {
+      if (hl[s2].indexOf('sku') >= 0 || hl[s2].indexOf('product') >= 0 || hl[s2].indexOf('item') >= 0) {
+        map.sku = headers[s2]; break;
+      }
+    }
+  }
+
+  // amount
+  var amtCandidates = ['sku subtotal', 'order amount', 'total amount', 'price', 'sku amount', 'subtotal', 'gmv', 'revenue'];
+  for (var a = 0; a < amtCandidates.length; a++) {
+    var idx4 = hl.indexOf(amtCandidates[a]);
+    if (idx4 >= 0) { map.amount = headers[idx4]; break; }
+  }
+  if (!map.amount) {
+    for (var a2 = 0; a2 < hl.length; a2++) {
+      if (hl[a2].indexOf('amount') >= 0 || hl[a2].indexOf('subtotal') >= 0 || hl[a2].indexOf('price') >= 0 || hl[a2].indexOf('gmv') >= 0) {
+        map.amount = headers[a2]; break;
+      }
+    }
+  }
+
+  // status
+  var stCandidates = ['order status', 'status', 'order_state', 'payment status'];
+  for (var st = 0; st < stCandidates.length; st++) {
+    var idx5 = hl.indexOf(stCandidates[st]);
+    if (idx5 >= 0) { map.status = headers[idx5]; break; }
+  }
+  if (!map.status) {
+    for (var st2 = 0; st2 < hl.length; st2++) {
+      if (hl[st2].indexOf('status') >= 0 || hl[st2].indexOf('state') >= 0) {
+        map.status = headers[st2]; break;
+      }
+    }
+  }
+
+  // qty
+  var qtyCandidates = ['quantity', 'qty', 'count', 'sku quantity'];
+  for (var q = 0; q < qtyCandidates.length; q++) {
+    var idx6 = hl.indexOf(qtyCandidates[q]);
+    if (idx6 >= 0) { map.qty = headers[idx6]; break; }
+  }
+
+  // orderId
+  var oidCandidates = ['order id', 'order_id', 'order number', 'order_no'];
+  for (var o = 0; o < oidCandidates.length; o++) {
+    var idx7 = hl.indexOf(oidCandidates[o]);
+    if (idx7 >= 0) { map.orderId = headers[idx7]; break; }
+  }
+
+  return map;
+}
+
+function handleRepurchaseUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var raw = parseRepurchaseCSV(e.target.result);
+    if (raw.length === 0) { alert('无法解析CSV，请确认文件格式'); return; }
+
+    var headers = Object.keys(raw[0]);
+    repurchaseFieldMap = detectRepurchaseFields(headers);
+
+    var hasAuto = repurchaseFieldMap.buyer && repurchaseFieldMap.date && repurchaseFieldMap.sku;
+    if (!hasAuto) {
+      // Show manual field mapping
+      var html = '';
+      var fieldNames = ['buyer', 'date', 'sku', 'amount', 'status', 'qty'];
+      var fieldLabels = {'buyer':'买家标识','date':'订单日期','sku':'SKU/产品','amount':'金额','status':'订单状态','qty':'数量'};
+      for (var f = 0; f < fieldNames.length; f++) {
+        var fn = fieldNames[f];
+        html += '<div><label style="font-weight:500;margin-right:4px;">' + fieldLabels[fn] + ':</label>';
+        html += '<select id="repMap_' + fn + '" style="padding:2px 6px;border:1px solid #D0D0D0;border-radius:4px;font-size:12px;min-width:140px;">';
+        html += '<option value="">-- 选择 --</option>';
+        for (var h = 0; h < headers.length; h++) {
+          var sel = repurchaseFieldMap[fn] === headers[h] ? ' selected' : '';
+          html += '<option value="' + headers[h] + '"' + sel + '>' + headers[h] + '</option>';
+        }
+        html += '</select></div>';
+      }
+      document.getElementById('repurchaseFieldMapSelects').innerHTML = html;
+      document.getElementById('repurchaseFieldMap').style.display = 'block';
+    }
+
+    // Store raw data temporarily
+    window._repurchaseRaw = raw;
+    window._repurchaseHeaders = headers;
+
+    if (hasAuto) {
+      processRepurchaseOrders(raw, repurchaseFieldMap);
+    }
+
+    document.getElementById('repurchaseUploadBox').classList.add('has-file');
+    document.getElementById('repurchaseUploadLabel').textContent = '已加载: ' + raw.length + ' 行数据';
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function applyRepurchaseFieldMap() {
+  var fields = ['buyer','date','sku','amount','status','qty'];
+  for (var f = 0; f < fields.length; f++) {
+    var sel = document.getElementById('repMap_' + fields[f]);
+    if (sel && sel.value) repurchaseFieldMap[fields[f]] = sel.value;
+  }
+  if (!repurchaseFieldMap.buyer || !repurchaseFieldMap.date || !repurchaseFieldMap.sku) {
+    alert('请至少选择：买家标识、订单日期、SKU/产品');
+    return;
+  }
+  document.getElementById('repurchaseFieldMap').style.display = 'none';
+  processRepurchaseOrders(window._repurchaseRaw, repurchaseFieldMap);
+}
+
+function processRepurchaseOrders(raw, fieldMap) {
+  var orders = [];
+  var excludedStatuses = ['cancelled', 'cancel', 'refund', 'return', '已取消', '退款', '退货'];
+
+  for (var i = 0; i < raw.length; i++) {
+    var row = raw[i];
+
+    // Skip cancelled/refund orders
+    if (fieldMap.status) {
+      var st = (row[fieldMap.status] || '').toLowerCase();
+      var skip = false;
+      for (var x = 0; x < excludedStatuses.length; x++) {
+        if (st.indexOf(excludedStatuses[x]) >= 0) { skip = true; break; }
+      }
+      if (skip) continue;
+    }
+
+    var buyer = (row[fieldMap.buyer] || '').trim();
+    var dateStr = (row[fieldMap.date] || '').trim();
+    var sku = (row[fieldMap.sku] || '').trim();
+    var amountStr = fieldMap.amount ? (row[fieldMap.amount] || '0').trim() : '0';
+    var qtyStr = fieldMap.qty ? (row[fieldMap.qty] || '1').trim() : '1';
+
+    if (!buyer || !dateStr || !sku) continue;
+
+    // Parse date
+    var orderDate = parseRepurchaseDate(dateStr);
+    if (!orderDate) continue;
+
+    // Parse amount
+    var amount = parseFloat(amountStr.replace(/[^0-9.\-]/g, ''));
+    if (isNaN(amount)) amount = 0;
+
+    var qty = parseInt(qtyStr) || 1;
+
+    orders.push({
+      buyer: buyer.toLowerCase(),
+      buyerOriginal: buyer,
+      date: orderDate,
+      sku: sku,
+      amount: amount,
+      qty: qty
+    });
+  }
+
+  repurchaseOrders = orders;
+  saveRepurchaseData();
+  renderRepurchaseDashboard();
+}
+
+function parseRepurchaseDate(str) {
+  // Try common formats
+  var cleaned = str.replace(/"/g, '').trim();
+  // ISO format: 2024-01-15 or 2024/01/15
+  var m1 = cleaned.match(/(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
+  if (m1) return new Date(parseInt(m1[1]), parseInt(m1[2]) - 1, parseInt(m1[3]));
+
+  // US format: 01/15/2024 or Jan 15, 2024
+  var d = new Date(cleaned);
+  if (!isNaN(d.getTime())) return d;
+
+  return null;
+}
+
+function calculateRepurchase() {
+  if (repurchaseOrders.length === 0) return null;
+
+  // Group by buyer
+  var buyerMap = {};
+  for (var i = 0; i < repurchaseOrders.length; i++) {
+    var o = repurchaseOrders[i];
+    if (!buyerMap[o.buyer]) buyerMap[o.buyer] = { orders: [], skus: {}, totalAmount: 0, totalQty: 0 };
+    buyerMap[o.buyer].orders.push(o);
+    buyerMap[o.buyer].totalAmount += o.amount;
+    buyerMap[o.buyer].totalQty += o.qty;
+    if (!buyerMap[o.buyer].skus[o.sku]) buyerMap[o.buyer].skus[o.sku] = 0;
+    buyerMap[o.buyer].skus[o.sku]++;
+  }
+
+  var totalOrders = repurchaseOrders.length;
+  var totalBuyers = Object.keys(buyerMap).length;
+  var repeatBuyers = [];
+  var singleBuyers = [];
+  var totalGMV = 0;
+  var repeatGMV = 0;
+
+  for (var b in buyerMap) {
+    var bd = buyerMap[b];
+    totalGMV += bd.totalAmount;
+    if (bd.orders.length >= 2) {
+      repeatBuyers.push({ buyer: b, data: bd });
+      repeatGMV += bd.totalAmount;
+    } else {
+      singleBuyers.push({ buyer: b, data: bd });
+    }
+  }
+
+  // Calculate repurchase intervals
+  var intervals = [];
+  for (var r = 0; r < repeatBuyers.length; r++) {
+    var ords = repeatBuyers[r].data.orders.slice().sort(function(a, b) { return a.date - b.date; });
+    for (var oi = 1; oi < ords.length; oi++) {
+      var gap = Math.round((ords[oi].date - ords[oi - 1].date) / (1000 * 60 * 60 * 24));
+      if (gap >= 0) intervals.push(gap);
+    }
+  }
+
+  // SKU-level repurchase
+  var skuStats = {};
+  for (var i2 = 0; i2 < repurchaseOrders.length; i2++) {
+    var o2 = repurchaseOrders[i2];
+    if (!skuStats[o2.sku]) {
+      skuStats[o2.sku] = { orders: 0, buyers: {}, gmv: 0, qty: 0 };
+    }
+    skuStats[o2.sku].orders++;
+    skuStats[o2.sku].buyers[o2.buyer] = (skuStats[o2.sku].buyers[o2.buyer] || 0) + 1;
+    skuStats[o2.sku].gmv += o2.amount;
+    skuStats[o2.sku].qty += o2.qty;
+  }
+
+  var skuRows = [];
+  for (var sk in skuStats) {
+    var ss = skuStats[sk];
+    var skuTotalBuyers = Object.keys(ss.buyers).length;
+    var skuRepeatBuyers = 0;
+    for (var bk in ss.buyers) {
+      if (ss.buyers[bk] >= 2) skuRepeatBuyers++;
+    }
+    skuRows.push({
+      sku: sk,
+      orders: ss.orders,
+      totalBuyers: skuTotalBuyers,
+      repeatBuyers: skuRepeatBuyers,
+      repurchaseRate: skuTotalBuyers > 0 ? skuRepeatBuyers / skuTotalBuyers : 0,
+      gmv: ss.gmv,
+      qty: ss.qty
+    });
+  }
+  skuRows.sort(function(a, b) { return b.repurchaseRate - a.repurchaseRate; });
+
+  return {
+    totalOrders: totalOrders,
+    totalBuyers: totalBuyers,
+    repeatBuyerCount: repeatBuyers.length,
+    repurchaseRate: totalBuyers > 0 ? repeatBuyers.length / totalBuyers : 0,
+    totalGMV: totalGMV,
+    repeatGMV: repeatGMV,
+    repeatGMVPct: totalGMV > 0 ? repeatGMV / totalGMV : 0,
+    intervals: intervals,
+    repeatBuyers: repeatBuyers,
+    skuRows: skuRows,
+    buyerMap: buyerMap,
+    allSkus: Object.keys(skuStats)
+  };
+}
+
+function renderRepurchaseDashboard() {
+  var stats = calculateRepurchase();
+  if (!stats) return;
+
+  document.getElementById('repurchaseDashboard').style.display = 'block';
+
+  // Summary cards
+  var cards = [
+    { label: '总订单数', value: stats.totalOrders.toLocaleString(), cls: '' },
+    { label: '总购买用户', value: stats.totalBuyers.toLocaleString(), cls: '' },
+    { label: '复购用户', value: stats.repeatBuyerCount.toLocaleString(), cls: 'good' },
+    { label: '整体复购率', value: (stats.repurchaseRate * 100).toFixed(1) + '%', cls: stats.repurchaseRate > 0.2 ? 'good' : 'warn' },
+    { label: '复购GMV占比', value: (stats.repeatGMVPct * 100).toFixed(1) + '%', cls: stats.repeatGMVPct > 0.3 ? 'good' : '' },
+    { label: '总GMV', value: '$' + stats.totalGMV.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), cls: '' }
+  ];
+  document.getElementById('repurchaseMetrics').innerHTML = cards.map(function(c) {
+    return '<div class="repurchase-metric-card"><div class="rm-value ' + c.cls + '">' + c.value + '</div><div class="rm-label">' + c.label + '</div></div>';
+  }).join('');
+
+  // SKU table
+  renderRepurchaseSkuTable(stats);
+
+  // Interval chart
+  renderRepurchaseIntervalChart(stats);
+
+  // Populate SKU filter for buyer table
+  var skuOpts = '<option value="">全部 SKU</option>';
+  for (var s = 0; s < stats.allSkus.length; s++) {
+    skuOpts += '<option value="' + stats.allSkus[s] + '">' + stats.allSkus[s] + '</option>';
+  }
+  document.getElementById('repurchaseSkuFilter').innerHTML = skuOpts;
+
+  // Buyer detail table
+  renderRepurchaseBuyerTable();
+}
+
+function renderRepurchaseSkuTable(stats) {
+  var rows = stats.skuRows;
+  var html = '<table><thead><tr><th>SKU / 产品</th><th>订单数</th><th>购买用户</th><th>复购用户</th><th>复购率</th><th>GMV</th><th>销量</th></tr></thead><tbody>';
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var rate = (r.repurchaseRate * 100).toFixed(1) + '%';
+    var badge = r.repurchaseRate > 0.3 ? 'high' : (r.repurchaseRate > 0.15 ? 'mid' : 'low');
+    html += '<tr><td><strong>' + r.sku + '</strong></td><td>' + r.orders + '</td><td>' + r.totalBuyers + '</td><td>' + r.repeatBuyers + '</td><td><span class="repurchase-badge ' + badge + '">' + rate + '</span></td><td>$' + r.gmv.toFixed(2) + '</td><td>' + r.qty + '</td></tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('repurchaseSkuTable').innerHTML = html;
+}
+
+var repurchaseIntervalChart = null;
+function renderRepurchaseIntervalChart(stats) {
+  var intervals = stats.intervals;
+  if (intervals.length === 0) {
+    document.getElementById('repurchaseIntervalChart').innerHTML = '<div style="padding:30px;text-align:center;color:#888;">暂无复购间隔数据</div>';
+    return;
+  }
+
+  // Group intervals
+  var buckets = { '0-7天': 0, '8-14天': 0, '15-30天': 0, '31-60天': 0, '61-90天': 0, '90天以上': 0 };
+  for (var i = 0; i < intervals.length; i++) {
+    var d = intervals[i];
+    if (d <= 7) buckets['0-7天']++;
+    else if (d <= 14) buckets['8-14天']++;
+    else if (d <= 30) buckets['15-30天']++;
+    else if (d <= 60) buckets['31-60天']++;
+    else if (d <= 90) buckets['61-90天']++;
+    else buckets['90天以上']++;
+  }
+
+  var labels = Object.keys(buckets);
+  var values = Object.values(buckets);
+  var avgInterval = intervals.reduce(function(a, b) { return a + b; }, 0) / intervals.length;
+
+  document.getElementById('repurchaseIntervalChart').innerHTML = '<canvas id="intervalChartCanvas"></canvas>';
+
+  var ctx = document.getElementById('intervalChartCanvas').getContext('2d');
+  if (repurchaseIntervalChart) repurchaseIntervalChart.destroy();
+  repurchaseIntervalChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '复购次数',
+        data: values,
+        backgroundColor: ['#2B579A','#3A6AB5','#5588CC','#7BA8E0','#A3C8F0','#C5D8F0'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        subtitle: { display: true, text: '平均复购间隔: ' + avgInterval.toFixed(0) + ' 天', font: { size: 12 }, color: '#888' }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } } },
+        x: { ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function renderRepurchaseBuyerTable() {
+  var stats = calculateRepurchase();
+  if (!stats) return;
+
+  var searchTerm = (document.getElementById('repurchaseBuyerSearch').value || '').toLowerCase();
+  var skuFilter = document.getElementById('repurchaseSkuFilter').value;
+
+  var buyers = stats.repeatBuyers.slice().sort(function(a, b) { return b.data.totalAmount - a.data.totalAmount; });
+
+  // Apply filters
+  var filtered = buyers.filter(function(b) {
+    if (searchTerm && b.buyer.indexOf(searchTerm) < 0) return false;
+    if (skuFilter) {
+      return b.data.skus.hasOwnProperty(skuFilter);
+    }
+    return true;
+  });
+
+  var html = '<table><thead><tr><th>买家</th><th>购买次数</th><th>购买SKU</th><th>总GMV</th><th>总数量</th><th>首次购买</th><th>最近购买</th><th>复购间隔(天)</th></tr></thead><tbody>';
+
+  for (var i = 0; i < filtered.length; i++) {
+    var b = filtered[i];
+    var ords = b.data.orders.slice().sort(function(a, b) { return a.date - b.date; });
+    var firstDate = ords[0].date;
+    var lastDate = ords[ords.length - 1].date;
+    var dateFmt = function(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+    var skuList = Object.keys(b.data.skus).map(function(sk) { return sk + '(' + b.data.skus[sk] + ')'; }).join(', ');
+    var avgGap = ords.length > 1 ? Math.round((lastDate - firstDate) / (1000 * 60 * 60 * 24) / (ords.length - 1)) : '-';
+
+    html += '<tr>';
+    html += '<td><strong>' + b.data.orders[0].buyerOriginal + '</strong></td>';
+    html += '<td>' + b.data.orders.length + '</td>';
+    html += '<td style="max-width:300px;white-space:normal;">' + skuList + '</td>';
+    html += '<td>$' + b.data.totalAmount.toFixed(2) + '</td>';
+    html += '<td>' + b.data.totalQty + '</td>';
+    html += '<td>' + dateFmt(firstDate) + '</td>';
+    html += '<td>' + dateFmt(lastDate) + '</td>';
+    html += '<td>' + avgGap + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('repurchaseBuyerTable').innerHTML = html;
+}
+
+function toggleRepurchaseSection(id) {
+  var body = document.getElementById(id);
+  var arrow = document.getElementById(id + 'Arrow');
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    arrow.textContent = '▼';
+  } else {
+    body.style.display = 'none';
+    arrow.textContent = '▶';
+  }
+}
+
+function saveRepurchaseData() {
+  try {
+    localStorage.setItem(REPURCHASE_STORAGE, JSON.stringify(repurchaseOrders.map(function(o) {
+      return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: o.date.toISOString(), sku: o.sku, amount: o.amount, qty: o.qty };
+    })));
+  } catch(e) {}
+}
+
+function resetRepurchase() {
+  if (confirm('确认清除复购数据？')) {
+    repurchaseOrders = [];
+    localStorage.removeItem(REPURCHASE_STORAGE);
+    document.getElementById('repurchaseDashboard').style.display = 'none';
+    document.getElementById('repurchaseUploadBox').classList.remove('has-file');
+    document.getElementById('repurchaseUploadLabel').textContent = '支持 TikTok Shop 订单导出 .csv 文件';
+    document.getElementById('repurchaseFieldMap').style.display = 'none';
+    if (repurchaseIntervalChart) { repurchaseIntervalChart.destroy(); repurchaseIntervalChart = null; }
+  }
+}
+
+// Load cached data
+(function() {
+  try {
+    var saved = localStorage.getItem(REPURCHASE_STORAGE);
+    if (saved) {
+      var raw = JSON.parse(saved);
+      repurchaseOrders = raw.map(function(o) {
+        return { buyer: o.buyer, buyerOriginal: o.buyerOriginal, date: new Date(o.date), sku: o.sku, amount: o.amount, qty: o.qty };
+      });
+      document.getElementById('repurchaseUploadBox').classList.add('has-file');
+      document.getElementById('repurchaseUploadLabel').textContent = '已缓存: ' + repurchaseOrders.length + ' 行订单数据';
+    }
+  } catch(_) {}
+})();
 </script>
 </body>
 </html>
