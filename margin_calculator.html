@@ -1005,6 +1005,8 @@ render();
 // ====== 视频数据 Tab (美国) ======
 const VID_STORAGE = 'maternella_video_data';
 const VID_MAP_KEY = 'maternella_video_mapping_us';
+// GitHub Raw base URL for data files (change branch/tag to update)
+const DATA_BASE = 'https://raw.githubusercontent.com/zlm91/margin-calculator/main/data/';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
@@ -1013,6 +1015,7 @@ let videoDirectorSummary = null; // 编导独立排名
 let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26日"
 let videoDetailSortBy = 'gmv', videoDetailSortDir = 'desc'; // 视频明细排序
 let bdDetailSortBy = 'gmv', bdDetailSortDir = 'desc'; // 达人视频明细排序
+let dataLoadingFromRemote = false; // prevent duplicate remote fetch
 
 function saveMappingData() {
   try {
@@ -1025,6 +1028,7 @@ function saveMappingData() {
 }
 
 function loadMappingData() {
+  // 1) Try localStorage first
   try {
     var raw = localStorage.getItem(VID_MAP_KEY);
     if (raw) {
@@ -1036,8 +1040,35 @@ function loadMappingData() {
         document.getElementById('mapUploadBox').classList.add('has-file');
         document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（已缓存）';
       }
+      return; // got it from localStorage, done
     }
   } catch(e) {}
+  // 2) Fallback: fetch from GitHub
+  loadMappingFromRemote();
+}
+
+function loadMappingFromRemote() {
+  if (dataLoadingFromRemote) return;
+  dataLoadingFromRemote = true;
+  document.getElementById('vidSaveStatus').textContent = '\u23F3 从云端加载映射数据...';
+  fetch(DATA_BASE + 'us_mapping.json', { cache: 'no-cache' })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
+      videoMapping = data.vidToCloud && data.cloudToPerson ? data : null;
+      if (videoMapping) {
+        saveMappingData(); // persist to localStorage so next visit is instant
+        document.getElementById('mapUploadBox').classList.add('has-file');
+        document.getElementById('mapUploadLabel').textContent = '\u2705 人员映射: ' + Object.keys(videoMapping.cloudToPerson).length + ' 人（云端加载）';
+        document.getElementById('vidSaveStatus').textContent = '\u2601\uFE0F 云端数据已加载';
+        // If adData already loaded, try join
+        if (videoAdData) { processJoin(); }
+      }
+    })
+    .catch(function(err) {
+      console.log('Remote mapping not available:', err.message);
+      document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 云端数据不可用，请手动上传';
+    })
+    .finally(function() { dataLoadingFromRemote = false; });
 }
 
 function resetMappingData() {
@@ -1067,6 +1098,8 @@ function resetMappingData() {
   document.querySelector('#mapUploadBox input').value = '';
   videoJoined = null; videoPersonSummary = null; videoBdSummary = null; videoDirectorSummary = null;
   saveVideoData();
+  // Try reload from remote after reset
+  setTimeout(function() { loadMappingFromRemote(); }, 500);
 }
 
 loadMappingData();
@@ -1114,6 +1147,7 @@ function switchTab(tab) {
 }
 
 function loadVideoData() {
+  // 1) Try localStorage first
   try {
     var raw = localStorage.getItem(VID_STORAGE);
     if (raw) {
@@ -1156,8 +1190,35 @@ function loadVideoData() {
         renderVideoTab(); renderMappingPanel();
       }
       document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
+      return; // got it from localStorage, done
     }
   } catch(e) {}
+  // 2) Fallback: fetch from GitHub
+  loadVideoFromRemote();
+}
+
+function loadVideoFromRemote() {
+  if (dataLoadingFromRemote) return;
+  dataLoadingFromRemote = true;
+  document.getElementById('vidSaveStatus').textContent = '\u23F3 从云端加载广告数据...';
+  fetch(DATA_BASE + 'us_ad_data.json', { cache: 'no-cache' })
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data) {
+      videoAdData = data.adData || data; // support both wrapped and raw format
+      if (!videoAdData || !videoAdData.length) throw new Error('Empty adData');
+      // Save to localStorage for next visit
+      saveVideoData();
+      document.getElementById('adUploadBox').classList.add('has-file');
+      document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频（云端加载）';
+      document.getElementById('vidSaveStatus').textContent = '\u2601\uFE0F 云端数据已加载';
+      // If mapping already loaded, process join
+      if (videoMapping) { processJoin(); }
+    })
+    .catch(function(err) {
+      console.log('Remote ad data not available:', err.message);
+      document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 云端数据不可用，请手动上传';
+    })
+    .finally(function() { dataLoadingFromRemote = false; });
 }
 
 function saveVideoData() {
@@ -1234,6 +1295,8 @@ function resetVideoData() {
   bdAllExpanded = {};
   videoDetailSortBy = 'gmv'; videoDetailSortDir = 'desc';
   bdDetailSortBy = 'gmv'; bdDetailSortDir = 'desc';
+  // Try reload from remote after reset
+  setTimeout(function() { loadVideoFromRemote(); }, 500);
 }
 
 function parseXlsxSheet(wb, name) {
