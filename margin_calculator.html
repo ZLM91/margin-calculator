@@ -114,6 +114,41 @@ button:hover { background: #F0EDE6; }
 .script-card .sc-meta { color: #888; font-size: 10px; }
 .script-card .sc-gmv { font-weight: 700; color: #2B579A; }
 .script-card .sc-script { font-size: 11px; color: #555; margin-top: 4px; padding: 4px 6px; background: #FAFAFA; border-radius: 3px; max-height: 36px; overflow: hidden; line-height: 1.4; }
+
+/* 竞品评论挖掘看板 */
+.pain-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 14px; }
+.pain-card .pc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.pain-card .pc-title { font-weight: 700; font-size: 14px; }
+.pain-card .pc-count { font-size: 24px; font-weight: 700; color: #C62828; }
+.pain-card .pc-keywords { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.pain-card .pc-kw { background: #FFEBEE; color: #C62828; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+.pain-card .pc-quote { font-size: 11px; color: #666; font-style: italic; border-left: 3px solid #EF9A9A; padding-left: 8px; margin-top: 6px; line-height: 1.5; max-height: 54px; overflow-y: auto; }
+
+.idea-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+.idea-card .ic-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; font-weight: 600; }
+.idea-card .ic-badge.hot { background: #FFEBEE; color: #C62828; }
+.idea-card .ic-badge.diff { background: #E3F2FD; color: #1565C0; }
+.idea-card .ic-badge.warn { background: #FFF3E0; color: #E65100; }
+.idea-card .ic-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.idea-card .ic-meta { font-size: 10px; color: #888; margin-bottom: 6px; }
+.idea-card .ic-script { font-size: 12px; color: #333; background: #FAFAFA; padding: 8px 10px; border-radius: 4px; line-height: 1.6; }
+
+.review-stars { color: #F5A623; font-size: 12px; }
+.review-kw-hl { background: #FFF9C4; padding: 0 2px; border-radius: 2px; }
+.cat-badge { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 8px; margin-right: 2px; font-weight: 600; }
+.cat-badge.safety { background: #FFCDD2; color: #C62828; }
+.cat-badge.quality { background: #F3E5F5; color: #6A1B9A; }
+.cat-badge.sustainable { background: #C8E6C9; color: #2E7D32; }
+.cat-badge.experience { background: #BBDEFB; color: #1565C0; }
+
+.rating-bar-wrap { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 11px; }
+.rating-bar-label { width: 40px; text-align: right; }
+.rating-bar-track { flex: 1; height: 14px; background: #EEE; border-radius: 7px; overflow: hidden; }
+.rating-bar-fill { height: 100%; border-radius: 7px; transition: width .3s; }
+.rating-bar-fill.pos { background: #4CAF50; }
+.rating-bar-fill.neu { background: #FFC107; }
+.rating-bar-fill.neg { background: #F44336; }
+.rating-bar-count { width: 30px; font-size: 10px; color: #888; text-align: left; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -124,6 +159,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn active" data-tab="margin" onclick="switchTab('margin')">📊 毛利率计算</button>
   <button class="tab-btn" data-tab="video" onclick="switchTab('video')">📹 视频数据 (美国)</button>
   <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
+  <button class="tab-btn" data-tab="reviews" onclick="switchTab('reviews')">🔍 竞品评论挖掘</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -567,6 +603,84 @@ button:hover { background: #F0EDE6; }
 <div id="personFilterUK" style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
 <div class="video-scroll" id="videoDetailUK"><div style="padding:30px;text-align:center;color:#888;">请先上传广告数据和人员映射表</div></div>
 </div><!-- /tab-video-uk -->
+
+<!-- ====== 竞品评论挖掘 Tab ====== -->
+<div id="tab-reviews" class="tab-content">
+
+<!-- 区域1: 数据导入 -->
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;align-items:stretch;">
+  <label class="video-upload-box" id="reviewUploadBox" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📥</div>
+    <div id="reviewUploadLabel" style="font-size:13px;font-weight:500;">上传评论CSV</div>
+    <div style="font-size:11px;color:#888;">支持 product/rating/content 列</div>
+    <input type="file" accept=".csv" onchange="handleReviewUpload(this)" style="display:none;">
+  </label>
+  <div class="video-upload-box" id="reviewExampleBox" style="flex:1;min-width:240px;cursor:pointer;" onclick="downloadReviewTemplate()">
+    <div style="font-size:24px;margin-bottom:4px;">📋</div>
+    <div style="font-size:13px;font-weight:500;">下载示例模板</div>
+    <div style="font-size:11px;color:#888;">查看CSV格式要求</div>
+  </div>
+  <div class="video-upload-box" id="reviewResetBox" style="flex:1;min-width:240px;cursor:pointer;" onclick="resetReviewData()">
+    <div style="font-size:24px;margin-bottom:4px;">🗑</div>
+    <div style="font-size:13px;font-weight:500;">重置数据</div>
+    <div style="font-size:11px;color:#888;">清除所有评论数据</div>
+  </div>
+</div>
+
+<div id="reviewSummaryBar" style="display:none;padding:10px 14px;background:#E8F0FE;border-radius:8px;margin-bottom:14px;font-size:13px;gap:20px;flex-wrap:wrap;align-items:center;">
+  <span id="reviewSummaryText"></span>
+</div>
+
+<div id="reviewDashboard" style="display:none;">
+
+<!-- 区域2: 痛点分析 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0);border-left:4px solid #C62828;" onclick="toggleScriptSection('painPointsBody','painPointsArrow')">
+    <span>🔴 竞品痛点分析 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="painPointsCount"></span></span>
+    <span id="painPointsArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="painPointsBody">
+    <div id="painPointsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:14px;"></div>
+    <div id="painPointsChart" style="max-width:600px;margin:0 auto;"></div>
+  </div>
+</div>
+
+<!-- 区域3: 脚本角度生成 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSection('scriptIdeasBody','scriptIdeasArrow')">
+    <span>💡 内容脚本角度 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptIdeasCount"></span></span>
+    <span id="scriptIdeasArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptIdeasBody">
+    <div id="scriptIdeasGrid"></div>
+  </div>
+</div>
+
+<!-- 区域4: 评论明细 -->
+<div style="margin-bottom:18px;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-left:4px solid #2E7D32;" onclick="toggleScriptSection('reviewDetailBody','reviewDetailArrow')">
+    <span>📋 评论明细 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="reviewDetailCount"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <select id="reviewProductFilter" onchange="renderReviewTable()" style="font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid #ccc;">
+        <option value="all">全部竞品</option>
+      </select>
+      <select id="reviewRatingFilter" onchange="renderReviewTable()" style="font-size:11px;padding:2px 6px;border-radius:4px;border:1px solid #ccc;">
+        <option value="all">全部评分</option>
+        <option value="12">⭐1-2 负面</option>
+        <option value="3">⭐3 中性</option>
+        <option value="45">⭐4-5 正面</option>
+      </select>
+      <span id="reviewDetailArrow" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="reviewDetailBody">
+    <div class="video-scroll" id="reviewDetailTable"></div>
+  </div>
+</div>
+
+</div><!-- /reviewDashboard -->
+
+</div><!-- /tab-reviews -->
 
 </div><!-- /container -->
 
@@ -1234,6 +1348,7 @@ function switchTab(tab) {
   document.getElementById('tab-margin').classList.toggle('active', tab === 'margin');
   document.getElementById('tab-video').classList.toggle('active', tab === 'video');
   document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
+  document.getElementById('tab-reviews').classList.toggle('active', tab === 'reviews');
 }
 
 function loadVideoData() {
@@ -4035,6 +4150,404 @@ function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   html += '</tbody></table>';
   document.getElementById('bdAllDetailUK').innerHTML = html;
 }
+
+// ====== 竞品评论挖掘看板 ======
+const REVIEWS_STORAGE = 'maternella_review_data';
+let reviewData = []; // [{product, rating, title, content, date, categories:[], sentiment}]
+let reviewProducts = [];
+let reviewPainSummary = {}; // {category: {count, keywords:{}, quotes:[]}}
+let reviewScriptIdeas = [];
+
+// 关键词词典
+const PAIN_DICT = {
+  '成分安全': {
+    icon: '🧪',
+    keywords: ['chemical', '防腐剂', 'preservative', 'alcohol', 'fragrance', 'bleach', 'benzalkonium', 'paraben', 'sulfate', 'phthalate', '甲醛', 'formaldehyde', 'ammonia', 'phenoxyethanol'],
+    negativeWords: ['irritat', 'allerg', 'rash', 'burn', 'sting', 'red', 'hive', '过敏', '红肿', '灼烧', '刺痛', 'itchy', 'breakout', 'sensitive', 'react']
+  },
+  '产品品质': {
+    icon: '📦',
+    keywords: ['dry out', '干', 'thin', '薄', 'tear', 'rip', 'break', 'mold', 'mildew', '发霉', '掉毛', 'lint', 'weak', 'flimsy', 'fell apart'],
+    negativeWords: ['too thin', 'useless', 'waste', 'poor quality', '质量差', '垃圾', 'cheap', 'fall apart', 'rip']
+  },
+  '环保可持续': {
+    icon: '🌿',
+    keywords: ['biodegradable', 'flushable', '可降解', '可冲散', 'plastic', '塑料', 'waste', '浪费', 'greenwash', 'fake', '虚假', 'clog', '堵塞', 'pipe', 'septic', 'landfill'],
+    negativeWords: ['not flushable', '不可降解', 'fake claim', 'lie', 'deceive', 'mislead', 'clog', 'block']
+  },
+  '使用体验': {
+    icon: '😣',
+    keywords: ['smell', '味道', 'odor', 'scent', 'sticky', '黏', 'residue', '残留', 'rough', '粗糙', 'absorb', '吸水', 'packaging', '包装', 'seal', '密封', 'expensive', '贵', 'price', 'waste'],
+    negativeWords: ['hate', 'terrible', 'worst', 'disappoint', '失望', '难用', '不好用', 'regret', '后悔', 'return', 'refund', '退']
+  }
+};
+
+// 脚本角度模板（基于痛点生成）
+const SCRIPT_TEMPLATES = {
+  '成分安全': [
+    { type: 'hot', title: '「无添加」对比实测', template: '竞品宣称"温和无刺激"，实测成分表里藏着{kw1}和{kw2}。消费者不是傻子，成分透明才是王道。#CleanBeauty #成分党' },
+    { type: 'hot', title: '敏感肌安全测试', template: '用{product}的评论区炸了——{count}个过敏反馈。Matern\\'ella 益生菌配方，温和清洁不刺激。#SensitiveSkin #DermatologistTested' },
+    { type: 'diff', title: '成分透明度优势', template: '别的品牌说"99.9%水"但偷偷加防腐剂？我们直接标全成分，每一项都敢让你查。#IngredientTransparency #CleanIngredients' }
+  ],
+  '产品品质': [
+    { type: 'hot', title: '「开箱即干」痛点对比', template: '{product}用户反馈：开封一周就干了。我们的密封包装实测30天不干，这才叫品质。#PackagingMatters #QualityControl' },
+    { type: 'hot', title: '厚度对比实测', template: '9毛一张的{product}，薄到一擦就破？用料扎实的洗脸巾，一张就够了。#ThickAndStrong #OneIsEnough' },
+    { type: 'diff', title: '不掉毛实测', template: '{product}擦脸留下毛絮？Matern\\'ella 无尘工艺，不掉毛不残留。#LintFree #CleanFinish' }
+  ],
+  '环保可持续': [
+    { type: 'hot', title: '「可冲散」谎言揭秘', template: '{product}被集体诉讼了——号称可冲散但堵了下水道。真正的生物降解需要认证，不是口号。#FlushableLies #PlumberApproved' },
+    { type: 'warn', title: '别踩竞品的坑', template: '竞品宣传"可冲散"已被起诉。我们标注真实降解周期，不夸大。#HonestMarketing #SustainableLiving' },
+    { type: 'diff', title: '可降解认证展示', template: '{product}说自己是环保产品？Matern\\'ella 有真实可降解认证，你敢查我敢给。#BiodegradableCertified #EcoFriendly' }
+  ],
+  '使用体验': [
+    { type: 'hot', title: '「一抽一坨」痛点解决', template: '最烦湿巾一抽出来一堆？{product}用户也烦。我们单抽设计，不浪费。#SinglePull #NoWaste' },
+    { type: 'diff', title: '性价比计算', template: '{product}一次要用3-4张，算下来比 Matern\\'ella 贵3倍。实际使用成本对比，真相在这里。#CostPerUse #ValueComparison' },
+    { type: 'diff', title: '包装使用对比', template: '磁吸翻盖 vs {product}的普通盖，用过就回不去了。#PremiumPackaging #UserExperience' }
+  ]
+};
+
+function handleReviewUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = new TextDecoder('utf-8').decode(new Uint8Array(e.target.result));
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空');
+      var header = parseCSVLine(lines[0]);
+      // 自动识别列名
+      var idxProduct = -1, idxRating = -1, idxContent = -1, idxTitle = -1, idxDate = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].toLowerCase().trim();
+        if (h.match(/product|产品|竞品|brand|品牌/)) idxProduct = i;
+        if (h.match(/rating|评分|star|星级/)) idxRating = i;
+        if (h.match(/content|评论|review|text|内容|body/)) idxContent = i;
+        if (h.match(/^title|标题|subject/)) idxTitle = i;
+        if (h.match(/date|日期|time|时间/)) idxDate = i;
+      }
+      if (idxContent < 0) throw new Error('未找到"评论内容"列，请确保CSV包含 content/review/text 列');
+      if (idxRating < 0) throw new Error('未找到"评分"列，请确保CSV包含 rating/star 列');
+
+      var newReviews = [];
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var content = (row[idxContent] || '').trim().replace(/"/g, '');
+        if (!content) continue;
+        var rating = parseInt(row[idxRating]) || 3;
+        rating = Math.max(1, Math.min(5, rating));
+        newReviews.push({
+          product: (row[idxProduct] || '未标注').trim(),
+          rating: rating,
+          title: idxTitle >= 0 ? (row[idxTitle] || '').trim() : '',
+          content: content,
+          date: idxDate >= 0 ? (row[idxDate] || '').trim() : ''
+        });
+      }
+      if (newReviews.length === 0) throw new Error('未解析到有效评论');
+
+      // 合并到已有数据
+      reviewData = reviewData.concat(newReviews);
+      analyzeReviews();
+      try { localStorage.setItem(REVIEWS_STORAGE, JSON.stringify(reviewData)); } catch(_) {}
+
+      document.getElementById('reviewUploadBox').classList.add('has-file');
+      document.getElementById('reviewUploadLabel').textContent = '\u2705 已加载: ' + reviewData.length + ' 条评论';
+
+      renderReviewsDashboard();
+    } catch(err) {
+      document.getElementById('reviewSummaryBar').style.display = '';
+      document.getElementById('reviewSummaryText').innerHTML = '\u274C ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function downloadReviewTemplate() {
+  var csv = 'product,rating,title,content,date\n' +
+    'DUDE Wipes,2,"Dried out after a week","I bought these for my bathroom but after just one week the wipes were completely dried out. The seal is terrible.",2026-03-15\n' +
+    'WaterWipes,1,"Caused rash on my baby","Used these on my newborn and within hours she developed a red rash. Checked ingredients and found benzalkonium chloride.",2026-02-20\n' +
+    'Goodwipes,3,"Just okay","They work fine but are way too thin. I have to use 3-4 at a time. Also they claim flushable but my plumber said never flush any wipes.",2026-04-01\n';
+  var blob = new Blob(['\uFEFF' + csv], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url; a.download = 'review_template.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetReviewData() {
+  if (!confirm('\u786E\u5B9A\u8981\u6E05\u9664\u6240\u6709\u8BC4\u8BBA\u6570\u636E\u5417\uFF1F')) return;
+  reviewData = [];
+  reviewProducts = [];
+  reviewPainSummary = {};
+  reviewScriptIdeas = [];
+  try { localStorage.removeItem(REVIEWS_STORAGE); } catch(_) {}
+  document.getElementById('reviewUploadBox').classList.remove('has-file');
+  document.getElementById('reviewUploadLabel').textContent = '\u4E0A\u4F20\u8BC4\u8BBACSV';
+  document.getElementById('reviewDashboard').style.display = 'none';
+  document.getElementById('reviewSummaryBar').style.display = 'none';
+}
+
+function analyzeReviews() {
+  // 构建竞品列表
+  var productSet = {};
+  reviewData.forEach(function(r) { productSet[r.product] = true; });
+  reviewProducts = Object.keys(productSet).sort();
+
+  // 每条评论分类
+  reviewData.forEach(function(r) {
+    var text = (r.content + ' ' + (r.title||'')).toLowerCase();
+    var cats = [];
+    Object.keys(PAIN_DICT).forEach(function(cat) {
+      var dict = PAIN_DICT[cat];
+      var matched = false;
+      for (var k = 0; k < dict.keywords.length; k++) {
+        if (text.indexOf(dict.keywords[k].toLowerCase()) >= 0) { matched = true; break; }
+      }
+      if (!matched) {
+        for (var n = 0; n < dict.negativeWords.length; n++) {
+          if (text.indexOf(dict.negativeWords[n].toLowerCase()) >= 0) { matched = true; break; }
+        }
+      }
+      if (matched) cats.push(cat);
+    });
+    r.categories = cats;
+    r.sentiment = r.rating >= 4 ? 'positive' : r.rating <= 2 ? 'negative' : 'neutral';
+  });
+
+  // 统计痛点
+  reviewPainSummary = {};
+  Object.keys(PAIN_DICT).forEach(function(cat) {
+    var catReviews = reviewData.filter(function(r) { return r.categories.indexOf(cat) >= 0 && r.sentiment === 'negative'; });
+    var keywordCounts = {};
+    catReviews.forEach(function(r) {
+      var text = (r.content + ' ' + (r.title||'')).toLowerCase();
+      PAIN_DICT[cat].keywords.forEach(function(kw) {
+        var count = (text.match(new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length;
+        if (count > 0) keywordCounts[kw] = (keywordCounts[kw] || 0) + count;
+      });
+    });
+    // 取前6个高频词
+    var sortedKw = Object.entries(keywordCounts).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+    var quotes = catReviews.slice(0, 3).map(function(r) {
+      var excerpt = r.content.length > 150 ? r.content.slice(0, 150) + '...' : r.content;
+      return { text: excerpt, product: r.product, rating: r.rating };
+    });
+    reviewPainSummary[cat] = { count: catReviews.length, keywords: Object.fromEntries(sortedKw), quotes: quotes, icon: PAIN_DICT[cat].icon };
+  });
+
+  // 生成脚本角度
+  reviewScriptIdeas = [];
+  Object.keys(PAIN_DICT).forEach(function(cat) {
+    var summary = reviewPainSummary[cat];
+    if (!summary || summary.count === 0) return;
+    var templates = SCRIPT_TEMPLATES[cat] || [];
+    templates.forEach(function(tpl, idx) {
+      if (idx > 1 && summary.count < 5) return; // 只有痛点够多才生成更多角度
+      var topKw = Object.keys(summary.keywords).slice(0, 3);
+      var script = tpl.template
+        .replace('{product}', reviewProducts[0] || '竞品')
+        .replace('{kw1}', topKw[0] || '')
+        .replace('{kw2}', topKw[1] || '')
+        .replace('{count}', summary.count);
+      reviewScriptIdeas.push({
+        type: tpl.type,
+        category: cat,
+        icon: summary.icon,
+        title: tpl.title,
+        meta: '\u75DB\u70B9\u6765\u6E90: ' + cat + ' | \u76F8\u5173\u8BC4\u8BBA: ' + summary.count + ' \u6761 | \u5173\u952E\u8BCD: ' + topKw.join(', '),
+        script: script
+      });
+    });
+  });
+}
+
+function renderReviewsDashboard() {
+  var bar = document.getElementById('reviewSummaryBar');
+  bar.style.display = 'flex';
+
+  var totalReviews = reviewData.length;
+  var negCount = reviewData.filter(function(r) { return r.sentiment === 'negative'; }).length;
+  var posCount = reviewData.filter(function(r) { return r.sentiment === 'positive'; }).length;
+  var neuCount = totalReviews - negCount - posCount;
+  var avgRating = totalReviews > 0 ? (reviewData.reduce(function(s, r) { return s + r.rating; }, 0) / totalReviews).toFixed(2) : 0;
+  var painTotal = Object.values(reviewPainSummary).reduce(function(s, v) { return s + v.count; }, 0);
+
+  bar.innerHTML = '\uD83D\uDCCA \u603B\u8BC4\u8BBA: <b>' + totalReviews + '</b> \u6761 | \u7ADE\u54C1: <b>' + reviewProducts.length + '</b> \u4E2A | \u5E73\u5747\u8BC4\u5206: <b>' + avgRating + '</b> | \uD83D\uDFE2\u6B63\u9762: ' + posCount + ' | \uD83D\uDFE1\u4E2D\u6027: ' + neuCount + ' | \uD83D\uDD34\u8D1F\u9762: ' + negCount + ' | \u75DB\u70B9\u63D0\u53CA: <b>' + painTotal + '</b> \u6B21';
+
+  var dashboard = document.getElementById('reviewDashboard');
+  dashboard.style.display = '';
+
+  renderPainPoints();
+  renderScriptIdeas();
+  renderReviewTable();
+}
+
+function renderPainPoints() {
+  document.getElementById('painPointsCount').textContent = '';
+  var grid = document.getElementById('painPointsGrid');
+  var chartDiv = document.getElementById('painPointsChart');
+
+  var categories = Object.keys(reviewPainSummary);
+  if (categories.length === 0) {
+    grid.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无痛点数据，请上传包含负面评论的CSV</div>';
+    chartDiv.innerHTML = '';
+    return;
+  }
+
+  var totalPain = Object.values(reviewPainSummary).reduce(function(s, v) { return s + v.count; }, 0);
+  document.getElementById('painPointsCount').textContent = '(' + totalPain + ' 次提及)';
+
+  // 痛点卡片
+  grid.innerHTML = categories.map(function(cat) {
+    var s = reviewPainSummary[cat];
+    var pct = totalPain > 0 ? (s.count / totalPain * 100).toFixed(1) : 0;
+    var kwTags = Object.keys(s.keywords).map(function(k) {
+      return '<span class="pc-kw">' + k + '(' + s.keywords[k] + ')</span>';
+    }).join('');
+    var quotesHtml = s.quotes.map(function(q) {
+      return '<div class="pc-quote">"' + q.text + '"<br><span style="font-size:10px;color:#999;">— ' + q.product + '  ' + '\u2605'.repeat(q.rating) + '</span></div>';
+    }).join('');
+    return '<div class="pain-card">' +
+      '<div class="pc-header"><span class="pc-title">' + s.icon + ' ' + cat + '</span><span class="pc-count">' + s.count + '<span style="font-size:12px;font-weight:400;"> (' + pct + '%)</span></span></div>' +
+      '<div class="pc-keywords">' + kwTags + '</div>' +
+      quotesHtml +
+      '</div>';
+  }).join('');
+
+  // 正负面分布条形图
+  var negCount = reviewData.filter(function(r) { return r.sentiment === 'negative'; }).length;
+  var posCount = reviewData.filter(function(r) { return r.sentiment === 'positive'; }).length;
+  var neuCount = reviewData.length - negCount - posCount;
+  var maxCount = Math.max(negCount, posCount, neuCount, 1);
+
+  chartDiv.innerHTML = '<div style="padding:10px 0;"><div style="font-weight:600;font-size:13px;margin-bottom:8px;">📊 情感分布</div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🟢 正面</span><div class="rating-bar-track"><div class="rating-bar-fill pos" style="width:' + (posCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + posCount + '</span></div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🟡 中性</span><div class="rating-bar-track"><div class="rating-bar-fill neu" style="width:' + (neuCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + neuCount + '</span></div>' +
+    '<div class="rating-bar-wrap"><span class="rating-bar-label">🔴 负面</span><div class="rating-bar-track"><div class="rating-bar-fill neg" style="width:' + (negCount/maxCount*100) + '%"></div></div><span class="rating-bar-count">' + negCount + '</span></div>' +
+    '</div>';
+
+  // 按竞品的痛点统计表
+  if (reviewProducts.length > 1) {
+    var tableHtml = '<div style="margin-top:14px;"><div style="font-weight:600;font-size:13px;margin-bottom:6px;">📋 竞品痛点对比</div>' +
+      '<table style="width:100%;font-size:11px;border-collapse:collapse;"><thead><tr style="background:#F5F5F5;">' +
+      '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;">竞品</th>' +
+      categories.map(function(c) { return '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;">' + PAIN_DICT[c].icon + ' ' + c + '</th>'; }).join('') +
+      '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;">总评论</th></tr></thead><tbody>' +
+      reviewProducts.map(function(p) {
+        var pReviews = reviewData.filter(function(r) { return r.product === p; });
+        var pNeg = pReviews.filter(function(r) { return r.sentiment === 'negative'; });
+        return '<tr>' +
+          '<td style="padding:4px;border:1px solid #E0E0E0;font-weight:600;">' + p + '</td>' +
+          categories.map(function(c) {
+            var count = pNeg.filter(function(r) { return r.categories.indexOf(c) >= 0; }).length;
+            var color = count > 10 ? '#C62828' : count > 5 ? '#E65100' : '#888';
+            return '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;color:' + color + ';font-weight:' + (count > 5 ? '600' : '400') + ';">' + count + '</td>';
+          }).join('') +
+          '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;">' + pReviews.length + '</td>' +
+          '</tr>';
+      }).join('') +
+      '</tbody></table></div>';
+    chartDiv.innerHTML += tableHtml;
+  }
+}
+
+function renderScriptIdeas() {
+  document.getElementById('scriptIdeasCount').textContent = reviewScriptIdeas.length > 0 ? '(' + reviewScriptIdeas.length + ' 个角度)' : '';
+  var grid = document.getElementById('scriptIdeasGrid');
+  if (reviewScriptIdeas.length === 0) {
+    grid.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无足够数据生成脚本角度，请上传更多竞品评论</div>';
+    return;
+  }
+
+  var typeLabels = { hot: '\uD83D\uDD25 \u9AD8\u6F5C\u529B\u811A\u672C', diff: '\uD83D\uDCA1 \u5DEE\u5F02\u5316\u89D2\u5EA6', warn: '\u26A0\uFE0F \u907F\u5751\u63D0\u9192' };
+
+  grid.innerHTML = reviewScriptIdeas.map(function(idea) {
+    return '<div class="idea-card">' +
+      '<span class="ic-badge ' + idea.type + '">' + typeLabels[idea.type] + '</span>' +
+      '<div class="ic-title">' + idea.icon + ' ' + idea.title + '</div>' +
+      '<div class="ic-meta">' + idea.meta + '</div>' +
+      '<div class="ic-script">' + idea.script.replace(/\n/g, '<br>') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function renderReviewTable() {
+  var productFilter = document.getElementById('reviewProductFilter').value;
+  var ratingFilter = document.getElementById('reviewRatingFilter').value;
+
+  // 更新筛选下拉
+  var sel = document.getElementById('reviewProductFilter');
+  sel.innerHTML = '<option value="all">全部竞品 (' + reviewData.length + ')</option>' +
+    reviewProducts.map(function(p) {
+      var count = reviewData.filter(function(r) { return r.product === p; }).length;
+      return '<option value="' + p + '">' + p + ' (' + count + ')</option>';
+    }).join('');
+
+  var filtered = reviewData.filter(function(r) {
+    if (productFilter !== 'all' && r.product !== productFilter) return false;
+    if (ratingFilter === '12' && r.rating > 2) return false;
+    if (ratingFilter === '3' && r.rating !== 3) return false;
+    if (ratingFilter === '45' && r.rating < 4) return false;
+    return true;
+  });
+
+  document.getElementById('reviewDetailCount').textContent = '\u5171 ' + filtered.length + ' \u6761';
+
+  if (filtered.length === 0) {
+    document.getElementById('reviewDetailTable').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">无匹配评论</div>';
+    return;
+  }
+
+  // 取前200条展示
+  var display = filtered.slice(0, 200);
+  var html = '<table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F5F5F5;position:sticky;top:0;">' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;min-width:80px;">竞品</th>' +
+    '<th style="padding:4px;text-align:center;border:1px solid #E0E0E0;width:50px;">评分</th>' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;min-width:100px;">痛点分类</th>' +
+    '<th style="padding:4px;text-align:left;border:1px solid #E0E0E0;">评论内容</th>' +
+    '</tr></thead><tbody>' +
+    display.map(function(r, i) {
+      var catsHtml = r.categories.map(function(c) {
+        var short = c === '成分安全' ? 'safety' : c === '产品品质' ? 'quality' : c === '环保可持续' ? 'sustainable' : 'experience';
+        return '<span class="cat-badge ' + short + '">' + c + '</span>';
+      }).join('');
+      var stars = '\u2605'.repeat(r.rating) + '\u2606'.repeat(5 - r.rating);
+      var content = r.content;
+      // 高亮关键词
+      Object.keys(PAIN_DICT).forEach(function(cat) {
+        PAIN_DICT[cat].keywords.forEach(function(kw) {
+          var regex = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+          content = content.replace(regex, '<span class="review-kw-hl">$1</span>');
+        });
+      });
+      var rowBg = r.sentiment === 'negative' ? 'background:#FFF5F5;' : r.sentiment === 'positive' ? 'background:#F5FFF5;' : '';
+      return '<tr style="' + rowBg + '">' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:11px;font-weight:500;">' + r.product + '</td>' +
+        '<td style="padding:4px;text-align:center;border:1px solid #E0E0E0;"><span class="review-stars">' + stars + '</span></td>' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:10px;">' + (catsHtml || '-') + '</td>' +
+        '<td style="padding:4px;border:1px solid #E0E0E0;font-size:11px;line-height:1.5;max-width:500px;">' + (r.title ? '<b>' + r.title + '</b><br>' : '') + content + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+  if (filtered.length > 200) {
+    html += '<div style="padding:8px;text-align:center;color:#888;font-size:11px;">显示前200条，共' + filtered.length + '条</div>';
+  }
+  document.getElementById('reviewDetailTable').innerHTML = html;
+}
+
+// 页面加载时恢复评论数据
+(function() {
+  try {
+    var saved = localStorage.getItem(REVIEWS_STORAGE);
+    if (saved) {
+      reviewData = JSON.parse(saved);
+      if (reviewData.length > 0) {
+        analyzeReviews();
+        document.getElementById('reviewUploadBox').classList.add('has-file');
+        document.getElementById('reviewUploadLabel').textContent = '\u2705 已加载: ' + reviewData.length + ' 条评论';
+      }
+    }
+  } catch(_) {}
+})();
 </script>
 </body>
 </html>
