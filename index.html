@@ -205,6 +205,17 @@ button:hover { background: #F0EDE6; }
 .compete-rank-badge.top3 { background: #F59E0B; color: #fff; }
 .compete-file-info { background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #0F766E; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
 .compete-btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; background: #0F766E; color: #fff; border: none; cursor: pointer; transition: background .2s; }
+.review-sentiment-tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; }
+.review-sentiment-tag.positive { background: #D1FAE5; color: #065F46; }
+.review-sentiment-tag.negative { background: #FEE2E2; color: #991B1B; }
+.review-sentiment-tag.neutral { background: #FEF3C7; color: #92400E; }
+.review-pro-cons { font-size: 11px; line-height: 1.5; max-width: 280px; }
+.review-pro-cons .pro { color: #065F46; display: block; margin-bottom: 2px; }
+.review-pro-cons .con { color: #991B1B; display: block; margin-bottom: 2px; }
+.review-summary-card { flex: 1; min-width: 120px; background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 10px; padding: 10px 12px; text-align: center; }
+.review-summary-card .rs-value { font-size: 20px; font-weight: 700; color: #0F766E; }
+.review-summary-card .rs-label { font-size: 10px; color: #5EEAD4; margin-top: 2px; font-weight: 500; }
+.review-text-cell { max-width: 320px; white-space: normal !important; font-size: 11px; line-height: 1.5; }
 .compete-btn:hover { background: #0D9488; }
 .compete-reset-btn { font-size: 11px; padding: 2px 10px; margin-left: 8px; border-radius: 4px; color: #A32D2D; border-color: #E0C0C0; background: #FFF5F5; cursor: pointer; }
 .compete-reset-btn:hover { background: #FFE8E8; border-color: #A32D2D; }
@@ -840,6 +851,45 @@ button:hover { background: #F0EDE6; }
       <button class="filter-btn" id="cmtSortComments" onclick="switchCommentSort('comments')">💬 评论数排序</button>
     </div>
     <div id="commentVideoList" style="max-height:600px;overflow-y:auto;"></div>
+  </div>
+</div>
+
+
+<!-- Competitor Review CSV Section -->
+<div class="compete-section">
+  <div class="compete-section-header" onclick="toggleCompeteSection('reviewCsvBody','reviewCsvArrow')">
+    <span>📋 竞品评论分析 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="reviewCsvCount"></span></span>
+    <span id="reviewCsvArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="compete-section-body" id="reviewCsvBody">
+    <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <label class="compete-btn" style="cursor:pointer;font-size:11px;padding:4px 10px;">
+        📤 上传竞品评论CSV
+        <input type="file" accept=".csv" onchange="handleReviewCsvUpload(this)" style="display:none;">
+      </label>
+      <span id="reviewCsvStatus" style="font-size:11px;color:#0F766E;"></span>
+      <button class="compete-reset-btn" onclick="resetReviewCsv()" style="font-size:11px;padding:4px 10px;display:none;" id="reviewCsvResetBtn">🗑 清除</button>
+    </div>
+    
+    <div id="reviewCsvFilters" style="display:none;margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:11px;color:#888;">筛选：</span>
+      <select id="reviewFilterBrand" onchange="applyReviewFilters()" style="font-size:11px;padding:3px 6px;border:1px solid #CCC;border-radius:4px;">
+        <option value="">全部品牌</option>
+      </select>
+      <select id="reviewFilterSentiment" onchange="applyReviewFilters()" style="font-size:11px;padding:3px 6px;border:1px solid #CCC;border-radius:4px;">
+        <option value="">全部情感</option>
+        <option value="positive">👍 正面</option>
+        <option value="negative">👎 负面</option>
+        <option value="neutral">➖ 中性</option>
+      </select>
+      <select id="reviewFilterPlatform" onchange="applyReviewFilters()" style="font-size:11px;padding:3px 6px;border:1px solid #CCC;border-radius:4px;">
+        <option value="">全部平台</option>
+      </select>
+    </div>
+
+    <div id="reviewCsvSummary" style="display:none;margin-bottom:10px;display:flex;gap:14px;flex-wrap:wrap;"></div>
+
+    <div class="compete-scroll" id="reviewCsvTable"></div>
   </div>
 </div>
 
@@ -4652,6 +4702,236 @@ function resetCompeteData() {
   document.getElementById('competeDashboard').style.display = 'none';
   document.querySelector('#competeUploadBox input').value = '';
 }
+
+// ====== 竞品评论CSV上传 ======
+var reviewCsvData = [];
+var reviewCsvSortBy = 'rating';
+var reviewCsvSortDir = 'desc';
+var REVIEW_CSV_STORAGE = 'materna_review_csv';
+
+function handleReviewCsvUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var text = e.target.result;
+    var lines = parseCSV(text);
+    if (lines.length < 2) { alert('CSV 文件为空或格式不正确'); return; }
+    var headers = lines[0].map(function(h) { return h.trim().toLowerCase(); });
+    var prodIdx = indexOfHeader(headers, ['product_name', '产品名']);
+    var brandIdx = indexOfHeader(headers, ['brand', '品牌']);
+    var platformIdx = indexOfHeader(headers, ['platform', '平台']);
+    var priceIdx = indexOfHeader(headers, ['price_usd', '价格']);
+    var ratingIdx = indexOfHeader(headers, ['rating', '评分']);
+    var reviewCountIdx = indexOfHeader(headers, ['review_count', '评论数']);
+    var materialIdx = indexOfHeader(headers, ['material', '材质']);
+    var sizeIdx = indexOfHeader(headers, ['size_inches', '尺寸']);
+    var categoryIdx = indexOfHeader(headers, ['category']);
+    var titleIdx = indexOfHeader(headers, ['review_title']);
+    var textIdx = indexOfHeader(headers, ['review_text', '评论文本']);
+    var reviewerIdx = indexOfHeader(headers, ['reviewer_name']);
+    var dateIdx = indexOfHeader(headers, ['date', '日期']);
+    var likesIdx = indexOfHeader(headers, ['likes']);
+    var sentimentIdx = indexOfHeader(headers, ['sentiment', '情感标签']);
+    var prosIdx = indexOfHeader(headers, ['pros', '优点']);
+    var consIdx = indexOfHeader(headers, ['cons', '缺点']);
+
+    reviewCsvData = [];
+    for (var i = 1; i < lines.length; i++) {
+      if (lines[i].length < 2) continue;
+      reviewCsvData.push({
+        product: lines[i][prodIdx] || '',
+        brand: lines[i][brandIdx] || '',
+        platform: lines[i][platformIdx] || '',
+        price: lines[i][priceIdx] || '',
+        rating: parseFloat(lines[i][ratingIdx]) || 0,
+        reviewCount: parseInt(lines[i][reviewCountIdx]) || 0,
+        material: lines[i][materialIdx] || '',
+        size: lines[i][sizeIdx] || '',
+        category: lines[i][categoryIdx] || '',
+        title: lines[i][titleIdx] || '',
+        text: lines[i][textIdx] || '',
+        reviewer: lines[i][reviewerIdx] || '',
+        date: lines[i][dateIdx] || '',
+        likes: parseInt(lines[i][likesIdx]) || 0,
+        sentiment: (lines[i][sentimentIdx] || '').toLowerCase(),
+        pros: lines[i][prosIdx] || '',
+        cons: lines[i][consIdx] || ''
+      });
+    }
+
+    saveReviewCsv();
+    renderReviewCsv();
+    document.getElementById('reviewCsvStatus').textContent = '\u2705 已加载 ' + reviewCsvData.length + ' 条评论';
+    document.getElementById('reviewCsvResetBtn').style.display = '';
+  };
+  reader.readAsText(file);
+}
+
+function indexOfHeader(headers, names) {
+  for (var i = 0; i < names.length; i++) {
+    var idx = headers.indexOf(names[i]);
+    if (idx >= 0) return idx;
+  }
+  return -1;
+}
+
+function parseCSV(text) {
+  var rows = [];
+  var row = [];
+  var cell = '';
+  var inQuotes = false;
+  for (var i = 0; i < text.length; i++) {
+    var ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < text.length && text[i + 1] === '"') { cell += '"'; i++; }
+        else { inQuotes = false; }
+      } else { cell += ch; }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { row.push(cell); cell = ''; }
+      else if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+      else if (ch === '\r') { /* skip */ }
+      else { cell += ch; }
+    }
+  }
+  if (cell || row.length > 0) { row.push(cell); rows.push(row); }
+  return rows;
+}
+
+function saveReviewCsv() {
+  try { localStorage.setItem(REVIEW_CSV_STORAGE, JSON.stringify(reviewCsvData)); } catch(e) {}
+}
+
+function resetReviewCsv() {
+  if (!confirm('清除竞品评论CSV数据？')) return;
+  reviewCsvData = [];
+  localStorage.removeItem(REVIEW_CSV_STORAGE);
+  document.getElementById('reviewCsvStatus').textContent = '';
+  document.getElementById('reviewCsvResetBtn').style.display = 'none';
+  document.getElementById('reviewCsvFilters').style.display = 'none';
+  document.getElementById('reviewCsvSummary').style.display = 'none';
+  document.getElementById('reviewCsvTable').innerHTML = '';
+  document.getElementById('reviewCsvCount').textContent = '';
+}
+
+function renderReviewCsv() {
+  if (reviewCsvData.length === 0) return;
+
+  // Populate brand/platform filters
+  var brands = {}, platforms = {};
+  reviewCsvData.forEach(function(r) { brands[r.brand] = true; platforms[r.platform] = true; });
+  var brandOpts = '<option value="">全部品牌</option>';
+  Object.keys(brands).sort().forEach(function(b) { brandOpts += '<option value="' + b + '">' + b + '</option>'; });
+  document.getElementById('reviewFilterBrand').innerHTML = brandOpts;
+  var platOpts = '<option value="">全部平台</option>';
+  Object.keys(platforms).sort().forEach(function(p) { platOpts += '<option value="' + p + '">' + p + '</option>'; });
+  document.getElementById('reviewFilterPlatform').innerHTML = platOpts;
+  document.getElementById('reviewCsvFilters').style.display = '';
+
+  applyReviewFilters();
+}
+
+function applyReviewFilters() {
+  var brandF = document.getElementById('reviewFilterBrand').value;
+  var sentF = document.getElementById('reviewFilterSentiment').value;
+  var platF = document.getElementById('reviewFilterPlatform').value;
+
+  var filtered = reviewCsvData.filter(function(r) {
+    if (brandF && r.brand !== brandF) return false;
+    if (sentF && r.sentiment !== sentF) return false;
+    if (platF && r.platform !== platF) return false;
+    return true;
+  });
+
+  // Summary stats
+  var negCount = filtered.filter(function(r) { return r.sentiment === 'negative'; }).length;
+  var posCount = filtered.filter(function(r) { return r.sentiment === 'positive'; }).length;
+  var brandsInFilter = {};
+  filtered.forEach(function(r) { brandsInFilter[r.brand] = true; });
+  document.getElementById('reviewCsvSummary').style.display = '';
+  document.getElementById('reviewCsvSummary').innerHTML =
+    '<div class="review-summary-card"><div class="rs-value">' + filtered.length + '</div><div class="rs-label">评论数</div></div>' +
+    '<div class="review-summary-card"><div class="rs-value">' + Object.keys(brandsInFilter).length + '</div><div class="rs-label">品牌数</div></div>' +
+    '<div class="review-summary-card"><div class="rs-value" style="color:#065F46;">' + posCount + '</div><div class="rs-label">👍 正面</div></div>' +
+    '<div class="review-summary-card"><div class="rs-value" style="color:#991B1B;">' + negCount + '</div><div class="rs-label">👎 负面</div></div>';
+  document.getElementById('reviewCsvCount').textContent = '(' + filtered.length + ' 条)';
+
+  // Sort
+  filtered.sort(function(a, b) {
+    var va = a[reviewCsvSortBy], vb = b[reviewCsvSortBy];
+    if (typeof va === 'number') return reviewCsvSortDir === 'asc' ? va - vb : vb - va;
+    if (typeof va === 'string') { va = va.toLowerCase(); vb = (vb || '').toLowerCase(); return reviewCsvSortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    return 0;
+  });
+
+  // Render table
+  function th(label, key) {
+    var active = reviewCsvSortBy === key;
+    var arrow = active ? ('<span class="sort-arrow">' + (reviewCsvSortDir === 'asc' ? '&#x25B2;' : '&#x25BC;') + '</span>') : '<span class="sort-arrow">&#x2195;</span>';
+    return '<th class="' + (active ? 'sort-th sort-th-active' : 'sort-th') + '" onclick="renderReviewCsvSort(\'' + key + '\')">' + label + arrow + '</th>';
+  }
+
+  function sentTag(s) {
+    if (s === 'positive') return '<span class="review-sentiment-tag positive">👍 正面</span>';
+    if (s === 'negative') return '<span class="review-sentiment-tag negative">👎 负面</span>';
+    return '<span class="review-sentiment-tag neutral">➖ 中性</span>';
+  }
+
+  var html = '<table><thead><tr>' +
+    th('产品', 'product') + th('品牌', 'brand') + th('平台', 'platform') +
+    th('评分', 'rating') + th('情感', 'sentiment') + th('日期', 'date') +
+    th('评论内容', 'text') + th('优点', 'pros') + th('缺点', 'cons') +
+    '</tr></thead><tbody>';
+
+  filtered.forEach(function(r) {
+    var starStr = '';
+    for (var s = 0; s < 5; s++) starStr += s < Math.round(r.rating) ? '\u2605' : '\u2606';
+    var prosHtml = r.pros ? r.pros.split(';').map(function(p) { return '<span class="pro">+ ' + p.trim() + '</span>'; }).join('') : '-';
+    var consHtml = r.cons ? r.cons.split(';').map(function(c) { return '<span class="con">- ' + c.trim() + '</span>'; }).join('') : '-';
+
+    html += '<tr>' +
+      '<td style="max-width:160px;white-space:normal;">' + r.product + '</td>' +
+      '<td>' + r.brand + '</td>' +
+      '<td>' + r.platform + '</td>' +
+      '<td style="text-align:center;">' + starStr + ' ' + r.rating.toFixed(1) + '</td>' +
+      '<td>' + sentTag(r.sentiment) + '</td>' +
+      '<td>' + r.date + '</td>' +
+      '<td class="review-text-cell">' + r.text + '</td>' +
+      '<td class="review-pro-cons">' + prosHtml + '</td>' +
+      '<td class="review-pro-cons">' + consHtml + '</td>' +
+      '</tr>';
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('reviewCsvTable').innerHTML = html;
+}
+
+function renderReviewCsvSort(key) {
+  if (reviewCsvSortBy === key) {
+    reviewCsvSortDir = reviewCsvSortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    reviewCsvSortBy = key;
+    reviewCsvSortDir = 'desc';
+  }
+  applyReviewFilters();
+}
+
+// Load cached review CSV on page init
+(function() {
+  try {
+    var cached = localStorage.getItem(REVIEW_CSV_STORAGE);
+    if (cached) {
+      reviewCsvData = JSON.parse(cached);
+      if (reviewCsvData.length > 0) {
+        renderReviewCsv();
+        document.getElementById('reviewCsvStatus').textContent = '\u2705 已缓存 ' + reviewCsvData.length + ' 条评论';
+        document.getElementById('reviewCsvResetBtn').style.display = '';
+      }
+    }
+  } catch(e) {}
+})();
 
 function toggleCompeteSection(bodyId, arrowId) {
   var body = document.getElementById(bodyId);
