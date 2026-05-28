@@ -213,6 +213,22 @@ button:hover { background: #F0EDE6; }
 .compete-reset-btn:hover { background: #FFE8E8; border-color: #A32D2D; }
 .compete-pair-tag { display: inline-block; background: #E6FFFA; border: 1px solid #5EEAD4; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #0F766E; margin: 2px; cursor: default; }
 .compete-pair-tag .tag-highlight { color: #F59E0B; font-weight: 600; }
+
+/* Comment Insights styles */
+.comment-kw-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.comment-kw-tag { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; cursor: pointer; transition: transform .15s; }
+.comment-kw-tag:hover { transform: scale(1.08); }
+.comment-video-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.comment-video-card:hover { border-color: #0F766E; box-shadow: 0 2px 8px rgba(15,118,110,0.1); }
+.comment-video-card.active { border-color: #0F766E; background: #F0FDFA; }
+.comment-video-card .cvc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.comment-video-card .cvc-creator { font-weight: 600; font-size: 13px; color: #0F766E; }
+.comment-video-card .cvc-meta { font-size: 10px; color: #888; }
+.comment-bubble { background: #F8F8FC; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; }
+.comment-bubble .cb-user { font-weight: 600; font-size: 11px; color: #555; margin-bottom: 2px; }
+.comment-bubble .cb-text { font-size: 12px; color: #333; line-height: 1.5; }
+.comment-bubble .cb-meta { font-size: 10px; color: #999; margin-top: 2px; display: flex; gap: 10px; }
+.comment-load-more { text-align: center; padding: 10px; }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -861,6 +877,42 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
+<!-- Section 5: Comment Insights (Pre-scraped from EchoTik) -->
+<div class="compete-section">
+  <div class="compete-section-header" onclick="toggleCompeteSection('commentBody','commentArrow')">
+    <span>💬 评论洞察 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="commentCount"></span></span>
+    <span id="commentArrow" style="font-size:11px;">▼</span>
+  </div>
+  <div class="compete-section-body" id="commentBody">
+    <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:12px;color:#888;">📌 预抓取 <strong id="commentPreCount">47条视频 / 1290条评论</strong>（播放量&gt;5w）</span>
+      <label class="compete-btn" style="cursor:pointer;font-size:11px;padding:4px 10px;">
+        📤 上传完整评论JSON
+        <input type="file" accept=".json" onchange="handleCommentJsonUpload(this)" style="display:none;">
+      </label>
+      <span id="commentJsonStatus" style="font-size:11px;color:#0F766E;"></span>
+      <span style="font-size:10px;color:#999;">（预抓取显示关键词 + 评论数，上传后可逐条浏览）</span>
+    </div>
+    
+    <!-- Keywords Cloud -->
+    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🔑 评论高频关键词 <span style="font-weight:400;font-size:11px;color:#888;">（点击筛选）</span></div>
+    <div class="comment-kw-cloud" id="commentKwCloud"></div>
+    
+    <!-- Keyword Chart -->
+    <div style="height:300px;margin-bottom:14px;"><canvas id="commentKwChart"></canvas></div>
+    
+    <!-- Video list with comments -->
+    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">📋 按视频查看评论 <span id="commentFilterTag" style="font-weight:400;font-size:11px;color:#F59E0B;"></span></div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+      <button class="filter-btn on" id="cmtSortLikes" onclick="switchCommentSort('likes')">👍 热度排序</button>
+      <button class="filter-btn" id="cmtSortPlays" onclick="switchCommentSort('plays')">👁 播放量排序</button>
+      <button class="filter-btn" id="cmtSortGmv" onclick="switchCommentSort('gmv')">💰 GMV排序</button>
+      <button class="filter-btn" id="cmtSortComments" onclick="switchCommentSort('comments')">💬 评论数排序</button>
+    </div>
+    <div id="commentVideoList" style="max-height:600px;overflow-y:auto;"></div>
+  </div>
+</div>
+
 </div><!-- /competeDashboard -->
 
 </div><!-- /tab-compete -->
@@ -1410,6 +1462,12 @@ var competeVideoSortBy = 'gmv';
 var competeVideoSortDir = 'desc';
 var competeCreatorSortBy = 'gmv';
 var competeCreatorSortDir = 'desc';
+
+// ====== 预抓取竞品评论数据 (EchoTik 抓取, 播放量>5w) ======
+var PRESCANNED_COMMENTS = {"total_v":52,"total_c":1290,"kw":[["wipes",485],["dude",320],["toilet",276],["paper",271],["baby",105],["butter",100],["don",96],["peanut",91],["your",85],["wipe",82],["good",77],["flushable",72],["water",51],["poop",48],["free",44],["thing",41],["bro",41],["better",40],["buy",40],["shipping",40],["flush",36],["lol",35],["clean",35],["wet",34],["love",34],["shit",33],["right",32],["ass",32],["never",31],["tiktok",31],["pack",30],["deal",29],["isn",29],["cheaper",28],["bidet",27],["time",26],["actually",26],["great",25],["packs",24],["walmart",24],["shop",24],["now",23],["down",23],["people",23],["price",22],["says",22],["septic",21],["make",21],["first",21],["brand",20]],"vm":{"7504160694250638622":91,"7597912271335066911":126,"7477395983211793710":29,"7459208469720091934":32,"7429534041902173471":136,"7401286704537029919":219,"7349194397063335210":34,"7472667914357738798":12,"7475897161016741162":41,"7461146735490977054":39,"7393700872418544942":41,"7398654561394642207":32,"7463329530544000299":11,"7482464812526587178":30,"7460661750724119854":17,"7457708867246558510":5,"7437543642706857259":3,"7449496541212970271":21,"7533312096700861726":3,"7540533303099575583":31,"7382733771294100782":7,"7506584467251694879":24,"7511119829609319726":14,"7598652318116056350":17,"7601242902127217950":5,"7402723316504726830":24,"7467621506126843178":14,"7598647493504552223":12,"7630272946090642701":26,"7441840428665605422":4,"7551093059719630111":17,"7628460225992903967":13,"7471760860302839086":4,"7514802331364494638":1,"7624333334717435166":42,"7595435431664143647":29,"7398682986901769502":16,"7609604294295244045":4,"7464759084915461407":5,"7439375108822633771":17,"7527348243034869023":17,"7387055642898353454":2,"7510339224466492702":2,"7561277397220478238":6,"7600952460005461261":7,"7596833279521623326":6,"7445272836853255466":2}};
+var competeFullComments = null;  // 上传完整评论JSON后填充
+var COMMENTS_STORAGE = 'maternella_compete_comments';
+var commentSortBy = 'likes';
 
 function saveMappingData() {
   try {
@@ -5009,6 +5067,271 @@ function renderPatternAnalysis() {
   document.getElementById('conversionDist').innerHTML = distHtml;
 }
 
+// ====== 评论洞察 Functions ======
+
+var commentKwChart = null;
+var activeCommentKw = null;
+
+function buildCommentVideoList() {
+  var list = [];
+  
+  if (competeFullComments) {
+    // Use full comments data (has creator, plays, gmv metadata)
+    for (var i = 0; i < competeFullComments.length; i++) {
+      var fv = competeFullComments[i];
+      var vid = fv.video_id;
+      var ccount = fv.comments ? fv.comments.length : 0;
+      list.push({
+        video_id: vid,
+        title: (fv.video_title || '').substring(0, 80),
+        creator: fv.creator || '',
+        views: fv.plays || 0,
+        gmv: fv.gmv || 0,
+        echoTikLink: 'https://echotik.live/videos/' + vid,
+        prescanComments: PRESCANNED_COMMENTS.vm[vid] || ccount,
+        fullComments: ccount
+      });
+    }
+  } else {
+    // Fallback: prescanned data only (limited metadata)
+    var vm = PRESCANNED_COMMENTS.vm;
+    var vids = Object.keys(vm);
+    for (var j = 0; j < vids.length; j++) {
+      var vid = vids[j];
+      list.push({
+        video_id: vid,
+        title: '',
+        creator: '',
+        views: 0,
+        gmv: 0,
+        echoTikLink: 'https://echotik.live/videos/' + vid,
+        prescanComments: vm[vid],
+        fullComments: 0
+      });
+    }
+  }
+
+  // Sort
+  var sortKey = commentSortBy;
+  if (sortKey === 'comments') sortKey = 'prescanComments';
+  list.sort(function(a, b) { return b[sortKey] - a[sortKey]; });
+  return list;
+}
+
+function renderCommentInsights() {
+  if (!competeData || competeData.length === 0) return;
+
+  var videoList = buildCommentVideoList();
+  var totalPrescan = 0;
+  for (var i = 0; i < videoList.length; i++) { totalPrescan += videoList[i].prescanComments; }
+
+  document.getElementById('commentPreCount').textContent = videoList.length + '条视频 / ' + totalPrescan + '条评论';
+  document.getElementById('commentCount').textContent = '(' + PRESCANNED_COMMENTS.total_v + ' 条视频, ' + PRESCANNED_COMMENTS.total_c + ' 条评论预抓取)';
+
+  renderCommentKeywords();
+  renderCommentVideoCards(videoList);
+
+  // 尝试加载本地缓存的完整评论
+  if (!competeFullComments) {
+    try {
+      var cached = localStorage.getItem(COMMENTS_STORAGE);
+      if (cached) {
+        competeFullComments = JSON.parse(cached);
+        renderCommentVideoCards(buildCommentVideoList());
+        document.getElementById('commentJsonStatus').textContent = '✅ 已加载完整评论 (缓存)';
+      }
+    } catch(e) {}
+  }
+}
+
+function renderCommentKeywords() {
+  var keywords = PRESCANNED_COMMENTS.kw;
+  var maxCount = keywords[0][1];
+
+  // Color scale
+  function colorFor(count) {
+    var ratio = count / maxCount;
+    if (ratio > 0.7) return '#0F766E';  // dark teal
+    if (ratio > 0.4) return '#0D9488';
+    if (ratio > 0.2) return '#14B8A6';
+    return '#5EEAD4';
+  }
+
+  var html = '';
+  for (var i = 0; i < keywords.length; i++) {
+    var kw = keywords[i][0];
+    var count = keywords[i][1];
+    var size = 11 + Math.round((count / maxCount) * 12);
+    var clr = colorFor(count);
+    var bg = clr === '#5EEAD4' ? '#CCFBF1' : clr;
+    var txtColor = clr === '#5EEAD4' ? '#0F766E' : '#fff';
+    var isActive = activeCommentKw === kw;
+    html += '<span class="comment-kw-tag" style="font-size:' + size + 'px;background:' + bg + ';color:' + txtColor + ';' + (isActive ? 'outline:2px solid #F59E0B;outline-offset:2px;' : '') + '" onclick="filterCommentByKw(\'' + kw + '\')" title="' + count + ' 条提及">' + kw + ' (' + count + ')</span>';
+  }
+  document.getElementById('commentKwCloud').innerHTML = html;
+
+  // Chart.js bar chart for top 20
+  if (commentKwChart) { commentKwChart.destroy(); }
+  var top20 = keywords.slice(0, 20).reverse();
+  var ctx = document.getElementById('commentKwChart');
+  commentKwChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: top20.map(function(k) { return k[0]; }),
+      datasets: [{
+        label: '提及次数',
+        data: top20.map(function(k) { return k[1]; }),
+        backgroundColor: top20.map(function(k, i) {
+          return i < 3 ? '#F59E0B' : '#0D9488';
+        }),
+        borderColor: '#0F766E',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: true, position: 'top' }, tooltip: { callbacks: { label: function(ctx) { return ctx.raw + ' 条评论'; } } } },
+      scales: { x: { beginAtZero: true, title: { display: true, text: '提及次数 (unique)' } } }
+    }
+  });
+}
+
+function renderCommentVideoCards(videoList) {
+  var hasFull = competeFullComments !== null;
+
+  // Filter by keyword if active
+  if (activeCommentKw) {
+    videoList = videoList.filter(function(v) {
+      // Only show videos that have comments matching keyword
+      if (!competeFullComments) return v.prescanComments > 0;
+      for (var i = 0; i < competeFullComments.length; i++) {
+        if (competeFullComments[i].video_id === v.video_id && competeFullComments[i].comments) {
+          for (var j = 0; j < competeFullComments[i].comments.length; j++) {
+            if (competeFullComments[i].comments[j].text.toLowerCase().indexOf(activeCommentKw) >= 0) return true;
+          }
+        }
+      }
+      return false;
+    });
+    document.getElementById('commentFilterTag').textContent = '筛选: "' + activeCommentKw + '" (' + videoList.length + ' 条视频)';
+  } else {
+    document.getElementById('commentFilterTag').textContent = '';
+  }
+
+  if (videoList.length === 0) {
+    document.getElementById('commentVideoList').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">没有匹配 \"' + activeCommentKw + '\" 的视频</div>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < videoList.length; i++) {
+    var v = videoList[i];
+    var commentCount = hasFull ? v.fullComments : v.prescanComments;
+    if (commentCount === 0 && !activeCommentKw) continue;
+
+    var playStr = v.views >= 1000000 ? (v.views/1000000).toFixed(1)+'M' : v.views >= 1000 ? (v.views/1000).toFixed(0)+'K' : v.views;
+    var gmvStr = '$' + v.gmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+    var echoUrl = v.echoTikLink || 'https://echotik.live/videos/' + v.video_id;
+
+    html += '<div class="comment-video-card" id="cvc-' + i + '" onclick="toggleCommentCard(' + i + ')">';
+    html += '<div class="cvc-header">';
+    html += '<span class="cvc-creator">' + (i+1) + '. ' + v.creator + '</span>';
+    html += '<span class="cvc-meta">' + playStr + ' plays | ' + gmvStr + ' | 💬 ' + commentCount + '</span>';
+    html += '</div>';
+    html += '<div style="font-size:11px;color:#666;">' + (v.title.length > 80 ? v.title.substring(0, 80) + '...' : v.title) + '</div>';
+    html += '<div style="margin-top:2px;">';
+    html += '<a href="' + echoUrl + '" target="_blank" style="font-size:10px;color:#0F766E;text-decoration:none;" onclick="event.stopPropagation();">🔗 EchoTik查看</a>';
+    html += '</div>';
+
+    // Show comments if full data loaded, or show prescan summary
+    html += '<div id="cvc-body-' + i + '" style="display:none;margin-top:8px;border-top:1px solid #E8E8E8;padding-top:8px;">';
+    if (hasFull) {
+      // Find full comments for this video
+      var fcomments = [];
+      for (var j = 0; j < competeFullComments.length; j++) {
+        if (competeFullComments[j].video_id === v.video_id && competeFullComments[j].comments) {
+          fcomments = competeFullComments[j].comments;
+          break;
+        }
+      }
+      // Filter by keyword
+      if (activeCommentKw) {
+        fcomments = fcomments.filter(function(c) {
+          return c.text.toLowerCase().indexOf(activeCommentKw) >= 0;
+        });
+      }
+      var showCount = Math.min(fcomments.length, 20);
+      for (var k = 0; k < showCount; k++) {
+        var c = fcomments[k];
+        html += '<div class="comment-bubble">';
+        html += '<div class="cb-user">' + c.username + (c.likes > 0 ? ' <span style="font-weight:400;color:#F59E0B;">👍 ' + c.likes + '</span>' : '') + '</div>';
+        html += '<div class="cb-text">' + c.text + '</div>';
+        html += '<div class="cb-meta"><span>' + (c.date || '') + '</span></div>';
+        html += '</div>';
+      }
+      if (fcomments.length > showCount) {
+        html += '<div class="comment-load-more" style="color:#888;font-size:11px;">... 还有 ' + (fcomments.length - showCount) + ' 条评论</div>';
+      }
+    } else {
+      html += '<div style="padding:8px;text-align:center;color:#888;font-size:11px;">📌 预抓取数据：约 ' + v.prescanComments + ' 条评论 | 上传完整JSON查看逐条内容</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+  }
+  document.getElementById('commentVideoList').innerHTML = html;
+}
+
+function toggleCommentCard(index) {
+  var body = document.getElementById('cvc-body-' + index);
+  var card = document.getElementById('cvc-' + index);
+  if (body.style.display === 'none' || body.style.display === '') {
+    body.style.display = '';
+    card.classList.add('active');
+  } else {
+    body.style.display = 'none';
+    card.classList.remove('active');
+  }
+}
+
+function filterCommentByKw(kw) {
+  if (activeCommentKw === kw) {
+    activeCommentKw = null;
+  } else {
+    activeCommentKw = kw;
+  }
+  renderCommentKeywords();
+  renderCommentVideoCards(buildCommentVideoList());
+}
+
+function switchCommentSort(sort) {
+  commentSortBy = sort;
+  document.getElementById('cmtSortLikes').classList.toggle('on', sort === 'likes');
+  document.getElementById('cmtSortPlays').classList.toggle('on', sort === 'plays');
+  document.getElementById('cmtSortGmv').classList.toggle('on', sort === 'gmv');
+  document.getElementById('cmtSortComments').classList.toggle('on', sort === 'comments');
+  renderCommentVideoCards(buildCommentVideoList());
+}
+
+function handleCommentJsonUpload(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (!data.videos) throw new Error('无效格式: 缺少 videos 字段');
+      competeFullComments = data.videos;
+      localStorage.setItem(COMMENTS_STORAGE, JSON.stringify(competeFullComments));
+      document.getElementById('commentJsonStatus').textContent = '✅ 已加载 ' + competeFullComments.length + ' 条视频完整评论';
+      renderCommentVideoCards(buildCommentVideoList());
+    } catch(err) {
+      alert('❌ JSON解析失败: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
 function renderCompeteDashboard() {
   if (!competeData || competeData.length === 0) return;
 
@@ -5046,6 +5369,7 @@ function renderCompeteDashboard() {
   renderVideoRankings();
   renderCreatorLeaderboard();
   renderPatternAnalysis();
+  renderCommentInsights();
 }
 
 function analyzeReviews() {
