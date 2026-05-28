@@ -1578,10 +1578,26 @@ function processJoin() {
     return;
   }
   var effective = getEffectiveMapping();
+  var scriptKeys = Object.keys(scriptMap);
+  // Build a fuzzy lookup: try exact match first, then try trimmed/normalized variants
+  var scriptLookup = {};
+  scriptKeys.forEach(function(k) {
+    scriptLookup[k] = scriptMap[k];
+    // Also store variants: strip leading zeros, strip .0 suffix
+    var cleanK = k.replace(/^0+/, '').replace(/\.0+$/, '');
+    if (cleanK !== k && !scriptLookup[cleanK]) scriptLookup[cleanK] = scriptMap[k];
+  });
+  var scriptMatchCount = 0, totalWithCloud = 0;
   var joined = videoAdData.map(function(row) {
     var cloudId = (effective.vidToCloud[row.vid] || '').trim();
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
-    var scriptTitle = scriptMap[cloudId] || '';
+    if (cloudId) {
+      totalWithCloud++;
+      var st = scriptMap[cloudId];
+      if (!st) st = scriptLookup[cloudId]; // try fuzzy
+      if (st) { scriptMatchCount++; }
+    }
+    var scriptTitle = scriptMap[cloudId] || scriptLookup[cloudId] || '';
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
@@ -1674,6 +1690,11 @@ function processJoin() {
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
   saveVideoData();
+  // 脚本匹配统计
+  if (scriptKeys.length > 0 && totalWithCloud > 0) {
+    var scriptMsg = '  |  📝 脚本匹配: ' + scriptMatchCount + '/' + totalWithCloud + ' 条视频关联到脚本（脚本库共 ' + scriptKeys.length + ' 条）';
+    document.getElementById('videoStatus').textContent = (document.getElementById('videoStatus').textContent || '') + scriptMsg;
+  }
   showDateRange(videoDateRange);
   renderVideoTab();
   renderMappingPanel();
