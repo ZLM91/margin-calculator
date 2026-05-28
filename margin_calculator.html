@@ -460,6 +460,44 @@ button:hover { background: #F0EDE6; }
   <div class="video-scroll" id="bdAllDetailUK" style="max-height:600px;"><div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div></div>
 </div>
 
+<!-- 脚本上传入口 (UK) -->
+<div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+  <label class="video-upload-box" id="scriptUploadBoxUK" style="flex:1;min-width:240px;">
+    <div style="font-size:24px;margin-bottom:4px;">📝</div>
+    <div id="scriptUploadLabelUK" style="font-size:13px;font-weight:500;">上传脚本CSV</div>
+    <div style="font-size:11px;color:#888;">跨境脚本.csv（脚本ID = 云视频id）</div>
+    <input type="file" accept=".csv" onchange="handleScriptUploadUK(this)" style="display:none;">
+  </label>
+</div>
+
+<!-- 脚本板块 (UK) -->
+<div id="scriptHotSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header hot-header" onclick="toggleScriptSectionUK('scriptHotBodyUK','scriptHotArrowUK')">
+    <span>🔥 爆款脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptHotCountUK"></span></span>
+    <span id="scriptHotArrowUK" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptHotBodyUK"></div>
+</div>
+<div id="scriptPotentialSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header potential-header" onclick="toggleScriptSectionUK('scriptPotentialBodyUK','scriptPotentialArrowUK')">
+    <span>📈 近期潜力脚本 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="scriptPotentialCountUK"></span></span>
+    <span id="scriptPotentialArrowUK" style="font-size:11px;">▼</span>
+  </div>
+  <div class="script-section-body" id="scriptPotentialBodyUK"></div>
+</div>
+
+<!-- 裂变 Brief 板块 (UK) -->
+<div id="viralBriefSectionUK" class="script-section" style="display:none;">
+  <div class="script-section-header" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid #E65100;" onclick="toggleScriptSectionUK('viralBriefBodyUK','viralBriefArrowUK')">
+    <span>⚡ 裂变 Brief — 近期爆款视频速览 <span style="font-weight:400;font-size:11px;margin-left:4px;" id="viralBriefCountUK"></span></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="event.stopPropagation();copyViralBriefUK();" style="font-size:10px;padding:2px 8px;border-radius:4px;background:#E65100;color:#fff;border:none;">📋 一键复制</button>
+      <span id="viralBriefArrowUK" style="font-size:11px;">▼</span>
+    </div>
+  </div>
+  <div class="script-section-body" id="viralBriefBodyUK"></div>
+</div>
+
 <!-- Mapping Panel -->
 <div id="mappingPanelUK">
   <div style="font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -1568,6 +1606,51 @@ function handleScriptUpload(input) {
   reader.readAsArrayBuffer(file);
 }
 
+function handleScriptUploadUK(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var buf = new Uint8Array(e.target.result);
+      var text;
+      try { text = new TextDecoder('gbk').decode(buf); } catch(_) { text = new TextDecoder('utf-8').decode(buf); }
+      if (text.indexOf('脚本ID') < 0) {
+        try { text = new TextDecoder('utf-8').decode(buf); } catch(_) {}
+      }
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) throw new Error('CSV 文件为空或格式不对');
+      var header = parseCSVLine(lines[0]);
+      var idxId = -1, idxTitle = -1;
+      for (var i = 0; i < header.length; i++) {
+        var h = header[i].trim();
+        if (h === '脚本ID') idxId = i;
+        if (h === '脚本标题') idxTitle = i;
+      }
+      if (idxId < 0 || idxTitle < 0) throw new Error('CSV 缺少"脚本ID"或"脚本标题"列');
+      var map = {};
+      var count = 0;
+      for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var row = parseCSVLine(lines[i]);
+        var sid = (row[idxId] || '').trim();
+        var title = (row[idxTitle] || '').trim();
+        if (!sid || !title) continue;
+        sid = sid.replace(/[\t\s]+/g, '');
+        title = title.replace(/[\t]+/g, ' ').replace(/\s+/g, ' ').trim();
+        if (sid && title) { map[sid] = title; count++; }
+      }
+      scriptMapUK = map;
+      try { localStorage.setItem(SCRIPT_STORAGE_UK, JSON.stringify(map)); } catch(_) {}
+      document.getElementById('scriptUploadBoxUK').classList.add('has-file');
+      document.getElementById('scriptUploadLabelUK').textContent = '\u2705 脚本数据: ' + count + ' 条（云视频id→脚本标题）';
+      if (videoAdDataUK && videoMappingUK) { processJoinUK(); }
+    } catch(err) {
+      document.getElementById('videoStatusUK').textContent = '\u274C 脚本CSV解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
 function getEffectiveMapping() {
   // Merge original mapping + user edits (edits take priority)
   var vidToCloud = {};
@@ -2239,6 +2322,166 @@ function copyViralBrief() {
   });
 }
 
+// ====== UK 脚本板块 ======
+function toggleScriptSectionUK(bodyId, arrowId) {
+  var el = document.getElementById(bodyId);
+  var arrow = document.getElementById(arrowId);
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    arrow.textContent = '\u25BC';
+  } else {
+    el.style.display = 'none';
+    arrow.textContent = '\u25B6';
+  }
+}
+
+function renderScriptSectionsUK() {
+  var hotSection = document.getElementById('scriptHotSectionUK');
+  var potentialSection = document.getElementById('scriptPotentialSectionUK');
+
+  if (!videoJoinedUK || Object.keys(scriptMapUK).length === 0) {
+    hotSection.style.display = 'none';
+    potentialSection.style.display = 'none';
+    return;
+  }
+
+  var hotVideos = videoJoinedUK.filter(function(r) {
+    return r.scriptTitle && isCurrentMonth(r.date) && r.gmv >= 100 && r.isBrand;
+  });
+  var hotMap = {};
+  hotVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!hotMap[key] || hotMap[key].gmv < r.gmv) hotMap[key] = r;
+  });
+  var hotList = Object.values(hotMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (hotList.length > 0) {
+    hotSection.style.display = '';
+    document.getElementById('scriptHotCountUK').textContent = '(' + hotList.length + ' 条爆款脚本)';
+    document.getElementById('scriptHotBodyUK').innerHTML = hotList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    hotSection.style.display = 'none';
+  }
+
+  var now = new Date();
+  var threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+  function isWithin3Months(dateStr) {
+    if (!dateStr) return false;
+    var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
+    if (!m) return false;
+    var d = new Date(parseInt(m[1]), parseInt(m[2]) - 1, 1);
+    return d >= threeMonthsAgo && d <= now;
+  }
+  var potentialVideos = videoJoinedUK.filter(function(r) {
+    return r.scriptTitle && isWithin3Months(r.date) && r.gmv >= 20 && r.gmv < 100 && r.isBrand;
+  });
+  var potMap = {};
+  potentialVideos.forEach(function(r) {
+    var key = r.scriptTitle;
+    if (!potMap[key] || potMap[key].gmv < r.gmv) potMap[key] = r;
+  });
+  var potList = Object.values(potMap).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (potList.length > 0) {
+    potentialSection.style.display = '';
+    document.getElementById('scriptPotentialCountUK').textContent = '(' + potList.length + ' 条潜力脚本)';
+    document.getElementById('scriptPotentialBodyUK').innerHTML = potList.map(function(r) {
+      return '<div class="script-card">' +
+        '<div class="sc-title">' + (r.title || r.vid) + '</div>' +
+        '<div class="sc-meta">剪辑: ' + (r.editor || '-') + ' | 编导: ' + (r.director || '-') + ' | ' + (r.date ? r.date.slice(0,10) : '-') + '</div>' +
+        '<div class="sc-gmv" style="color:#1565C0;">$' + r.gmv.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}) + '</div>' +
+        '<div class="sc-script" title="' + r.scriptTitle.replace(/"/g, '&quot;') + '">\uD83D\uDCDD ' + r.scriptTitle + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    potentialSection.style.display = 'none';
+  }
+}
+
+// ====== UK 裂变 Brief ======
+function renderViralBriefUK() {
+  var section = document.getElementById('viralBriefSectionUK');
+  if (!videoJoinedUK || !videoJoinedUK.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  var hotVideos = videoJoinedUK.filter(function(r) {
+    return r.gmv >= 100 && r.isBrand && isCurrentMonth(r.date);
+  }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  if (!hotVideos.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  document.getElementById('viralBriefCountUK').textContent = '(' + hotVideos.length + ' 条)';
+  section.style.display = '';
+
+  var fmt = function(v, d) { return v ? v.toLocaleString('en-US', {minimumFractionDigits:d||2,maximumFractionDigits:d||2}) : '0.00'; };
+
+  window._viralBriefTextUK = 'Matern\'ella UK \u7206\u6B3E\u89C6\u9891 \u88C2\u53D8 Brief\n' +
+    '========================================\n' +
+    '\u751F\u6210\u65F6\u95F4: ' + new Date().toLocaleDateString('zh-CN') + '\n' +
+    '\u6570\u636E\u8303\u56F4: \u5F53\u6708\u53D1\u5E03 | GMV > $100 | \u54C1\u724C\u81EA\u8425\n' +
+    '========================================\n\n' +
+    hotVideos.map(function(r, i) {
+      return '【#' + (i+1) + '】 GMV: $' + fmt(r.gmv) + ' | ROI: ' + (r.roi||0).toFixed(2) + '\n' +
+        '  \u89C6\u9891ID: ' + r.vid + (r.cloudId ? ' | \u4E91\u89C6\u9891ID: ' + r.cloudId : '') + '\n' +
+        '  \u6807\u9898: ' + (r.title || '-') + '\n' +
+        '  \u526A\u8F91: ' + (r.editor || '-') + ' | \u7F16\u5BFC: ' + (r.director || '-') + '\n' +
+        '  \u53D1\u5E03: ' + (r.date ? r.date.slice(0,10) : '-') + ' | \u8BA2\u5355: ' + r.orders + ' | \u64AD\u653E: ' + (r.views||0).toLocaleString() + '\n' +
+        '  \u8D26\u53F7: ' + (r.account || '-') + '\n';
+    }).join('\n') +
+    '\n========================================\n' +
+    '\uD83D\uDCA1 \u5EFA\u8BAE: \u4EE5\u4E0A\u89C6\u9891\u6570\u636E\u8868\u73B0\u7A81\u51FA\uFF0C\u5EFA\u8BAE\u4F18\u5148\u88C2\u53D8\u590D\u523B\uFF0C\u53C2\u8003\u5176\u811A\u672C\u7ED3\u6784\u3001\u62CD\u6444\u624B\u6CD5\u3001BGM \u548C\u53E3\u64AD\u98CE\u683C\u3002';
+
+  var html = '<div style="overflow-x:auto;"><table style="min-width:900px;"><thead><tr style="background:#E65100;color:#fff;">' +
+    '<th style="padding:6px 5px;">#</th>' +
+    '<th style="padding:6px 5px;">\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u4E91\u89C6\u9891ID</th>' +
+    '<th style="padding:6px 5px;">\u6807\u9898</th>' +
+    '<th style="padding:6px 5px;">GMV</th>' +
+    '<th style="padding:6px 5px;">ROI</th>' +
+    '<th style="padding:6px 5px;">\u8BA2\u5355</th>' +
+    '<th style="padding:6px 5px;">\u526A\u8F91</th>' +
+    '<th style="padding:6px 5px;">\u7F16\u5BFC</th>' +
+    '<th style="padding:6px 5px;">\u53D1\u5E03\u65E5\u671F</th>' +
+    '</tr></thead><tbody>' +
+    hotVideos.map(function(r, i) {
+      return '<tr style="' + (i % 2 === 0 ? 'background:#FFF8F0;' : '') + '">' +
+        '<td style="text-align:center;font-weight:600;color:#E65100;">#' + (i+1) + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;">' + r.vid + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;color:#1A56B8;">' + (r.cloudId || '-') + '</td>' +
+        '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:11px;" title="' + (r.title||'') + '">' + (r.title || '-') + '</td>' +
+        '<td style="text-align:right;font-weight:600;color:#E65100;">$' + fmt(r.gmv) + '</td>' +
+        '<td style="text-align:center;' + (r.roi >= 2 ? 'color:#0F6E56;font-weight:600;' : '') + '">' + (r.roi||0).toFixed(2) + '</td>' +
+        '<td style="text-align:center;">' + r.orders + '</td>' +
+        '<td style="font-size:11px;">' + (r.editor || '-') + '</td>' +
+        '<td style="font-size:11px;">' + (r.director || '-') + '</td>' +
+        '<td style="font-size:10px;">' + (r.date ? r.date.slice(0,10) : '-') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  document.getElementById('viralBriefBodyUK').innerHTML = html;
+}
+
+function copyViralBriefUK() {
+  if (!window._viralBriefTextUK) { alert('\u6682\u65E0\u88C2\u53D8 Brief \u6570\u636E'); return; }
+  navigator.clipboard.writeText(window._viralBriefTextUK).then(function() {
+    alert('\u2705 \u88C2\u53D8 Brief \u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01\u53EF\u76F4\u63A5\u7C98\u8D34\u5230\u98DE\u4E66/\u5FAE\u4FE1\u7FA4\u3002');
+  }).catch(function() {
+    prompt('\u8BF7\u624B\u52A8\u590D\u5236\u4EE5\u4E0B\u5185\u5BB9:', window._viralBriefTextUK);
+  });
+}
+
 function togglePersonStatus(editor) {
   personStatusUS[editor] = (personStatusUS[editor] === 'inactive') ? 'active' : 'inactive';
   saveMappingData();
@@ -2681,7 +2924,9 @@ function renderBdAllDetail(sortBy, sortDir, toggleAcct) {
 // ====== 英国站 视频数据 Tab ======
 const VID_STORAGE_UK = 'maternella_video_data_uk';
 const VID_MAP_KEY_UK = 'maternella_video_mapping_uk';
+const SCRIPT_STORAGE_UK = 'maternella_script_data_uk';
 let videoAdDataUK = null, videoMappingUK = null, videoJoinedUK = null, videoPersonSummaryUK = null, videoDetailFilterUK = null;
+let scriptMapUK = {}; // 云视频id -> 脚本标题 (UK)
 let editedMappingUK = { vidToCloud: {}, cloudToPerson: {} };
 let personStatusUK = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummaryUK = null, videoBdDetailFilterUK = null; // BD (达人) data
@@ -2748,6 +2993,16 @@ loadMappingDataUK();
 loadVideoDataUK();
 
 function loadVideoDataUK() {
+  // Load script data
+  try {
+    var scriptRawUK = localStorage.getItem(SCRIPT_STORAGE_UK);
+    if (scriptRawUK) {
+      scriptMapUK = JSON.parse(scriptRawUK);
+      document.getElementById('scriptUploadBoxUK').classList.add('has-file');
+      document.getElementById('scriptUploadLabelUK').textContent = '\u2705 脚本数据: ' + Object.keys(scriptMapUK).length + ' 条（云视频id→脚本标题）';
+    }
+  } catch(_) {}
+
   try {
     var raw = localStorage.getItem(VID_STORAGE_UK);
     if (raw) {
@@ -2779,7 +3034,7 @@ function loadVideoDataUK() {
         document.getElementById('adUploadBoxUK').classList.add('has-file');
         document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频（已缓存）';
       }
-      var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined; });
+      var needRecompute = videoJoinedUK && videoJoinedUK.some(function(r) { return r.account === undefined || r.isBrand === undefined || r.scriptTitle === undefined; });
       var joinedMissing = !videoJoinedUK && videoMappingUK && videoAdDataUK;
       if (needRecompute || joinedMissing) {
         if (videoMappingUK && videoAdDataUK) { processJoinUK(); }
@@ -2856,6 +3111,10 @@ function resetVideoDataUK() {
   document.getElementById('bdSectionUK').style.display = 'none';
   document.getElementById('bdAllDetailUK').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无达人数据</div>';
   document.getElementById('bdAllSectionUK').style.display = 'none';
+  // Hide script & viral sections
+  document.getElementById('scriptHotSectionUK').style.display = 'none';
+  document.getElementById('scriptPotentialSectionUK').style.display = 'none';
+  document.getElementById('viralBriefSectionUK').style.display = 'none';
   bdAllExpandedUK = {};
   videoDetailSortByUK = 'gmv'; videoDetailSortDirUK = 'desc';
   bdDetailSortByUK = 'gmv'; bdDetailSortDirUK = 'desc';
@@ -2990,9 +3249,24 @@ function processJoinUK() {
     return;
   }
   var effective = getEffectiveMappingUK();
+  // Build fuzzy script lookup for UK
+  var scriptKeysUK = Object.keys(scriptMapUK);
+  var scriptLookupUK = {};
+  scriptKeysUK.forEach(function(k) {
+    if (k.length > 8) { scriptLookupUK[k.slice(0,8)] = scriptMapUK[k]; }
+    scriptLookupUK[k] = scriptMapUK[k];
+    if (k.match(/^\d+$/)) { scriptLookupUK[String(parseInt(k))] = scriptMapUK[k]; }
+  });
+  var matchedCount = 0, totalCloud = 0;
   var joined = videoAdDataUK.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
+    var scriptTitle = '';
+    if (cloudId) {
+      totalCloud++;
+      scriptTitle = scriptMapUK[cloudId] || scriptLookupUK[cloudId] || '';
+      if (scriptTitle) matchedCount++;
+    }
     return {
       vid: row.vid, title: row.title, tags: row.tags,
       gmv: row.gmv, orders: row.orders, cost: row.cost, roi: row.roi,
@@ -3000,7 +3274,8 @@ function processJoinUK() {
       account: row.account, isBrand: row.isBrand,
       cloudId: cloudId,
       editor: cleanName(person ? person.editor : ''),
-      director: cleanName(person ? person.director : '')
+      director: cleanName(person ? person.director : ''),
+      scriptTitle: scriptTitle
     };
   });
   videoJoinedUK = joined;
@@ -3095,7 +3370,12 @@ function renderVideoTabUK() {
     return;
   }
   var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
-  statusEl.textContent = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+  var scriptMatchedUK = Object.keys(scriptMapUK).length > 0 ? videoJoinedUK.filter(function(r) { return r.scriptTitle; }).length : 0;
+  var statusMsg = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+  if (Object.keys(scriptMapUK).length > 0) {
+    statusMsg += ' | \uD83D\uDCDD 脚本匹配: ' + scriptMatchedUK + '/' + videoJoinedUK.filter(function(r) { return r.cloudId; }).length + ' 条';
+  }
+  statusEl.textContent = statusMsg;
 
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
@@ -3156,6 +3436,8 @@ function renderVideoTabUK() {
 
   renderDirectorSectionUK();
   renderBdSectionUK();
+  renderScriptSectionsUK();
+  renderViralBriefUK();
 }
 
 function renderDirectorSectionUK() {
