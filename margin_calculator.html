@@ -1477,13 +1477,8 @@ function getEffectiveMapping() {
 }
 
 function processJoin() {
-  if (!videoAdData || !videoMapping) {
-    if (videoAdData && !videoMapping) {
-      document.getElementById('videoStatus').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
-    }
-    return;
-  }
-  var effective = getEffectiveMapping();
+  if (!videoAdData) return;
+  var effective = videoMapping ? getEffectiveMapping() : { vidToCloud: {}, cloudToPerson: {} };
   var joined = videoAdData.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
@@ -1585,8 +1580,21 @@ function processJoin() {
 
 function renderVideoTab() {
   var statusEl = document.getElementById('videoStatus');
+  if (!videoAdData) {
+    statusEl.textContent = '\u23F3 请上传广告数据报表';
+    return;
+  }
   if (!videoPersonSummary || !videoPersonSummary.length) {
-    statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    statusEl.textContent = '\u2705 广告数据 ' + videoJoined.length + ' 条视频已加载 | 尚未导入人员映射表，剪辑/编导汇总暂无数据';
+    renderPersonCards();
+    renderPersonTable();
+    renderDirectorCards();
+    renderDirectorTable();
+    renderBdCards();
+    renderBdTable();
+    renderBdAllDetail();
+    renderVideoDetail();
+    renderMappingPanel();
     return;
   }
   var matched = videoJoined.filter(function(r) { return r.editor; }).length;
@@ -2623,13 +2631,8 @@ function getEffectiveMappingUK() {
 }
 
 function processJoinUK() {
-  if (!videoAdDataUK || !videoMappingUK) {
-    if (videoAdDataUK && !videoMappingUK) {
-      document.getElementById('videoStatusUK').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
-    }
-    return;
-  }
-  var effective = getEffectiveMappingUK();
+  if (!videoAdDataUK) return;
+  var effective = videoMappingUK ? getEffectiveMappingUK() : { vidToCloud: {}, cloudToPerson: {} };
   var joined = videoAdDataUK.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
@@ -2730,8 +2733,19 @@ function processJoinUK() {
 
 function renderVideoTabUK() {
   var statusEl = document.getElementById('videoStatusUK');
+  if (!videoAdDataUK) {
+    statusEl.textContent = '\u23F3 请上传广告数据报表';
+    return;
+  }
   if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
-    statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    statusEl.textContent = '\u2705 广告数据 ' + videoJoinedUK.length + ' 条视频已加载 | 尚未导入人员映射表，剪辑/编导汇总暂无数据';
+    renderPersonCardsUK();
+    renderPersonTableUK();
+    renderBdCardsUK();
+    renderBdTableUK();
+    renderBdAllDetailUK();
+    renderVideoDetailUK();
+    renderMappingPanelUK();
     return;
   }
   var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
