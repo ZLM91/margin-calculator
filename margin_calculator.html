@@ -1477,8 +1477,13 @@ function getEffectiveMapping() {
 }
 
 function processJoin() {
-  if (!videoAdData) return;
-  var effective = videoMapping ? getEffectiveMapping() : { vidToCloud: {}, cloudToPerson: {} };
+  if (!videoAdData || !videoMapping) {
+    if (videoAdData && !videoMapping) {
+      document.getElementById('videoStatus').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
+    }
+    return;
+  }
+  var effective = getEffectiveMapping();
   var joined = videoAdData.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
@@ -1580,15 +1585,8 @@ function processJoin() {
 
 function renderVideoTab() {
   var statusEl = document.getElementById('videoStatus');
-  if (!videoAdData) {
-    statusEl.textContent = '\u23F3 请上传广告数据报表';
-    return;
-  }
   if (!videoPersonSummary || !videoPersonSummary.length) {
-    statusEl.textContent = '\u2705 广告数据 ' + videoJoined.length + ' 条视频已加载 | 尚未导入人员映射表，剪辑/编导汇总暂无数据';
-    renderVideoDetail(null);
-    renderBdSection();
-    renderMappingPanel();
+    statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
     return;
   }
   var matched = videoJoined.filter(function(r) { return r.editor; }).length;
@@ -1842,7 +1840,7 @@ function renderVideoDetail(filter, sortBy, sortDir) {
   if (filter !== undefined) videoDetailFilter = filter;
   if (sortBy) { videoDetailSortBy = sortBy; videoDetailSortDir = sortDir || (videoDetailSortBy === sortBy ? (videoDetailSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoined) return;
-  var data = videoDetailFilter ? videoJoined.filter(function(r) { return r.editor === videoDetailFilter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.gmv > 0; });
+  var data = videoDetailFilter ? videoJoined.filter(function(r) { return r.editor === videoDetailFilter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCount').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -2625,8 +2623,13 @@ function getEffectiveMappingUK() {
 }
 
 function processJoinUK() {
-  if (!videoAdDataUK) return;
-  var effective = videoMappingUK ? getEffectiveMappingUK() : { vidToCloud: {}, cloudToPerson: {} };
+  if (!videoAdDataUK || !videoMappingUK) {
+    if (videoAdDataUK && !videoMappingUK) {
+      document.getElementById('videoStatusUK').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
+    }
+    return;
+  }
+  var effective = getEffectiveMappingUK();
   var joined = videoAdDataUK.map(function(row) {
     var cloudId = effective.vidToCloud[row.vid] || '';
     var person = cloudId ? (effective.cloudToPerson[cloudId] || null) : null;
@@ -2727,15 +2730,8 @@ function processJoinUK() {
 
 function renderVideoTabUK() {
   var statusEl = document.getElementById('videoStatusUK');
-  if (!videoAdDataUK) {
-    statusEl.textContent = '\u23F3 请上传广告数据报表';
-    return;
-  }
   if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
-    statusEl.textContent = '\u2705 广告数据 ' + videoJoinedUK.length + ' 条视频已加载 | 尚未导入人员映射表，剪辑/编导汇总暂无数据';
-    renderVideoDetailUK(null);
-    renderBdSectionUK();
-    renderMappingPanelUK();
+    statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
     return;
   }
   var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
@@ -3005,7 +3001,7 @@ function renderVideoDetailUK(filter, sortBy, sortDir) {
   if (filter !== undefined) videoDetailFilterUK = filter;
   if (sortBy) { videoDetailSortByUK = sortBy; videoDetailSortDirUK = sortDir || (videoDetailSortByUK === sortBy ? (videoDetailSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoinedUK) return;
-  var data = videoDetailFilterUK ? videoJoinedUK.filter(function(r) { return r.editor === videoDetailFilterUK && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.gmv > 0; });
+  var data = videoDetailFilterUK ? videoJoinedUK.filter(function(r) { return r.editor === videoDetailFilterUK && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.editor && r.gmv > 0; });
   document.getElementById('detailCountUK').textContent = data.length + ' 条';
 
   if (!data.length) {
