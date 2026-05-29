@@ -1015,6 +1015,8 @@ button:hover { background: #F0EDE6; }
               <th>折扣</th>
               <th>运费合计</th>
               <th>平台佣金</th>
+              <th>达人佣金</th>
+              <th>推广扣费</th>
               <th>退款</th>
               <th>结算金额</th>
               <th>产品成本</th>
@@ -6562,6 +6564,8 @@ var profitPromoFee = 0;       // total monthly promotion/advertising fee
 var profitSkuGroupMap = {}; // SKU ID → display name (from textarea mapping)
 var profitBarChart = null;
 var profitPieChart = null;
+var profitFbtWarehouseFee = 0;       // FBT warehouse service fee (non-Order rows)
+var profitLogisticsReimbursement = 0; // Logistics reimbursement (non-Order rows)
 
 // Load saved costs from localStorage
 function loadProfitCosts() {
@@ -6991,6 +6995,12 @@ function processFinRows(raw, fileName, nameEl) {
   var transactionFeeIdx = headerIdx['Transaction fee'];
   var salesTaxIdx = headerIdx['Sales tax'];
   var totalFeesIdx = headerIdx['Total Fees'];
+  // New fee columns (previously missing)
+  var affPartnerCommIdx = headerIdx['Affiliate partner commission'];
+  var affShopAdsCommIdx = headerIdx['Affiliate Shop Ads commission'];
+  var campaignFeeIdx = headerIdx['Campaign service fee'];
+  var smartPromoFeeIdx = headerIdx['Smart Promotion fee'];
+  var cofundedPromoIdx = headerIdx['Co-funded promotion (seller-funded)'];
 
   // Find date column (try multiple possible names)
   var dateColNames = ['Date', 'Transaction Date', 'Settlement Date', 'Order Date', 'Created Date', 'Order time', 'Settlement time', 'Transaction time'];
@@ -7036,6 +7046,8 @@ function processFinRows(raw, fileName, nameEl) {
   }
 
   profitFinData = [];
+  profitFbtWarehouseFee = 0;
+  profitLogisticsReimbursement = 0;
   var refundBySku = {};
   var totalRows = raw.length - headerRowIdx - 1;
 
@@ -7071,7 +7083,12 @@ function processFinRows(raw, fileName, nameEl) {
         referralFee: rnum(row, referralFeeIdx),
         transactionFee: rnum(row, transactionFeeIdx),
         salesTax: rnum(row, salesTaxIdx),
-        totalFees: rnum(row, totalFeesIdx)
+        totalFees: rnum(row, totalFeesIdx),
+        affPartnerComm: rnum(row, affPartnerCommIdx),
+        affShopAdsComm: rnum(row, affShopAdsCommIdx),
+        campaignFee: rnum(row, campaignFeeIdx),
+        smartPromoFee: rnum(row, smartPromoFeeIdx),
+        cofundedPromo: rnum(row, cofundedPromoIdx)
       });
     } else if (typeVal === 'refund') {
       var rsid = rval(row, skuIdIdx);
@@ -7079,6 +7096,15 @@ function processFinRows(raw, fileName, nameEl) {
         var rsAmt = rnum(row, settlementIdx);
         refundBySku[rsid] = (refundBySku[rsid] || 0) + Math.abs(rsAmt);
       }
+    } else if (typeVal.indexOf('fbt warehouse') !== -1 || typeVal.indexOf('fbt warehouse') !== -1) {
+      // FBT warehouse service fee — separate deduction, not tied to orders
+      profitFbtWarehouseFee += rnum(row, settlementIdx);
+    } else if (typeVal.indexOf('logistics reimbursement') !== -1) {
+      // Logistics reimbursement — separate credit
+      profitLogisticsReimbursement += rnum(row, settlementIdx);
+    } else {
+      // Log unknown Type values for debugging
+      console.log('[profitFin] unknown Type:', typeVal, 'settlement:', rnum(row, settlementIdx));
     }
   }
 
@@ -7100,6 +7126,7 @@ function processFinRows(raw, fileName, nameEl) {
     }
   });
   console.log('[profitFin] date column found:', dateIdx !== undefined, 'records with valid date:', hasDate);
+  console.log('[profitFin] non-Order fees: FBT warehouse=', profitFbtWarehouseFee.toFixed(2), 'Logistics reimbursement=', profitLogisticsReimbursement.toFixed(2));
 
   nameEl.textContent = '✅ ' + fileName + '（' + profitFinData.length + ' 条订单）';
   document.getElementById('profitFinBox').classList.add('has-file');
@@ -7376,12 +7403,14 @@ function buildProfitAggregate() {
         discounts: 0,
         shipping: 0,
         platformFee: 0,
+        affiliateFee: 0,
+        marketingFee: 0,
         refund: 0,
         settlement: 0,
         salesTax: 0,
         orderCount: 0,
         orderSet: {},
-        detail: { fbtFee: 0, ttShipFee: 0, sellerShipFee: 0, affCommission: 0, referralFee: 0, transactionFee: 0 }
+        detail: { fbtFee: 0, ttShipFee: 0, sellerShipFee: 0, affCommission: 0, referralFee: 0, transactionFee: 0, affPartnerComm: 0, affShopAdsComm: 0, campaignFee: 0, smartPromoFee: 0, cofundedPromo: 0 }
       };
     }
     var a = agg[sku];
@@ -7389,7 +7418,9 @@ function buildProfitAggregate() {
     a.revenue += o.revenue;
     a.discounts += o.discounts;
     a.shipping += o.fbtFee + o.ttShipFee + o.sellerShipFee;
-    a.platformFee += o.affCommission + o.referralFee + o.transactionFee;
+    a.platformFee += o.referralFee + o.transactionFee;
+    a.affiliateFee += (o.affCommission || 0) + (o.affPartnerComm || 0) + (o.affShopAdsComm || 0);
+    a.marketingFee += (o.smartPromoFee || 0) + (o.campaignFee || 0) + (o.cofundedPromo || 0);
     a.refund += o.refundAmt || 0;
     a.settlement += o.settlement;
     a.salesTax += o.salesTax;
@@ -7399,6 +7430,11 @@ function buildProfitAggregate() {
     a.detail.affCommission += o.affCommission;
     a.detail.referralFee += o.referralFee;
     a.detail.transactionFee += o.transactionFee;
+    a.detail.affPartnerComm += (o.affPartnerComm || 0);
+    a.detail.affShopAdsComm += (o.affShopAdsComm || 0);
+    a.detail.campaignFee += (o.campaignFee || 0);
+    a.detail.smartPromoFee += (o.smartPromoFee || 0);
+    a.detail.cofundedPromo += (o.cofundedPromo || 0);
     // Track unique orders
     if (o.orderId) {
       a.orderSet[o.orderId] = true;
@@ -7436,7 +7472,9 @@ function buildProfitAggregate() {
       mappingFail: mappingFailCount,
       totalOrders: profitFinData.length,
       timestamp: Date.now(),
-      dateRange: dateRange
+      dateRange: dateRange,
+      fbtWarehouseFee: profitFbtWarehouseFee,
+      logisticsReimbursement: profitLogisticsReimbursement
     }));
   } catch(e) {}
 }
@@ -7469,12 +7507,14 @@ function buildProfitAggregateDirect() {
         discounts: 0,
         shipping: 0,
         platformFee: 0,
+        affiliateFee: 0,
+        marketingFee: 0,
         refund: 0,
         settlement: 0,
         salesTax: 0,
         orderCount: 0,
         orderSet: {},
-        detail: { fbtFee: 0, ttShipFee: 0, sellerShipFee: 0, affCommission: 0, referralFee: 0, transactionFee: 0 }
+        detail: { fbtFee: 0, ttShipFee: 0, sellerShipFee: 0, affCommission: 0, referralFee: 0, transactionFee: 0, affPartnerComm: 0, affShopAdsComm: 0, campaignFee: 0, smartPromoFee: 0, cofundedPromo: 0 }
       };
     }
     var a = agg[sku];
@@ -7482,7 +7522,9 @@ function buildProfitAggregateDirect() {
     a.revenue += o.revenue;
     a.discounts += o.discounts;
     a.shipping += o.fbtFee + o.ttShipFee + o.sellerShipFee;
-    a.platformFee += o.affCommission + o.referralFee + o.transactionFee;
+    a.platformFee += o.referralFee + o.transactionFee;
+    a.affiliateFee += (o.affCommission || 0) + (o.affPartnerComm || 0) + (o.affShopAdsComm || 0);
+    a.marketingFee += (o.smartPromoFee || 0) + (o.campaignFee || 0) + (o.cofundedPromo || 0);
     a.refund += o.refundAmt || 0;
     a.settlement += o.settlement;
     a.salesTax += o.salesTax;
@@ -7492,6 +7534,11 @@ function buildProfitAggregateDirect() {
     a.detail.affCommission += o.affCommission;
     a.detail.referralFee += o.referralFee;
     a.detail.transactionFee += o.transactionFee;
+    a.detail.affPartnerComm += (o.affPartnerComm || 0);
+    a.detail.affShopAdsComm += (o.affShopAdsComm || 0);
+    a.detail.campaignFee += (o.campaignFee || 0);
+    a.detail.smartPromoFee += (o.smartPromoFee || 0);
+    a.detail.cofundedPromo += (o.cofundedPromo || 0);
     if (o.orderId) { a.orderSet[o.orderId] = true; }
   });
 
@@ -7524,7 +7571,9 @@ function buildProfitAggregateDirect() {
       mappingFail: 0,
       totalOrders: profitFinData.length,
       timestamp: Date.now(),
-      dateRange: dateRange2
+      dateRange: dateRange2,
+      fbtWarehouseFee: profitFbtWarehouseFee,
+      logisticsReimbursement: profitLogisticsReimbursement
     }));
   } catch(e) {}
 }
@@ -7539,17 +7588,21 @@ function renderProfitDashboard() {
         var saved = JSON.parse(raw);
         profitAgg = saved.agg || [];
         dateRange = saved.dateRange || null;
+        profitFbtWarehouseFee = saved.fbtWarehouseFee || 0;
+        profitLogisticsReimbursement = saved.logisticsReimbursement || 0;
       }
     } catch(e) {}
   }
 
-  // Also try loading dateRange from localStorage if we already have profitAgg
-  if (!dateRange && profitAgg && profitAgg.length > 0) {
+  // Also try loading dateRange/fees from localStorage if we already have profitAgg
+  if (profitAgg && profitAgg.length > 0) {
     try {
       var raw2 = localStorage.getItem(PROFIT_STORAGE);
       if (raw2) {
         var saved2 = JSON.parse(raw2);
-        dateRange = saved2.dateRange || null;
+        if (!dateRange) dateRange = saved2.dateRange || null;
+        if (!profitFbtWarehouseFee) profitFbtWarehouseFee = saved2.fbtWarehouseFee || 0;
+        if (!profitLogisticsReimbursement) profitLogisticsReimbursement = saved2.logisticsReimbursement || 0;
       }
     } catch(e) {}
   }
@@ -7597,7 +7650,7 @@ function renderProfitSummaryTable() {
   var html = '';
 
   // Totals
-  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, refund: 0, settlement: 0, productCost: 0, orderFee: 0, firstLegFee: 0, profit: 0, orderCnt: 0 };
+  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, affiliateFee: 0, marketingFee: 0, refund: 0, settlement: 0, productCost: 0, orderFee: 0, firstLegFee: 0, profit: 0, orderCnt: 0 };
 
   for (var i = 0; i < profitAgg.length; i++) {
     var a = profitAgg[i];
@@ -7616,6 +7669,8 @@ function renderProfitSummaryTable() {
     totals.discounts += a.discounts;
     totals.shipping += a.shipping;
     totals.platformFee += a.platformFee;
+    totals.affiliateFee += (a.affiliateFee || 0);
+    totals.marketingFee += (a.marketingFee || 0);
     totals.refund += a.refund;
     totals.settlement += a.settlement;
     totals.orderCnt += (a.orderCount || 0);
@@ -7631,6 +7686,8 @@ function renderProfitSummaryTable() {
     html += '<td class="num-neg">-$' + fmtNum(a.discounts) + '</td>';
     html += '<td class="num-neg">-$' + fmtNum(a.shipping) + '</td>';
     html += '<td class="num-neg">-$' + fmtNum(a.platformFee) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.affiliateFee || 0) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.marketingFee || 0) + '</td>';
     html += '<td class="num-neg">-$' + fmtNum(a.refund) + '</td>';
     html += '<td class="num-pos">$' + fmtNum(a.settlement) + '</td>';
     html += '<td class="' + (isNaN(totalCost) ? 'num-pending' : '') + '">' + (isNaN(totalCost) ? '待填写' : '$' + fmtNum(totalCost)) + '</td>';
@@ -7651,6 +7708,8 @@ function renderProfitSummaryTable() {
   html += '<td>-$' + fmtNum(totals.discounts) + '</td>';
   html += '<td>-$' + fmtNum(totals.shipping) + '</td>';
   html += '<td>-$' + fmtNum(totals.platformFee) + '</td>';
+  html += '<td>-$' + fmtNum(totals.affiliateFee) + '</td>';
+  html += '<td>-$' + fmtNum(totals.marketingFee) + '</td>';
   html += '<td>-$' + fmtNum(totals.refund) + '</td>';
   html += '<td class="num-pos">$' + fmtNum(totals.settlement) + '</td>';
   html += '<td class="num-pos">$' + fmtNum(totals.productCost) + '</td>';
@@ -7660,18 +7719,38 @@ function renderProfitSummaryTable() {
   html += '<td class="' + (isNaN(totalRate) ? '' : (totalRate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totalRate) ? '待填写' : (totalRate * 100).toFixed(1) + '%') + '</td>';
   html += '</tr>';
 
-  // Promotion fee deduction row
+  // FBT warehouse service fee row (non-Order)
+  if (profitFbtWarehouseFee !== 0) {
+    html += '<tr class="total-row" style="background:#FFF8E1;">';
+    html += '<td>FBT仓储服务费</td>';
+    html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+    html += '<td class="num-neg" style="font-weight:600;">$' + fmtNum(profitFbtWarehouseFee) + '</td>';
+    html += '<td></td>';
+    html += '</tr>';
+  }
+
+  // Logistics reimbursement row (non-Order)
+  if (profitLogisticsReimbursement !== 0) {
+    html += '<tr class="total-row" style="background:#E8F5E9;">';
+    html += '<td>物流赔付</td>';
+    html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+    html += '<td class="num-pos" style="font-weight:600;">+$' + fmtNum(profitLogisticsReimbursement) + '</td>';
+    html += '<td></td>';
+    html += '</tr>';
+  }
+
+  // Promotion fee deduction row (user manual input)
   var netProfit = isNaN(totals.profit) ? NaN : (totals.profit - profitPromoFee);
   var netRate = isNaN(netProfit) ? NaN : (totals.revenue > 0 ? netProfit / totals.revenue : 0);
   html += '<tr class="total-row" style="background:#FFF0F0;">';
-  html += '<td>推广费用</td>';
-  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  html += '<td>推广费用（手动）</td>';
+  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
   html += '<td class="num-neg" style="font-weight:700;">-$' + fmtNum(profitPromoFee) + '</td>';
   html += '<td></td>';
   html += '</tr>';
   html += '<tr class="total-row" style="background:#E8F5E9;">';
   html += '<td>净利润</td>';
-  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
   html += '<td class="' + (isNaN(netProfit) ? 'num-pending' : (netProfit >= 0 ? 'num-pos' : 'num-neg')) + '" style="font-size:15px;font-weight:700;">' + (isNaN(netProfit) ? '待填写' : '$' + fmtNum(netProfit)) + '</td>';
   html += '<td class="' + (isNaN(netRate) ? 'num-pending' : (netRate >= 0 ? 'num-pos' : 'num-neg')) + '" style="font-weight:600;">' + (isNaN(netRate) ? '待填写' : (netRate * 100).toFixed(1) + '%') + '</td>';
   html += '</tr>';
@@ -7928,6 +8007,8 @@ function renderProfitCharts() {
   // Pie chart: fee breakdown
   var totalShipping = profitAgg.reduce(function(s, a) { return s + a.shipping; }, 0);
   var totalPlatform = profitAgg.reduce(function(s, a) { return s + a.platformFee; }, 0);
+  var totalAffiliate = profitAgg.reduce(function(s, a) { return s + (a.affiliateFee || 0); }, 0);
+  var totalMarketing = profitAgg.reduce(function(s, a) { return s + (a.marketingFee || 0); }, 0);
   var totalDiscounts = profitAgg.reduce(function(s, a) { return s + a.discounts; }, 0);
   var totalRefund = profitAgg.reduce(function(s, a) { return s + a.refund; }, 0);
   var totalSettlement = profitAgg.reduce(function(s, a) { return s + a.settlement; }, 0);
@@ -7935,10 +8016,10 @@ function renderProfitCharts() {
   profitPieChart = new Chart(pieCtx, {
     type: 'pie',
     data: {
-      labels: ['结算金额', '运费', '平台佣金', '折扣', '退款'],
+      labels: ['结算金额', '运费', '平台佣金', '达人佣金', '推广扣费', '折扣', '退款'],
       datasets: [{
-        data: [totalSettlement, totalShipping, totalPlatform, totalDiscounts, totalRefund],
-        backgroundColor: ['#2B579A', '#E8821A', '#A32D2D', '#88670F', '#888888']
+        data: [totalSettlement, totalShipping, totalPlatform, totalAffiliate, totalMarketing, totalDiscounts, totalRefund],
+        backgroundColor: ['#2B579A', '#E8821A', '#A32D2D', '#C0504D', '#B71C1C', '#88670F', '#888888']
       }]
     },
     options: {
@@ -7957,6 +8038,8 @@ function resetProfitData() {
   profitFinData = null;
   profitCsvMap = null;
   profitAgg = null;
+  profitFbtWarehouseFee = 0;
+  profitLogisticsReimbursement = 0;
   localStorage.removeItem(PROFIT_STORAGE);
   document.getElementById('profitFinFile').value = '';
   document.getElementById('profitCsvFile').value = '';
