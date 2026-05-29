@@ -5065,27 +5065,29 @@ function loadLatestTiktokTitles() {
   var statusEl = document.getElementById('tiktokStatus');
   statusEl.textContent = '正在搜索最新文案...';
   
-  // 先看 workspace 根目录
+  // 先看 workspace 根目录，然后尝试 GitHub Pages
   var paths = [
+    'https://zlm91.github.io/margin-calculator/tiktok_titles_daily.md',
     'tiktok_titles_daily.md',
     '../tiktok_titles_daily.md'
   ];
-  
+  var t = Date.now();  // cache buster
   tryNextPath(0);
 
   function tryNextPath(i) {
     if (i >= paths.length) {
-      statusEl.textContent = '⚠️ 未找到 tiktok_titles_daily.md，请手动选择文件';
+      statusEl.textContent = '⚠️ 未找到文件，请使用 📂 按钮手动选择 tiktok_titles_daily.md';
       return;
     }
-    fetch(paths[i])
+    var url = paths[i] + (paths[i].indexOf('?') >= 0 ? '&' : '?') + '_=' + t;
+    fetch(url)
       .then(function(res) {
         if (res.ok) return res.text();
         throw new Error('not found');
       })
       .then(function(text) {
         parseAndRenderTiktok(text);
-        statusEl.textContent = '✅ 已加载最新文案';
+        statusEl.textContent = '✅ 已加载最新文案（' + (paths[i].indexOf('github') >= 0 ? 'GitHub Pages' : '本地') + '）';
       })
       .catch(function() {
         tryNextPath(i + 1);
