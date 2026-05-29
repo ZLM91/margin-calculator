@@ -165,11 +165,50 @@ button:hover { background: #F0EDE6; }
 .tiktok-copy-btn:hover { background: #2B579A; color: #fff; border-color: #2B579A; }
 .tiktok-copy-btn.copied { background: #0F6E56; color: #fff; border-color: #0F6E56; }
 
-/* TikTok品类子标签 */
-.tiktok-subtabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.tiktok-subtab { padding: 5px 14px; font-size: 12px; border: 1px solid #D0D0D0; border-radius: 20px; background: #fff; color: #666; cursor: pointer; transition: all .15s; }
-.tiktok-subtab:hover { border-color: #2B579A; color: #2B579A; }
-.tiktok-subtab.active { background: #2B579A; color: #fff; border-color: #2B579A; }
+/* TikTok品类子标签 — 每个品类独立色彩 */
+.tiktok-subtabs { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.tiktok-subtab {
+  padding: 9px 20px; font-size: 13px; font-weight: 500;
+  border: 2px solid #E0E0E0; border-radius: 24px;
+  background: #fff; color: #888; cursor: pointer;
+  transition: all .2s; user-select: none;
+}
+.tiktok-subtab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+.tiktok-subtab.active {
+  font-weight: 600; color: #fff !important;
+  border-color: transparent !important;
+  transform: translateY(0);
+  box-shadow: 0 3px 12px rgba(0,0,0,.15);
+}
+
+/* ---- 全部（灰色/蓝色） ---- */
+.tiktok-subtab[data-cat="all"] { border-color: #C5D3E8; color: #3B5998; background: #F0F4FB; }
+.tiktok-subtab[data-cat="all"]:hover { background: #3B5998 !important; color: #fff !important; border-color: #3B5998 !important; }
+.tiktok-subtab[data-cat="all"].active { background: #3B5998 !important; }
+
+/* ---- 湿厕纸（绿色） ---- */
+.tiktok-subtab[data-cat="wetwipes"] { border-color: #A7D7C5; color: #1B6B47; background: #ECF8F2; }
+.tiktok-subtab[data-cat="wetwipes"]:hover { background: #1B6B47 !important; color: #fff !important; border-color: #1B6B47 !important; }
+.tiktok-subtab[data-cat="wetwipes"].active { background: #1B6B47 !important; }
+
+/* ---- 旅行装湿厕纸（橙色） ---- */
+.tiktok-subtab[data-cat="travel"] { border-color: #F5D0A9; color: #A15813; background: #FFF7ED; }
+.tiktok-subtab[data-cat="travel"]:hover { background: #C05600 !important; color: #fff !important; border-color: #C05600 !important; }
+.tiktok-subtab[data-cat="travel"].active { background: #C05600 !important; }
+
+/* ---- 洗脸巾（青色） ---- */
+.tiktok-subtab[data-cat="facial"] { border-color: #A5D8DD; color: #0E6B75; background: #ECF8FA; }
+.tiktok-subtab[data-cat="facial"]:hover { background: #0E6B75 !important; color: #fff !important; border-color: #0E6B75 !important; }
+.tiktok-subtab[data-cat="facial"].active { background: #0E6B75 !important; }
+
+/* ---- 牙膏（紫色） ---- */
+.tiktok-subtab[data-cat="toothpaste"] { border-color: #C9B1E0; color: #5C2D91; background: #F6F0FC; }
+.tiktok-subtab[data-cat="toothpaste"]:hover { background: #5C2D91 !important; color: #fff !important; border-color: #5C2D91 !important; }
+.tiktok-subtab[data-cat="toothpaste"].active { background: #5C2D91 !important; }
+
 .tiktok-category { margin-bottom: 18px; }
 .tiktok-category.hidden-cat { display: none; }
 
@@ -726,7 +765,7 @@ button:hover { background: #F0EDE6; }
       <button onclick="copyAllTiktokTitles()" style="padding:6px 14px;font-size:12px;border:1px solid #C5D3E8;border-radius:6px;background:#fff;color:#2B579A;cursor:pointer;">📋 复制全部英文文案</button>
     </div>
     <div class="tiktok-subtabs" id="tiktokSubtabs" style="display:none;">
-      <button class="tiktok-subtab active" onclick="filterTiktokCat('all', event)">📋 全部</button>
+      <button class="tiktok-subtab active" data-cat="all" onclick="filterTiktokCat('all', event)">📋 全部</button>
     </div>
     <div id="tiktokCategories"></div>
   </div>
@@ -5185,10 +5224,18 @@ function parseAndRenderTiktok(mdText) {
   }
   document.getElementById('tiktokCategories').innerHTML = html;
 
-  // 生成品类子标签页按钮
-  var subHtml = '<button class="tiktok-subtab active" onclick="filterTiktokCat(\'all\', event)">📋 全部</button>';
+  // 生成品类子标签页按钮 — 每个品类独立 data-cat 属性 + 图标
+  function catKey(name) {
+    if (name.indexOf('湿厕纸') >= 0 && name.indexOf('旅行') >= 0) return 'travel';
+    if (name.indexOf('湿厕纸') >= 0) return 'wetwipes';
+    if (name.indexOf('洗脸巾') >= 0) return 'facial';
+    if (name.indexOf('牙膏') >= 0) return 'toothpaste';
+    return 'other';
+  }
+  var subHtml = '<button class="tiktok-subtab active" data-cat="all" onclick="filterTiktokCat(\'all\', event)">📋 全部</button>';
   for (var sc = 0; sc < categories.length; sc++) {
-    subHtml += '<button class="tiktok-subtab" onclick="filterTiktokCat(\'' + categories[sc].name + '\', event)">' + categories[sc].icon + ' ' + escapeHtml(categories[sc].name) + '</button>';
+    var ck = catKey(categories[sc].name);
+    subHtml += '<button class="tiktok-subtab" data-cat="' + ck + '" onclick="filterTiktokCat(\'' + categories[sc].name + '\', event)">' + categories[sc].icon + ' ' + escapeHtml(categories[sc].name) + '</button>';
   }
   document.getElementById('tiktokSubtabs').innerHTML = subHtml;
   document.getElementById('tiktokSubtabs').style.display = 'flex';
