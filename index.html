@@ -6582,11 +6582,7 @@ function parseFinWithJSZip(arrayBuffer, callback) {
       var ssXml = results[0];
       var sheetXml = results[1];
 
-      // --- RAW XML dump for debugging ---
-      console.log('[profitFin JSZip] sharedStrings length:', ssXml ? ssXml.length : 0);
-      if (ssXml) console.log('[profitFin JSZip] SST first 600:', ssXml.substring(0, 600));
-      console.log('[profitFin JSZip] sheet1 length:', sheetXml ? sheetXml.length : 0);
-      if (sheetXml) console.log('[profitFin JSZip] sheet1 first 2000:', sheetXml.substring(0, 2000));
+      console.log('[profitFin JSZip] SST length:', ssXml ? ssXml.length : 0, ', sheet1 length:', sheetXml ? sheetXml.length : 0);
 
       // Parse shared strings
       var sst = [];
@@ -6616,7 +6612,7 @@ function parseFinWithJSZip(arrayBuffer, callback) {
 
         // Parse cells
         // Supports: t="s" (shared string), t="inlineStr" (inline string), t="str" (formula string), t="b" (boolean), t="n"/no-t (numeric)
-        var cellRegex = /<c[^>]*r="([A-Z]+)(\d+)"[^>]*(?:t="([^"]*)")?[^>]*>([\s\S]*?)<\/c>/g;
+        var cellRegex = /<c[^>]*r="([A-Z]+)(\d+)"[^>]*?(?:t="([^"]*)")?[^>]*>([\s\S]*?)<\/c>/g;
         var cellMatch;
 
         while ((cellMatch = cellRegex.exec(rowContent)) !== null) {
@@ -6624,9 +6620,9 @@ function parseFinWithJSZip(arrayBuffer, callback) {
           var cellType = (cellMatch[3] || '').toLowerCase();
           var cellContent = cellMatch[4];
 
-          // Debug: log cell info for first row
-          if (rowNum === 1) {
-            console.log('[profitFin JSZip] row1 cell', colLetter, 'type="' + cellType + '" raw:', cellContent.substring(0, 80));
+          // Debug: log first 3 cells of row 1
+          if (rowNum === 1 && colIdx < 3) {
+            console.log('[profitFin JSZip] row1 cell', colLetter, 'type="' + cellType + '" value="' + value + '"');
           }
 
           // Column letter to 0-based index
