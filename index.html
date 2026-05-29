@@ -1826,6 +1826,7 @@ function switchTab(tab) {
     renderRepurchaseDashboard();
   }
   if (tab === 'profit') {
+    autoSyncProfitCsvMap();
     renderProfitDashboard();
   }
 }
@@ -6935,7 +6936,61 @@ function parseCsvLine(line) {
   return result;
 }
 
+// ========== Auto-sync SKU mapping from 复购分析 ==========
+// When the repurchase tab already has raw CSV data (_repurchaseRaw), extract SKU ID → Seller SKU
+// mapping automatically so the profit dashboard doesn't need a separate CSV upload.
+function autoSyncProfitCsvMap() {
+  if (profitCsvMap) return true; // already has mapping
+
+  var raw = window._repurchaseRaw;
+  if (!raw || raw.length < 2) return false;
+
+  // Find SKU ID and Seller SKU columns from header
+  var headers = raw[0];
+  var skuIdIdx = -1, sellerSkuIdx = -1;
+  for (var i = 0; i < headers.length; i++) {
+    var h = String(headers[i] || '').trim();
+    if (h === 'SKU ID') skuIdIdx = i;
+    if (h === 'Seller SKU') sellerSkuIdx = i;
+  }
+  if (skuIdIdx === -1 || sellerSkuIdx === -1) return false;
+
+  // Build mapping
+  profitCsvMap = {};
+  for (var j = 1; j < raw.length; j++) {
+    var row = raw[j];
+    if (row.length <= Math.max(skuIdIdx, sellerSkuIdx)) continue;
+    var sid = String(row[skuIdIdx] || '').trim();
+    var ssku = String(row[sellerSkuIdx] || '').trim();
+    if (sid && ssku) profitCsvMap[sid] = ssku;
+  }
+
+  var count = Object.keys(profitCsvMap).length;
+  if (count === 0) { profitCsvMap = null; return false; }
+
+  // Update UI
+  document.getElementById('profitStatusBar').style.display = 'flex';
+  var csvNameEl = document.getElementById('profitCsvName');
+  csvNameEl.style.display = 'block';
+  csvNameEl.textContent = '🔄 已从复购分析同步（' + count + ' 个 SKU 映射）';
+  csvNameEl.style.color = '#0F6E56';
+  document.getElementById('profitCsvBox').classList.add('has-file');
+  var csvStatusEl = document.getElementById('profitStatusCsv');
+  if (csvStatusEl) csvStatusEl.className = 'profit-status-item ready';
+  document.getElementById('profitStatusCsvText').textContent = '已同步 (' + count + ' 个 SKU)';
+
+  console.log('[profit] 自动从复购分析同步 SKU 映射:', count, '个');
+
+  // Persist mapping text to localStorage so it survives refresh
+  try { localStorage.setItem('profit_csv_map_synced', '1'); } catch(e) {}
+
+  return true;
+}
+
 function tryProcessProfit() {
+  // Auto-sync SKU mapping from repurchase analysis if available
+  autoSyncProfitCsvMap();
+
   // Update hint if only one file is ready
   var hint = document.getElementById('profitStatusHint');
   if (profitFinData && !profitCsvMap) {
