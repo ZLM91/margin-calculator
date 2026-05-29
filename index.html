@@ -697,7 +697,7 @@ button:hover { background: #F0EDE6; }
     <textarea id="repurchaseSkuMapText" placeholder="每行一个产品组，格式：产品名: SKU1, SKU2, SKU3&#10;&#10;示例：&#10;洗脸巾 166抽: FA01, FA02, FA03, X004GGBN4R&#10;牙膏: YA01, YA03&#10;婴儿湿巾: BA03, BA08, X00478IVBR" style="width:100%;height:120px;border:1px solid #D0D0D0;border-radius:4px;padding:8px;font-size:11px;font-family:monospace;resize:vertical;line-height:1.6;"></textarea>
     </div>
     <div style="margin-top:6px;display:flex;gap:8px;align-items:center;">
-      <button onclick="applyRepurchaseSkuMap()" style="padding:4px 14px;border-radius:4px;background:#2B579A;color:#fff;border:none;font-size:12px;">应用映射</button>
+      <button onclick="applyRepurchaseSkuMap()" style="padding:4px 14px;border-radius:4px;background:#2B579A;color:#fff;border:none;font-size:12px;">应用映射 (输入后3秒自动保存)</button>
       <span id="repurchaseSkuMapStatus" style="font-size:11px;color:#888;"></span>
     </div>
   </div>
@@ -5089,6 +5089,17 @@ function resetRepurchase() {
   // SKU 映射文本域
   var skuMapText = document.getElementById('repurchaseSkuMapText');
   if (skuMapText) addQuickCopyBtn(skuMapText.parentElement, function() { return skuMapText.value; });
+
+  // SKU 映射自动保存：输入变化 3 秒后自动应用
+  var _skuMapDebounce = null;
+  if (skuMapText) {
+    skuMapText.addEventListener('input', function() {
+      clearTimeout(_skuMapDebounce);
+      _skuMapDebounce = setTimeout(function() {
+        applyRepurchaseSkuMap();
+      }, 3000);
+    });
+  }
 
   // 公式说明
   var formulaBox = document.querySelector('#tab-margin .quick-copy-wrap-static');
