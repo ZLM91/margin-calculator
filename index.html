@@ -134,6 +134,28 @@ button:hover { background: #F0EDE6; }
 .repurchase-sku-map-box { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
 .repurchase-sku-map-header { padding: 8px 14px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 500; background: #F5F7FA; color: #2B579A; }
 
+/* 品类间流转矩阵 */
+.flow-matrix-wrap { overflow-x: auto; max-height: 400px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 6px; }
+.flow-matrix-wrap table { font-size: 11px; border-collapse: collapse; min-width: 500px; }
+.flow-matrix-wrap thead th { background: #2B579A; color: #fff; padding: 6px 8px; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.flow-matrix-wrap thead th:first-child { position: sticky; left: 0; z-index: 3; }
+.flow-matrix-wrap tbody td { padding: 5px 8px; text-align: center; border-bottom: 1px solid #F0F0F0; white-space: nowrap; }
+.flow-matrix-wrap tbody td:first-child { position: sticky; left: 0; background: #fff; z-index: 1; font-weight: 600; text-align: left; }
+.flow-matrix-wrap tbody tr:hover td { background: #F0F7FF; }
+.flow-matrix-wrap tbody tr:hover td:first-child { background: #F0F7FF; }
+.flow-cell-high { background: #D4EDDA; color: #0F6E56; font-weight: 600; }
+.flow-cell-mid  { background: #FFF3CD; color: #856404; }
+.flow-cell-low  { background: #F8F8F8; color: #aaa; }
+.flow-cell-zero { background: #F5F5F5; color: #ccc; }
+.flow-insight { padding: 8px 12px; background: #FFF8E1; border-left: 3px solid #F0C040; border-radius: 4px; font-size: 12px; color: #856404; margin-bottom: 10px; line-height: 1.6; }
+
+/* 品类复购周期 */
+.cycle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.cycle-card { background: #F8FAFB; border: 1px solid #E0E5EC; border-radius: 8px; padding: 12px 14px; }
+.cycle-card .cc-title { font-weight: 600; font-size: 13px; color: #2B579A; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cycle-card .cc-row { display: flex; justify-content: space-between; font-size: 11px; padding: 2px 0; }
+.cycle-card .cc-row .cc-val { font-weight: 600; color: #333; }
+
 /* 快速复制按钮 */
 .quick-copy-wrap { position: relative; }
 .quick-copy-btn {
@@ -729,6 +751,25 @@ button:hover { background: #F0EDE6; }
     </div>
     <div class="repurchase-section-body" id="intervalSection">
       <div class="chart-wrap" id="repurchaseIntervalChart"><canvas id="intervalChartCanvas"></canvas></div>
+    </div>
+  </div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('flowSection')" style="background:#F0F5FF;">
+      <span>🔗 品类间流转分析 (首次购买 → 后续品类)</span><span id="flowSectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="flowSection">
+      <div id="flowInsightBox"></div>
+      <div class="flow-matrix-wrap" id="flowMatrix"></div>
+    </div>
+  </div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('categoryCycleSection')" style="background:#F5FFF0;">
+      <span>⏱️ 各品类复购周期</span><span id="categoryCycleSectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="categoryCycleSection">
+      <div class="cycle-grid" id="categoryCycleGrid"></div>
     </div>
   </div>
 
@@ -4827,6 +4868,76 @@ function calculateRepurchase() {
   }
   skuRows.sort(function(a, b) { return b.repurchaseRate - a.repurchaseRate; });
 
+  // === 品类间流转分析 (Cross-category flow) ===
+  // Track: first purchase product → later purchase products
+  var firstProductFlow = {}; // { firstSku: { totalFirstBuyers: N, flows: { laterSku: count } } }
+  var categoryIntervals = {}; // { sku: { intervals: [days], sameSkuIntervals: [days] } }
+
+  for (var r = 0; r < repeatBuyers.length; r++) {
+    var ords = repeatBuyers[r].data.orders.slice().sort(function(a, b) { return a.date - b.date; });
+    var firstSku = ords[0].sku;
+
+    if (!firstProductFlow[firstSku]) {
+      firstProductFlow[firstSku] = { totalFirstBuyers: 0, flows: {} };
+    }
+    firstProductFlow[firstSku].totalFirstBuyers++;
+
+    // Track all later unique SKUs (excluding the first)
+    var laterSkus = {};
+    for (var oi = 1; oi < ords.length; oi++) {
+      laterSkus[ords[oi].sku] = true;
+      // Per-category intervals: same-product repurchase gap
+      if (ords[oi].sku === ords[oi - 1].sku) {
+        var gap2 = Math.round((ords[oi].date - ords[oi - 1].date) / (1000 * 60 * 60 * 24));
+        if (gap2 >= 0) {
+          if (!categoryIntervals[ords[oi].sku]) categoryIntervals[ords[oi].sku] = { intervals: [], sameSkuIntervals: [] };
+          categoryIntervals[ords[oi].sku].sameSkuIntervals.push(gap2);
+        }
+      }
+    }
+    for (var ls in laterSkus) {
+      if (ls === firstSku) continue; // skip same-product later purchases for flow analysis
+      firstProductFlow[firstSku].flows[ls] = (firstProductFlow[firstSku].flows[ls] || 0) + 1;
+    }
+  }
+
+  // Also track all intervals per category (any consecutive purchase ending with this SKU)
+  for (var r2 = 0; r2 < repeatBuyers.length; r2++) {
+    var ords2 = repeatBuyers[r2].data.orders.slice().sort(function(a, b) { return a.date - b.date; });
+    for (var oi2 = 1; oi2 < ords2.length; oi2++) {
+      var gap3 = Math.round((ords2[oi2].date - ords2[oi2 - 1].date) / (1000 * 60 * 60 * 24));
+      if (gap3 >= 0) {
+        if (!categoryIntervals[ords2[oi2].sku]) categoryIntervals[ords2[oi2].sku] = { intervals: [], sameSkuIntervals: [] };
+        categoryIntervals[ords2[oi2].sku].intervals.push(gap3);
+      }
+    }
+  }
+
+  // Calculate per-category cycle stats
+  var categoryCycleStats = {};
+  for (var ck in categoryIntervals) {
+    var ci = categoryIntervals[ck];
+    var allSorted = ci.intervals.slice().sort(function(a, b) { return a - b; });
+    var sameSorted = ci.sameSkuIntervals.slice().sort(function(a, b) { return a - b; });
+    var med = function(arr) {
+      if (arr.length === 0) return null;
+      var mid = Math.floor(arr.length / 2);
+      return arr.length % 2 === 0 ? Math.round((arr[mid - 1] + arr[mid]) / 2) : arr[mid];
+    };
+    var avg = function(arr) {
+      if (arr.length === 0) return null;
+      return Math.round(arr.reduce(function(a, b) { return a + b; }, 0) / arr.length);
+    };
+    categoryCycleStats[ck] = {
+      totalPurchases: ci.intervals.length,
+      avgInterval: avg(allSorted),
+      medianInterval: med(allSorted),
+      sameSkuPurchases: ci.sameSkuIntervals.length,
+      sameSkuAvg: avg(sameSorted),
+      sameSkuMedian: med(sameSorted)
+    };
+  }
+
   return {
     totalOrders: totalOrders,
     totalBuyers: totalBuyers,
@@ -4839,7 +4950,9 @@ function calculateRepurchase() {
     repeatBuyers: repeatBuyers,
     skuRows: skuRows,
     buyerMap: buyerMap,
-    allSkus: Object.keys(skuStats)
+    allSkus: Object.keys(skuStats),
+    firstProductFlow: firstProductFlow,
+    categoryCycleStats: categoryCycleStats
   };
 }
 
@@ -4875,6 +4988,10 @@ function renderRepurchaseDashboard() {
 
   // Interval chart
   renderRepurchaseIntervalChart(stats);
+
+  // Flow analysis & category cycle
+  renderFlowAnalysis(stats);
+  renderCategoryCycle(stats);
 
   // Populate SKU filter for buyer table
   var skuOpts = '<option value="">全部 SKU</option>';
@@ -4959,6 +5076,152 @@ function renderRepurchaseIntervalChart(stats) {
         x: { ticks: { font: { size: 11 } } }
       }
     }
+  });
+}
+
+// === 品类间流转分析渲染 ===
+function renderFlowAnalysis(stats) {
+  var flowData = stats.firstProductFlow;
+  if (!flowData || Object.keys(flowData).length === 0) {
+    document.getElementById('flowInsightBox').innerHTML = '<div class="flow-insight" style="color:#888;">数据不足，需要至少 2 个品类的复购数据才能分析品类间流转。</div>';
+    document.getElementById('flowMatrix').innerHTML = '';
+    return;
+  }
+
+  var allSkus = Object.keys(flowData).sort();
+
+  // Build matrix: rows=first product, cols=later product
+  var matrix = {}; // { rowSku: { colSku: { count, rate } } }
+  for (var r = 0; r < allSkus.length; r++) {
+    var rowSku = allSkus[r];
+    matrix[rowSku] = {};
+    var fd = flowData[rowSku];
+    for (var c = 0; c < allSkus.length; c++) {
+      var colSku = allSkus[c];
+      if (rowSku === colSku) continue; // skip self
+      var count = (fd.flows[colSku] || 0);
+      matrix[rowSku][colSku] = {
+        count: count,
+        rate: fd.totalFirstBuyers > 0 ? (count / fd.totalFirstBuyers) : 0
+      };
+    }
+  }
+
+  // Insight: top cross-category flow
+  var insights = [];
+  var topFlows = [];
+  for (var rs in matrix) {
+    for (var cs in matrix[rs]) {
+      var m = matrix[rs][cs];
+      if (m.count >= 2) {
+        topFlows.push({ from: rs, to: cs, count: m.count, rate: m.rate });
+      }
+    }
+  }
+  topFlows.sort(function(a, b) { return b.rate - a.rate; });
+
+  var insightHtml = '';
+  if (topFlows.length > 0) {
+    var top = topFlows.slice(0, 5);
+    insightHtml = '<div class="flow-insight"><strong>💡 关键洞察：</strong>';
+    for (var t = 0; t < top.length; t++) {
+      insightHtml += '<br>· 首次购买 <b>' + top[t].from + '</b> 的客户中，<b>' + (top[t].rate * 100).toFixed(1) + '%</b>（' + top[t].count + '人）后续购买了 <b>' + top[t].to + '</b>';
+    }
+    insightHtml += '</div>';
+  }
+  document.getElementById('flowInsightBox').innerHTML = insightHtml;
+
+  // Render matrix table
+  var html = '<table><thead><tr><th style="min-width:120px;">首次购买 ↓ / 后续购买 →</th>';
+  for (var h = 0; h < allSkus.length; h++) {
+    html += '<th style="min-width:80px;">' + allSkus[h] + '</th>';
+  }
+  html += '</tr></thead><tbody>';
+
+  for (var ri = 0; ri < allSkus.length; ri++) {
+    var rowSku2 = allSkus[ri];
+    html += '<tr><td>' + rowSku2 + '<br><span style="font-size:10px;color:#888;">(' + flowData[rowSku2].totalFirstBuyers + ' 首购用户)</span></td>';
+    for (var ci = 0; ci < allSkus.length; ci++) {
+      var colSku2 = allSkus[ci];
+      if (rowSku2 === colSku2) {
+        html += '<td class="flow-cell-zero">-</td>';
+      } else {
+        var m2 = matrix[rowSku2][colSku2];
+        var cls = '';
+        if (m2.count === 0) cls = 'flow-cell-zero';
+        else if (m2.rate >= 0.15) cls = 'flow-cell-high';
+        else if (m2.rate >= 0.05) cls = 'flow-cell-mid';
+        else cls = 'flow-cell-low';
+        html += '<td class="' + cls + '">' + (m2.count > 0 ? m2.count + '<br><span style="font-size:9px;">' + (m2.rate * 100).toFixed(1) + '%</span>' : '-') + '</td>';
+      }
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('flowMatrix').innerHTML = html;
+
+  // Quick copy
+  var flowWrap = document.getElementById('flowMatrix').closest('.repurchase-section-body');
+  if (flowWrap) addQuickCopyBtn(flowWrap, function() {
+    var lines = ['首次购买 → 后续购买 流转矩阵'];
+    for (var ri2 = 0; ri2 < allSkus.length; ri2++) {
+      for (var ci2 = 0; ci2 < allSkus.length; ci2++) {
+        if (ri2 === ci2) continue;
+        var m3 = matrix[allSkus[ri2]][allSkus[ci2]];
+        if (m3.count > 0) {
+          lines.push(allSkus[ri2] + ' → ' + allSkus[ci2] + ': ' + m3.count + '人 (' + (m3.rate * 100).toFixed(1) + '%)');
+        }
+      }
+    }
+    return lines.join('\n');
+  });
+}
+
+// === 各品类复购周期渲染 ===
+function renderCategoryCycle(stats) {
+  var cycleData = stats.categoryCycleStats;
+  if (!cycleData || Object.keys(cycleData).length === 0) {
+    document.getElementById('categoryCycleGrid').innerHTML = '<div style="padding:20px;text-align:center;color:#888;">暂无品类复购周期数据</div>';
+    return;
+  }
+
+  var entries = [];
+  for (var ck in cycleData) {
+    entries.push({ sku: ck, data: cycleData[ck] });
+  }
+  // Sort by total purchases desc
+  entries.sort(function(a, b) { return b.data.totalPurchases - a.data.totalPurchases; });
+
+  var html = '';
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    var d = e.data;
+    html += '<div class="cycle-card">';
+    html += '<div class="cc-title">' + e.sku + '</div>';
+    html += '<div class="cc-row"><span>总复购次数</span><span class="cc-val">' + d.totalPurchases + '</span></div>';
+    html += '<div class="cc-row"><span>平均间隔</span><span class="cc-val">' + (d.avgInterval !== null ? d.avgInterval + ' 天' : '-') + '</span></div>';
+    html += '<div class="cc-row"><span>中位间隔</span><span class="cc-val">' + (d.medianInterval !== null ? d.medianInterval + ' 天' : '-') + '</span></div>';
+    if (d.sameSkuPurchases > 0) {
+      html += '<div class="cc-row" style="margin-top:4px;padding-top:4px;border-top:1px dashed #E0E5EC;"><span>同品复购次数</span><span class="cc-val">' + d.sameSkuPurchases + '</span></div>';
+      html += '<div class="cc-row"><span>同品平均间隔</span><span class="cc-val">' + (d.sameSkuAvg !== null ? d.sameSkuAvg + ' 天' : '-') + '</span></div>';
+      html += '<div class="cc-row"><span>同品中位间隔</span><span class="cc-val">' + (d.sameSkuMedian !== null ? d.sameSkuMedian + ' 天' : '-') + '</span></div>';
+    }
+    html += '</div>';
+  }
+  document.getElementById('categoryCycleGrid').innerHTML = html;
+
+  // Quick copy
+  var cycleWrap = document.getElementById('categoryCycleGrid').closest('.repurchase-section-body');
+  if (cycleWrap) addQuickCopyBtn(cycleWrap, function() {
+    var lines = ['品类复购周期统计'];
+    for (var j = 0; j < entries.length; j++) {
+      var e2 = entries[j];
+      var d2 = e2.data;
+      var line = e2.sku + ' | 总复购:' + d2.totalPurchases + '次 | 平均间隔:' + (d2.avgInterval || '-') + '天 | 中位:' + (d2.medianInterval || '-') + '天';
+      if (d2.sameSkuPurchases > 0) line += ' | 同品复购:' + d2.sameSkuPurchases + '次 | 同品平均:' + (d2.sameSkuAvg || '-') + '天';
+      lines.push(line);
+    }
+    return lines.join('\n');
   });
 }
 
