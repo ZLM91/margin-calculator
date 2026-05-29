@@ -338,16 +338,27 @@ button:hover { background: #F0EDE6; }
 .profit-status-bar .status-hint.show { display: block; }
 
 /* ── 利润看板费用说明 ── */
-.profit-help-wrap { position: relative; display: inline-flex; align-items: center; vertical-align: middle; }
-.profit-help-icon { cursor: help; font-size: 11px; color: #A0A0A0; margin-left: 3px; transition: color 0.2s; line-height: 1; font-style: normal; }
-.profit-help-icon:hover { color: #2B579A; }
-.profit-help-tooltip { display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); z-index: 1000; background: #2D2D2D; color: #E0E0E0; font-size: 11px; line-height: 1.6; padding: 12px 14px; border-radius: 10px; width: 300px; box-shadow: 0 4px 20px rgba(0,0,0,0.35); white-space: normal; text-align: left; font-weight: 400; pointer-events: none; }
-.profit-help-tooltip .tip-title { font-weight: 600; font-size: 12px; color: #FFB74D; margin-bottom: 5px; display: block; }
-.profit-help-tooltip .tip-detail { color: #90A4AE; font-size: 10px; margin-top: 4px; display: block; }
-.profit-help-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #2D2D2D; }
-.profit-help-wrap:hover .profit-help-tooltip { display: block; }
+.profit-help-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid #2B579A; background: #E8F0FE; color: #2B579A;
+  font-size: 10px; font-weight: 700; cursor: help; margin-left: 4px;
+  vertical-align: middle; transition: all 0.2s; line-height: 1; font-style: normal;
+  flex-shrink: 0;
+}
+.profit-help-badge:hover { background: #2B579A; color: #fff; }
+.profit-help-tooltip-body {
+  position: fixed; z-index: 99999;
+  background: #2D2D2D; color: #E0E0E0; font-size: 11px; line-height: 1.6;
+  padding: 12px 14px; border-radius: 10px; width: 300px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  text-align: left; font-weight: 400; pointer-events: none;
+  animation: tipFadeIn 0.15s ease;
+}
+@keyframes tipFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.profit-help-tooltip-body .tip-title { font-weight: 600; font-size: 12px; color: #FFB74D; margin-bottom: 5px; display: block; }
+.profit-help-tooltip-body .tip-detail { color: #90A4AE; font-size: 10px; margin-top: 4px; display: block; }
 .profit-pct { font-size: 10px; color: #999; margin-left: 2px; font-weight: 400; }
-.profit-table-wrap thead th { overflow: visible !important; }
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -7664,6 +7675,64 @@ function profitPct(val, revenue) {
   return '<span class="profit-pct">(' + pct.toFixed(1) + '%)</span>';
 }
 
+// ── Profit help tooltip badges (body-level, avoids overflow clipping) ──
+var profitHelpTip = null;
+var profitHelpTimer = null;
+
+function initProfitHelpBadges() {
+  document.querySelectorAll('.profit-help-wrap').forEach(function(wrap) {
+    if (wrap.dataset.badged) return;
+    wrap.dataset.badged = '1';
+    var tooltip = wrap.querySelector('.profit-help-tooltip');
+    var tipHtml = tooltip ? tooltip.innerHTML : '';
+    var badge = document.createElement('span');
+    badge.className = 'profit-help-badge';
+    badge.textContent = '?';
+    badge.setAttribute('data-tip', tipHtml);
+    wrap.innerHTML = '';
+    wrap.appendChild(badge);
+  });
+}
+
+function showProfitHelpTip(badge) {
+  hideProfitHelpTip();
+  var content = badge.getAttribute('data-tip');
+  if (!content) return;
+  profitHelpTip = document.createElement('div');
+  profitHelpTip.className = 'profit-help-tooltip-body';
+  profitHelpTip.innerHTML = content;
+  document.body.appendChild(profitHelpTip);
+  var rect = badge.getBoundingClientRect();
+  var left = Math.max(10, Math.min(rect.left + rect.width / 2 - 150, window.innerWidth - 310));
+  var top = rect.bottom + 8;
+  if (top + 200 > window.innerHeight) top = rect.top - 200 - 8;
+  profitHelpTip.style.left = left + 'px';
+  profitHelpTip.style.top = top + 'px';
+}
+
+function hideProfitHelpTip() {
+  if (profitHelpTimer) { clearTimeout(profitHelpTimer); profitHelpTimer = null; }
+  if (profitHelpTip) { profitHelpTip.remove(); profitHelpTip = null; }
+}
+
+document.addEventListener('mouseover', function(e) {
+  var badge = e.target.closest('.profit-help-badge');
+  if (!badge) return;
+  if (profitHelpTimer) { clearTimeout(profitHelpTimer); profitHelpTimer = null; }
+  showProfitHelpTip(badge);
+});
+
+document.addEventListener('mouseout', function(e) {
+  var badge = e.target.closest('.profit-help-badge');
+  if (!badge) return;
+  profitHelpTimer = setTimeout(function() {
+    hideProfitHelpTip();
+  }, 150);
+});
+
+// Also hide on scroll
+window.addEventListener('scroll', function() { hideProfitHelpTip(); }, true);
+
 function renderProfitSummaryTable() {
   var tbody = document.getElementById('profitTbody');
   var html = '';
@@ -7775,6 +7844,7 @@ function renderProfitSummaryTable() {
   html += '</tr>';
 
   tbody.innerHTML = html;
+  initProfitHelpBadges();
 }
 
 function renderProfitCostTable() {
