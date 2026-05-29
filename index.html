@@ -6879,10 +6879,10 @@ function handleProfitCsvUpload(input) {
       if (lines.length < 2) { nameEl.textContent = '❌ CSV 格式错误'; return; }
       var headers = parseCsvLine(lines[0]);
       var skuIdIdx = -1, sellerSkuIdx = -1;
-      for (var i = 0; i < headers.length; i++) {
-        var h = headers[i].trim();
-        if (h === 'SKU ID') skuIdIdx = i;
-        if (h === 'Seller SKU') sellerSkuIdx = i;
+      var hl = headers.map(function(h) { return h.trim().toLowerCase().replace(/[\s_-]+/g, ''); });
+      for (var i = 0; i < hl.length; i++) {
+        if (hl[i] === 'skuid' || hl[i] === 'sku_id' || hl[i].indexOf('skuid') >= 0) skuIdIdx = i;
+        if (hl[i] === 'sellersku' || hl[i] === 'seller_sku' || hl[i].indexOf('sellersku') >= 0) sellerSkuIdx = i;
       }
       if (skuIdIdx === -1 || sellerSkuIdx === -1) {
         nameEl.textContent = '❌ 缺少 SKU ID 或 Seller SKU 列';
@@ -6945,23 +6945,62 @@ function autoSyncProfitCsvMap() {
   var raw = window._repurchaseRaw;
   if (!raw || raw.length < 2) return false;
 
-  // Find SKU ID and Seller SKU columns from header
-  var headers = raw[0];
-  var skuIdIdx = -1, sellerSkuIdx = -1;
-  for (var i = 0; i < headers.length; i++) {
-    var h = String(headers[i] || '').trim();
-    if (h === 'SKU ID') skuIdIdx = i;
-    if (h === 'Seller SKU') sellerSkuIdx = i;
+  // Detect format: array of objects (from parseRepurchaseCSV) or array of arrays
+  var isObj = (typeof raw[0] === 'object' && !Array.isArray(raw[0]));
+
+  // Find SKU ID and Seller SKU columns
+  var skuIdKey = null, sellerSkuKey = null;
+  var allHeaders;
+
+  if (isObj) {
+    // Format: [{SKU ID: "X", Seller SKU: "Y"}, ...]
+    allHeaders = Object.keys(raw[0]);
+    // Flexible matching: case-insensitive, handle common variations
+    var hl = allHeaders.map(function(h) { return h.toLowerCase().replace(/[\s_-]+/g, ''); });
+    for (var i = 0; i < hl.length; i++) {
+      if (!skuIdKey && (hl[i] === 'skuid' || hl[i] === 'sku_id' || hl[i].indexOf('skuid') >= 0)) {
+        skuIdKey = allHeaders[i];
+      }
+      if (!sellerSkuKey && (hl[i] === 'sellersku' || hl[i] === 'seller_sku' || hl[i].indexOf('sellersku') >= 0)) {
+        sellerSkuKey = allHeaders[i];
+      }
+    }
+  } else {
+    // Format: [[SKU ID, Seller SKU], [X, Y], ...]
+    allHeaders = raw[0];
+    var hl2 = (allHeaders || []).map(function(h) { return String(h || '').toLowerCase().replace(/[\s_-]+/g, ''); });
+    for (var i2 = 0; i2 < hl2.length; i2++) {
+      if (!skuIdKey && (hl2[i2] === 'skuid' || hl2[i2] === 'sku_id' || hl2[i2].indexOf('skuid') >= 0)) {
+        skuIdKey = i2;  // use index for array access
+      }
+      if (!sellerSkuKey && (hl2[i2] === 'sellersku' || hl2[i2] === 'seller_sku' || hl2[i2].indexOf('sellersku') >= 0)) {
+        sellerSkuKey = i2;
+      }
+    }
   }
-  if (skuIdIdx === -1 || sellerSkuIdx === -1) return false;
+
+  // Debug
+  console.log('[profit sync] format:', isObj ? 'objects' : 'arrays', ', headers:', JSON.stringify(allHeaders).substring(0, 400));
+  console.log('[profit sync] skuIdKey:', skuIdKey, ', sellerSkuKey:', sellerSkuKey);
+
+  if (skuIdKey === null || sellerSkuKey === null) {
+    console.log('[profit sync] FAILED: missing SKU ID or Seller SKU column');
+    return false;
+  }
 
   // Build mapping
   profitCsvMap = {};
-  for (var j = 1; j < raw.length; j++) {
+  for (var j = 0; j < raw.length; j++) {
     var row = raw[j];
-    if (row.length <= Math.max(skuIdIdx, sellerSkuIdx)) continue;
-    var sid = String(row[skuIdIdx] || '').trim();
-    var ssku = String(row[sellerSkuIdx] || '').trim();
+    var sid, ssku;
+    if (isObj) {
+      sid = String(row[skuIdKey] || '').trim();
+      ssku = String(row[sellerSkuKey] || '').trim();
+    } else {
+      if (row.length <= Math.max(skuIdKey, sellerSkuKey)) continue;
+      sid = String(row[skuIdKey] || '').trim();
+      ssku = String(row[sellerSkuKey] || '').trim();
+    }
     if (sid && ssku) profitCsvMap[sid] = ssku;
   }
 
