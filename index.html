@@ -337,6 +337,18 @@ button:hover { background: #F0EDE6; }
 .profit-status-bar .status-hint { font-size: 11px; color: #B8860B; background: #FFFDF5; border: 1px solid #F0E0A0; border-radius: 6px; padding: 8px 12px; width: 100%; display: none; }
 .profit-status-bar .status-hint.show { display: block; }
 
+/* ── 利润看板费用说明 ── */
+.profit-help-wrap { position: relative; display: inline-flex; align-items: center; vertical-align: middle; }
+.profit-help-icon { cursor: help; font-size: 11px; color: #A0A0A0; margin-left: 3px; transition: color 0.2s; line-height: 1; font-style: normal; }
+.profit-help-icon:hover { color: #2B579A; }
+.profit-help-tooltip { display: none; position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); z-index: 1000; background: #2D2D2D; color: #E0E0E0; font-size: 11px; line-height: 1.6; padding: 12px 14px; border-radius: 10px; width: 300px; box-shadow: 0 4px 20px rgba(0,0,0,0.35); white-space: normal; text-align: left; font-weight: 400; pointer-events: none; }
+.profit-help-tooltip .tip-title { font-weight: 600; font-size: 12px; color: #FFB74D; margin-bottom: 5px; display: block; }
+.profit-help-tooltip .tip-detail { color: #90A4AE; font-size: 10px; margin-top: 4px; display: block; }
+.profit-help-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #2D2D2D; }
+.profit-help-wrap:hover .profit-help-tooltip { display: block; }
+.profit-pct { font-size: 10px; color: #999; margin-left: 2px; font-weight: 400; }
+.profit-table-wrap thead th { overflow: visible !important; }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -1012,12 +1024,12 @@ button:hover { background: #F0EDE6; }
               <th style="text-align:left;">SKU</th>
               <th>销量</th>
               <th>总收入</th>
-              <th>折扣</th>
-              <th>运费合计</th>
-              <th>平台佣金</th>
-              <th>达人佣金</th>
-              <th>推广扣费</th>
-              <th>退款</th>
+              <th>折扣<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">平台折扣及联合出资</span>含平台和商家联合出资的折扣金额<br><span class="tip-detail">对应报表：Product discounts</span></span></span></th>
+              <th>运费合计<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">订单运费</span>订单发货产生的物流运费<br><span class="tip-detail">对应报表：Shipping fee</span></span></span></th>
+              <th>平台佣金<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">Referral fee + Transaction fee</span>平台收取的推荐费和交易手续费<br><span class="tip-detail">对应报表：Referral fee, Transaction fee</span></span></span></th>
+              <th>达人佣金<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">联盟/达人相关佣金</span>含联盟佣金、达人合作佣金、联盟广告佣金<br><span class="tip-detail">对应报表：Affiliate Commission<br>Affiliate partner commission<br>Affiliate Shop Ads commission</span></span></span></th>
+              <th>推广扣费<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">广告/活动推广费</span>含智能推广、活动服务费、联合出资推广<br><span class="tip-detail">对应报表：Smart Promotion fee<br>Campaign service fee<br>Co-funded promotion</span></span></span></th>
+              <th>退款<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">客户退款</span>客户退货退款的金额<br><span class="tip-detail">对应报表：Refund amount</span></span></span></th>
               <th>结算金额</th>
               <th>产品成本</th>
               <th>订单处理费</th>
@@ -7645,6 +7657,13 @@ function renderProfitDashboard() {
   renderProfitCharts();
 }
 
+// Helper: format expense percentage
+function profitPct(val, revenue) {
+  if (!revenue || revenue === 0) return '';
+  var pct = (Math.abs(val) / revenue * 100);
+  return '<span class="profit-pct">(' + pct.toFixed(1) + '%)</span>';
+}
+
 function renderProfitSummaryTable() {
   var tbody = document.getElementById('profitTbody');
   var html = '';
@@ -7683,12 +7702,12 @@ function renderProfitSummaryTable() {
     html += '<td>' + escapeHtml(a.sku) + '</td>';
     html += '<td>' + a.qty + '</td>';
     html += '<td>$' + fmtNum(a.revenue) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.discounts) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.shipping) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.platformFee) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.affiliateFee || 0) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.marketingFee || 0) + '</td>';
-    html += '<td class="num-neg">-$' + fmtNum(a.refund) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.discounts) + profitPct(a.discounts, a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.shipping) + profitPct(a.shipping, a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.platformFee) + profitPct(a.platformFee, a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.affiliateFee || 0) + profitPct(a.affiliateFee || 0, a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.marketingFee || 0) + profitPct(a.marketingFee || 0, a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.refund) + profitPct(a.refund, a.revenue) + '</td>';
     html += '<td class="num-pos">$' + fmtNum(a.settlement) + '</td>';
     html += '<td class="' + (isNaN(totalCost) ? 'num-pending' : '') + '">' + (isNaN(totalCost) ? '待填写' : '$' + fmtNum(totalCost)) + '</td>';
     html += '<td class="' + (isNaN(totalOrderFee) ? 'num-pending' : 'num-neg') + '">' + (isNaN(totalOrderFee) ? '待填写' : '-$' + fmtNum(totalOrderFee)) + '</td>';
@@ -7705,12 +7724,12 @@ function renderProfitSummaryTable() {
   html += '<td>合计</td>';
   html += '<td>' + totals.qty + '</td>';
   html += '<td>$' + fmtNum(totals.revenue) + '</td>';
-  html += '<td>-$' + fmtNum(totals.discounts) + '</td>';
-  html += '<td>-$' + fmtNum(totals.shipping) + '</td>';
-  html += '<td>-$' + fmtNum(totals.platformFee) + '</td>';
-  html += '<td>-$' + fmtNum(totals.affiliateFee) + '</td>';
-  html += '<td>-$' + fmtNum(totals.marketingFee) + '</td>';
-  html += '<td>-$' + fmtNum(totals.refund) + '</td>';
+  html += '<td>-$' + fmtNum(totals.discounts) + profitPct(totals.discounts, totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.shipping) + profitPct(totals.shipping, totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.platformFee) + profitPct(totals.platformFee, totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.affiliateFee) + profitPct(totals.affiliateFee, totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.marketingFee) + profitPct(totals.marketingFee, totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.refund) + profitPct(totals.refund, totals.revenue) + '</td>';
   html += '<td class="num-pos">$' + fmtNum(totals.settlement) + '</td>';
   html += '<td class="num-pos">$' + fmtNum(totals.productCost) + '</td>';
   html += '<td class="num-neg">-$' + fmtNum(totals.orderFee) + '</td>';
@@ -7722,9 +7741,9 @@ function renderProfitSummaryTable() {
   // FBT warehouse service fee row (non-Order)
   if (profitFbtWarehouseFee !== 0) {
     html += '<tr class="total-row" style="background:#FFF8E1;">';
-    html += '<td>FBT仓储服务费</td>';
+    html += '<td>FBT仓储服务费<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">FBA/FBT 仓储服务费</span>TikTok Shop 仓库产生的仓储、操作等服务费<br><span class="tip-detail">对应报表：FBT warehouse service fee<br>（非订单类型行，不关联具体SKU）</span></span></span></td>';
     html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
-    html += '<td class="num-neg" style="font-weight:600;">$' + fmtNum(profitFbtWarehouseFee) + '</td>';
+    html += '<td class="num-neg" style="font-weight:600;">$' + fmtNum(profitFbtWarehouseFee) + profitPct(profitFbtWarehouseFee, totals.revenue) + '</td>';
     html += '<td></td>';
     html += '</tr>';
   }
@@ -7732,9 +7751,9 @@ function renderProfitSummaryTable() {
   // Logistics reimbursement row (non-Order)
   if (profitLogisticsReimbursement !== 0) {
     html += '<tr class="total-row" style="background:#E8F5E9;">';
-    html += '<td>物流赔付</td>';
+    html += '<td>物流赔付<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">物流赔偿/赔付</span>平台因物流问题赔付给商家的金额（收入）<br><span class="tip-detail">对应报表：Logistics reimbursement<br>（非订单类型行，不关联具体SKU）</span></span></span></td>';
     html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
-    html += '<td class="num-pos" style="font-weight:600;">+$' + fmtNum(profitLogisticsReimbursement) + '</td>';
+    html += '<td class="num-pos" style="font-weight:600;">+$' + fmtNum(profitLogisticsReimbursement) + profitPct(profitLogisticsReimbursement, totals.revenue) + '</td>';
     html += '<td></td>';
     html += '</tr>';
   }
@@ -7743,9 +7762,9 @@ function renderProfitSummaryTable() {
   var netProfit = isNaN(totals.profit) ? NaN : (totals.profit - profitPromoFee);
   var netRate = isNaN(netProfit) ? NaN : (totals.revenue > 0 ? netProfit / totals.revenue : 0);
   html += '<tr class="total-row" style="background:#FFF0F0;">';
-  html += '<td>推广费用（手动）</td>';
+  html += '<td>推广费用（手动）<span class="profit-help-wrap"><span class="profit-help-icon">ⓘ</span><span class="profit-help-tooltip"><span class="tip-title">额外推广费用（手动输入）</span>需手动填入的推广支出（如站外投放、达人合作费等）<br><span class="tip-detail">此部分不在结算报表中，需自行填写</span></span></span></td>';
   html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
-  html += '<td class="num-neg" style="font-weight:700;">-$' + fmtNum(profitPromoFee) + '</td>';
+  html += '<td class="num-neg" style="font-weight:700;">-$' + fmtNum(profitPromoFee) + profitPct(profitPromoFee, totals.revenue) + '</td>';
   html += '<td></td>';
   html += '</tr>';
   html += '<tr class="total-row" style="background:#E8F5E9;">';
