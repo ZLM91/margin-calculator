@@ -6608,41 +6608,65 @@ function parseFinWithJSZip(arrayBuffer, callback) {
         var rowContent = rowMatch[2];
         var rowData = [];
 
-        // Parse cells: <c r="A1" t="s"><v>0</v></c>
+        // Parse cells
+        // Supports: t="s" (shared string), t="inlineStr" (inline string), t="str" (formula string), t="b" (boolean), t="n"/no-t (numeric)
         var cellRegex = /<c[^>]*r="([A-Z]+)(\d+)"[^>]*(?:t="([^"]*)")?[^>]*>([\s\S]*?)<\/c>/g;
         var cellMatch;
 
         while ((cellMatch = cellRegex.exec(rowContent)) !== null) {
           var colLetter = cellMatch[1];
-          var cellType = cellMatch[3] || '';
+          var cellType = (cellMatch[3] || '').toLowerCase();
           var cellContent = cellMatch[4];
-
-          // Extract <v> value
-          var vMatch = /<v>([^<]*)<\/v>/.exec(cellContent);
-          var cellValue = vMatch ? vMatch[1] : null;
 
           // Column letter to 0-based index
           var colIdx = 0;
-          for (var i = 0; i < colLetter.length; i++) {
-            colIdx = colIdx * 26 + (colLetter.charCodeAt(i) - 64);
+          for (var ci = 0; ci < colLetter.length; ci++) {
+            colIdx = colIdx * 26 + (colLetter.charCodeAt(ci) - 64);
           }
           colIdx -= 1;
 
           var value;
-          if (cellType === 's' && cellValue !== null) {
-            value = sst[parseInt(cellValue)] || '';
+          if (cellType === 's') {
+            // Shared string: <v>N</v> where N is SST index
+            var vMatch = /<v>([^<]*)<\/v>/.exec(cellContent);
+            if (vMatch !== null) {
+              value = sst[parseInt(vMatch[1])] || '';
+            } else {
+              value = '';
+            }
+          } else if (cellType === 'inlinestr') {
+            // Inline string: <is><t>Value</t></is>
+            var tMatch = /<t[^>]*>([\s\S]*?)<\/t>/i.exec(cellContent);
+            value = tMatch ? tMatch[1] : '';
+            value = value.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+          } else if (cellType === 'str') {
+            // Formula string: <f>...</f><v>Value</v> or just <v>Value</v>
+            var vMatch2 = /<v>([^<]*)<\/v>/.exec(cellContent);
+            value = vMatch2 ? vMatch2[1] : '';
           } else if (cellType === 'b') {
-            value = cellValue === '1' ? true : false;
-          } else if (cellValue !== null) {
-            value = cellValue;
+            // Boolean
+            var vMatch3 = /<v>([^<]*)<\/v>/.exec(cellContent);
+            value = (vMatch3 && vMatch3[1] === '1') ? true : false;
           } else {
-            value = '';
+            // Numeric or no type: <v>123.45</v>
+            var vMatch4 = /<v>([^<]*)<\/v>/.exec(cellContent);
+            value = vMatch4 ? vMatch4[1] : '';
           }
 
           rowData[colIdx] = value;
         }
 
         rows.push(rowData);
+      }
+
+      // Debug: log first 3 rows
+      if (rows.length > 0) {
+        console.log('[profitFin JSZip] total rows:', rows.length);
+        for (var dr = 0; dr < Math.min(3, rows.length); dr++) {
+          console.log('[profitFin JSZip] row[' + dr + ']:', JSON.stringify(rows[dr].slice(0, 22)).substring(0, 500));
+        }
+      } else {
+        console.log('[profitFin JSZip] WARNING: 0 rows parsed!');
       }
 
       callback(rows, null);
@@ -6656,18 +6680,59 @@ function parseFinWithJSZip(arrayBuffer, callback) {
 
 // Process parsed rows (from either SheetJS or JSZip) into profitFinData
 function processFinRows(raw, fileName, nameEl) {
-  var headers = raw[0];
+  // Debug: log raw data shape
+  console.log('[profitFin] raw rows count:', raw.length);
+  if (raw.length > 0) {
+    var sampleLen = Math.min(3, raw.length);
+    for (var s = 0; s < sampleLen; s++) {
+      var row = raw[s];
+      var arr = [];
+      for (var rr = 0; rr < Math.min(row.length, 22); rr++) {
+        arr.push(row[rr]);
+      }
+      console.log('[profitFin] raw[' + s + ']:', JSON.stringify(arr).substring(0, 500));
+    }
+  }
+
+  // Try first 3 rows as header candidate, find one with "Type" column
+  var headerRowIdx = 0;
+  var headers = null;
+  var headerIdx = {};
+
+  for (var tryRow = 0; tryRow < Math.min(3, raw.length); tryRow++) {
+    var candidate = raw[tryRow];
+    if (!candidate || candidate.length === 0) continue;
+
+    var idx = {};
+    for (var hi = 0; hi < candidate.length; hi++) {
+      var h = String(candidate[hi] || '').trim();
+      if (h) idx[h] = hi;
+    }
+    if (idx['Type']) {
+      headerRowIdx = tryRow;
+      headers = candidate;
+      headerIdx = idx;
+      console.log('[profitFin] found header at row', tryRow, ', keys:', Object.keys(idx).slice(0, 10).join(', '));
+      break;
+    }
+  }
+
+  if (!headers) {
+    // No header with "Type" found, use row 0 anyway
+    headers = raw[0];
+    headerIdx = {};
+    for (var hi2 = 0; hi2 < headers.length; hi2++) {
+      var h2 = String(headers[hi2] || '').trim();
+      if (h2) headerIdx[h2] = hi2;
+    }
+  }
+
   if (!headers || headers.length === 0) {
     nameEl.textContent = '❌ 未找到表头';
     document.getElementById('profitStatusFinText').textContent = '表头缺失';
     return;
   }
 
-  var headerIdx = {};
-  for (var hi = 0; hi < headers.length; hi++) {
-    var h = String(headers[hi] || '').trim();
-    if (h) headerIdx[h] = hi;
-  }
   console.log('[profitFin] header keys:', Object.keys(headerIdx).slice(0, 10).join(', '));
 
   // Find required column indices
@@ -6712,9 +6777,9 @@ function processFinRows(raw, fileName, nameEl) {
 
   profitFinData = [];
   var refundBySku = {};
-  var totalRows = raw.length - 1;
+  var totalRows = raw.length - headerRowIdx - 1;
 
-  for (var ri = 1; ri < raw.length; ri++) {
+  for (var ri = headerRowIdx + 1; ri < raw.length; ri++) {
     var row = raw[ri];
     if (!row || row.length === 0) continue;
     var typeVal = rval(row, typeIdx).toLowerCase();
