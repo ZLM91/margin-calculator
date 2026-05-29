@@ -338,6 +338,7 @@ button:hover { background: #F0EDE6; }
 .profit-status-bar .status-hint.show { display: block; }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -6529,139 +6530,253 @@ function handleProfitFinUpload(input) {
 
   var reader = new FileReader();
   reader.onload = function(e) {
-    try {
-      var wb = XLSX.read(e.target.result, { type: 'array', cellDates: false, cellFormula: false, cellStyles: false });
-      console.log('[profitFin] sheet names:', wb.SheetNames);
-      var sheet = wb.Sheets[wb.SheetNames[0]];
-      console.log('[profitFin] sheet !ref:', sheet['!ref'], '!rows:', sheet['!rows'], '!cols:', sheet['!cols']);
+    tryParseFinBuffer(e.target.result, file.name, nameEl);
+  };
+  reader.readAsArrayBuffer(file);
+}
 
-      // --- Method 1: raw array mode (bypass header detection entirely) ---
-      var raw = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
-      console.log('[profitFin] raw array rows:', raw.length);
-      if (raw.length > 0) console.log('[profitFin] raw[0] first 10:', raw[0].slice(0, 10));
+// Try SheetJS first; fall back to JSZip XML parser if too few rows
+function tryParseFinBuffer(buffer, fileName, nameEl) {
+  // --- Step 1: Try SheetJS ---
+  var wb, raw;
+  try {
+    wb = XLSX.read(buffer, { type: 'array' });
+    var sheet = wb.Sheets[wb.SheetNames[0]];
+    console.log('[profitFin] SheetJS !ref:', sheet['!ref']);
+    raw = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+    console.log('[profitFin] SheetJS rows:', raw.length);
+  } catch(se) {
+    console.warn('[profitFin] SheetJS failed:', se.message);
+    raw = [];
+  }
 
-      var headers = raw[0];
-      var headerIdx = {};
-      for (var hi = 0; hi < headers.length; hi++) {
-        var h = String(headers[hi] || '').trim();
-        headerIdx[h] = hi;
-      }
-      console.log('[profitFin] header keys:', Object.keys(headerIdx).slice(0, 10).join(', '));
-
-      // Find required column indices
-      var typeIdx = headerIdx['Type'];
-      var skuIdIdx = headerIdx['SKU ID'];
-      var skuNameIdx = headerIdx['SKU name'];
-      var orderIdIdx = headerIdx['Order/adjustment ID'];
-      var qtyIdx = headerIdx['Quantity'];
-      var revenueIdx = headerIdx['Total Revenue'];
-      var discountsIdx = headerIdx['Seller discounts'];
-      var settlementIdx = headerIdx['Total settlement amount'];
-      var fbtFeeIdx = headerIdx['FBT fulfillment fee'];
-      var ttShipFeeIdx = headerIdx['TikTok Shop shipping fee'];
-      var sellerShipFeeIdx = headerIdx['Seller shipping fee'];
-      var customerShipFeeIdx = headerIdx['Customer shipping fee'];
-      var shipSubsidyIdx = headerIdx['Shipping subsidy'];
-      var affCommissionIdx = headerIdx['Affiliate Commission'];
-      var referralFeeIdx = headerIdx['Referral fee'];
-      var transactionFeeIdx = headerIdx['Transaction fee'];
-      var salesTaxIdx = headerIdx['Sales tax'];
-      var totalFeesIdx = headerIdx['Total Fees'];
-
-      if (typeIdx === undefined) {
-        nameEl.textContent = '❌ 未找到 Type 列，可用列名: ' + Object.keys(headerIdx).slice(0, 15).join(', ');
-        document.getElementById('profitStatusFinText').textContent = '列名不匹配';
+  // --- Step 2: If SheetJS returned too few rows, fall back to JSZip ---
+  if (raw.length <= 10) {
+    console.log('[profitFin] SheetJS only got', raw.length, 'rows, using JSZip fallback...');
+    parseFinWithJSZip(buffer, function(rows, err) {
+      if (err) {
+        nameEl.textContent = '❌ ' + err;
+        document.getElementById('profitStatusFinText').textContent = '解析失败';
         return;
       }
+      console.log('[profitFin] JSZip rows:', rows.length);
+      processFinRows(rows, fileName, nameEl);
+    });
+  } else {
+    processFinRows(raw, fileName, nameEl);
+  }
+}
 
-      // Helper to safely get string value from raw row
-      function rval(row, idx) {
-        if (idx === undefined || idx >= row.length) return '';
-        var v = row[idx];
-        return v === undefined || v === null ? '' : String(v).trim();
-      }
-      function rnum(row, idx) {
-        if (idx === undefined || idx >= row.length) return 0;
-        var v = row[idx];
-        if (v === undefined || v === null || v === '') return 0;
-        if (typeof v === 'number') return v;
-        return parseFloat(String(v).replace(/[^0-9.\-]/g, '')) || 0;
-      }
+// Parse XLSX via JSZip — directly read the worksheet XML
+function parseFinWithJSZip(arrayBuffer, callback) {
+  JSZip.loadAsync(arrayBuffer).then(function(zip) {
+    var ssFile = zip.file('xl/sharedStrings.xml');
+    var sheetFile = zip.file('xl/worksheets/sheet1.xml');
 
-      profitFinData = [];
-      var refundBySku = {};
-      var totalRows = raw.length - 1; // exclude header
+    if (!sheetFile) { callback(null, '未找到 worksheet XML'); return; }
 
-      for (var ri = 1; ri < raw.length; ri++) {
-        var row = raw[ri];
-        if (!row || row.length === 0) continue;
-        var typeVal = rval(row, typeIdx).toLowerCase();
+    var ssPromise = ssFile ? ssFile.async('string') : Promise.resolve(null);
+    var sheetPromise = sheetFile.async('string');
 
-        if (typeVal === 'order') {
-          var skuId = rval(row, skuIdIdx);
-          var skuName = rval(row, skuNameIdx);
-          if (!skuId || !skuName) continue;
+    Promise.all([ssPromise, sheetPromise]).then(function(results) {
+      var ssXml = results[0];
+      var sheetXml = results[1];
 
-          profitFinData.push({
-            orderId: rval(row, orderIdIdx),
-            skuId: skuId,
-            skuName: skuName,
-            qty: rnum(row, qtyIdx),
-            revenue: rnum(row, revenueIdx),
-            discounts: rnum(row, discountsIdx),
-            settlement: rnum(row, settlementIdx),
-            fbtFee: rnum(row, fbtFeeIdx),
-            ttShipFee: rnum(row, ttShipFeeIdx),
-            sellerShipFee: rnum(row, sellerShipFeeIdx),
-            customerShipFee: rnum(row, customerShipFeeIdx),
-            shipSubsidy: rnum(row, shipSubsidyIdx),
-            affCommission: rnum(row, affCommissionIdx),
-            referralFee: rnum(row, referralFeeIdx),
-            transactionFee: rnum(row, transactionFeeIdx),
-            salesTax: rnum(row, salesTaxIdx),
-            totalFees: rnum(row, totalFeesIdx)
-          });
-        } else if (typeVal === 'refund') {
-          var rsid = rval(row, skuIdIdx);
-          if (rsid) {
-            var rsAmt = rnum(row, settlementIdx);
-            refundBySku[rsid] = (refundBySku[rsid] || 0) + Math.abs(rsAmt);
-          }
+      // Parse shared strings
+      var sst = [];
+      if (ssXml) {
+        var siRegex = /<si>[\s\S]*?<\/si>/g;
+        var tRegex = /<t[^>]*>([\s\S]*?)<\/t>/g;
+        var siMatch;
+        while ((siMatch = siRegex.exec(ssXml)) !== null) {
+          var siContent = siMatch[0];
+          var tMatch = tRegex.exec(siContent);
+          tRegex.lastIndex = 0;
+          var str = tMatch ? tMatch[1] : '';
+          str = str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+          sst.push(str);
         }
       }
 
-      // Attach refund info
-      profitFinData.forEach(function(o) {
-        o.refundAmt = refundBySku[o.skuId] || 0;
-      });
+      // Parse rows from sheet
+      var rows = [];
+      var rowRegex = /<row[^>]*r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g;
+      var rowMatch;
 
-      console.log('[profitFin] raw rows:', totalRows, 'Type=Order valid:', profitFinData.length, 'refund SKUs:', Object.keys(refundBySku).length);
+      while ((rowMatch = rowRegex.exec(sheetXml)) !== null) {
+        var rowNum = parseInt(rowMatch[1]);
+        var rowContent = rowMatch[2];
+        var rowData = [];
 
-      nameEl.textContent = '✅ ' + file.name + '（' + profitFinData.length + ' 条订单）';
-      document.getElementById('profitFinBox').classList.add('has-file');
+        // Parse cells: <c r="A1" t="s"><v>0</v></c>
+        var cellRegex = /<c[^>]*r="([A-Z]+)(\d+)"[^>]*(?:t="([^"]*)")?[^>]*>([\s\S]*?)<\/c>/g;
+        var cellMatch;
 
-      // Update status bar - Fin ready
-      var finItem = document.getElementById('profitStatusFin');
-      var statusText = '已上传 (' + profitFinData.length + ' 条订单)';
-      if (profitFinData.length === 0 && totalRows > 0) {
-        statusText = '⚠️ 解析到 ' + totalRows + ' 行但筛选后为0，请检查 Type 列值';
-        console.warn('[profitFin] Header row:', headers.slice(0, 10));
-        finItem.classList.remove('ready'); finItem.classList.add('waiting');
-      } else if (profitFinData.length === 0 && totalRows === 0) {
-        statusText = '⚠️ 解析失败：未读到数据行，请检查文件格式';
-        finItem.classList.remove('ready'); finItem.classList.add('waiting');
-      } else {
-        finItem.classList.remove('waiting'); finItem.classList.add('ready');
+        while ((cellMatch = cellRegex.exec(rowContent)) !== null) {
+          var colLetter = cellMatch[1];
+          var cellType = cellMatch[3] || '';
+          var cellContent = cellMatch[4];
+
+          // Extract <v> value
+          var vMatch = /<v>([^<]*)<\/v>/.exec(cellContent);
+          var cellValue = vMatch ? vMatch[1] : null;
+
+          // Column letter to 0-based index
+          var colIdx = 0;
+          for (var i = 0; i < colLetter.length; i++) {
+            colIdx = colIdx * 26 + (colLetter.charCodeAt(i) - 64);
+          }
+          colIdx -= 1;
+
+          var value;
+          if (cellType === 's' && cellValue !== null) {
+            value = sst[parseInt(cellValue)] || '';
+          } else if (cellType === 'b') {
+            value = cellValue === '1' ? true : false;
+          } else if (cellValue !== null) {
+            value = cellValue;
+          } else {
+            value = '';
+          }
+
+          rowData[colIdx] = value;
+        }
+
+        rows.push(rowData);
       }
-      document.getElementById('profitStatusFinText').textContent = statusText;
 
-      tryProcessProfit();
-    } catch(err) {
-      nameEl.textContent = '❌ 解析失败: ' + err.message;
-      document.getElementById('profitStatusFinText').textContent = '解析失败';
+      callback(rows, null);
+    }).catch(function(err) {
+      callback(null, 'JSZip 解析失败: ' + err.message);
+    });
+  }).catch(function(err) {
+    callback(null, 'JSZip 加载失败: ' + err.message);
+  });
+}
+
+// Process parsed rows (from either SheetJS or JSZip) into profitFinData
+function processFinRows(raw, fileName, nameEl) {
+  var headers = raw[0];
+  if (!headers || headers.length === 0) {
+    nameEl.textContent = '❌ 未找到表头';
+    document.getElementById('profitStatusFinText').textContent = '表头缺失';
+    return;
+  }
+
+  var headerIdx = {};
+  for (var hi = 0; hi < headers.length; hi++) {
+    var h = String(headers[hi] || '').trim();
+    if (h) headerIdx[h] = hi;
+  }
+  console.log('[profitFin] header keys:', Object.keys(headerIdx).slice(0, 10).join(', '));
+
+  // Find required column indices
+  var typeIdx = headerIdx['Type'];
+  var skuIdIdx = headerIdx['SKU ID'];
+  var skuNameIdx = headerIdx['SKU name'];
+  var orderIdIdx = headerIdx['Order/adjustment ID'];
+  var qtyIdx = headerIdx['Quantity'];
+  var revenueIdx = headerIdx['Total Revenue'];
+  var discountsIdx = headerIdx['Seller discounts'];
+  var settlementIdx = headerIdx['Total settlement amount'];
+  var fbtFeeIdx = headerIdx['FBT fulfillment fee'];
+  var ttShipFeeIdx = headerIdx['TikTok Shop shipping fee'];
+  var sellerShipFeeIdx = headerIdx['Seller shipping fee'];
+  var customerShipFeeIdx = headerIdx['Customer shipping fee'];
+  var shipSubsidyIdx = headerIdx['Shipping subsidy'];
+  var affCommissionIdx = headerIdx['Affiliate Commission'];
+  var referralFeeIdx = headerIdx['Referral fee'];
+  var transactionFeeIdx = headerIdx['Transaction fee'];
+  var salesTaxIdx = headerIdx['Sales tax'];
+  var totalFeesIdx = headerIdx['Total Fees'];
+
+  if (typeIdx === undefined) {
+    nameEl.textContent = '❌ 未找到 Type 列，可用: ' + Object.keys(headerIdx).slice(0, 15).join(', ');
+    document.getElementById('profitStatusFinText').textContent = '列名不匹配';
+    return;
+  }
+
+  // Helper to get value from raw row
+  function rval(row, idx) {
+    if (idx === undefined || idx >= row.length) return '';
+    var v = row[idx];
+    return v === undefined || v === null ? '' : String(v).trim();
+  }
+  function rnum(row, idx) {
+    if (idx === undefined || idx >= row.length) return 0;
+    var v = row[idx];
+    if (v === undefined || v === null || v === '') return 0;
+    if (typeof v === 'number') return v;
+    return parseFloat(String(v).replace(/[^0-9.\-]/g, '')) || 0;
+  }
+
+  profitFinData = [];
+  var refundBySku = {};
+  var totalRows = raw.length - 1;
+
+  for (var ri = 1; ri < raw.length; ri++) {
+    var row = raw[ri];
+    if (!row || row.length === 0) continue;
+    var typeVal = rval(row, typeIdx).toLowerCase();
+
+    if (typeVal === 'order') {
+      var skuId = rval(row, skuIdIdx);
+      var skuName = rval(row, skuNameIdx);
+      if (!skuId || !skuName) continue;
+
+      profitFinData.push({
+        orderId: rval(row, orderIdIdx),
+        skuId: skuId,
+        skuName: skuName,
+        qty: rnum(row, qtyIdx),
+        revenue: rnum(row, revenueIdx),
+        discounts: rnum(row, discountsIdx),
+        settlement: rnum(row, settlementIdx),
+        fbtFee: rnum(row, fbtFeeIdx),
+        ttShipFee: rnum(row, ttShipFeeIdx),
+        sellerShipFee: rnum(row, sellerShipFeeIdx),
+        customerShipFee: rnum(row, customerShipFeeIdx),
+        shipSubsidy: rnum(row, shipSubsidyIdx),
+        affCommission: rnum(row, affCommissionIdx),
+        referralFee: rnum(row, referralFeeIdx),
+        transactionFee: rnum(row, transactionFeeIdx),
+        salesTax: rnum(row, salesTaxIdx),
+        totalFees: rnum(row, totalFeesIdx)
+      });
+    } else if (typeVal === 'refund') {
+      var rsid = rval(row, skuIdIdx);
+      if (rsid) {
+        var rsAmt = rnum(row, settlementIdx);
+        refundBySku[rsid] = (refundBySku[rsid] || 0) + Math.abs(rsAmt);
+      }
     }
-  };
-  reader.readAsArrayBuffer(file);
+  }
+
+  // Attach refund amounts
+  profitFinData.forEach(function(o) {
+    o.refundAmt = refundBySku[o.skuId] || 0;
+  });
+
+  console.log('[profitFin] total rows:', totalRows, 'Type=Order:', profitFinData.length, 'refund SKUs:', Object.keys(refundBySku).length);
+
+  nameEl.textContent = '✅ ' + fileName + '（' + profitFinData.length + ' 条订单）';
+  document.getElementById('profitFinBox').classList.add('has-file');
+
+  // Update status bar
+  var finItem = document.getElementById('profitStatusFin');
+  var statusText = '已上传 (' + profitFinData.length + ' 条订单)';
+  if (profitFinData.length === 0 && totalRows > 0) {
+    statusText = '⚠️ 解析到 ' + totalRows + ' 行但无 Type=Order，请检查列名';
+    finItem.classList.remove('ready'); finItem.classList.add('waiting');
+  } else if (profitFinData.length === 0 && totalRows === 0) {
+    statusText = '⚠️ 解析失败：未读到数据行';
+    finItem.classList.remove('ready'); finItem.classList.add('waiting');
+  } else {
+    finItem.classList.remove('waiting'); finItem.classList.add('ready');
+  }
+  document.getElementById('profitStatusFinText').textContent = statusText;
+
+  tryProcessProfit();
 }
 
 function handleProfitCsvUpload(input) {
