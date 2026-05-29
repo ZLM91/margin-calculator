@@ -327,6 +327,15 @@ button:hover { background: #F0EDE6; }
 .profit-chart-row .chart-wrap { height: 300px; position: relative; }
 .profit-month-tag { display: inline-block; background: #E8F0FE; color: #2B579A; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 500; }
 .profit-empty { text-align: center; padding: 60px 20px; color: #999; }
+.profit-status-bar { display: flex; gap: 12px; margin: 0 0 14px 0; flex-wrap: wrap; }
+.profit-status-item { flex: 1; min-width: 200px; padding: 8px 12px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.profit-status-item.waiting { background: #F5F5F5; border: 1px solid #E0E0E0; color: #999; }
+.profit-status-item.ready { background: #F0FAF5; border: 1px solid #A0D8B0; color: #0F6E56; }
+.profit-status-item .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.profit-status-item.waiting .status-dot { background: #CCC; }
+.profit-status-item.ready .status-dot { background: #0F6E56; }
+.profit-status-bar .status-hint { font-size: 11px; color: #B8860B; background: #FFFDF5; border: 1px solid #F0E0A0; border-radius: 6px; padding: 8px 12px; width: 100%; display: none; }
+.profit-status-bar .status-hint.show { display: block; }
 
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -963,6 +972,17 @@ button:hover { background: #F0EDE6; }
       <div class="upload-done" id="profitCsvName" style="display:none;"></div>
       <input type="file" id="profitCsvFile" accept=".csv,.txt" style="display:none;" onchange="handleProfitCsvUpload(this)">
     </div>
+  </div>
+
+  <!-- 上传状态提示 -->
+  <div class="profit-status-bar" id="profitStatusBar" style="display:none;">
+    <div class="profit-status-item waiting" id="profitStatusFin">
+      <span class="status-dot"></span> 财务结算单：<span id="profitStatusFinText">等待上传</span>
+    </div>
+    <div class="profit-status-item waiting" id="profitStatusCsv">
+      <span class="status-dot"></span> 订单明细：<span id="profitStatusCsvText">等待上传</span>
+    </div>
+    <div class="status-hint" id="profitStatusHint"></div>
   </div>
 
   <!-- 汇总结果区（初始隐藏） -->
@@ -6504,6 +6524,9 @@ function handleProfitFinUpload(input) {
   nameEl.style.display = 'block';
   nameEl.textContent = '✅ ' + file.name + '（解析中…）';
 
+  // Show status bar
+  document.getElementById('profitStatusBar').style.display = 'flex';
+
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
@@ -6554,9 +6577,16 @@ function handleProfitFinUpload(input) {
 
       nameEl.textContent = '✅ ' + file.name + '（' + profitFinData.length + ' 条订单）';
       document.getElementById('profitFinBox').classList.add('has-file');
+
+      // Update status bar - Fin ready
+      var finItem = document.getElementById('profitStatusFin');
+      finItem.classList.remove('waiting'); finItem.classList.add('ready');
+      document.getElementById('profitStatusFinText').textContent = '已上传 (' + profitFinData.length + ' 条订单)';
+
       tryProcessProfit();
     } catch(err) {
       nameEl.textContent = '❌ 解析失败: ' + err.message;
+      document.getElementById('profitStatusFinText').textContent = '解析失败';
     }
   };
   reader.readAsArrayBuffer(file);
@@ -6568,6 +6598,9 @@ function handleProfitCsvUpload(input) {
   var nameEl = document.getElementById('profitCsvName');
   nameEl.style.display = 'block';
   nameEl.textContent = '✅ ' + file.name + '（解析中…）';
+
+  // Show status bar
+  document.getElementById('profitStatusBar').style.display = 'flex';
 
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -6585,6 +6618,7 @@ function handleProfitCsvUpload(input) {
       }
       if (skuIdIdx === -1 || sellerSkuIdx === -1) {
         nameEl.textContent = '❌ 缺少 SKU ID 或 Seller SKU 列';
+        document.getElementById('profitStatusCsvText').textContent = '列名不匹配';
         return;
       }
 
@@ -6600,9 +6634,16 @@ function handleProfitCsvUpload(input) {
       var uniqueSkus = Object.keys(profitCsvMap).length;
       nameEl.textContent = '✅ ' + file.name + '（' + uniqueSkus + ' 个 SKU 映射）';
       document.getElementById('profitCsvBox').classList.add('has-file');
+
+      // Update status bar - CSV ready
+      var csvItem = document.getElementById('profitStatusCsv');
+      csvItem.classList.remove('waiting'); csvItem.classList.add('ready');
+      document.getElementById('profitStatusCsvText').textContent = '已上传 (' + uniqueSkus + ' 个 SKU)';
+
       tryProcessProfit();
     } catch(err) {
       nameEl.textContent = '❌ 解析失败: ' + err.message;
+      document.getElementById('profitStatusCsvText').textContent = '解析失败';
     }
   };
   reader.readAsText(file);
@@ -6628,7 +6669,20 @@ function parseCsvLine(line) {
 }
 
 function tryProcessProfit() {
+  // Update hint if only one file is ready
+  var hint = document.getElementById('profitStatusHint');
+  if (profitFinData && !profitCsvMap) {
+    hint.textContent = '⚠️ 还需要上传"全部笔订单.csv"（订单明细），用于将财务 SKU ID 映射到 Seller SKU';
+    hint.classList.add('show');
+    return;
+  }
+  if (!profitFinData && profitCsvMap) {
+    hint.textContent = '⚠️ 还需要上传"财务结算单 .xlsx"（TikTok Shop 后台导出的 income 报表）';
+    hint.classList.add('show');
+    return;
+  }
   if (!profitFinData || !profitCsvMap) return;
+  hint.classList.remove('show');
 
   // Build mapping: financial SKU ID → Seller SKU
   // Also use SKU name fallback (extract code like TC03 from skuName)
@@ -6928,6 +6982,16 @@ function resetProfitData() {
   document.getElementById('profitCsvName').style.display = 'none';
   document.getElementById('profitFinBox').classList.remove('has-file');
   document.getElementById('profitCsvBox').classList.remove('has-file');
+  // Reset status bar
+  document.getElementById('profitStatusBar').style.display = 'none';
+  var finItem = document.getElementById('profitStatusFin');
+  finItem.classList.remove('ready'); finItem.classList.add('waiting');
+  document.getElementById('profitStatusFinText').textContent = '等待上传';
+  var csvItem = document.getElementById('profitStatusCsv');
+  csvItem.classList.remove('ready'); csvItem.classList.add('waiting');
+  document.getElementById('profitStatusCsvText').textContent = '等待上传';
+  var hint = document.getElementById('profitStatusHint');
+  hint.classList.remove('show'); hint.textContent = '';
   document.getElementById('profitEmpty').style.display = 'block';
   document.getElementById('profitResult').style.display = 'none';
   if (profitBarChart) { profitBarChart.destroy(); profitBarChart = null; }
