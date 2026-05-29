@@ -6853,6 +6853,68 @@ function parseFinWithJSZip(arrayBuffer, callback) {
   });
 }
 
+// Parse date from various TikTok Shop export formats
+function parseProfitDate(str) {
+  if (!str) return null;
+  str = String(str).trim();
+  if (!str || str === '-') return null;
+  // Try YYYY-MM-DD (ISO format)
+  var m1 = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m1) return new Date(+m1[1], +m1[2] - 1, +m1[3]);
+  // Try MM/DD/YYYY or M/D/YYYY (US format)
+  var m2 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m2) return new Date(+m2[3], +m2[1] - 1, +m2[2]);
+  // Try DD/MM/YYYY (some exports)
+  // Try YYYY/MM/DD
+  var m3 = str.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+  if (m3) return new Date(+m3[1], +m3[2] - 1, +m3[3]);
+  // Try MMM DD, YYYY or DD MMM YYYY (e.g. "Mar 15, 2026")
+  var m4 = str.match(/(\d{1,2})\s+([A-Za-z]{3})\s*,?\s*(\d{4})/);
+  if (m4) return new Date(str);
+  var m5 = str.match(/([A-Za-z]{3})\s+(\d{1,2}),?\s*(\d{4})/);
+  if (m5) return new Date(str);
+  // Try Excel serial date (number)
+  var num = parseFloat(str);
+  if (!isNaN(num) && num > 30000 && num < 60000) {
+    // Excel serial date: days since 1899-12-30
+    return new Date((num - 25569) * 86400 * 1000);
+  }
+  // Last resort: let Date parse it
+  var d = new Date(str);
+  if (!isNaN(d.getTime())) return d;
+  return null;
+}
+
+// Format date range for display
+function formatDateRange(minDate, maxDate) {
+  if (!minDate && !maxDate) return '';
+  if (!maxDate) maxDate = minDate;
+
+  var y1 = minDate.getFullYear();
+  var m1 = minDate.getMonth() + 1;
+  var d1 = minDate.getDate();
+  var y2 = maxDate.getFullYear();
+  var m2 = maxDate.getMonth() + 1;
+  var d2 = maxDate.getDate();
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  // Same day
+  if (minDate.getTime() === maxDate.getTime()) {
+    return y1 + '年' + m1 + '月' + d1 + '日';
+  }
+  // Same month
+  if (y1 === y2 && m1 === m2) {
+    return y1 + '年' + m1 + '月（' + pad(m1) + '/' + pad(d1) + ' ~ ' + pad(m2) + '/' + pad(d2) + '）';
+  }
+  // Same year
+  if (y1 === y2) {
+    return y1 + '年 ' + pad(m1) + '/' + pad(d1) + ' ~ ' + pad(m2) + '/' + pad(d2);
+  }
+  // Different years
+  return y1 + '/' + pad(m1) + '/' + pad(d1) + ' ~ ' + y2 + '/' + pad(m2) + '/' + pad(d2);
+}
+
 // Process parsed rows (from either SheetJS or JSZip) into profitFinData
 function processFinRows(raw, fileName, nameEl) {
   // Debug: log raw data shape
@@ -6930,6 +6992,29 @@ function processFinRows(raw, fileName, nameEl) {
   var salesTaxIdx = headerIdx['Sales tax'];
   var totalFeesIdx = headerIdx['Total Fees'];
 
+  // Find date column (try multiple possible names)
+  var dateColNames = ['Date', 'Transaction Date', 'Settlement Date', 'Order Date', 'Created Date', 'Order time', 'Settlement time', 'Transaction time'];
+  var dateIdx = undefined;
+  for (var di = 0; di < dateColNames.length; di++) {
+    if (headerIdx[dateColNames[di]] !== undefined) {
+      dateIdx = headerIdx[dateColNames[di]];
+      console.log('[profitFin] found date column: "' + dateColNames[di] + '" at index', dateIdx);
+      break;
+    }
+  }
+  // Also try partial match in header keys
+  if (dateIdx === undefined) {
+    var hKeys = Object.keys(headerIdx);
+    for (var dk = 0; dk < hKeys.length; dk++) {
+      var hk = hKeys[dk].toLowerCase();
+      if (hk.indexOf('date') !== -1 || hk.indexOf('time') !== -1 || hk === 'date') {
+        dateIdx = headerIdx[hKeys[dk]];
+        console.log('[profitFin] found date column by partial match: "' + hKeys[dk] + '" at index', dateIdx);
+        break;
+      }
+    }
+  }
+
   if (typeIdx === undefined) {
     nameEl.textContent = '❌ 未找到 Type 列，可用: ' + Object.keys(headerIdx).slice(0, 15).join(', ');
     document.getElementById('profitStatusFinText').textContent = '列名不匹配';
@@ -6964,10 +7049,15 @@ function processFinRows(raw, fileName, nameEl) {
       var skuName = rval(row, skuNameIdx);
       if (!skuId || !skuName) continue;
 
+      var dateVal = dateIdx !== undefined ? rval(row, dateIdx) : '';
+      var parsedDate = parseProfitDate(dateVal);
+
       profitFinData.push({
         orderId: rval(row, orderIdIdx),
         skuId: skuId,
         skuName: skuName,
+        date: parsedDate,
+        dateStr: dateVal,
         qty: rnum(row, qtyIdx),
         revenue: rnum(row, revenueIdx),
         discounts: rnum(row, discountsIdx),
@@ -6999,12 +7089,28 @@ function processFinRows(raw, fileName, nameEl) {
 
   console.log('[profitFin] total rows:', totalRows, 'Type=Order:', profitFinData.length, 'refund SKUs:', Object.keys(refundBySku).length);
 
+  // Calculate date range for display
+  var minDate = null, maxDate = null;
+  var hasDate = 0;
+  profitFinData.forEach(function(o) {
+    if (o.date) {
+      hasDate++;
+      if (!minDate || o.date < minDate) minDate = o.date;
+      if (!maxDate || o.date > maxDate) maxDate = o.date;
+    }
+  });
+  console.log('[profitFin] date column found:', dateIdx !== undefined, 'records with valid date:', hasDate);
+
   nameEl.textContent = '✅ ' + fileName + '（' + profitFinData.length + ' 条订单）';
   document.getElementById('profitFinBox').classList.add('has-file');
 
-  // Update status bar
+  // Update status bar with date range
   var finItem = document.getElementById('profitStatusFin');
-  var statusText = '已上传 (' + profitFinData.length + ' 条订单)';
+  var statusText = '已上传 (' + profitFinData.length + ' 条订单';
+  if (minDate && maxDate) {
+    statusText += '，' + formatDateRange(minDate, maxDate);
+  }
+  statusText += ')';
   if (profitFinData.length === 0 && totalRows > 0) {
     statusText = '⚠️ 解析到 ' + totalRows + ' 行但无 Type=Order，请检查列名';
     finItem.classList.remove('ready'); finItem.classList.add('waiting');
@@ -7310,13 +7416,27 @@ function buildProfitAggregate() {
   for (var k2 in agg) profitAgg.push(agg[k2]);
   profitAgg.sort(function(a, b) { return b.settlement - a.settlement; });
 
+  // Calculate date range from all records
+  var aggMinDate = null, aggMaxDate = null;
+  profitFinData.forEach(function(o) {
+    if (o.date) {
+      if (!aggMinDate || o.date < aggMinDate) aggMinDate = o.date;
+      if (!aggMaxDate || o.date > aggMaxDate) aggMaxDate = o.date;
+    }
+  });
+  var dateRange = (aggMinDate && aggMaxDate) ? {
+    min: aggMinDate.toISOString(),
+    max: aggMaxDate.toISOString()
+  } : null;
+
   // Save to localStorage
   try {
     localStorage.setItem(PROFIT_STORAGE, JSON.stringify({
       agg: profitAgg,
       mappingFail: mappingFailCount,
       totalOrders: profitFinData.length,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      dateRange: dateRange
     }));
   } catch(e) {}
 }
@@ -7383,16 +7503,53 @@ function buildProfitAggregateDirect() {
   profitAgg = [];
   for (var k2 in agg) profitAgg.push(agg[k2]);
   profitAgg.sort(function(a, b) { return b.settlement - a.settlement; });
+
+  // Calculate date range from all records
+  var aggMinDate2 = null, aggMaxDate2 = null;
+  profitFinData.forEach(function(o) {
+    if (o.date) {
+      if (!aggMinDate2 || o.date < aggMinDate2) aggMinDate2 = o.date;
+      if (!aggMaxDate2 || o.date > aggMaxDate2) aggMaxDate2 = o.date;
+    }
+  });
+  var dateRange2 = (aggMinDate2 && aggMaxDate2) ? {
+    min: aggMinDate2.toISOString(),
+    max: aggMaxDate2.toISOString()
+  } : null;
+
+  // Save to localStorage
+  try {
+    localStorage.setItem(PROFIT_STORAGE, JSON.stringify({
+      agg: profitAgg,
+      mappingFail: 0,
+      totalOrders: profitFinData.length,
+      timestamp: Date.now(),
+      dateRange: dateRange2
+    }));
+  } catch(e) {}
 }
 
 function renderProfitDashboard() {
   // Try to load from localStorage if profitAgg is null
+  var dateRange = null;
   if (!profitAgg) {
     try {
       var raw = localStorage.getItem(PROFIT_STORAGE);
       if (raw) {
         var saved = JSON.parse(raw);
         profitAgg = saved.agg || [];
+        dateRange = saved.dateRange || null;
+      }
+    } catch(e) {}
+  }
+
+  // Also try loading dateRange from localStorage if we already have profitAgg
+  if (!dateRange && profitAgg && profitAgg.length > 0) {
+    try {
+      var raw2 = localStorage.getItem(PROFIT_STORAGE);
+      if (raw2) {
+        var saved2 = JSON.parse(raw2);
+        dateRange = saved2.dateRange || null;
       }
     } catch(e) {}
   }
@@ -7410,7 +7567,16 @@ function renderProfitDashboard() {
   resultEl.style.display = 'block';
 
   // Update month tag
-  document.getElementById('profitMonthTag').textContent = '数据已加载';
+  var monthTag = document.getElementById('profitMonthTag');
+  if (dateRange && dateRange.min && dateRange.max) {
+    var minD = new Date(dateRange.min);
+    var maxD = new Date(dateRange.max);
+    monthTag.textContent = formatDateRange(minD, maxD);
+    monthTag.style.display = 'inline';
+  } else {
+    monthTag.textContent = '数据已加载';
+    monthTag.style.display = 'inline';
+  }
 
   // Populate promotion fee input
   var promoInput = document.getElementById('profitPromoFeeInput');
