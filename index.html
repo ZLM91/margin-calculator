@@ -4595,6 +4595,24 @@ function parseSkuLinkGroups(text) {
   return map;
 }
 
+// 解析 SKU 完整名称中的链接分组：先完整匹配，再尝试提取末尾代码（如 "益生菌湿厕纸3包-TC03" → "tc03"）
+function resolveSkuLinkGroup(sku) {
+  if (!sku) return '';
+  var lower = sku.toLowerCase().trim();
+  if (skuLinkGroupMap[lower]) return skuLinkGroupMap[lower];
+  var idx = lower.lastIndexOf('-');
+  if (idx !== -1) {
+    var code = lower.substring(idx + 1).trim();
+    if (skuLinkGroupMap[code]) return skuLinkGroupMap[code];
+  }
+  var parts = lower.split(/\s+/);
+  if (parts.length > 1) {
+    var lastCode = parts[parts.length - 1].trim();
+    if (skuLinkGroupMap[lastCode]) return skuLinkGroupMap[lastCode];
+  }
+  return '';
+}
+
 function applySkuLinkGroups() {
   var text = document.getElementById('skuLinkGroupText').value;
   skuLinkGroupMap = parseSkuLinkGroups(text);
@@ -5421,9 +5439,11 @@ function renderFlowAnalysis(stats, sortMode) {
         var m2 = matrix[rowSku2][colSku2];
         var cls = '';
         // 同链接分组用特殊样式
-        if (skuLinkGroupMap[rowSku2.toLowerCase()] && skuLinkGroupMap[colSku2.toLowerCase()] && skuLinkGroupMap[rowSku2.toLowerCase()] === skuLinkGroupMap[colSku2.toLowerCase()]) {
+        var rowGroup2 = resolveSkuLinkGroup(rowSku2);
+        var colGroup2 = resolveSkuLinkGroup(colSku2);
+        if (rowGroup2 && colGroup2 && rowGroup2 === colGroup2) {
           cls = 'flow-cell-samelink';
-          html += '<td class="' + cls + '" title="同链接：' + skuLinkGroupMap[rowSku2.toLowerCase()] + '">' + (m2.count > 0 ? m2.count + '<br><span style="font-size:9px;">' + (m2.rate * 100).toFixed(1) + '%</span>' : '-') + '</td>';
+          html += '<td class="' + cls + '" title="同链接：' + rowGroup2 + '">' + (m2.count > 0 ? m2.count + '<br><span style="font-size:9px;">' + (m2.rate * 100).toFixed(1) + '%</span>' : '-') + '</td>';
         } else if (m2.count === 0) { cls = 'flow-cell-zero';
         html += '<td class="' + cls + '">-</td>'; }
         else {
@@ -5521,8 +5541,8 @@ function renderStrategyInsights(stats, sortBy, sortDir, gmvSortMode) {
 
   // 同链接分组判断
   function sameLinkGroup(a, b) {
-    var ga = skuLinkGroupMap[a.toLowerCase()];
-    var gb = skuLinkGroupMap[b.toLowerCase()];
+    var ga = resolveSkuLinkGroup(a);
+    var gb = resolveSkuLinkGroup(b);
     return ga && gb && ga === gb;
   }
 
@@ -5581,7 +5601,7 @@ function renderStrategyInsights(stats, sortBy, sortDir, gmvSortMode) {
 
   // Helper: get link group display name for a SKU
   function linkGroupLabel(sku) {
-    return skuLinkGroupMap[sku.toLowerCase()] || '';
+    return resolveSkuLinkGroup(sku);
   }
 
   // Best cross-sell pair by GMV, EXCLUDING same-link pairs
@@ -5822,9 +5842,11 @@ function renderStrategyInsights(stats, sortBy, sortDir, gmvSortMode) {
         var fd2 = flowData[rowSku] || { flowGMV: {}, flows: {} };
         var gmv = fd2.flowGMV[colSku] || 0;
         var cnt = fd2.flows[colSku] || 0;
-        var isSameLink = skuLinkGroupMap[rowSku.toLowerCase()] && skuLinkGroupMap[colSku.toLowerCase()] && skuLinkGroupMap[rowSku.toLowerCase()] === skuLinkGroupMap[colSku.toLowerCase()];
+        var rowGroup3 = resolveSkuLinkGroup(rowSku);
+        var colGroup3 = resolveSkuLinkGroup(colSku);
+        var isSameLink = rowGroup3 && colGroup3 && rowGroup3 === colGroup3;
         var cls = isSameLink ? 'gmv-cell-samelink' : (gmv === 0 ? 'gmv-cell-zero' : (gmv >= 100 ? 'gmv-cell-high' : (gmv >= 30 ? 'gmv-cell-mid' : 'gmv-cell-low')));
-        var title = isSameLink ? ' title="同链接：' + skuLinkGroupMap[rowSku.toLowerCase()] + '"' : '';
+        var title = isSameLink ? ' title="同链接：' + rowGroup3 + '"' : '';
         gmvHtml += '<td class="' + cls + '"' + title + '>' + (gmv > 0 ? '$' + gmv.toFixed(0) + '<br><span style="font-size:9px;">' + cnt + '人</span>' : '-') + '</td>';
       }
     }
