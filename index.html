@@ -152,6 +152,20 @@ button:hover { background: #F0EDE6; }
 /* formula / static box 场景 */
 .quick-copy-wrap-static .quick-copy-btn { top: 8px; right: 10px; }
 
+/* TikTok文案 Tab 样式 */
+.tiktok-category { margin-bottom: 18px; }
+.tiktok-cat-header { font-size: 15px; font-weight: 600; color: #1A1A1A; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid #E8F0FE; display: flex; align-items: center; gap: 8px; }
+.tiktok-cat-header .cat-icon { font-size: 20px; }
+.tiktok-title-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 6px; margin-bottom: 4px; transition: background .15s; }
+.tiktok-title-row:hover { background: #F5F7FA; }
+.tiktok-title-row .title-text { flex: 1; font-size: 13px; line-height: 1.6; }
+.tiktok-title-row .title-en { color: #1A1A1A; font-weight: 500; }
+.tiktok-title-row .title-cn { color: #666; font-size: 12px; margin-top: 2px; }
+.tiktok-title-row .title-tags { color: #2B579A; font-size: 11px; margin-top: 2px; }
+.tiktok-copy-btn { padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #C5D3E8; background: #fff; color: #666; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all .15s; }
+.tiktok-copy-btn:hover { background: #2B579A; color: #fff; border-color: #2B579A; }
+.tiktok-copy-btn.copied { background: #0F6E56; color: #fff; border-color: #0F6E56; }
+
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -163,6 +177,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn" data-tab="video" onclick="switchTab('video')">📹 视频数据 (美国)</button>
   <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
   <button class="tab-btn" data-tab="repurchase" onclick="switchTab('repurchase')">🔄 复购分析</button>
+  <button class="tab-btn" data-tab="tiktok" onclick="switchTab('tiktok')">📝 TikTok文案</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -687,6 +702,31 @@ button:hover { background: #F0EDE6; }
   <button onclick="resetRepurchase()" class="reset-btn" style="margin-top:10px;">清除数据</button>
 </div>
 </div><!-- /tab-repurchase -->
+
+<div id="tab-tiktok" class="tab-content">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+    <label class="file-label" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#2B579A;color:#fff;border-radius:6px;font-size:13px;font-weight:500;">
+      📂 加载文案文件
+      <input type="file" id="tiktokTitlesFile" accept=".md,.txt" style="display:none;" onchange="loadTiktokTitles(event)">
+    </label>
+    <button onclick="loadLatestTiktokTitles()" style="padding:8px 16px;background:#F5F7FA;border:1px solid #C5D3E8;border-radius:6px;font-size:13px;cursor:pointer;color:#2B579A;">🔄 加载最新生成</button>
+    <span id="tiktokStatus" style="font-size:12px;color:#888;"></span>
+  </div>
+
+  <div id="tiktokContent" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <h3 id="tiktokDateTitle" style="margin:0;font-size:16px;color:#2B579A;"></h3>
+      <button onclick="copyAllTiktokTitles()" style="padding:6px 14px;font-size:12px;border:1px solid #C5D3E8;border-radius:6px;background:#fff;color:#2B579A;cursor:pointer;">📋 复制全部文案</button>
+    </div>
+    <div id="tiktokCategories"></div>
+  </div>
+
+  <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
+    <div style="font-size:48px;margin-bottom:12px;">📝</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，每日自动化会生成 tiktok_titles_daily.md</div>
+  </div>
+</div><!-- /tab-tiktok -->
 
 </div><!-- /container -->
 
@@ -1449,6 +1489,7 @@ function switchTab(tab) {
   document.getElementById('tab-video').classList.toggle('active', tab === 'video');
   document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
   document.getElementById('tab-repurchase').classList.toggle('active', tab === 'repurchase');
+  document.getElementById('tab-tiktok').classList.toggle('active', tab === 'tiktok');
   if (tab === 'repurchase' && repurchaseOrders.length > 0) {
     renderRepurchaseDashboard();
   }
@@ -5004,6 +5045,257 @@ function resetRepurchase() {
   var formulaBox = document.querySelector('#tab-margin .quick-copy-wrap-static');
   if (formulaBox) addQuickCopyBtn(formulaBox, function() { return formulaBox.textContent; });
 })();
+
+// ========== TikTok 文案 Tab ==========
+var tiktokAllTitles = []; // { category, en, cn, tags }
+
+function loadTiktokTitles(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    parseAndRenderTiktok(ev.target.result);
+    document.getElementById('tiktokStatus').textContent = '已加载: ' + file.name;
+  };
+  reader.readAsText(file);
+}
+
+function loadLatestTiktokTitles() {
+  // 尝试从已知路径加载
+  var statusEl = document.getElementById('tiktokStatus');
+  statusEl.textContent = '正在搜索最新文案...';
+  
+  // 先看 workspace 根目录
+  var paths = [
+    'tiktok_titles_daily.md',
+    '../tiktok_titles_daily.md'
+  ];
+  
+  tryNextPath(0);
+
+  function tryNextPath(i) {
+    if (i >= paths.length) {
+      statusEl.textContent = '⚠️ 未找到 tiktok_titles_daily.md，请手动选择文件';
+      return;
+    }
+    fetch(paths[i])
+      .then(function(res) {
+        if (res.ok) return res.text();
+        throw new Error('not found');
+      })
+      .then(function(text) {
+        parseAndRenderTiktok(text);
+        statusEl.textContent = '✅ 已加载最新文案';
+      })
+      .catch(function() {
+        tryNextPath(i + 1);
+      });
+  }
+}
+
+function parseAndRenderTiktok(mdText) {
+  tiktokAllTitles = [];
+  var categories = []; // [{ name, icon, titles: [{en, cn, tags}] }]
+  var currentDate = '';
+  var currentCategory = null;
+
+  var lines = mdText.split(/\r?\n/);
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim();
+    if (!line) continue;
+
+    // 日期标题: ## 2026-05-29 or # 2026-05-29
+    var dateMatch = line.match(/^#{1,2}\s*(\d{4}-\d{2}-\d{2})/);
+    if (dateMatch) {
+      currentDate = dateMatch[1];
+      continue;
+    }
+
+    // 品类标题: ### 湿厕纸 or **湿厕纸** etc
+    var catMatch = line.match(/^(?:#{3,4}\s*|\*{1,2})([^*#]+?)(?:\*{1,2})?$/);
+    if (catMatch && line.length < 80) {
+      var catName = catMatch[1].trim();
+      var icon = '';
+      if (catName.indexOf('湿厕纸') >= 0 && catName.indexOf('旅行') >= 0) icon = '🧻✈️';
+      else if (catName.indexOf('湿厕纸') >= 0) icon = '🧻';
+      else if (catName.indexOf('洗脸巾') >= 0) icon = '🧖';
+      else if (catName.indexOf('牙膏') >= 0) icon = '🦷';
+      else icon = '📌';
+      currentCategory = { name: catName, icon: icon, titles: [] };
+      categories.push(currentCategory);
+      continue;
+    }
+
+    // 标题行: 英文 | 中文  （可能后面有 #hashtag）
+    if (currentCategory && line.length > 15) {
+      var parts = line.split('|');
+      if (parts.length >= 2) {
+        var en = parts[0].replace(/^[\d\s.\-•*]+/, '').trim();
+        var cnAndTags = parts.slice(1).join('|');
+        // 提取 tags（# 开头的词）
+        var tags = [];
+        var cn = cnAndTags.replace(/#[\w]+/g, function(m) {
+          tags.push(m);
+          return '';
+        }).replace(/\s{2,}/g, ' ').trim();
+        if (en && cn) {
+          currentCategory.titles.push({ en: en, cn: cn, tags: tags.join(' ') });
+          tiktokAllTitles.push({ category: currentCategory.name, en: en, cn: cn, tags: tags.join(' ') });
+        }
+      }
+    }
+  }
+
+  // 渲染
+  document.getElementById('tiktokDateTitle').textContent = currentDate ? currentDate + ' · TikTok 视频标题文案' : 'TikTok 视频标题文案';
+  document.getElementById('tiktokEmpty').style.display = categories.length === 0 ? '' : 'none';
+  document.getElementById('tiktokContent').style.display = categories.length > 0 ? '' : 'none';
+
+  var html = '';
+  for (var c = 0; c < categories.length; c++) {
+    var cat = categories[c];
+    html += '<div class="tiktok-category">';
+    html += '<div class="tiktok-cat-header"><span class="cat-icon">' + cat.icon + '</span>' + escapeHtml(cat.name) + ' <span style="font-size:11px;color:#999;font-weight:400;">(' + cat.titles.length + '条)</span></div>';
+    for (var t = 0; t < cat.titles.length; t++) {
+      var title = cat.titles[t];
+      var idx = c + '_' + t;
+      html += '<div class="tiktok-title-row">';
+      html += '<div class="title-text">';
+      html += '<div class="title-en">' + escapeHtml(title.en) + '</div>';
+      html += '<div class="title-cn">' + escapeHtml(title.cn) + '</div>';
+      if (title.tags) html += '<div class="title-tags">' + escapeHtml(title.tags) + '</div>';
+      html += '</div>';
+      html += '<button class="tiktok-copy-btn" onclick="copyTiktokTitle(\'' + idx + '\', event)" title="复制这条标题">📋 复制</button>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  document.getElementById('tiktokCategories').innerHTML = html;
+}
+
+function copyTiktokTitle(idx, event) {
+  var parts = idx.split('_');
+  var c = parseInt(parts[0]), t = parseInt(parts[1]);
+  if (tiktokAllTitles.length === 0) {
+    // fallback：从 DOM 读取
+    var row = event.target.closest('.tiktok-title-row');
+    if (!row) return;
+    var en = row.querySelector('.title-en');
+    var cn = row.querySelector('.title-cn');
+    var tags = row.querySelector('.title-tags');
+    var text = (en ? en.textContent : '') + '\n' + (cn ? cn.textContent : '');
+    if (tags) text += '\n' + tags.textContent;
+    doQuickCopy(text.trim(), event.target);
+    return;
+  }
+  // 从数据中查找
+  var count = 0;
+  var title = null;
+  for (var i = 0; i < tiktokAllTitles.length; i++) {
+    if (count === c) {
+      if (t < tiktokAllTitles.slice(i).filter(function(x) { return x.category === tiktokAllTitles[i].category; }).length) {
+        var sameCat = [];
+        for (var j = i; j < tiktokAllTitles.length && tiktokAllTitles[j].category === tiktokAllTitles[i].category; j++) {
+          sameCat.push(tiktokAllTitles[j]);
+        }
+        if (t < sameCat.length) title = sameCat[t];
+      }
+      break;
+    }
+    // skip to next category
+    var curCat = tiktokAllTitles[i].category;
+    while (i < tiktokAllTitles.length && tiktokAllTitles[i].category === curCat) i++;
+    i--;
+    count++;
+  }
+  if (title) {
+    var text = title.en + '\n' + title.cn + (title.tags ? '\n' + title.tags : '');
+    doQuickCopy(text.trim(), event.target);
+  }
+}
+
+function copyAllTiktokTitles() {
+  if (tiktokAllTitles.length === 0) {
+    // fallback：从 DOM 构建
+    var lines = [];
+    var cats = document.getElementById('tiktokCategories').querySelectorAll('.tiktok-category');
+    cats.forEach(function(cat) {
+      var catName = cat.querySelector('.tiktok-cat-header');
+      if (catName) lines.push('\n【' + catName.textContent.replace(/\(\d+条\)/, '').trim() + '】');
+      cat.querySelectorAll('.tiktok-title-row').forEach(function(row) {
+        var en = row.querySelector('.title-en');
+        var cn = row.querySelector('.title-cn');
+        var tags = row.querySelector('.title-tags');
+        if (en) lines.push(en.textContent.trim());
+        if (cn) lines.push(cn.textContent.trim());
+        if (tags) lines.push(tags.textContent.trim());
+        lines.push('');
+      });
+    });
+    doQuickCopy(lines.join('\n').trim(), document.querySelector('#tiktokContent button'));
+    return;
+  }
+  // 从数据构建：按品类分组
+  var text = '';
+  var lastCat = '';
+  for (var i = 0; i < tiktokAllTitles.length; i++) {
+    var t = tiktokAllTitles[i];
+    if (t.category !== lastCat) {
+      text += (text ? '\n' : '') + '【' + t.category + '】\n';
+      lastCat = t.category;
+    }
+    text += t.en + '\n' + t.cn + (t.tags ? '\n' + t.tags : '') + '\n\n';
+  }
+  doQuickCopy(text.trim(), document.querySelector('#tiktokContent button'));
+}
+
+function doQuickCopy(text, btn) {
+  if (!text) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      showTiktokCopyFeedback(btn, true);
+    }).catch(function() {
+      fallbackCopyText(text, btn);
+    });
+  } else {
+    fallbackCopyText(text, btn);
+  }
+}
+
+function fallbackCopyText(text, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed'; ta.style.left = '-9999px'; ta.style.top = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try {
+    var ok = document.execCommand('copy');
+    showTiktokCopyFeedback(btn, ok);
+  } catch(e) {
+    showTiktokCopyFeedback(btn, false);
+  }
+  document.body.removeChild(ta);
+}
+
+function showTiktokCopyFeedback(btn, ok) {
+  if (!btn) return;
+  if (ok) {
+    btn.textContent = '✅ 已复制';
+    btn.classList.add('copied');
+  } else {
+    btn.textContent = '❌ 失败';
+  }
+  setTimeout(function() {
+    btn.textContent = '📋 复制';
+    btn.classList.remove('copied');
+  }, 1500);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 </script>
 </body>
 </html>
