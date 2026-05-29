@@ -1109,6 +1109,26 @@ button:hover { background: #F0EDE6; }
       </div>
     </div>
 
+    <!-- 样品订单费用 -->
+    <div class="profit-summary" id="profitSampleSection" style="display:none;background:#FDF2F8;border:1px solid #E8C0D0;border-radius:8px;padding:14px 16px;margin-bottom:14px;">
+      <div class="section-title" style="color:#A03060;">🎁 样品订单费用（销售金额为 $0 的订单）</div>
+      <div style="font-size:11px;color:#888;margin-bottom:8px;">样品成本 = 样品数量 × SKU 单位成本，成本未填写则显示「待填写」。</div>
+      <div class="profit-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left;">SKU</th>
+              <th>样品数量</th>
+              <th>单位成本</th>
+              <th>样品总成本</th>
+            </tr>
+          </thead>
+          <tbody id="profitSampleTbody"></tbody>
+          <tfoot id="profitSampleTfoot"></tfoot>
+        </table>
+      </div>
+    </div>
+
     <!-- 操作按钮 -->
     <div style="text-align:center;margin-top:12px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;">
       <button onclick="exportProfitReport('pdf')" style="padding:5px 18px;font-size:12px;color:#fff;background:#2B579A;border:1px solid #2B579A;border-radius:6px;cursor:pointer;">📄 导出PDF</button>
@@ -6583,6 +6603,8 @@ const PROFIT_SKU_GROUP_STORAGE = 'materna_profit_sku_group';
 var profitFinData = null;   // raw financial rows (Type=='Order')
 var profitCsvMap = null;    // SKU ID → Seller SKU mapping
 var profitAgg = null;       // aggregated by Seller SKU
+var profitSampleRaw = [];   // sample orders (revenue=0): [{ skuId, qty }]
+var profitSampleAgg = null; // aggregated sample data: [{ sku, sampleQty, sampleCost }]
 var profitCostMap = {};     // Seller SKU → unit cost (from user input)
 var profitOrderFeeMap = {}; // display name → per-order processing fee (from user input)
 var profitFirstLegFeeMap = {}; // display name → per-unit first-leg freight allocation
@@ -7072,6 +7094,7 @@ function processFinRows(raw, fileName, nameEl) {
   }
 
   profitFinData = [];
+  profitSampleRaw = [];
   profitFbtWarehouseFee = 0;
   profitLogisticsReimbursement = 0;
   var refundBySku = {};
@@ -7089,6 +7112,13 @@ function processFinRows(raw, fileName, nameEl) {
 
       var dateVal = dateIdx !== undefined ? rval(row, dateIdx) : '';
       var parsedDate = parseProfitDate(dateVal);
+      var revenue = rnum(row, revenueIdx);
+
+      // Sample orders: revenue = 0 → track separately
+      if (revenue <= 0) {
+        profitSampleRaw.push({ skuId: skuId, qty: rnum(row, qtyIdx) });
+        continue;
+      }
 
       profitFinData.push({
         orderId: rval(row, orderIdIdx),
@@ -7139,7 +7169,7 @@ function processFinRows(raw, fileName, nameEl) {
     o.refundAmt = refundBySku[o.skuId] || 0;
   });
 
-  console.log('[profitFin] total rows:', totalRows, 'Type=Order:', profitFinData.length, 'refund SKUs:', Object.keys(refundBySku).length);
+  console.log('[profitFin] total rows:', totalRows, 'Type=Order:', profitFinData.length, 'Sample:', profitSampleRaw.length, 'refund SKUs:', Object.keys(refundBySku).length);
 
   // Calculate date range for display
   var minDate = null, maxDate = null;
@@ -7478,6 +7508,28 @@ function buildProfitAggregate() {
   for (var k2 in agg) profitAgg.push(agg[k2]);
   profitAgg.sort(function(a, b) { return b.settlement - a.settlement; });
 
+  // ── Aggregate sample orders (revenue=0) ──
+  var sampleAggMap = {};
+  profitSampleRaw.forEach(function(s) {
+    var sellerSku = profitCsvMap[s.skuId] || '';
+    if (!sellerSku) {
+      if (profitSkuGroupMap[s.skuId]) sellerSku = profitSkuGroupMap[s.skuId];
+    }
+    if (!sellerSku) {
+      var sid = s.skuId.toUpperCase();
+      if (/^(FA|FC|FB|TC|TB|TD|YA|BA)\d{2}$/.test(sid)) sellerSku = sid;
+    }
+    if (profitSkuGroupMap[sellerSku]) sellerSku = profitSkuGroupMap[sellerSku];
+    var displaySku = sellerSku || ('(未匹配) ' + s.skuId);
+    if (!sampleAggMap[displaySku]) {
+      sampleAggMap[displaySku] = { sku: displaySku, sampleQty: 0 };
+    }
+    sampleAggMap[displaySku].sampleQty += s.qty;
+  });
+  profitSampleAgg = [];
+  for (var ks in sampleAggMap) profitSampleAgg.push(sampleAggMap[ks]);
+  profitSampleAgg.sort(function(a, b) { return b.sampleQty - a.sampleQty; });
+
   // Calculate date range from all records
   var aggMinDate = null, aggMaxDate = null;
   profitFinData.forEach(function(o) {
@@ -7495,6 +7547,7 @@ function buildProfitAggregate() {
   try {
     localStorage.setItem(PROFIT_STORAGE, JSON.stringify({
       agg: profitAgg,
+      sampleAgg: profitSampleAgg,
       mappingFail: mappingFailCount,
       totalOrders: profitFinData.length,
       timestamp: Date.now(),
@@ -7577,6 +7630,25 @@ function buildProfitAggregateDirect() {
   for (var k2 in agg) profitAgg.push(agg[k2]);
   profitAgg.sort(function(a, b) { return b.settlement - a.settlement; });
 
+  // ── Aggregate sample orders (revenue=0, direct mode) ──
+  var sampleAggMap2 = {};
+  profitSampleRaw.forEach(function(s) {
+    var sellerSku = '';
+    if (profitSkuGroupMap[s.skuId]) sellerSku = profitSkuGroupMap[s.skuId];
+    if (!sellerSku) {
+      var sid = s.skuId.toUpperCase();
+      if (/^(FA|FC|FB|TC|TB|TD|YA|BA)\d{2}$/.test(sid)) sellerSku = sid;
+    }
+    var displaySku = sellerSku || ('(未匹配) ' + s.skuId);
+    if (!sampleAggMap2[displaySku]) {
+      sampleAggMap2[displaySku] = { sku: displaySku, sampleQty: 0 };
+    }
+    sampleAggMap2[displaySku].sampleQty += s.qty;
+  });
+  profitSampleAgg = [];
+  for (var ks2 in sampleAggMap2) profitSampleAgg.push(sampleAggMap2[ks2]);
+  profitSampleAgg.sort(function(a, b) { return b.sampleQty - a.sampleQty; });
+
   // Calculate date range from all records
   var aggMinDate2 = null, aggMaxDate2 = null;
   profitFinData.forEach(function(o) {
@@ -7594,6 +7666,7 @@ function buildProfitAggregateDirect() {
   try {
     localStorage.setItem(PROFIT_STORAGE, JSON.stringify({
       agg: profitAgg,
+      sampleAgg: profitSampleAgg,
       mappingFail: 0,
       totalOrders: profitFinData.length,
       timestamp: Date.now(),
@@ -7613,6 +7686,7 @@ function renderProfitDashboard() {
       if (raw) {
         var saved = JSON.parse(raw);
         profitAgg = saved.agg || [];
+        profitSampleAgg = saved.sampleAgg || null;
         dateRange = saved.dateRange || null;
         profitFbtWarehouseFee = saved.fbtWarehouseFee || 0;
         profitLogisticsReimbursement = saved.logisticsReimbursement || 0;
@@ -7629,6 +7703,7 @@ function renderProfitDashboard() {
         if (!dateRange) dateRange = saved2.dateRange || null;
         if (!profitFbtWarehouseFee) profitFbtWarehouseFee = saved2.fbtWarehouseFee || 0;
         if (!profitLogisticsReimbursement) profitLogisticsReimbursement = saved2.logisticsReimbursement || 0;
+        if (!profitSampleAgg) profitSampleAgg = saved2.sampleAgg || null;
       }
     } catch(e) {}
   }
@@ -7669,6 +7744,9 @@ function renderProfitDashboard() {
 
   // Render charts
   renderProfitCharts();
+
+  // Render sample orders section
+  renderProfitSampleSection();
 }
 
 // Helper: format expense percentage
@@ -7850,6 +7928,44 @@ function renderProfitSummaryTable() {
   initProfitHelpBadges();
 }
 
+function renderProfitSampleSection() {
+  var section = document.getElementById('profitSampleSection');
+  var tbodyEl = document.getElementById('profitSampleTbody');
+  var tfootEl = document.getElementById('profitSampleTfoot');
+  if (!profitSampleAgg || profitSampleAgg.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
+
+  var totalQty = 0, totalCost = 0, hasUnfilledCost = false;
+  var html = '';
+  for (var i = 0; i < profitSampleAgg.length; i++) {
+    var s = profitSampleAgg[i];
+    var uc = profitCostMap[s.sku] !== undefined ? parseFloat(profitCostMap[s.sku]) : NaN;
+    var sc = isNaN(uc) ? NaN : uc * s.sampleQty;
+    totalQty += s.sampleQty;
+    if (!isNaN(sc)) totalCost += sc;
+    else hasUnfilledCost = true;
+
+    html += '<tr>';
+    html += '<td style="text-align:left;font-weight:500;">' + escapeHtml(s.sku) + '</td>';
+    html += '<td>' + s.sampleQty.toLocaleString() + '</td>';
+    html += '<td class="' + (isNaN(uc) ? 'num-pending' : '') + '">' + (isNaN(uc) ? '待填写' : '$' + fmtNum(uc)) + '</td>';
+    html += '<td class="' + (isNaN(sc) ? 'num-pending' : 'num-neg') + '">' + (isNaN(sc) ? '待填写' : '-$' + fmtNum(sc)) + '</td>';
+    html += '</tr>';
+  }
+  tbodyEl.innerHTML = html;
+
+  var totalText = '样品合计：' + totalQty.toLocaleString() + ' 件';
+  if (!hasUnfilledCost) {
+    totalText += '，总成本：-$' + fmtNum(totalCost);
+  } else {
+    totalText += '，总成本：部分待填写';
+  }
+  tfootEl.innerHTML = '<tr class="total-row"><td colspan="4" style="text-align:center;font-weight:600;">' + totalText + '</td></tr>';
+}
+
 function renderProfitCostTable() {
   var tbody = document.getElementById('profitCostTbody');
   var html = '';
@@ -7893,6 +8009,7 @@ function onCostFieldChange(input) {
   renderProfitSummaryTable();
   renderProfitCostTable();
   renderProfitCharts();
+  renderProfitSampleSection();
 }
 
 function onPromoFeeChange() {
@@ -8240,6 +8357,35 @@ function exportProfitReport(format) {
   }
   h += '</tbody></table>\n</div>\n';
 
+  // Sample orders section
+  if (profitSampleAgg && profitSampleAgg.length > 0) {
+    h += '<div class="card">\n';
+    h += '<div class="card-title">🎁 样品订单费用（销售金额为 $0 的订单）</div>\n';
+    h += '<table><thead><tr><th>SKU</th><th>样品数量</th><th>单位成本</th><th>样品总成本</th></tr></thead><tbody>\n';
+    var sampleTotalQty = 0, sampleTotalCost = 0, sampleHasUnfilled = false;
+    for (var ks = 0; ks < profitSampleAgg.length; ks++) {
+      var sp = profitSampleAgg[ks];
+      var uc = profitCostMap[sp.sku] !== undefined ? parseFloat(profitCostMap[sp.sku]) : NaN;
+      var sc = isNaN(uc) ? NaN : uc * sp.sampleQty;
+      sampleTotalQty += sp.sampleQty;
+      if (!isNaN(sc)) sampleTotalCost += sc; else sampleHasUnfilled = true;
+      h += '<tr>';
+      h += '<td>' + esc(sp.sku) + '</td>';
+      h += '<td>' + sp.sampleQty.toLocaleString() + '</td>';
+      h += '<td>' + (isNaN(uc) ? '待填写' : '$' + fmtNum(uc)) + '</td>';
+      h += '<td class="' + (isNaN(sc) ? 'pending' : 'neg') + '">' + (isNaN(sc) ? '待填写' : '-$' + fmtNum(sc)) + '</td>';
+      h += '</tr>\n';
+    }
+    var sampleFootText = '样品合计：' + sampleTotalQty.toLocaleString() + ' 件';
+    if (!sampleHasUnfilled) {
+      sampleFootText += '，总成本：-$' + fmtNum(sampleTotalCost);
+    } else {
+      sampleFootText += '，总成本：部分待填写';
+    }
+    h += '<tr class="total-row"><td colspan="4" style="text-align:center;">' + sampleFootText + '</td></tr>';
+    h += '</tbody></table>\n</div>\n';
+  }
+
   // Footer
   h += '<div class="footer">Matern\'ella (子初) TikTok Shop 美国站 · 由利润看板工具自动生成 · ' + esc(genTime) + '</div>\n';
   h += '</body>\n</html>';
@@ -8351,6 +8497,8 @@ function resetProfitData() {
   profitFinData = null;
   profitCsvMap = null;
   profitAgg = null;
+  profitSampleRaw = [];
+  profitSampleAgg = null;
   profitFbtWarehouseFee = 0;
   profitLogisticsReimbursement = 0;
   localStorage.removeItem(PROFIT_STORAGE);
