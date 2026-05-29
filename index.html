@@ -6208,6 +6208,10 @@ function resetRepurchase() {
   var skuMapText = document.getElementById('repurchaseSkuMapText');
   if (skuMapText) addQuickCopyBtn(skuMapText.parentElement, function() { return skuMapText.value; });
 
+  // 利润看板 SKU 分组映射文本域
+  var profitSkuGroupTA = document.getElementById('profitSkuGroupMapText');
+  if (profitSkuGroupTA) addQuickCopyBtn(profitSkuGroupTA.parentElement, function() { return profitSkuGroupTA.value; });
+
   // SKU 映射自动保存：输入变化 3 秒后自动应用
   var _skuMapDebounce = null;
   if (skuMapText) {
