@@ -153,6 +153,35 @@ button:hover { background: #F0EDE6; }
 .cycle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 .cycle-card { background: #F8FAFB; border: 1px solid #E0E5EC; border-radius: 8px; padding: 12px 14px; }
 .cycle-card .cc-title { font-weight: 600; font-size: 13px; color: #2B579A; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 策略洞察面板 */
+.strategy-text-box { padding: 12px 16px; border-radius: 8px; line-height: 1.8; font-size: 13px; margin-bottom: 12px; }
+.strategy-text-box.acquisition { background: #E8F5E9; border: 1px solid #A5D6A7; color: #1B5E20; }
+.strategy-text-box.retention { background: #E3F2FD; border: 1px solid #90CAF9; color: #0D47A1; }
+.strategy-text-box.warning { background: #FFF3E0; border: 1px solid #FFCC80; color: #E65100; }
+.strategy-section-title { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #E8E8E8; }
+.gateway-table-wrap { overflow-x: auto; margin-bottom: 14px; }
+.gateway-table-wrap table { font-size: 12px; border-collapse: collapse; width: 100%; }
+.gateway-table-wrap thead th { background: #2B579A; color: #fff; padding: 7px 10px; text-align: left; white-space: nowrap; }
+.gateway-table-wrap tbody td { padding: 7px 10px; border-bottom: 1px solid #F0F0F0; white-space: nowrap; }
+.gateway-table-wrap tbody tr:hover td { background: #F0F7FF; }
+.gateway-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.gateway-tag.hero { background: #D4EDDA; color: #0F6E56; }
+.gateway-tag.anchor { background: #E3F2FD; color: #0D47A1; }
+.gateway-tag.allround { background: #EDE7F6; color: #4527A0; }
+.gateway-tag.nurture { background: #FFF3E0; color: #E65100; }
+.gmv-matrix-wrap { overflow-x: auto; max-height: 350px; overflow-y: auto; border: 1px solid #E8E8E8; border-radius: 6px; margin-top: 6px; }
+.gmv-matrix-wrap table { font-size: 11px; border-collapse: collapse; min-width: 500px; }
+.gmv-matrix-wrap thead th { background: #3E7250; color: #fff; padding: 6px 8px; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.gmv-matrix-wrap thead th:first-child { position: sticky; left: 0; z-index: 3; }
+.gmv-matrix-wrap tbody td { padding: 5px 8px; text-align: center; border-bottom: 1px solid #F0F0F0; white-space: nowrap; }
+.gmv-matrix-wrap tbody td:first-child { position: sticky; left: 0; background: #fff; z-index: 1; font-weight: 600; text-align: left; }
+.gmv-matrix-wrap tbody tr:hover td { background: #F0F7F0; }
+.gmv-matrix-wrap tbody tr:hover td:first-child { background: #F0F7F0; }
+.gmv-cell-high { background: #C8E6C9; color: #0F6E56; font-weight: 600; }
+.gmv-cell-mid  { background: #FFF9C4; color: #795548; }
+.gmv-cell-low  { background: #F8F8F8; color: #999; }
+.gmv-cell-zero { background: #F5F5F5; color: #ccc; }
 .cycle-card .cc-row { display: flex; justify-content: space-between; font-size: 11px; padding: 2px 0; }
 .cycle-card .cc-row .cc-val { font-weight: 600; color: #333; }
 
@@ -770,6 +799,19 @@ button:hover { background: #F0EDE6; }
     </div>
     <div class="repurchase-section-body" id="categoryCycleSection">
       <div class="cycle-grid" id="categoryCycleGrid"></div>
+    </div>
+  </div>
+
+  <div class="repurchase-section">
+    <div class="repurchase-section-header" onclick="toggleRepurchaseSection('strategySection')" style="background:#FFF5F5;">
+      <span>📊 策略洞察</span><span id="strategySectionArrow" style="font-size:11px;">▼</span>
+    </div>
+    <div class="repurchase-section-body" id="strategySection">
+      <div id="strategyTextBox"></div>
+      <div class="strategy-section-title">📋 品类综合评分</div>
+      <div class="gateway-table-wrap" id="gatewayTable"></div>
+      <div class="strategy-section-title">💰 跨品类引流 GMV 贡献矩阵</div>
+      <div class="gmv-matrix-wrap" id="gmvMatrix"></div>
     </div>
   </div>
 
@@ -4870,7 +4912,7 @@ function calculateRepurchase() {
 
   // === 品类间流转分析 (Cross-category flow) ===
   // Track: first purchase product → later purchase products
-  var firstProductFlow = {}; // { firstSku: { totalFirstBuyers: N, flows: { laterSku: count } } }
+  var firstProductFlow = {}; // { firstSku: { totalFirstBuyers: N, flows: { laterSku: count }, flowGMV: { laterSku: gmv } } }
   var categoryIntervals = {}; // { sku: { intervals: [days], sameSkuIntervals: [days] } }
 
   for (var r = 0; r < repeatBuyers.length; r++) {
@@ -4878,14 +4920,18 @@ function calculateRepurchase() {
     var firstSku = ords[0].sku;
 
     if (!firstProductFlow[firstSku]) {
-      firstProductFlow[firstSku] = { totalFirstBuyers: 0, flows: {} };
+      firstProductFlow[firstSku] = { totalFirstBuyers: 0, flows: {}, flowGMV: {} };
     }
     firstProductFlow[firstSku].totalFirstBuyers++;
 
-    // Track all later unique SKUs (excluding the first)
+    // Track all later unique SKUs and their GMV (excluding the first)
     var laterSkus = {};
+    var laterSkuGMV = {};
     for (var oi = 1; oi < ords.length; oi++) {
       laterSkus[ords[oi].sku] = true;
+      if (ords[oi].sku !== firstSku) {
+        laterSkuGMV[ords[oi].sku] = (laterSkuGMV[ords[oi].sku] || 0) + ords[oi].amount;
+      }
       // Per-category intervals: same-product repurchase gap
       if (ords[oi].sku === ords[oi - 1].sku) {
         var gap2 = Math.round((ords[oi].date - ords[oi - 1].date) / (1000 * 60 * 60 * 24));
@@ -4898,6 +4944,7 @@ function calculateRepurchase() {
     for (var ls in laterSkus) {
       if (ls === firstSku) continue; // skip same-product later purchases for flow analysis
       firstProductFlow[firstSku].flows[ls] = (firstProductFlow[firstSku].flows[ls] || 0) + 1;
+      firstProductFlow[firstSku].flowGMV[ls] = (firstProductFlow[firstSku].flowGMV[ls] || 0) + (laterSkuGMV[ls] || 0);
     }
   }
 
@@ -4938,6 +4985,12 @@ function calculateRepurchase() {
     };
   }
 
+  // Calculate average order price per SKU
+  var skuAvgPrice = {};
+  for (var ssk in skuStats) {
+    skuAvgPrice[ssk] = skuStats[ssk].orders > 0 ? skuStats[ssk].gmv / skuStats[ssk].orders : 0;
+  }
+
   return {
     totalOrders: totalOrders,
     totalBuyers: totalBuyers,
@@ -4952,7 +5005,8 @@ function calculateRepurchase() {
     buyerMap: buyerMap,
     allSkus: Object.keys(skuStats),
     firstProductFlow: firstProductFlow,
-    categoryCycleStats: categoryCycleStats
+    categoryCycleStats: categoryCycleStats,
+    skuAvgPrice: skuAvgPrice
   };
 }
 
@@ -4992,6 +5046,7 @@ function renderRepurchaseDashboard() {
   // Flow analysis & category cycle
   renderFlowAnalysis(stats);
   renderCategoryCycle(stats);
+  renderStrategyInsights(stats);
 
   // Populate SKU filter for buyer table
   var skuOpts = '<option value="">全部 SKU</option>';
@@ -5220,6 +5275,206 @@ function renderCategoryCycle(stats) {
       var line = e2.sku + ' | 总复购:' + d2.totalPurchases + '次 | 平均间隔:' + (d2.avgInterval || '-') + '天 | 中位:' + (d2.medianInterval || '-') + '天';
       if (d2.sameSkuPurchases > 0) line += ' | 同品复购:' + d2.sameSkuPurchases + '次 | 同品平均:' + (d2.sameSkuAvg || '-') + '天';
       lines.push(line);
+    }
+    return lines.join('\n');
+  });
+}
+
+// === 策略洞察渲染 ===
+function renderStrategyInsights(stats) {
+  var flowData = stats.firstProductFlow;
+  var allSkus = stats.allSkus.slice().sort();
+  var avgPrice = stats.skuAvgPrice || {};
+
+  if (!flowData || Object.keys(flowData).length === 0) {
+    document.getElementById('strategyTextBox').innerHTML = '<div class="strategy-text-box warning">数据不足，需要至少 2 个品类的复购数据才能生成策略洞察。</div>';
+    document.getElementById('gatewayTable').innerHTML = '';
+    document.getElementById('gmvMatrix').innerHTML = '';
+    return;
+  }
+
+  // --- 1. Build per-SKU comprehensive metrics ---
+  var skuMetrics = [];
+  for (var i = 0; i < allSkus.length; i++) {
+    var sku = allSkus[i];
+    var fd = flowData[sku] || { totalFirstBuyers: 0, flows: {}, flowGMV: {} };
+    var row = stats.skuRows.filter(function(r) { return r.sku === sku; })[0] || { repurchaseRate: 0, gmv: 0, totalBuyers: 0 };
+
+    // Cross-category: total unique buyers who bought other categories
+    var crossBuyers = 0, crossGMV = 0;
+    for (var cs in fd.flows) {
+      if (cs === sku) continue;
+      crossBuyers += fd.flows[cs] || 0;
+      crossGMV += fd.flowGMV[cs] || 0;
+    }
+
+    var firstBuyers = fd.totalFirstBuyers || 0;
+    var crossRate = firstBuyers > 0 ? crossBuyers / firstBuyers : 0;
+    var selfRate = row.repurchaseRate || 0;
+    var price = avgPrice[sku] || 0;
+
+    // Determine category tag
+    var tag = '', tagClass = '';
+    if (selfRate >= 0.2 && crossRate >= 0.15) {
+      tag = '全能选手'; tagClass = 'allround';
+    } else if (crossRate >= 0.2 && crossRate > selfRate) {
+      tag = '引流爆品'; tagClass = 'hero';
+    } else if (selfRate >= 0.2) {
+      tag = '复购金牛'; tagClass = 'anchor';
+    } else if (firstBuyers >= 3) {
+      tag = '待培育'; tagClass = 'nurture';
+    }
+
+    skuMetrics.push({
+      sku: sku,
+      price: price,
+      selfRate: selfRate,
+      crossRate: crossRate,
+      crossBuyers: crossBuyers,
+      crossGMV: crossGMV,
+      firstBuyers: firstBuyers,
+      totalBuyers: row.totalBuyers || 0,
+      totalGMV: row.gmv || 0,
+      tag: tag,
+      tagClass: tagClass
+    });
+  }
+
+  // --- 2. Generate strategy text insights ---
+  var insights = [];
+  var heroItems = skuMetrics.filter(function(m) { return m.tag === '引流爆品'; }).sort(function(a, b) { return b.crossGMV - a.crossGMV; });
+  var anchorItems = skuMetrics.filter(function(m) { return m.tag === '复购金牛'; }).sort(function(a, b) { return b.selfRate - a.selfRate; });
+  var allroundItems = skuMetrics.filter(function(m) { return m.tag === '全能选手'; }).sort(function(a, b) { return b.selfRate - a.selfRate; });
+
+  // Best cross-sell pair by GMV
+  var bestPair = null, bestPairGMV = 0;
+  for (var sk in flowData) {
+    for (var dk in flowData[sk].flowGMV) {
+      var gmvVal = flowData[sk].flowGMV[dk];
+      if (gmvVal > bestPairGMV) {
+        bestPairGMV = gmvVal;
+        bestPair = { from: sk, to: dk, gmv: gmvVal, count: (flowData[sk].flows[dk] || 0) };
+      }
+    }
+  }
+
+  // Build insight text
+  var textHtml = '';
+
+  if (allroundItems.length > 0) {
+    textHtml += '<div class="strategy-text-box acquisition">';
+    textHtml += '<strong>🏆 全能选手：</strong>';
+    for (var ai = 0; ai < allroundItems.length; ai++) {
+      var am = allroundItems[ai];
+      textHtml += (ai > 0 ? '；' : '') + '<b>' + am.sku + '</b> 自身复购率 <b>' + (am.selfRate * 100).toFixed(1) + '%</b>，跨品类引流率 <b>' + (am.crossRate * 100).toFixed(1) + '%</b>，引流贡献 GMV <b>$' + am.crossGMV.toFixed(2) + '</b>，客单价 $' + am.price.toFixed(2);
+    }
+    textHtml += '。建议持续投流，兼顾拉新和复购。</div>';
+  }
+
+  if (heroItems.length > 0) {
+    textHtml += '<div class="strategy-text-box acquisition">';
+    textHtml += '<strong>🚀 引流爆品：</strong>';
+    for (var hi = 0; hi < heroItems.length; hi++) {
+      var hm = heroItems[hi];
+      textHtml += (hi > 0 ? '；' : '') + '<b>' + hm.sku + '</b> 客单价 $' + hm.price.toFixed(2) + '，自身复购率仅 ' + (hm.selfRate * 100).toFixed(1) + '%，但为其他品类贡献了 <b>$' + hm.crossGMV.toFixed(2) + '</b> 的关联 GMV';
+    }
+    textHtml += '。建议作为拉新主推品，搭配其他品类组合促销。</div>';
+  }
+
+  if (anchorItems.length > 0) {
+    textHtml += '<div class="strategy-text-box retention">';
+    textHtml += '<strong>💎 复购金牛：</strong>';
+    for (var ni = 0; ni < anchorItems.length; ni++) {
+      var nm = anchorItems[ni];
+      var cycle = stats.categoryCycleStats && stats.categoryCycleStats[nm.sku];
+      var cycleStr = cycle && cycle.medianInterval !== null ? '，复购中位间隔 ' + cycle.medianInterval + ' 天' : '';
+      textHtml += (ni > 0 ? '；' : '') + '<b>' + nm.sku + '</b> 客单价 $' + nm.price.toFixed(2) + '，自身复购率 <b>' + (nm.selfRate * 100).toFixed(1) + '%</b>' + cycleStr;
+    }
+    textHtml += '。建议重点维护复购节奏，按复购周期准时触达。</div>';
+  }
+
+  if (bestPair && bestPair.gmv > 0) {
+    textHtml += '<div class="strategy-text-box warning">';
+    textHtml += '<strong>🔗 最强关联组合：</strong>首次购买 <b>' + bestPair.from + '</b> → 后续购买 <b>' + bestPair.to + '</b>，' + bestPair.count + ' 位客户贡献 GMV <b>$' + bestPair.gmv.toFixed(2) + '</b>。';
+    textHtml += '建议做捆绑套装或关联推荐。</div>';
+  }
+
+  document.getElementById('strategyTextBox').innerHTML = textHtml;
+
+  // --- 3. Gateway score table ---
+  skuMetrics.sort(function(a, b) { return b.crossGMV - a.crossGMV; });
+  var gHtml = '<table><thead><tr><th>品类</th><th>客单价</th><th>总买家</th><th>首购用户</th><th>自身复购率</th><th>跨品类引流率</th><th>引流人数</th><th>引流GMV</th><th>总GMV</th><th>定位</th></tr></thead><tbody>';
+  for (var gi = 0; gi < skuMetrics.length; gi++) {
+    var gm = skuMetrics[gi];
+    gHtml += '<tr>';
+    gHtml += '<td><strong>' + gm.sku + '</strong></td>';
+    gHtml += '<td>$' + gm.price.toFixed(2) + '</td>';
+    gHtml += '<td>' + gm.totalBuyers + '</td>';
+    gHtml += '<td>' + gm.firstBuyers + '</td>';
+    gHtml += '<td><b>' + (gm.selfRate * 100).toFixed(1) + '%</b></td>';
+    gHtml += '<td><b>' + (gm.crossRate * 100).toFixed(1) + '%</b></td>';
+    gHtml += '<td>' + gm.crossBuyers + '</td>';
+    gHtml += '<td><b style="color:#0F6E56;">$' + gm.crossGMV.toFixed(2) + '</b></td>';
+    gHtml += '<td>$' + gm.totalGMV.toFixed(2) + '</td>';
+    gHtml += '<td>' + (gm.tag ? '<span class="gateway-tag ' + gm.tagClass + '">' + gm.tag + '</span>' : '-') + '</td>';
+    gHtml += '</tr>';
+  }
+  gHtml += '</tbody></table>';
+  document.getElementById('gatewayTable').innerHTML = gHtml;
+
+  // Quick copy for gateway table
+  var gwWrap = document.getElementById('gatewayTable').closest('.repurchase-section-body');
+  if (gwWrap) addQuickCopyBtn(gwWrap, function() {
+    var lines = ['品类综合评分'];
+    lines.push('品类 | 客单价 | 总买家 | 首购用户 | 自身复购率 | 跨品类引流率 | 引流人数 | 引流GMV | 总GMV | 定位');
+    for (var gci = 0; gci < skuMetrics.length; gci++) {
+      var gm2 = skuMetrics[gci];
+      lines.push(gm2.sku + ' | $' + gm2.price.toFixed(2) + ' | ' + gm2.totalBuyers + ' | ' + gm2.firstBuyers + ' | ' + (gm2.selfRate * 100).toFixed(1) + '% | ' + (gm2.crossRate * 100).toFixed(1) + '% | ' + gm2.crossBuyers + ' | $' + gm2.crossGMV.toFixed(2) + ' | $' + gm2.totalGMV.toFixed(2) + ' | ' + gm2.tag);
+    }
+    return lines.join('\n');
+  });
+
+  // --- 4. Cross-sell GMV matrix ---
+  var gmvHtml = '<table><thead><tr><th style="min-width:120px;">首次购买 ↓ / 后续购买 →</th>';
+  for (var h = 0; h < allSkus.length; h++) {
+    gmvHtml += '<th style="min-width:85px;">' + allSkus[h] + '</th>';
+  }
+  gmvHtml += '</tr></thead><tbody>';
+
+  for (var ri = 0; ri < allSkus.length; ri++) {
+    var rowSku = allSkus[ri];
+    gmvHtml += '<tr><td>' + rowSku + '</td>';
+    for (var ci = 0; ci < allSkus.length; ci++) {
+      var colSku = allSkus[ci];
+      if (rowSku === colSku) {
+        gmvHtml += '<td class="gmv-cell-zero">-</td>';
+      } else {
+        var fd2 = flowData[rowSku] || { flowGMV: {}, flows: {} };
+        var gmv = fd2.flowGMV[colSku] || 0;
+        var cnt = fd2.flows[colSku] || 0;
+        var cls = gmv === 0 ? 'gmv-cell-zero' : (gmv >= 100 ? 'gmv-cell-high' : (gmv >= 30 ? 'gmv-cell-mid' : 'gmv-cell-low'));
+        gmvHtml += '<td class="' + cls + '">' + (gmv > 0 ? '$' + gmv.toFixed(0) + '<br><span style="font-size:9px;">' + cnt + '人</span>' : '-') + '</td>';
+      }
+    }
+    gmvHtml += '</tr>';
+  }
+  gmvHtml += '</tbody></table>';
+  document.getElementById('gmvMatrix').innerHTML = gmvHtml;
+
+  // Quick copy for GMV matrix
+  var gmvWrap = document.getElementById('gmvMatrix').closest('.repurchase-section-body');
+  if (gmvWrap) addQuickCopyBtn(gmvWrap, function() {
+    var lines = ['跨品类引流 GMV 贡献矩阵'];
+    for (var gri = 0; gri < allSkus.length; gri++) {
+      for (var gci2 = 0; gci2 < allSkus.length; gci2++) {
+        if (gri === gci2) continue;
+        var fd3 = flowData[allSkus[gri]] || { flowGMV: {}, flows: {} };
+        var gmv2 = fd3.flowGMV[allSkus[gci2]] || 0;
+        var cnt2 = fd3.flows[allSkus[gci2]] || 0;
+        if (gmv2 > 0) {
+          lines.push(allSkus[gri] + ' → ' + allSkus[gci2] + ': $' + gmv2.toFixed(2) + ' (' + cnt2 + '人)');
+        }
+      }
     }
     return lines.join('\n');
   });
