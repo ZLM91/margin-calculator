@@ -7586,8 +7586,11 @@ function handleProfitCostBulkImport(input) {
         // UTF-16 LE with BOM
         text = new TextDecoder('utf-16le').decode(bytes.slice(2));
       } else {
-        // No BOM — assume UTF-8
+        // No BOM — try UTF-8 first, fall back to GBK if it produces replacement chars
         text = new TextDecoder('utf-8').decode(bytes);
+        if (text.indexOf('\uFFFD') >= 0) {
+          text = new TextDecoder('gbk').decode(bytes);
+        }
       }
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { throw new Error('CSV 至少需要表头+1行数据'); }
