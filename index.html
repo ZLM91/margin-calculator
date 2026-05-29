@@ -134,6 +134,24 @@ button:hover { background: #F0EDE6; }
 .repurchase-sku-map-box { border: 1px solid #E0E0E0; border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
 .repurchase-sku-map-header { padding: 8px 14px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 500; background: #F5F7FA; color: #2B579A; }
 
+/* 快速复制按钮 */
+.quick-copy-wrap { position: relative; }
+.quick-copy-btn {
+  position: absolute; top: 6px; right: 6px;
+  padding: 3px 10px; font-size: 11px; border-radius: 4px;
+  border: 1px solid #C5D3E8; background: #fff; color: #666;
+  cursor: pointer; transition: all .15s; z-index: 10;
+  opacity: 0; line-height: 1.4;
+}
+.quick-copy-wrap:hover .quick-copy-btn,
+.quick-copy-wrap.touch-device .quick-copy-btn { opacity: 1; }
+.quick-copy-btn:hover { background: #2B579A; color: #fff; border-color: #2B579A; }
+.quick-copy-btn.copied { background: #0F6E56; color: #fff; border-color: #0F6E56; }
+/* textarea 场景按钮定位调整 */
+.quick-copy-wrap-textarea .quick-copy-btn { top: 8px; right: 10px; }
+/* formula / static box 场景 */
+.quick-copy-wrap-static .quick-copy-btn { top: 8px; right: 10px; }
+
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -208,7 +226,9 @@ button:hover { background: #F0EDE6; }
     在 Excel 中选中数据区域复制 → 粘贴到下方 → 点击「解析导入」<br>
     格式：第一行为列名（sku,price,cost,firstMile,inboundFee,outboundFee,logisticsSvc,lastMile,platform,commission,extra,share），之后每行一条SKU
   </div>
+  <div class="quick-copy-wrap quick-copy-wrap-textarea">
   <textarea id="importText" rows="6" style="width:100%;font-size:11px;font-family:monospace;padding:8px;border:1px solid #C5D3E8;border-radius:6px;box-sizing:border-box;" placeholder="sku,price,cost,firstMile,inboundFee,outboundFee,logisticsSvc,lastMile,platform,commission,extra,share&#10;FA01,14.99,1.59,0,0,0,0,0,25.6,5,0,62.68&#10;FA02,23.99,3.18,0,0,0,0,0,25.6,5,0,18.95"></textarea>
+  </div>
   <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
     <button onclick="parseImport()" style="background:#2B579A;color:#fff;border-color:#2B579A;padding:6px 16px;">解析导入</button>
     <label style="cursor:pointer;padding:6px 16px;border:1px solid #2B579A;border-radius:4px;font-size:13px;color:#2B579A;">
@@ -220,10 +240,14 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <!-- 汇总卡片 -->
-<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;" id="summaryCards"></div>
+<div style="position:relative;margin-bottom:14px;" id="summaryCardsWrap">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;" id="summaryCards"></div>
+</div>
 
 <!-- 全局策略 -->
-<div id="globalStrategy" style="background:#F0F7FF;border:1px solid #B5D4F4;border-radius:var(--border-radius-md);padding:14px 18px;margin-bottom:14px;font-size:13px;line-height:2.2;min-height:20px;"></div>
+<div class="quick-copy-wrap" style="margin-bottom:14px;" id="globalStrategyWrap">
+<div id="globalStrategy" style="background:#F0F7FF;border:1px solid #B5D4F4;border-radius:var(--border-radius-md);padding:14px 18px;font-size:13px;line-height:2.2;min-height:20px;"></div>
+</div>
 
 <!-- 成本构成图表 -->
 <div style="margin-bottom:14px;">
@@ -232,6 +256,7 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <!-- 公式说明 -->
+<div class="quick-copy-wrap quick-copy-wrap-static" style="margin-bottom:14px;">
 <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;font-size:12px;color:var(--color-text-secondary);line-height:1.7;">
   <b>计算公式说明：</b><br>
   物流合计 = 头程 + 入库费 + 出库费 + 物流服务费 + 尾程<br>
@@ -241,6 +266,7 @@ button:hover { background: #F0EDE6; }
   利润 = 售价 - 总成本 &nbsp;|&nbsp; 毛利率 = 利润 ÷ 售价<br>
   综合毛利率 = Σ(各SKU毛利率 × SKU销售占比)<br>
   ROI平衡点 = 1 ÷ 毛利率 &nbsp;|&nbsp;   综合ROI平衡点 = 1 ÷ 综合毛利率
+</div>
 </div>
 
 </div><!-- /tab-margin -->
@@ -606,7 +632,9 @@ button:hover { background: #F0EDE6; }
     <span id="skuMapBodyArrow" style="font-size:11px;margin-left:auto;">▼</span>
   </div>
   <div class="repurchase-section-body" id="skuMapBody">
+    <div class="quick-copy-wrap quick-copy-wrap-textarea">
     <textarea id="repurchaseSkuMapText" placeholder="每行一个产品组，格式：产品名: SKU1, SKU2, SKU3&#10;&#10;示例：&#10;洗脸巾 166抽: FA01, FA02, FA03, X004GGBN4R&#10;牙膏: YA01, YA03&#10;婴儿湿巾: BA03, BA08, X00478IVBR" style="width:100%;height:120px;border:1px solid #D0D0D0;border-radius:4px;padding:8px;font-size:11px;font-family:monospace;resize:vertical;line-height:1.6;"></textarea>
+    </div>
     <div style="margin-top:6px;display:flex;gap:8px;align-items:center;">
       <button onclick="applyRepurchaseSkuMap()" style="padding:4px 14px;border-radius:4px;background:#2B579A;color:#fff;border:none;font-size:12px;">应用映射</button>
       <span id="repurchaseSkuMapStatus" style="font-size:11px;color:#888;"></span>
@@ -621,7 +649,9 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <div id="repurchaseDashboard" style="display:none;">
-  <div class="repurchase-metric-row" id="repurchaseMetrics"></div>
+  <div style="position:relative;margin-bottom:14px;" id="repurchaseMetricsWrap">
+    <div class="repurchase-metric-row" id="repurchaseMetrics"></div>
+  </div>
 
   <div class="repurchase-section">
     <div class="repurchase-section-header" onclick="toggleRepurchaseSection('skuSection')">
@@ -664,6 +694,83 @@ button:hover { background: #F0EDE6; }
 <script>
 const MONEY = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 });
 const PCT  = new Intl.NumberFormat('en-GB', { style: 'percent', minimumFractionDigits: 2 });
+
+// --- 快速复制按钮 ---
+// 检测触摸设备
+(function() {
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.documentElement.classList.add('touch-device');
+  }
+})();
+
+function addQuickCopyBtn(container, getTextFn) {
+  // 移除旧按钮
+  var old = container.querySelector('.quick-copy-btn');
+  if (old) old.remove();
+  // 确保容器有 relative 定位
+  if (!container.classList.contains('quick-copy-wrap')) {
+    container.classList.add('quick-copy-wrap');
+  }
+  var btn = document.createElement('button');
+  btn.className = 'quick-copy-btn';
+  btn.textContent = '📋 复制';
+  btn.title = '点击复制内容';
+  btn.onclick = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var text;
+    if (typeof getTextFn === 'function') {
+      text = getTextFn();
+    } else if (container.tagName === 'TEXTAREA') {
+      text = container.value;
+    } else {
+      text = container.textContent || container.innerText || '';
+    }
+    copyToClipboard(text.trim(), btn);
+  };
+  container.appendChild(btn);
+}
+
+function copyToClipboard(text, btn) {
+  if (!text) { showCopyFeedback(btn, false); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      showCopyFeedback(btn, true);
+    }).catch(function() {
+      fallbackCopy(text, btn);
+    });
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed'; ta.style.left = '-9999px'; ta.style.top = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try {
+    var ok = document.execCommand('copy');
+    showCopyFeedback(btn, ok);
+  } catch(e) {
+    showCopyFeedback(btn, false);
+  }
+  document.body.removeChild(ta);
+}
+
+function showCopyFeedback(btn, ok) {
+  if (ok) {
+    btn.textContent = '✅ 已复制';
+    btn.classList.add('copied');
+  } else {
+    btn.textContent = '❌ 失败';
+  }
+  setTimeout(function() {
+    btn.textContent = '📋 复制';
+    btn.classList.remove('copied');
+  }, 1500);
+}
 
 // 拆分为 5 个物流子项：头程、入库费、出库费、物流服务费、尾程
 let data = [
@@ -1095,6 +1202,22 @@ function render() {
 
   document.getElementById('globalStrategy').innerHTML = getGlobalStrategy(rows, affRatio, wavg);
 
+  // 快速复制按钮
+  addQuickCopyBtn(document.getElementById('summaryCardsWrap'), function() {
+    var lines = [];
+    var cards = document.getElementById('summaryCards').children;
+    for (var c = 0; c < cards.length; c++) {
+      var divs = cards[c].querySelectorAll('div');
+      if (divs.length >= 2) {
+        lines.push(divs[0].textContent.trim() + ': ' + divs[1].textContent.trim());
+      }
+    }
+    return lines.length > 0 ? lines.join('\n') : document.getElementById('summaryCards').textContent.trim();
+  });
+  addQuickCopyBtn(document.getElementById('globalStrategyWrap'), function() {
+    return document.getElementById('globalStrategy').textContent;
+  });
+
   // 成本构成堆叠图
   let labels = data.map(d => d.sku);
   let productCosts   = rows.map(r => parseFloat(r.d.cost));
@@ -1519,6 +1642,7 @@ function showDateRange(dateRangeText) {
   if (dateRangeText) {
     el.style.display = 'flex';
     txt.textContent = dateRangeText;
+    addQuickCopyBtn(el, function() { return txt.textContent; });
   } else {
     el.style.display = 'none';
   }
@@ -1530,6 +1654,7 @@ function showDateRangeUK(dateRangeText) {
   if (dateRangeText) {
     el.style.display = 'flex';
     txt.textContent = dateRangeText;
+    addQuickCopyBtn(el, function() { return txt.textContent; });
   } else {
     el.style.display = 'none';
   }
@@ -4647,6 +4772,11 @@ function renderRepurchaseDashboard() {
     return '<div class="repurchase-metric-card"><div class="rm-value ' + c.cls + '">' + c.value + '</div><div class="rm-label">' + c.label + '</div></div>';
   }).join('');
 
+  // 快速复制按钮 - 复购指标
+  addQuickCopyBtn(document.getElementById('repurchaseMetricsWrap'), function() {
+    return cards.map(function(c) { return c.label + ': ' + c.value; }).join('\n');
+  });
+
   // SKU table
   renderRepurchaseSkuTable(stats);
 
@@ -4675,6 +4805,14 @@ function renderRepurchaseSkuTable(stats) {
   }
   html += '</tbody></table>';
   document.getElementById('repurchaseSkuTable').innerHTML = html;
+
+  // 快速复制按钮 - SKU表
+  var skuTableWrap = document.getElementById('repurchaseSkuTable').closest('.repurchase-section-body');
+  if (skuTableWrap) addQuickCopyBtn(skuTableWrap, function() {
+    return rows.map(function(r) {
+      return r.sku + ' | 订单:' + r.orders + ' | 用户:' + r.totalBuyers + ' | 复购用户:' + r.repeatBuyers + ' | 复购率:' + (r.repurchaseRate * 100).toFixed(1) + '% | GMV:$' + r.gmv.toFixed(2) + ' | 销量:' + r.qty;
+    }).join('\n');
+  });
 }
 
 var repurchaseIntervalChart = null;
@@ -4773,6 +4911,15 @@ function renderRepurchaseBuyerTable() {
   }
   html += '</tbody></table>';
   document.getElementById('repurchaseBuyerTable').innerHTML = html;
+
+  // 快速复制按钮 - 买家表
+  var buyerTableWrap = document.getElementById('repurchaseBuyerTable').closest('.repurchase-section-body');
+  if (buyerTableWrap && filtered.length > 0) addQuickCopyBtn(buyerTableWrap, function() {
+    return filtered.map(function(b) {
+      var intervals = b.data.intervals.join(', ');
+      return b.buyer + ' | 购买' + b.data.purchaseCount + '次 | SKU:' + Object.keys(b.data.skus).join(',') + ' | GMV:$' + b.data.totalAmount.toFixed(2) + ' | 间隔:' + intervals + '天';
+    }).join('\n');
+  });
 }
 
 function toggleRepurchaseSection(id) {
@@ -4841,6 +4988,21 @@ function resetRepurchase() {
       applySkuMapToOrders();
     }
   } catch(_) {}
+})();
+
+// --- 静态元素快速复制按钮初始化 ---
+(function initQuickCopyBtns() {
+  // 导入文本域
+  var importText = document.getElementById('importText');
+  if (importText) addQuickCopyBtn(importText.parentElement, function() { return importText.value; });
+
+  // SKU 映射文本域
+  var skuMapText = document.getElementById('repurchaseSkuMapText');
+  if (skuMapText) addQuickCopyBtn(skuMapText.parentElement, function() { return skuMapText.value; });
+
+  // 公式说明
+  var formulaBox = document.querySelector('#tab-margin .quick-copy-wrap-static');
+  if (formulaBox) addQuickCopyBtn(formulaBox, function() { return formulaBox.textContent; });
 })();
 </script>
 </body>
