@@ -199,6 +199,11 @@ button:hover { background: #F0EDE6; }
 /* 矩阵排序控制条 */
 .matrix-sort-bar { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; font-size: 11px; flex-wrap: wrap; }
 .matrix-sort-bar span { color: #888; font-size: 11px; }
+.matrix-sort-bar .help-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: #E0E0E0; color: #555; font-size: 10px; font-weight: 700; cursor: help; margin-left: 2px; flex-shrink: 0; }
+.matrix-sort-bar .help-icon:hover { background: #2B579A; color: #fff; }
+.matrix-sort-bar .help-wrap { position: relative; display: inline-flex; align-items: center; }
+.matrix-sort-bar .help-tooltip { display: none; position: absolute; top: 120%; left: 0; z-index: 100; background: #333; color: #fff; font-size: 11px; line-height: 1.5; padding: 8px 10px; border-radius: 6px; width: 320px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.matrix-sort-bar .help-wrap:hover .help-tooltip { display: block; }
 .matrix-sort-btn { padding: 3px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #D0D0D0; cursor: pointer; background: #fff; transition: all .15s; }
 .matrix-sort-btn:hover { background: #F0F0F0; }
 .matrix-sort-btn.active { background: #2B579A; color: #fff; border-color: #2B579A; }
@@ -5395,7 +5400,13 @@ function renderFlowAnalysis(stats, sortMode) {
     flowSortBtn('引流出人数', 'outflow') +
     flowSortBtn('流入人数', 'inflow') +
     flowSortBtn('名称', 'alpha') +
-    '</div>';
+    '<span class="help-wrap"><span class="help-icon" tabindex="0">?</span>' +
+    '<span class="help-tooltip">' +
+    '📊 <b>矩阵含义</b>：横轴=首次购买品类，纵轴=后续购买品类<br><br>' +
+    '🔁 <b>引流出人数</b>：排序后，行顺序按"多少人从该行 SKU 流向其他品类"从高到低排列，找出<strong>最会带流量出去</strong>的 SKU<br><br>' +
+    '📥 <b>流入人数</b>：排序后，列顺序按"多少人从其他品类流进该列 SKU"从高到低排列，找出<strong>最吸流量</strong>的 SKU<br><br>' +
+    '🔤 <b>名称</b>：按 SKU 名称字母序排列，方便查找' +
+    '</span></span></div>';
 
   // Insight: top cross-category flow
   var insights = [];
@@ -5823,7 +5834,14 @@ function renderStrategyInsights(stats, sortBy, sortDir, gmvSortMode) {
     + gmvSortBtn('引流人数', 'outflowPeople')
     + gmvSortBtn('流入GMV', 'inflow')
     + gmvSortBtn('名称', 'alpha')
-    + '</div>';
+    + '<span class="help-wrap"><span class="help-icon" tabindex="0">?</span>'
+    + '<span class="help-tooltip">'
+    + '📊 <b>GMV 矩阵含义</b>：横轴=首次购买品类，纵轴=后续购买品类<br><br>'
+    + '💰 <b>引流GMV</b>：排序后，行顺序按"该 SKU 引流产生的 GMV 总额"从高到低，找出<strong>带货 GMV 最强</strong>的 SKU<br><br>'
+    + '👥 <b>引流人数</b>：按"引流人数"排序，找出<strong>带人最多</strong>的 SKU<br><br>'
+    + '📥 <b>流入GMV</b>：排序后，列顺序按"其他品类流进该 SKU 的 GMV 总额"从高到低，找出<strong>GMV 承接最强</strong>的 SKU<br><br>'
+    + '🔤 <b>名称</b>：按 SKU 名称字母序排列，方便查找'
+    + '</span></span></div>';
 
   var gmvHtml = gmvSortBar + '<table><thead><tr><th style="min-width:120px;">首次购买 ↓ / 后续购买 →</th>';
   for (var h = 0; h < orderedSkusGMV.length; h++) {
