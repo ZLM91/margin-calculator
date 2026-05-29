@@ -1019,6 +1019,7 @@ button:hover { background: #F0EDE6; }
               <th>结算金额</th>
               <th>产品成本</th>
               <th>订单处理费</th>
+              <th>头程均摊费</th>
               <th>毛利润</th>
               <th>利润率</th>
             </tr>
@@ -1031,7 +1032,7 @@ button:hover { background: #F0EDE6; }
     <!-- 产品成本（待填写） -->
     <div class="profit-summary" style="background:#FFFDF5;border:1px solid #F0E0A0;border-radius:8px;padding:14px 16px;margin-bottom:14px;">
       <div class="section-title" style="color:#88670F;">✏️ 产品成本（按 SKU 填写单位成本，自动保存）</div>
-      <div style="font-size:11px;color:#999;margin-bottom:8px;">填入单位成本和单笔订单处理费（海外仓发货场景），填完后利润自动计算。留空则显示「待填写」。</div>
+      <div style="font-size:11px;color:#999;margin-bottom:8px;">填入单位成本、单笔订单处理费和头程均摊费（按销量分摊），填完后利润自动计算。留空则显示「待填写」。</div>
       <table style="width:auto;min-width:500px;">
         <thead>
           <tr style="background:#F5EDD0;">
@@ -1040,8 +1041,10 @@ button:hover { background: #F0EDE6; }
             <th style="text-align:right;padding:6px 10px;">订单数</th>
             <th style="text-align:right;padding:6px 10px;">单位成本 ($)</th>
             <th style="text-align:right;padding:6px 10px;">订单处理费 ($)</th>
+            <th style="text-align:right;padding:6px 10px;">头程均摊费 ($)</th>
             <th style="text-align:right;padding:6px 10px;">总成本 ($)</th>
             <th style="text-align:right;padding:6px 10px;">总处理费 ($)</th>
+            <th style="text-align:right;padding:6px 10px;">总头程费 ($)</th>
           </tr>
         </thead>
         <tbody id="profitCostTbody"></tbody>
@@ -6531,6 +6534,7 @@ function escapeHtml(str) {
 const PROFIT_STORAGE = 'materna_profit_data';
 const PROFIT_COST_STORAGE = 'materna_profit_cost';
 const PROFIT_ORDER_FEE_STORAGE = 'materna_profit_order_fee';
+const PROFIT_FIRST_LEG_FEE_STORAGE = 'materna_profit_first_leg_fee';
 const PROFIT_SKU_GROUP_STORAGE = 'materna_profit_sku_group';
 
 var profitFinData = null;   // raw financial rows (Type=='Order')
@@ -6538,6 +6542,7 @@ var profitCsvMap = null;    // SKU ID → Seller SKU mapping
 var profitAgg = null;       // aggregated by Seller SKU
 var profitCostMap = {};     // Seller SKU → unit cost (from user input)
 var profitOrderFeeMap = {}; // display name → per-order processing fee (from user input)
+var profitFirstLegFeeMap = {}; // display name → per-unit first-leg freight allocation
 var profitSkuGroupMap = {}; // SKU ID → display name (from textarea mapping)
 var profitBarChart = null;
 var profitPieChart = null;
@@ -6559,6 +6564,15 @@ function loadProfitOrderFees() {
   } catch(e) { profitOrderFeeMap = {}; }
 }
 loadProfitOrderFees();
+
+// Load saved first-leg freight allocation fees
+function loadProfitFirstLegFees() {
+  try {
+    var raw = localStorage.getItem(PROFIT_FIRST_LEG_FEE_STORAGE);
+    if (raw) profitFirstLegFeeMap = JSON.parse(raw);
+  } catch(e) { profitFirstLegFeeMap = {}; }
+}
+loadProfitFirstLegFees();
 
 // Load saved SKU group mapping text
 function loadProfitSkuGroupMap() {
@@ -7388,16 +7402,18 @@ function renderProfitSummaryTable() {
   var html = '';
 
   // Totals
-  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, refund: 0, settlement: 0, productCost: 0, orderFee: 0, profit: 0, orderCnt: 0 };
+  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, refund: 0, settlement: 0, productCost: 0, orderFee: 0, firstLegFee: 0, profit: 0, orderCnt: 0 };
 
   for (var i = 0; i < profitAgg.length; i++) {
     var a = profitAgg[i];
     var unitCost = profitCostMap[a.sku] !== undefined ? parseFloat(profitCostMap[a.sku]) : NaN;
     var orderFee = profitOrderFeeMap[a.sku] !== undefined ? parseFloat(profitOrderFeeMap[a.sku]) : NaN;
+    var firstLegFee = profitFirstLegFeeMap[a.sku] !== undefined ? parseFloat(profitFirstLegFeeMap[a.sku]) : NaN;
     var totalCost = isNaN(unitCost) ? NaN : unitCost * a.qty;
     var totalOrderFee = isNaN(orderFee) ? NaN : orderFee * (a.orderCount || a.qty);
-    var grossCost = (!isNaN(totalCost) ? totalCost : 0) + (!isNaN(totalOrderFee) ? totalOrderFee : 0);
-    var profit = (isNaN(totalCost) && isNaN(totalOrderFee)) ? NaN : (a.settlement - grossCost);
+    var totalFirstLegFee = isNaN(firstLegFee) ? NaN : firstLegFee * a.qty;
+    var grossCost = (!isNaN(totalCost) ? totalCost : 0) + (!isNaN(totalOrderFee) ? totalOrderFee : 0) + (!isNaN(totalFirstLegFee) ? totalFirstLegFee : 0);
+    var profit = (isNaN(totalCost) && isNaN(totalOrderFee) && isNaN(totalFirstLegFee)) ? NaN : (a.settlement - grossCost);
     var rate = isNaN(profit) ? NaN : (a.revenue > 0 ? profit / a.revenue : 0);
 
     totals.qty += a.qty;
@@ -7410,6 +7426,7 @@ function renderProfitSummaryTable() {
     totals.orderCnt += (a.orderCount || 0);
     if (!isNaN(totalCost)) totals.productCost += totalCost;
     if (!isNaN(totalOrderFee)) totals.orderFee += totalOrderFee;
+    if (!isNaN(totalFirstLegFee)) totals.firstLegFee += totalFirstLegFee;
     if (!isNaN(profit)) totals.profit += profit;
 
     html += '<tr>';
@@ -7423,6 +7440,7 @@ function renderProfitSummaryTable() {
     html += '<td class="num-pos">$' + fmtNum(a.settlement) + '</td>';
     html += '<td class="' + (isNaN(totalCost) ? 'num-pending' : '') + '">' + (isNaN(totalCost) ? '待填写' : '$' + fmtNum(totalCost)) + '</td>';
     html += '<td class="' + (isNaN(totalOrderFee) ? 'num-pending' : 'num-neg') + '">' + (isNaN(totalOrderFee) ? '待填写' : '-$' + fmtNum(totalOrderFee)) + '</td>';
+    html += '<td class="' + (isNaN(totalFirstLegFee) ? 'num-pending' : 'num-neg') + '">' + (isNaN(totalFirstLegFee) ? '待填写' : '-$' + fmtNum(totalFirstLegFee)) + '</td>';
     html += '<td class="' + (isNaN(profit) ? 'num-pending' : (profit >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(profit) ? '待填写' : '$' + fmtNum(profit)) + '</td>';
     html += '<td class="' + (isNaN(rate) ? 'num-pending' : (rate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(rate) ? '待填写' : (rate * 100).toFixed(1) + '%') + '</td>';
     html += '</tr>';
@@ -7442,6 +7460,7 @@ function renderProfitSummaryTable() {
   html += '<td class="num-pos">$' + fmtNum(totals.settlement) + '</td>';
   html += '<td class="num-pos">$' + fmtNum(totals.productCost) + '</td>';
   html += '<td class="num-neg">-$' + fmtNum(totals.orderFee) + '</td>';
+  html += '<td class="num-neg">-$' + fmtNum(totals.firstLegFee) + '</td>';
   html += '<td class="' + (isNaN(totals.profit) ? '' : (totals.profit >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totals.profit) ? '待填写' : '$' + fmtNum(totals.profit)) + '</td>';
   html += '<td class="' + (isNaN(totalRate) ? '' : (totalRate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totalRate) ? '待填写' : (totalRate * 100).toFixed(1) + '%') + '</td>';
   html += '</tr>';
@@ -7456,16 +7475,20 @@ function renderProfitCostTable() {
     var a = profitAgg[i];
     var cost = profitCostMap[a.sku] !== undefined ? profitCostMap[a.sku] : '';
     var orderFee = profitOrderFeeMap[a.sku] !== undefined ? profitOrderFeeMap[a.sku] : '';
+    var firstLegFee = profitFirstLegFeeMap[a.sku] !== undefined ? profitFirstLegFeeMap[a.sku] : '';
     var totalCost = (cost !== '' && !isNaN(parseFloat(cost))) ? parseFloat(cost) * a.qty : NaN;
     var totalOrderFee = (orderFee !== '' && !isNaN(parseFloat(orderFee))) ? parseFloat(orderFee) * (a.orderCount || a.qty) : NaN;
+    var totalFirstLegFee = (firstLegFee !== '' && !isNaN(parseFloat(firstLegFee))) ? parseFloat(firstLegFee) * a.qty : NaN;
     html += '<tr>';
     html += '<td style="text-align:left;font-weight:500;padding:4px 10px;">' + escapeHtml(a.sku) + '</td>';
     html += '<td style="text-align:right;padding:4px 10px;">' + a.qty + '</td>';
     html += '<td style="text-align:right;padding:4px 10px;color:#888;">' + (a.orderCount || '-') + '</td>';
     html += '<td style="text-align:right;padding:4px 6px;"><input type="number" step="0.01" min="0" value="' + cost + '" data-sku="' + escapeHtml(a.sku) + '" data-field="cost" onchange="onCostFieldChange(this)" style="width:80px;padding:4px;font-size:12px;text-align:right;border:1px solid #D0D0D0;border-radius:4px;" placeholder="0.00"></td>';
     html += '<td style="text-align:right;padding:4px 6px;"><input type="number" step="0.01" min="0" value="' + orderFee + '" data-sku="' + escapeHtml(a.sku) + '" data-field="orderFee" onchange="onCostFieldChange(this)" style="width:80px;padding:4px;font-size:12px;text-align:right;border:1px solid #D0D0D0;border-radius:4px;" placeholder="0.00"></td>';
+    html += '<td style="text-align:right;padding:4px 6px;"><input type="number" step="0.01" min="0" value="' + firstLegFee + '" data-sku="' + escapeHtml(a.sku) + '" data-field="firstLegFee" onchange="onCostFieldChange(this)" style="width:80px;padding:4px;font-size:12px;text-align:right;border:1px solid #D0D0D0;border-radius:4px;" placeholder="0.00"></td>';
     html += '<td style="text-align:right;padding:4px 10px;' + (isNaN(totalCost) ? 'color:#999;' : '') + '">' + (isNaN(totalCost) ? '-' : '$' + fmtNum(totalCost)) + '</td>';
     html += '<td style="text-align:right;padding:4px 10px;' + (isNaN(totalOrderFee) ? 'color:#999;' : '') + '">' + (isNaN(totalOrderFee) ? '-' : '$' + fmtNum(totalOrderFee)) + '</td>';
+    html += '<td style="text-align:right;padding:4px 10px;' + (isNaN(totalFirstLegFee) ? 'color:#999;' : '') + '">' + (isNaN(totalFirstLegFee) ? '-' : '$' + fmtNum(totalFirstLegFee)) + '</td>';
     html += '</tr>';
   }
   tbody.innerHTML = html;
@@ -7475,7 +7498,10 @@ function onCostFieldChange(input) {
   var sku = input.getAttribute('data-sku');
   var field = input.getAttribute('data-field');
   var val = input.value.trim();
-  var map = field === 'orderFee' ? profitOrderFeeMap : profitCostMap;
+  var map;
+  if (field === 'orderFee') map = profitOrderFeeMap;
+  else if (field === 'firstLegFee') map = profitFirstLegFeeMap;
+  else map = profitCostMap;
   if (val === '') {
     delete map[sku];
   } else {
@@ -7496,6 +7522,7 @@ function saveProfitCosts() {
   try {
     localStorage.setItem(PROFIT_COST_STORAGE, JSON.stringify(profitCostMap));
     localStorage.setItem(PROFIT_ORDER_FEE_STORAGE, JSON.stringify(profitOrderFeeMap));
+    localStorage.setItem(PROFIT_FIRST_LEG_FEE_STORAGE, JSON.stringify(profitFirstLegFeeMap));
     var msg = document.getElementById('profitCostMsg');
     msg.style.display = 'inline';
     setTimeout(function() { msg.style.display = 'none'; }, 2000);
@@ -7508,12 +7535,13 @@ function downloadProfitCostTemplate() {
     alert('暂无数据，请先上传财务结算单');
     return;
   }
-  var rows = [['SKU', '单位成本 ($)', '订单处理费 ($)']];
+  var rows = [['SKU', '单位成本 ($)', '订单处理费 ($)', '头程均摊费 ($)']];
   for (var i = 0; i < profitAgg.length; i++) {
     var sku = profitAgg[i].sku;
     var cost = profitCostMap[sku] !== undefined ? profitCostMap[sku] : '';
     var orderFee = profitOrderFeeMap[sku] !== undefined ? profitOrderFeeMap[sku] : '';
-    rows.push([sku, cost, orderFee]);
+    var firstLegFee = profitFirstLegFeeMap[sku] !== undefined ? profitFirstLegFeeMap[sku] : '';
+    rows.push([sku, cost, orderFee, firstLegFee]);
   }
   // Build CSV
   var csv = rows.map(function(r) {
@@ -7552,16 +7580,17 @@ function handleProfitCostBulkImport(input) {
 
       var headers = parseCsvLine(lines[0]);
       var hl = headers.map(function(h) { return h.trim().toLowerCase().replace(/[\s_-]+/g, ''); });
-      var skuIdx = -1, costIdx = -1, feeIdx = -1;
+      var skuIdx = -1, costIdx = -1, feeIdx = -1, firstLegIdx = -1;
       for (var i = 0; i < hl.length; i++) {
         if (hl[i] === 'sku') skuIdx = i;
         if (hl[i].indexOf('单位成本') >= 0 || hl[i] === 'unitcost' || hl[i] === 'cost') costIdx = i;
         if (hl[i].indexOf('订单处理费') >= 0 || hl[i].indexOf('处理费') >= 0 || hl[i] === 'orderfee' || hl[i] === 'fee') feeIdx = i;
+        if (hl[i].indexOf('头程均摊') >= 0 || hl[i].indexOf('头程') >= 0 || hl[i] === 'firstlegfee' || hl[i] === 'firstleg') firstLegIdx = i;
       }
       if (skuIdx === -1) { throw new Error('缺少 SKU 列'); }
-      if (costIdx === -1 && feeIdx === -1) { throw new Error('至少需要"单位成本"或"订单处理费"列'); }
+      if (costIdx === -1 && feeIdx === -1 && firstLegIdx === -1) { throw new Error('至少需要"单位成本"、"订单处理费"或"头程均摊费"列'); }
 
-      var importedCost = 0, importedFee = 0;
+      var importedCost = 0, importedFee = 0, importedFirstLeg = 0;
       for (var j = 1; j < lines.length; j++) {
         var cols = parseCsvLine(lines[j]);
         var sku = (cols[skuIdx] || '').trim();
@@ -7574,6 +7603,10 @@ function handleProfitCostBulkImport(input) {
           var fv = String(cols[feeIdx]).trim();
           if (fv !== '') { profitOrderFeeMap[sku] = parseFloat(fv); importedFee++; }
         }
+        if (firstLegIdx >= 0 && cols[firstLegIdx] !== undefined) {
+          var flv = String(cols[firstLegIdx]).trim();
+          if (flv !== '') { profitFirstLegFeeMap[sku] = parseFloat(flv); importedFirstLeg++; }
+        }
       }
 
       // Save to localStorage
@@ -7584,7 +7617,7 @@ function handleProfitCostBulkImport(input) {
       renderProfitCostTable();
       renderProfitCharts();
 
-      msgEl.textContent = '✅ 导入成功（成本 ' + importedCost + ' 个, 处理费 ' + importedFee + ' 个）';
+      msgEl.textContent = '✅ 导入成功（成本 ' + importedCost + ' 个, 处理费 ' + importedFee + ' 个, 头程费 ' + importedFirstLeg + ' 个）';
       msgEl.style.color = '#0F6E56';
       setTimeout(function() { msgEl.style.display = 'none'; }, 3000);
     } catch(err) {
@@ -7611,7 +7644,12 @@ function renderProfitCharts() {
   var profits = profitAgg.map(function(a) {
     var cost = profitCostMap[a.sku];
     if (cost === undefined) return null;
-    return a.settlement - cost * a.qty;
+    var orderFee = profitOrderFeeMap[a.sku];
+    var firstLegFee = profitFirstLegFeeMap[a.sku];
+    var profit = a.settlement - parseFloat(cost) * a.qty;
+    if (orderFee !== undefined) profit -= parseFloat(orderFee) * (a.orderCount || a.qty);
+    if (firstLegFee !== undefined) profit -= parseFloat(firstLegFee) * a.qty;
+    return profit;
   });
 
   profitBarChart = new Chart(barCtx, {
