@@ -1109,9 +1109,12 @@ button:hover { background: #F0EDE6; }
       </div>
     </div>
 
-    <!-- 重置 -->
-    <div style="text-align:center;margin-top:10px;">
-      <button onclick="resetProfitData()" style="padding:4px 16px;font-size:11px;color:#A32D2D;border-color:#E0C0C0;background:#FFF5F5;">🔄 清除数据 & 重新上传</button>
+    <!-- 操作按钮 -->
+    <div style="text-align:center;margin-top:12px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;">
+      <button onclick="exportProfitReport('pdf')" style="padding:5px 18px;font-size:12px;color:#fff;background:#2B579A;border:1px solid #2B579A;border-radius:6px;cursor:pointer;">📄 导出PDF</button>
+      <button onclick="exportProfitReport('html')" style="padding:5px 18px;font-size:12px;color:#2B579A;background:#fff;border:1px solid #2B579A;border-radius:6px;cursor:pointer;">🌐 导出HTML</button>
+      <span style="color:#ccc;font-size:11px;">|</span>
+      <button onclick="resetProfitData()" style="padding:5px 18px;font-size:12px;color:#A32D2D;border:1px solid #E0C0C0;background:#FFF5F5;border-radius:6px;cursor:pointer;">🔄 清除数据 & 重新上传</button>
     </div>
   </div>
 
@@ -8038,6 +8041,227 @@ function handleProfitCostBulkImport(input) {
   reader.readAsArrayBuffer(file);
   // Reset so re-uploading same file works
   input.value = '';
+}
+
+// ── Export profit report as PDF or standalone HTML ──
+function exportProfitReport(format) {
+  if (!profitAgg || profitAgg.length === 0) {
+    alert('没有数据可导出，请先上传结算报表。');
+    return;
+  }
+
+  // ── Recompute totals ──
+  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, affiliateFee: 0, marketingFee: 0, refund: 0, settlement: 0, productCost: 0, orderFee: 0, firstLegFee: 0, profit: 0, orderCnt: 0 };
+  
+  for (var i = 0; i < profitAgg.length; i++) {
+    var a = profitAgg[i];
+    var uc = profitCostMap[a.sku] !== undefined ? parseFloat(profitCostMap[a.sku]) : NaN;
+    var of = profitOrderFeeMap[a.sku] !== undefined ? parseFloat(profitOrderFeeMap[a.sku]) : NaN;
+    var lf = profitFirstLegFeeMap[a.sku] !== undefined ? parseFloat(profitFirstLegFeeMap[a.sku]) : NaN;
+    var tc = isNaN(uc) ? NaN : uc * a.qty;
+    var tof = isNaN(of) ? NaN : of * (a.orderCount || a.qty);
+    var tlf = isNaN(lf) ? NaN : lf * a.qty;
+    totals.qty += a.qty;
+    totals.revenue += a.revenue;
+    totals.discounts += a.discounts;
+    totals.shipping += a.shipping;
+    totals.platformFee += a.platformFee;
+    totals.affiliateFee += (a.affiliateFee || 0);
+    totals.marketingFee += (a.marketingFee || 0);
+    totals.refund += a.refund;
+    totals.settlement += a.settlement;
+    totals.orderCnt += (a.orderCount || 0);
+    if (!isNaN(tc)) totals.productCost += tc;
+    if (!isNaN(tof)) totals.orderFee += tof;
+    if (!isNaN(tlf)) totals.firstLegFee += tlf;
+  }
+
+  // Net profit
+  var netProfit = totals.settlement - totals.productCost - totals.orderFee - totals.firstLegFee - profitPromoFee - profitFbtWarehouseFee + profitLogisticsReimbursement;
+  var netRate = totals.revenue > 0 ? netProfit / totals.revenue : 0;
+
+  // Date range
+  var dateStr = document.getElementById('profitMonthTag').textContent || '数据已加载';
+  var genTime = new Date().toLocaleString('zh-CN');
+
+  // ── Build export HTML ──
+  function ePct(v) { return totals.revenue > 0 ? (Math.abs(v) / totals.revenue * 100).toFixed(1) + '%' : '0.0%'; }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  var h = '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n';
+  h += '<title>Matern\'ella SKU 利润报表</title>\n';
+  h += '<style>\n';
+  h += '*{box-sizing:border-box;margin:0;padding:0}\n';
+  h += 'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333;background:#f5f6fa;padding:20px;max-width:1200px;margin:0 auto}\n';
+  h += '.header{text-align:center;margin-bottom:24px;padding:20px 0;border-bottom:3px solid #2B579A}\n';
+  h += '.header h1{font-size:22px;color:#2B579A;margin-bottom:4px}\n';
+  h += '.header .sub{font-size:13px;color:#888}\n';
+  h += '.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:20px;margin-bottom:16px}\n';
+  h += '.card-title{font-size:15px;font-weight:600;color:#2B579A;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E8ECF3}\n';
+  h += 'table{width:100%;border-collapse:collapse;font-size:12px}\n';
+  h += 'th{background:#F0F4FA;color:#555;font-weight:600;padding:8px 6px;border-bottom:2px solid #D0D7E5;text-align:center;white-space:nowrap}\n';
+  h += 'td{padding:7px 6px;border-bottom:1px solid #EEE;text-align:center}\n';
+  h += 'td:first-child{text-align:left;font-weight:500}\n';
+  h += '.neg{color:#C0392B}\n';
+  h += '.pos{color:#27AE60}\n';
+  h += '.pending{color:#999;font-style:italic}\n';
+  h += '.total-row td{font-weight:700;background:#F0F4FA;border-bottom:2px solid #D0D7E5}\n';
+  h += '.sub-row td{background:#FFF8E1}\n';
+  h += '.sub-row2 td{background:#E8F5E9}\n';
+  h += '.promo-row td{background:#FFF0F0}\n';
+  h += '.net-row td{background:#E8F5E9;font-size:14px}\n';
+  h += '.pct{font-size:10px;color:#999;font-weight:400}\n';
+  h += '.footer{text-align:center;font-size:11px;color:#AAA;margin-top:20px;padding-top:12px;border-top:1px solid #EEE}\n';
+  h += '.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}\n';
+  h += '.summary-item{background:#F0F4FA;border-radius:8px;padding:12px;text-align:center}\n';
+  h += '.summary-item .val{font-size:18px;font-weight:700;color:#2B579A}\n';
+  h += '.summary-item .lbl{font-size:11px;color:#888;margin-top:2px}\n';
+  h += '@media print{body{background:#fff;padding:10px}.card{box-shadow:none;border:1px solid #EEE;page-break-inside:avoid}}\n';
+  h += '</style>\n</head>\n<body>\n';
+
+  // Header
+  h += '<div class="header">\n';
+  h += '<h1>Matern\'ella SKU 利润报表</h1>\n';
+  h += '<div class="sub">' + esc(dateStr) + ' &nbsp;|&nbsp; 生成时间：' + esc(genTime) + '</div>\n';
+  h += '</div>\n';
+
+  // Summary card
+  h += '<div class="card">\n';
+  h += '<div class="card-title">📊 核心指标</div>\n';
+  h += '<div class="summary-grid">\n';
+  h += '<div class="summary-item"><div class="val">$' + fmtNum(totals.revenue) + '</div><div class="lbl">总收入</div></div>\n';
+  h += '<div class="summary-item"><div class="val">' + totals.qty + '</div><div class="lbl">总销量</div></div>\n';
+  h += '<div class="summary-item"><div class="val">$' + fmtNum(totals.settlement) + '</div><div class="lbl">结算金额</div></div>\n';
+  h += '<div class="summary-item"><div class="val">$' + fmtNum(netProfit) + '</div><div class="lbl">净利润</div></div>\n';
+  var nrClass = netRate >= 0 ? 'pos' : 'neg';
+  h += '<div class="summary-item"><div class="val ' + nrClass + '">' + (netRate * 100).toFixed(1) + '%</div><div class="lbl">净利润率</div></div>\n';
+  h += '</div></div>\n';
+
+  // SKU detail table
+  h += '<div class="card">\n';
+  h += '<div class="card-title">📋 SKU 利润明细</div>\n';
+  h += '<table><thead><tr>\n';
+  h += '<th>SKU</th><th>销量</th><th>总收入</th><th>折扣</th><th>运费</th><th>平台佣金</th><th>达人佣金</th><th>推广扣费</th><th>退款</th><th>结算金额</th><th>产品成本</th><th>订单处理费</th><th>头程均摊费</th><th>毛利润</th><th>利润率</th>\n';
+  h += '</tr></thead><tbody>\n';
+
+  for (var j = 0; j < profitAgg.length; j++) {
+    var b = profitAgg[j];
+    var uc2 = profitCostMap[b.sku] !== undefined ? parseFloat(profitCostMap[b.sku]) : NaN;
+    var of2 = profitOrderFeeMap[b.sku] !== undefined ? parseFloat(profitOrderFeeMap[b.sku]) : NaN;
+    var lf2 = profitFirstLegFeeMap[b.sku] !== undefined ? parseFloat(profitFirstLegFeeMap[b.sku]) : NaN;
+    var tc2 = isNaN(uc2) ? NaN : uc2 * b.qty;
+    var tof2 = isNaN(of2) ? NaN : of2 * (b.orderCount || b.qty);
+    var tlf2 = isNaN(lf2) ? NaN : lf2 * b.qty;
+    var gc = (!isNaN(tc2) ? tc2 : 0) + (!isNaN(tof2) ? tof2 : 0) + (!isNaN(tlf2) ? tlf2 : 0);
+    var gp = (isNaN(uc2) && isNaN(of2) && isNaN(lf2)) ? NaN : (b.settlement - gc);
+    var gr = isNaN(gp) ? NaN : (b.revenue > 0 ? gp / b.revenue : 0);
+
+    h += '<tr>';
+    h += '<td>' + esc(b.sku) + '</td>';
+    h += '<td>' + b.qty + '</td>';
+    h += '<td>$' + fmtNum(b.revenue) + '</td>';
+    h += '<td class="neg">-$' + fmtNum(b.discounts) + ' <span class="pct">(' + ePct(b.discounts) + ')</span></td>';
+    h += '<td class="neg">-$' + fmtNum(b.shipping) + ' <span class="pct">(' + ePct(b.shipping) + ')</span></td>';
+    h += '<td class="neg">-$' + fmtNum(b.platformFee) + ' <span class="pct">(' + ePct(b.platformFee) + ')</span></td>';
+    h += '<td class="neg">-$' + fmtNum(b.affiliateFee || 0) + ' <span class="pct">(' + ePct(b.affiliateFee || 0) + ')</span></td>';
+    h += '<td class="neg">-$' + fmtNum(b.marketingFee || 0) + ' <span class="pct">(' + ePct(b.marketingFee || 0) + ')</span></td>';
+    h += '<td class="neg">-$' + fmtNum(b.refund) + ' <span class="pct">(' + ePct(b.refund) + ')</span></td>';
+    h += '<td class="pos">$' + fmtNum(b.settlement) + '</td>';
+    h += '<td class="' + (isNaN(tc2) ? 'pending' : '') + '">' + (isNaN(tc2) ? '待填写' : '$' + fmtNum(tc2)) + '</td>';
+    h += '<td class="' + (isNaN(tof2) ? 'pending' : 'neg') + '">' + (isNaN(tof2) ? '待填写' : '-$' + fmtNum(tof2)) + '</td>';
+    h += '<td class="' + (isNaN(tlf2) ? 'pending' : 'neg') + '">' + (isNaN(tlf2) ? '待填写' : '-$' + fmtNum(tlf2)) + '</td>';
+    h += '<td class="' + (isNaN(gp) ? 'pending' : (gp >= 0 ? 'pos' : 'neg')) + '">' + (isNaN(gp) ? '待填写' : '$' + fmtNum(gp)) + '</td>';
+    h += '<td class="' + (isNaN(gr) ? 'pending' : (gr >= 0 ? 'pos' : 'neg')) + '">' + (isNaN(gr) ? '待填写' : (gr * 100).toFixed(1) + '%') + '</td>';
+    h += '</tr>\n';
+  }
+
+  // Total row
+  var tr = totals.revenue > 0 ? (totals.settlement - totals.productCost - totals.orderFee - totals.firstLegFee) / totals.revenue : 0;
+  h += '<tr class="total-row">';
+  h += '<td>合计</td>';
+  h += '<td>' + totals.qty + '</td>';
+  h += '<td>$' + fmtNum(totals.revenue) + '</td>';
+  h += '<td class="neg">-$' + fmtNum(totals.discounts) + ' <span class="pct">(' + ePct(totals.discounts) + ')</span></td>';
+  h += '<td class="neg">-$' + fmtNum(totals.shipping) + ' <span class="pct">(' + ePct(totals.shipping) + ')</span></td>';
+  h += '<td class="neg">-$' + fmtNum(totals.platformFee) + ' <span class="pct">(' + ePct(totals.platformFee) + ')</span></td>';
+  h += '<td class="neg">-$' + fmtNum(totals.affiliateFee) + ' <span class="pct">(' + ePct(totals.affiliateFee) + ')</span></td>';
+  h += '<td class="neg">-$' + fmtNum(totals.marketingFee) + ' <span class="pct">(' + ePct(totals.marketingFee) + ')</span></td>';
+  h += '<td class="neg">-$' + fmtNum(totals.refund) + ' <span class="pct">(' + ePct(totals.refund) + ')</span></td>';
+  h += '<td class="pos">$' + fmtNum(totals.settlement) + '</td>';
+  h += '<td>$' + fmtNum(totals.productCost) + '</td>';
+  h += '<td class="neg">-$' + fmtNum(totals.orderFee) + '</td>';
+  h += '<td class="neg">-$' + fmtNum(totals.firstLegFee) + '</td>';
+  h += '<td class="' + (tr >= 0 ? 'pos' : 'neg') + '">$' + fmtNum(totals.settlement - totals.productCost - totals.orderFee - totals.firstLegFee) + '</td>';
+  h += '<td class="' + (tr >= 0 ? 'pos' : 'neg') + '">' + (tr * 100).toFixed(1) + '%</td>';
+  h += '</tr>\n';
+
+  // FBT warehouse fee
+  if (profitFbtWarehouseFee !== 0) {
+    h += '<tr class="sub-row"><td>FBT仓储服务费</td>';
+    h += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+    h += '<td class="neg">$' + fmtNum(profitFbtWarehouseFee) + ' <span class="pct">(' + ePct(profitFbtWarehouseFee) + ')</span></td>';
+    h += '<td></td></tr>\n';
+  }
+
+  // Logistics reimbursement
+  if (profitLogisticsReimbursement !== 0) {
+    h += '<tr class="sub-row2"><td>物流赔付</td>';
+    h += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+    h += '<td class="pos">+$' + fmtNum(profitLogisticsReimbursement) + ' <span class="pct">(' + ePct(profitLogisticsReimbursement) + ')</span></td>';
+    h += '<td></td></tr>\n';
+  }
+
+  // Promotion fee
+  h += '<tr class="promo-row"><td>推广费用（手动）</td>';
+  h += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  h += '<td class="neg">-$' + fmtNum(profitPromoFee) + ' <span class="pct">(' + ePct(profitPromoFee) + ')</span></td>';
+  h += '<td></td></tr>\n';
+
+  // Net profit
+  h += '<tr class="net-row"><td>净利润</td>';
+  h += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  h += '<td class="' + (netProfit >= 0 ? 'pos' : 'neg') + '" style="font-size:15px;font-weight:700;">$' + fmtNum(netProfit) + '</td>';
+  h += '<td class="' + (netRate >= 0 ? 'pos' : 'neg') + '" style="font-weight:600;">' + (netRate * 100).toFixed(1) + '%</td>';
+  h += '</tr>\n';
+
+  h += '</tbody></table>\n</div>\n';
+
+  // Cost config
+  h += '<div class="card">\n';
+  h += '<div class="card-title">⚙️ 成本配置</div>\n';
+  h += '<table><thead><tr><th>SKU</th><th>单位产品成本</th><th>每单处理费</th><th>头程均摊费</th></tr></thead><tbody>\n';
+  for (var k = 0; k < profitAgg.length; k++) {
+    var sk = profitAgg[k].sku;
+    h += '<tr><td>' + esc(sk) + '</td>';
+    h += '<td>' + (profitCostMap[sk] !== undefined ? '$' + profitCostMap[sk] : '未填写') + '</td>';
+    h += '<td>' + (profitOrderFeeMap[sk] !== undefined ? '$' + profitOrderFeeMap[sk] : '未填写') + '</td>';
+    h += '<td>' + (profitFirstLegFeeMap[sk] !== undefined ? '$' + profitFirstLegFeeMap[sk] : '未填写') + '</td>';
+    h += '</tr>\n';
+  }
+  h += '</tbody></table>\n</div>\n';
+
+  // Footer
+  h += '<div class="footer">Matern\'ella (子初) TikTok Shop 美国站 · 由利润看板工具自动生成 · ' + esc(genTime) + '</div>\n';
+  h += '</body>\n</html>';
+
+  // ── Output ──
+  if (format === 'pdf') {
+    var w = window.open('', '_blank', 'width=1024,height=768');
+    if (!w) { alert('弹窗被浏览器拦截，请允许弹窗后重试。也可使用"导出HTML"下载文件后再打印。'); return; }
+    w.document.write(h);
+    w.document.close();
+    w.focus();
+    setTimeout(function() { w.print(); }, 600);
+  } else {
+    var blob = new Blob([h], { type: 'text/html;charset=UTF-8' });
+    var dl = document.createElement('a');
+    dl.href = URL.createObjectURL(blob);
+    dl.download = 'Maternella_SKU_Profit_' + new Date().toISOString().slice(0,10) + '.html';
+    document.body.appendChild(dl);
+    dl.click();
+    document.body.removeChild(dl);
+    URL.revokeObjectURL(dl.href);
+  }
 }
 
 function renderProfitCharts() {
