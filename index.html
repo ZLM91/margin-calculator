@@ -6534,14 +6534,39 @@ function handleProfitFinUpload(input) {
       var sheet = wb.Sheets[wb.SheetNames[0]];
       var rows = XLSX.utils.sheet_to_json(sheet);
 
-      // Filter Order type rows with valid SKU
-      profitFinData = rows.filter(function(r) {
-        return r['Type'] === 'Order' && r['SKU ID'] && r['SKU name'];
-      }).map(function(r) {
-        return {
+      // Debug: check what keys exist in the first row
+      var sampleKeys = rows.length > 0 ? Object.keys(rows[0]).slice(0, 10).join(', ') : '(empty)';
+      console.log('[profitFin] total rows parsed:', rows.length, 'first row keys:', sampleKeys);
+
+      // Find the Type column (case-insensitive, trim)
+      var typeKey = null;
+      var knownKeys = rows.length > 0 ? Object.keys(rows[0]) : [];
+      for (var ti = 0; ti < knownKeys.length; ti++) {
+        if (knownKeys[ti].trim().toLowerCase() === 'type') { typeKey = knownKeys[ti]; break; }
+      }
+
+      // Filter Order type rows with valid SKU - use trim and flexible matching
+      profitFinData = [];
+      var totalRows = rows.length;
+      var orderCount = 0, noSkuCount = 0;
+      for (var ri = 0; ri < rows.length; ri++) {
+        var r = rows[ri];
+        var typeVal = typeKey ? String(r[typeKey] || '').trim() : '';
+        // Accept both "Order" and case variations
+        if (typeVal.toLowerCase() !== 'order') continue;
+        orderCount++;
+        var skuId = r['SKU ID'] !== undefined ? String(r['SKU ID'] || '').trim() : '';
+        var skuName = r['SKU name'] !== undefined ? String(r['SKU name'] || '').trim() : '';
+        // Also try common alternatives
+        if (!skuId) { skuId = r['SKU_ID'] !== undefined ? String(r['SKU_ID'] || '').trim() : ''; }
+        if (!skuName) { skuName = r['SKU_Name'] !== undefined ? String(r['SKU_Name'] || '').trim() : ''; }
+        if (!skuName) { skuName = r['Product name'] !== undefined ? String(r['Product name'] || '').trim() : ''; }
+        if (!skuId || !skuName) { noSkuCount++; continue; }
+
+        profitFinData.push({
           orderId: String(r['Order/adjustment ID'] || '').trim(),
-          skuId: String(r['SKU ID'] || '').trim(),
-          skuName: String(r['SKU name'] || '').trim(),
+          skuId: skuId,
+          skuName: skuName,
           qty: parseFloat(r['Quantity']) || 0,
           revenue: parseFloat(r['Total Revenue']) || 0,
           discounts: parseFloat(r['Seller discounts']) || 0,
@@ -6556,17 +6581,25 @@ function handleProfitFinUpload(input) {
           transactionFee: parseFloat(r['Transaction fee']) || 0,
           salesTax: parseFloat(r['Sales tax']) || 0,
           totalFees: parseFloat(r['Total Fees']) || 0
-        };
-      });
+        });
+      }
 
-      // Also parse refunds
-      var refunds = rows.filter(function(r) {
-        return r['Type'] === 'Refund' && r['SKU ID'];
-      });
+      console.log('[profitFin] total:', totalRows, 'Type=Order:', orderCount, 'no SKU:', noSkuCount, 'valid:', profitFinData.length);
+
+      // Also parse refunds (flexible matching)
+      var refunds = [];
+      for (var ri2 = 0; ri2 < rows.length; ri2++) {
+        var rr = rows[ri2];
+        var rt = typeKey ? String(rr[typeKey] || '').trim().toLowerCase() : '';
+        if (rt !== 'refund') continue;
+        var rsid = rr['SKU ID'] !== undefined ? String(rr['SKU ID'] || '').trim() : '';
+        if (!rsid) { rsid = rr['SKU_ID'] !== undefined ? String(rr['SKU_ID'] || '').trim() : ''; }
+        if (rsid) refunds.push(rr);
+      }
       var refundBySku = {};
-      refunds.forEach(function(r) {
-        var sid = String(r['SKU ID'] || '').trim();
-        var amt = parseFloat(r['Total settlement amount']) || 0;
+      refunds.forEach(function(rrf) {
+        var sid = String(rrf['SKU ID'] || '').trim();
+        var amt = parseFloat(rrf['Total settlement amount']) || 0;
         refundBySku[sid] = (refundBySku[sid] || 0) + amt;
       });
 
@@ -6581,7 +6614,13 @@ function handleProfitFinUpload(input) {
       // Update status bar - Fin ready
       var finItem = document.getElementById('profitStatusFin');
       finItem.classList.remove('waiting'); finItem.classList.add('ready');
-      document.getElementById('profitStatusFinText').textContent = '已上传 (' + profitFinData.length + ' 条订单)';
+      var statusText = '已上传 (' + profitFinData.length + ' 条订单)';
+      if (profitFinData.length === 0 && rows.length > 0) {
+        statusText = '⚠️ 解析到 ' + rows.length + ' 行但筛选后为0，请检查列名';
+        finItem.classList.remove('ready'); finItem.classList.add('waiting');
+        console.warn('[profitFin] Column names found:', sampleKeys);
+      }
+      document.getElementById('profitStatusFinText').textContent = statusText;
 
       tryProcessProfit();
     } catch(err) {
