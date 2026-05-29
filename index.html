@@ -299,6 +299,35 @@ button:hover { background: #F0EDE6; }
 .tiktok-category { margin-bottom: 18px; }
 .tiktok-category.hidden-cat { display: none; }
 
+/* ── SKU 利润看板 ── */
+.profit-upload-row { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.profit-upload-box { flex: 1; min-width: 260px; border: 2px dashed #C5D3E8; border-radius: 10px; padding: 18px 20px; cursor: pointer; transition: border-color .2s,background .2s; background: #FAFBFC; text-align: center; }
+.profit-upload-box:hover { border-color: #2B579A; background: #F0F5FF; }
+.profit-upload-box.has-file { border-color: #0F6E56; background: #F0FAF5; border-style: solid; }
+.profit-upload-box .upload-icon { font-size: 28px; margin-bottom: 4px; }
+.profit-upload-box .upload-label { font-weight: 600; font-size: 13px; color: #2B579A; }
+.profit-upload-box .upload-sub { font-size: 11px; color: #999; margin-top: 2px; }
+.profit-upload-box .upload-done { font-size: 11px; color: #0F6E56; font-weight: 500; margin-top: 4px; }
+.profit-summary { margin-bottom: 14px; }
+.profit-summary .section-title { font-size: 15px; font-weight: 600; color: #2B579A; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; }
+.profit-table-wrap { overflow-x: auto; border: 1px solid #E0E0E0; border-radius: 8px; max-height: 500px; overflow-y: auto; }
+.profit-table-wrap table { font-size: 12px; min-width: 800px; }
+.profit-table-wrap thead th { background: #2B579A; color: #fff; padding: 7px 8px; position: sticky; top: 0; z-index: 2; white-space: nowrap; text-align: right; }
+.profit-table-wrap thead th:first-child { text-align: left; }
+.profit-table-wrap tbody td { padding: 5px 8px; border-bottom: 1px solid #E8E8E8; text-align: right; }
+.profit-table-wrap tbody td:first-child { text-align: left; font-weight: 500; }
+.profit-table-wrap tbody tr:hover { background: #F0F7FF; }
+.profit-table-wrap tbody tr.total-row { background: #E8F0FE; font-weight: 700; border-top: 2px solid #2B579A; }
+.profit-table-wrap .num-pos { color: #0F6E56; }
+.profit-table-wrap .num-neg { color: #A32D2D; }
+.profit-table-wrap .num-pending { color: #B8860B; font-style: italic; }
+.profit-chart-row { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.profit-chart-row .chart-card { flex: 1; min-width: 400px; background: #FAFBFC; border: 1px solid #E0E0E0; border-radius: 8px; padding: 14px 16px; }
+.profit-chart-row .chart-card h4 { margin: 0 0 10px 0; font-size: 14px; color: #2B579A; }
+.profit-chart-row .chart-wrap { height: 300px; position: relative; }
+.profit-month-tag { display: inline-block; background: #E8F0FE; color: #2B579A; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+.profit-empty { text-align: center; padding: 60px 20px; color: #999; }
+
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -311,6 +340,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn" data-tab="video-uk" onclick="switchTab('video-uk')">📹 视频数据 (英国)</button>
   <button class="tab-btn" data-tab="repurchase" onclick="switchTab('repurchase')">🔄 复购分析</button>
   <button class="tab-btn" data-tab="tiktok" onclick="switchTab('tiktok')">📝 TikTok文案</button>
+  <button class="tab-btn" data-tab="profit" onclick="switchTab('profit')">💰 SKU利润看板</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -912,6 +942,101 @@ button:hover { background: #F0EDE6; }
     <div style="font-size:12px;">支持 .md / .txt 格式，每日自动化会生成 tiktok_titles_daily.md</div>
   </div>
 </div><!-- /tab-tiktok -->
+
+<div id="tab-profit" class="tab-content">
+  <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">💰 SKU 利润看板</h1>
+  <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">上传财务结算单 + 订单明细，自动按 SKU 汇总收入 / 运费 / 平台费 / 结算金额</p>
+
+  <!-- 上传区域 -->
+  <div class="profit-upload-row">
+    <div class="profit-upload-box" id="profitFinBox" onclick="document.getElementById('profitFinFile').click()">
+      <div class="upload-icon">📊</div>
+      <div class="upload-label">上传财务结算单</div>
+      <div class="upload-sub">income_*.xlsx（TikTok Shop 后台导出）</div>
+      <div class="upload-done" id="profitFinName" style="display:none;"></div>
+      <input type="file" id="profitFinFile" accept=".xlsx,.xls" style="display:none;" onchange="handleProfitFinUpload(this)">
+    </div>
+    <div class="profit-upload-box" id="profitCsvBox" onclick="document.getElementById('profitCsvFile').click()">
+      <div class="upload-icon">📦</div>
+      <div class="upload-label">上传订单明细</div>
+      <div class="upload-sub">全部笔订单.csv（TikTok Shop 订单导出）</div>
+      <div class="upload-done" id="profitCsvName" style="display:none;"></div>
+      <input type="file" id="profitCsvFile" accept=".csv,.txt" style="display:none;" onchange="handleProfitCsvUpload(this)">
+    </div>
+  </div>
+
+  <!-- 汇总结果区（初始隐藏） -->
+  <div id="profitResult" style="display:none;">
+
+    <!-- 汇总表格 -->
+    <div class="profit-summary">
+      <div class="section-title">📋 SKU 利润汇总 <span class="profit-month-tag" id="profitMonthTag"></span></div>
+      <div class="profit-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left;">SKU</th>
+              <th>销量</th>
+              <th>总收入</th>
+              <th>折扣</th>
+              <th>运费合计</th>
+              <th>平台佣金</th>
+              <th>退款</th>
+              <th>结算金额</th>
+              <th>产品成本</th>
+              <th>毛利润</th>
+              <th>利润率</th>
+            </tr>
+          </thead>
+          <tbody id="profitTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 产品成本（待填写） -->
+    <div class="profit-summary" style="background:#FFFDF5;border:1px solid #F0E0A0;border-radius:8px;padding:14px 16px;margin-bottom:14px;">
+      <div class="section-title" style="color:#88670F;">✏️ 产品成本（按 SKU 填写单位成本，自动保存）</div>
+      <div style="font-size:11px;color:#999;margin-bottom:8px;">每个 SKU 填入单位成本（美元），填完后利润自动计算。留空则显示「待填写」。</div>
+      <table style="width:auto;min-width:400px;">
+        <thead>
+          <tr style="background:#F5EDD0;">
+            <th style="text-align:left;padding:6px 10px;">SKU</th>
+            <th style="text-align:right;padding:6px 10px;">销量</th>
+            <th style="text-align:right;padding:6px 10px;">单位成本 ($)</th>
+            <th style="text-align:right;padding:6px 10px;">总成本 ($)</th>
+          </tr>
+        </thead>
+        <tbody id="profitCostTbody"></tbody>
+      </table>
+      <button onclick="saveProfitCosts()" style="margin-top:8px;padding:2px 12px;font-size:11px;background:#88670F;color:#fff;border:none;border-radius:4px;">💾 保存成本</button>
+      <span id="profitCostMsg" style="font-size:11px;color:#0F6E56;margin-left:8px;display:none;">已保存</span>
+    </div>
+
+    <!-- 图表 -->
+    <div class="profit-chart-row">
+      <div class="chart-card">
+        <h4>📊 各 SKU 结算金额 & 利润对比</h4>
+        <div class="chart-wrap"><canvas id="profitBarChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h4>🥧 费用构成占比</h4>
+        <div class="chart-wrap"><canvas id="profitPieChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 重置 -->
+    <div style="text-align:center;margin-top:10px;">
+      <button onclick="resetProfitData()" style="padding:4px 16px;font-size:11px;color:#A32D2D;border-color:#E0C0C0;background:#FFF5F5;">🔄 清除数据 & 重新上传</button>
+    </div>
+  </div>
+
+  <!-- 空状态 -->
+  <div id="profitEmpty" class="profit-empty">
+    <div style="font-size:48px;margin-bottom:12px;">💰</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:6px;">上传财务结算单和订单明细开始分析</div>
+    <div style="font-size:12px;">支持 .xlsx 财务结算单 + .csv 订单明细，自动匹配 SKU</div>
+  </div>
+</div><!-- /tab-profit -->
 
 </div><!-- /container -->
 
@@ -1675,8 +1800,12 @@ function switchTab(tab) {
   document.getElementById('tab-video-uk').classList.toggle('active', tab === 'video-uk');
   document.getElementById('tab-repurchase').classList.toggle('active', tab === 'repurchase');
   document.getElementById('tab-tiktok').classList.toggle('active', tab === 'tiktok');
+  document.getElementById('tab-profit').classList.toggle('active', tab === 'profit');
   if (tab === 'repurchase' && repurchaseOrders.length > 0) {
     renderRepurchaseDashboard();
+  }
+  if (tab === 'profit') {
+    renderProfitDashboard();
   }
 }
 
@@ -6344,6 +6473,470 @@ function showTiktokCopyFeedback(btn, ok) {
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ============================================================
+//  SKU 利润看板 (Profit Dashboard)
+// ============================================================
+const PROFIT_STORAGE = 'materna_profit_data';
+const PROFIT_COST_STORAGE = 'materna_profit_cost';
+
+var profitFinData = null;   // raw financial rows (Type=='Order')
+var profitCsvMap = null;    // SKU ID → Seller SKU mapping
+var profitAgg = null;       // aggregated by Seller SKU
+var profitCostMap = {};     // Seller SKU → unit cost (from user input)
+var profitBarChart = null;
+var profitPieChart = null;
+
+// Load saved costs from localStorage
+function loadProfitCosts() {
+  try {
+    var raw = localStorage.getItem(PROFIT_COST_STORAGE);
+    if (raw) profitCostMap = JSON.parse(raw);
+  } catch(e) { profitCostMap = {}; }
+}
+loadProfitCosts();
+
+function handleProfitFinUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var nameEl = document.getElementById('profitFinName');
+  nameEl.style.display = 'block';
+  nameEl.textContent = '✅ ' + file.name + '（解析中…）';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, { type: 'array' });
+      var sheet = wb.Sheets[wb.SheetNames[0]];
+      var rows = XLSX.utils.sheet_to_json(sheet);
+
+      // Filter Order type rows with valid SKU
+      profitFinData = rows.filter(function(r) {
+        return r['Type'] === 'Order' && r['SKU ID'] && r['SKU name'];
+      }).map(function(r) {
+        return {
+          orderId: String(r['Order/adjustment ID'] || '').trim(),
+          skuId: String(r['SKU ID'] || '').trim(),
+          skuName: String(r['SKU name'] || '').trim(),
+          qty: parseFloat(r['Quantity']) || 0,
+          revenue: parseFloat(r['Total Revenue']) || 0,
+          discounts: parseFloat(r['Seller discounts']) || 0,
+          settlement: parseFloat(r['Total settlement amount']) || 0,
+          fbtFee: parseFloat(r['FBT fulfillment fee']) || 0,
+          ttShipFee: parseFloat(r['TikTok Shop shipping fee']) || 0,
+          sellerShipFee: parseFloat(r['Seller shipping fee']) || 0,
+          customerShipFee: parseFloat(r['Customer shipping fee']) || 0,
+          shipSubsidy: parseFloat(r['Shipping subsidy']) || 0,
+          affCommission: parseFloat(r['Affiliate Commission']) || 0,
+          referralFee: parseFloat(r['Referral fee']) || 0,
+          transactionFee: parseFloat(r['Transaction fee']) || 0,
+          salesTax: parseFloat(r['Sales tax']) || 0,
+          totalFees: parseFloat(r['Total Fees']) || 0
+        };
+      });
+
+      // Also parse refunds
+      var refunds = rows.filter(function(r) {
+        return r['Type'] === 'Refund' && r['SKU ID'];
+      });
+      var refundBySku = {};
+      refunds.forEach(function(r) {
+        var sid = String(r['SKU ID'] || '').trim();
+        var amt = parseFloat(r['Total settlement amount']) || 0;
+        refundBySku[sid] = (refundBySku[sid] || 0) + amt;
+      });
+
+      // Attach refund info
+      profitFinData.forEach(function(o) {
+        o.refundAmt = refundBySku[o.skuId] ? Math.abs(refundBySku[o.skuId]) : 0;
+      });
+
+      nameEl.textContent = '✅ ' + file.name + '（' + profitFinData.length + ' 条订单）';
+      document.getElementById('profitFinBox').classList.add('has-file');
+      tryProcessProfit();
+    } catch(err) {
+      nameEl.textContent = '❌ 解析失败: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleProfitCsvUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var nameEl = document.getElementById('profitCsvName');
+  nameEl.style.display = 'block';
+  nameEl.textContent = '✅ ' + file.name + '（解析中…）';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = e.target.result;
+      // Parse CSV manually (handle quotes)
+      var lines = text.split(/\r?\n/);
+      if (lines.length < 2) { nameEl.textContent = '❌ CSV 格式错误'; return; }
+      var headers = parseCsvLine(lines[0]);
+      var skuIdIdx = -1, sellerSkuIdx = -1;
+      for (var i = 0; i < headers.length; i++) {
+        var h = headers[i].trim();
+        if (h === 'SKU ID') skuIdIdx = i;
+        if (h === 'Seller SKU') sellerSkuIdx = i;
+      }
+      if (skuIdIdx === -1 || sellerSkuIdx === -1) {
+        nameEl.textContent = '❌ 缺少 SKU ID 或 Seller SKU 列';
+        return;
+      }
+
+      profitCsvMap = {};
+      for (var j = 1; j < lines.length; j++) {
+        var cols = parseCsvLine(lines[j]);
+        if (cols.length <= Math.max(skuIdIdx, sellerSkuIdx)) continue;
+        var sid = (cols[skuIdIdx] || '').trim();
+        var ssku = (cols[sellerSkuIdx] || '').trim();
+        if (sid && ssku) profitCsvMap[sid] = ssku;
+      }
+
+      var uniqueSkus = Object.keys(profitCsvMap).length;
+      nameEl.textContent = '✅ ' + file.name + '（' + uniqueSkus + ' 个 SKU 映射）';
+      document.getElementById('profitCsvBox').classList.add('has-file');
+      tryProcessProfit();
+    } catch(err) {
+      nameEl.textContent = '❌ 解析失败: ' + err.message;
+    }
+  };
+  reader.readAsText(file);
+}
+
+function parseCsvLine(line) {
+  var result = [];
+  var current = '';
+  var inQuotes = false;
+  for (var i = 0; i < line.length; i++) {
+    var ch = line.charAt(i);
+    if (ch === '"') {
+      inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function tryProcessProfit() {
+  if (!profitFinData || !profitCsvMap) return;
+
+  // Build mapping: financial SKU ID → Seller SKU
+  // Also use SKU name fallback (extract code like TC03 from skuName)
+  var mappingFailCount = 0;
+  profitFinData.forEach(function(o) {
+    o.sellerSku = profitCsvMap[o.skuId] || '';
+    if (!o.sellerSku) {
+      // Fallback: try to match by SKU name
+      var nameLower = o.skuName.toLowerCase();
+      for (var k in profitCsvMap) {
+        if (nameLower.indexOf(profitCsvMap[k].toLowerCase()) !== -1) {
+          o.sellerSku = profitCsvMap[k];
+          break;
+        }
+      }
+    }
+    if (!o.sellerSku) mappingFailCount++;
+  });
+
+  // Aggregate by Seller SKU
+  var agg = {};
+  profitFinData.forEach(function(o) {
+    var sku = o.sellerSku || ('(未匹配)' + o.skuName);
+    if (!agg[sku]) {
+      agg[sku] = {
+        sku: sku,
+        qty: 0,
+        revenue: 0,
+        discounts: 0,
+        shipping: 0,
+        platformFee: 0,
+        refund: 0,
+        settlement: 0,
+        salesTax: 0,
+        detail: { fbtFee: 0, ttShipFee: 0, sellerShipFee: 0, affCommission: 0, referralFee: 0, transactionFee: 0 }
+      };
+    }
+    var a = agg[sku];
+    a.qty += o.qty;
+    a.revenue += o.revenue;
+    a.discounts += o.discounts;
+    a.shipping += o.fbtFee + o.ttShipFee + o.sellerShipFee;
+    a.platformFee += o.affCommission + o.referralFee + o.transactionFee;
+    a.refund += o.refundAmt || 0;
+    a.settlement += o.settlement;
+    a.salesTax += o.salesTax;
+    a.detail.fbtFee += o.fbtFee;
+    a.detail.ttShipFee += o.ttShipFee;
+    a.detail.sellerShipFee += o.sellerShipFee;
+    a.detail.affCommission += o.affCommission;
+    a.detail.referralFee += o.referralFee;
+    a.detail.transactionFee += o.transactionFee;
+  });
+
+  // Convert to sorted array (by settlement desc)
+  profitAgg = [];
+  for (var k in agg) profitAgg.push(agg[k]);
+  profitAgg.sort(function(a, b) { return b.settlement - a.settlement; });
+
+  // Extract month from data
+  var totalQty = profitAgg.reduce(function(s, a) { return s + a.qty; }, 0);
+  var totalRev = profitAgg.reduce(function(s, a) { return s + a.revenue; }, 0);
+
+  // Save to localStorage
+  try {
+    localStorage.setItem(PROFIT_STORAGE, JSON.stringify({
+      agg: profitAgg,
+      mappingFail: mappingFailCount,
+      totalOrders: profitFinData.length,
+      timestamp: Date.now()
+    }));
+  } catch(e) {}
+
+  renderProfitDashboard();
+}
+
+function renderProfitDashboard() {
+  // Try to load from localStorage if profitAgg is null
+  if (!profitAgg) {
+    try {
+      var raw = localStorage.getItem(PROFIT_STORAGE);
+      if (raw) {
+        var saved = JSON.parse(raw);
+        profitAgg = saved.agg || [];
+      }
+    } catch(e) {}
+  }
+
+  var emptyEl = document.getElementById('profitEmpty');
+  var resultEl = document.getElementById('profitResult');
+
+  if (!profitAgg || profitAgg.length === 0) {
+    emptyEl.style.display = 'block';
+    resultEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  resultEl.style.display = 'block';
+
+  // Update month tag
+  document.getElementById('profitMonthTag').textContent = '数据已加载';
+
+  // Render summary table
+  renderProfitSummaryTable();
+
+  // Render cost table
+  renderProfitCostTable();
+
+  // Render charts
+  renderProfitCharts();
+}
+
+function renderProfitSummaryTable() {
+  var tbody = document.getElementById('profitTbody');
+  var html = '';
+
+  // Totals
+  var totals = { qty: 0, revenue: 0, discounts: 0, shipping: 0, platformFee: 0, refund: 0, settlement: 0, productCost: 0, profit: 0 };
+
+  for (var i = 0; i < profitAgg.length; i++) {
+    var a = profitAgg[i];
+    var unitCost = profitCostMap[a.sku] !== undefined ? parseFloat(profitCostMap[a.sku]) : NaN;
+    var totalCost = isNaN(unitCost) ? NaN : unitCost * a.qty;
+    var profit = isNaN(totalCost) ? NaN : (a.settlement - totalCost);
+    var rate = isNaN(profit) ? NaN : (a.revenue > 0 ? profit / a.revenue : 0);
+
+    totals.qty += a.qty;
+    totals.revenue += a.revenue;
+    totals.discounts += a.discounts;
+    totals.shipping += a.shipping;
+    totals.platformFee += a.platformFee;
+    totals.refund += a.refund;
+    totals.settlement += a.settlement;
+    if (!isNaN(totalCost)) totals.productCost += totalCost;
+    if (!isNaN(profit)) totals.profit += profit;
+
+    html += '<tr>';
+    html += '<td>' + escapeHtml(a.sku) + '</td>';
+    html += '<td>' + a.qty + '</td>';
+    html += '<td>$' + fmtNum(a.revenue) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.discounts) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.shipping) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.platformFee) + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(a.refund) + '</td>';
+    html += '<td class="num-pos">$' + fmtNum(a.settlement) + '</td>';
+    html += '<td class="' + (isNaN(totalCost) ? 'num-pending' : '') + '">' + (isNaN(totalCost) ? '待填写' : '$' + fmtNum(totalCost)) + '</td>';
+    html += '<td class="' + (isNaN(profit) ? 'num-pending' : (profit >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(profit) ? '待填写' : '$' + fmtNum(profit)) + '</td>';
+    html += '<td class="' + (isNaN(rate) ? 'num-pending' : (rate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(rate) ? '待填写' : (rate * 100).toFixed(1) + '%') + '</td>';
+    html += '</tr>';
+  }
+
+  // Total row
+  var totalProfit = isNaN(totals.profit) ? NaN : totals.profit;
+  var totalRate = isNaN(totalProfit) ? NaN : (totals.revenue > 0 ? totalProfit / totals.revenue : 0);
+  html += '<tr class="total-row">';
+  html += '<td>合计</td>';
+  html += '<td>' + totals.qty + '</td>';
+  html += '<td>$' + fmtNum(totals.revenue) + '</td>';
+  html += '<td>-$' + fmtNum(totals.discounts) + '</td>';
+  html += '<td>-$' + fmtNum(totals.shipping) + '</td>';
+  html += '<td>-$' + fmtNum(totals.platformFee) + '</td>';
+  html += '<td>-$' + fmtNum(totals.refund) + '</td>';
+  html += '<td class="num-pos">$' + fmtNum(totals.settlement) + '</td>';
+  html += '<td class="num-pos">$' + fmtNum(totals.productCost) + '</td>';
+  html += '<td class="' + (isNaN(totalProfit) ? '' : (totalProfit >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totalProfit) ? '待填写' : '$' + fmtNum(totalProfit)) + '</td>';
+  html += '<td class="' + (isNaN(totalRate) ? '' : (totalRate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totalRate) ? '待填写' : (totalRate * 100).toFixed(1) + '%') + '</td>';
+  html += '</tr>';
+
+  tbody.innerHTML = html;
+}
+
+function renderProfitCostTable() {
+  var tbody = document.getElementById('profitCostTbody');
+  var html = '';
+  for (var i = 0; i < profitAgg.length; i++) {
+    var a = profitAgg[i];
+    var cost = profitCostMap[a.sku] !== undefined ? profitCostMap[a.sku] : '';
+    var totalCost = (cost !== '' && !isNaN(parseFloat(cost))) ? parseFloat(cost) * a.qty : NaN;
+    html += '<tr>';
+    html += '<td style="text-align:left;font-weight:500;padding:4px 10px;">' + escapeHtml(a.sku) + '</td>';
+    html += '<td style="text-align:right;padding:4px 10px;">' + a.qty + '</td>';
+    html += '<td style="text-align:right;padding:4px 6px;"><input type="number" step="0.01" min="0" value="' + cost + '" data-sku="' + escapeHtml(a.sku) + '" onchange="onCostChange(this)" style="width:80px;padding:4px;font-size:12px;text-align:right;border:1px solid #D0D0D0;border-radius:4px;" placeholder="0.00"></td>';
+    html += '<td style="text-align:right;padding:4px 10px;' + (isNaN(totalCost) ? 'color:#999;' : '') + '">' + (isNaN(totalCost) ? '-' : '$' + fmtNum(totalCost)) + '</td>';
+    html += '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function onCostChange(input) {
+  var sku = input.getAttribute('data-sku');
+  var val = input.value.trim();
+  if (val === '') {
+    delete profitCostMap[sku];
+  } else {
+    profitCostMap[sku] = parseFloat(val);
+  }
+  // Live update summary table
+  renderProfitSummaryTable();
+  renderProfitCostTable();
+  renderProfitCharts();
+}
+
+function saveProfitCosts() {
+  try {
+    localStorage.setItem(PROFIT_COST_STORAGE, JSON.stringify(profitCostMap));
+    var msg = document.getElementById('profitCostMsg');
+    msg.style.display = 'inline';
+    setTimeout(function() { msg.style.display = 'none'; }, 2000);
+  } catch(e) {}
+}
+
+function renderProfitCharts() {
+  var barCtx = document.getElementById('profitBarChart').getContext('2d');
+  var pieCtx = document.getElementById('profitPieChart').getContext('2d');
+
+  if (profitBarChart) profitBarChart.destroy();
+  if (profitPieChart) profitPieChart.destroy();
+
+  // Bar chart: settlement vs profit per SKU
+  var labels = profitAgg.map(function(a) { return a.sku; });
+  var settlements = profitAgg.map(function(a) { return a.settlement; });
+  var profits = profitAgg.map(function(a) {
+    var cost = profitCostMap[a.sku];
+    if (cost === undefined) return null;
+    return a.settlement - cost * a.qty;
+  });
+
+  profitBarChart = new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '结算金额',
+          data: settlements,
+          backgroundColor: '#2B579A',
+          borderRadius: 4
+        },
+        {
+          label: '毛利润',
+          data: profits,
+          backgroundColor: '#0F6E56',
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: function(ctx) { return (ctx.dataset.label || '') + ': $' + fmtNum(ctx.raw || 0); } } }
+      },
+      scales: {
+        y: { ticks: { callback: function(v) { return '$' + fmtNum(v); } } }
+      }
+    }
+  });
+
+  // Pie chart: fee breakdown
+  var totalShipping = profitAgg.reduce(function(s, a) { return s + a.shipping; }, 0);
+  var totalPlatform = profitAgg.reduce(function(s, a) { return s + a.platformFee; }, 0);
+  var totalDiscounts = profitAgg.reduce(function(s, a) { return s + a.discounts; }, 0);
+  var totalRefund = profitAgg.reduce(function(s, a) { return s + a.refund; }, 0);
+  var totalSettlement = profitAgg.reduce(function(s, a) { return s + a.settlement; }, 0);
+
+  profitPieChart = new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+      labels: ['结算金额', '运费', '平台佣金', '折扣', '退款'],
+      datasets: [{
+        data: [totalSettlement, totalShipping, totalPlatform, totalDiscounts, totalRefund],
+        backgroundColor: ['#2B579A', '#E8821A', '#A32D2D', '#88670F', '#888888']
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right' },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.label + ': $' + fmtNum(ctx.raw || 0); } } }
+      }
+    }
+  });
+}
+
+function resetProfitData() {
+  if (!confirm('确定清除利润数据和上传的文件？')) return;
+  profitFinData = null;
+  profitCsvMap = null;
+  profitAgg = null;
+  localStorage.removeItem(PROFIT_STORAGE);
+  document.getElementById('profitFinFile').value = '';
+  document.getElementById('profitCsvFile').value = '';
+  document.getElementById('profitFinName').style.display = 'none';
+  document.getElementById('profitCsvName').style.display = 'none';
+  document.getElementById('profitFinBox').classList.remove('has-file');
+  document.getElementById('profitCsvBox').classList.remove('has-file');
+  document.getElementById('profitEmpty').style.display = 'block';
+  document.getElementById('profitResult').style.display = 'none';
+  if (profitBarChart) { profitBarChart.destroy(); profitBarChart = null; }
+  if (profitPieChart) { profitPieChart.destroy(); profitPieChart = null; }
+}
+
+function fmtNum(n) {
+  if (n === null || n === undefined || isNaN(n)) return '0.00';
+  return Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 </script>
 </body>
