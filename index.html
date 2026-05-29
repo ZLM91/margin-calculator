@@ -4362,12 +4362,15 @@ function parseRepurchaseSkuMap(text) {
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i].trim();
     if (!line || line.charAt(0) === '#') continue;
+    // 兼容中英文冒号： 和 :
     var colonIdx = line.indexOf(':');
+    if (colonIdx === -1) colonIdx = line.indexOf('：');
     if (colonIdx === -1) continue;
     var groupName = line.substring(0, colonIdx).trim();
     var skusStr = line.substring(colonIdx + 1).trim();
     if (!groupName || !skusStr) continue;
-    var skus = skusStr.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
+    // 兼容中英文逗号分割
+    var skus = skusStr.split(/[，,]/).map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
     for (var j = 0; j < skus.length; j++) {
       map[skus[j].toLowerCase()] = groupName;
     }
