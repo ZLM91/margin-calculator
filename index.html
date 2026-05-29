@@ -6530,95 +6530,128 @@ function handleProfitFinUpload(input) {
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var wb = XLSX.read(e.target.result, { type: 'array' });
+      var wb = XLSX.read(e.target.result, { type: 'array', cellDates: false, cellFormula: false, cellStyles: false });
+      console.log('[profitFin] sheet names:', wb.SheetNames);
       var sheet = wb.Sheets[wb.SheetNames[0]];
-      var rows = XLSX.utils.sheet_to_json(sheet);
+      console.log('[profitFin] sheet !ref:', sheet['!ref'], '!rows:', sheet['!rows'], '!cols:', sheet['!cols']);
 
-      // Debug: check what keys exist in the first row
-      var sampleKeys = rows.length > 0 ? Object.keys(rows[0]).slice(0, 10).join(', ') : '(empty)';
-      console.log('[profitFin] total rows parsed:', rows.length, 'first row keys:', sampleKeys);
+      // --- Method 1: raw array mode (bypass header detection entirely) ---
+      var raw = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+      console.log('[profitFin] raw array rows:', raw.length);
+      if (raw.length > 0) console.log('[profitFin] raw[0] first 10:', raw[0].slice(0, 10));
 
-      // Find the Type column (case-insensitive, trim)
-      var typeKey = null;
-      var knownKeys = rows.length > 0 ? Object.keys(rows[0]) : [];
-      for (var ti = 0; ti < knownKeys.length; ti++) {
-        if (knownKeys[ti].trim().toLowerCase() === 'type') { typeKey = knownKeys[ti]; break; }
+      var headers = raw[0];
+      var headerIdx = {};
+      for (var hi = 0; hi < headers.length; hi++) {
+        var h = String(headers[hi] || '').trim();
+        headerIdx[h] = hi;
+      }
+      console.log('[profitFin] header keys:', Object.keys(headerIdx).slice(0, 10).join(', '));
+
+      // Find required column indices
+      var typeIdx = headerIdx['Type'];
+      var skuIdIdx = headerIdx['SKU ID'];
+      var skuNameIdx = headerIdx['SKU name'];
+      var orderIdIdx = headerIdx['Order/adjustment ID'];
+      var qtyIdx = headerIdx['Quantity'];
+      var revenueIdx = headerIdx['Total Revenue'];
+      var discountsIdx = headerIdx['Seller discounts'];
+      var settlementIdx = headerIdx['Total settlement amount'];
+      var fbtFeeIdx = headerIdx['FBT fulfillment fee'];
+      var ttShipFeeIdx = headerIdx['TikTok Shop shipping fee'];
+      var sellerShipFeeIdx = headerIdx['Seller shipping fee'];
+      var customerShipFeeIdx = headerIdx['Customer shipping fee'];
+      var shipSubsidyIdx = headerIdx['Shipping subsidy'];
+      var affCommissionIdx = headerIdx['Affiliate Commission'];
+      var referralFeeIdx = headerIdx['Referral fee'];
+      var transactionFeeIdx = headerIdx['Transaction fee'];
+      var salesTaxIdx = headerIdx['Sales tax'];
+      var totalFeesIdx = headerIdx['Total Fees'];
+
+      if (typeIdx === undefined) {
+        nameEl.textContent = '❌ 未找到 Type 列，可用列名: ' + Object.keys(headerIdx).slice(0, 15).join(', ');
+        document.getElementById('profitStatusFinText').textContent = '列名不匹配';
+        return;
       }
 
-      // Filter Order type rows with valid SKU - use trim and flexible matching
+      // Helper to safely get string value from raw row
+      function rval(row, idx) {
+        if (idx === undefined || idx >= row.length) return '';
+        var v = row[idx];
+        return v === undefined || v === null ? '' : String(v).trim();
+      }
+      function rnum(row, idx) {
+        if (idx === undefined || idx >= row.length) return 0;
+        var v = row[idx];
+        if (v === undefined || v === null || v === '') return 0;
+        if (typeof v === 'number') return v;
+        return parseFloat(String(v).replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
       profitFinData = [];
-      var totalRows = rows.length;
-      var orderCount = 0, noSkuCount = 0;
-      for (var ri = 0; ri < rows.length; ri++) {
-        var r = rows[ri];
-        var typeVal = typeKey ? String(r[typeKey] || '').trim() : '';
-        // Accept both "Order" and case variations
-        if (typeVal.toLowerCase() !== 'order') continue;
-        orderCount++;
-        var skuId = r['SKU ID'] !== undefined ? String(r['SKU ID'] || '').trim() : '';
-        var skuName = r['SKU name'] !== undefined ? String(r['SKU name'] || '').trim() : '';
-        // Also try common alternatives
-        if (!skuId) { skuId = r['SKU_ID'] !== undefined ? String(r['SKU_ID'] || '').trim() : ''; }
-        if (!skuName) { skuName = r['SKU_Name'] !== undefined ? String(r['SKU_Name'] || '').trim() : ''; }
-        if (!skuName) { skuName = r['Product name'] !== undefined ? String(r['Product name'] || '').trim() : ''; }
-        if (!skuId || !skuName) { noSkuCount++; continue; }
-
-        profitFinData.push({
-          orderId: String(r['Order/adjustment ID'] || '').trim(),
-          skuId: skuId,
-          skuName: skuName,
-          qty: parseFloat(r['Quantity']) || 0,
-          revenue: parseFloat(r['Total Revenue']) || 0,
-          discounts: parseFloat(r['Seller discounts']) || 0,
-          settlement: parseFloat(r['Total settlement amount']) || 0,
-          fbtFee: parseFloat(r['FBT fulfillment fee']) || 0,
-          ttShipFee: parseFloat(r['TikTok Shop shipping fee']) || 0,
-          sellerShipFee: parseFloat(r['Seller shipping fee']) || 0,
-          customerShipFee: parseFloat(r['Customer shipping fee']) || 0,
-          shipSubsidy: parseFloat(r['Shipping subsidy']) || 0,
-          affCommission: parseFloat(r['Affiliate Commission']) || 0,
-          referralFee: parseFloat(r['Referral fee']) || 0,
-          transactionFee: parseFloat(r['Transaction fee']) || 0,
-          salesTax: parseFloat(r['Sales tax']) || 0,
-          totalFees: parseFloat(r['Total Fees']) || 0
-        });
-      }
-
-      console.log('[profitFin] total:', totalRows, 'Type=Order:', orderCount, 'no SKU:', noSkuCount, 'valid:', profitFinData.length);
-
-      // Also parse refunds (flexible matching)
-      var refunds = [];
-      for (var ri2 = 0; ri2 < rows.length; ri2++) {
-        var rr = rows[ri2];
-        var rt = typeKey ? String(rr[typeKey] || '').trim().toLowerCase() : '';
-        if (rt !== 'refund') continue;
-        var rsid = rr['SKU ID'] !== undefined ? String(rr['SKU ID'] || '').trim() : '';
-        if (!rsid) { rsid = rr['SKU_ID'] !== undefined ? String(rr['SKU_ID'] || '').trim() : ''; }
-        if (rsid) refunds.push(rr);
-      }
       var refundBySku = {};
-      refunds.forEach(function(rrf) {
-        var sid = String(rrf['SKU ID'] || '').trim();
-        var amt = parseFloat(rrf['Total settlement amount']) || 0;
-        refundBySku[sid] = (refundBySku[sid] || 0) + amt;
-      });
+      var totalRows = raw.length - 1; // exclude header
+
+      for (var ri = 1; ri < raw.length; ri++) {
+        var row = raw[ri];
+        if (!row || row.length === 0) continue;
+        var typeVal = rval(row, typeIdx).toLowerCase();
+
+        if (typeVal === 'order') {
+          var skuId = rval(row, skuIdIdx);
+          var skuName = rval(row, skuNameIdx);
+          if (!skuId || !skuName) continue;
+
+          profitFinData.push({
+            orderId: rval(row, orderIdIdx),
+            skuId: skuId,
+            skuName: skuName,
+            qty: rnum(row, qtyIdx),
+            revenue: rnum(row, revenueIdx),
+            discounts: rnum(row, discountsIdx),
+            settlement: rnum(row, settlementIdx),
+            fbtFee: rnum(row, fbtFeeIdx),
+            ttShipFee: rnum(row, ttShipFeeIdx),
+            sellerShipFee: rnum(row, sellerShipFeeIdx),
+            customerShipFee: rnum(row, customerShipFeeIdx),
+            shipSubsidy: rnum(row, shipSubsidyIdx),
+            affCommission: rnum(row, affCommissionIdx),
+            referralFee: rnum(row, referralFeeIdx),
+            transactionFee: rnum(row, transactionFeeIdx),
+            salesTax: rnum(row, salesTaxIdx),
+            totalFees: rnum(row, totalFeesIdx)
+          });
+        } else if (typeVal === 'refund') {
+          var rsid = rval(row, skuIdIdx);
+          if (rsid) {
+            var rsAmt = rnum(row, settlementIdx);
+            refundBySku[rsid] = (refundBySku[rsid] || 0) + Math.abs(rsAmt);
+          }
+        }
+      }
 
       // Attach refund info
       profitFinData.forEach(function(o) {
-        o.refundAmt = refundBySku[o.skuId] ? Math.abs(refundBySku[o.skuId]) : 0;
+        o.refundAmt = refundBySku[o.skuId] || 0;
       });
+
+      console.log('[profitFin] raw rows:', totalRows, 'Type=Order valid:', profitFinData.length, 'refund SKUs:', Object.keys(refundBySku).length);
 
       nameEl.textContent = '✅ ' + file.name + '（' + profitFinData.length + ' 条订单）';
       document.getElementById('profitFinBox').classList.add('has-file');
 
       // Update status bar - Fin ready
       var finItem = document.getElementById('profitStatusFin');
-      finItem.classList.remove('waiting'); finItem.classList.add('ready');
       var statusText = '已上传 (' + profitFinData.length + ' 条订单)';
-      if (profitFinData.length === 0 && rows.length > 0) {
-        statusText = '⚠️ 解析到 ' + rows.length + ' 行但筛选后为0，请检查列名';
+      if (profitFinData.length === 0 && totalRows > 0) {
+        statusText = '⚠️ 解析到 ' + totalRows + ' 行但筛选后为0，请检查 Type 列值';
+        console.warn('[profitFin] Header row:', headers.slice(0, 10));
         finItem.classList.remove('ready'); finItem.classList.add('waiting');
-        console.warn('[profitFin] Column names found:', sampleKeys);
+      } else if (profitFinData.length === 0 && totalRows === 0) {
+        statusText = '⚠️ 解析失败：未读到数据行，请检查文件格式';
+        finItem.classList.remove('ready'); finItem.classList.add('waiting');
+      } else {
+        finItem.classList.remove('waiting'); finItem.classList.add('ready');
       }
       document.getElementById('profitStatusFinText').textContent = statusText;
 
