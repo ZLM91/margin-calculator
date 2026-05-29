@@ -1060,6 +1060,18 @@ button:hover { background: #F0EDE6; }
       </div>
     </div>
 
+    <!-- 当月推广费用 -->
+    <div class="profit-summary" style="background:#FFF0F0;border:1px solid #F0C0C0;border-radius:8px;padding:14px 16px;margin-bottom:14px;">
+      <div class="section-title" style="color:#B03030;">📢 当月总推广费用</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:12px;color:#888;">推广总支出</span>
+        <span style="font-size:16px;font-weight:600;color:#B03030;">$</span>
+        <input type="number" id="profitPromoFeeInput" step="0.01" min="0" value="" style="width:120px;padding:6px 10px;font-size:14px;text-align:right;border:1px solid #D0D0D0;border-radius:6px;" placeholder="0.00" onchange="onPromoFeeChange()" onblur="onPromoFeeChange()">
+        <span id="profitPromoFeeMsg" style="font-size:11px;color:#0F6E56;display:none;">已保存</span>
+      </div>
+      <div style="font-size:11px;color:#999;margin-top:4px;">填写当月全部推广费（广告投放等），将从总利润中扣除</div>
+    </div>
+
     <!-- 图表 -->
     <div class="profit-chart-row">
       <div class="chart-card">
@@ -6537,6 +6549,7 @@ const PROFIT_STORAGE = 'materna_profit_data';
 const PROFIT_COST_STORAGE = 'materna_profit_cost';
 const PROFIT_ORDER_FEE_STORAGE = 'materna_profit_order_fee';
 const PROFIT_FIRST_LEG_FEE_STORAGE = 'materna_profit_first_leg_fee';
+const PROFIT_PROMO_FEE_STORAGE = 'materna_profit_promo_fee';
 const PROFIT_SKU_GROUP_STORAGE = 'materna_profit_sku_group';
 
 var profitFinData = null;   // raw financial rows (Type=='Order')
@@ -6545,6 +6558,7 @@ var profitAgg = null;       // aggregated by Seller SKU
 var profitCostMap = {};     // Seller SKU → unit cost (from user input)
 var profitOrderFeeMap = {}; // display name → per-order processing fee (from user input)
 var profitFirstLegFeeMap = {}; // display name → per-unit first-leg freight allocation
+var profitPromoFee = 0;       // total monthly promotion/advertising fee
 var profitSkuGroupMap = {}; // SKU ID → display name (from textarea mapping)
 var profitBarChart = null;
 var profitPieChart = null;
@@ -6575,6 +6589,15 @@ function loadProfitFirstLegFees() {
   } catch(e) { profitFirstLegFeeMap = {}; }
 }
 loadProfitFirstLegFees();
+
+// Load saved total promotion fee
+function loadProfitPromoFee() {
+  try {
+    var raw = localStorage.getItem(PROFIT_PROMO_FEE_STORAGE);
+    if (raw) profitPromoFee = parseFloat(raw) || 0;
+  } catch(e) { profitPromoFee = 0; }
+}
+loadProfitPromoFee();
 
 // Load saved SKU group mapping text
 function loadProfitSkuGroupMap() {
@@ -7389,6 +7412,10 @@ function renderProfitDashboard() {
   // Update month tag
   document.getElementById('profitMonthTag').textContent = '数据已加载';
 
+  // Populate promotion fee input
+  var promoInput = document.getElementById('profitPromoFeeInput');
+  if (promoInput) promoInput.value = profitPromoFee > 0 ? profitPromoFee : '';
+
   // Render summary table
   renderProfitSummaryTable();
 
@@ -7467,6 +7494,22 @@ function renderProfitSummaryTable() {
   html += '<td class="' + (isNaN(totalRate) ? '' : (totalRate >= 0 ? 'num-pos' : 'num-neg')) + '">' + (isNaN(totalRate) ? '待填写' : (totalRate * 100).toFixed(1) + '%') + '</td>';
   html += '</tr>';
 
+  // Promotion fee deduction row
+  var netProfit = isNaN(totals.profit) ? NaN : (totals.profit - profitPromoFee);
+  var netRate = isNaN(netProfit) ? NaN : (totals.revenue > 0 ? netProfit / totals.revenue : 0);
+  html += '<tr class="total-row" style="background:#FFF0F0;">';
+  html += '<td>推广费用</td>';
+  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  html += '<td class="num-neg" style="font-weight:700;">-$' + fmtNum(profitPromoFee) + '</td>';
+  html += '<td></td>';
+  html += '</tr>';
+  html += '<tr class="total-row" style="background:#E8F5E9;">';
+  html += '<td>净利润</td>';
+  html += '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>';
+  html += '<td class="' + (isNaN(netProfit) ? 'num-pending' : (netProfit >= 0 ? 'num-pos' : 'num-neg')) + '" style="font-size:15px;font-weight:700;">' + (isNaN(netProfit) ? '待填写' : '$' + fmtNum(netProfit)) + '</td>';
+  html += '<td class="' + (isNaN(netRate) ? 'num-pending' : (netRate >= 0 ? 'num-pos' : 'num-neg')) + '" style="font-weight:600;">' + (isNaN(netRate) ? '待填写' : (netRate * 100).toFixed(1) + '%') + '</td>';
+  html += '</tr>';
+
   tbody.innerHTML = html;
 }
 
@@ -7515,6 +7558,19 @@ function onCostFieldChange(input) {
   renderProfitCharts();
 }
 
+function onPromoFeeChange() {
+  var input = document.getElementById('profitPromoFeeInput');
+  var val = input.value.trim();
+  profitPromoFee = val === '' ? 0 : parseFloat(val);
+  // Save to localStorage immediately
+  try { localStorage.setItem(PROFIT_PROMO_FEE_STORAGE, String(profitPromoFee)); } catch(e) {}
+  var msg = document.getElementById('profitPromoFeeMsg');
+  msg.style.display = 'inline';
+  setTimeout(function() { msg.style.display = 'none'; }, 2000);
+  // Refresh summary
+  renderProfitSummaryTable();
+}
+
 function onCostChange(input) {
   // Legacy support — delegate to onCostFieldChange
   onCostFieldChange(input);
@@ -7525,6 +7581,7 @@ function saveProfitCosts() {
     localStorage.setItem(PROFIT_COST_STORAGE, JSON.stringify(profitCostMap));
     localStorage.setItem(PROFIT_ORDER_FEE_STORAGE, JSON.stringify(profitOrderFeeMap));
     localStorage.setItem(PROFIT_FIRST_LEG_FEE_STORAGE, JSON.stringify(profitFirstLegFeeMap));
+    localStorage.setItem(PROFIT_PROMO_FEE_STORAGE, String(profitPromoFee));
     var msg = document.getElementById('profitCostMsg');
     msg.style.display = 'inline';
     setTimeout(function() { msg.style.display = 'none'; }, 2000);
@@ -7757,6 +7814,10 @@ function resetProfitData() {
   document.getElementById('profitResult').style.display = 'none';
   if (profitBarChart) { profitBarChart.destroy(); profitBarChart = null; }
   if (profitPieChart) { profitPieChart.destroy(); profitPieChart = null; }
+  // Reset promotion fee
+  profitPromoFee = 0;
+  var promoInput = document.getElementById('profitPromoFeeInput');
+  if (promoInput) promoInput.value = '';
 }
 
 function fmtNum(n) {
