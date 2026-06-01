@@ -9170,10 +9170,12 @@ function checkOptimization(billableLbs, table, colIdx) {
   if (curTier <= 0) return null;
 
   var prevMax = table[curTier - 1][0];
+  var curMax = table[curTier][0];
   var overage = billableLbs - prevMax;
-  // 阈值：超过不超过0.15lbs 或 不超过上一档上限的5%
-  var threshold = Math.max(0.15, prevMax * 0.05);
-  if (overage > threshold) return null;
+  // 只在档位下半区提示：距上一档上限更近（billableLbs ≤ 档位中点）时才建议优化
+  // 例：2-3磅档，2.01-2.50提示，2.51-2.99不提示
+  var tierMid = (prevMax + curMax) / 2;
+  if (billableLbs > tierMid) return null;
 
   var curFee = table[curTier][colIdx];
   var prevFee = table[curTier - 1][colIdx];
@@ -9261,7 +9263,7 @@ function calcFBT() {
   if (opt) {
     html += '<div style="margin-top:12px;background:#FFF3CD;border:2px solid #FFC107;border-radius:8px;padding:12px 14px;font-size:12px;">';
     html += '<div style="font-weight:700;color:#856404;margin-bottom:4px;">⚠️ 重量优化建议</div>';
-    html += '<div style="color:#856404;">计费重量 <b>' + billableLbs.toFixed(3) + ' lbs</b> 仅超出上一档上限 <b>' + opt.overage.toFixed(3) + ' lbs</b>，建议优化产品规格至 <b>≤ ' + opt.targetWeight.toFixed(2) + ' lbs</b></div>';
+    html += '<div style="color:#856404;">计费重量 <b>' + billableLbs.toFixed(3) + ' lbs</b> 处于档位下半区（距上一档更近），仅超出 <b>' + opt.overage.toFixed(3) + ' lbs</b>，建议优化至 <b>≤ ' + opt.targetWeight.toFixed(2) + ' lbs</b></div>';
     html += '<div style="color:#856404;margin-top:4px;">';
     if (opt.ffSavings > 0) {
       html += '履约费可从 <b>$' + opt.ffCurFee.toFixed(2) + '</b> → <b>$' + opt.ffPrevFee.toFixed(2) + '</b>，节省 <b>$' + opt.ffSavings.toFixed(2) + '</b>/件<br>';
