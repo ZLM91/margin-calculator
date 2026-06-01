@@ -2,7 +2,7 @@
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
 Probiotics for your most sensitive areas? Yes, it's a thing now 🌿 #ProbioticCare #IntimateHealth | 益生菌用在最敏感的地方？对，这才是正经事
-Flushable, biodegradable, and actually soothing — the holy trinity 🧻💚 #FlushableWipes #GreenRoutine | 可冲散、可降解、真正舒缓——三大优点一个都不少
+Biodegradable, pH balanced, and actually soothing — the holy trinity 🧻💚 #GreenRoutine #EcoFriendly | 可降解、pH平衡、真正舒缓——三大优点一个都不少
 If your booty could talk, it would beg for these 🍑 #BootyCare #HygieneUpgrade | 如果屁股会说话，它会求着你用这款
 Dry paper is so 2019. We're in the wet wipe era 💧 #ModernHygiene #UpgradeYourLife | 干纸是2019年的事了，现在是湿厕纸时代
 pH balanced + probiotics = your skin barrier's best friend 🛡️ #SkinBarrier #HealthyBalance | pH平衡+益生菌=皮肤屏障的最佳搭档
@@ -33,7 +33,7 @@ The K-beauty secret that's been hiding in plain sight 🇰🇷 #KBeautySecret #G
 No washing machine. No laundry pile. Just toss and feel fresh 🗑️✨ #LowMaintenance #EasyLife | 不用洗衣机，不用堆积待洗，用完就扔清爽无比
 Patch test your serums. Patch test your moisturizer. But your towel? 🤔 #SkincareLogic #DoubleCheck | 精华做过敏测试，面霜做过敏测试...但毛巾呢？
 Breakout map on your cheeks = exactly where your towel touches 🗺️ #AcneScience #FaceMapping | 脸颊爆痘的地图=毛巾接触的精准位置
-Thick, cloud-like, and somehow still flushable (well, almost) ☁️ #CloudSoft #PremiumTexture | 云朵般厚实，又神奇地能被水冲散
+Thick, cloud-like, and gentle enough for the most sensitive skin ☁️ #CloudSoft #PremiumTexture #SensitiveSkin | 云朵般厚实柔软，敏肌安心使用
 Your morning ritual deserves a fresh start every single day 🌄 #MorningRitual #SelfCareDaily | 你的早晨仪式值得每天一个全新的开始
 
 ### 🦷 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
