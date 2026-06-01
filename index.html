@@ -1112,13 +1112,16 @@ button:hover { background: #F0EDE6; }
     <!-- 样品订单费用 -->
     <div class="profit-summary" id="profitSampleSection" style="display:none;background:#FDF2F8;border:1px solid #E8C0D0;border-radius:8px;padding:14px 16px;margin-bottom:14px;">
       <div class="section-title" style="color:#A03060;">🎁 样品订单费用（销售金额为 $0 的订单）</div>
-      <div style="font-size:11px;color:#888;margin-bottom:8px;">样品成本 = 样品数量 × SKU 单位成本，成本未填写则显示「待填写」。</div>
+      <div style="font-size:11px;color:#888;margin-bottom:8px;">运费 = FBT fulfillment + TikTok Shop shipping + Seller shipping（与财务订单口径一致）。订单处理费 = 订单行数 × 单笔处理费。成本未填写则显示「待填写」。</div>
       <div class="profit-table-wrap">
         <table>
           <thead>
             <tr>
               <th style="text-align:left;">SKU</th>
               <th>样品数量</th>
+              <th>订单行数</th>
+              <th>运费合计</th>
+              <th>订单处理费</th>
               <th>单位成本</th>
               <th>样品总成本</th>
             </tr>
@@ -7116,7 +7119,13 @@ function processFinRows(raw, fileName, nameEl) {
 
       // Sample orders: revenue = 0 → track separately
       if (revenue <= 0) {
-        profitSampleRaw.push({ skuId: skuId, qty: rnum(row, qtyIdx) });
+        profitSampleRaw.push({
+          skuId: skuId,
+          qty: rnum(row, qtyIdx),
+          fbtFee: rnum(row, fbtFeeIdx),
+          ttShipFee: rnum(row, ttShipFeeIdx),
+          sellerShipFee: rnum(row, sellerShipFeeIdx)
+        });
         continue;
       }
 
@@ -7522,9 +7531,11 @@ function buildProfitAggregate() {
     if (profitSkuGroupMap[sellerSku]) sellerSku = profitSkuGroupMap[sellerSku];
     var displaySku = sellerSku || ('(未匹配) ' + s.skuId);
     if (!sampleAggMap[displaySku]) {
-      sampleAggMap[displaySku] = { sku: displaySku, sampleQty: 0 };
+      sampleAggMap[displaySku] = { sku: displaySku, sampleQty: 0, sampleShipping: 0, sampleOrderCnt: 0 };
     }
     sampleAggMap[displaySku].sampleQty += s.qty;
+    sampleAggMap[displaySku].sampleShipping += (s.fbtFee || 0) + (s.ttShipFee || 0) + (s.sellerShipFee || 0);
+    sampleAggMap[displaySku].sampleOrderCnt += 1;
   });
   profitSampleAgg = [];
   for (var ks in sampleAggMap) profitSampleAgg.push(sampleAggMap[ks]);
@@ -7641,9 +7652,11 @@ function buildProfitAggregateDirect() {
     }
     var displaySku = sellerSku || ('(未匹配) ' + s.skuId);
     if (!sampleAggMap2[displaySku]) {
-      sampleAggMap2[displaySku] = { sku: displaySku, sampleQty: 0 };
+      sampleAggMap2[displaySku] = { sku: displaySku, sampleQty: 0, sampleShipping: 0, sampleOrderCnt: 0 };
     }
     sampleAggMap2[displaySku].sampleQty += s.qty;
+    sampleAggMap2[displaySku].sampleShipping += (s.fbtFee || 0) + (s.ttShipFee || 0) + (s.sellerShipFee || 0);
+    sampleAggMap2[displaySku].sampleOrderCnt += 1;
   });
   profitSampleAgg = [];
   for (var ks2 in sampleAggMap2) profitSampleAgg.push(sampleAggMap2[ks2]);
@@ -7938,32 +7951,49 @@ function renderProfitSampleSection() {
   }
   section.style.display = 'block';
 
-  var totalQty = 0, totalCost = 0, hasUnfilledCost = false;
+  var totalQty = 0, totalShipping = 0, totalOrderFee = 0, totalProductCost = 0;
+  var hasUnfilledCost = false, hasUnfilledOrderFee = false, hasUnfilledShipping = false;
   var html = '';
   for (var i = 0; i < profitSampleAgg.length; i++) {
     var s = profitSampleAgg[i];
     var uc = profitCostMap[s.sku] !== undefined ? parseFloat(profitCostMap[s.sku]) : NaN;
-    var sc = isNaN(uc) ? NaN : uc * s.sampleQty;
+    var of = profitOrderFeeMap[s.sku] !== undefined ? parseFloat(profitOrderFeeMap[s.sku]) : NaN;
+    var shipping = s.sampleShipping || 0;
+    var orderFeeTotal = isNaN(of) ? NaN : of * (s.sampleOrderCnt || 1);
+    var productCost = isNaN(uc) ? NaN : uc * s.sampleQty;
+    var totalCost = (isNaN(productCost) ? 0 : productCost) + shipping + (isNaN(orderFeeTotal) ? 0 : orderFeeTotal);
+
     totalQty += s.sampleQty;
-    if (!isNaN(sc)) totalCost += sc;
-    else hasUnfilledCost = true;
+    totalShipping += shipping;
+    if (!isNaN(orderFeeTotal)) totalOrderFee += orderFeeTotal; else hasUnfilledOrderFee = true;
+    if (!isNaN(productCost)) totalProductCost += productCost; else hasUnfilledCost = true;
 
     html += '<tr>';
     html += '<td style="text-align:left;font-weight:500;">' + escapeHtml(s.sku) + '</td>';
     html += '<td>' + s.sampleQty.toLocaleString() + '</td>';
+    html += '<td>' + (s.sampleOrderCnt || '-') + '</td>';
+    html += '<td class="num-neg">-$' + fmtNum(shipping) + '</td>';
+    html += '<td class="' + (isNaN(orderFeeTotal) ? 'num-pending' : 'num-neg') + '">' + (isNaN(orderFeeTotal) ? '待填写' : '-$' + fmtNum(orderFeeTotal)) + '</td>';
     html += '<td class="' + (isNaN(uc) ? 'num-pending' : '') + '">' + (isNaN(uc) ? '待填写' : '$' + fmtNum(uc)) + '</td>';
-    html += '<td class="' + (isNaN(sc) ? 'num-pending' : 'num-neg') + '">' + (isNaN(sc) ? '待填写' : '-$' + fmtNum(sc)) + '</td>';
+    html += '<td class="' + (isNaN(productCost) ? 'num-pending' : 'num-neg') + '">' + (isNaN(productCost) ? '待填写' : '-$' + fmtNum(totalCost)) + '</td>';
     html += '</tr>';
   }
   tbodyEl.innerHTML = html;
 
+  var totalAll = totalProductCost + totalShipping + totalOrderFee;
   var totalText = '样品合计：' + totalQty.toLocaleString() + ' 件';
+  totalText += '，运费：-$' + fmtNum(totalShipping);
+  if (!hasUnfilledOrderFee) {
+    totalText += '，处理费：-$' + fmtNum(totalOrderFee);
+  } else {
+    totalText += '，处理费：部分待填写';
+  }
   if (!hasUnfilledCost) {
-    totalText += '，总成本：-$' + fmtNum(totalCost);
+    totalText += '，总成本：-$' + fmtNum(totalAll);
   } else {
     totalText += '，总成本：部分待填写';
   }
-  tfootEl.innerHTML = '<tr class="total-row"><td colspan="4" style="text-align:center;font-weight:600;">' + totalText + '</td></tr>';
+  tfootEl.innerHTML = '<tr class="total-row"><td colspan="7" style="text-align:center;font-weight:600;">' + totalText + '</td></tr>';
 }
 
 function renderProfitCostTable() {
@@ -8361,28 +8391,37 @@ function exportProfitReport(format) {
   if (profitSampleAgg && profitSampleAgg.length > 0) {
     h += '<div class="card">\n';
     h += '<div class="card-title">🎁 样品订单费用（销售金额为 $0 的订单）</div>\n';
-    h += '<table><thead><tr><th>SKU</th><th>样品数量</th><th>单位成本</th><th>样品总成本</th></tr></thead><tbody>\n';
-    var sampleTotalQty = 0, sampleTotalCost = 0, sampleHasUnfilled = false;
+    h += '<table><thead><tr><th>SKU</th><th>样品数量</th><th>订单行数</th><th>运费合计</th><th>订单处理费</th><th>单位成本</th><th>样品总成本</th></tr></thead><tbody>\n';
+    var sampleTotalQty = 0, sampleTotalShipping = 0, sampleTotalOrderFee = 0, sampleTotalProductCost = 0;
+    var sampleHasUnfilled = false, sampleHasUnfilledFee = false;
     for (var ks = 0; ks < profitSampleAgg.length; ks++) {
       var sp = profitSampleAgg[ks];
       var uc = profitCostMap[sp.sku] !== undefined ? parseFloat(profitCostMap[sp.sku]) : NaN;
-      var sc = isNaN(uc) ? NaN : uc * sp.sampleQty;
+      var ofe = profitOrderFeeMap[sp.sku] !== undefined ? parseFloat(profitOrderFeeMap[sp.sku]) : NaN;
+      var ship = sp.sampleShipping || 0;
+      var ofTotal = isNaN(ofe) ? NaN : ofe * (sp.sampleOrderCnt || 1);
+      var prodCost = isNaN(uc) ? NaN : uc * sp.sampleQty;
+      var totalCostSp = (isNaN(prodCost) ? 0 : prodCost) + ship + (isNaN(ofTotal) ? 0 : ofTotal);
       sampleTotalQty += sp.sampleQty;
-      if (!isNaN(sc)) sampleTotalCost += sc; else sampleHasUnfilled = true;
+      sampleTotalShipping += ship;
+      if (!isNaN(ofTotal)) sampleTotalOrderFee += ofTotal; else sampleHasUnfilledFee = true;
+      if (!isNaN(prodCost)) sampleTotalProductCost += prodCost; else sampleHasUnfilled = true;
       h += '<tr>';
       h += '<td>' + esc(sp.sku) + '</td>';
       h += '<td>' + sp.sampleQty.toLocaleString() + '</td>';
+      h += '<td>' + (sp.sampleOrderCnt || '-') + '</td>';
+      h += '<td class="neg">-$' + fmtNum(ship) + '</td>';
+      h += '<td class="' + (isNaN(ofTotal) ? 'pending' : 'neg') + '">' + (isNaN(ofTotal) ? '待填写' : '-$' + fmtNum(ofTotal)) + '</td>';
       h += '<td>' + (isNaN(uc) ? '待填写' : '$' + fmtNum(uc)) + '</td>';
-      h += '<td class="' + (isNaN(sc) ? 'pending' : 'neg') + '">' + (isNaN(sc) ? '待填写' : '-$' + fmtNum(sc)) + '</td>';
+      h += '<td class="' + (isNaN(prodCost) ? 'pending' : 'neg') + '">' + (isNaN(prodCost) ? '待填写' : '-$' + fmtNum(totalCostSp)) + '</td>';
       h += '</tr>\n';
     }
+    var sampleAllTotal = sampleTotalProductCost + sampleTotalShipping + sampleTotalOrderFee;
     var sampleFootText = '样品合计：' + sampleTotalQty.toLocaleString() + ' 件';
-    if (!sampleHasUnfilled) {
-      sampleFootText += '，总成本：-$' + fmtNum(sampleTotalCost);
-    } else {
-      sampleFootText += '，总成本：部分待填写';
-    }
-    h += '<tr class="total-row"><td colspan="4" style="text-align:center;">' + sampleFootText + '</td></tr>';
+    sampleFootText += '，运费：-$' + fmtNum(sampleTotalShipping);
+    sampleFootText += sampleHasUnfilledFee ? '，处理费：部分待填写' : ('，处理费：-$' + fmtNum(sampleTotalOrderFee));
+    sampleFootText += (sampleHasUnfilled || sampleHasUnfilledFee) ? '，总成本：部分待填写' : ('，总成本：-$' + fmtNum(sampleAllTotal));
+    h += '<tr class="total-row"><td colspan="7" style="text-align:center;">' + sampleFootText + '</td></tr>';
     h += '</tbody></table>\n</div>\n';
   }
 
