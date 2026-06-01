@@ -601,6 +601,7 @@ button:hover { background: #F0EDE6; }
   <div class="map-section" id="unmappedSection" style="display:none;">
     <div class="map-section-header warn" onclick="toggleMapSection('unmappedBody')">
       <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCount" style="font-weight:400;margin-left:6px;"></span></span>
+      <button onclick="exportUnmappedUS();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出CSV</button>
       <span id="unmappedArrow" style="font-size:11px;">▼</span>
     </div>
     <div class="map-section-body" id="unmappedBody">
@@ -775,6 +776,7 @@ button:hover { background: #F0EDE6; }
   <div class="map-section" id="unmappedSectionUK" style="display:none;">
     <div class="map-section-header warn" onclick="toggleMapSectionUK('unmappedBodyUK')">
       <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCountUK" style="font-weight:400;margin-left:6px;"></span></span>
+      <button onclick="exportUnmappedUK();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出CSV</button>
       <span id="unmappedArrowUK" style="font-size:11px;">▼</span>
     </div>
     <div class="map-section-body" id="unmappedBodyUK">
@@ -2625,6 +2627,7 @@ function renderMappingPanel() {
     if (!seenVid[r.vid]) { seenVid[r.vid] = true; unmappedUnique.push(r); }
   });
   unmappedUnique.sort(function(a, b) { return b.gmv - a.gmv; });
+  window._unmappedUs = unmappedUnique;
 
   var unSection = document.getElementById('unmappedSection');
   if (unmappedUnique.length > 0) {
@@ -2696,6 +2699,38 @@ function renderMappingPanel() {
   } else {
     document.getElementById('allMapSection').style.display = 'none';
   }
+}
+
+function exportUnmappedUS() {
+  var data = window._unmappedUs;
+  if (!data || !data.length) { alert('暂无待映射数据'); return; }
+  var csv = '\uFEFF视频ID,TikTok账号,GMV(USD)\n';
+  data.forEach(function(r) {
+    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + '\n';
+  });
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '待映射视频_美国_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportUnmappedUK() {
+  var data = window._unmappedUk;
+  if (!data || !data.length) { alert('暂无待映射数据'); return; }
+  var csv = '\uFEFF视频ID,TikTok账号,GMV(GBP)\n';
+  data.forEach(function(r) {
+    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + '\n';
+  });
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '待映射视频_英国_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function saveSingleMapping(vid) {
@@ -4197,6 +4232,7 @@ function renderMappingPanelUK() {
     if (!seenVid[r.vid]) { seenVid[r.vid] = true; unmappedUnique.push(r); }
   });
   unmappedUnique.sort(function(a, b) { return b.gmv - a.gmv; });
+  window._unmappedUk = unmappedUnique;
 
   var unSection = document.getElementById('unmappedSectionUK');
   if (unmappedUnique.length > 0) {
