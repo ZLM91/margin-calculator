@@ -601,7 +601,8 @@ button:hover { background: #F0EDE6; }
   <div class="map-section" id="unmappedSection" style="display:none;">
     <div class="map-section-header warn" onclick="toggleMapSection('unmappedBody')">
       <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCount" style="font-weight:400;margin-left:6px;"></span></span>
-      <button onclick="exportUnmappedUS();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出CSV</button>
+      <button onclick="exportUnmappedUS();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出</button>
+      <button onclick="importUnmappedUS();event.stopPropagation()" style="margin-left:4px;padding:2px 8px;font-size:11px;background:#5A9E6F;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导入已填写好的CSV批量更新映射">📤 导入</button>
       <span id="unmappedArrow" style="font-size:11px;">▼</span>
     </div>
     <div class="map-section-body" id="unmappedBody">
@@ -776,7 +777,8 @@ button:hover { background: #F0EDE6; }
   <div class="map-section" id="unmappedSectionUK" style="display:none;">
     <div class="map-section-header warn" onclick="toggleMapSectionUK('unmappedBodyUK')">
       <span>⚠️ 待完善映射（有销售额但未分配到人）<span id="unmappedCountUK" style="font-weight:400;margin-left:6px;"></span></span>
-      <button onclick="exportUnmappedUK();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出CSV</button>
+      <button onclick="exportUnmappedUK();event.stopPropagation()" style="margin-left:8px;padding:2px 8px;font-size:11px;background:#2B579A;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导出待映射视频CSV">📥 导出</button>
+      <button onclick="importUnmappedUK();event.stopPropagation()" style="margin-left:4px;padding:2px 8px;font-size:11px;background:#5A9E6F;color:#fff;border:none;border-radius:3px;cursor:pointer;" title="导入已填写好的CSV批量更新映射">📤 导入</button>
       <span id="unmappedArrowUK" style="font-size:11px;">▼</span>
     </div>
     <div class="map-section-body" id="unmappedBodyUK">
@@ -2704,9 +2706,9 @@ function renderMappingPanel() {
 function exportUnmappedUS() {
   var data = window._unmappedUs;
   if (!data || !data.length) { alert('暂无待映射数据'); return; }
-  var csv = '\uFEFF视频ID,TikTok账号,GMV(USD)\n';
+  var csv = '\uFEFF视频ID,TikTok账号,GMV(USD),云视频id,剪辑,编导\n';
   data.forEach(function(r) {
-    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + '\n';
+    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + ',,,\n';
   });
   var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   var url = URL.createObjectURL(blob);
@@ -2720,9 +2722,9 @@ function exportUnmappedUS() {
 function exportUnmappedUK() {
   var data = window._unmappedUk;
   if (!data || !data.length) { alert('暂无待映射数据'); return; }
-  var csv = '\uFEFF视频ID,TikTok账号,GMV(GBP)\n';
+  var csv = '\uFEFF视频ID,TikTok账号,GMV(GBP),云视频id,剪辑,编导\n';
   data.forEach(function(r) {
-    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + '\n';
+    csv += '"' + r.vid + '","' + (r.account || '') + '",' + r.gmv.toFixed(2) + ',,,\n';
   });
   var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   var url = URL.createObjectURL(blob);
@@ -2731,6 +2733,133 @@ function exportUnmappedUK() {
   a.download = '待映射视频_英国_' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function importUnmappedUS() {
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = '.csv';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var text = ev.target.result;
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+      if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
+      var headers = parseCsvLine(lines[0]);
+      var colVid = -1, colCloud = -1, colEditor = -1, colDirector = -1;
+      headers.forEach(function(h, i) {
+        var t = h.trim().replace(/\s/g, '');
+        if (/视频ID|vid|video.?id/i.test(t)) colVid = i;
+        if (/云视频id|cloud.?id|cloud/i.test(t)) colCloud = i;
+        if (/剪辑|editor/i.test(t)) colEditor = i;
+        if (/编导|director/i.test(t)) colDirector = i;
+      });
+      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出CSV的表头结构'); return; }
+      var updated = 0;
+      for (var i = 1; i < lines.length; i++) {
+        var cols = parseCsvLine(lines[i]);
+        var vid = (cols[colVid] || '').trim();
+        var cloudId = colCloud >= 0 ? (cols[colCloud] || '').trim() : '';
+        var editor = cleanName(colEditor >= 0 ? (cols[colEditor] || '') : '');
+        var director = cleanName(colDirector >= 0 ? (cols[colDirector] || '') : '');
+        if (!vid) continue;
+        if (cloudId) {
+          editedMapping.vidToCloud[vid] = cloudId;
+          if (editor || director) {
+            editedMapping.cloudToPerson[cloudId] = { editor: editor, director: director };
+          }
+          updated++;
+        } else if (editor || director) {
+          alert('第' + (i+1) + '行：视频 ' + vid + ' 有剪辑/编导但无云视频id，跳过（云视频id必填）');
+        }
+      }
+      if (updated === 0) { alert('未找到有效映射数据，请确认云视频id列已填写'); return; }
+      saveMappingData();
+      processJoin();
+      renderVideoDetail();
+      buildPersonSummary();
+      renderMappingPanel();
+      alert('成功导入 ' + updated + ' 条映射！');
+    };
+    reader.readAsText(file, 'UTF-8');
+  };
+  input.click();
+}
+
+function importUnmappedUK() {
+  var input = document.createElement('input');
+  input.type = 'file'; input.accept = '.csv';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var text = ev.target.result;
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+      if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
+      var headers = parseCsvLine(lines[0]);
+      var colVid = -1, colCloud = -1, colEditor = -1, colDirector = -1;
+      headers.forEach(function(h, i) {
+        var t = h.trim().replace(/\s/g, '');
+        if (/视频ID|vid|video.?id/i.test(t)) colVid = i;
+        if (/云视频id|cloud.?id|cloud/i.test(t)) colCloud = i;
+        if (/剪辑|editor/i.test(t)) colEditor = i;
+        if (/编导|director/i.test(t)) colDirector = i;
+      });
+      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出CSV的表头结构'); return; }
+      var updated = 0;
+      for (var i = 1; i < lines.length; i++) {
+        var cols = parseCsvLine(lines[i]);
+        var vid = (cols[colVid] || '').trim();
+        var cloudId = colCloud >= 0 ? (cols[colCloud] || '').trim() : '';
+        var editor = cleanName(colEditor >= 0 ? (cols[colEditor] || '') : '');
+        var director = cleanName(colDirector >= 0 ? (cols[colDirector] || '') : '');
+        if (!vid) continue;
+        if (cloudId) {
+          editedMappingUK.vidToCloud[vid] = cloudId;
+          if (editor || director) {
+            editedMappingUK.cloudToPerson[cloudId] = { editor: editor, director: director };
+          }
+          updated++;
+        } else if (editor || director) {
+          alert('第' + (i+1) + '行：视频 ' + vid + ' 有剪辑/编导但无云视频id，跳过（云视频id必填）');
+        }
+      }
+      if (updated === 0) { alert('未找到有效映射数据，请确认云视频id列已填写'); return; }
+      saveMappingData();
+      processJoin();
+      renderVideoDetailUK();
+      buildPersonSummaryUK();
+      renderMappingPanelUK();
+      alert('成功导入 ' + updated + ' 条映射！');
+    };
+    reader.readAsText(file, 'UTF-8');
+  };
+  input.click();
+}
+
+function parseCsvLine(line) {
+  var result = [];
+  var current = '';
+  var inQuotes = false;
+  for (var i = 0; i < line.length; i++) {
+    var ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = false; }
+      } else { current += ch; }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { result.push(current); current = ''; }
+      else { current += ch; }
+    }
+  }
+  result.push(current);
+  return result;
 }
 
 function saveSingleMapping(vid) {
