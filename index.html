@@ -9236,7 +9236,7 @@ function calcFBT() {
   }
 
   // 查表
-  var qtyIdx = qty >= 4 ? 4 : qty + 1;
+  var qtyIdx = Math.min(qty, 4);
   var ffUnit = lookupFF(billableLbs, qtyIdx);
   var ffTotal = ffUnit * qty;
   var hpUnit = lookupHP(billableLbs, hub);
