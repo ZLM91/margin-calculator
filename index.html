@@ -394,6 +394,36 @@ button:hover { background: #F0EDE6; }
 .fbt-summary-total .value { font-size: 28px; font-weight: 800; color: #A32D2D; }
 .fbt-optimize-box { background: #FFF3CD; border: 2px solid #FFC107; border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 12px; }
 
+/* ROAS 平衡点测算 */
+.roas-section { margin-top: 22px; }
+.roas-container { display: grid; grid-template-columns: 3fr 5fr; gap: 16px; }
+.roas-card { background: #fff; border: 1px solid #D5DAE5; border-radius: 10px; padding: 16px 20px; }
+.roas-card h3 { font-size: 14px; font-weight: 600; color: #0F6E56; margin: 0 0 12px 0; display: flex; align-items: center; gap: 6px; }
+.roas-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.roas-row label { font-size: 12px; color: #555; white-space: nowrap; min-width: 80px; }
+.roas-row input { width: 100px; padding: 6px 8px; font-size: 13px; text-align: right; border: 1px solid #D0D0D0; border-radius: 6px; }
+.roas-row input:focus { outline: 2px solid #0F6E56; outline-offset: -1px; }
+.roas-row .roas-suffix { font-size: 12px; color: #888; }
+.roas-toggle { cursor: pointer; font-size: 11px; color: #666; margin-bottom: 8px; display: inline-flex; align-items: center; gap: 4px; user-select: none; }
+.roas-toggle:hover { color: #0F6E56; }
+.roas-fees { display: none; margin-bottom: 10px; padding: 10px 12px; background: #F9FAFB; border-radius: 8px; border: 1px solid #EAEAEA; }
+.roas-fees.open { display: block; }
+.roas-result { background: linear-gradient(135deg, #F0FFF4, #E6F9F0); border: 1px solid #8FD8B8; border-radius: 10px; padding: 16px 18px; }
+.roas-result h3 { font-size: 14px; font-weight: 600; color: #0F6E56; margin: 0 0 12px 0; }
+.roas-result-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; border-bottom: 1px solid #CAEBD9; }
+.roas-result-row:last-child { border-bottom: none; }
+.roas-result-row .label { color: #555; }
+.roas-result-row .value { font-weight: 600; }
+.roas-breakeven { background: #FEF0F0; border: 2px solid #E8A0A0; border-radius: 10px; padding: 12px 16px; margin-top: 10px; text-align: center; }
+.roas-breakeven .title { font-size: 11px; color: #A32D2D; margin-bottom: 4px; }
+.roas-breakeven .roas-num { font-size: 24px; font-weight: 800; color: #A32D2D; }
+.roas-breakeven .roas-sub { font-size: 11px; color: #A32D2D; margin-top: 2px; }
+.roas-target-box { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+.roas-target-box label { font-size: 12px; color: #555; white-space: nowrap; }
+.roas-target-box input { width: 70px; padding: 5px 8px; font-size: 12px; text-align: center; border: 1px solid #D0D0D0; border-radius: 6px; }
+.roas-target-box .roas-target-result { font-size: 12px; font-weight: 600; }
+.roas-negative { background: #FFF3CD; border: 1px solid #FFC107; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 12px; color: #856404; }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -1267,6 +1297,62 @@ button:hover { background: #F0EDE6; }
       <table id="fbtFFTable"><thead><tr><th>计费重量</th><th>1件</th><th>2件</th><th>3件</th><th>4+件</th></tr></thead><tbody></tbody></table>
       <p style="font-size:12px;color:#666;margin:12px 0 8px 0;">中转费 / Hub Placement Fee（West/East，直送FC免费）</p>
       <table id="fbtHPTable"><thead><tr><th>计费重量</th><th>West Hub</th><th>East Hub</th><th>直送FC</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+
+  <!-- ====== ROAS 平衡点测算 ====== -->
+  <div class="roas-section">
+    <div class="roas-container">
+      <!-- 左侧：输入 -->
+      <div class="roas-card">
+        <h3>🎯 ROAS 平衡点测算</h3>
+        <p style="font-size:11px;color:#888;margin:0 0 10px 0;">结合上面算出的 FBT 运费，测算你的广告 ROAS 盈亏平衡线</p>
+
+        <div class="roas-row">
+          <label>产品售价</label>
+          <input type="number" id="roasPrice" value="" step="0.01" min="0" placeholder="如 15.99" oninput="calcROAS()">
+          <span class="roas-suffix">$</span>
+        </div>
+        <div class="roas-row">
+          <label>产品成本</label>
+          <input type="number" id="roasCost" value="" step="0.01" min="0" placeholder="含采购+头程" oninput="calcROAS()">
+          <span class="roas-suffix">$</span>
+        </div>
+
+        <!-- 平台扣点设置（可折叠） -->
+        <div class="roas-toggle" onclick="toggleRoasFees()"><span id="roasFeesIcon">▶</span> 平台扣点设置（点击展开/收起）</div>
+        <div class="roas-fees" id="roasFeesBox">
+          <div class="roas-row">
+            <label>佣金率</label>
+            <input type="number" id="roasRefRate" value="5" step="0.1" min="0" max="100" oninput="calcROAS()">
+            <span class="roas-suffix">%（默认母婴 5%）</span>
+          </div>
+          <div class="roas-row">
+            <label>支付手续费</label>
+            <input type="number" id="roasPayRate" value="2.0" step="0.1" min="0" max="100" oninput="calcROAS()">
+            <span class="roas-suffix">% +</span>
+            <input type="number" id="roasPayFixed" value="0.30" step="0.01" min="0" oninput="calcROAS()" style="width:60px;">
+            <span class="roas-suffix">$</span>
+          </div>
+          <div class="roas-row">
+            <label>退货折损率</label>
+            <input type="number" id="roasReturnRate" value="3" step="0.5" min="0" max="100" oninput="calcROAS()">
+            <span class="roas-suffix">%（母婴约 3-5%）</span>
+          </div>
+          <div class="roas-row">
+            <label>达人佣金率</label>
+            <input type="number" id="roasAffRate" value="0" step="0.5" min="0" max="100" oninput="calcROAS()">
+            <span class="roas-suffix">%（计划投达人时填写）</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：结果 -->
+      <div class="roas-result" id="roasResultBox">
+        <h3>📊 测算结果</h3>
+        <div style="font-size:12px;color:#999;padding:40px 0;text-align:center;" id="roasEmpty">输入售价和成本后自动计算...</div>
+        <div id="roasResultContent" style="display:none;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -8966,6 +9052,10 @@ var FBT_FF_TABLE = [
 var FBT_FF_20_50_BASE = 18.00, FBT_FF_20_50_RATE = 0.40, FBT_FF_20_50_START = 21;
 var FBT_FF_50_BASE = 41.32, FBT_FF_50_RATE = 0.75;
 
+// FBT运费全局变量（供ROAS测算引用）
+var gFbtShippingPerUnit = 0;
+var gFbtQty = 1;
+
 // 中转费价卡 (Hub Placement Fee) - Excel版 2025年8月1日生效
 // [maxWeight_lbs, westFee, eastFee]
 // Direct to FC = 免费
@@ -9189,6 +9279,11 @@ function calcFBT() {
   }
 
   document.getElementById('fbtResult').innerHTML = html;
+
+  // 存储运费供 ROAS 测算使用
+  gFbtShippingPerUnit = totalPerUnit;
+  gFbtQty = qty;
+  calcROAS();
 }
 
 function toggleFbtRef() {
@@ -9235,6 +9330,133 @@ function renderFbtRefTables() {
     hpHtml += '<tr><td>' + label + '</td><td>$' + r2[1].toFixed(2) + '</td><td>$' + r2[2].toFixed(2) + '</td><td>免费</td></tr>';
   }
   document.querySelector('#fbtHPTable tbody').innerHTML = hpHtml;
+}
+
+// ====== ROAS 平衡点测算 ======
+function toggleRoasFees() {
+  var box = document.getElementById('roasFeesBox');
+  var icon = document.getElementById('roasFeesIcon');
+  if (box.classList.contains('open')) {
+    box.classList.remove('open');
+    icon.textContent = '▶';
+  } else {
+    box.classList.add('open');
+    icon.textContent = '▼';
+  }
+}
+
+function calcROAS() {
+  var price = parseFloat(document.getElementById('roasPrice').value) || 0;
+  var cost = parseFloat(document.getElementById('roasCost').value) || 0;
+  var refRate = parseFloat(document.getElementById('roasRefRate').value) || 0;
+  var payRate = parseFloat(document.getElementById('roasPayRate').value) || 0;
+  var payFixed = parseFloat(document.getElementById('roasPayFixed').value) || 0;
+  var returnRate = parseFloat(document.getElementById('roasReturnRate').value) || 0;
+  var affRate = parseFloat(document.getElementById('roasAffRate').value) || 0;
+  var shipping = gFbtShippingPerUnit;
+
+  var emptyEl = document.getElementById('roasEmpty');
+  var contentEl = document.getElementById('roasResultContent');
+
+  if (price <= 0) {
+    emptyEl.style.display = 'block';
+    contentEl.style.display = 'none';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  contentEl.style.display = 'block';
+
+  // 扣费计算
+  var refFee = price * refRate / 100;
+  var payFee = price * payRate / 100 + payFixed;
+  var returnLoss = price * returnRate / 100;
+  var affFee = price * affRate / 100;
+  var totalFees = refFee + payFee + returnLoss + affFee + shipping;
+
+  // 净收入
+  var netRevenue = price - refFee - payFee - returnLoss - affFee;
+
+  // 非广告成本 = 产品成本 + FBT运费
+  var nonAdCost = cost + shipping;
+
+  // 广告费平衡点 = 净收入 - 非广告成本
+  var adBudgetPerUnit = netRevenue - nonAdCost;
+
+  // 不计广告利润率
+  var marginNoAd = (netRevenue - nonAdCost) / price * 100;
+
+  var html = '';
+
+  if (adBudgetPerUnit <= 0) {
+    // 亏损预警
+    html += '<div style="background:#FFF3CD;border:1px solid #FFC107;border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:#856404;">';
+    html += '<strong>⚠️ 不计广告已亏损</strong><br>';
+    html += '净收入 $' + netRevenue.toFixed(2) + ' − 成本(FBT+货) $' + nonAdCost.toFixed(2) + ' = <b style="color:#A32D2D;">−$' + Math.abs(adBudgetPerUnit).toFixed(2) + '</b>';
+    html += '</div>';
+  }
+
+  // 费用流水
+  html += '<div class="roas-result-row"><span class="label">产品售价</span><span class="value">$' + price.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">平台佣金 (' + refRate.toFixed(1) + '%)</span><span class="value">−$' + refFee.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">支付手续费 (' + payRate.toFixed(1) + '% + $' + payFixed.toFixed(2) + ')</span><span class="value">−$' + payFee.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">退货折损 (' + returnRate.toFixed(1) + '%)</span><span class="value">−$' + returnLoss.toFixed(2) + '</span></div>';
+  if (affRate > 0) {
+    html += '<div class="roas-result-row"><span class="label">达人佣金 (' + affRate.toFixed(1) + '%)</span><span class="value">−$' + affFee.toFixed(2) + '</span></div>';
+  }
+  html += '<div class="roas-result-row"><span class="label">净收入</span><span class="value" style="color:#0F6E56;font-weight:700;">$' + netRevenue.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">产品成本</span><span class="value">−$' + cost.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">FBT运费（单件）</span><span class="value">−$' + shipping.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">非广告成本合计</span><span class="value" style="font-weight:600;">$' + nonAdCost.toFixed(2) + '</span></div>';
+  html += '<div class="roas-result-row"><span class="label">不计广告利润率</span><span class="value" style="font-weight:600;color:' + (marginNoAd >= 0 ? '#0F6E56' : '#A32D2D') + ';">' + marginNoAd.toFixed(1) + '%</span></div>';
+
+  // ROAS 平衡点
+  if (adBudgetPerUnit > 0) {
+    var roasBreak = price / adBudgetPerUnit;
+    var adPctBreak = adBudgetPerUnit / price * 100;
+    html += '<div class="roas-breakeven">';
+    html += '<div class="title">ROAS 盈亏平衡线</div>';
+    html += '<div class="roas-num">' + roasBreak.toFixed(2) + '</div>';
+    html += '<div class="roas-sub">广告费预算上限 $' + adBudgetPerUnit.toFixed(2) + '/件（占售价 ' + adPctBreak.toFixed(1) + '%）</div>';
+    html += '</div>';
+
+    // 目标ROAS计算器
+    html += '<div class="roas-target-box">';
+    html += '<label>输入目标ROAS：</label>';
+    html += '<input type="number" id="roasTargetInput" value="' + (Math.ceil(roasBreak * 2)) + '" step="0.1" min="0" oninput="calcRoasTarget()" style="width:70px;">';
+    html += '<span class="roas-target-result" id="roasTargetResult"></span>';
+    html += '</div>';
+  }
+
+  contentEl.innerHTML = html;
+
+  // 触发一次目标ROAS计算
+  if (adBudgetPerUnit > 0) calcRoasTarget();
+}
+
+function calcRoasTarget() {
+  var target = parseFloat(document.getElementById('roasTargetInput').value) || 0;
+  var price = parseFloat(document.getElementById('roasPrice').value) || 0;
+  var cost = parseFloat(document.getElementById('roasCost').value) || 0;
+  var refRate = parseFloat(document.getElementById('roasRefRate').value) || 0;
+  var payRate = parseFloat(document.getElementById('roasPayRate').value) || 0;
+  var payFixed = parseFloat(document.getElementById('roasPayFixed').value) || 0;
+  var returnRate = parseFloat(document.getElementById('roasReturnRate').value) || 0;
+  var affRate = parseFloat(document.getElementById('roasAffRate').value) || 0;
+  var shipping = gFbtShippingPerUnit;
+
+  if (target <= 0) {
+    document.getElementById('roasTargetResult').innerHTML = '';
+    return;
+  }
+
+  var netRevenue = price - price * refRate / 100 - (price * payRate / 100 + payFixed) - price * returnRate / 100 - price * affRate / 100;
+  var adSpend = price / target;
+  var profit = netRevenue - cost - shipping - adSpend;
+  var profitMargin = profit / price * 100;
+  var profitColor = profit >= 0 ? '#0F6E56' : '#A32D2D';
+
+  document.getElementById('roasTargetResult').innerHTML =
+    '→ 广告费 $' + adSpend.toFixed(2) + '/件，利润 <b style="color:' + profitColor + ';">$' + profit.toFixed(2) + '</b>（' + profitMargin.toFixed(1) + '%）';
 }
 
 // 切换FBT tab时自动计算
