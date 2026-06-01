@@ -392,6 +392,7 @@ button:hover { background: #F0EDE6; }
 .fbt-summary-total { background: #FEF0F0; border: 2px solid #E8A0A0; border-radius: 10px; padding: 14px 18px; margin-top: 10px; text-align: center; }
 .fbt-summary-total .label { font-size: 12px; color: #A32D2D; margin-bottom: 4px; }
 .fbt-summary-total .value { font-size: 28px; font-weight: 800; color: #A32D2D; }
+.fbt-optimize-box { background: #FFF3CD; border: 2px solid #FFC107; border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 12px; }
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -1242,7 +1243,8 @@ button:hover { background: #F0EDE6; }
       <div class="fbt-input-row">
         <label>Hub 中转</label>
         <select id="fbtHub" class="fbt-select" onchange="calcFBT()">
-          <option value="hub">东部/西部 Hub 中转</option>
+          <option value="west">West Hub（西部中转仓）</option>
+          <option value="east">East Hub（东部中转仓）</option>
           <option value="direct">直送 FC（免中转费）</option>
         </select>
       </div>
@@ -1261,10 +1263,10 @@ button:hover { background: #F0EDE6; }
       <span id="fbtToggleIcon">▶</span> 查看 FBT 费率参考表
     </div>
     <div class="fbt-ref-table" id="fbtRefTable">
-      <p style="font-size:12px;color:#666;margin:8px 0;">履约费 / 尾程费（2026年1月12日后生效，多件多折）</p>
-      <table id="fbtFFTable"><thead><tr><th>计费重量 (lbs)</th><th>1件</th><th>2件</th><th>3件</th><th>4+件</th></tr></thead><tbody></tbody></table>
-      <p style="font-size:12px;color:#666;margin:12px 0 8px 0;">中转费 / Hub Placement Fee（2025年8月1日生效，按件）</p>
-      <table id="fbtHPTable"><thead><tr><th>计费重量 (lbs)</th><th>每件费用</th></tr></thead><tbody></tbody></table>
+      <p style="font-size:12px;color:#666;margin:8px 0;">履约费 / 尾程费（Excel最新版，含oz层级 + 20-50lbs/50+lbs公式）</p>
+      <table id="fbtFFTable"><thead><tr><th>计费重量</th><th>1件</th><th>2件</th><th>3件</th><th>4+件</th></tr></thead><tbody></tbody></table>
+      <p style="font-size:12px;color:#666;margin:12px 0 8px 0;">中转费 / Hub Placement Fee（West/East，直送FC免费）</p>
+      <table id="fbtHPTable"><thead><tr><th>计费重量</th><th>West Hub</th><th>East Hub</th><th>直送FC</th></tr></thead><tbody></tbody></table>
     </div>
   </div>
 </div>
@@ -8930,59 +8932,58 @@ function fmtNum(n) {
 
 // ====== FBT 运费计算器 ======
 
-// 履约费价卡 (Fulfillment Fee) - 2026年1月12日后生效
-// [maxWeight, qty1, qty2, qty3, qty4plus]
+// 履约费价卡 (Fulfillment Fee) - Excel 2026版
+// [maxWeight_lbs, qty1, qty2, qty3, qty4plus]
+// oz层: 4oz=0.25lb, 8oz=0.5lb, 12oz=0.75lb, 16oz=1.0lb
+// 20-50lbs: $18.00 + $0.40/每lb超过21 → 标记为公式行
+// 50+lbs: $41.32 + $0.75/每lb超过50 → 标记为公式行
 var FBT_FF_TABLE = [
-  [0.5, 4.28, 2.52, 1.91, 1.56],
-  [1.0, 4.28, 2.52, 1.91, 1.56],
-  [2.0, 5.17, 3.03, 2.30, 1.88],
-  [3.0, 5.87, 3.44, 2.61, 2.13],
-  [4.0, 6.47, 3.79, 2.88, 2.35],
-  [5.0, 6.77, 3.97, 3.01, 2.46],
-  [6.0, 6.97, 4.09, 3.10, 2.53],
-  [7.0, 7.37, 4.32, 3.28, 2.68],
-  [8.0, 7.37, 4.32, 3.28, 2.68],
-  [9.0, 7.37, 4.32, 3.28, 2.68],
-  [10.0, 7.97, 4.67, 3.55, 2.89],
-  [11.0, 7.97, 4.67, 3.55, 2.89],
-  [12.0, 7.97, 4.67, 3.55, 2.89],
-  [13.0, 8.57, 5.02, 3.81, 3.11],
-  [14.0, 8.57, 5.02, 3.81, 3.11],
-  [15.0, 8.57, 5.02, 3.81, 3.11],
-  [16.0, 9.37, 5.49, 4.17, 3.40],
-  [18.0, 9.37, 5.49, 4.17, 3.40],
-  [20.0, 9.37, 5.49, 4.17, 3.40],
-  [22.0, 9.37, 5.49, 4.17, 3.40],
-  [24.0, 10.17, 5.96, 4.53, 3.69],
-  [26.0, 10.17, 5.96, 4.53, 3.69],
-  [28.0, 10.17, 5.96, 4.53, 3.69],
-  [30.0, 10.17, 5.96, 4.53, 3.69],
-  [32.0, 11.77, 6.90, 5.24, 4.28],
-  [34.0, 11.77, 6.90, 5.24, 4.28],
-  [36.0, 11.77, 6.90, 5.24, 4.28],
-  [38.0, 11.77, 6.90, 5.24, 4.28],
-  [40.0, 11.77, 6.90, 5.24, 4.28],
-  [42.0, 12.77, 7.49, 5.69, 4.64],
-  [44.0, 12.77, 7.49, 5.69, 4.64],
-  [46.0, 12.77, 7.49, 5.69, 4.64],
-  [48.0, 12.77, 7.49, 5.69, 4.64],
-  [50.0, 12.77, 7.49, 5.69, 4.64]
+  [0.25, 4.28, 2.52, 1.91, 1.56],
+  [0.50, 4.52, 2.91, 2.36, 1.93],
+  [0.75, 4.70, 3.05, 2.61, 2.23],
+  [1.00, 5.10, 3.16, 2.78, 2.36],
+  [2.00, 5.71, 3.92, 3.14, 2.60],
+  [3.00, 6.27, 4.30, 3.25, 3.01],
+  [4.00, 6.92, 4.70, 3.91, 3.37],
+  [5.00, 7.66, 5.09, 4.54, 4.54],
+  [6.00, 8.58, 5.55, 5.35, 5.25],
+  [7.00, 8.88, 5.90, 5.70, 5.60],
+  [8.00, 9.22, 6.39, 6.19, 6.09],
+  [9.00, 9.42, 6.57, 6.37, 6.27],
+  [10.00, 9.63, 6.76, 6.56, 6.46],
+  [11.00, 10.64, 7.58, 7.38, 7.28],
+  [12.00, 10.75, 7.97, 7.77, 7.67],
+  [13.00, 10.98, 8.07, 7.87, 7.77],
+  [14.00, 11.44, 8.41, 8.21, 8.11],
+  [15.00, 11.85, 8.78, 8.58, 8.48],
+  [16.00, 12.67, 9.53, 9.33, 9.23],
+  [17.00, 12.97, 10.70, 10.50, 10.40],
+  [18.00, 13.34, 11.12, 10.92, 10.82],
+  [19.00, 13.84, 11.69, 11.49, 11.39],
+  [20.00, 14.11, 12.00, 11.80, 11.70]
 ];
+// 超20磅公式：20-50lbs → $18.00 + $0.40 × max(0, ceil(w)-21)；50+lbs → $41.32 + $0.75 × max(0, ceil(w)-50)
+var FBT_FF_20_50_BASE = 18.00, FBT_FF_20_50_RATE = 0.40, FBT_FF_20_50_START = 21;
+var FBT_FF_50_BASE = 41.32, FBT_FF_50_RATE = 0.75;
 
-// 中转费价卡 (Hub Placement Fee) - 2025年8月1日生效
-// [maxWeight, fee]
+// 中转费价卡 (Hub Placement Fee) - Excel版 2025年8月1日生效
+// [maxWeight_lbs, westFee, eastFee]
+// Direct to FC = 免费
 var FBT_HP_TABLE = [
-  [0.5, 0.50], [1.0, 0.55], [2.0, 0.75], [3.0, 1.10], [4.0, 1.30],
-  [5.0, 1.55], [6.0, 1.65], [7.0, 1.80], [8.0, 1.95], [9.0, 2.10],
-  [10.0, 2.25], [11.0, 2.45], [12.0, 2.55], [13.0, 2.65], [14.0, 2.80],
-  [15.0, 2.90], [16.0, 3.15], [17.0, 3.25], [18.0, 3.35], [19.0, 3.50],
-  [20.0, 3.60], [21.0, 3.75], [22.0, 3.85], [23.0, 4.00], [24.0, 4.10],
-  [25.0, 4.25], [26.0, 4.35], [27.0, 4.45], [28.0, 4.60], [29.0, 4.70],
-  [30.0, 4.80], [31.0, 5.05], [32.0, 5.15], [33.0, 5.30], [34.0, 5.40],
-  [35.0, 5.50], [36.0, 5.65], [37.0, 5.75], [38.0, 5.85], [39.0, 6.00],
-  [40.0, 6.10], [41.0, 6.25], [42.0, 6.35], [43.0, 6.45], [44.0, 6.60],
-  [45.0, 6.70], [46.0, 6.80], [47.0, 6.95], [48.0, 7.05], [49.0, 7.15],
-  [50.0, 7.30]
+  [0.25, 0.04, 0.06], [0.50, 0.07, 0.08], [0.75, 0.09, 0.09], [1.00, 0.11, 0.10],
+  [2.00, 0.17, 0.14], [3.00, 0.45, 0.31], [4.00, 0.63, 0.42], [5.00, 0.73, 0.47],
+  [6.00, 0.83, 0.51], [7.00, 1.16, 0.70], [8.00, 1.52, 0.93], [9.00, 2.30, 1.17],
+  [10.00, 2.87, 1.54], [11.00, 3.21, 1.76], [12.00, 3.35, 1.85], [13.00, 3.49, 2.03],
+  [14.00, 3.67, 2.13], [15.00, 3.86, 2.24], [16.00, 3.92, 2.26], [17.00, 4.26, 2.46],
+  [18.00, 4.47, 2.58], [19.00, 4.56, 2.63], [20.00, 4.65, 2.69], [21.00, 4.90, 2.84],
+  [22.00, 5.14, 2.98], [23.00, 5.38, 3.12], [24.00, 5.62, 3.26], [25.00, 5.86, 3.40],
+  [26.00, 6.10, 3.54], [27.00, 6.34, 3.68], [28.00, 6.58, 3.82], [29.00, 6.82, 3.96],
+  [30.00, 7.06, 4.10], [31.00, 7.30, 4.24], [32.00, 7.54, 4.38], [33.00, 7.78, 4.52],
+  [34.00, 8.02, 4.66], [35.00, 8.26, 4.80], [36.00, 8.50, 4.94], [37.00, 8.74, 5.08],
+  [38.00, 8.98, 5.22], [39.00, 9.22, 5.36], [40.00, 9.46, 5.50], [41.00, 9.70, 5.64],
+  [42.00, 9.94, 5.78], [43.00, 10.18, 5.92], [44.00, 10.42, 6.06], [45.00, 10.66, 6.20],
+  [46.00, 10.90, 6.34], [47.00, 11.14, 6.48], [48.00, 11.38, 6.62], [49.00, 11.62, 6.76],
+  [50.00, 11.86, 6.90]
 ];
 
 var fbtWeightUnit = 'kg';
@@ -9042,18 +9043,87 @@ function getDimsInInches() {
   return [len, wid, hgt];
 }
 
+function calcFFByFormula(weightLbs, qtyIdx) {
+  // 20-50lbs: $18.00 + $0.40 × max(0, ceil(w)-21)
+  // 50+lbs:   $41.32 + $0.75 × max(0, ceil(w)-50)
+  if (weightLbs > 50) {
+    return FBT_FF_50_BASE + FBT_FF_50_RATE * Math.max(0, Math.ceil(weightLbs) - 50);
+  }
+  return FBT_FF_20_50_BASE + FBT_FF_20_50_RATE * Math.max(0, Math.ceil(weightLbs) - FBT_FF_20_50_START);
+}
+
 function lookupFF(weightLbs, qtyIdx) {
   for (var i = 0; i < FBT_FF_TABLE.length; i++) {
     if (weightLbs <= FBT_FF_TABLE[i][0]) return FBT_FF_TABLE[i][qtyIdx];
   }
-  return FBT_FF_TABLE[FBT_FF_TABLE.length - 1][qtyIdx];
+  // 超过20lbs走公式
+  return calcFFByFormula(weightLbs, qtyIdx);
 }
 
-function lookupHP(weightLbs) {
+function lookupHP(weightLbs, hub) {
+  if (hub === 'direct') return 0;
+  var col = hub === 'east' ? 2 : 1; // west=1, east=2
   for (var i = 0; i < FBT_HP_TABLE.length; i++) {
-    if (weightLbs <= FBT_HP_TABLE[i][0]) return FBT_HP_TABLE[i][1];
+    if (weightLbs <= FBT_HP_TABLE[i][0]) return FBT_HP_TABLE[i][col];
   }
-  return FBT_HP_TABLE[FBT_HP_TABLE.length - 1][1];
+  return FBT_HP_TABLE[FBT_HP_TABLE.length - 1][col];
+}
+
+// 重量优化检查：判断是否刚跨过档位线
+function checkOptimization(billableLbs, table, colIdx) {
+  // table: [maxWeight, ...] for FF or [maxWeight, col1, col2] for HP
+  // colIdx: 列索引 (FF里是qtyIdx, HP里是hub列1=west 2=east)
+  var curTier = -1;
+  for (var i = 0; i < table.length; i++) {
+    if (billableLbs <= table[i][0]) { curTier = i; break; }
+  }
+  if (curTier <= 0) return null;
+
+  var prevMax = table[curTier - 1][0];
+  var overage = billableLbs - prevMax;
+  // 阈值：超过不超过0.15lbs 或 不超过上一档上限的5%
+  var threshold = Math.max(0.15, prevMax * 0.05);
+  if (overage > threshold) return null;
+
+  var curFee = table[curTier][colIdx];
+  var prevFee = table[curTier - 1][colIdx];
+  var savings = curFee - prevFee;
+  if (savings <= 0) return null;
+
+  return {
+    overage: overage,
+    targetWeight: prevMax,
+    savings: savings,
+    prevFee: prevFee,
+    curFee: curFee
+  };
+}
+
+function checkCombinedOptimization(billableLbs, qtyIdx, hub) {
+  var ffOpt = checkOptimization(billableLbs, FBT_FF_TABLE, qtyIdx);
+  var hpOpt = null;
+  if (hub !== 'direct') {
+    var hpCol = hub === 'east' ? 2 : 1;
+    hpOpt = checkOptimization(billableLbs, FBT_HP_TABLE, hpCol);
+  }
+
+  var savings = 0;
+  if (ffOpt) savings += ffOpt.savings;
+  if (hpOpt) savings += hpOpt.savings;
+
+  if (savings <= 0) return null;
+
+  return {
+    overage: ffOpt ? ffOpt.overage : (hpOpt ? hpOpt.overage : 0),
+    targetWeight: ffOpt ? ffOpt.targetWeight : hpOpt.targetWeight,
+    totalSavings: savings,
+    ffSavings: ffOpt ? ffOpt.savings : 0,
+    hpSavings: hpOpt ? hpOpt.savings : 0,
+    ffPrevFee: ffOpt ? ffOpt.prevFee : null,
+    hpPrevFee: hpOpt ? hpOpt.prevFee : null,
+    ffCurFee: ffOpt ? ffOpt.curFee : null,
+    hpCurFee: hpOpt ? hpOpt.curFee : null
+  };
 }
 
 function calcFBT() {
@@ -9066,8 +9136,7 @@ function calcFBT() {
   var hub = document.getElementById('fbtHub').value;
 
   // 2026年5月1日新规：≤2lb且≤332立方英寸用实重
-  var billableLbs;
-  var ruleNote;
+  var billableLbs, ruleNote;
   if (actualLbs <= 2 && volumeIn3 <= 332) {
     billableLbs = actualLbs;
     ruleNote = '（实重 ≤ 2 lbs 且体积 ≤ 332 in³，按实际重量计费）';
@@ -9077,23 +9146,44 @@ function calcFBT() {
   }
 
   // 查表
-  var qtyIdx = qty >= 4 ? 4 : qty + 1; // [_, qty1, qty2, qty3, qty4+] -> index 1,2,3,4
+  var qtyIdx = qty >= 4 ? 4 : qty + 1;
   var ffUnit = lookupFF(billableLbs, qtyIdx);
   var ffTotal = ffUnit * qty;
-  var hpUnit = hub === 'direct' ? 0 : lookupHP(billableLbs);
+  var hpUnit = lookupHP(billableLbs, hub);
   var hpTotal = hpUnit * qty;
   var totalPerUnit = ffUnit + hpUnit;
   var orderTotal = totalPerUnit * qty;
 
+  // 重量优化提醒
+  var opt = checkCombinedOptimization(billableLbs, qtyIdx, hub);
+
   // Build result HTML
   var html = '<h3>💰 费用明细</h3>';
-  html += '<div class="fbt-result-row"><span class="label">实际重量</span><span class="value">' + actualLbs.toFixed(2) + ' lbs (' + (actualLbs / 2.2046).toFixed(2) + ' kg)</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">实际重量</span><span class="value">' + actualLbs.toFixed(3) + ' lbs (' + (actualLbs / 2.2046).toFixed(3) + ' kg)</span></div>';
   html += '<div class="fbt-result-row"><span class="label">体积重量</span><span class="value">' + dimLbs.toFixed(2) + ' lbs ( ' + len.toFixed(1) + '×' + wid.toFixed(1) + '×' + hgt.toFixed(1) + ' in ÷ 166 )</span></div>';
-  html += '<div class="fbt-result-row"><span class="label">计费重量</span><span class="value"><strong>' + billableLbs.toFixed(2) + ' lbs</strong> <span class="fbt-highlight">' + ruleNote + '</span></span></div>';
-  html += '<div class="fbt-result-row"><span class="label">中转费（单价）</span><span class="value">$' + hpUnit.toFixed(2) + '</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">计费重量</span><span class="value"><strong>' + billableLbs.toFixed(3) + ' lbs</strong> <span class="fbt-highlight">' + ruleNote + '</span></span></div>';
+  html += '<div class="fbt-result-row"><span class="label">中转费（单价）</span><span class="value">$' + hpUnit.toFixed(2) + (hub === 'direct' ? ' <span style=\"color:#0F6E56;font-size:11px;\">免中转</span>' : '') + '</span></div>';
   html += '<div class="fbt-result-row"><span class="label">履约费（单价）</span><span class="value">$' + ffUnit.toFixed(2) + '</span></div>';
   html += '<div class="fbt-result-row"><span class="label">单件运费合计</span><span class="value" style="color:#2B579A;font-size:16px;">$' + totalPerUnit.toFixed(2) + '</span></div>';
   html += '<div class="fbt-summary-total"><div class="label">整单运费 (' + qty + '件)</div><div class="value">$' + orderTotal.toFixed(2) + '</div></div>';
+
+  // 优化提醒
+  if (opt) {
+    html += '<div style="margin-top:12px;background:#FFF3CD;border:2px solid #FFC107;border-radius:8px;padding:12px 14px;font-size:12px;">';
+    html += '<div style="font-weight:700;color:#856404;margin-bottom:4px;">⚠️ 重量优化建议</div>';
+    html += '<div style="color:#856404;">计费重量 <b>' + billableLbs.toFixed(3) + ' lbs</b> 仅超出上一档上限 <b>' + opt.overage.toFixed(3) + ' lbs</b>，建议优化产品规格至 <b>≤ ' + opt.targetWeight.toFixed(2) + ' lbs</b></div>';
+    html += '<div style="color:#856404;margin-top:4px;">';
+    if (opt.ffSavings > 0) {
+      html += '履约费可从 <b>$' + opt.ffCurFee.toFixed(2) + '</b> → <b>$' + opt.ffPrevFee.toFixed(2) + '</b>，节省 <b>$' + opt.ffSavings.toFixed(2) + '</b>/件<br>';
+    }
+    if (opt.hpSavings > 0) {
+      html += '中转费可从 <b>$' + opt.hpCurFee.toFixed(2) + '</b> → <b>$' + opt.hpPrevFee.toFixed(2) + '</b>，节省 <b>$' + opt.hpSavings.toFixed(2) + '</b>/件<br>';
+    }
+    html += '合计每件可节省 <b style="color:#A32D2D;">$' + opt.totalSavings.toFixed(2) + '</b>';
+    if (qty > 1) html += '，整单 (' + qty + '件) 可节省 <b style="color:#A32D2D;">$' + (opt.totalSavings * qty).toFixed(2) + '</b>';
+    html += '</div></div>';
+  }
+
   if (hub === 'direct') {
     html += '<div style="font-size:11px;color:#0F6E56;margin-top:6px;">✅ 直送FC模式，免中转费</div>';
   }
@@ -9115,23 +9205,34 @@ function toggleFbtRef() {
 }
 
 function renderFbtRefTables() {
+  // Label helpers
+  function wtLabel(val) {
+    if (val <= 1.0) {
+      var oz = Math.round(val * 16);
+      return oz + 'oz (' + val.toFixed(2) + 'lb)';
+    }
+    return val.toFixed(1) + ' lbs';
+  }
   // 履约费表
   var ffHtml = '';
   for (var i = 0; i < FBT_FF_TABLE.length; i++) {
     var r = FBT_FF_TABLE[i];
     var prevMax = i === 0 ? 0 : FBT_FF_TABLE[i-1][0];
-    var label = '>' + prevMax.toFixed(1) + '-' + r[0].toFixed(1);
+    var label = '>' + wtLabel(prevMax).replace(/lb\)$/, 'lb)') + ' 至 ' + wtLabel(r[0]);
     ffHtml += '<tr><td>' + label + '</td><td>$' + r[1].toFixed(2) + '</td><td>$' + r[2].toFixed(2) + '</td><td>$' + r[3].toFixed(2) + '</td><td>$' + r[4].toFixed(2) + '</td></tr>';
   }
+  // 公式行
+  ffHtml += '<tr style="background:#FFFDE7;"><td>20-50 lbs</td><td colspan="4">$18.00 + $0.40 × 每超出21lbs的磅数</td></tr>';
+  ffHtml += '<tr style="background:#FFFDE7;"><td>50+ lbs</td><td colspan="4">$41.32 + $0.75 × 每超出50lbs的磅数</td></tr>';
   document.querySelector('#fbtFFTable tbody').innerHTML = ffHtml;
 
-  // 中转费表
+  // 中转费表 (West / East)
   var hpHtml = '';
   for (var j = 0; j < FBT_HP_TABLE.length; j++) {
     var r2 = FBT_HP_TABLE[j];
     var prevMax2 = j === 0 ? 0 : FBT_HP_TABLE[j-1][0];
-    var label = '>' + prevMax2.toFixed(1) + '-' + r2[0].toFixed(1);
-    hpHtml += '<tr><td>' + label + '</td><td>$' + r2[1].toFixed(2) + '</td></tr>';
+    var label = '>' + wtLabel(prevMax2).replace(/lb\)$/, 'lb)') + ' 至 ' + wtLabel(r2[0]);
+    hpHtml += '<tr><td>' + label + '</td><td>$' + r2[1].toFixed(2) + '</td><td>$' + r2[2].toFixed(2) + '</td><td>免费</td></tr>';
   }
   document.querySelector('#fbtHPTable tbody').innerHTML = hpHtml;
 }
