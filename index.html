@@ -2357,10 +2357,11 @@ function getEffectiveMapping() {
 }
 
 function processJoin() {
-  if (!videoAdData || !videoMapping) {
-    if (videoAdData && !videoMapping) {
-      document.getElementById('videoStatus').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
-    }
+  if (!videoAdData) return;
+  // Allow processJoin when editedMapping (from CSV import) has data, even if videoMapping is null
+  var hasEditedData = editedMapping && (Object.keys(editedMapping.vidToCloud).length > 0 || Object.keys(editedMapping.cloudToPerson).length > 0);
+  if (!videoMapping && !hasEditedData) {
+    document.getElementById('videoStatus').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
     return;
   }
   var effective = getEffectiveMapping();
@@ -3570,7 +3571,7 @@ function exportMappingCSV() {
   if (videoAdData) {
     videoAdData.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
-  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
+  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导,状态'];
   // Export only brand-account videos from videoJoined (not all vidToCloud entries)
   // 达人视频不需要云视频id，只导出品牌自制内容
   var exported = {};
@@ -3582,12 +3583,13 @@ function exportMappingCSV() {
       if (seenVid[r.vid]) return;
       seenVid[r.vid] = true;
       var cid = effective.vidToCloud[r.vid] || '';
-      var editor = '', director = '';
+      var editor = '', director = '', status = '';
       if (cid && effective.cloudToPerson[cid]) {
         editor = effective.cloudToPerson[cid].editor || '';
         director = effective.cloudToPerson[cid].director || '';
+        status = personStatusUS[editor] === 'inactive' ? '已离职' : '在职';
       }
-      rows.push([r.vid, cid, acct, editor, director].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      rows.push([r.vid, cid, acct, editor, director, status].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
       exported[r.vid] = true;
     });
   }
@@ -3597,7 +3599,9 @@ function exportMappingCSV() {
     for (var v in exported) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
     if (!hasVid) {
       var p = effective.cloudToPerson[cid];
-      rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      var _editor = p.editor || '';
+      var _status = _editor ? (personStatusUS[_editor] === 'inactive' ? '已离职' : '在职') : '';
+      rows.push(['', cid, '', _editor, p.director || '', _status].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
     }
   }
   var csv = rows.join('\n');
@@ -3619,7 +3623,7 @@ function importMappingCSV(input) {
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
       var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
-      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
+      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导'), status: headers.indexOf('状态') };
       if (col.vid < 0 && col.cid < 0) {
         alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
         return;
@@ -3633,12 +3637,22 @@ function importMappingCSV(input) {
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
+        // Read status from CSV if present; only apply when explicitly set
+        var status = cleanName(col.status >= 0 ? vals[col.status] : '');
         if (!cid && !vid) { skipped++; continue; }
         if (vid && cid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
         if (cid && (editor || director)) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
         if (!cid && vid && (editor || director)) {
           cid = editedMapping.vidToCloud[vid] || '';
           if (cid) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        }
+        // Apply person status from CSV (only if explicitly set — won't override existing if blank)
+        if (editor && status) {
+          if (status === '已离职' || status === '离职') {
+            personStatusUS[editor] = 'inactive';
+          } else if (status === '在职') {
+            personStatusUS[editor] = 'active';
+          }
         }
       }
       saveMappingData();
@@ -4138,10 +4152,11 @@ function getEffectiveMappingUK() {
 }
 
 function processJoinUK() {
-  if (!videoAdDataUK || !videoMappingUK) {
-    if (videoAdDataUK && !videoMappingUK) {
-      document.getElementById('videoStatusUK').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
-    }
+  if (!videoAdDataUK) return;
+  // Allow processJoin when editedMappingUK (from CSV import) has data, even if videoMappingUK is null
+  var hasEditedData = editedMappingUK && (Object.keys(editedMappingUK.vidToCloud).length > 0 || Object.keys(editedMappingUK.cloudToPerson).length > 0);
+  if (!videoMappingUK && !hasEditedData) {
+    document.getElementById('videoStatusUK').textContent = '\u23F3 广告数据已加载，请上传人员映射表以完成关联';
     return;
   }
   var effective = getEffectiveMappingUK();
@@ -4738,7 +4753,7 @@ function exportMappingCSVUK() {
   if (videoAdDataUK) {
     videoAdDataUK.forEach(function(r) { acctLookup[r.vid] = r.account || ''; });
   }
-  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导'];
+  var rows = ['视频ID,云视频ID,TikTok账号,剪辑,编导,状态'];
   // Export only brand-account videos from videoJoinedUK
   var exported = {};
   if (videoJoinedUK) {
@@ -4749,12 +4764,13 @@ function exportMappingCSVUK() {
       if (seenVid[r.vid]) return;
       seenVid[r.vid] = true;
       var cid = effective.vidToCloud[r.vid] || '';
-      var editor = '', director = '';
+      var editor = '', director = '', status = '';
       if (cid && effective.cloudToPerson[cid]) {
         editor = effective.cloudToPerson[cid].editor || '';
         director = effective.cloudToPerson[cid].director || '';
+        status = personStatusUK[editor] === 'inactive' ? '已离职' : '在职';
       }
-      rows.push([r.vid, cid, acct, editor, director].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      rows.push([r.vid, cid, acct, editor, director, status].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
       exported[r.vid] = true;
     });
   }
@@ -4763,7 +4779,9 @@ function exportMappingCSVUK() {
     for (var v in exported) { if (effective.vidToCloud[v] === cid) { hasVid = true; break; } }
     if (!hasVid) {
       var p = effective.cloudToPerson[cid];
-      rows.push(['', cid, '', p.editor || '', p.director || ''].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
+      var _editor = p.editor || '';
+      var _status = _editor ? (personStatusUK[_editor] === 'inactive' ? '已离职' : '在职') : '';
+      rows.push(['', cid, '', _editor, p.director || '', _status].map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(','));
     }
   }
   var csv = rows.join('\n');
@@ -4784,7 +4802,7 @@ function importMappingCSVUK(input) {
       var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
       if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
       var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
-      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导') };
+      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导'), status: headers.indexOf('状态') };
       if (col.vid < 0 && col.cid < 0) {
         alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
         return;
@@ -4797,12 +4815,22 @@ function importMappingCSVUK(input) {
         var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
         var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
         var director = cleanName(col.director >= 0 ? vals[col.director] : '');
+        // Read status from CSV if present; only apply when explicitly set
+        var status = cleanName(col.status >= 0 ? vals[col.status] : '');
         if (!cid && !vid) { skipped++; continue; }
         if (vid && cid) { editedMappingUK.vidToCloud[vid] = cid; addedVid++; }
         if (cid && (editor || director)) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
         if (!cid && vid && (editor || director)) {
           cid = editedMappingUK.vidToCloud[vid] || '';
           if (cid) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
+        }
+        // Apply person status from CSV (only if explicitly set — won't override existing if blank)
+        if (editor && status) {
+          if (status === '已离职' || status === '离职') {
+            personStatusUK[editor] = 'inactive';
+          } else if (status === '在职') {
+            personStatusUK[editor] = 'active';
+          }
         }
       }
       saveMappingDataUK();
