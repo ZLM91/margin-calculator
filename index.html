@@ -360,6 +360,39 @@ button:hover { background: #F0EDE6; }
 .profit-help-tooltip-body .tip-detail { color: #90A4AE; font-size: 10px; margin-top: 4px; display: block; }
 .profit-pct { font-size: 10px; color: #999; margin-left: 2px; font-weight: 400; }
 
+/* ── FBT 运费计算器 ── */
+.fbt-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 18px; }
+.fbt-card { background: #fff; border: 1px solid #E0E0E0; border-radius: 10px; padding: 18px 20px; }
+.fbt-card h3 { font-size: 15px; font-weight: 600; color: #2B579A; margin: 0 0 14px 0; }
+.fbt-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.fbt-input-row label { font-size: 13px; color: #555; white-space: nowrap; min-width: 70px; }
+.fbt-input-row input { width: 100px; padding: 8px 10px; font-size: 14px; text-align: right; border: 1px solid #D0D0D0; border-radius: 6px; }
+.fbt-input-row input:focus { outline: 2px solid #2B579A; outline-offset: -1px; }
+.fbt-input-row .unit-group { display: flex; border-radius: 6px; overflow: hidden; border: 1px solid #D0D0D0; }
+.fbt-input-row .unit-btn { padding: 6px 12px; font-size: 11px; border: none; background: #F5F5F5; color: #666; cursor: pointer; border-right: 1px solid #D0D0D0; }
+.fbt-input-row .unit-btn:last-child { border-right: none; }
+.fbt-input-row .unit-btn.on { background: #2B579A; color: #fff; }
+.fbt-result { background: linear-gradient(135deg, #F0F7FF, #E8F0FE); border: 1px solid #A8C8F0; border-radius: 10px; padding: 18px 20px; }
+.fbt-result h3 { font-size: 15px; font-weight: 600; color: #2B579A; margin: 0 0 14px 0; }
+.fbt-result-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; border-bottom: 1px solid #D4E4FC; }
+.fbt-result-row:last-child { border-bottom: none; }
+.fbt-result-row .label { color: #555; }
+.fbt-result-row .value { font-weight: 600; color: #1E1E1E; }
+.fbt-result-row .total { font-size: 20px; color: #A32D2D; font-weight: 700; }
+.fbt-highlight { display: inline-block; background: #FFF3CD; color: #856404; padding: 2px 7px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+.fbt-rule-box { background: #FFFDE7; border: 1px solid #FFE082; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: #8B6914; }
+.fbt-toggle { cursor: pointer; user-select: none; color: #2B579A; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 10px; }
+.fbt-ref-table { overflow-x: auto; margin-bottom: 12px; border: 1px solid #E0E0E0; border-radius: 8px; display: none; }
+.fbt-ref-table.open { display: block; }
+.fbt-ref-table table { font-size: 11px; }
+.fbt-ref-table thead th { background: #2B579A; color: #fff; padding: 5px 6px; font-size: 10px; white-space: nowrap; }
+.fbt-ref-table tbody td { padding: 4px 6px; text-align: center; border-bottom: 1px solid #EEE; }
+.fbt-ref-table tbody tr:hover { background: #F0F7FF; }
+.fbt-select { padding: 6px 10px; font-size: 13px; border: 1px solid #D0D0D0; border-radius: 6px; background: #fff; }
+.fbt-summary-total { background: #FEF0F0; border: 2px solid #E8A0A0; border-radius: 10px; padding: 14px 18px; margin-top: 10px; text-align: center; }
+.fbt-summary-total .label { font-size: 12px; color: #A32D2D; margin-bottom: 4px; }
+.fbt-summary-total .value { font-size: 28px; font-weight: 800; color: #A32D2D; }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -374,6 +407,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn" data-tab="repurchase" onclick="switchTab('repurchase')">🔄 复购分析</button>
   <button class="tab-btn" data-tab="tiktok" onclick="switchTab('tiktok')">📝 TikTok文案</button>
   <button class="tab-btn" data-tab="profit" onclick="switchTab('profit')">💰 SKU利润看板</button>
+  <button class="tab-btn" data-tab="fbt" onclick="switchTab('fbt')">📦 FBT运费</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -1153,6 +1187,88 @@ button:hover { background: #F0EDE6; }
   </div>
 </div><!-- /tab-profit -->
 
+<!-- ====== FBT 运费计算器 ====== -->
+<div id="tab-fbt" class="tab-content">
+  <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">📦 FBT 运费计算器</h1>
+  <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">输入产品重量/尺寸，自动计算 TikTok FBT 中转费 + 尾程履约费</p>
+
+  <!-- 计费规则提示 -->
+  <div class="fbt-rule-box">
+    <strong>计费规则</strong>（2026年5月1日起）：若实际重量 ≤ 2 lbs 且体积 ≤ 332 立方英寸，按<strong>实际重量</strong>计费；否则取实际重量与体积重（L×W×H÷166）的<strong>较大值</strong>。
+  </div>
+
+  <div class="fbt-container">
+    <!-- 左侧：输入 -->
+    <div class="fbt-card">
+      <h3>📋 产品信息</h3>
+
+      <!-- 重量输入 -->
+      <div class="fbt-input-row">
+        <label>实际重量</label>
+        <input type="number" id="fbtWeight" value="0.5" step="0.01" min="0" oninput="calcFBT()">
+        <div class="unit-group" id="fbtWeightUnit">
+          <button class="unit-btn" data-unit="g" onclick="switchFbtWeightUnit('g')">克 (g)</button>
+          <button class="unit-btn on" data-unit="kg" onclick="switchFbtWeightUnit('kg')">公斤 (kg)</button>
+          <button class="unit-btn" data-unit="lb" onclick="switchFbtWeightUnit('lb')">磅 (lb)</button>
+        </div>
+      </div>
+
+      <!-- 尺寸输入 -->
+      <div class="fbt-input-row">
+        <label>产品尺寸</label>
+        <input type="number" id="fbtLen" value="6" step="0.1" min="0" oninput="calcFBT()" style="width:60px;">
+        <span style="font-size:12px;color:#999;">×</span>
+        <input type="number" id="fbtWid" value="5" step="0.1" min="0" oninput="calcFBT()" style="width:60px;">
+        <span style="font-size:12px;color:#999;">×</span>
+        <input type="number" id="fbtHgt" value="3" step="0.1" min="0" oninput="calcFBT()" style="width:60px;">
+        <div class="unit-group" id="fbtSizeUnit">
+          <button class="unit-btn on" data-unit="inch" onclick="switchFbtSizeUnit('inch')">英寸 (in)</button>
+          <button class="unit-btn" data-unit="cm" onclick="switchFbtSizeUnit('cm')">厘米 (cm)</button>
+        </div>
+      </div>
+
+      <!-- 订单件数 -->
+      <div class="fbt-input-row">
+        <label>订单件数</label>
+        <select id="fbtQty" class="fbt-select" onchange="calcFBT()">
+          <option value="1">1 件</option>
+          <option value="2">2 件</option>
+          <option value="3">3 件</option>
+          <option value="4">4 件及以上</option>
+        </select>
+      </div>
+
+      <!-- Hub 中转选择 -->
+      <div class="fbt-input-row">
+        <label>Hub 中转</label>
+        <select id="fbtHub" class="fbt-select" onchange="calcFBT()">
+          <option value="hub">东部/西部 Hub 中转</option>
+          <option value="direct">直送 FC（免中转费）</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 右侧：结果 -->
+    <div class="fbt-result" id="fbtResult">
+      <h3>💰 费用明细</h3>
+      <div style="font-size:12px;color:#999;padding:40px 0;text-align:center;">输入产品信息后自动计算...</div>
+    </div>
+  </div>
+
+  <!-- 费率参考表（可折叠） -->
+  <div style="margin-top:18px;">
+    <div class="fbt-toggle" onclick="toggleFbtRef()">
+      <span id="fbtToggleIcon">▶</span> 查看 FBT 费率参考表
+    </div>
+    <div class="fbt-ref-table" id="fbtRefTable">
+      <p style="font-size:12px;color:#666;margin:8px 0;">履约费 / 尾程费（2026年1月12日后生效，多件多折）</p>
+      <table id="fbtFFTable"><thead><tr><th>计费重量 (lbs)</th><th>1件</th><th>2件</th><th>3件</th><th>4+件</th></tr></thead><tbody></tbody></table>
+      <p style="font-size:12px;color:#666;margin:12px 0 8px 0;">中转费 / Hub Placement Fee（2025年8月1日生效，按件）</p>
+      <table id="fbtHPTable"><thead><tr><th>计费重量 (lbs)</th><th>每件费用</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</div>
+
 </div><!-- /container -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -1916,6 +2032,7 @@ function switchTab(tab) {
   document.getElementById('tab-repurchase').classList.toggle('active', tab === 'repurchase');
   document.getElementById('tab-tiktok').classList.toggle('active', tab === 'tiktok');
   document.getElementById('tab-profit').classList.toggle('active', tab === 'profit');
+  document.getElementById('tab-fbt').classList.toggle('active', tab === 'fbt');
   if (tab === 'repurchase' && repurchaseOrders.length > 0) {
     renderRepurchaseDashboard();
   }
@@ -8810,6 +8927,222 @@ function fmtNum(n) {
   if (n === null || n === undefined || isNaN(n)) return '0.00';
   return Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+// ====== FBT 运费计算器 ======
+
+// 履约费价卡 (Fulfillment Fee) - 2026年1月12日后生效
+// [maxWeight, qty1, qty2, qty3, qty4plus]
+var FBT_FF_TABLE = [
+  [0.5, 4.28, 2.52, 1.91, 1.56],
+  [1.0, 4.28, 2.52, 1.91, 1.56],
+  [2.0, 5.17, 3.03, 2.30, 1.88],
+  [3.0, 5.87, 3.44, 2.61, 2.13],
+  [4.0, 6.47, 3.79, 2.88, 2.35],
+  [5.0, 6.77, 3.97, 3.01, 2.46],
+  [6.0, 6.97, 4.09, 3.10, 2.53],
+  [7.0, 7.37, 4.32, 3.28, 2.68],
+  [8.0, 7.37, 4.32, 3.28, 2.68],
+  [9.0, 7.37, 4.32, 3.28, 2.68],
+  [10.0, 7.97, 4.67, 3.55, 2.89],
+  [11.0, 7.97, 4.67, 3.55, 2.89],
+  [12.0, 7.97, 4.67, 3.55, 2.89],
+  [13.0, 8.57, 5.02, 3.81, 3.11],
+  [14.0, 8.57, 5.02, 3.81, 3.11],
+  [15.0, 8.57, 5.02, 3.81, 3.11],
+  [16.0, 9.37, 5.49, 4.17, 3.40],
+  [18.0, 9.37, 5.49, 4.17, 3.40],
+  [20.0, 9.37, 5.49, 4.17, 3.40],
+  [22.0, 9.37, 5.49, 4.17, 3.40],
+  [24.0, 10.17, 5.96, 4.53, 3.69],
+  [26.0, 10.17, 5.96, 4.53, 3.69],
+  [28.0, 10.17, 5.96, 4.53, 3.69],
+  [30.0, 10.17, 5.96, 4.53, 3.69],
+  [32.0, 11.77, 6.90, 5.24, 4.28],
+  [34.0, 11.77, 6.90, 5.24, 4.28],
+  [36.0, 11.77, 6.90, 5.24, 4.28],
+  [38.0, 11.77, 6.90, 5.24, 4.28],
+  [40.0, 11.77, 6.90, 5.24, 4.28],
+  [42.0, 12.77, 7.49, 5.69, 4.64],
+  [44.0, 12.77, 7.49, 5.69, 4.64],
+  [46.0, 12.77, 7.49, 5.69, 4.64],
+  [48.0, 12.77, 7.49, 5.69, 4.64],
+  [50.0, 12.77, 7.49, 5.69, 4.64]
+];
+
+// 中转费价卡 (Hub Placement Fee) - 2025年8月1日生效
+// [maxWeight, fee]
+var FBT_HP_TABLE = [
+  [0.5, 0.50], [1.0, 0.55], [2.0, 0.75], [3.0, 1.10], [4.0, 1.30],
+  [5.0, 1.55], [6.0, 1.65], [7.0, 1.80], [8.0, 1.95], [9.0, 2.10],
+  [10.0, 2.25], [11.0, 2.45], [12.0, 2.55], [13.0, 2.65], [14.0, 2.80],
+  [15.0, 2.90], [16.0, 3.15], [17.0, 3.25], [18.0, 3.35], [19.0, 3.50],
+  [20.0, 3.60], [21.0, 3.75], [22.0, 3.85], [23.0, 4.00], [24.0, 4.10],
+  [25.0, 4.25], [26.0, 4.35], [27.0, 4.45], [28.0, 4.60], [29.0, 4.70],
+  [30.0, 4.80], [31.0, 5.05], [32.0, 5.15], [33.0, 5.30], [34.0, 5.40],
+  [35.0, 5.50], [36.0, 5.65], [37.0, 5.75], [38.0, 5.85], [39.0, 6.00],
+  [40.0, 6.10], [41.0, 6.25], [42.0, 6.35], [43.0, 6.45], [44.0, 6.60],
+  [45.0, 6.70], [46.0, 6.80], [47.0, 6.95], [48.0, 7.05], [49.0, 7.15],
+  [50.0, 7.30]
+];
+
+var fbtWeightUnit = 'kg';
+var fbtSizeUnit = 'inch';
+
+function switchFbtWeightUnit(unit) {
+  var oldUnit = fbtWeightUnit;
+  fbtWeightUnit = unit;
+  var val = parseFloat(document.getElementById('fbtWeight').value) || 0;
+  // Convert value
+  if (oldUnit === 'kg' && unit === 'lb') val = val * 2.2046;
+  else if (oldUnit === 'kg' && unit === 'g') val = val * 1000;
+  else if (oldUnit === 'lb' && unit === 'kg') val = val / 2.2046;
+  else if (oldUnit === 'lb' && unit === 'g') val = val * 453.592;
+  else if (oldUnit === 'g' && unit === 'kg') val = val / 1000;
+  else if (oldUnit === 'g' && unit === 'lb') val = val / 453.592;
+  document.getElementById('fbtWeight').value = val.toFixed(3);
+  // Update button styles
+  var btns = document.querySelectorAll('#fbtWeightUnit .unit-btn');
+  btns.forEach(function(b) { b.classList.toggle('on', b.dataset.unit === unit); });
+  calcFBT();
+}
+
+function switchFbtSizeUnit(unit) {
+  var oldUnit = fbtSizeUnit;
+  fbtSizeUnit = unit;
+  var len = parseFloat(document.getElementById('fbtLen').value) || 0;
+  var wid = parseFloat(document.getElementById('fbtWid').value) || 0;
+  var hgt = parseFloat(document.getElementById('fbtHgt').value) || 0;
+  if (oldUnit === 'cm' && unit === 'inch') {
+    len = len / 2.54; wid = wid / 2.54; hgt = hgt / 2.54;
+  } else if (oldUnit === 'inch' && unit === 'cm') {
+    len = len * 2.54; wid = wid * 2.54; hgt = hgt * 2.54;
+  }
+  document.getElementById('fbtLen').value = len.toFixed(2);
+  document.getElementById('fbtWid').value = wid.toFixed(2);
+  document.getElementById('fbtHgt').value = hgt.toFixed(2);
+  var btns = document.querySelectorAll('#fbtSizeUnit .unit-btn');
+  btns.forEach(function(b) { b.classList.toggle('on', b.dataset.unit === unit); });
+  calcFBT();
+}
+
+function getWeightInLbs() {
+  var val = parseFloat(document.getElementById('fbtWeight').value) || 0;
+  if (fbtWeightUnit === 'kg') return val * 2.2046;
+  if (fbtWeightUnit === 'g') return val / 453.592;
+  return val; // lb
+}
+
+function getDimsInInches() {
+  var len = parseFloat(document.getElementById('fbtLen').value) || 0;
+  var wid = parseFloat(document.getElementById('fbtWid').value) || 0;
+  var hgt = parseFloat(document.getElementById('fbtHgt').value) || 0;
+  if (fbtSizeUnit === 'cm') {
+    len = len / 2.54; wid = wid / 2.54; hgt = hgt / 2.54;
+  }
+  return [len, wid, hgt];
+}
+
+function lookupFF(weightLbs, qtyIdx) {
+  for (var i = 0; i < FBT_FF_TABLE.length; i++) {
+    if (weightLbs <= FBT_FF_TABLE[i][0]) return FBT_FF_TABLE[i][qtyIdx];
+  }
+  return FBT_FF_TABLE[FBT_FF_TABLE.length - 1][qtyIdx];
+}
+
+function lookupHP(weightLbs) {
+  for (var i = 0; i < FBT_HP_TABLE.length; i++) {
+    if (weightLbs <= FBT_HP_TABLE[i][0]) return FBT_HP_TABLE[i][1];
+  }
+  return FBT_HP_TABLE[FBT_HP_TABLE.length - 1][1];
+}
+
+function calcFBT() {
+  var actualLbs = getWeightInLbs();
+  var dims = getDimsInInches();
+  var len = dims[0], wid = dims[1], hgt = dims[2];
+  var volumeIn3 = len * wid * hgt;
+  var dimLbs = volumeIn3 / 166;
+  var qty = parseInt(document.getElementById('fbtQty').value) || 1;
+  var hub = document.getElementById('fbtHub').value;
+
+  // 2026年5月1日新规：≤2lb且≤332立方英寸用实重
+  var billableLbs;
+  var ruleNote;
+  if (actualLbs <= 2 && volumeIn3 <= 332) {
+    billableLbs = actualLbs;
+    ruleNote = '（实重 ≤ 2 lbs 且体积 ≤ 332 in³，按实际重量计费）';
+  } else {
+    billableLbs = Math.max(actualLbs, dimLbs);
+    ruleNote = actualLbs >= dimLbs ? '（实重 ≥ 体积重，按实际重量计费）' : '（体积重 > 实重，按体积重计费）';
+  }
+
+  // 查表
+  var qtyIdx = qty >= 4 ? 4 : qty + 1; // [_, qty1, qty2, qty3, qty4+] -> index 1,2,3,4
+  var ffUnit = lookupFF(billableLbs, qtyIdx);
+  var ffTotal = ffUnit * qty;
+  var hpUnit = hub === 'direct' ? 0 : lookupHP(billableLbs);
+  var hpTotal = hpUnit * qty;
+  var totalPerUnit = ffUnit + hpUnit;
+  var orderTotal = totalPerUnit * qty;
+
+  // Build result HTML
+  var html = '<h3>💰 费用明细</h3>';
+  html += '<div class="fbt-result-row"><span class="label">实际重量</span><span class="value">' + actualLbs.toFixed(2) + ' lbs (' + (actualLbs / 2.2046).toFixed(2) + ' kg)</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">体积重量</span><span class="value">' + dimLbs.toFixed(2) + ' lbs ( ' + len.toFixed(1) + '×' + wid.toFixed(1) + '×' + hgt.toFixed(1) + ' in ÷ 166 )</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">计费重量</span><span class="value"><strong>' + billableLbs.toFixed(2) + ' lbs</strong> <span class="fbt-highlight">' + ruleNote + '</span></span></div>';
+  html += '<div class="fbt-result-row"><span class="label">中转费（单价）</span><span class="value">$' + hpUnit.toFixed(2) + '</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">履约费（单价）</span><span class="value">$' + ffUnit.toFixed(2) + '</span></div>';
+  html += '<div class="fbt-result-row"><span class="label">单件运费合计</span><span class="value" style="color:#2B579A;font-size:16px;">$' + totalPerUnit.toFixed(2) + '</span></div>';
+  html += '<div class="fbt-summary-total"><div class="label">整单运费 (' + qty + '件)</div><div class="value">$' + orderTotal.toFixed(2) + '</div></div>';
+  if (hub === 'direct') {
+    html += '<div style="font-size:11px;color:#0F6E56;margin-top:6px;">✅ 直送FC模式，免中转费</div>';
+  }
+
+  document.getElementById('fbtResult').innerHTML = html;
+}
+
+function toggleFbtRef() {
+  var table = document.getElementById('fbtRefTable');
+  var icon = document.getElementById('fbtToggleIcon');
+  if (table.classList.contains('open')) {
+    table.classList.remove('open');
+    icon.textContent = '▶';
+  } else {
+    table.classList.add('open');
+    icon.textContent = '▼';
+    renderFbtRefTables();
+  }
+}
+
+function renderFbtRefTables() {
+  // 履约费表
+  var ffHtml = '';
+  for (var i = 0; i < FBT_FF_TABLE.length; i++) {
+    var r = FBT_FF_TABLE[i];
+    var prevMax = i === 0 ? 0 : FBT_FF_TABLE[i-1][0];
+    var label = '>' + prevMax.toFixed(1) + '-' + r[0].toFixed(1);
+    ffHtml += '<tr><td>' + label + '</td><td>$' + r[1].toFixed(2) + '</td><td>$' + r[2].toFixed(2) + '</td><td>$' + r[3].toFixed(2) + '</td><td>$' + r[4].toFixed(2) + '</td></tr>';
+  }
+  document.querySelector('#fbtFFTable tbody').innerHTML = ffHtml;
+
+  // 中转费表
+  var hpHtml = '';
+  for (var j = 0; j < FBT_HP_TABLE.length; j++) {
+    var r2 = FBT_HP_TABLE[j];
+    var prevMax2 = j === 0 ? 0 : FBT_HP_TABLE[j-1][0];
+    var label = '>' + prevMax2.toFixed(1) + '-' + r2[0].toFixed(1);
+    hpHtml += '<tr><td>' + label + '</td><td>$' + r2[1].toFixed(2) + '</td></tr>';
+  }
+  document.querySelector('#fbtHPTable tbody').innerHTML = hpHtml;
+}
+
+// 切换FBT tab时自动计算
+var origSwitchTab = switchTab;
+switchTab = function(tab) {
+  origSwitchTab.call(window, tab);
+  if (tab === 'fbt') { calcFBT(); }
+};
+
 </script>
 </body>
 </html>
