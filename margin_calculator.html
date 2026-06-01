@@ -1403,8 +1403,19 @@ function isCurrentMonth(dateStr) {
   if (!dateStr) return false;
   var m = dateStr.match(/(\d{4})[-/](\d{1,2})/);
   if (!m) return false;
+  var year = parseInt(m[1]), month = parseInt(m[2]);
   var now = new Date();
-  return parseInt(m[1]) === now.getFullYear() && parseInt(m[2]) === (now.getMonth() + 1);
+  var cy = now.getFullYear(), cm = now.getMonth() + 1, cd = now.getDate();
+  // Direct match: same year + same month
+  if (year === cy && month === cm) return true;
+  // Grace period: first 7 days of new month → also accept previous month
+  // (handles the gap where the latest uploaded data is still from last month)
+  if (cd <= 7) {
+    var prevMonth = cm === 1 ? 12 : cm - 1;
+    var prevYear = cm === 1 ? cy - 1 : cy;
+    if (year === prevYear && month === prevMonth) return true;
+  }
+  return false;
 }
 
 function switchTab(tab) {
