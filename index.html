@@ -2737,33 +2737,51 @@ function exportUnmappedUK() {
 
 function importUnmappedUS() {
   var input = document.createElement('input');
-  input.type = 'file'; input.accept = '.csv';
+  input.type = 'file'; input.accept = '.csv,.xlsx';
   input.onchange = function(e) {
     var file = e.target.files[0];
     if (!file) return;
+    var isXlsx = /\.xlsx?$/i.test(file.name);
     var reader = new FileReader();
     reader.onload = function(ev) {
-      var text = ev.target.result;
-      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-      if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
-      var headers = parseCsvLine(lines[0]);
+      var lines, headers;
+      if (isXlsx) {
+        try {
+          var wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
+          var sheetName = wb.SheetNames[0];
+          var sheet = wb.Sheets[sheetName];
+          var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+          if (rows.length < 2) { alert('XLSX至少需要表头+1行数据'); return; }
+          headers = rows[0].map(function(h) { return String(h); });
+          lines = rows;
+        } catch (ex) {
+          alert('XLSX解析失败：' + ex.message); return;
+        }
+      } else {
+        var text = ev.target.result;
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+        lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+        if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
+        headers = parseCsvLine(lines[0]);
+      }
       var colVid = -1, colCloud = -1, colEditor = -1, colDirector = -1;
       headers.forEach(function(h, i) {
-        var t = h.trim().replace(/\s/g, '');
-        if (/视频ID|vid|video.?id/i.test(t)) colVid = i;
-        if (/云视频id|cloud.?id|cloud/i.test(t)) colCloud = i;
+        var t = String(h).trim().replace(/\s/g, '');
+        // 先匹配云视频id，避免"云视频id"被视频ID正则误匹配
+        if (/云视频id|cloud.?id/i.test(t)) { colCloud = i; }
+        else if (/视频ID|vid|video.?id/i.test(t)) { colVid = i; }
         if (/剪辑|editor/i.test(t)) colEditor = i;
         if (/编导|director/i.test(t)) colDirector = i;
       });
-      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出CSV的表头结构'); return; }
+      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出表头结构'); return; }
       var updated = 0;
       for (var i = 1; i < lines.length; i++) {
-        var cols = parseCsvLine(lines[i]);
-        var vid = (cols[colVid] || '').trim();
-        var cloudId = colCloud >= 0 ? (cols[colCloud] || '').trim() : '';
-        var editor = cleanName(colEditor >= 0 ? (cols[colEditor] || '') : '');
-        var director = cleanName(colDirector >= 0 ? (cols[colDirector] || '') : '');
+        var cols = isXlsx ? lines[i] : parseCsvLine(lines[i]);
+        if (!cols || !cols.length) continue;
+        var vid = String(cols[colVid] || '').trim();
+        var cloudId = colCloud >= 0 ? String(cols[colCloud] || '').trim() : '';
+        var editor = cleanName(colEditor >= 0 ? String(cols[colEditor] || '') : '');
+        var director = cleanName(colDirector >= 0 ? String(cols[colDirector] || '') : '');
         if (!vid) continue;
         if (cloudId) {
           editedMapping.vidToCloud[vid] = cloudId;
@@ -2783,40 +2801,62 @@ function importUnmappedUS() {
       renderMappingPanel();
       alert('成功导入 ' + updated + ' 条映射！');
     };
-    reader.readAsText(file, 'UTF-8');
+    if (isXlsx) {
+      reader.readAsArrayBuffer(file);
+    } else {
+      reader.readAsText(file, 'UTF-8');
+    }
   };
   input.click();
 }
 
 function importUnmappedUK() {
   var input = document.createElement('input');
-  input.type = 'file'; input.accept = '.csv';
+  input.type = 'file'; input.accept = '.csv,.xlsx';
   input.onchange = function(e) {
     var file = e.target.files[0];
     if (!file) return;
+    var isXlsx = /\.xlsx?$/i.test(file.name);
     var reader = new FileReader();
     reader.onload = function(ev) {
-      var text = ev.target.result;
-      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-      if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
-      var headers = parseCsvLine(lines[0]);
+      var lines, headers;
+      if (isXlsx) {
+        try {
+          var wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
+          var sheetName = wb.SheetNames[0];
+          var sheet = wb.Sheets[sheetName];
+          var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+          if (rows.length < 2) { alert('XLSX至少需要表头+1行数据'); return; }
+          headers = rows[0].map(function(h) { return String(h); });
+          lines = rows;
+        } catch (ex) {
+          alert('XLSX解析失败：' + ex.message); return;
+        }
+      } else {
+        var text = ev.target.result;
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+        lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+        if (lines.length < 2) { alert('CSV至少需要表头+1行数据'); return; }
+        headers = parseCsvLine(lines[0]);
+      }
       var colVid = -1, colCloud = -1, colEditor = -1, colDirector = -1;
       headers.forEach(function(h, i) {
-        var t = h.trim().replace(/\s/g, '');
-        if (/视频ID|vid|video.?id/i.test(t)) colVid = i;
-        if (/云视频id|cloud.?id|cloud/i.test(t)) colCloud = i;
+        var t = String(h).trim().replace(/\s/g, '');
+        // 先匹配云视频id，避免"云视频id"被视频ID正则误匹配
+        if (/云视频id|cloud.?id/i.test(t)) { colCloud = i; }
+        else if (/视频ID|vid|video.?id/i.test(t)) { colVid = i; }
         if (/剪辑|editor/i.test(t)) colEditor = i;
         if (/编导|director/i.test(t)) colDirector = i;
       });
-      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出CSV的表头结构'); return; }
+      if (colVid === -1) { alert('找不到"视频ID"列，请保留导出表头结构'); return; }
       var updated = 0;
       for (var i = 1; i < lines.length; i++) {
-        var cols = parseCsvLine(lines[i]);
-        var vid = (cols[colVid] || '').trim();
-        var cloudId = colCloud >= 0 ? (cols[colCloud] || '').trim() : '';
-        var editor = cleanName(colEditor >= 0 ? (cols[colEditor] || '') : '');
-        var director = cleanName(colDirector >= 0 ? (cols[colDirector] || '') : '');
+        var cols = isXlsx ? lines[i] : parseCsvLine(lines[i]);
+        if (!cols || !cols.length) continue;
+        var vid = String(cols[colVid] || '').trim();
+        var cloudId = colCloud >= 0 ? String(cols[colCloud] || '').trim() : '';
+        var editor = cleanName(colEditor >= 0 ? String(cols[colEditor] || '') : '');
+        var director = cleanName(colDirector >= 0 ? String(cols[colDirector] || '') : '');
         if (!vid) continue;
         if (cloudId) {
           editedMappingUK.vidToCloud[vid] = cloudId;
@@ -2836,7 +2876,11 @@ function importUnmappedUK() {
       renderMappingPanelUK();
       alert('成功导入 ' + updated + ' 条映射！');
     };
-    reader.readAsText(file, 'UTF-8');
+    if (isXlsx) {
+      reader.readAsArrayBuffer(file);
+    } else {
+      reader.readAsText(file, 'UTF-8');
+    }
   };
   input.click();
 }
