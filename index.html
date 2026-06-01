@@ -2770,7 +2770,7 @@ function renderVideoDetail(filter, sortBy, sortDir) {
   if (filter !== undefined) videoDetailFilter = filter;
   if (sortBy) { videoDetailSortBy = sortBy; videoDetailSortDir = sortDir || (videoDetailSortBy === sortBy ? (videoDetailSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoined) return;
-  var data = videoDetailFilter ? videoJoined.filter(function(r) { return r.editor === videoDetailFilter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.editor && r.gmv > 0; });
+  var data = videoDetailFilter ? videoJoined.filter(function(r) { return r.editor === videoDetailFilter && r.gmv > 0; }) : videoJoined.filter(function(r) { return r.gmv > 0; });
   document.getElementById('detailCount').textContent = data.length + ' 条';
 
   if (!data.length) {
@@ -4331,7 +4331,7 @@ function renderVideoDetailUK(filter, sortBy, sortDir) {
   if (filter !== undefined) videoDetailFilterUK = filter;
   if (sortBy) { videoDetailSortByUK = sortBy; videoDetailSortDirUK = sortDir || (videoDetailSortByUK === sortBy ? (videoDetailSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
   if (!videoJoinedUK) return;
-  var data = videoDetailFilterUK ? videoJoinedUK.filter(function(r) { return r.editor === videoDetailFilterUK && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.editor && r.gmv > 0; });
+  var data = videoDetailFilterUK ? videoJoinedUK.filter(function(r) { return r.editor === videoDetailFilterUK && r.gmv > 0; }) : videoJoinedUK.filter(function(r) { return r.gmv > 0; });
   document.getElementById('detailCountUK').textContent = data.length + ' 条';
 
   if (!data.length) {
