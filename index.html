@@ -585,6 +585,11 @@ button:hover { background: #F0EDE6; }
     <div style="font-size:11px;color:#888;">跨境脚本.csv（脚本ID = 云视频id）</div>
     <input type="file" accept=".csv" onchange="handleScriptUpload(this)" style="display:none;">
   </label>
+  <div class="video-upload-box" id="reportBoxUS" style="flex:1;min-width:240px;cursor:pointer;" onclick="exportReportVideoUS()">
+    <div style="font-size:24px;margin-bottom:4px;">📊</div>
+    <div style="font-size:13px;font-weight:500;">导出可视化报表</div>
+    <div style="font-size:11px;color:#888;">含排名+明细+高消耗高产出标记</div>
+  </div>
 </div>
 
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
@@ -751,6 +756,11 @@ button:hover { background: #F0EDE6; }
     <div style="font-size:11px;color:#888;">云视频id汇总表 .xlsx（含Sheet1 + 线上表格）</div>
     <input type="file" accept=".xlsx,.csv,.xls" onchange="handleMappingUploadUK(this)" style="display:none;">
   </label>
+  <div class="video-upload-box" id="reportBoxUK" style="flex:1;min-width:240px;cursor:pointer;" onclick="exportReportVideoUK()">
+    <div style="font-size:24px;margin-bottom:4px;">📊</div>
+    <div style="font-size:13px;font-weight:500;">导出可视化报表</div>
+    <div style="font-size:11px;color:#888;">含排名+明细+高消耗高产出标记</div>
+  </div>
 </div>
 
 <div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
@@ -3721,6 +3731,152 @@ function renderBdSection() {
   renderBdAllDetail();
 }
 
+// ====== 视频数据可视化报表导出 ======
+function exportReportVideoUS() {
+  if (!videoJoined || !videoJoined.length) { alert('请先上传广告数据'); return; }
+  var now = new Date();
+  var monthLabel = (now.getMonth()+1) + '月' + now.getDate() + '日';
+  // --- KPI 计算 ---
+  var totalGmv = 0, totalOrders = 0, totalCost = 0, totalVideos = 0;
+  var currentVideos = [];
+  videoJoined.forEach(function(r) {
+    totalGmv += r.gmv || 0;
+    totalOrders += r.orders || 0;
+    totalCost += r.cost || 0;
+    totalVideos++;
+    if (isCurrentMonth(r.date)) currentVideos.push(r);
+  });
+  var currentGmv = currentVideos.reduce(function(s,r){return s+(r.gmv||0);},0);
+  var currentCost = currentVideos.reduce(function(s,r){return s+(r.cost||0);},0);
+  var roi = totalCost > 0 ? (totalGmv / totalCost) : 0;
+
+  // --- 高消耗高产出视频（当月，GMV>100 且 cost>0，按 GMV 降序 Top 30）---
+  var hotVideos = currentVideos.filter(function(r){return r.gmv >= 100 && r.cost > 0;})
+    .sort(function(a,b){return b.gmv - a.gmv;}).slice(0, 30);
+
+  // --- _build ranking table rows ---
+  function rankRows(summary, rankKey, showStatus) {
+    return summary.map(function(p, i) {
+      var medal = i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      var statusHtml = '';
+      if (showStatus && p.editor) {
+        var st = personStatusUS[p.editor] || 'active';
+        statusHtml = ' <span style="font-size:11px;color:'+(st==='inactive'?'#999':'#0F6E56')+';">'+(st==='inactive'?'已离职':'在职')+'</span>';
+      }
+      var name = p.editor || p.director || p.account || '';
+      return '<tr>' +
+        '<td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>' +
+        '<td style="padding:5px;">'+name+statusHtml+'</td>' +
+        '<td style="text-align:right;padding:5px;">$'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>' +
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>' +
+        '<td style="text-align:center;padding:5px;">'+(p.videos||p.vidSet&&p.vidSet.size||0)+'</td>' +
+        '<td style="text-align:right;padding:5px;">$'+((p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2}))+'</td>' +
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+((p.roi||0).toFixed(2))+'</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  // --- HTML 模板 ---
+  var html = '<!DOCTYPE html>\n<html><head><meta charset="utf-8"><title>视频数据报表_美国_'+monthLabel+'</title>\n'+
+    '<style>\n'+
+    'body{font-family:"Segoe UI",Arial,sans-serif;padding:24px;background:#F7F9FA;color:#333;}\n'+
+    '.header{border-bottom:3px solid #2B579A;padding-bottom:12px;margin-bottom:20px;}\n'+
+    '.header h1{margin:0;font-size:22px;color:#2B579A;}\n'+
+    '.header .sub{font-size:12px;color:#888;margin-top:4px;}\n'+
+    '.kpi-row{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap;}\n'+
+    '.kpi-card{background:#fff;border-radius:8px;padding:14px 20px;min-width:160px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}\n'+
+    '.kpi-label{font-size:11px;color:#888;margin-bottom:4px;}\n'+
+    '.kpi-value{font-size:20px;font-weight:700;color:#2B579A;}\n'+
+    '.section{background:#fff;border-radius:8px;padding:16px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}\n'+
+    '.section-title{font-size:15px;font-weight:600;color:#2B579A;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;}\n'+
+    'table{width:100%;border-collapse:collapse;font-size:13px;}\n'+
+    'th{background:#2B579A;color:#fff;padding:6px 5px;text-align:left;}\n'+
+    'td{padding:5px;border-bottom:1px solid #f0f0f0;}\n'+
+    'tr:nth-child(even){background:#f9f9f9;}\n'+
+    '.hot-video{background:#FFF8E1 !important;}'+
+    '.vid-cell{font-size:11px;color:#555;font-family:monospace;}\n'+
+    '.print-btn{position:fixed;top:12px;right:12px;padding:8px 16px;background:#2B579A;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;z-index:99;}\n'+
+    '@media print{.print-btn{display:none;} body{padding:12px;}}\n'+
+    '</style></head><body>\n'+
+    '<button class="print-btn" onclick="window.print()">\uD83D\uDDA5️ 打印 / 导出 PDF</button>\n'+
+    '<div class="header"><h1>\uD83C\uDFA5 视频数据可视化报表（美国）</h1>\n'+
+    '<div class="sub">生成时间：'+now.toLocaleString('zh-CN')+' ｜ 数据月份：'+monthLabel+'</div></div>\n'+
+
+    '<div class="kpi-row">\n'+
+    '<div class="kpi-card"><div class="kpi-label">总 GMV</div><div class="kpi-value">$'+totalGmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总订单数</div><div class="kpi-value">'+totalOrders.toLocaleString()+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总视频数</div><div class="kpi-value">'+totalVideos+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总消耗</div><div class="kpi-value">$'+totalCost.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">综合 ROI</div><div class="kpi-value" style="color:'+(roi>=2?'#0F6E56':roi<1?'#A32D2D':'#2B579A')+'">'+roi.toFixed(2)+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">当月 GMV</div><div class="kpi-value">$'+currentGmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '</div>\n'+
+
+    // 剪辑排名
+    '<div class="section"><div class="section-title">\uD83D\uDCAA 剪辑排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>剪辑</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+rankRows(videoPersonSummary,'editor',true)+'</tbody></table></div>\n'+
+
+    // 编导排名
+    '<div class="section"><div class="section-title">\uD83C\uDFAC 编导排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>编导</th><th>合作剪辑</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+videoDirectorSummary.map(function(p,i){
+      var medal=i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      return '<tr><td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>'+
+        '<td style="padding:5px;">'+p.director+'</td>'+
+        '<td style="padding:5px;font-size:12px;color:#666;">'+(p.editors||'—')+'</td>'+
+        '<td style="text-align:right;padding:5px;">$'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.videos||0)+'</td>'+
+        '<td style="text-align:right;padding:5px;">$'+(p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+p.roi.toFixed(2)+'</td></tr>';
+    }).join('')+'</tbody></table></div>\n'+
+
+    // BD达人排名
+    (videoBdSummary&&videoBdSummary.length?'<div class="section"><div class="section-title">\uD83D\uDCAC BD 达人排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>达人账号</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+videoBdSummary.map(function(p,i){
+      var medal=i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      return '<tr><td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>'+
+        '<td style="padding:5px;font-size:12px;">'+p.account+'</td>'+
+        '<td style="text-align:right;padding:5px;">$'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.videos||p.vidSet&&p.vidSet.size||0)+'</td>'+
+        '<td style="text-align:right;padding:5px;">$'+(p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+p.roi.toFixed(2)+'</td></tr>';
+    }).join('')+'</tbody></table></div>\n':'');
+
+  // 高消耗高产出视频
+  if (hotVideos.length) {
+    html += '<div class="section"><div class="section-title">\uD83D\uDD25 当月高消耗×高产出视频（Top '+hotVideos.length+'）</div>\n'+
+      '<div style="font-size:11px;color:#888;margin-bottom:8px;">当月发布 | GMV ≥ $100 | 按 GMV 降序 | 黄色高亮</div>\n'+
+      '<table><thead><tr><th>视频ID</th><th>云视频ID</th><th>标题</th><th>剪辑</th><th>编导</th><th>GMV</th><th>消耗</th><th>ROI</th><th>日期</th></tr></thead>\n<tbody>\n';
+    hotVideos.forEach(function(r) {
+      var title = (r.title||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      html += '<tr class="hot-video">' +
+        '<td class="vid-cell">'+(r.vid||'—')+'</td>' +
+        '<td class="vid-cell">'+(r.cloudId||'—')+'</td>' +
+        '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+title+'">'+title+'</td>' +
+        '<td style="font-size:12px;">'+(r.editor||'—')+'</td>' +
+        '<td style="font-size:12px;">'+(r.director||'—')+'</td>' +
+        '<td style="text-align:right;font-weight:600;">$'+r.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>' +
+        '<td style="text-align:right;">'+(r.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>' +
+        '<td style="text-align:center;'+(r.roi>=2?'color:#0F6E56;':'')+'">'+r.roi.toFixed(2)+'</td>' +
+        '<td style="font-size:11px;color:#888;">'+(r.date||'')+'</td>' +
+        '</tr>\n';
+    });
+    html += '</tbody></table></div>\n';
+  }
+
+  html += '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #eee;">Matern\'ella 视频数据报表 · 由 margin-calculator 生成 · '+now.toLocaleDateString('zh-CN')+'</div>\n'+
+    '</body></html>';
+
+  var w = window.open('','_blank');
+  if (!w) { alert('请允许浏览器弹出窗口'); return; }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
 function renderBdDetail(filter, sortBy, sortDir) {
   if (filter !== undefined) videoBdDetailFilter = filter;
   if (sortBy) { bdDetailSortBy = sortBy; bdDetailSortDir = sortDir || (bdDetailSortBy === sortBy ? (bdDetailSortDir === 'asc' ? 'desc' : 'asc') : 'desc'); }
@@ -5071,6 +5227,137 @@ function importMappingCSVUK(input) {
 // ====== BD达人账号明细（英国，按达人账号分组，可展开查看视频，可排序）======
 var bdAllSortByUK = 'gmv', bdAllSortDirUK = 'desc';
 var bdAllExpandedUK = {}; // account -> true/false
+
+// ====== 视频数据可视化报表导出 (英国) ======
+function exportReportVideoUK() {
+  if (!videoJoinedUK || !videoJoinedUK.length) { alert('请先上传广告数据'); return; }
+  var now = new Date();
+  var monthLabel = (now.getMonth()+1) + '月' + now.getDate() + '日';
+  // --- KPI 计算 ---
+  var totalGmv = 0, totalOrders = 0, totalCost = 0, totalVideos = 0;
+  var currentVideos = [];
+  videoJoinedUK.forEach(function(r) {
+    totalGmv += r.gmv || 0;
+    totalOrders += r.orders || 0;
+    totalCost += r.cost || 0;
+    totalVideos++;
+    if (isCurrentMonth(r.date)) currentVideos.push(r);
+  });
+  var currentGmv = currentVideos.reduce(function(s,r){return s+(r.gmv||0);},0);
+  var currentCost = currentVideos.reduce(function(s,r){return s+(r.cost||0);},0);
+  var roi = totalCost > 0 ? (totalGmv / totalCost) : 0;
+
+  // --- 高消耗高产出视频（当月，GMV>100 且 cost>0，按 GMV 降序 Top 30）---
+  var hotVideos = currentVideos.filter(function(r){return r.gmv >= 100 && r.cost > 0;})
+    .sort(function(a,b){return b.gmv - a.gmv;}).slice(0, 30);
+
+  // --- HTML 模板 ---
+  var html = '<!DOCTYPE html>\n<html><head><meta charset="utf-8"><title>视频数据报表_英国_'+monthLabel+'</title>\n'+
+    '<style>\n'+
+    'body{font-family:"Segoe UI",Arial,sans-serif;padding:24px;background:#F7F9FA;color:#333;}\n'+
+    '.header{border-bottom:3px solid #2B579A;padding-bottom:12px;margin-bottom:20px;}\n'+
+    '.header h1{margin:0;font-size:22px;color:#2B579A;}\n'+
+    '.header .sub{font-size:12px;color:#888;margin-top:4px;}\n'+
+    '.kpi-row{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap;}\n'+
+    '.kpi-card{background:#fff;border-radius:8px;padding:14px 20px;min-width:160px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}\n'+
+    '.kpi-label{font-size:11px;color:#888;margin-bottom:4px;}\n'+
+    '.kpi-value{font-size:20px;font-weight:700;color:#2B579A;}\n'+
+    '.section{background:#fff;border-radius:8px;padding:16px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}\n'+
+    '.section-title{font-size:15px;font-weight:600;color:#2B579A;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;}\n'+
+    'table{width:100%;border-collapse:collapse;font-size:13px;}\n'+
+    'th{background:#2B579A;color:#fff;padding:6px 5px;text-align:left;}\n'+
+    'td{padding:5px;border-bottom:1px solid #f0f0f0;}\n'+
+    'tr:nth-child(even){background:#f9f9f9;}\n'+
+    '.hot-video{background:#FFF8E1 !important;}'+
+    '.vid-cell{font-size:11px;color:#555;font-family:monospace;}\n'+
+    '.print-btn{position:fixed;top:12px;right:12px;padding:8px 16px;background:#2B579A;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;z-index:99;}\n'+
+    '@media print{.print-btn{display:none;} body{padding:12px;}}\n'+
+    '</style></head><body>\n'+
+    '<button class="print-btn" onclick="window.print()">\uD83D\uDDA5\uFE0F 打印 / 导出 PDF</button>\n'+
+    '<div class="header"><h1>\uD83C\uDFA5 视频数据可视化报表（英国）</h1>\n'+
+    '<div class="sub">生成时间：'+now.toLocaleString('zh-CN')+' ｜ 数据月份：'+monthLabel+'</div></div>\n'+
+
+    '<div class="kpi-row">\n'+
+    '<div class="kpi-card"><div class="kpi-label">总 GMV</div><div class="kpi-value">£'+totalGmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总订单数</div><div class="kpi-value">'+totalOrders.toLocaleString()+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总视频数</div><div class="kpi-value">'+totalVideos+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">总消耗</div><div class="kpi-value">£'+totalCost.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">综合 ROI</div><div class="kpi-value" style="color:'+(roi>=2?'#0F6E56':roi<1?'#A32D2D':'#2B579A')+'">'+roi.toFixed(2)+'</div></div>\n'+
+    '<div class="kpi-card"><div class="kpi-label">当月 GMV</div><div class="kpi-value">£'+currentGmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</div></div>\n'+
+    '</div>\n'+
+
+    // 剪辑排名
+    '<div class="section"><div class="section-title">\uD83D\uDCAA 剪辑排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>剪辑</th><th>状态</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+videoPersonSummaryUK.map(function(p,i){
+      var medal=i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      var st = personStatusUK[p.editor]||'active';
+      return '<tr><td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>'+
+        '<td style="padding:5px;">'+p.editor+' <span style="font-size:11px;color:'+(st==='inactive'?'#999':'#0F6E56')+'">'+(st==='inactive'?'已离职':'在职')+'</span></td>'+
+        '<td style="text-align:right;padding:5px;">£'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.videos||0)+'</td>'+
+        '<td style="text-align:right;padding:5px;">£'+(p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+p.roi.toFixed(2)+'</td></tr>';
+    }).join('')+'</tbody></table></div>\n'+
+
+    // 编导排名
+    '<div class="section"><div class="section-title">\uD83C\uDFAC 编导排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>编导</th><th>合作剪辑</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+videoDirectorSummaryUK.map(function(p,i){
+      var medal=i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      return '<tr><td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>'+
+        '<td style="padding:5px;">'+p.director+'</td>'+
+        '<td style="padding:5px;font-size:12px;color:#666;">'+(p.editors||'—')+'</td>'+
+        '<td style="text-align:right;padding:5px;">£'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.videos||0)+'</td>'+
+        '<td style="text-align:right;padding:5px;">£'+(p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+p.roi.toFixed(2)+'</td></tr>';
+    }).join('')+'</tbody></table></div>\n'+
+
+    // BD达人排名
+    (videoBdSummaryUK&&videoBdSummaryUK.length?'<div class="section"><div class="section-title">\uD83D\uDCAC BD 达人排名（全量）</div>\n'+
+    '<table><thead><tr><th>排名</th><th>达人账号</th><th>GMV</th><th>订单</th><th>视频数</th><th>成本</th><th>ROI</th></tr></thead>\n'+
+    '<tbody>'+videoBdSummaryUK.map(function(p,i){
+      var medal=i===0?'\uD83E\uDD47':i===1?'\uD83E\uDD48':i===2?'\uD83E\uDD49':'';
+      return '<tr><td style="text-align:center;padding:5px;">'+(medal?medal+' ':'')+(i+1)+'</td>'+
+        '<td style="padding:5px;font-size:12px;">'+p.account+'</td>'+
+        '<td style="text-align:right;padding:5px;">£'+p.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.orders||0)+'</td>'+
+        '<td style="text-align:center;padding:5px;">'+(p.videos||0)+'</td>'+
+        '<td style="text-align:right;padding:5px;">£'+(p.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+        '<td style="text-align:center;padding:5px;'+(p.roi>=2?'color:#0F6E56;font-weight:600;':p.roi<1?'color:#A32D2D;':'')+'">'+p.roi.toFixed(2)+'</td></tr>';
+    }).join('')+'</tbody></table></div>\n':'')+
+
+    // 高消耗高产出视频
+    (hotVideos.length?'<div class="section"><div class="section-title">\uD83D\uDD25 当月高消耗×高产出视频（Top '+hotVideos.length+'）</div>\n'+
+      '<div style="font-size:11px;color:#888;margin-bottom:8px;">当月发布 | GMV ≥ £100 | 按 GMV 降序 | 黄色高亮</div>\n'+
+      '<table><thead><tr><th>视频ID</th><th>云视频ID</th><th>标题</th><th>剪辑</th><th>编导</th><th>GMV</th><th>消耗</th><th>ROI</th><th>日期</th></tr></thead>\n<tbody>\n'+
+      hotVideos.map(function(r){
+        var title = (r.title||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return '<tr class="hot-video">'+
+          '<td class="vid-cell">'+(r.vid||'—')+'</td>'+
+          '<td class="vid-cell">'+(r.cloudId||'—')+'</td>'+
+          '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+title+'">'+title+'</td>'+
+          '<td style="font-size:12px;">'+(r.editor||'—')+'</td>'+
+          '<td style="font-size:12px;">'+(r.director||'—')+'</td>'+
+          '<td style="text-align:right;font-weight:600;">£'+r.gmv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+          '<td style="text-align:right;">£'+(r.cost||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td>'+
+          '<td style="text-align:center;'+(r.roi>=2?'color:#0F6E56;':'')+'">'+r.roi.toFixed(2)+'</td>'+
+          '<td style="font-size:11px;color:#888;">'+(r.date||'')+'</td>'+
+          '</tr>\n';
+      }).join('')+'</tbody></table></div>\n':'')+
+
+    '<div style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #eee;">Matern\'ella 视频数据报表 · 由 margin-calculator 生成 · '+now.toLocaleDateString('zh-CN')+'</div>\n'+
+    '</body></html>';
+
+  var w = window.open('','_blank');
+  if (!w) { alert('请允许浏览器弹出窗口'); return; }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
 
 function renderBdAllDetailUK(sortBy, sortDir, toggleAcct) {
   if (sortBy) { bdAllSortByUK = sortBy; bdAllSortDirUK = sortDir || (bdAllSortByUK === sortBy ? (bdAllSortDirUK === 'asc' ? 'desc' : 'asc') : 'desc'); }
