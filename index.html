@@ -1029,6 +1029,7 @@ button:hover { background: #F0EDE6; }
     </div>
   </div>
 
+  <button onclick="exportRepurchaseReport()" style="padding:6px 16px;margin-top:10px;margin-right:8px;background:#0F6E56;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;">📄 导出报表</button>
   <button onclick="resetRepurchase()" class="reset-btn" style="margin-top:10px;">清除数据</button>
 </div>
 </div><!-- /tab-repurchase -->
@@ -6974,6 +6975,144 @@ function resetRepurchase() {
   }
 }
 
+
+// ====== 复购分析可视化报表导出 ======
+function exportRepurchaseReport() {
+  if (repurchaseOrders.length === 0) { alert("请先上传订单CSV数据"); return; }
+  var stats = calculateRepurchase();
+  if (!stats) { alert("数据处理失败，请重新上传"); return; }
+  var now = new Date();
+  var monthLabel = (now.getMonth()+1) + "月" + now.getDate() + "日";
+
+  // --- KPI cards ---
+  var kpiHtml = "";
+  var cards = [
+    { label: "总订单数", value: stats.totalOrders.toLocaleString() },
+    { label: "总购买用户", value: stats.totalBuyers.toLocaleString() },
+    { label: "复购用户", value: stats.repeatBuyerCount.toLocaleString() },
+    { label: "整体复购率", value: (stats.repurchaseRate * 100).toFixed(1) + "%" },
+    { label: "复购GMV占比", value: (stats.repeatGMVPct * 100).toFixed(1) + "%" },
+    { label: "总GMV", value: "$" + stats.totalGMV.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) },
+    { label: "复购GMV", value: "$" + stats.repeatGMV.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) }
+  ];
+  if ((window._repurchaseSampleSkipped || 0) > 0) {
+    cards.push({ label: "已剔除样品", value: window._repurchaseSampleSkipped.toLocaleString() });
+  }
+  for (var ci = 0; ci < cards.length; ci++) {
+    var c = cards[ci];
+    kpiHtml += "<div class='kpi-card'><div class='kpi-label'>" + c.label + "</div><div class='kpi-value'>" + c.value + "</div></div>";
+  }
+
+  // --- SKU table ---
+  var skuHtml = "";
+  var skuRows = stats.skuRows || [];
+  for (var si = 0; si < skuRows.length; si++) {
+    var r = skuRows[si];
+    var ratePct = (r.repurchaseRate * 100).toFixed(1);
+    skuHtml += "<tr>" +
+      "<td><strong>" + r.sku + "</strong></td>" +
+      "<td style='text-align:center'>" + r.orders + "</td>" +
+      "<td style='text-align:center'>" + r.totalBuyers + "</td>" +
+      "<td style='text-align:center'>" + r.repeatBuyers + "</td>" +
+      "<td style='text-align:center;font-weight:600;color:" + (r.repurchaseRate > 0.2 ? "#0F6E56" : r.repurchaseRate > 0.1 ? "#856404" : "#991B1B") + "'>" + ratePct + "%</td>" +
+      "<td style='text-align:right'>$" + r.gmv.toFixed(2) + "</td>" +
+      "<td style='text-align:center'>" + r.qty + "</td>" +
+      "</tr>";
+  }
+
+  // --- Category cycle table ---
+  var cycleHtml = "";
+  var cycleData = stats.categoryCycleStats;
+  if (cycleData && Object.keys(cycleData).length > 0) {
+    var entries = [];
+    for (var ck in cycleData) { entries.push({ sku: ck, data: cycleData[ck] }); }
+    entries.sort(function(a, b) { return b.data.totalPurchases - a.data.totalPurchases; });
+    for (var ei = 0; ei < entries.length; ei++) {
+      var e = entries[ei];
+      var d = e.data;
+      cycleHtml += "<tr>" +
+        "<td><strong>" + e.sku + "</strong></td>" +
+        "<td style='text-align:center'>" + d.totalPurchases + "</td>" +
+        "<td style='text-align:center'>" + (d.avgInterval !== null ? d.avgInterval + " 天" : "-") + "</td>" +
+        "<td style='text-align:center'>" + (d.medianInterval !== null ? d.medianInterval + " 天" : "-") + "</td>" +
+        "<td style='text-align:center'>" + d.sameSkuPurchases + "</td>" +
+        "<td style='text-align:center'>" + (d.sameSkuAvg !== null ? d.sameSkuAvg + " 天" : "-") + "</td>" +
+        "<td style='text-align:center'>" + (d.sameSkuMedian !== null ? d.sameSkuMedian + " 天" : "-") + "</td>" +
+        "</tr>";
+    }
+  }
+
+  // --- Buyer detail table ---
+  var buyerHtml = "";
+  var buyers = (stats.repeatBuyers || []).slice().sort(function(a, b) { return b.data.totalAmount - a.data.totalAmount; });
+  var dateFmt = function(d) { return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); };
+  for (var bi = 0; bi < buyers.length; bi++) {
+    var b = buyers[bi];
+    var ords = b.data.orders.slice().sort(function(a, b) { return a.date - b.date; });
+    var firstDate = ords[0].date;
+    var lastDate = ords[ords.length - 1].date;
+    var skuList = Object.keys(b.data.skus).map(function(sk) { return sk + "(" + b.data.skus[sk] + ")"; }).join(", ");
+    var avgGap = ords.length > 1 ? Math.round((lastDate - firstDate) / (1000 * 60 * 60 * 24) / (ords.length - 1)) : "-";
+    buyerHtml += "<tr>" +
+      "<td>" + (b.data.orders[0].buyerOriginal || b.buyer) + "</td>" +
+      "<td style='text-align:center'>" + ords.length + "</td>" +
+      "<td style='max-width:300px;white-space:normal;font-size:11px;'>" + skuList + "</td>" +
+      "<td style='text-align:right'>$" + b.data.totalAmount.toFixed(2) + "</td>" +
+      "<td style='text-align:center'>" + b.data.totalQty + "</td>" +
+      "<td style='text-align:center'>" + dateFmt(firstDate) + "</td>" +
+      "<td style='text-align:center'>" + dateFmt(lastDate) + "</td>" +
+      "<td style='text-align:center'>" + avgGap + "</td>" +
+      "</tr>";
+  }
+
+  var html = "<!DOCTYPE html>\n<html><head><meta charset='utf-8'><title>复购分析报表_" + monthLabel + "</title>\n" +
+    "<style>\n" +
+    "body{font-family:'Segoe UI',Arial,sans-serif;padding:24px;background:#F7F9FA;color:#333;}\n" +
+    ".header{border-bottom:3px solid #2B579A;padding-bottom:12px;margin-bottom:20px;}\n" +
+    ".header h1{margin:0;font-size:22px;color:#2B579A;}\n" +
+    ".header .sub{font-size:12px;color:#888;margin-top:4px;}\n" +
+    ".kpi-row{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap;}\n" +
+    ".kpi-card{background:#fff;border-radius:8px;padding:14px 20px;min-width:150px;box-shadow:0 1px 4px rgba(0,0,0,0.08);text-align:center;}\n" +
+    ".kpi-label{font-size:11px;color:#888;margin-bottom:4px;}\n" +
+    ".kpi-value{font-size:20px;font-weight:700;color:#2B579A;}\n" +
+    ".section{background:#fff;border-radius:8px;padding:16px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}\n" +
+    ".section-title{font-size:15px;font-weight:600;color:#2B579A;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;}\n" +
+    ".section-hint{font-size:11px;color:#999;margin-top:4px;margin-bottom:0;}\n" +
+    "table{width:100%;border-collapse:collapse;font-size:13px;}\n" +
+    "th{background:#2B579A;color:#fff;padding:6px 5px;text-align:left;}\n" +
+    "td{padding:5px;border-bottom:1px solid #f0f0f0;}\n" +
+    "tr:nth-child(even){background:#f9f9f9;}\n" +
+    ".print-btn{position:fixed;top:12px;right:12px;padding:8px 16px;background:#2B579A;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;z-index:99;}\n" +
+    "@media print{.print-btn{display:none;} body{padding:12px;}}\n" +
+    ".page-break{page-break-before:always;}\n" +
+    "</style></head><body>\n" +
+    "<button class='print-btn' onclick='window.print()'>🖥️ 打印 / 导出 PDF</button>\n" +
+    "<div class='header'><h1>🔄 复购分析报表</h1>\n" +
+    "<div class='sub'>生成时间：" + now.toLocaleString("zh-CN") + " ｜ " + monthLabel + "</div></div>\n" +
+
+    "<div class='section'><div class='section-title'>📊 核心指标概览</div>\n" +
+    "<div class='kpi-row'>" + kpiHtml + "</div></div>\n" +
+
+    "<div class='section'><div class='section-title'>📦 SKU 复购分析</div>\n" +
+    "<p class='section-hint'>按复购率降序排列</p>\n" +
+    "<table><thead><tr><th>SKU</th><th>订单数</th><th>买家数</th><th>复购买家</th><th>复购率</th><th>GMV</th><th>销量</th></tr></thead><tbody>" + skuHtml + "</tbody></table></div>\n" +
+
+    "<div class='page-break section'><div class='section-title'>⏱️ 品类复购周期</div>\n" +
+    (cycleHtml ? "<p class='section-hint'>按总复购次数降序排列</p>\n" +
+    "<table><thead><tr><th>SKU</th><th>总复购次数</th><th>平均间隔</th><th>中位间隔</th><th>同品复购次数</th><th>同品平均间隔</th><th>同品中位间隔</th></tr></thead><tbody>" + cycleHtml + "</tbody></table>" : "<p style='color:#888;text-align:center;padding:20px;'>暂无品类复购周期数据</p>") +
+    "</div>\n" +
+
+    "<div class='page-break section'><div class='section-title'>👤 复购用户明细</div>\n" +
+    "<p class='section-hint'>" + buyers.length + " 位复购用户，按 GMV 降序排列</p>\n" +
+    "<table><thead><tr><th>买家</th><th>购买次数</th><th>购买 SKU</th><th>总 GMV</th><th>总数量</th><th>首次购买</th><th>最近购买</th><th>平均间隔(天)</th></tr></thead><tbody>" + buyerHtml + "</tbody></table></div>\n" +
+
+    "</body></html>";
+
+  var w = window.open("", "_blank");
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
 // Load cached data
 (function() {
   try {
