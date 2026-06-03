@@ -65,6 +65,7 @@ select:focus,input:focus{outline:none;border-color:#2b6cb0;box-shadow:0 0 0 3px 
 .best .detail-item.total .value{color:#38a169}
 
 .detail-item.time{min-width:80px}
+.detail-item.vat .value{color:#c53030;font-weight:600}
 .detail-item.time .value{font-size:13px;color:#718096;font-weight:500}
 
 .best-badge{background:#38a169;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap}
@@ -144,6 +145,23 @@ select:focus,input:focus{outline:none;border-color:#2b6cb0;box-shadow:0 0 0 3px 
     </div>
   </div>
 
+  <!-- VAT explanation -->
+  <div id="vatNote" style="display:none; background:linear-gradient(135deg,#fff5f5,#fed7d7); border:1px solid #fc8181; border-radius:12px; padding:20px 24px; margin-bottom:20px;">
+    <div style="display:flex;align-items:flex-start;gap:12px;">
+      <span style="font-size:28px;">🏛️</span>
+      <div>
+        <div style="font-weight:700;font-size:15px;color:#c53030;margin-bottom:6px;">TikTok Shop 欧洲站 VAT 说明</div>
+        <div style="font-size:13px;color:#742a2a;line-height:1.7;">
+          <p><strong>谁来缴税：</strong>TikTok Shop 在欧盟以 <em>"认定供应商（Deemed Supplier）"</em> 身份运营，平台在买家付款时自动收取 <span id="destVat" style="font-weight:700;">目的地国家 VAT</span>，由 TikTok 代缴给税务局。</p>
+          <p style="margin-top:8px;"><strong>谁实际承担：</strong>VAT 从卖家的<em>结算款（Settlement Payout）</em>中扣除。例如售价 €20 的产品发往德国（19% VAT），买家付 €23.80，但 TikTok 给你结算时只结 €20 - 佣金 - 其他费用。</p>
+          <p style="margin-top:8px;"><strong>仓库在法国 → 必须有法国 VAT：</strong>在法国境内存储商品（谷仓法国仓），无论平台是否代扣，你都必须持有法国 VAT 税号并做本地申报。</p>
+          <p style="margin-top:8px;"><strong>建议注册 OSS：</strong>有了法国 VAT 后，注册 Union OSS（一站式申报），跨境销售到其他欧盟国家就无需在每个国家单独注册 VAT。年销售额超 €10,000 时必须用 OSS。</p>
+          <p style="margin-top:8px;font-size:11px;color:#9b2c2c;">以上为一般规则，具体合规要求请咨询专业税务顾问。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Results -->
   <div id="results" class="results">
     <div class="no-results">
@@ -164,34 +182,34 @@ select:focus,input:focus{outline:none;border-color:#2b6cb0;box-shadow:0 0 0 3px 
 
 // Country list with names and codes
 const COUNTRIES = {
-  DE: { name: '德国', nameEn: 'Germany', flag: '🇩🇪' },
-  FR: { name: '法国', nameEn: 'France', flag: '🇫🇷' },
-  BE: { name: '比利时', nameEn: 'Belgium', flag: '🇧🇪' },
-  NL: { name: '荷兰', nameEn: 'Netherlands', flag: '🇳🇱' },
-  LU: { name: '卢森堡', nameEn: 'Luxembourg', flag: '🇱🇺' },
-  AT: { name: '奥地利', nameEn: 'Austria', flag: '🇦🇹' },
-  IT: { name: '意大利', nameEn: 'Italy', flag: '🇮🇹' },
-  ES: { name: '西班牙', nameEn: 'Spain', flag: '🇪🇸' },
-  PT: { name: '葡萄牙', nameEn: 'Portugal', flag: '🇵🇹' },
-  IE: { name: '爱尔兰', nameEn: 'Ireland', flag: '🇮🇪' },
-  PL: { name: '波兰', nameEn: 'Poland', flag: '🇵🇱' },
-  CZ: { name: '捷克', nameEn: 'Czech Republic', flag: '🇨🇿' },
-  SK: { name: '斯洛伐克', nameEn: 'Slovakia', flag: '🇸🇰' },
-  HU: { name: '匈牙利', nameEn: 'Hungary', flag: '🇭🇺' },
-  SI: { name: '斯洛文尼亚', nameEn: 'Slovenia', flag: '🇸🇮' },
-  RO: { name: '罗马尼亚', nameEn: 'Romania', flag: '🇷🇴' },
-  BG: { name: '保加利亚', nameEn: 'Bulgaria', flag: '🇧🇬' },
-  HR: { name: '克罗地亚', nameEn: 'Croatia', flag: '🇭🇷' },
-  DK: { name: '丹麦', nameEn: 'Denmark', flag: '🇩🇰' },
-  SE: { name: '瑞典', nameEn: 'Sweden', flag: '🇸🇪' },
-  FI: { name: '芬兰', nameEn: 'Finland', flag: '🇫🇮' },
-  EE: { name: '爱沙尼亚', nameEn: 'Estonia', flag: '🇪🇪' },
-  LV: { name: '拉脱维亚', nameEn: 'Latvia', flag: '🇱🇻' },
-  LT: { name: '立陶宛', nameEn: 'Lithuania', flag: '🇱🇹' },
-  GR: { name: '希腊', nameEn: 'Greece', flag: '🇬🇷' },
-  CY: { name: '塞浦路斯', nameEn: 'Cyprus', flag: '🇨🇾' },
-  GB: { name: '英国', nameEn: 'United Kingdom', flag: '🇬🇧' },
-  CH: { name: '瑞士', nameEn: 'Switzerland', flag: '🇨🇭' },
+  DE: { name: '德国', nameEn: 'Germany', flag: '🇩🇪', vat: 19 },
+  FR: { name: '法国', nameEn: 'France', flag: '🇫🇷', vat: 20 },
+  BE: { name: '比利时', nameEn: 'Belgium', flag: '🇧🇪', vat: 21 },
+  NL: { name: '荷兰', nameEn: 'Netherlands', flag: '🇳🇱', vat: 21 },
+  LU: { name: '卢森堡', nameEn: 'Luxembourg', flag: '🇱🇺', vat: 17 },
+  AT: { name: '奥地利', nameEn: 'Austria', flag: '🇦🇹', vat: 20 },
+  IT: { name: '意大利', nameEn: 'Italy', flag: '🇮🇹', vat: 22 },
+  ES: { name: '西班牙', nameEn: 'Spain', flag: '🇪🇸', vat: 21 },
+  PT: { name: '葡萄牙', nameEn: 'Portugal', flag: '🇵🇹', vat: 23 },
+  IE: { name: '爱尔兰', nameEn: 'Ireland', flag: '🇮🇪', vat: 23 },
+  PL: { name: '波兰', nameEn: 'Poland', flag: '🇵🇱', vat: 23 },
+  CZ: { name: '捷克', nameEn: 'Czech Republic', flag: '🇨🇿', vat: 21 },
+  SK: { name: '斯洛伐克', nameEn: 'Slovakia', flag: '🇸🇰', vat: 20 },
+  HU: { name: '匈牙利', nameEn: 'Hungary', flag: '🇭🇺', vat: 27 },
+  SI: { name: '斯洛文尼亚', nameEn: 'Slovenia', flag: '🇸🇮', vat: 22 },
+  RO: { name: '罗马尼亚', nameEn: 'Romania', flag: '🇷🇴', vat: 21 },
+  BG: { name: '保加利亚', nameEn: 'Bulgaria', flag: '🇧🇬', vat: 20 },
+  HR: { name: '克罗地亚', nameEn: 'Croatia', flag: '🇭🇷', vat: 25 },
+  DK: { name: '丹麦', nameEn: 'Denmark', flag: '🇩🇰', vat: 25 },
+  SE: { name: '瑞典', nameEn: 'Sweden', flag: '🇸🇪', vat: 25 },
+  FI: { name: '芬兰', nameEn: 'Finland', flag: '🇫🇮', vat: 24 },
+  EE: { name: '爱沙尼亚', nameEn: 'Estonia', flag: '🇪🇪', vat: 24 },
+  LV: { name: '拉脱维亚', nameEn: 'Latvia', flag: '🇱🇻', vat: 21 },
+  LT: { name: '立陶宛', nameEn: 'Lithuania', flag: '🇱🇹', vat: 21 },
+  GR: { name: '希腊', nameEn: 'Greece', flag: '🇬🇷', vat: 24 },
+  CY: { name: '塞浦路斯', nameEn: 'Cyprus', flag: '🇨🇾', vat: 19 },
+  GB: { name: '英国', nameEn: 'United Kingdom', flag: '🇬🇧', vat: 20 },
+  CH: { name: '瑞士', nameEn: 'Switzerland', flag: '🇨🇭', vat: 8.1 },
 };
 
 // GLS Europe zone mapping
@@ -558,6 +576,9 @@ function calculate() {
   html += ' &rarr; ' + results.length + ' 个可用渠道';
   html += ' | 计费重量: <strong>' + weight.toFixed(1) + ' KG' + volNote + '</strong>';
   html += ' | 最低运费: <strong style="color:#38a169">€' + best.price.total.toFixed(2) + '</strong> (' + best.channel.nameCN + ')';
+  if (destInfo.vat !== undefined) {
+    html += '<br><span style="font-size:12px;color:#e53e3e;">🏛️ ' + destInfo.name + ' VAT: <strong>' + destInfo.vat.toFixed(1) + '%</strong> — TikTok Shop 平台代扣代缴，从结算款中扣除</span>';
+  }
   html += '</div></div>';
   
   // Channel cards
@@ -587,6 +608,9 @@ function calculate() {
     html += '<div class="detail-item total"><div class="label">全包价</div><div class="value">€' + p.total.toFixed(2) + '</div></div>';
     
     html += '<div class="detail-item time"><div class="label">时效</div><div class="value">' + p.time + '</div></div>';
+    if (destInfo.vat !== undefined) {
+      html += '<div class="detail-item vat"><div class="label">' + destInfo.name + ' VAT</div><div class="value">' + destInfo.vat.toFixed(1) + '%</div></div>';
+    }
     
     if (isBest) {
       html += '<div class="best-badge">最优</div>';
@@ -596,6 +620,16 @@ function calculate() {
   }
   
   document.getElementById('results').innerHTML = html;
+  
+  // Add VAT explanation
+  if (destInfo.vat !== undefined) {
+    const vatNote = document.getElementById('vatNote');
+    if (vatNote) {
+      vatNote.style.display = 'block';
+      const destVat = document.getElementById('destVat');
+      if (destVat) destVat.textContent = destInfo.flag + ' ' + destInfo.name + ' VAT ' + destInfo.vat.toFixed(1) + '%';
+    }
+  }
 }
 
 // Initialize destination dropdown
