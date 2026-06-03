@@ -104,7 +104,7 @@ select:focus,input:focus{outline:none;border-color:#2b6cb0;box-shadow:0 0 0 3px 
         <select id="origin">
           <option value="FR">🇫🇷 法国 France (谷仓仓)</option>
         </select>
-        <div style="font-size:11px;color:#a0aec0;margin-top:4px">当前仅支持法国仓发欧洲</div>
+        <div style="font-size:11px;color:#a0aec0;margin-top:4px">法国仓发欧洲各国 + 法国本土</div>
       </div>
       <div>
         <div class="field-label">📥 目的国家 <span class="required">*</span></div>
@@ -752,8 +752,13 @@ function initDestinations() {
   // FDE
   for (const code of Object.keys(FDE_ZONES)) { available.add(code); }
   
-  // Sort by name
+  // FR domestic: always add France itself (4 local channels available)
+  available.add('FR');
+  
+  // Sort by name (FR domestic first)
   const sorted = Array.from(available).sort((a, b) => {
+    if (a === 'FR') return -1;
+    if (b === 'FR') return 1;
     if (!COUNTRIES[a] || !COUNTRIES[b]) return 0;
     return COUNTRIES[a].name.localeCompare(COUNTRIES[b].name, 'zh');
   });
