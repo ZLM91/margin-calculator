@@ -627,6 +627,7 @@ function getZoneLabel(channel, destCode) {
   if (channel === DPD_EU) return 'Zone ' + DPD_ZONES[destCode];
   if (channel === FDE_EU) return 'Zone ' + FDE_ZONES[destCode];
   if (channel === FDE_DE) return '专线';
+  if (channel.domestic) return '本土';
   return '-';
 }
 
