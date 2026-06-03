@@ -353,9 +353,11 @@ const ECO_INTL = {
     3: [4.52,5.50,6.32,7.18,9.20,10.05,11.25,15.35,18.35,22.20,26.10], // BG,HR,EE,HU,LV,LT,PL,RO,SK,SI,CZ
     4: [4.95,6.05,6.98,7.95,10.18,11.15,12.50,17.08,20.45,24.75,29.10], // CH
   },
-  surcharges: [],
-  fuelRate: 0.05, // ~5%
-  fuelOnSurcharges: false,
+  surcharges: [
+    { name:'安全费', calc:'flat', value:0.05 },
+  ],
+  fuelRate: 0.03, // 3% (原表数据)
+  fuelOnSurcharges: false, // 公式: 基础运费×(1+燃油) + 安全费
   time: '5-10 工作日',
   maxWeight: 30,
 };
