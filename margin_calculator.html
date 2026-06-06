@@ -1332,6 +1332,48 @@ let personStatusUS = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
 let videoDirectorSummary = null; // 编导独立排名
 let videoDateRange = ''; // 日期范围 e.g. "2026年5月1日 ~ 2026年5月26日"
+let videoSelfGmv = 0, videoSelfPct = 0, videoSelfROI = 0, videoTalentGmv = 0, videoTalentPct = 0, videoTalentROI = 0, videoCardGmv = 0, videoCardPct = 0, videoCardROI = 0;
+let videoSelfGmvUK = 0, videoSelfPctUK = 0, videoSelfROIUK = 0, videoTalentGmvUK = 0, videoTalentPctUK = 0, videoTalentROIUK = 0, videoCardGmvUK = 0, videoCardPctUK = 0, videoCardROIUK = 0;
+
+// === 从广告数据计算销售占比（不依赖映射表）===
+function computeRatiosFromAdData(adData) {
+  if (!adData || !adData.length) return;
+  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  var _brandCost = 0, _talentCost = 0, _cardCost = 0;
+  adData.forEach(function(r) {
+    _totalGmv += r.gmv;
+    var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
+    if (isCard) { _cardGmv += r.gmv; _cardCost += r.cost; }
+    else if (r.isBrand) { _brandGmv += r.gmv; _brandCost += r.cost; }
+    else { _talentGmv += r.gmv; _talentCost += r.cost; }
+  });
+  videoSelfGmv = _brandGmv; videoTalentGmv = _talentGmv; videoCardGmv = _cardGmv;
+  videoSelfPct = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
+  videoTalentPct = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
+  videoCardPct = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
+  videoSelfROI = _brandCost > 0 ? (_brandGmv / _brandCost) : 0;
+  videoTalentROI = _talentCost > 0 ? (_talentGmv / _talentCost) : 0;
+  videoCardROI = _cardCost > 0 ? (_cardGmv / _cardCost) : 0;
+}
+function computeRatiosFromAdDataUK(adData) {
+  if (!adData || !adData.length) return;
+  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  var _brandCost = 0, _talentCost = 0, _cardCost = 0;
+  adData.forEach(function(r) {
+    _totalGmv += r.gmv;
+    var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
+    if (isCard) { _cardGmv += r.gmv; _cardCost += r.cost; }
+    else if (r.isBrand) { _brandGmv += r.gmv; _brandCost += r.cost; }
+    else { _talentGmv += r.gmv; _talentCost += r.cost; }
+  });
+  videoSelfGmvUK = _brandGmv; videoTalentGmvUK = _talentGmv; videoCardGmvUK = _cardGmv;
+  videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
+  videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
+  videoCardPctUK = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
+  videoSelfROIUK = _brandCost > 0 ? (_brandGmv / _brandCost) : 0;
+  videoTalentROIUK = _talentCost > 0 ? (_talentGmv / _talentCost) : 0;
+  videoCardROIUK = _cardCost > 0 ? (_cardGmv / _cardCost) : 0;
+}
 let videoDetailSortBy = 'gmv', videoDetailSortDir = 'desc'; // 视频明细排序
 let bdDetailSortBy = 'gmv', bdDetailSortDir = 'desc'; // 达人视频明细排序
 let dataLoadingFromRemote = false; // prevent duplicate remote fetch
@@ -1519,6 +1561,14 @@ function loadVideoData() {
       videoBdSummary = saved.bdSummary || null;
       videoDirectorSummary = saved.directorSummary || null;
       videoDateRange = saved.dateRange || '';
+      // Restore sales ratio from localStorage (or compute from adData if not saved)
+      if (saved.selfGmv !== undefined) {
+        videoSelfGmv = saved.selfGmv; videoSelfPct = saved.selfPct; videoSelfROI = saved.selfROI || 0;
+        videoTalentGmv = saved.talentGmv; videoTalentPct = saved.talentPct; videoTalentROI = saved.talentROI || 0;
+        videoCardGmv = saved.cardGmv; videoCardPct = saved.cardPct; videoCardROI = saved.cardROI || 0;
+      } else if (videoAdData && videoAdData.length > 0) {
+        computeRatiosFromAdData(videoAdData);
+      }
       showDateRange(videoDateRange);
       if (videoAdData) {
         document.getElementById('adUploadBox').classList.add('has-file');
@@ -1572,28 +1622,34 @@ function saveVideoData() {
       joined: videoJoined, summary: videoPersonSummary,
       bdSummary: videoBdSummary,
       directorSummary: videoDirectorSummary,
-      dateRange: videoDateRange
+      dateRange: videoDateRange,
+      selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
+      talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
+      cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
     }));
     document.getElementById('vidSaveStatus').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
-    // Full save failed (likely too large). Fall back progressively,
-    // NEVER null out adData since it was already persisted by the earlier call.
     try {
-      // Drop joined (biggest array), keep adData + summaries
       localStorage.setItem(VID_STORAGE, JSON.stringify({
         adData: videoAdData, joined: null, summary: videoPersonSummary,
         bdSummary: videoBdSummary,
         directorSummary: videoDirectorSummary,
-        dateRange: videoDateRange
+        dateRange: videoDateRange,
+        selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
+        talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
+        cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
       }));
       document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 视频明细未缓存，汇总已保留';
     } catch(e2) {
       try {
-        // Keep only adData, summaries can be rebuilt from processJoin on next load
         localStorage.setItem(VID_STORAGE, JSON.stringify({
           adData: videoAdData, joined: null, summary: null,
           bdSummary: null, directorSummary: null,
-          dateRange: videoDateRange
+          dateRange: videoDateRange,
+          selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
+          talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
+          cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
+        }));
         }));
         document.getElementById('vidSaveStatus').textContent = '\u26A0\uFE0F 仅缓存原始数据';
       } catch(e3) {
@@ -1743,6 +1799,7 @@ function handleAdDataUpload(input) {
       showDateRange(videoDateRange);
       document.getElementById('adUploadBox').classList.add('has-file');
       document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
+      computeRatiosFromAdData(videoAdData);
       saveVideoData(); // 立刻持久化广告数据，即使映射表未上传
       processJoin();
     } catch(err) {
@@ -3346,6 +3403,14 @@ function loadVideoDataUK() {
       videoBdSummaryUK = saved.bdSummary || null;
       videoDirectorSummaryUK = saved.directorSummary || null;
       videoDateRangeUK = saved.dateRange || '';
+      // Restore sales ratio from localStorage (or compute from adData if not saved)
+      if (saved.selfGmv !== undefined) {
+        videoSelfGmvUK = saved.selfGmv; videoSelfPctUK = saved.selfPct; videoSelfROIUK = saved.selfROI || 0;
+        videoTalentGmvUK = saved.talentGmv; videoTalentPctUK = saved.talentPct; videoTalentROIUK = saved.talentROI || 0;
+        videoCardGmvUK = saved.cardGmv; videoCardPctUK = saved.cardPct; videoCardROIUK = saved.cardROI || 0;
+      } else if (videoAdDataUK && videoAdDataUK.length > 0) {
+        computeRatiosFromAdDataUK(videoAdDataUK);
+      }
       showDateRangeUK(videoDateRangeUK);
       if (videoAdDataUK) {
         document.getElementById('adUploadBoxUK').classList.add('has-file');
@@ -3371,18 +3436,22 @@ function saveVideoDataUK() {
       joined: videoJoinedUK, summary: videoPersonSummaryUK,
       bdSummary: videoBdSummaryUK,
       directorSummary: videoDirectorSummaryUK,
-      dateRange: videoDateRangeUK
+      dateRange: videoDateRangeUK,
+      selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
+      talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
+      cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
     }));
     document.getElementById('vidSaveStatusUK').textContent = '\uD83D\uDCBE 已缓存';
   } catch(e) {
-    // Full save failed (likely too large). Fall back progressively,
-    // NEVER null out adData since it was already persisted by the earlier call.
     try {
       localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
         adData: videoAdDataUK, joined: null, summary: videoPersonSummaryUK,
         bdSummary: videoBdSummaryUK,
         directorSummary: videoDirectorSummaryUK,
-        dateRange: videoDateRangeUK
+        dateRange: videoDateRangeUK,
+        selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
+        talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
+        cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
       }));
       document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 视频明细未缓存，汇总已保留';
     } catch(e2) {
@@ -3390,7 +3459,10 @@ function saveVideoDataUK() {
         localStorage.setItem(VID_STORAGE_UK, JSON.stringify({
           adData: videoAdDataUK, joined: null, summary: null,
           bdSummary: null, directorSummary: null,
-          dateRange: videoDateRangeUK
+          dateRange: videoDateRangeUK,
+          selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
+          talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
+          cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
         }));
         document.getElementById('vidSaveStatusUK').textContent = '\u26A0\uFE0F 仅缓存原始数据';
       } catch(e3) {
@@ -3485,6 +3557,7 @@ function handleAdDataUploadUK(input) {
       showDateRangeUK(videoDateRangeUK);
       document.getElementById('adUploadBoxUK').classList.add('has-file');
       document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
+      computeRatiosFromAdDataUK(videoAdDataUK);
       saveVideoDataUK(); // 立刻持久化广告数据，即使映射表未上传
       processJoinUK();
     } catch(err) {
