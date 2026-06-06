@@ -1740,6 +1740,7 @@ function handleAdDataUpload(input) {
           videoDateRange = fmtDateStr(dates[0]) + ' ~ ' + fmtDateStr(dates[dates.length - 1]);
         }
       }
+      showDateRange(videoDateRange);
       document.getElementById('adUploadBox').classList.add('has-file');
       document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
       saveVideoData(); // 立刻持久化广告数据，即使映射表未上传
@@ -3480,6 +3481,7 @@ function handleAdDataUploadUK(input) {
           videoDateRangeUK = fmtDateStr(dates[0]) + ' ~ ' + fmtDateStr(dates[dates.length - 1]);
         }
       }
+      showDateRangeUK(videoDateRangeUK);
       document.getElementById('adUploadBoxUK').classList.add('has-file');
       document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
       saveVideoDataUK(); // 立刻持久化广告数据，即使映射表未上传
