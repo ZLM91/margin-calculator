@@ -2039,15 +2039,19 @@ function processJoin() {
   // 商品卡定义：创意作品类型含"商品卡片" 或 视频ID为N/A
   // 三者互斥：总GMV = 商品卡 + 自营素材 + 达人素材
   var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  var _brandCost = 0, _talentCost = 0, _cardCost = 0;
   videoAdData.forEach(function(r) {
     _totalGmv += r.gmv;
     var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
     if (isCard) {
       _cardGmv += r.gmv;
+      _cardCost += r.cost;
     } else if (r.isBrand) {
       _brandGmv += r.gmv;
+      _brandCost += r.cost;
     } else {
       _talentGmv += r.gmv;
+      _talentCost += r.cost;
     }
   });
   videoSelfGmv = _brandGmv;
@@ -2056,6 +2060,9 @@ function processJoin() {
   videoSelfPct = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
   videoTalentPct = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
   videoCardPct = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
+  videoSelfROI = _brandCost > 0 ? (_brandGmv / _brandCost) : 0;
+  videoTalentROI = _talentCost > 0 ? (_talentGmv / _talentCost) : 0;
+  videoCardROI = _cardCost > 0 ? (_cardGmv / _cardCost) : 0;
 
     // 脚本匹配统计
   if (scriptKeys.length > 0 && totalWithCloud > 0) {
@@ -2086,9 +2093,9 @@ function renderVideoTab() {
       selfEl.textContent = videoSelfPct.toFixed(1) + '%';
       talentEl.textContent = videoTalentPct.toFixed(1) + '%';
       cardEl.textContent = videoCardPct.toFixed(1) + '%';
-      document.getElementById('ratioSelfGmv').textContent = 'GMV ' + fmtGmv(videoSelfGmv);
-      document.getElementById('ratioTalentGmv').textContent = 'GMV ' + fmtGmv(videoTalentGmv);
-      document.getElementById('ratioCardGmv').textContent = 'GMV ' + fmtGmv(videoCardGmv);
+      document.getElementById('ratioSelfGmv').textContent = 'GMV ' + fmtGmv(videoSelfGmv) + ' | ROI ' + videoSelfROI.toFixed(2);
+      document.getElementById('ratioTalentGmv').textContent = 'GMV ' + fmtGmv(videoTalentGmv) + ' | ROI ' + videoTalentROI.toFixed(2);
+      document.getElementById('ratioCardGmv').textContent = 'GMV ' + fmtGmv(videoCardGmv) + ' | ROI ' + videoCardROI.toFixed(2);
     }
   })();
 
@@ -3651,15 +3658,19 @@ function processJoinUK() {
   // 商品卡定义：创意作品类型含"商品卡片" 或 视频ID为N/A
   // 三者互斥：总GMV = 商品卡 + 自营素材 + 达人素材
   var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  var _brandCost = 0, _talentCost = 0, _cardCost = 0;
   videoAdDataUK.forEach(function(r) {
     _totalGmv += r.gmv;
     var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
     if (isCard) {
       _cardGmv += r.gmv;
+      _cardCost += r.cost;
     } else if (r.isBrand) {
       _brandGmv += r.gmv;
+      _brandCost += r.cost;
     } else {
       _talentGmv += r.gmv;
+      _talentCost += r.cost;
     }
   });
   videoSelfGmvUK = _brandGmv;
@@ -3668,6 +3679,9 @@ function processJoinUK() {
   videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
   videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
   videoCardPctUK = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
+  videoSelfROIUK = _brandCost > 0 ? (_brandGmv / _brandCost) : 0;
+  videoTalentROIUK = _talentCost > 0 ? (_talentGmv / _talentCost) : 0;
+  videoCardROIUK = _cardCost > 0 ? (_cardGmv / _cardCost) : 0;
 
   saveVideoDataUK();
   showDateRangeUK(videoDateRangeUK);
@@ -3699,9 +3713,9 @@ function renderVideoTabUK() {
       selfEl.textContent = videoSelfPctUK.toFixed(1) + '%';
       talentEl.textContent = videoTalentPctUK.toFixed(1) + '%';
       cardEl.textContent = videoCardPctUK.toFixed(1) + '%';
-      document.getElementById('ratioSelfGmvUK').textContent = 'GMV ' + fmtGmv(videoSelfGmvUK);
-      document.getElementById('ratioTalentGmvUK').textContent = 'GMV ' + fmtGmv(videoTalentGmvUK);
-      document.getElementById('ratioCardGmvUK').textContent = 'GMV ' + fmtGmv(videoCardGmvUK);
+      document.getElementById('ratioSelfGmvUK').textContent = 'GMV ' + fmtGmv(videoSelfGmvUK) + ' | ROI ' + videoSelfROIUK.toFixed(2);
+      document.getElementById('ratioTalentGmvUK').textContent = 'GMV ' + fmtGmv(videoTalentGmvUK) + ' | ROI ' + videoTalentROIUK.toFixed(2);
+      document.getElementById('ratioCardGmvUK').textContent = 'GMV ' + fmtGmv(videoCardGmvUK) + ' | ROI ' + videoCardROIUK.toFixed(2);
     }
   })();
 
