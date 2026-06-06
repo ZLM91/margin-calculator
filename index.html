@@ -581,7 +581,7 @@ button:hover { background: #F0EDE6; }
     <span style="text-align:center;">
       <span style="font-size:26px;font-weight:800;color:#2563eb;" id="ratioCardPct">0.0%</span>
       <br><span style="font-size:10px;color:#6b7280;" id="ratioCardGmv">GMV $0.00</span>
-      <br><span style="font-size:11px;font-weight:600;color:#1d4ed8;">商品卡(占达人)</span>
+      <br><span style="font-size:11px;font-weight:600;color:#1d4ed8;">商品卡</span>
     </span>
   </div>
 </div>
@@ -781,7 +781,7 @@ button:hover { background: #F0EDE6; }
     <span style="text-align:center;">
       <span style="font-size:26px;font-weight:800;color:#2563eb;" id="ratioCardPctUK">0.0%</span>
       <br><span style="font-size:10px;color:#6b7280;" id="ratioCardGmvUK">GMV £0.00</span>
-      <br><span style="font-size:11px;font-weight:600;color:#1d4ed8;">商品卡(占达人)</span>
+      <br><span style="font-size:11px;font-weight:600;color:#1d4ed8;">商品卡</span>
     </span>
   </div>
 </div>
@@ -2422,7 +2422,12 @@ function handleAdDataUpload(input) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
-      videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+      // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
+      videoAdData = rows.filter(function(r) {
+        var ct = String(r['创意作品类型'] || '');
+        var vid = String(r['视频 ID'] || '').trim();
+        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
+      }).map(function(r) {
         var rawVid = String(r['视频 ID'] || '').trim();
         // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
@@ -2681,14 +2686,18 @@ function processJoin() {
   videoJoined = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 ===
+  // 商品卡定义：创意作品类型含"商品卡片" 或 视频ID为N/A
+  // 三者互斥：总GMV = 商品卡 + 自营素材 + 达人素材
   var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
   videoAdData.forEach(function(r) {
     _totalGmv += r.gmv;
-    if (r.isBrand) {
+    var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
+    if (isCard) {
+      _cardGmv += r.gmv;
+    } else if (r.isBrand) {
       _brandGmv += r.gmv;
     } else {
       _talentGmv += r.gmv;
-      if (r.workType === '商品卡片') _cardGmv += r.gmv;
     }
   });
   videoSelfGmv = _brandGmv;
@@ -2696,7 +2705,7 @@ function processJoin() {
   videoCardGmv = _cardGmv;
   videoSelfPct = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
   videoTalentPct = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
-  videoCardPct = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
+  videoCardPct = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
 
   // Group by person with normalized name keys
   var personMap = {};
@@ -4504,7 +4513,12 @@ function handleAdDataUploadUK(input) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
-      videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+      // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
+      videoAdDataUK = rows.filter(function(r) {
+        var ct = String(r['创意作品类型'] || '');
+        var vid = String(r['视频 ID'] || '').trim();
+        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
+      }).map(function(r) {
         var rawVid = String(r['视频 ID'] || '').trim();
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
@@ -4655,14 +4669,18 @@ function processJoinUK() {
   videoJoinedUK = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 (UK) ===
+  // 商品卡定义：创意作品类型含"商品卡片" 或 视频ID为N/A
+  // 三者互斥：总GMV = 商品卡 + 自营素材 + 达人素材
   var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
   videoAdDataUK.forEach(function(r) {
     _totalGmv += r.gmv;
-    if (r.isBrand) {
+    var isCard = (r.workType && r.workType.includes('商品卡片')) || (r.vid === 'N/A' || r.vid === 'n/a' || r.vid === '');
+    if (isCard) {
+      _cardGmv += r.gmv;
+    } else if (r.isBrand) {
       _brandGmv += r.gmv;
     } else {
       _talentGmv += r.gmv;
-      if (r.workType === '商品卡片') _cardGmv += r.gmv;
     }
   });
   videoSelfGmvUK = _brandGmv;
@@ -4670,7 +4688,7 @@ function processJoinUK() {
   videoCardGmvUK = _cardGmv;
   videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
   videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
-  videoCardPctUK = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
+  videoCardPctUK = _totalGmv > 0 ? (_cardGmv / _totalGmv * 100) : 0;
 
   var personMap = {};
   joined.forEach(function(r) {
