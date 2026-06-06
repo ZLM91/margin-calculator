@@ -299,6 +299,33 @@ button:hover { background: #F0EDE6; }
     <div class="dr-date" id="dateRangeUSText"></div>
   </div>
 </div>
+
+    <div id="videoRatioSection" style="background:linear-gradient(135deg,#EEF3FE,#D6E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:10px 18px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="font-size:13px;font-weight:700;color:#2B579A;min-width:90px;white-space:nowrap;">📊 素材销售占比</div>
+      <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="text-align:center;min-width:90px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">自营素材</div>
+          <div style="font-size:26px;font-weight:800;color:#2B579A;line-height:1;" id="ratioSelfPct">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioSelfGmv">GMV $0</div>
+        </div>
+        <div style="font-size:20px;color:#CCC;font-weight:300;padding-bottom:6px;">/</div>
+        <div style="text-align:center;min-width:90px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">达人素材</div>
+          <div style="font-size:26px;font-weight:800;color:#C0392B;line-height:1;" id="ratioTalentPct">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioTalentGmv">GMV $0</div>
+        </div>
+        <div style="font-size:20px;color:#CCC;font-weight:300;padding-bottom:6px;">/</div>
+        <div style="text-align:center;min-width:110px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">商品卡(占达人)</div>
+          <div style="font-size:26px;font-weight:800;color:#E65100;line-height:1;" id="ratioCardPct">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioCardGmv">GMV $0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoData()">🗑 重置数据</button> <button class="reset-btn" onclick="resetMappingData()" style="margin-left:4px;">🗑 重置映射</button>
 </p>
@@ -327,26 +354,6 @@ button:hover { background: #F0EDE6; }
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
-  <div id="videoRatioSection" style="background:linear-gradient(135deg,#E8F0FE,#D4E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-    <div style="font-size:14px;font-weight:600;color:#2B579A;min-width:100px;">📊 素材销售占比</div>
-    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">自营素材</div>
-        <div style="font-size:20px;font-weight:700;color:#2B579A;" id="ratioSelfPct">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioSelfGmv">$0</div>
-      </div>
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">达人素材</div>
-        <div style="font-size:20px;font-weight:700;color:#A32D2D;" id="ratioTalentPct">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioTalentGmv">$0</div>
-      </div>
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">商品卡占比</div>
-        <div style="font-size:20px;font-weight:700;color:#E65100;" id="ratioCardPct">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioCardGmv">$0</div>
-      </div>
-    </div>
-  </div>
   <div id="personCards" style="margin-bottom:14px;"></div>
 
 <!-- Person summary table -->
@@ -489,6 +496,33 @@ button:hover { background: #F0EDE6; }
     <div class="dr-date" id="dateRangeUKText"></div>
   </div>
 </div>
+
+    <div id="videoRatioSectionUK" style="background:linear-gradient(135deg,#EEF3FE,#D6E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:10px 18px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="font-size:13px;font-weight:700;color:#2B579A;min-width:90px;white-space:nowrap;">📊 素材销售占比</div>
+      <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="text-align:center;min-width:90px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">自营素材</div>
+          <div style="font-size:26px;font-weight:800;color:#2B579A;line-height:1;" id="ratioSelfPctUK">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioSelfGmvUK">GMV £0</div>
+        </div>
+        <div style="font-size:20px;color:#CCC;font-weight:300;padding-bottom:6px;">/</div>
+        <div style="text-align:center;min-width:90px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">达人素材</div>
+          <div style="font-size:26px;font-weight:800;color:#C0392B;line-height:1;" id="ratioTalentPctUK">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioTalentGmvUK">GMV £0</div>
+        </div>
+        <div style="font-size:20px;color:#CCC;font-weight:300;padding-bottom:6px;">/</div>
+        <div style="text-align:center;min-width:110px;">
+          <div style="font-size:10px;color:#888;margin-bottom:2px;letter-spacing:0.5px;">商品卡(占达人)</div>
+          <div style="font-size:26px;font-weight:800;color:#E65100;line-height:1;" id="ratioCardPctUK">0%</div>
+          <div style="font-size:11px;color:#888;margin-top:1px;" id="ratioCardGmvUK">GMV £0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatusUK" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoDataUK()">🗑 重置数据</button> <button class="reset-btn" onclick="resetMappingDataUK()" style="margin-left:4px;">🗑 重置映射</button>
 </p>
@@ -511,26 +545,6 @@ button:hover { background: #F0EDE6; }
 <div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
-  <div id="videoRatioSectionUK" style="background:linear-gradient(135deg,#E8F0FE,#D4E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-    <div style="font-size:14px;font-weight:600;color:#2B579A;min-width:100px;">📊 素材销售占比 (UK)</div>
-    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">自营素材</div>
-        <div style="font-size:20px;font-weight:700;color:#2B579A;" id="ratioSelfPctUK">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioSelfGmvUK">£0</div>
-      </div>
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">达人素材</div>
-        <div style="font-size:20px;font-weight:700;color:#A32D2D;" id="ratioTalentPctUK">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioTalentGmvUK">£0</div>
-      </div>
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:11px;color:#666;margin-bottom:2px;">商品卡占比</div>
-        <div style="font-size:20px;font-weight:700;color:#E65100;" id="ratioCardPctUK">0%</div>
-        <div style="font-size:10px;color:#888;" id="ratioCardGmvUK">£0</div>
-      </div>
-    </div>
-  </div>
   <div id="personCardsUK" style="margin-bottom:14px;"></div>
 
 <!-- Person summary table -->
