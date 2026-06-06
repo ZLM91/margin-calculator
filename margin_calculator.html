@@ -1720,25 +1720,6 @@ function handleAdDataUpload(input) {
           workType: workType
         };
       }).filter(function(r) { return r.gmv > 0; });
-        var rawVid = String(r['视频 ID'] || '').trim();
-        // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
-        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
-        var vid = rawVid;
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
-        return {
-          vid: vid,
-          title: String(r['视频标题'] || ''),
-          tags: String(r['话题标签'] || ''),
-          gmv: parseFloat(r['总收入']) || 0,
-          orders: parseInt(r['SKU 订单数']) || 0,
-          cost: parseFloat(r['成本']) || 0,
-          roi: parseFloat(r['ROI']) || 0,
-          date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0,
-          account: acct,
-          isBrand: acct.toLowerCase().startsWith('matern')
-        };
-      });
       document.getElementById('adUploadBox').classList.add('has-file');
       document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
       saveVideoData(); // 立刻持久化广告数据，即使映射表未上传
@@ -2071,24 +2052,6 @@ function processJoin() {
   videoSelfPct = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
   videoTalentPct = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
   videoCardPct = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
-
-    // === 自营素材/商品卡/达人素材 GMV 占比 ===
-  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
-  videoAdDataUK.forEach(function(r) {
-    _totalGmv += r.gmv;
-    if (r.isBrand) {
-      _brandGmv += r.gmv;
-    } else {
-      _talentGmv += r.gmv;
-      if (r.workType === '商品卡片') _cardGmv += r.gmv;
-    }
-  });
-  videoSelfGmvUK = _brandGmv;
-  videoTalentGmvUK = _talentGmv;
-  videoCardGmvUK = _cardGmv;
-  videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
-  videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
-  videoCardPctUK = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
 
     // 脚本匹配统计
   if (scriptKeys.length > 0 && totalWithCloud > 0) {
@@ -3474,24 +3437,6 @@ function handleAdDataUploadUK(input) {
           workType: workType
         };
       }).filter(function(r) { return r.gmv > 0; });
-        var rawVid = String(r['视频 ID'] || '').trim();
-        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
-        var vid = rawVid;
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
-        return {
-          vid: vid,
-          title: String(r['视频标题'] || ''),
-          tags: String(r['话题标签'] || ''),
-          gmv: parseFloat(r['总收入']) || 0,
-          orders: parseInt(r['SKU 订单数']) || 0,
-          cost: parseFloat(r['成本']) || 0,
-          roi: parseFloat(r['ROI']) || 0,
-          date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0,
-          account: acct,
-          isBrand: acct.toLowerCase().startsWith('matern')
-        };
-      });
       document.getElementById('adUploadBoxUK').classList.add('has-file');
       document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
       saveVideoDataUK(); // 立刻持久化广告数据，即使映射表未上传
@@ -3697,6 +3642,24 @@ function processJoinUK() {
       roi: p.cost > 0 ? p.gmv / p.cost : 0
     };
   }).sort(function(a, b) { return b.gmv - a.gmv; });
+
+  // === 自营素材/商品卡/达人素材 GMV 占比 (UK) ===
+  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  videoAdDataUK.forEach(function(r) {
+    _totalGmv += r.gmv;
+    if (r.isBrand) {
+      _brandGmv += r.gmv;
+    } else {
+      _talentGmv += r.gmv;
+      if (r.workType === '商品卡片') _cardGmv += r.gmv;
+    }
+  });
+  videoSelfGmvUK = _brandGmv;
+  videoTalentGmvUK = _talentGmv;
+  videoCardGmvUK = _cardGmv;
+  videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
+  videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
+  videoCardPctUK = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
 
   saveVideoDataUK();
   showDateRangeUK(videoDateRangeUK);
