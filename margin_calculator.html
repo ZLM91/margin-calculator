@@ -327,7 +327,27 @@ button:hover { background: #F0EDE6; }
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
-<div id="personCards" style="margin-bottom:14px;"></div>
+  <div id="videoRatioSection" style="background:linear-gradient(135deg,#E8F0FE,#D4E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="font-size:14px;font-weight:600;color:#2B579A;min-width:100px;">📊 素材销售占比</div>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">自营素材</div>
+        <div style="font-size:20px;font-weight:700;color:#2B579A;" id="ratioSelfPct">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioSelfGmv">$0</div>
+      </div>
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">达人素材</div>
+        <div style="font-size:20px;font-weight:700;color:#A32D2D;" id="ratioTalentPct">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioTalentGmv">$0</div>
+      </div>
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">商品卡占比</div>
+        <div style="font-size:20px;font-weight:700;color:#E65100;" id="ratioCardPct">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioCardGmv">$0</div>
+      </div>
+    </div>
+  </div>
+  <div id="personCards" style="margin-bottom:14px;"></div>
 
 <!-- Person summary table -->
 <div id="personTable" style="margin-bottom:14px;"></div>
@@ -491,7 +511,27 @@ button:hover { background: #F0EDE6; }
 <div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
-<div id="personCardsUK" style="margin-bottom:14px;"></div>
+  <div id="videoRatioSectionUK" style="background:linear-gradient(135deg,#E8F0FE,#D4E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="font-size:14px;font-weight:600;color:#2B579A;min-width:100px;">📊 素材销售占比 (UK)</div>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">自营素材</div>
+        <div style="font-size:20px;font-weight:700;color:#2B579A;" id="ratioSelfPctUK">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioSelfGmvUK">£0</div>
+      </div>
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">达人素材</div>
+        <div style="font-size:20px;font-weight:700;color:#A32D2D;" id="ratioTalentPctUK">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioTalentGmvUK">£0</div>
+      </div>
+      <div style="text-align:center;min-width:80px;">
+        <div style="font-size:11px;color:#666;margin-bottom:2px;">商品卡占比</div>
+        <div style="font-size:20px;font-weight:700;color:#E65100;" id="ratioCardPctUK">0%</div>
+        <div style="font-size:10px;color:#888;" id="ratioCardGmvUK">£0</div>
+      </div>
+    </div>
+  </div>
+  <div id="personCardsUK" style="margin-bottom:14px;"></div>
 
 <!-- Person summary table -->
 <div id="personTableUK" style="margin-bottom:14px;"></div>
@@ -1645,7 +1685,27 @@ function handleAdDataUpload(input) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
-      videoAdData = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+      videoAdData = rows.map(function(r) {
+        var workType = r['创意作品类型'] || '';
+        var rawVid = String(r['视频 ID'] || '').trim();
+        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
+        var vid = rawVid;
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
+        return {
+          vid: vid,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0,
+          account: acct,
+          isBrand: acct.toLowerCase().startsWith('matern'),
+          workType: workType
+        };
+      }).filter(function(r) { return r.gmv > 0; });
         var rawVid = String(r['视频 ID'] || '').trim();
         // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
@@ -1980,7 +2040,43 @@ function processJoin() {
   }).sort(function(a, b) { return b.gmv - a.gmv; });
 
   saveVideoData();
-  // 脚本匹配统计
+  // === 自营素材/商品卡/达人素材 GMV 占比 ===
+  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  videoAdData.forEach(function(r) {
+    _totalGmv += r.gmv;
+    if (r.isBrand) {
+      _brandGmv += r.gmv;
+    } else {
+      _talentGmv += r.gmv;
+      if (r.workType === '商品卡片') _cardGmv += r.gmv;
+    }
+  });
+  videoSelfGmv = _brandGmv;
+  videoTalentGmv = _talentGmv;
+  videoCardGmv = _cardGmv;
+  videoSelfPct = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
+  videoTalentPct = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
+  videoCardPct = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
+
+    // === 自营素材/商品卡/达人素材 GMV 占比 ===
+  var _totalGmv = 0, _brandGmv = 0, _talentGmv = 0, _cardGmv = 0;
+  videoAdDataUK.forEach(function(r) {
+    _totalGmv += r.gmv;
+    if (r.isBrand) {
+      _brandGmv += r.gmv;
+    } else {
+      _talentGmv += r.gmv;
+      if (r.workType === '商品卡片') _cardGmv += r.gmv;
+    }
+  });
+  videoSelfGmvUK = _brandGmv;
+  videoTalentGmvUK = _talentGmv;
+  videoCardGmvUK = _cardGmv;
+  videoSelfPctUK = _totalGmv > 0 ? (_brandGmv / _totalGmv * 100) : 0;
+  videoTalentPctUK = _totalGmv > 0 ? (_talentGmv / _totalGmv * 100) : 0;
+  videoCardPctUK = _talentGmv > 0 ? (_cardGmv / _talentGmv * 100) : 0;
+
+    // 脚本匹配统计
   if (scriptKeys.length > 0 && totalWithCloud > 0) {
     var scriptMsg = '  |  📝 脚本匹配: ' + scriptMatchCount + '/' + totalWithCloud + ' 条视频关联到脚本（脚本库共 ' + scriptKeys.length + ' 条）';
     document.getElementById('videoStatus').textContent = (document.getElementById('videoStatus').textContent || '') + scriptMsg;
@@ -3327,7 +3423,27 @@ function handleAdDataUploadUK(input) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
-      videoAdDataUK = rows.filter(function(r) { return r['创意作品类型'] === '视频'; }).map(function(r) {
+      videoAdDataUK = rows.map(function(r) {
+        var workType = r['创意作品类型'] || '';
+        var rawVid = String(r['视频 ID'] || '').trim();
+        if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
+        var vid = rawVid;
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
+        return {
+          vid: vid,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0,
+          account: acct,
+          isBrand: acct.toLowerCase().startsWith('matern'),
+          workType: workType
+        };
+      }).filter(function(r) { return r.gmv > 0; });
         var rawVid = String(r['视频 ID'] || '').trim();
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
