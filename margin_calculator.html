@@ -2109,6 +2109,22 @@ function renderVideoTab() {
   var matched = videoJoined.filter(function(r) { return r.editor; }).length;
   statusEl.textContent = '\u2705 ' + videoPersonSummary.length + ' 位剪辑/编导 | 总视频 ' + videoJoined.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoined.length*100).toFixed(1) + '%)';
 
+  // === 更新素材销售占比（US）===
+  (function() {
+    var fmtGmv = function(v) { return '$' + v.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}); };
+    var selfEl = document.getElementById('ratioSelfPct');
+    var talentEl = document.getElementById('ratioTalentPct');
+    var cardEl = document.getElementById('ratioCardPct');
+    if (selfEl && talentEl && cardEl) {
+      selfEl.textContent = videoSelfPct.toFixed(1) + '%';
+      talentEl.textContent = videoTalentPct.toFixed(1) + '%';
+      cardEl.textContent = videoCardPct.toFixed(1) + '%';
+      document.getElementById('ratioSelfGmv').textContent = 'GMV ' + fmtGmv(videoSelfGmv);
+      document.getElementById('ratioTalentGmv').textContent = 'GMV ' + fmtGmv(videoTalentGmv);
+      document.getElementById('ratioCardGmv').textContent = 'GMV ' + fmtGmv(videoCardGmv);
+    }
+  })();
+
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
   // === 剪辑排名 (全部展示) ===
@@ -3701,6 +3717,22 @@ function renderVideoTabUK() {
     statusMsg += ' | \uD83D\uDCDD 脚本匹配: ' + scriptMatchedUK + '/' + videoJoinedUK.filter(function(r) { return r.cloudId; }).length + ' 条';
   }
   statusEl.textContent = statusMsg;
+
+  // === 更新素材销售占比（UK）===
+  (function() {
+    var fmtGmv = function(v) { return '\u00A3' + v.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}); };
+    var selfEl = document.getElementById('ratioSelfPctUK');
+    var talentEl = document.getElementById('ratioTalentPctUK');
+    var cardEl = document.getElementById('ratioCardPctUK');
+    if (selfEl && talentEl && cardEl) {
+      selfEl.textContent = videoSelfPctUK.toFixed(1) + '%';
+      talentEl.textContent = videoTalentPctUK.toFixed(1) + '%';
+      cardEl.textContent = videoCardPctUK.toFixed(1) + '%';
+      document.getElementById('ratioSelfGmvUK').textContent = 'GMV ' + fmtGmv(videoSelfGmvUK);
+      document.getElementById('ratioTalentGmvUK').textContent = 'GMV ' + fmtGmv(videoTalentGmvUK);
+      document.getElementById('ratioCardGmvUK').textContent = 'GMV ' + fmtGmv(videoCardGmvUK);
+    }
+  })();
 
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
