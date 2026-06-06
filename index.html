@@ -2826,14 +2826,8 @@ function processJoin() {
 
 function renderVideoTab() {
   var statusEl = document.getElementById('videoStatus');
-  if (!videoPersonSummary || !videoPersonSummary.length) {
-    statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
-    return;
-  }
-  var matched = videoJoined.filter(function(r) { return r.editor; }).length;
-  statusEl.textContent = '\u2705 ' + videoPersonSummary.length + ' 位剪辑/编导 | 总视频 ' + videoJoined.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoined.length*100).toFixed(1) + '%)';
 
-  // === 更新素材销售占比（US）===
+  // === 更新素材销售占比（US）- 必须在早期返回之前 ===
   (function() {
     var fmtGmv = function(v) { return '$' + v.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}); };
     var selfEl = document.getElementById('ratioSelfPct');
@@ -2848,6 +2842,13 @@ function renderVideoTab() {
       document.getElementById('ratioCardGmv').textContent = 'GMV ' + fmtGmv(videoCardGmv) + ' | ROI ' + videoCardROI.toFixed(2);
     }
   })();
+
+  if (!videoPersonSummary || !videoPersonSummary.length) {
+    statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    return;
+  }
+  var matched = videoJoined.filter(function(r) { return r.editor; }).length;
+  statusEl.textContent = '\u2705 ' + videoPersonSummary.length + ' 位剪辑/编导 | 总视频 ' + videoJoined.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoined.length*100).toFixed(1) + '%)';
 
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
@@ -4823,19 +4824,8 @@ function processJoinUK() {
 
 function renderVideoTabUK() {
   var statusEl = document.getElementById('videoStatusUK');
-  if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
-    statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
-    return;
-  }
-  var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
-  var scriptMatchedUK = Object.keys(scriptMapUK).length > 0 ? videoJoinedUK.filter(function(r) { return r.scriptTitle; }).length : 0;
-  var statusMsg = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
-  if (Object.keys(scriptMapUK).length > 0) {
-    statusMsg += ' | \uD83D\uDCDD 脚本匹配: ' + scriptMatchedUK + '/' + videoJoinedUK.filter(function(r) { return r.cloudId; }).length + ' 条';
-  }
-  statusEl.textContent = statusMsg;
 
-  // === 更新素材销售占比（UK）===
+  // === 更新素材销售占比（UK）- 必须在早期返回之前 ===
   (function() {
     var fmtGmv = function(v) { return '\u00A3' + v.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2}); };
     var selfEl = document.getElementById('ratioSelfPctUK');
@@ -4850,6 +4840,18 @@ function renderVideoTabUK() {
       document.getElementById('ratioCardGmvUK').textContent = 'GMV ' + fmtGmv(videoCardGmvUK) + ' | ROI ' + videoCardROIUK.toFixed(2);
     }
   })();
+
+  if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
+    statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
+    return;
+  }
+  var matched = videoJoinedUK.filter(function(r) { return r.editor; }).length;
+  var scriptMatchedUK = Object.keys(scriptMapUK).length > 0 ? videoJoinedUK.filter(function(r) { return r.scriptTitle; }).length : 0;
+  var statusMsg = '\u2705 ' + videoPersonSummaryUK.length + ' 位剪辑/编导 | 总视频 ' + videoJoinedUK.length + ' 条 | 已匹配 ' + matched + ' 条 (' + (matched/videoJoinedUK.length*100).toFixed(1) + '%)';
+  if (Object.keys(scriptMapUK).length > 0) {
+    statusMsg += ' | \uD83D\uDCDD 脚本匹配: ' + scriptMatchedUK + '/' + videoJoinedUK.filter(function(r) { return r.cloudId; }).length + ' 条';
+  }
+  statusEl.textContent = statusMsg;
 
   function medal(i) { return i === 0 ? '\uD83E\uDD47' : i === 1 ? '\uD83E\uDD48' : i === 2 ? '\uD83E\uDD49' : ''; }
 
