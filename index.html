@@ -2387,6 +2387,14 @@ function parseDateRangeFromFilename(filename) {
   return fmtDate(m[1]) + ' ~ ' + fmtDate(m[2]);
 }
 
+function fmtDateStr(ds) {
+  // Format "YYYY-MM-DD" to "YYYY年M月D日"
+  if (!ds) return '';
+  var parts = ds.split('-');
+  var y = parseInt(parts[0]), mo = parseInt(parts[1]), d = parseInt(parts[2]);
+  return y + '年' + mo + '月' + d + '日';
+}
+
 function showDateRange(dateRangeText) {
   // Show the date range banner (US)
   var el = document.getElementById('dateRangeUS');
@@ -2448,6 +2456,18 @@ function handleAdDataUpload(input) {
           isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
+      // 如果文件名未包含日期范围，从数据中提取发布时间范围
+      if (!dr) {
+        var dates = [];
+        videoAdData.forEach(function(r) {
+          var m = (r.date || '').match(/(\d{4})-(\d{2})-(\d{2})/);
+          if (m) dates.push(m[1] + '-' + m[2] + '-' + m[3]);
+        });
+        if (dates.length > 0) {
+          dates.sort();
+          videoDateRange = fmtDateStr(dates[0]) + ' ~ ' + fmtDateStr(dates[dates.length - 1]);
+        }
+      }
       document.getElementById('adUploadBox').classList.add('has-file');
       document.getElementById('adUploadLabel').textContent = '\u2705 广告数据: ' + videoAdData.length + ' 条视频';
       saveVideoData(); // 立刻持久化广告数据，即使映射表未上传
@@ -4545,6 +4565,18 @@ function handleAdDataUploadUK(input) {
           isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
+      // 如果文件名未包含日期范围，从数据中提取发布时间范围
+      if (!dr) {
+        var dates = [];
+        videoAdDataUK.forEach(function(r) {
+          var m = (r.date || '').match(/(\d{4})-(\d{2})-(\d{2})/);
+          if (m) dates.push(m[1] + '-' + m[2] + '-' + m[3]);
+        });
+        if (dates.length > 0) {
+          dates.sort();
+          videoDateRangeUK = fmtDateStr(dates[0]) + ' ~ ' + fmtDateStr(dates[dates.length - 1]);
+        }
+      }
       document.getElementById('adUploadBoxUK').classList.add('has-file');
       document.getElementById('adUploadLabelUK').textContent = '\u2705 广告数据: ' + videoAdDataUK.length + ' 条视频';
       saveVideoDataUK(); // 立刻持久化广告数据，即使映射表未上传
