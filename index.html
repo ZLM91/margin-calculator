@@ -3290,8 +3290,8 @@ function importUnmappedUK() {
         }
       }
       if (updated === 0) { alert('未找到有效映射数据，请确认云视频id列已填写'); return; }
-      saveMappingData();
-      processJoin();
+      saveMappingDataUK();
+      processJoinUK();
       renderVideoDetailUK();
       buildPersonSummaryUK();
       renderMappingPanelUK();
@@ -4180,31 +4180,53 @@ function exportMappingCSV() {
 
 function importMappingCSV(input) {
   var file = input.files[0]; if (!file) return;
+  var isXlsx = /\.xlsx?$/i.test(file.name);
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var buffer = e.target.result;
-      // Try UTF-8 first, then GBK if headers are garbled
-      var text = importDecodeCSV(buffer);
-      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-      if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
-      var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
-      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导'), status: headers.indexOf('状态') };
+      var headers, dataRows;
+      if (isXlsx) {
+        // Parse xlsx using XLSX.js
+        var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        var sheetName = wb.SheetNames[0];
+        var sheet = wb.Sheets[sheetName];
+        var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        if (rows.length < 2) { alert('XLSX 至少需要包含表头和一行数据'); return; }
+        headers = rows[0].map(function(h) { return String(h).trim(); });
+        dataRows = rows;
+      } else {
+        // CSV text parsing (original logic)
+        var text = importDecodeCSV(e.target.result);
+        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+        if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
+        headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
+        dataRows = lines;
+      }
+      // Case-insensitive header matching (fix: 云视频id vs 云视频ID)
+      var col = { vid: -1, cid: -1, acct: -1, editor: -1, director: -1, status: -1 };
+      headers.forEach(function(h, i) {
+        var t = h.replace(/\s/g, '');
+        if (/云视频id|cloud.?id/i.test(t)) { col.cid = i; }
+        else if (/视频id|vid|video.?id/i.test(t)) { col.vid = i; }
+        if (/tiktok|账号/i.test(t)) { col.acct = i; }
+        if (/剪辑|editor/i.test(t)) { col.editor = i; }
+        if (/编导|director/i.test(t)) { col.director = i; }
+        if (/状态|status/i.test(t)) { col.status = i; }
+      });
       if (col.vid < 0 && col.cid < 0) {
-        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
+        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频id」列。\n\n当前表头: ' + headers.join(', '));
         return;
       }
       var addedVid = 0, addedCid = 0, skipped = 0;
-      for (var i = 1; i < lines.length; i++) {
-        var vals = parseCSVLine(lines[i]);
-        var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
-        // Filter out #N/A and other Excel error values
+      for (var i = 1; i < dataRows.length; i++) {
+        var vals = isXlsx ? dataRows[i] : parseCSVLine(dataRows[i]);
+        if (!vals || !vals.length) continue;
+        var vid = (col.vid >= 0 ? String(vals[col.vid] || '') : '').trim();
         if (vid === '#N/A' || vid === '#REF!' || vid === '#VALUE!' || vid === '#NAME?' || vid === '#DIV/0!' || vid === '#NULL!') vid = '';
-        var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
-        var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
-        var director = cleanName(col.director >= 0 ? vals[col.director] : '');
-        // Read status from CSV if present; only apply when explicitly set
-        var status = cleanName(col.status >= 0 ? vals[col.status] : '');
+        var cid = (col.cid >= 0 ? String(vals[col.cid] || '') : '').trim();
+        var editor = cleanName(col.editor >= 0 ? String(vals[col.editor] || '') : '');
+        var director = cleanName(col.director >= 0 ? String(vals[col.director] || '') : '');
+        var status = cleanName(col.status >= 0 ? String(vals[col.status] || '') : '');
         if (!cid && !vid) { skipped++; continue; }
         if (vid && cid) { editedMapping.vidToCloud[vid] = cid; addedVid++; }
         if (cid && (editor || director)) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
@@ -4212,7 +4234,6 @@ function importMappingCSV(input) {
           cid = editedMapping.vidToCloud[vid] || '';
           if (cid) { editedMapping.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
         }
-        // Apply person status from CSV (only if explicitly set — won't override existing if blank)
         if (editor && status) {
           if (status === '已离职' || status === '离职') {
             personStatusUS[editor] = 'inactive';
@@ -4228,7 +4249,8 @@ function importMappingCSV(input) {
       if (videoAdData) { processJoin(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
-  reader.readAsArrayBuffer(file);
+  if (isXlsx) { reader.readAsArrayBuffer(file); }
+  else { reader.readAsArrayBuffer(file); }
 }
 
 // Decode CSV buffer: try UTF-8 first, detect garbled Chinese → fall back to GBK
@@ -5441,29 +5463,53 @@ function exportMappingCSVUK() {
 
 function importMappingCSVUK(input) {
   var file = input.files[0]; if (!file) return;
+  var isXlsx = /\.xlsx?$/i.test(file.name);
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var buffer = e.target.result;
-      var text = importDecodeCSV(buffer);
-      var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-      if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
-      var headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
-      var col = { vid: headers.indexOf('视频ID'), cid: headers.indexOf('云视频ID'), acct: headers.indexOf('TikTok账号'), editor: headers.indexOf('剪辑'), director: headers.indexOf('编导'), status: headers.indexOf('状态') };
+      var headers, dataRows;
+      if (isXlsx) {
+        // Parse xlsx using XLSX.js (same as importUnmappedUK)
+        var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        var sheetName = wb.SheetNames[0];
+        var sheet = wb.Sheets[sheetName];
+        var rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        if (rows.length < 2) { alert('XLSX 至少需要包含表头和一行数据'); return; }
+        headers = rows[0].map(function(h) { return String(h).trim(); });
+        dataRows = rows;
+      } else {
+        // CSV text parsing (original logic)
+        var text = importDecodeCSV(e.target.result);
+        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+        if (lines.length < 2) { alert('CSV 至少需要包含表头和一行数据'); return; }
+        headers = parseCSVLine(lines[0]).map(function(h) { return h.replace(/"/g, '').trim(); });
+        dataRows = lines;
+      }
+      // Case-insensitive header matching (fix: 云视频id vs 云视频ID)
+      var col = { vid: -1, cid: -1, acct: -1, editor: -1, director: -1, status: -1 };
+      headers.forEach(function(h, i) {
+        var t = h.replace(/\s/g, '');
+        if (/云视频id|cloud.?id/i.test(t)) { col.cid = i; }
+        else if (/视频id|vid|video.?id/i.test(t)) { col.vid = i; }
+        if (/tiktok|账号/i.test(t)) { col.acct = i; }
+        if (/剪辑|editor/i.test(t)) { col.editor = i; }
+        if (/编导|director/i.test(t)) { col.director = i; }
+        if (/状态|status/i.test(t)) { col.status = i; }
+      });
       if (col.vid < 0 && col.cid < 0) {
-        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频ID」列。\n\n当前表头: ' + headers.join(', '));
+        alert('\u274C 表头字段无法识别，请确保第一行包含「视频ID」和「云视频id」列。\n\n当前表头: ' + headers.join(', '));
         return;
       }
       var addedVid = 0, addedCid = 0, skipped = 0;
-      for (var i = 1; i < lines.length; i++) {
-        var vals = parseCSVLine(lines[i]);
-        var vid = (col.vid >= 0 ? vals[col.vid] : '').trim();
+      for (var i = 1; i < dataRows.length; i++) {
+        var vals = isXlsx ? dataRows[i] : parseCSVLine(dataRows[i]);
+        if (!vals || !vals.length) continue;
+        var vid = (col.vid >= 0 ? String(vals[col.vid] || '') : '').trim();
         if (vid === '#N/A' || vid === '#REF!' || vid === '#VALUE!' || vid === '#NAME?' || vid === '#DIV/0!' || vid === '#NULL!') vid = '';
-        var cid = (col.cid >= 0 ? vals[col.cid] : '').trim();
-        var editor = cleanName(col.editor >= 0 ? vals[col.editor] : '');
-        var director = cleanName(col.director >= 0 ? vals[col.director] : '');
-        // Read status from CSV if present; only apply when explicitly set
-        var status = cleanName(col.status >= 0 ? vals[col.status] : '');
+        var cid = (col.cid >= 0 ? String(vals[col.cid] || '') : '').trim();
+        var editor = cleanName(col.editor >= 0 ? String(vals[col.editor] || '') : '');
+        var director = cleanName(col.director >= 0 ? String(vals[col.director] || '') : '');
+        var status = cleanName(col.status >= 0 ? String(vals[col.status] || '') : '');
         if (!cid && !vid) { skipped++; continue; }
         if (vid && cid) { editedMappingUK.vidToCloud[vid] = cid; addedVid++; }
         if (cid && (editor || director)) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
@@ -5471,7 +5517,6 @@ function importMappingCSVUK(input) {
           cid = editedMappingUK.vidToCloud[vid] || '';
           if (cid) { editedMappingUK.cloudToPerson[cid] = { editor: editor, director: director }; addedCid++; }
         }
-        // Apply person status from CSV (only if explicitly set — won't override existing if blank)
         if (editor && status) {
           if (status === '已离职' || status === '离职') {
             personStatusUK[editor] = 'inactive';
@@ -5487,7 +5532,8 @@ function importMappingCSVUK(input) {
       if (videoAdDataUK) { processJoinUK(); }
     } catch(err) { alert('\u274C 导入失败: ' + err.message); }
   };
-  reader.readAsArrayBuffer(file);
+  if (isXlsx) { reader.readAsArrayBuffer(file); }
+  else { reader.readAsArrayBuffer(file); }
 }
 
 // decodeCSV shared by both US and UK import (defined above near US import)
