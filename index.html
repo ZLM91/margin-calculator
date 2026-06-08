@@ -1104,7 +1104,7 @@ button:hover { background: #F0EDE6; }
   <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
     <div style="font-size:48px;margin-bottom:12px;">📝</div>
     <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
-    <div style="font-size:12px;">支持 .md / .txt 格式，每日自动化会生成 tiktok_titles_daily.md</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，每4天自动轮换新一批文案（共8批循环）</div>
   </div>
 </div><!-- /tab-tiktok -->
 
@@ -7471,22 +7471,30 @@ function loadTiktokTitles(e) {
 }
 
 function loadLatestTiktokTitles() {
-  // 尝试从已知路径加载
   var statusEl = document.getElementById('tiktokStatus');
   statusEl.textContent = '正在搜索最新文案...';
-  
-  // 先看 workspace 根目录，然后尝试 GitHub Pages
+
+  // 每4天轮换一个文案文件，8个文件循环（覆盖32天）
+  var baseDate = new Date(2026, 5, 1); // 2026-06-01 (月份从0开始)
+  var now = new Date();
+  var diffMs = now.getTime() - baseDate.getTime();
+  var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  // 如果在起始日之前，从文件1开始
+  if (diffDays < 0) diffDays = 0;
+  var batchIndex = (Math.floor(diffDays / 4) % 8) + 1; // 1-8 循环
+  var filename = 'tiktok_titles_' + batchIndex + '.md';
+
   var paths = [
-    'https://zlm91.github.io/margin-calculator/tiktok_titles_daily.md',
-    'tiktok_titles_daily.md',
-    '../tiktok_titles_daily.md'
+    'https://zlm91.github.io/margin-calculator/' + filename,
+    filename,
+    '../' + filename
   ];
-  var t = Date.now();  // cache buster
+  var t = Date.now();
   tryNextPath(0);
 
   function tryNextPath(i) {
     if (i >= paths.length) {
-      statusEl.textContent = '⚠️ 未找到文件，请使用 📂 按钮手动选择 tiktok_titles_daily.md';
+      statusEl.textContent = '⚠️ 未找到文件 ' + filename + '，请使用 📂 按钮手动选择';
       return;
     }
     var url = paths[i] + (paths[i].indexOf('?') >= 0 ? '&' : '?') + '_=' + t;
@@ -7497,7 +7505,7 @@ function loadLatestTiktokTitles() {
       })
       .then(function(text) {
         parseAndRenderTiktok(text);
-        statusEl.textContent = '✅ 已加载最新文案（' + (paths[i].indexOf('github') >= 0 ? 'GitHub Pages' : '本地') + '）';
+        statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/8（' + (paths[i].indexOf('github') >= 0 ? 'GitHub Pages' : '本地') + '）';
       })
       .catch(function() {
         tryNextPath(i + 1);
