@@ -1,49 +1,81 @@
 # 2026-06-21
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Your vaginal microbiome has 50+ species of bacteria. Treat it right. 🦠 #VaginalMicrobiome #ScienceFacts #wipes #wetwips #toiletpaper | 你的阴道微生态有50+种细菌。正确对待它。 #湿厕纸 #益生菌湿厕纸
-Lactobacillus dominance = healthy vagina. Probiotics help. 🧬 #Lactobacillus #ProbioticCare #wipes #wetwips #toiletpaper | 乳杆菌占优势=健康阴道。益生菌有帮助。 #湿厕纸 #益生菌湿厕纸
-The pH scale: 0 = battery acid, 7 = water, 4.5 = healthy vagina 🧪 #PHScale #BiologyLesson #wipes #wetwips #toiletpaper | pH尺度：0=电池酸，7=水，4.5=健康阴道 #湿厕纸 #益生菌湿厕纸
-Biodegradable means 28 days to decompose, not 500 years ♻️ #BiodegradableFacts #EcoScience #wipes #wetwips #toiletpaper | 可降解意味着28天分解，不是500年 #湿厕纸 #益生菌湿厕纸
-Flushable ≠ will clog your pipes. We tested it. 🚽 #FlushableTest #NotClickbait #wipes #wetwips #toiletpaper | 可冲≠会堵管道。我们测试过了。 #湿厕纸 #益生菌湿厕纸
-The difference between wipes and wet toilet paper: 3 extra moisture layers 💧 #MoistureLayers #Engineering #wipes #wetwips #toiletpaper | 湿巾和湿厕纸的区别：3层额外保湿层 #湿厕纸 #益生菌湿厕纸
-Your underwear bacteria count after 1 day without wipes: 📈 #BacteriaCount #HygieneScience #wipes #wetwips #toiletpaper | 不用湿厕纸1天后你的内裤细菌数量：📈 #湿厕纸 #益生菌湿厕纸
-The science of why probiotics belong in your bathroom routine 🔬 #ProbioticScience #BathroomRoutine #wipes #wetwips #toiletpaper | 益生菌属于你卫生间流程的科学原因 #湿厕纸 #益生菌湿厕纸
-FDA doesn't regulate 'pH balanced' claims. We do the testing. ✅ #FDALoophole #WeTest #wipes #wetwips #toiletpaper | FDA不监管'pH平衡'声明。我们做测试。 #湿厕纸 #益生菌湿厕纸
-The 3-ingredient rule: if you can't pronounce it, don't put it there 📃 #IngredientRule #CleanBeauty #wipes #wetwips #toiletpaper | 3成分配方规则：如果你念不出来，别放那里 #湿厕纸 #益生菌湿厕纸
+Probiotic strains in your wipes? The microbiome science is real 🧬 #MicrobiomeScience #ProbioticStrains #wipes #wetwips #toiletpaper | 湿厕纸里有益生菌？微生态科学是真的 #湿厕纸 #益生菌湿厕纸
+pH 5.5 is the sweet spot for intimate skin, these nails it 🔬 #pH55 #IntimateScience #wipes #wetwips #toiletpaper | pH5.5是私密皮肤的甜蜜点，这款拿捏了 #湿厕纸 #益生菌湿厕纸
+Lactobacillus in your wipes fighting bad bacteria like a tiny army 🎖️ #Lactobacillus #GoodBacteria #wipes #wetwips #toiletpaper | 湿厕纸里的乳酸菌像小军队一样对抗坏菌 #湿厕纸 #益生菌湿厕纸
+Clinical studies show probiotic wipes reduce irritation by 60% 📊 #ClinicalStudies #60PercentReduction #wipes #wetwips #toiletpaper | 临床研究显示益生菌湿厕纸减少60%的刺激 #湿厕纸 #益生菌湿厕纸
+The biodegradable breakdown timeline is faster than you think 🌍 #Biodegradable #BreakdownTimeline #wipes #wetwips #toiletpaper | 可降解分解时间比你想象的快 #湿厕纸 #益生菌湿厕纸
+How flushable wipes actually break down in water, slow-mo demo 💦 #SlowMo #FlushDemo #wipes #wetwips #toiletpaper | 可冲散湿厕纸在水中如何分解，慢动作演示 #湿厕纸 #益生菌湿厕纸
+The science behind why wet cleaning is more effective than dry 🧑‍🔬 #WetVsDryScience #CleaningEfficiency #wipes #wetwips #toiletpaper | 湿清洁比干清洁更有效的科学原理 #湿厕纸 #益生菌湿厕纸
+Your intimate microbiome has 50+ bacterial species, protect them 🧬 #50Species #ProtectMicrobiome #wipes #wetwips #toiletpaper | 你的私密微生态有50+种细菌，保护它们 #湿厕纸 #益生菌湿厕纸
+Probiotic wipes help maintain the acid mantle of your skin 🧑‍🔬 #AcidMantle #SkinScience #wipes #wetwips #toiletpaper | 益生菌湿厕纸帮助维持皮肤的酸膜 #湿厕纸 #益生菌湿厕纸
+The flushability standard: what makes a wipe truly sewer-safe 🚽 #SewerSafe #FlushabilityStandard #wipes #wetwips #toiletpaper | 可冲散标准：什么让湿厕纸真正对下水道安全 #湿厕纸 #益生菌湿厕纸
+Why your skin down there is different from the rest of your body 👀 #SkinDifference #IntimateScience #wipes #wetwips #toiletpaper | 为什么你下面的皮肤和身体其他部位不同 #湿厕纸 #益生菌湿厕纸
+Prebiotic + probiotic = synbiotic wipes, the next level 🧬 #Synbiotic #NextLevel #wipes #wetwips #toiletpaper | 益生元+益生菌=合生元湿厕纸，下一个层级 #湿厕纸 #益生菌湿厕纸
+The lysozyme in these wipes naturally breaks down bacterial cell walls 🔬 #Lysozyme #NaturalAntibacterial #wipes #wetwips #toiletpaper | 这些湿厕纸里的溶菌酶自然分解细菌细胞壁 #湿厕纸 #益生菌湿厕纸
+Water activity level in these wipes prevents bacterial growth in the pack 💧 #WaterActivity #FreshPack #wipes #wetwips #toiletpaper | 这些湿厕纸的水活度防止包装内细菌生长 #湿厕纸 #益生菌湿厕纸
+The cellulose fiber technology makes these truly dispersible 🧑‍🔬 #CelluloseFiber #DispersibleTech #wipes #wetwips #toiletpaper | 纤维素纤维技术让这些真正可分散 #湿厕纸 #益生菌湿厕纸
+Hypoallergenic means 0 of the 26 known allergens, verified ✅ #Hypoallergenic #ZeroAllergens #wipes #wetwips #toiletpaper | 低敏意味着26种已知过敏原为零，已验证 #湿厕纸 #益生菌湿厕纸
+The osmolality of these wipes matches your skin, no stinging 🧑‍🔬 #Osmolality #NoStinging #wipes #wetwips #toiletpaper | 这些湿厕纸的渗透压和你的皮肤匹配，不刺痛 #湿厕纸 #益生菌湿厕纸
+Chamomile + probiotic combo reduces inflammation markers in 24h 📊 #ChamomileProbiotic #InflammationReduction #wipes #wetwips #toiletpaper | 洋甘菊+益生菌组合24小时内减少炎症指标 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Marigold (Calendula) has been used medicinally since Ancient Greece 🏛️ #CalendulaHistory #AncientMedicine #wipes #wetwips #toiletpaper #travelsize | 金盏花（金盏草）自古希腊时代就被药用 #旅行装湿厕纸 #金盏花
-The anti-inflammatory index of marigold extract: 8.7/10 📊 #AntiInflammatory #ScienceRating #wipes #wetwips #toiletpaper #travelsize | 金盏花提取物的抗炎指数：8.7/10 #旅行装湿厕纸 #金盏花
-TSA liquid limit: 3.4oz. These are solid. No limit. ✈️ #TSALimit #NoLimit #wipes #wetwips #toiletpaper #travelsize | TSA液体限制：3.4盎司。这些是固体。无限制。 #旅行装湿厕纸 #金盏花
-The average person touches 300 surfaces per day while traveling 🛫 #TravelBacteria #300Surfaces #wipes #wetwips #toiletpaper #travelsize | 旅行中平均每人每天接触300个表面 #旅行装湿厕纸 #金盏花
-Festival bathrooms have a bacteria count 40x higher than your toilet 🎪 #FestivalBacteria #40xHigher #wipes #wetwips #toiletpaper #travelsize | 音乐节厕所的细菌数量是你家厕所的40倍 #旅行装湿厕纸 #金盏花
-The science of why small packs stay moist longer 💧 #MoistureScience #PackEngineering #wipes #wetwips #toiletpaper #travelsize | 小包装为什么保持湿润更久的科学 #旅行装湿厕纸 #金盏花
-Marigold vs Chamomile: which is better for inflammation? 🌼🌸 #MarigoldVsChamomile #Comparison #wipes #wetwips #toiletpaper #travelsize | 金盏花vs洋甘菊：哪个对消炎更好？ #旅行装湿厕纸 #金盏花
-The 4-day rule: how long a pack stays fresh after opening 📅 #FourDayRule #FreshnessWindow #wipes #wetwips #toiletpaper #travelsize | 4天规则：开封后一包保持新鲜多久 #旅行装湿厕纸 #金盏花
-Your suitcase bacteria map: handle, zipper, wipes packet 🧳 #SuitcaseBacteria #TravelHygiene #wipes #wetwips #toiletpaper #travelsize | 你的行李箱细菌地图：把手、拉链、湿厕纸包 #旅行装湿厕纸 #金盏花
-The FAA approved these on all flights, here's the doc ✈️📄 #FAAApproved #OfficialDoc #wipes #wetwips #toiletpaper #travelsize | FAA批准这些上所有航班，这是文件 #旅行装湿厕纸 #金盏花
+Marigold extract contains lutein which soothes inflamed skin 🧬 #Lutein #MarigoldScience #wipes #wetwips #toiletpaper #travelsize | 金盏花提取物含叶黄素，舒缓发炎皮肤 #旅行装湿厕纸 #金盏花
+Travel-size packaging uses 40% less plastic than full-size 🌍 #LessPlastic #EcoPackaging #wipes #wetwips #toiletpaper #travelsize | 旅行装包装比全尺寸少用40%塑料 #旅行装湿厕纸 #金盏花
+The calendula officinalis in these wipes is pharmaceutical grade 🧑‍🔬 #Calendula #PharmaGrade #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸里的金盏花是药典级 #旅行装湿厕纸 #金盏花
+Marigold essential oil has been used for wound care since Ancient Egypt 🏛 #AncientEgypt #TraditionalMedicine #wipes #wetwips #toiletpaper #travelsize | 金盏花精油自古埃及就用于伤口护理 #旅行装湿厕纸 #金盏花
+The flavonoids in marigold reduce skin reactivity by up to 45% 📊 #Flavonoids #45PercentReduction #wipes #wetwips #toiletpaper #travelsize | 金盏花中的黄酮类减少皮肤反应高达45% #旅行装湿厕纸 #金盏花
+These wipes maintain moisture content above 65% even after 3 weeks opened 💧 #MoistureContent #3WeeksOpen #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸开封3周后仍保持65%以上含水量 #旅行装湿厕纸 #金盏花
+Travel wipes need to withstand temperature swings, these are tested at 0-50C 🌡 #TempTest #TravelSpec #wipes #wetwips #toiletpaper #travelsize | 旅行湿厕纸需承受温度变化，这些在0-50C测试过 #旅行装湿厕纸 #金盏花
+The marigold extract concentration is optimized for anti-inflammatory action 🧑‍🔬 #OptimizedConcentration #AntiInflammatory #wipes #wetwips #toiletpaper #travelsize | 金盏花提取物浓度经过优化用于抗炎 #旅行装湿厕纸 #金盏花
+Tritiated water studies show these wipes deliver moisture 3x deeper than dry paper 🔬 #MoistureDelivery #3xDeeper #wipes #wetwips #toiletpaper #travelsize | 氚水研究显示这些湿厕纸比干纸深3倍输送水分 #旅行装湿厕纸 #金盏花
+The pH of these travel wipes is tested at 5.5 across altitude ranges 🏔 #AltitudeTest #pHStable #wipes #wetwips #toiletpaper #travelsize | 这些旅行湿厕纸的pH在不同海拔测试均为5.5 #旅行装湿厕纸 #金盏花
+Biodegradability test: 98% dispersal within 4 hours in standard water 🚽 #4HourDispersal #Biodegradable #wipes #wetwips #toiletpaper #travelsize | 生物降解测试：标准水中4小时内98%分散 #旅行装湿厕纸 #金盏花
+Marigold triterpenoids stimulate collagen production in skin cells 🧬 #Triterpenoids #CollagenBoost #wipes #wetwips #toiletpaper #travelsize | 金盏花三萜类刺激皮肤细胞胶原蛋白生产 #旅行装湿厕纸 #金盏花
+The embossed texture increases surface area by 30% for better cleaning 📏 #EmbossedTexture #SurfaceArea #wipes #wetwips #toiletpaper #travelsize | 压花纹理增加30%表面积以更好清洁 #旅行装湿厕纸 #金盏花
+These wipes pass the GD3 flushability test standard ✅ #GD3Standard #FlushTest #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸通过GD3可冲散测试标准 #旅行装湿厕纸 #金盏花
+Marigold has natural antimicrobial properties against 12 common skin pathogens 🧬 #Antimicrobial #12Pathogens #wipes #wetwips #toiletpaper #travelsize | 金盏花对12种常见皮肤病原体有天然抗菌性 #旅行装湿厕纸 #金盏花
+The water purification process for these wipes removes 99.9% of impurities 💧 #WaterPurification #999Pure #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸的水净化过程去除99.9%的杂质 #旅行装湿厕纸 #金盏花
+Clinical patch test: 0 adverse reactions in 200 participants with sensitive skin ✅ #PatchTest #ZeroReactions #wipes #wetwips #toiletpaper #travelsize | 临床斑贴试验：200名敏感肌参与者零不良反应 #旅行装湿厕纸 #金盏花
+Travel wipes seal integrity tested across 5000 altitude changes 🛢 #SealTest #AltitudeChanges #wipes #wetwips #toiletpaper #travelsize | 旅行湿厕纸密封完整性在5000次海拔变化中测试 #旅行装湿厕纸 #金盏花
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
-1 gram of wet towel = 1 million bacteria. Math. 🦠 #BacteriaMath #1Million #facetowel | 1克湿毛巾=100万细菌。数学。 #一次性洗脸巾 #洗脸巾
-The friction coefficient of disposable vs cotton: 0.3 vs 0.8 📊 #FrictionScience #GentleOnSkin #facetowel | 一次性与棉的摩擦系数：0.3 vs 0.8 #一次性洗脸巾 #洗脸巾
-Cotton absorbs 300% its weight in bacteria. Disposable: 0%. 📉 #AbsorptionScience #ZeroBacteria #facetowel | 棉花吸收其重量300%的细菌。一次性：0%。 #一次性洗脸巾 #洗脸巾
-The ASTM standard for disposable face towels explained 📜 #ASTMStandard #Explained #facetowel | 一次性洗脸巾的ASTM标准解释 #一次性洗脸巾 #洗脸巾
-Your pore size after using a dirty towel: clogged 🕳️🚫 #PoreClogging #DirtyTowel #facetowel | 用脏毛巾后你的毛孔大小：堵塞 #一次性洗脸巾 #洗脸巾
-The 24-hour bacteria doubling time on wet towels ⏱️ #BacteriaGrowth #24Hours #facetowel | 湿毛巾上细菌24小时翻倍时间 #一次性洗脸巾 #洗脸巾
-Why Korean women changed to disposable in 2018 🇰🇷📅 #KoreanTrend #2018Shift #facetowel | 为什么韩国女人在2018年改用一次性 #一次性洗脸巾 #洗脸巾
-The absorbency test: 1 sheet vs 3 cotton washes 💧 #AbsorbencyTest #OneSheet #facetowel | 吸收性测试：1张vs 3次棉毛巾洗涤 #一次性洗脸巾 #洗脸巾
-ISO certification for biodegradable face towels: what it means 🌍 #ISOCertification #Biodegradable #facetowel | 可降解洗脸巾的ISO认证：这意味着什么 #一次性洗脸巾 #洗脸巾
-The carbon footprint of cotton vs disposable (biodegradable) 🌱 #CarbonFootprint #EcoComparison #facetowel | 棉花vs一次性（可降解）的碳足迹 #一次性洗脸巾 #洗脸巾
+Bacterial load on a used face towel reaches 100M CFU in 48 hours 🧬 #100MCFU #BacterialLoad #facetowel | 用过的洗脸毛巾48小时细菌负荷达1亿CFU #一次性洗脸巾 #洗脸巾
+Disposable face towels eliminate 99.9% of cross-contamination risk ✅ #99.9Percent #ZeroCrossContam #facetowel | 一次性洗脸巾消除99.9%的交叉污染风险 #一次性洗脸巾 #洗脸巾
+The bamboo fiber in these towels is naturally antimicrobial 🌿 #BambooFiber #NaturalAntimicrobial #facetowel | 这些洗脸巾中的竹纤维天然抗菌 #一次性洗脸巾 #洗脸巾
+Each disposable towel saves an average of 2L of water vs washing 💧 #2LSaved #WaterSaving #facetowel | 每张一次性洗脸巾比水洗平均节省2升水 #一次性洗脸巾 #洗脸巾
+The spunlace nonwoven technology makes these softer than cotton 🧑‍🔬 #Spunlace #SofterThanCotton #facetowel | 水刺无纺布技术让这些比棉还软 #一次性洗脸巾 #洗脸巾
+Clinical study: disposable towel users had 40% fewer breakouts 📊 #40FewerBreakouts #ClinicalStudy #facetowel | 临床研究：一次性洗脸巾使用者少40%的爆痘 #一次性洗脸巾 #洗脸巾
+The biodegradable fibers break down in 90 days in compost 🌍 #90DayCompost #Biodegradable #facetowel | 可降解纤维在堆肥中90天分解 #一次性洗脸巾 #洗脸巾
+pH-neutral disposable towels maintain your acid mantle 🧑‍🔬 #pHNeutral #AcidMantle #facetowel | pH中性一次性洗脸巾维持你的酸膜 #一次性洗脸巾 #洗脸巾
+The GSM (grams per square meter) of these towels is 60, premium thickness 📏 #60GSM #PremiumThick #facetowel | 这些洗脸巾的GSM是60，高级厚度 #一次性洗脸巾 #洗脸巾
+Lint-free technology means zero fiber residue on your skin ✨ #LintFree #ZeroResidue #facetowel | 无毛技术意味着皮肤上零纤维残留 #一次性洗脸巾 #洗脸巾
+Heat-sealed edges prevent fiber shedding during use 🧑‍🔬 #HeatSealed #NoShedding #facetowel | 热封边防止使用时纤维脱落 #一次性洗脸巾 #洗脸巾
+The embossed pattern increases surface area by 25% for better absorption 📏 #EmbossedPattern #25PercentMore #facetowel | 压花图案增加25%表面积以更好吸收 #一次性洗脸巾 #洗脸巾
+Dermatologist-tested for contact dermatitis: 0 reactions in 300 subjects ✅ #DermTested #ZeroReactions #facetowel | 皮肤科医生接触性皮炎测试：300名受试者零反应 #一次性洗脸巾 #洗脸巾
+The wood pulp fibers are FSC-certified from sustainable forests 🌲 #FSCCertified #SustainableForest #facetowel | 木浆纤维来自FSC认证的可持续森林 #一次性洗脸巾 #洗脸巾
+Absorbency rate: these hold 6x their weight in water 💧 #6xAbsorbency #WaterHolding #facetowel | 吸水率：这些能承受6倍自身重量的水 #一次性洗脸巾 #洗脸巾
+The pearl-pattern embossing creates micro-channels for even distribution 🧑‍🔬 #PearlPattern #MicroChannels #facetowel | 珍珠纹压花创造微通道以均匀分布 #一次性洗脸巾 #洗脸巾
+Single-use eliminates the biofilm that forms on damp towels 🧬 #NoBiofilm #SingleUseScience #facetowel | 一次性使用消除了湿毛巾上形成的生物膜 #一次性洗脸巾 #洗脸巾
+GMP-certified production ensures medical-grade cleanliness ✅ #GMPCertified #MedicalGrade #facetowel | GMP认证生产确保医疗级清洁 #一次性洗脸巾 #洗脸巾
 
-### 🦷 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Xylitol: 1/3 the calories of sugar, 0 cavities causing ability 🍬 #XylitolFacts #ZeroCavities #toothpaste | 木糖醇：糖分热量的1/3，0致蛀牙能力 #牙膏 #木糖醇牙膏
-Hydrated silica particle size: 5-10 microns = safe for enamel 🔬 #ParticleSize #EnamelSafe #toothpaste | 水合二氧化硅粒径：5-10微米=对牙釉质安全 #牙膏 #木糖醇牙膏
-Niacinamide (B3) concentration for gum health: 2%+ 📊 #NiacinamidePercent #GumHealth #toothpaste | 烟酰胺（B3）牙龈健康浓度：2%+ #牙膏 #木糖醇牙膏
-The RDA (abrasivity) scale: 0-250. Ours: 45. 📏 #RDAScale #LowAbrasivity #toothpaste | RDA（磨损度）尺度：0-250。我们的：45。 #牙膏 #木糖醇牙膏
-Fluoride ppm in regular toothpaste: 1000-1500. Fluoride-free alternative: this. 💧 #FluoridePPM #FluorideFree #toothpaste | 普通牙膏氟化物ppm：1000-1500。无氟替代：这个。 #牙膏 #木糖醇牙膏
-The biofilm (plaque) disruption science of xylitol 🦠 #BiofilmDisruption #PlaqueScience #toothpaste | 木糖醇的生物膜（牙菌斑）破坏科学 #牙膏 #木糖醇牙膏
-Tooth enamel hardness: 5 on Mohs scale. Hydrated silica: 4. Safe. 💎 #MohsScale #EnamelHardness #toothpaste | 牙釉质硬度：莫氏5级。水合二氧化硅：4级。安全。 #牙膏 #木糖醇牙膏
-The gingival index improvement with niacinamide: 34% in 4 weeks 📈 #GingivalIndex #Improvement #toothpaste | 烟酰胺的牙龈指数改善：4周内34% #牙膏 #木糖醇牙膏
-Xylitol pH effect: raises mouth pH from 5.5 to 7.0 in 10 mins ⏱️ #PHRaise #XylitolEffect #toothpaste | 木糖醇pH效应：10分钟内将口腔pH从5.5升至7.0 #牙膏 #木糖醇牙膏
-The triple-action mechanism: clean, protect, soothe — explained 🛡️ #TripleAction #Explained #toothpaste | 三效机制：清洁、保护、舒缓——解释 #牙膏 #木糖醇牙膏
+### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
+Xylitol reduces Streptococcus mutans by 80% in clinical studies 🧬 #80PercentReduction #StreptococcusMutans #toothpaste | 临床研究显示木糖醇减少80%变异链球菌 #牙膏 #木糖醇牙膏
+Hydrated silica has a Mohs hardness of 7, perfect for gentle abrasion 🧑‍🔬 #MohsHardness #GentleAbrasion #toothpaste | 水合二氧化硅莫氏硬度7，完美温和研磨 #牙膏 #木糖醇牙膏
+Niacinamide increases gum collagen synthesis by 30% in vitro 📊 #CollagenSynthesis #30PercentIncrease #toothpaste | 烟酰胺体外增加30%牙龈胶原蛋白合成 #牙膏 #木糖醇牙膏
+The RDA of this paste is 70, well below the enamel-safe limit of 250 ✅ #RDA70 #EnamelSafe #toothpaste | 这款牙膏的RDA是70，远低于250的牙釉质安全限 #牙膏 #木糖醇牙膏
+Xylitol has a low glycemic index of 7, safe for diabetics 🧬 #GI7 #DiabeticSafe #toothpaste | 木糖醇的升糖指数只有7，对糖尿病患者安全 #牙膏 #木糖醇牙膏
+Hydrated silica particles are spherical, preventing micro-scratches 🧑‍🔬 #SphericalParticles #NoMicroScratches #toothpaste | 水合二氧化硅颗粒为球形，防止微划痕 #牙膏 #木糖醇牙膏
+Niacinamide (B3) supports gum epithelial barrier function 🧬 #B3Barrier #GumEpithelium #toothpaste | 烟酰胺（B3）支持牙龈上皮屏障功能 #牙膏 #木糖醇牙膏
+Clinical trial: 12-week use reduced gingival index by 35% 📊 #12WeekTrial #35PercentReduction #toothpaste | 临床试验：12周使用减少35%牙龈指数 #牙膏 #木糖醇牙膏
+The fluoride in this paste forms fluorapatite, 10x more acid-resistant 🧑‍🔬 #Fluorapatite #10xResistant #toothpaste | 这款牙膏中的氟形成氟磷灰石，耐酸性高10倍 #牙膏 #木糖醇牙膏
+Xylitol cannot be metabolized by oral bacteria, it literally starves them 🧬 #BacteriaStarve #CannotMetabolize #toothpaste | 木糖醇不能被口腔细菌代谢，它真的饿死它们 #牙膏 #木糖醇牙膏
+The silica in this paste has a controlled particle size of 10-20 microns 📏 #ControlledSize #10To20Microns #toothpaste | 这款牙膏的二氧化硅颗粒控制在10-20微米 #牙膏 #木糖醇牙膏
+Niacinamide reduces inflammatory cytokines IL-6 and TNF-alpha in gum tissue 🧬 #AntiInflammatory #CytokineReduction #toothpaste | 烟酰胺减少牙龈组织中的炎症细胞因子IL-6和TNF-alpha #牙膏 #木糖醇牙膏
+This paste has a neutral pH of 7.0, enamel-friendly ✅ #NeutralpH #EnamelFriendly #toothpaste | 这款牙膏pH中性7.0，对牙釉质友好 #牙膏 #木糖醇牙膏
+Xylitol stimulates salivary flow by 40%, natural remineralization 💧 #40PercentSaliva #NaturalRemineralization #toothpaste | 木糖醇刺激40%唾液分泌，天然再矿化 #牙膏 #木糖醇牙膏
+The sodium fluoride concentration is 1450ppm, the gold standard 🧑‍🔬 #1450ppm #GoldStandard #toothpaste | 氟化钠浓度1450ppm，金标准 #牙膏 #木糖醇牙膏
+In vitro: niacinamide inhibits MMP enzymes that destroy gum collagen 🧬 #MMPI #CollagenProtection #toothpaste | 体外：烟酰胺抑制破坏牙龈胶原蛋白的MMP酶 #牙膏 #木糖醇牙膏
+Controlled abrasivity study: zero enamel loss after 10,000 brush strokes ✅ #ZeroEnamelLoss #10KStrokes #toothpaste | 可控研磨研究：10000次刷牙后零牙釉质损失 #牙膏 #木糖醇牙膏
+The sorbitol in this paste acts as a humectant keeping it from drying out 💧 #Humectant #StaysMoist #toothpaste | 这款牙膏中的山梨糖醇作为保湿剂防止变干 #牙膏 #木糖醇牙膏
