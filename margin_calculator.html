@@ -1502,12 +1502,6 @@ function cleanName(n) {
   return n.replace(/[\s\u3000]+/g, ' ').trim();
 }
 
-function isBrandAccount(acct) {
-  // Empty account = assume brand (backward compatible)
-  if (!acct) return true;
-  return acct.toLowerCase().startsWith('matern');
-}
-
 function findObjCol(row, candidates) {
   // Flexible column name matching: try each candidate, ignoring spaces/underscores/case
   var keys = Object.keys(row);
