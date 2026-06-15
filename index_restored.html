@@ -585,30 +585,6 @@ button:hover { background: #F0EDE6; }
     </span>
   </div>
 </div>
-<!-- 账号分类诊断面板 US -->
-<div id="accountDiagPanel" style="margin-bottom:12px;">
-  <div onclick="toggleAccountDiag()" style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F4FA;border:1px solid #C8D8EC;border-radius:8px;font-size:12px;color:#2B579A;font-weight:500;user-select:none;">
-    <span id="accountDiagArrow">▶</span> 🔍 账号分类诊断（点击展开查看/修改账号归属）
-  </div>
-  <div id="accountDiagContent" style="display:none;margin-top:8px;border:1px solid #C8D8EC;border-radius:8px;padding:12px;background:#FAFCFF;max-height:400px;overflow-y:auto;">
-    <div style="font-size:11px;color:#888;margin-bottom:8px;">
-      当前分类规则：账号名以 "matern" 开头 → 自营 | 其余 → 达人。<br>
-      点击 <b style="color:#2B579A;">「标为自营」</b> 可将达人账号手动标记为自营，占比将实时重算。
-    </div>
-    <table id="accountDiagTable" style="width:100%;border-collapse:collapse;font-size:12px;">
-      <thead>
-        <tr style="background:#E8EFF8;">
-          <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #C8D8EC;">TikTok 账号</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">GMV</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">视频数</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">当前分类</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">操作</th>
-        </tr>
-      </thead>
-      <tbody id="accountDiagBody"></tbody>
-    </table>
-  </div>
-</div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
   上传广告数据 + 人员映射表 → 自动按剪辑/编导汇总 KPI &nbsp;|&nbsp; <span id="vidSaveStatus" style="color:#0F6E56;font-weight:500;"></span> <button class="reset-btn" onclick="resetVideoData()">🗑 重置数据</button> <button class="reset-btn" onclick="resetMappingData()" style="margin-left:4px;">🗑 重置映射</button>
 </p>
@@ -807,30 +783,6 @@ button:hover { background: #F0EDE6; }
       <br><span style="font-size:10px;color:#6b7280;" id="ratioCardGmvUK">GMV £0.00</span>
       <br><span style="font-size:11px;font-weight:600;color:#1d4ed8;">商品卡</span>
     </span>
-  </div>
-</div>
-<!-- 账号分类诊断面板 UK -->
-<div id="accountDiagPanelUK" style="margin-bottom:12px;">
-  <div onclick="toggleAccountDiagUK()" style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F4FA;border:1px solid #C8D8EC;border-radius:8px;font-size:12px;color:#2B579A;font-weight:500;user-select:none;">
-    <span id="accountDiagArrowUK">▶</span> 🔍 账号分类诊断（点击展开查看/修改账号归属）
-  </div>
-  <div id="accountDiagContentUK" style="display:none;margin-top:8px;border:1px solid #C8D8EC;border-radius:8px;padding:12px;background:#FAFCFF;max-height:400px;overflow-y:auto;">
-    <div style="font-size:11px;color:#888;margin-bottom:8px;">
-      当前分类规则：账号名以 "matern" 开头 → 自营 | 其余 → 达人。<br>
-      点击 <b style="color:#2B579A;">「标为自营」</b> 可将达人账号手动标记为自营，占比将实时重算。
-    </div>
-    <table id="accountDiagTableUK" style="width:100%;border-collapse:collapse;font-size:12px;">
-      <thead>
-        <tr style="background:#E8EFF8;">
-          <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #C8D8EC;">TikTok 账号</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">GMV</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">视频数</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">当前分类</th>
-          <th style="text-align:center;padding:6px 8px;border-bottom:1px solid #C8D8EC;">操作</th>
-        </tr>
-      </thead>
-      <tbody id="accountDiagBodyUK"></tbody>
-    </table>
   </div>
 </div>
 <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 16px 0;">
@@ -2087,8 +2039,6 @@ const VID_MAP_KEY = 'maternella_video_mapping_us';
 const DATA_BASE = 'https://raw.githubusercontent.com/zlm91/margin-calculator/main/data/';
 let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
-let customBrandAccounts = {}; // account name -> true, user-marked brand accounts beyond "matern*"
-let customBrandAccountsUK = {}; // UK version
 let personStatusUS = {}; // editor name -> 'active' | 'inactive'
 let videoBdSummary = null, videoBdDetailFilter = null; // BD (达人) data
 let videoDirectorSummary = null; // 编导独立排名
@@ -2338,15 +2288,6 @@ function loadVideoData() {
       videoBdSummary = saved.bdSummary || null;
       videoDirectorSummary = saved.directorSummary || null;
       videoDateRange = saved.dateRange || '';
-      // Restore custom brand accounts
-      if (saved.customBrandAccounts) { customBrandAccounts = saved.customBrandAccounts; }
-      // Re-apply isBrand classification with custom accounts
-      if (videoAdData && videoAdData.length > 0) {
-        videoAdData.forEach(function(r) { r.isBrand = isBrandAccount(r.account); });
-      }
-      if (videoJoined && videoJoined.length > 0) {
-        videoJoined.forEach(function(r) { r.isBrand = isBrandAccount(r.account); });
-      }
       // Restore sales ratio from localStorage (or compute from adData if not saved)
       if (saved.selfGmv !== undefined) {
         videoSelfGmv = saved.selfGmv; videoSelfPct = saved.selfPct; videoSelfROI = saved.selfROI || 0;
@@ -2409,7 +2350,6 @@ function saveVideoData() {
       bdSummary: videoBdSummary,
       directorSummary: videoDirectorSummary,
       dateRange: videoDateRange,
-      customBrandAccounts: customBrandAccounts,
       selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
       talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
       cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
@@ -2425,7 +2365,6 @@ function saveVideoData() {
         bdSummary: videoBdSummary,
         directorSummary: videoDirectorSummary,
         dateRange: videoDateRange,
-        customBrandAccounts: customBrandAccounts,
         selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
         talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
         cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
@@ -2438,8 +2377,7 @@ function saveVideoData() {
           adData: videoAdData, joined: null, summary: null,
           bdSummary: null, directorSummary: null,
           dateRange: videoDateRange,
-          customBrandAccounts: customBrandAccounts,
-            selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
+          selfGmv: videoSelfGmv, selfPct: videoSelfPct, selfROI: videoSelfROI,
           talentGmv: videoTalentGmv, talentPct: videoTalentPct, talentROI: videoTalentROI,
           cardGmv: videoCardGmv, cardPct: videoCardPct, cardROI: videoCardROI
         }));
@@ -2452,143 +2390,6 @@ function saveVideoData() {
   }
 }
 
-// ====== 账号分类诊断面板 (US) ======
-function isBrandAccount(acct) {
-  if (!acct) return false;
-  var a = acct.toLowerCase();
-  return a.startsWith('matern') || a.startsWith('materna') || customBrandAccounts[a] === true;
-}
-function isBrandAccountUK(acct) {
-  if (!acct) return false;
-  var a = acct.toLowerCase();
-  return a.startsWith('matern') || a.startsWith('materna') || customBrandAccountsUK[a] === true;
-}
-
-function toggleAccountDiag() {
-  var content = document.getElementById('accountDiagContent');
-  var arrow = document.getElementById('accountDiagArrow');
-  if (content.style.display === 'none') { content.style.display = ''; arrow.textContent = '▼'; }
-  else { content.style.display = 'none'; arrow.textContent = '▶'; }
-}
-function toggleAccountDiagUK() {
-  var content = document.getElementById('accountDiagContentUK');
-  var arrow = document.getElementById('accountDiagArrowUK');
-  if (content.style.display === 'none') { content.style.display = ''; arrow.textContent = '▼'; }
-  else { content.style.display = 'none'; arrow.textContent = '▶'; }
-}
-
-function toggleBrandAccount(acct) {
-  var a = acct.toLowerCase();
-  if (customBrandAccounts[a] === true) { delete customBrandAccounts[a]; }
-  else { customBrandAccounts[a] = true; }
-  if (videoAdData && videoAdData.length > 0) {
-    videoAdData.forEach(function(r) { r.isBrand = isBrandAccount(r.account); });
-    computeRatiosFromAdData(videoAdData);
-    if (videoJoined) { videoJoined.forEach(function(r) { r.isBrand = isBrandAccount(r.account); }); }
-    renderAccountDiagTable();
-    renderVideoTab();
-    saveVideoData();
-  }
-}
-function toggleBrandAccountUK(acct) {
-  var a = acct.toLowerCase();
-  if (customBrandAccountsUK[a] === true) { delete customBrandAccountsUK[a]; }
-  else { customBrandAccountsUK[a] = true; }
-  if (videoAdDataUK && videoAdDataUK.length > 0) {
-    videoAdDataUK.forEach(function(r) { r.isBrand = isBrandAccountUK(r.account); });
-    computeRatiosFromAdDataUK(videoAdDataUK);
-    if (videoJoinedUK) { videoJoinedUK.forEach(function(r) { r.isBrand = isBrandAccountUK(r.account); }); }
-    renderAccountDiagTableUK();
-    renderVideoTabUK();
-    saveVideoDataUK();
-  }
-}
-
-function renderAccountDiagTable() {
-  var tbody = document.getElementById('accountDiagBody');
-  if (!tbody || !videoAdData || !videoAdData.length) {
-    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px;">暂无广告数据，请先上传</td></tr>';
-    return;
-  }
-  var acctMap = {};
-  videoAdData.forEach(function(r) {
-    var key = r.account || '(空)';
-    if (!acctMap[key]) acctMap[key] = { account: key, gmv: 0, videos: 0, isBrand: isBrandAccount(key) };
-    acctMap[key].gmv += r.gmv;
-    acctMap[key].videos += 1;
-    acctMap[key].isBrand = isBrandAccount(key);
-  });
-  var rows = Object.keys(acctMap).map(function(k) { return acctMap[k]; });
-  rows.sort(function(a, b) { return b.gmv - a.gmv; });
-  var fmtGmv = function(v) { return '$' + v.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); };
-  var totalGmv = rows.reduce(function(s, r) { return s + r.gmv; }, 0);
-  var html = '';
-  rows.forEach(function(r) {
-    var isMatern = r.account.toLowerCase().startsWith('matern') || r.account.toLowerCase().startsWith('materna');
-    var isCustom = customBrandAccounts[r.account.toLowerCase()] === true;
-    var clsLabel, clsColor, actionBtn;
-    if (r.isBrand) {
-      clsLabel = '自营'; clsColor = '#2B579A';
-      if (isMatern) { actionBtn = '<span style="color:#999;font-size:11px;">自动匹配</span>'; }
-      else { actionBtn = '<button onclick="toggleBrandAccount(\'' + r.account.replace(/'/g, "\\'") + '\')" style="font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid #2B579A;background:#E8EFF8;color:#2B579A;cursor:pointer;">取消自营</button>'; }
-    } else {
-      clsLabel = '达人'; clsColor = '#C0392B';
-      actionBtn = '<button onclick="toggleBrandAccount(\'' + r.account.replace(/'/g, "\\'") + '\')" style="font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid #C0392B;background:#FDE8E8;color:#C0392B;cursor:pointer;">标为自营</button>';
-    }
-    var pct = totalGmv > 0 ? (r.gmv / totalGmv * 100).toFixed(1) : '0.0';
-    html += '<tr style="border-bottom:1px solid #E8EFF8;">' +
-      '<td style="padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + r.account + '">' + r.account + '</td>' +
-      '<td style="text-align:right;padding:5px 8px;">' + fmtGmv(r.gmv) + ' <span style="color:#888;font-size:10px;">(' + pct + '%)</span></td>' +
-      '<td style="text-align:center;padding:5px 8px;">' + r.videos + '</td>' +
-      '<td style="text-align:center;padding:5px 8px;font-weight:600;color:' + clsColor + ';">' + clsLabel + (isCustom ? ' ✋' : '') + '</td>' +
-      '<td style="text-align:center;padding:5px 8px;">' + actionBtn + '</td>' +
-    '</tr>';
-  });
-  tbody.innerHTML = html;
-}
-function renderAccountDiagTableUK() {
-  var tbody = document.getElementById('accountDiagBodyUK');
-  if (!tbody || !videoAdDataUK || !videoAdDataUK.length) {
-    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px;">暂无广告数据，请先上传</td></tr>';
-    return;
-  }
-  var acctMap = {};
-  videoAdDataUK.forEach(function(r) {
-    var key = r.account || '(空)';
-    if (!acctMap[key]) acctMap[key] = { account: key, gmv: 0, videos: 0, isBrand: isBrandAccountUK(key) };
-    acctMap[key].gmv += r.gmv;
-    acctMap[key].videos += 1;
-    acctMap[key].isBrand = isBrandAccountUK(key);
-  });
-  var rows = Object.keys(acctMap).map(function(k) { return acctMap[k]; });
-  rows.sort(function(a, b) { return b.gmv - a.gmv; });
-  var fmtGmv = function(v) { return '£' + v.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); };
-  var totalGmv = rows.reduce(function(s, r) { return s + r.gmv; }, 0);
-  var html = '';
-  rows.forEach(function(r) {
-    var isMatern = r.account.toLowerCase().startsWith('matern') || r.account.toLowerCase().startsWith('materna');
-    var isCustom = customBrandAccountsUK[r.account.toLowerCase()] === true;
-    var clsLabel, clsColor, actionBtn;
-    if (r.isBrand) {
-      clsLabel = '自营'; clsColor = '#2B579A';
-      if (isMatern) { actionBtn = '<span style="color:#999;font-size:11px;">自动匹配</span>'; }
-      else { actionBtn = '<button onclick="toggleBrandAccountUK(\'' + r.account.replace(/'/g, "\\'") + '\')" style="font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid #2B579A;background:#E8EFF8;color:#2B579A;cursor:pointer;">取消自营</button>'; }
-    } else {
-      clsLabel = '达人'; clsColor = '#C0392B';
-      actionBtn = '<button onclick="toggleBrandAccountUK(\'' + r.account.replace(/'/g, "\\'") + '\')" style="font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid #C0392B;background:#FDE8E8;color:#C0392B;cursor:pointer;">标为自营</button>';
-    }
-    var pct = totalGmv > 0 ? (r.gmv / totalGmv * 100).toFixed(1) : '0.0';
-    html += '<tr style="border-bottom:1px solid #E8EFF8;">' +
-      '<td style="padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + r.account + '">' + r.account + '</td>' +
-      '<td style="text-align:right;padding:5px 8px;">' + fmtGmv(r.gmv) + ' <span style="color:#888;font-size:10px;">(' + pct + '%)</span></td>' +
-      '<td style="text-align:center;padding:5px 8px;">' + r.videos + '</td>' +
-      '<td style="text-align:center;padding:5px 8px;font-weight:600;color:' + clsColor + ';">' + clsLabel + (isCustom ? ' ✋' : '') + '</td>' +
-      '<td style="text-align:center;padding:5px 8px;">' + actionBtn + '</td>' +
-    '</tr>';
-  });
-  tbody.innerHTML = html;
-}
-
 function resetVideoData() {
   if (!confirm('确定要重置美国站广告数据吗？人员映射关系会保留。如需清除映射请点「重置映射」。')) return;
   videoAdData = null;
@@ -2597,7 +2398,6 @@ function resetVideoData() {
   videoBdSummary = null;
   videoDirectorSummary = null;
   videoDateRange = '';
-  customBrandAccounts = {};
   showDateRange('');
   videoDetailFilter = null;
   videoBdDetailFilter = null;
@@ -2718,7 +2518,7 @@ function handleAdDataUpload(input) {
           views: parseInt(r['商品广告曝光数']) || 0,
           workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
           account: acct,
-          isBrand: isBrandAccount(acct)
+          isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
       // 如果文件名未包含日期范围，从数据中提取发布时间范围
@@ -3108,9 +2908,6 @@ function renderVideoTab() {
       document.getElementById('ratioCardGmv').textContent = 'GMV ' + fmtGmv(videoCardGmv) + ' | ROI ' + videoCardROI.toFixed(2);
     }
   })();
-
-  // === 更新账号分类诊断面板 US ===
-  renderAccountDiagTable();
 
   if (!videoPersonSummary || !videoPersonSummary.length) {
     statusEl.textContent = videoAdData ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
@@ -4730,15 +4527,6 @@ function loadVideoDataUK() {
       videoBdSummaryUK = saved.bdSummary || null;
       videoDirectorSummaryUK = saved.directorSummary || null;
       videoDateRangeUK = saved.dateRange || '';
-      // Restore custom brand accounts UK
-      if (saved.customBrandAccountsUK) { customBrandAccountsUK = saved.customBrandAccountsUK; }
-      // Re-apply isBrand classification with custom accounts
-      if (videoAdDataUK && videoAdDataUK.length > 0) {
-        videoAdDataUK.forEach(function(r) { r.isBrand = isBrandAccountUK(r.account); });
-      }
-      if (videoJoinedUK && videoJoinedUK.length > 0) {
-        videoJoinedUK.forEach(function(r) { r.isBrand = isBrandAccountUK(r.account); });
-      }
       // Restore sales ratio from localStorage (or compute from adData if not saved)
       if (saved.selfGmv !== undefined) {
         videoSelfGmvUK = saved.selfGmv; videoSelfPctUK = saved.selfPct; videoSelfROIUK = saved.selfROI || 0;
@@ -4773,7 +4561,6 @@ function saveVideoDataUK() {
       bdSummary: videoBdSummaryUK,
       directorSummary: videoDirectorSummaryUK,
       dateRange: videoDateRangeUK,
-      customBrandAccountsUK: customBrandAccountsUK,
       selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
       talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
       cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
@@ -4786,7 +4573,6 @@ function saveVideoDataUK() {
         bdSummary: videoBdSummaryUK,
         directorSummary: videoDirectorSummaryUK,
         dateRange: videoDateRangeUK,
-        customBrandAccountsUK: customBrandAccountsUK,
         selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
         talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
         cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
@@ -4798,8 +4584,7 @@ function saveVideoDataUK() {
           adData: videoAdDataUK, joined: null, summary: null,
           bdSummary: null, directorSummary: null,
           dateRange: videoDateRangeUK,
-          customBrandAccountsUK: customBrandAccountsUK,
-            selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
+          selfGmv: videoSelfGmvUK, selfPct: videoSelfPctUK, selfROI: videoSelfROIUK,
           talentGmv: videoTalentGmvUK, talentPct: videoTalentPctUK, talentROI: videoTalentROIUK,
           cardGmv: videoCardGmvUK, cardPct: videoCardPctUK, cardROI: videoCardROIUK
         }));
@@ -4819,7 +4604,6 @@ function resetVideoDataUK() {
   videoBdSummaryUK = null;
   videoDirectorSummaryUK = null;
   videoDateRangeUK = '';
-  customBrandAccountsUK = {};
   showDateRangeUK('');
   videoDetailFilterUK = null;
   videoBdDetailFilterUK = null;
@@ -4883,7 +4667,7 @@ function handleAdDataUploadUK(input) {
           views: parseInt(r['商品广告曝光数']) || 0,
           workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
           account: acct,
-          isBrand: isBrandAccount(acct)
+          isBrand: acct.toLowerCase().startsWith('matern')
         };
       });
       // 如果文件名未包含日期范围，从数据中提取发布时间范围
@@ -5160,9 +4944,6 @@ function renderVideoTabUK() {
       document.getElementById('ratioCardGmvUK').textContent = 'GMV ' + fmtGmv(videoCardGmvUK) + ' | ROI ' + videoCardROIUK.toFixed(2);
     }
   })();
-
-  // === 更新账号分类诊断面板 UK ===
-  renderAccountDiagTableUK();
 
   if (!videoPersonSummaryUK || !videoPersonSummaryUK.length) {
     statusEl.textContent = videoAdDataUK ? '\u23F3 已加载广告数据，请上传人员映射表' : '\u23F3 请上传广告数据报表和人员映射表';
