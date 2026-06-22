@@ -6,7 +6,7 @@ Formulated with Lactobacillus probiotic — supports intimate pH balance 🧬 #L
 Period days? Thick wet wipes trap mess, keep you fresh for hours 🩸 #PeriodCare #AllDayFresh #wipes #wetwips #toiletpaper | 经期厚实湿厕纸锁住黏腻，持久清爽数小时 #湿厕纸 #益生菌湿厕纸
 Dermatologist-tested. Alcohol-free. Safe for sensitive areas 🧑‍🔬 #DermTested #AlcoholFree #wipes #wetwips #toiletpaper | 皮肤科测试、无酒精、敏感肌适用 #湿厕纸 #益生菌湿厕纸
 One pack per bathroom. One in the car. One in every bag 📦 #EverywherePack #StayPrepared #wipes #wetwips #toiletpaper | 卫生间一包、车里一包、每个包一包 #湿厕纸 #益生菌湿厕纸
-100% flushable + biodegradable — won't clog your pipes 🚽 #FlushableWipes #SepticSafe #wipes #wetwips #toiletpaper | 100%可冲散可降解——不堵管道 #湿厕纸 #益生菌湿厕纸
+Flushable + biodegradable — made to break down without clogging pipes 🚽 #FlushableWipes #SepticSafe #wipes #wetwips #toiletpaper | 可冲散可降解——专为分解设计不堵管道 #湿厕纸 #益生菌湿厕纸
 Probiotic + aloe vera + vitamin E = soothe, balance, protect 🌿 #ThreeHeroes #SootheAndProtect #wipes #wetwips #toiletpaper | 益生菌+芦荟+维E=舒缓、平衡、防护 #湿厕纸 #益生菌湿厕纸
 Thick quilted texture. Won't tear mid-use, no matter the pressure 💪 #QuiltedStrong #NoTear #wipes #wetwips #toiletpaper | 厚实压花纹理，怎么擦都不破 #湿厕纸 #益生菌湿厕纸
 Hate the wet-wipe rash from cheap brands? Ours is hypoallergenic ✅ #NoRash #Hypoallergenic #wipes #wetwips #toiletpaper | 便宜湿厕纸刺激起疹？这款低敏 #湿厕纸 #益生菌湿厕纸
@@ -28,8 +28,8 @@ Hotel TP harsh on sensitive skin? Bring your own comfort instead 🏨 #HotelHack
 Marigold + chamomile + aloe — three botanicals, one soothing wipe 🌿 #BotanicalBlend #ThreeInOne #wipes #wetwips #toiletpaper #travelsize | 金盏花+洋甘菊+芦荟——三重植物舒缓 #旅行装湿厕纸 #金盏花
 Compact 10-pack slips into carry-on liquids bag — TSA friendly ✅ #TSAApproved #CarryOnReady #wipes #wetwips #toiletpaper #travelsize | 10片轻装入随身包——TSA友好 #旅行装湿厕纸 #金盏花
 Beach days, road trips, camping — marigold wipes handle all terrains 🏖 #AllTerrain #BeachToTrail #wipes #wetwips #toiletpaper #travelsize | 海滩、自驾、露营——金盏花湿厕纸通吃 #旅行装湿厕纸 #金盏花
-Resealable sticker keeps each wipe moist — no dry-out in week 2 🔒 #StaysMoist #Resealable #wipes #wetwips #toiletpaper #travelsize | 密封贴锁水——第2周仍湿润 #旅行装湿厕纸 #金盏花
-Skip public restroom soap — these kill bacteria better anyway 🦠 #BetterThanSoap #KillsGerms #wipes #wetwips #toiletpaper #travelsize | 跳过公厕肥皂——这款抑菌更强 #旅行装湿厕纸 #金盏花
+Resealable sticker keeps each wipe moist — no dry-out on week two 🔒 #StaysMoist #Resealable #wipes #wetwips #toiletpaper #travelsize | 密封贴锁水——第2周仍湿润 #旅行装湿厕纸 #金盏花
+Skip public restroom soap — marigold's natural antibacterial action has you covered 🦠 #NaturalAntibac #KillsGerms #wipes #wetwips #toiletpaper #travelsize | 跳过公厕肥皂——金盏花天然抗菌 #旅行装湿厕纸 #金盏花
 Marigold's anti-inflammatory properties help post-sun skin recover ☀️ #PostSunCare #AntiInflammatory #wipes #wetwips #toiletpaper #travelsize | 金盏花抗炎特性帮助晒后皮肤修护 #旅行装湿厕纸 #金盏花
 Festival porta-potties don't stand a chance against these 🎪 #FestivalReady #PortaPottyWin #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕所的克星 #旅行装湿厕纸 #金盏花
 Mini pack = 10 wipes × 0.05lb. Barely registers in luggage ⚖️ #Lightweight #TravelLight #wipes #wetwips #toiletpaper #travelsize | 10片仅0.05磅，行李几乎无感 #旅行装湿厕纸 #金盏花
@@ -41,27 +41,27 @@ Plastic-free packaging — better for the trip, better for the planet 🌱 #EcoP
 TSA-compliant, dermatologist-tested, family-safe — peace of mind in every pack 🛡 #TravelPeace #FamilySafe #wipes #wetwips #toiletpaper #travelsize | TSA合规、皮肤科测试、全家安心 #旅行装湿厕纸 #金盏花
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
-Switch from towel to disposable — cut bacterial buildup by 99% 🦠 #BacteriaCut #99PercentLess #facetowel | 毛巾换一次性——细菌滋生降低99% #一次性洗脸巾 #洗脸巾
+Switch from towel to disposable — say goodbye to bacterial buildup for good 🦠 #BacteriaFree #SwitchNow #facetowel | 毛巾换一次性——彻底告别细菌滋生 #一次性洗脸巾 #洗脸巾
 Compressed cotton, 0.2mm thick — soft on skin, tough on residue 🧵 #CompressedCotton #ThickAndSoft #facetowel | 压缩棉0.2mm厚——亲肤且去污强 #一次性洗脸巾 #洗脸巾
 Acne-prone skin? Disposable towels remove the #1 trigger (dirty towel) 🚫 #AcneTrigger #CleanTowel #facetowel | 痘肌？一次性洗脸巾去掉头号诱因（脏毛巾） #一次性洗脸巾 #洗脸巾
 Lint-free, dye-free, fragrance-free — pure clean, no skin interference 🤍 #PureClean #ThreeFree #facetowel | 无毛屑、无染色、无香精——纯净不打扰 #一次性洗脸巾 #洗脸巾
 One towel, one use, zero bacteria transfer — Korean glass-skin secret 🇰🇷 #KBeauty #OneAndDone #facetowel | 一巾一次零细菌传递——韩式水光肌秘诀 #一次性洗脸巾 #洗脸巾
 80-count pack lasts 2.5 months of daily facial cleansing 📅 #DailyEssential #LongLasting #facetowel | 80片一包=每日洗脸可用2.5个月 #一次性洗脸巾 #洗脸巾
-Microfiber blend absorbs 8x its weight in water — no dripping 💧 #HighAbsorb #8xWeight #facetowel | 超细纤维混合——吸水8倍自重不滴 #一次性洗脸巾 #洗脸巾
+Ultra-absorbent microfiber blend — no dripping, no re-wiping needed 💧 #HighAbsorb #NoReWipe #facetowel | 超细纤维混合——高吸水不滴不重擦 #一次性洗脸巾 #洗脸巾
 Post-microneedling? Post-chemical-peel? Gentle enough for both 🧬 #PostProcedure #SkinSafe #facetowel | 微针后？刷酸后？两种都温和 #一次性洗脸巾 #洗脸巾
 Replace that moldy towel in your bathroom — this is the upgrade 🚿 #MoldFree #UpgradeNow #facetowel | 替换卫生间发霉毛巾——立刻升级 #一次性洗脸巾 #洗脸巾
-Plant-based fibers, 100% biodegradable in 12 weeks 🌿 #PlantFiber #Biodegradable #facetowel | 植物纤维，12周100%可降解 #一次性洗脸巾 #洗脸巾
+Plant-based fibers, fully biodegradable — designed to break down naturally 🌿 #PlantFiber #Biodegradable #facetowel | 植物纤维，完全可生物降解 #一次性洗脸巾 #洗脸巾
 Texture so soft it doubles as a makeup remover — saves the cotton pad run 🧴 #DualUse #MakeupRemover #facetowel | 软到能当卸妆巾——省下化妆棉 #一次性洗脸巾 #洗脸巾
 Embossed honeycomb pattern lifts dirt without scratching skin 🍯 #Honeycomb #LiftsDirt #facetowel | 蜂窝压花提污不磨皮 #一次性洗脸巾 #洗脸巾
-No more towel laundry — save 4 loads per month, 50+ gallons of water 💧 #SaveWater #LessLaundry #facetowel | 不用洗毛巾——每月省4次洗衣50+加仑水 #一次性洗脸巾 #洗脸巾
+No more towel laundry — fewer wash loads, less water, less effort 💧 #SaveWater #LessLaundry #facetowel | 不用洗毛巾——少洗衣次数，省水省力 #一次性洗脸巾 #洗脸巾
 Dermatologist-recommended for rosacea, eczema, and post-treatment skin 🧑‍🔬 #DermRecommend #SensitiveSafe #facetowel | 皮肤科推荐：酒渣肌、湿疹、术后修复 #一次性洗脸巾 #洗脸巾
 Single-use = no sharing = no cold sores, no stye, no cross-contamination 🤧 #NoSharing #HygieneFirst #facetowel | 一次性=不共用=无疱疹无麦粒肿无交叉感染 #一次性洗脸巾 #洗脸巾
 Spa-grade quality at home — facial-grade cotton, not kitchen paper 🏨 #SpaGrade #FacialCotton #facetowel | 居家SPA级——面护级棉非厨房纸 #一次性洗脸巾 #洗脸巾
-Pressed one to face after 8-hr flight — zero redness, zero breakouts ✈️ #TravelProof #ZeroRedness #facetowel | 8小时飞行后敷脸——零泛红零爆痘 #一次性洗脸巾 #洗脸巾
+Pressed to face after a long flight — zero redness, zero breakouts ✈️ #TravelProof #ZeroRedness #facetowel | 长途飞行后敷脸——零泛红零爆痘 #一次性洗脸巾 #洗脸巾
 5.9" × 7.9" size — covers entire face with one sheet, no folding needed 📐 #OneSheet #FullFace #facetowel | 5.9×7.9英寸——一片盖全脸不折 #一次性洗脸巾 #洗脸巾
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Toothpaste with 25% xylitol — fights cavity bacteria where they start 🦷 #XylitolPower #CavityFighter #toothpaste | 25%木糖醇——从源头抗龋齿菌 #牙膏 #木糖醇牙膏
+Xylitol-rich toothpaste — formulated to support cavity defense where it starts 🦷 #XylitolPower #CavityFighter #toothpaste | 高木糖醇牙膏——配方支持龋齿防护 #牙膏 #木糖醇牙膏
 Hydrated silica gently polishes away coffee, tea, and wine stains ☕ #StainRemoval #GentlePolish #toothpaste | 水合二氧化硅温和抛光咖啡、茶、酒渍 #牙膏 #木糖醇牙膏
 Niacinamide for gums — reduces redness, supports gum barrier repair 🩹 #GumCare #NiacinamideBoots #toothpaste | 烟酰胺护龈——减少泛红支持屏障修护 #牙膏 #木糖醇牙膏
 Fluoride + xylitol + silica + niacinamide = full-spectrum dental care 💪 #FullSpectrum #FourHeroes #toothpaste | 氟+木糖醇+二氧化硅+烟酰胺=全方位护齿 #牙膏 #木糖醇牙膏
@@ -70,12 +70,12 @@ Whitening without peroxide — safe on enamel, no sensitivity spike 🪥 #Peroxi
 Mild mint flavor, no burn — kid-friendly, adult-approved 🍃 #MildMint #FamilySafe #toothpaste | 温和薄荷不辣——儿童友好成人认可 #牙膏 #木糖醇牙膏
 pH-balanced formula protects enamel from acid erosion after meals 📊 #pHBalanced #AcidDefense #toothpaste | pH平衡配方——餐后防酸蚀 #牙膏 #木糖醇牙膏
 Xylitol starves Streptococcus mutans — the bacteria behind cavities 🔬 #CavityScience #StrepMutans #toothpaste | 木糖醇饿死变异链球菌——龋齿主因 #牙膏 #木糖醇牙膏
-Niacinamide reduces gum inflammation within 2 weeks (visible in studies) 📈 #GumInflammation #VisibleResults #toothpaste | 烟酰胺2周内减少牙龈发炎 #牙膏 #木糖醇牙膏
-Hydrated silica = 3x more stain removal than baking soda pastes 🧪 #StainScience #3xRemoval #toothpaste | 水合二氧化硅去渍力是小苏打牙膏的3倍 #牙膏 #木糖醇牙膏
+Niacinamide supports gum health — helps reduce visible inflammation over time 📈 #GumHealth #NiacinamideGum #toothpaste | 烟酰胺支持牙龈健康——帮助减少可见炎症 #牙膏 #木糖醇牙膏
+Hydrated silica delivers noticeably more stain removal than baking soda pastes 🧪 #StainScience #SilicaWin #toothpaste | 水合二氧化硅去渍力明显优于小苏打牙膏 #牙膏 #木糖醇牙膏
 No artificial sweeteners, no parabens, no SLS — clean oral care 🌱 #CleanOral #ThreeFree #toothpaste | 无人造甜味剂、无paraben、无SLS——洁净口腔 #牙膏 #木糖醇牙膏
-Fresh breath that lasts 8+ hours — zinc citrate + xylitol combo ⏰ #LongFresh #8Hours #toothpaste | 8小时以上清新口气——柠檬酸锌+木糖醇 #牙膏 #木糖醇牙膏
+Fresh breath that outlasts regular mint — zinc citrate + xylitol combo ⏰ #LongFresh #ZincXylitol #toothpaste | 清新口气比普通薄荷持久——柠檬酸锌+木糖醇 #牙膏 #木糖醇牙膏
 Strengthens enamel with nano-hydroxyapatite alternative (hydrated silica) 🦴 #EnamelStrong #NanoCare #toothpaste | 水合二氧化硅强化牙釉质 #牙膏 #木糖醇牙膏
 Tartar control without harsh chemicals — silica's natural polishing action 🪨 #TartarControl #NaturalAction #toothpaste | 不靠硬化学防牙石——二氧化硅天然抛光 #牙膏 #木糖醇牙膏
 Tastes like a mild treat, not a punishment — kids brush without nagging 🍬 #KidsLove #NoNagging #toothpaste | 像温和的奖励——孩子主动刷牙不催 #牙膏 #木糖醇牙膏
-Sensitivity relief in 14 days — niacinamide calms exposed nerve endings 🧊 #SensitivityRelief #14Days #toothpaste | 14天舒缓敏感——烟酰胺安抚暴露神经末梢 #牙膏 #木糖醇牙膏
+Niacinamide calms exposed nerve endings — formulated to support sensitivity relief 🧊 #SensitivityRelief #NiacinamideCalm #toothpaste | 烟酰胺安抚暴露神经末梢——支持缓解敏感 #牙膏 #木糖醇牙膏
 Made for sensitive teeth, receding gums, and post-whitening recovery 📉 #SensitiveFriendly #GumRecovery #toothpaste | 专为敏感牙、牙龈萎缩、美白后修护 #牙膏 #木糖醇牙膏
