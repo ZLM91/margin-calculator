@@ -21,7 +21,7 @@ The humble brag of having a favorite bathroom product 🤣 #HumbleBrag #FaveProd
 The way bathroom stashes are guarded — like treasure, because they are 🔒 #TreasureGuard #WipeStash #wipes #wetwips #toiletpaper | 守护卫生间存货的样子——像宝藏因为就是 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-60% of carry-on weight: marigold wipes. The other 40%: essentials 🧳 #WipeHeavy #CarryOnPriority #wipes #wetwips #toiletpaper #travelsize | 登机箱60%重量：金盏花湿厕纸，40%必需品 #旅行装湿厕纸 #金盏花
+Carry-on packing priority: marigold wipes first, everything else after 🧳 #WipeFirst #CarryOnPriority #wipes #wetwips #toiletpaper #travelsize | 登机箱打包优先级：金盏花湿厕纸第一，其余其次 #旅行装湿厕纸 #金盏花
 Passport photo: rough. Bathroom routine on the road: 5-star 😂 #PassportRough #RoadRoutine5 #wipes #wetwips #toiletpaper #travelsize | 护照照很糟，路上卫生间流程5星 #旅行装湿厕纸 #金盏花
 Checked bag = clothes. Carry-on = marigold wipes. Priorities sorted 📦 #PrioritiesSorted #CarryOnWipes #wipes #wetwips #toiletpaper #travelsize | 托运=衣服，随身=金盏花湿厕纸，优先级清晰 #旅行装湿厕纸 #金盏花
 Hotel check-in question #1: where's the bathroom? #2: yes, brought wipes 🏨 #CheckInQs #BroughtWipes #wipes #wetwips #toiletpaper #travelsize | 酒店入住问题1：卫生间在哪？问题2：对，自带湿厕纸 #旅行装湿厕纸 #金盏花
@@ -38,7 +38,7 @@ Toothbrush forgettable. Travel wipes, never 🪥 #WipesNever #HardPriority #wipe
 TSA agent notes: "lots of wipes here" — the only correct observation 🛃 #TSAnote #LotsOfWipes #wipes #wetwips #toiletpaper #travelsize | TSA备注："好多湿厕纸"——唯一正确观察 #旅行装湿厕纸 #金盏花
 Packing light is overrated. 3-pack wipes are non-negotiable 🛒 #PackingOverrated #3PackEssential #wipes #wetwips #toiletpaper #travelsize | 轻装被高估，3包装湿厕纸不可少 #旅行装湿厕纸 #金盏花
 Travel buddy forgets wipes — that look says it all 😏 #BuddyForgot #ThatLook #wipes #wetwips #toiletpaper #travelsize | 旅伴忘带湿厕纸——那个眼神说明一切 #旅行装湿厕纸 #金盏花
-Carry-on balance: 30% electronics, 70% wipes ⚖️ #Balance #WipeHeavy #wipes #wetwips #toiletpaper #travelsize | 登机箱平衡：30%电子，70%湿厕纸 #旅行装湿厕纸 #金盏花
+Carry-on reality: wipes take priority, everything else fits around them ⚖️ #Balance #WipeFirst #wipes #wetwips #toiletpaper #travelsize | 登机箱现实：湿厕纸优先，其他东西往里挤 #旅行装湿厕纸 #金盏花
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
 Towel and skin: officially broken up. The bacteria was the problem 😭 #TowelBreakup #BacteriaProblem #facetowel | 毛巾和皮肤：正式分手，细菌是问题 #一次性洗脸巾 #洗脸巾
