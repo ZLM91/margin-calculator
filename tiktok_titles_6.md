@@ -1,81 +1,78 @@
 # 2026-06-21
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Probiotic strains in your wipes? The microbiome science is real 🧬 #MicrobiomeScience #ProbioticStrains #wipes #wetwips #toiletpaper | 湿厕纸里有益生菌？微生态科学是真的 #湿厕纸 #益生菌湿厕纸
-pH 5.5 is the sweet spot for intimate skin — and these are formulated right there 🔬 #pH55 #IntimateScience #wipes #wetwips #toiletpaper | pH5.5是私密皮肤的甜蜜点，这款针对这个区间配方 #湿厕纸 #益生菌湿厕纸
-Lactobacillus in your wipes works to support healthy intimate flora 🎖️ #Lactobacillus #GoodBacteria #wipes #wetwips #toiletpaper | 湿厕纸里的乳酸菌帮助维护私密菌群平衡 #湿厕纸 #益生菌湿厕纸
-Formulated with probiotic strains designed to help soothe and calm irritated skin 🌿 #ProbioticFormula #SootheIrritation #wipes #wetwips #toiletpaper | 含益生菌配方，旨在舒缓和镇静受刺激的皮肤 #湿厕纸 #益生菌湿厕纸
-The biodegradable breakdown is designed to be faster than traditional wipes 🌍 #Biodegradable #BreakdownDesign #wipes #wetwips #toiletpaper | 可降解分解设计比传统湿巾更快 #湿厕纸 #益生菌湿厕纸
-How flushable wipes actually break down in water — slow-mo demo 💦 #SlowMo #FlushDemo #wipes #wetwips #toiletpaper | 可冲散湿厕纸在水中如何分解，慢动作演示 #湿厕纸 #益生菌湿厕纸
-The science behind why wet cleaning is more effective than dry 🧑‍🔬 #WetVsDryScience #CleaningEfficiency #wipes #wetwips #toiletpaper | 湿清洁比干清洁更有效的科学原理 #湿厕纸 #益生菌湿厕纸
-Your intimate microbiome is complex — probiotic wipes are designed to work with it, not against it 🧬 #MicrobiomeBalance #ProtectFlora #wipes #wetwips #toiletpaper | 你的私密微生态很复杂——益生菌湿厕纸配合而非对抗它 #湿厕纸 #益生菌湿厕纸
-Probiotic wipes help maintain the acid mantle of your skin 🧑‍🔬 #AcidMantle #SkinScience #wipes #wetwips #toiletpaper | 益生菌湿厕纸帮助维持皮肤的酸膜 #湿厕纸 #益生菌湿厕纸
-The flushability standard: what makes a wipe truly sewer-safe 🚽 #SewerSafe #FlushabilityStandard #wipes #wetwips #toiletpaper | 可冲散标准：什么让湿厕纸真正对下水道安全 #湿厕纸 #益生菌湿厕纸
-Why intimate skin has different needs than the rest of your body 👀 #SkinDifference #IntimateScience #wipes #wetwips #toiletpaper | 为什么私密皮肤和身体其他部位有不同需求 #湿厕纸 #益生菌湿厕纸
-Prebiotic + probiotic = synbiotic wipes, the next level in intimate care 🧬 #Synbiotic #NextLevel #wipes #wetwips #toiletpaper | 益生元+益生菌=合生元湿厕纸，私密护理的下一个层级 #湿厕纸 #益生菌湿厕纸
-Lysozyme in these wipes naturally supports defense against harmful bacteria 🔬 #Lysozyme #NaturalDefense #wipes #wetwips #toiletpaper | 这些湿厕纸里的溶菌酶天然助力防御有害菌 #湿厕纸 #益生菌湿厕纸
-Water activity level in these wipes is carefully controlled to maintain freshness in the pack 💧 #WaterActivity #FreshPack #wipes #wetwips #toiletpaper | 这些湿厕纸的水活度经过精心控制以保持包装内新鲜 #湿厕纸 #益生菌湿厕纸
-The cellulose fiber technology makes these truly dispersible in water 🧑‍🔬 #CelluloseFiber #DispersibleTech #wipes #wetwips #toiletpaper | 纤维素纤维技术让这些在水中真正可分散 #湿厕纸 #益生菌湿厕纸
-Hypoallergenic formulation — free from the most common skin sensitizers ✅ #Hypoallergenic #SensitiveSkin #wipes #wetwips #toiletpaper | 低敏配方——不含最常见的皮肤致敏物 #湿厕纸 #益生菌湿厕纸
-The osmolality of these wipes is designed to match your skin, no stinging 🧑‍🔬 #Osmolality #NoStinging #wipes #wetwips #toiletpaper | 这些湿厕纸的渗透压设计与皮肤匹配，不刺痛 #湿厕纸 #益生菌湿厕纸
-Chamomile + probiotic combo — formulated to support calm, balanced skin 🌼 #ChamomileProbiotic #SkinBalance #wipes #wetwips #toiletpaper | 洋甘菊+益生菌组合——旨在舒缓和维护皮肤平衡 #湿厕纸 #益生菌湿厕纸
+Soft, gentle, hypoallergenic — wipes that care for sensitive skin 🧬 #GentleCare #Hypoallergenic #wipes #wetwips #toiletpaper | 柔软温和低刺激——湿厕纸贴心守护敏感肌 #湿厕纸 #益生菌湿厕纸
+pH-balanced for intimate areas — soft, non-irritating, comfortable ✅ #pHBalanced #IntimateCare #wipes #wetwips #toiletpaper | pH平衡私处——柔软不刺激舒适 #湿厕纸 #益生菌湿厕纸
+Probiotic-enriched wet wipes — soft on skin, hard on residue 🦠 #ProbioticWipes #SoftClean #wipes #wetwips #toiletpaper | 益生菌湿厕纸——柔肤强效去残留 #湿厕纸 #益生菌湿厕纸
+Soothing, calming, and balanced — soft wipes for irritated skin 🌿 #SoothingCare #SkinCalm #wipes #wetwips #toiletpaper | 舒缓镇静平衡——柔软湿巾安抚受刺激皮肤 #湿厕纸 #益生菌湿厕纸
+Biodegradable, eco-friendly, break-down designed for the planet 🌍 #EcoFriendly #Biodegradable #wipes #wetwips #toiletpaper | 可降解环保——为地球设计的分解方案 #湿厕纸 #益生菌湿厕纸
+Flushable wipes that actually break down — slow-mo demo shows it 💦 #FlushDemo #BreakDown #wipes #wetwips #toiletpaper | 可冲散湿厕纸真正分解——慢动作演示 #湿厕纸 #益生菌湿厕纸
+Wet cleaning vs dry cleaning — the comfort difference is real 🧑‍🔬 #WetVsDry #ComfortWin #wipes #wetwips #toiletpaper | 湿清洁vs干清洁——舒适度差异真实 #湿厕纸 #益生菌湿厕纸
+Probiotic wipes — designed to work with skin, not against it 🧬 #SkinFriendly #ProbioticSupport #wipes #wetwips #toiletpaper | 益生菌湿厕纸——配合皮肤非对抗 #湿厕纸 #益生菌湿厕纸
+Soft on skin, helps maintain skin's natural moisture barrier 🧑‍🔬 #SkinBarrier #MoistureCare #wipes #wetwips #toiletpaper | 柔肤，帮助维持皮肤天然保湿屏障 #湿厕纸 #益生菌湿厕纸
+Flushable standard — wipes that are truly sewer-safe 🚽 #SewerSafe #FlushableStandard #wipes #wetwips #toiletpaper | 可冲散标准——真正对下水道安全的湿厕纸 #湿厕纸 #益生菌湿厕纸
+Intimate skin has different needs — soft wipes designed for it 👀 #IntimateCare #DifferentNeeds #wipes #wetwips #toiletpaper | 私密皮肤有不同需求——柔软湿巾专为它设计 #湿厕纸 #益生菌湿厕纸
+Probiotic + good bacteria blend wet wipes — soft, balanced intimate care 🧬 #SoftBalance #IntimateCare #wipes #wetwips #toiletpaper | 益生菌+有益菌组合湿巾——柔软平衡私处护理 #湿厕纸 #益生菌湿厕纸
+Soft, hypoallergenic wet wipes — free from common skin sensitizers ✅ #Hypoallergenic #SensitiveSkin #wipes #wetwips #toiletpaper | 柔软低敏湿巾——不含常见皮肤致敏物 #湿厕纸 #益生菌湿厕纸
+Designed to match skin's natural balance — no stinging, no irritation 🧑‍🔬 #NoSting #SkinMatch #wipes #wetwips #toiletpaper | 设计匹配皮肤自然平衡——不刺不痒 #湿厕纸 #益生菌湿厕纸
+Chamomile + probiotic combo — soft, calming, balanced for skin 🌼 #ChamomileProbiotic #SkinCalm #wipes #wetwips #toiletpaper | 洋甘菊+益生菌组合——柔软镇静平衡肌肤 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Marigold extract contains lutein and flavonoids that help soothe inflamed skin 🧬 #Lutein #MarigoldScience #wipes #wetwips #toiletpaper #travelsize | 金盏花提取物含叶黄素和黄酮，助力舒缓发炎皮肤 #旅行装湿厕纸 #金盏花
-Travel-size packaging designed to minimize material without compromising protection 🌍 #EcoPackaging #TravelSmart #wipes #wetwips #toiletpaper #travelsize | 旅行装包装设计在不牺牲保护性的前提下减少用料 #旅行装湿厕纸 #金盏花
-The calendula officinalis in these wipes is pharmaceutical grade 🧑‍🔬 #Calendula #PharmaGrade #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸里的金盏花是药典级 #旅行装湿厕纸 #金盏花
-Marigold essential oil has been used for skin care for centuries — backed by long tradition 🏛 #TraditionalMedicine #TimeTested #wipes #wetwips #toiletpaper #travelsize | 金盏花精油数百年来用于皮肤护理——有悠久传统支撑 #旅行装湿厕纸 #金盏花
-The flavonoids in marigold are known to help support skin's natural calm response 🌿 #Flavonoids #SkinCalm #wipes #wetwips #toiletpaper #travelsize | 金盏花中的黄酮类有助于支持皮肤的自然镇静反应 #旅行装湿厕纸 #金盏花
-These wipes are formulated to maintain moisture content through the travel life of the pack 💧 #MoistureFormula #TravelReady #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸配方设计在旅行全程保持含水量 #旅行装湿厕纸 #金盏花
-Travel wipes built to handle temperature swings — tested across a wide range 🌡 #TempStable #TravelSpec #wipes #wetwips #toiletpaper #travelsize | 旅行湿厕纸经过大范围温度测试，应对温差设计 #旅行装湿厕纸 #金盏花
-The marigold extract concentration is optimized to deliver effective anti-inflammatory support 🧑‍🔬 #OptimizedFormula #AntiInflammatory #wipes #wetwips #toiletpaper #travelsize | 金盏花提取物浓度经过优化以有效支持抗炎 #旅行装湿厕纸 #金盏花
-Designed to deliver moisture more effectively than dry paper, supporting skin hydration on the go 🔬 #MoistureDelivery #HydrationSupport #wipes #wetwips #toiletpaper #travelsize | 比干纸更有效输送水分，支持旅途皮肤保湿 #旅行装湿厕纸 #金盏花
-The pH of these travel wipes is tested to stay stable across conditions 🏔 #pHStable #ConsistentFormula #wipes #wetwips #toiletpaper #travelsize | 这些旅行湿厕纸的pH经过测试在各种环境下保持稳定 #旅行装湿厕纸 #金盏花
-INDA-standard dispersibility — designed to break down safely in water 🚽 #INDAStandard #Biodegradable #wipes #wetwips #toiletpaper #travelsize | 符合INDA标准的可分散性——设计在水中安全分解 #旅行装湿厕纸 #金盏花
-Marigold triterpenoids are known to support healthy skin cell renewal 🧬 #Triterpenoids #SkinRenewal #wipes #wetwips #toiletpaper #travelsize | 金盏花三萜类有助于支持健康的皮肤细胞更新 #旅行装湿厕纸 #金盏花
-The embossed texture increases surface contact for more thorough cleansing 📏 #EmbossedTexture #BetterCleanse #wipes #wetwips #toiletpaper #travelsize | 压花纹理增加接触面积以更彻底清洁 #旅行装湿厕纸 #金盏花
-These wipes pass the GD3 flushability test standard ✅ #GD3Standard #FlushTest #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸通过GD3可冲散测试标准 #旅行装湿厕纸 #金盏花
-Marigold has natural antimicrobial properties — used in skincare formulations for centuries 🧬 #NaturalAntimicrobial #Calendula #wipes #wetwips #toiletpaper #travelsize | 金盏花具有天然抗菌特性——数百年来用于护肤配方 #旅行装湿厕纸 #金盏花
-Water used in these wipes goes through a rigorous purification process 💧 #WaterPurification #CleanFormula #wipes #wetwips #toiletpaper #travelsize | 这些湿厕纸使用的水经过严格净化处理 #旅行装湿厕纸 #金盏花
-Dermatologist-tested formulation for sensitive skin — suitable for daily intimate use ✅ #DermTested #SensitiveSkinSafe #wipes #wetwips #toiletpaper #travelsize | 皮肤科医生测试配方，适合敏感肌日常私密使用 #旅行装湿厕纸 #金盏花
-Travel wipes with seal integrity tested across repeated open-and-close cycles 🛢 #SealIntegrity #ReliablePack #wipes #wetwips #toiletpaper #travelsize | 旅行湿厕纸密封完整性经过多次开合测试 #旅行装湿厕纸 #金盏花
+Marigold wet wipes — soft, soothing, gentle on sensitive travel skin 🧬 #MarigoldCare #TravelGentle #wipes #wetwips #toiletpaper #travelsize | 金盏花湿厕纸——柔软舒缓，温和呵护旅途敏感肌 #旅行装湿厕纸 #金盏花
+Travel-size packaging — soft, compact, designed for on-the-go use 🌍 #TravelPackaging #CompactDesign #wipes #wetwips #toiletpaper #travelsize | 旅行装包装——柔软紧凑，专为出行设计 #旅行装湿厕纸 #金盏花
+Pharmaceutical-grade marigold — soft, gentle, quality you can trust 🧑‍🔬 #QualityMarigold #GentleSoft #wipes #wetwips #toiletpaper #travelsize | 药典级金盏花——柔软温和，品质可信赖 #旅行装湿厕纸 #金盏花
+Marigold skincare tradition — soft, soothing, time-tested comfort 🏛 #TraditionalCare #SoftSoothe #wipes #wetwips #toiletpaper #travelsize | 金盏花护肤传统——柔软舒缓，历经考验的舒适 #旅行装湿厕纸 #金盏花
+Marigold calms sensitive skin — soft, gentle, no irritation 🌿 #SkinCalm #MarigoldSoft #wipes #wetwips #toiletpaper #travelsize | 金盏花镇静敏感肌——柔软温和不刺激 #旅行装湿厕纸 #金盏花
+Soft, moist, and balanced — wipes that stay fresh on the road 💧 #TravelFresh #MoistureBalance #wipes #wetwips #toiletpaper #travelsize | 柔软湿润平衡——湿巾在旅途中保持新鲜 #旅行装湿厕纸 #金盏花
+Temperature-stable travel wipes — soft and reliable in any climate 🌡 #TempStable #ReliableWipes #wipes #wetwips #toiletpaper #travelsize | 温度稳定旅行湿巾——任何气候柔软可靠 #旅行装湿厕纸 #金盏花
+Marigold-infused wipes — soft, soothing, formulated for comfort 🧑‍🔬 #MarigoldFormula #TravelComfort #wipes #wetwips #toiletpaper #travelsize | 金盏花注入湿巾——柔软舒缓，配方为舒适而生 #旅行装湿厕纸 #金盏花
+Soft wipes that hydrate as they clean — comfort on the go 🔬 #HydratingWipe #OnTheGo #wipes #wetwips #toiletpaper #travelsize | 边清洁边补水的柔软湿巾——行走的舒适 #旅行装湿厕纸 #金盏花
+pH-balanced for sensitive skin — soft, stable comfort anywhere 🏔 #pHBalanced #TravelSoft #wipes #wetwips #toiletpaper #travelsize | 敏感肌pH平衡——柔软稳定舒适随处可享 #旅行装湿厕纸 #金盏花
+Soft, flushable wipes that break down safely — septic-friendly 🚽 #FlushableSoft #SepticSafe #wipes #wetwips #toiletpaper #travelsize | 柔软可冲散湿巾——安全分解，下水道友好 #旅行装湿厕纸 #金盏花
+Marigold supports healthy skin cell renewal — soft, gentle care 🧬 #SkinRenewal #MarigoldCare #wipes #wetwips #toiletpaper #travelsize | 金盏花助力健康皮肤更新——柔软温和护理 #旅行装湿厕纸 #金盏花
+Embossed texture for more thorough cleansing — soft, no scratch 📏 #EmbossedSoft #BetterCleanse #wipes #wetwips #toiletpaper #travelsize | 压花纹理更彻底清洁——柔软不刺 #旅行装湿厕纸 #金盏花
+Flushability tested — soft wipes, safe plumbing ✅ #FlushTestPass #SafePlumbing #wipes #wetwips #toiletpaper #travelsize | 通过可冲散测试——柔软湿巾，管道安全 #旅行装湿厕纸 #金盏花
+Marigold — soft antimicrobial comfort used in skincare for centuries 🧬 #MarigoldTradition #SoftCare #wipes #wetwips #toiletpaper #travelsize | 金盏花——数百年来护肤的柔软抗菌舒适 #旅行装湿厕纸 #金盏花
+Purified water formula — soft, clean, gentle on skin 💧 #PurifiedWater #SoftClean #wipes #wetwips #toiletpaper #travelsize | 纯化水配方——柔软清洁温和亲肤 #旅行装湿厕纸 #金盏花
+Dermatologist-tested for sensitive skin — soft, daily-use safe ✅ #DermTested #SensitiveSafe #wipes #wetwips #toiletpaper #travelsize | 皮肤科测试敏感肌——柔软日常使用安全 #旅行装湿厕纸 #金盏花
+Soft seal that keeps wipes moist — travel-ready freshness 🛢 #SoftSeal #TravelFresh #wipes #wetwips #toiletpaper #travelsize | 柔软密封锁住湿润——旅行就绪新鲜 #旅行装湿厕纸 #金盏花
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
-Damp reusable towels can harbor bacteria over time — single-use eliminates that concern 🧬 #BacteriaFree #SingleUse #facetowel | 重复使用的湿毛巾会积累细菌——一次性使用消除这个隐患 #一次性洗脸巾 #洗脸巾
-Single-use disposable towels support hygiene by eliminating cross-contamination risk ✅ #HygieneFirst #NoContamination #facetowel | 一次性洗脸巾通过消除交叉污染风险支持卫生 #一次性洗脸巾 #洗脸巾
-The bamboo fiber in these towels is naturally antimicrobial 🌿 #BambooFiber #NaturalAntimicrobial #facetowel | 这些洗脸巾中的竹纤维天然抗菌 #一次性洗脸巾 #洗脸巾
-Switching to disposable towels means no laundry cycle for face cloths — less water and detergent overall 💧 #ReduceWaste #CleanerChoice #facetowel | 改用一次性洗脸巾意味着不用单独洗面布——整体更节水节洗剂 #一次性洗脸巾 #洗脸巾
-The spunlace nonwoven technology delivers a noticeably soft feel against skin 🧑‍🔬 #Spunlace #FeatherSoft #facetowel | 水刺无纺布技术带来皮肤上明显柔软的触感 #一次性洗脸巾 #洗脸巾
-Disposable towels support cleaner skin contact at every use — no buildup, no residue 📊 #CleanContact #FreshEveryTime #facetowel | 一次性洗脸巾每次使用都支持更清洁的皮肤接触——无积累无残留 #一次性洗脸巾 #洗脸巾
-The biodegradable fibers are designed to break down in compost conditions 🌍 #CompostFriendly #Biodegradable #facetowel | 可降解纤维设计在堆肥条件下分解 #一次性洗脸巾 #洗脸巾
-pH-neutral formulation designed to work with your skin's natural acid mantle 🧑‍🔬 #pHNeutral #SkinFriendly #facetowel | pH中性配方，配合皮肤天然酸膜 #一次性洗脸巾 #洗脸巾
-60 GSM premium thickness — substantial feel without bulk 📏 #60GSM #PremiumThick #facetowel | 60克/平方米高级厚度——质感扎实不沉重 #一次性洗脸巾 #洗脸巾
-Lint-free technology means zero fiber residue on your skin ✨ #LintFree #ZeroResidue #facetowel | 无毛技术意味着皮肤上零纤维残留 #一次性洗脸巾 #洗脸巾
-Heat-sealed edges prevent fiber shedding during use 🧑‍🔬 #HeatSealed #NoShedding #facetowel | 热封边防止使用时纤维脱落 #一次性洗脸巾 #洗脸巾
-Embossed pattern designed to increase surface contact for more effective absorption 📏 #EmbossedPattern #BetterAbsorption #facetowel | 压花图案设计增加接触面积以更有效吸收 #一次性洗脸巾 #洗脸巾
-Dermatologist-tested for contact dermatitis — formulated for sensitive skin ✅ #DermTested #SensitiveSkin #facetowel | 皮肤科医生接触性皮炎测试——专为敏感肌配方 #一次性洗脸巾 #洗脸巾
-The wood pulp fibers are FSC-certified from sustainably managed forests 🌲 #FSCCertified #SustainableForest #facetowel | 木浆纤维来自FSC认证的可持续管理森林 #一次性洗脸巾 #洗脸巾
-High absorbency design — holds water effectively for thorough face cleansing 💧 #HighAbsorbency #EffectiveCleanse #facetowel | 高吸水性设计——有效保水以彻底清洁面部 #一次性洗脸巾 #洗脸巾
-Pearl-pattern embossing creates micro-channels for even product distribution 🧑‍🔬 #PearlPattern #EvenDistribution #facetowel | 珍珠纹压花创造微通道以均匀分布 #一次性洗脸巾 #洗脸巾
-Single-use design eliminates the biofilm that can form on damp, reused towels 🧬 #NoBiofilm #SingleUseScience #facetowel | 一次性设计消除重复使用湿毛巾上可能形成的生物膜 #一次性洗脸巾 #洗脸巾
-GMP-certified production process for consistent quality and cleanliness ✅ #GMPCertified #QualityControl #facetowel | GMP认证生产流程确保一致的质量和清洁度 #一次性洗脸巾 #洗脸巾
+Single-use disposable towels — soft, fresh, no bacteria transfer 🧬 #BacteriaFree #SoftSingle #facetowel | 一次性洗脸巾——柔软清新，零细菌传递 #一次性洗脸巾 #洗脸巾
+Single-use means no cross-contamination — soft, hygienic, safe ✅ #HygieneFirst #SoftSafe #facetowel | 一次性=无交叉污染——柔软卫生安全 #一次性洗脸巾 #洗脸巾
+Bamboo-fiber disposable towels — soft, natural, skin-friendly 🌿 #BambooSoft #NaturalFriendly #facetowel | 竹纤维一次性洗脸巾——柔软天然亲肤 #一次性洗脸巾 #洗脸巾
+Disposable towels = no face cloth laundry — soft, simple, water-saving 💧 #SaveWater #SoftSimple #facetowel | 一次性洗脸巾=无面布清洗——柔软简单节水 #一次性洗脸巾 #洗脸巾
+Soft nonwoven technology — gentle, cloud-like feel 🧑‍🔬 #SoftNonwoven #CloudFeels #facetowel | 柔软无纺布技术——温和云朵触感 #一次性洗脸巾 #洗脸巾
+Single-use fresh contact — soft, clean, no buildup, no residue 📊 #FreshContact #SoftClean #facetowel | 一次一巾清新接触——柔软清洁无积累无残留 #一次性洗脸巾 #洗脸巾
+Biodegradable fibers — soft, designed to break down in compost 🌍 #CompostSoft #Biodegradable #facetowel | 可降解纤维——柔软设计堆肥分解 #一次性洗脸巾 #洗脸巾
+pH-neutral, soft, and skin-friendly — comfort in every wipe 🧑‍🔬 #pHNeutral #SoftFriendly #facetowel | pH中性柔软亲肤——每一片都是舒适 #一次性洗脸巾 #洗脸巾
+60 GSM soft thickness — substantial feel, no bulk 📏 #60GSMSoft #PremiumThick #facetowel | 60克/平方米柔软厚度——质感扎实不沉重 #一次性洗脸巾 #洗脸巾
+Lint-free, fiber-free — soft, clean skin every time ✨ #LintFree #SoftClean #facetowel | 无毛无纤维——柔软肌肤每次都干净 #一次性洗脸巾 #洗脸巾
+Heat-sealed soft edges — no fiber shedding during use 🧑‍🔬 #SoftSealed #NoShedding #facetowel | 热封柔软边——使用时不掉纤维 #一次性洗脸巾 #洗脸巾
+Embossed pattern for better absorption — soft and effective 📏 #SoftEmbossed #BetterAbsorb #facetowel | 压花设计更好吸收——柔软有效 #一次性洗脸巾 #洗脸巾
+Dermatologist-tested for sensitive skin — soft, contact-safe ✅ #DermTested #SoftSafe #facetowel | 皮肤科测试敏感肌——柔软接触安全 #一次性洗脸巾 #洗脸巾
+Sustainably sourced wood pulp — soft, eco-friendly 🌲 #SustainablePulp #EcoFriendly #facetowel | 可持续来源木浆——柔软环保 #一次性洗脸巾 #洗脸巾
+High-absorbency design — soft, holds water for thorough cleansing 💧 #HighAbsorb #SoftClean #facetowel | 高吸水设计——柔软有效保水彻底清洁 #一次性洗脸巾 #洗脸巾
+Pearl-pattern embossing — soft micro-channels for even distribution 🧑‍🔬 #PearlSoft #EvenDistribution #facetowel | 珍珠纹压花——柔软微通道均匀分布 #一次性洗脸巾 #洗脸巾
+Single-use design — soft, no biofilm buildup on reused towels 🧬 #SoftSingle #NoBiofilm #facetowel | 一次性设计——柔软，无重复使用毛巾的生物膜 #一次性洗脸巾 #洗脸巾
+Quality-controlled soft production — consistent cleanliness ✅ #QualityControl #SoftProduction #facetowel | 品质控制柔软生产——一致的清洁度 #一次性洗脸巾 #洗脸巾
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Xylitol is a sugar alcohol that oral bacteria struggle to metabolize — supporting a healthier oral environment 🧬 #XylitolScience #OralHealth #toothpaste | 木糖醇是口腔细菌难以代谢的糖醇——支持更健康的口腔环境 #牙膏 #木糖醇牙膏
-Hydrated silica has a low Mohs hardness — designed for gentle yet effective abrasion 🧑‍🔬 #MohsHardness #GentleAbrasion #toothpaste | 水合二氧化硅莫氏硬度低——设计用于温和而有效的研磨 #牙膏 #木糖醇牙膏
-Niacinamide is known to support collagen-related skin barrier function — including gum tissue health 📊 #Niacinamide #GumSupport #toothpaste | 烟酰胺有助于支持与胶原蛋白相关的屏障功能——包括牙龈健康 #牙膏 #木糖醇牙膏
-RDA of 70 — well within the enamel-safe range ✅ #RDA70 #EnamelSafe #toothpaste | RDA值70——在牙釉质安全范围内 #牙膏 #木糖醇牙膏
-Xylitol has a very low glycemic index, making it a gentler sweetener option 🧬 #LowGI #GentleSweetener #toothpaste | 木糖醇升糖指数很低，是更温和的甜味剂选择 #牙膏 #木糖醇牙膏
-Hydrated silica particles are spherical — designed to clean without causing micro-scratches 🧑‍🔬 #SphericalParticles #GentleCleaning #toothpaste | 水合二氧化硅颗粒为球形——清洁时不造成微划痕 #牙膏 #木糖醇牙膏
-Niacinamide (B3) is included to support gum epithelial barrier health 🧬 #B3Barrier #GumEpithelium #toothpaste | 含烟酰胺（B3）以支持牙龈上皮屏障健康 #牙膏 #木糖醇牙膏
-Formulated for extended daily use — designed to support gum health over time 📊 #LongTermCare #GumHealth #toothpaste | 为长期日常使用配方——旨在随时间支持牙龈健康 #牙膏 #木糖醇牙膏
-Fluoride in this paste supports the formation of acid-resistant enamel 🧑‍🔬 #FluorideScience #EnamelProtection #toothpaste | 这款牙膏中的氟化物支持形成耐酸牙釉质 #牙膏 #木糖醇牙膏
-Xylitol is not metabolized by cavity-causing bacteria — supporting an environment where they struggle to thrive 🧬 #BacteriaBalance #XylitolBenefit #toothpaste | 木糖醇不被龋齿菌代谢——支持让它们难以滋生的口腔环境 #牙膏 #木糖醇牙膏
-Silica particle size is controlled within a narrow range — for consistent gentle cleaning performance 📏 #ControlledParticle #ConsistentClean #toothpaste | 二氧化硅颗粒尺寸控制在窄范围——保持一致的温和清洁效果 #牙膏 #木糖醇牙膏
-Niacinamide may help support the modulation of inflammatory response in gum tissue 🧬 #AntiInflammatory #GumSupport #toothpaste | 烟酰胺可能有助于支持牙龈组织炎症反应的调节 #牙膏 #木糖醇牙膏
-Neutral pH formulation — designed to be gentle on enamel ✅ #NeutralpH #EnamelFriendly #toothpaste | pH中性配方——设计对牙釉质温和 #牙膏 #木糖醇牙膏
-Xylitol supports healthy salivary flow, which plays a role in natural remineralization 💧 #SalivaryHealth #Remineralization #toothpaste | 木糖醇支持健康的唾液分泌，在天然再矿化中起作用 #牙膏 #木糖醇牙膏
-Sodium fluoride at the dentist-recommended concentration — meeting professional oral care standards 🧑‍🔬 #SodiumFluoride #DentistStandard #toothpaste | 牙医推荐浓度的氟化钠——符合专业口腔护理标准 #牙膏 #木糖醇牙膏
-Niacinamide may help support the enzymes involved in collagen protection in gum tissue 🧬 #CollagenSupport #GumHealth #toothpaste | 烟酰胺可能有助于支持牙龈胶原蛋白保护相关酶 #牙膏 #木糖醇牙膏
-Controlled abrasivity design — formulated for daily brushing without compromising enamel integrity ✅ #SafeAbrasion #DailyBrush #toothpaste | 可控研磨设计——日常刷牙配方，不损伤牙釉质 #牙膏 #木糖醇牙膏
-Sorbitol acts as a humectant in this formula — keeping the texture consistent from first use to last 💧 #Humectant #ConsistentTexture #toothpaste | 山梨糖醇在配方中作为保湿剂——从第一次到最后一次使用保持质感一致 #牙膏 #木糖醇牙膏
+Xylitol toothpaste — soft, sweet taste, cavity defense with a fresh feel 🦷 #XylitolFresh #CavityDefense #toothpaste | 木糖醇牙膏——柔软甜味，龋齿防护兼清新 #牙膏 #木糖醇牙膏
+Hydrated silica — soft abrasion that polishes without harshness 🧑‍🔬 #SilicaSoft #GentlePolish #toothpaste | 水合二氧化硅——柔软研磨，抛光不粗糙 #牙膏 #木糖醇牙膏
+Niacinamide for gums — soft, soothing, supports gum barrier comfort 🩹 #GumSoft #NiacinamideCare #toothpaste | 烟酰胺护龈——柔软舒缓，支持牙龈屏障舒适 #牙膏 #木糖醇牙膏
+RDA of 70 — soft on enamel, safe for daily use ✅ #RDA70 #EnamelSafe #toothpaste | RDA值70——对牙釉质柔软，日常使用安全 #牙膏 #木糖醇牙膏
+Low-impact sweetener — soft, gentle on teeth 🧬 #GentleSweetener #SoftChoice #toothpaste | 低负担甜味剂——柔软温和护齿 #牙膏 #木糖醇牙膏
+Spherical silica particles — soft, no micro-scratches, gentle clean 🧑‍🔬 #SoftParticles #GentleClean #toothpaste | 球形二氧化硅颗粒——柔软无微划痕温和清洁 #牙膏 #木糖醇牙膏
+Niacinamide for soft gum comfort — formulated for sensitive mouths 🧬 #GumSoft #SensitiveCare #toothpaste | 烟酰胺柔软牙龈舒适——配方为敏感口腔设计 #牙膏 #木糖醇牙膏
+Formulated for daily use — soft, lasting gum support over time 📊 #DailySoft #LongTermCare #toothpaste | 配方为日常使用——柔软持久支持牙龈 #牙膏 #木糖醇牙膏
+Fluoride supports acid-resistant enamel — soft, protective 🧑‍🔬 #FluorideSoft #EnamelProtect #toothpaste | 氟化物支持耐酸牙釉质——柔软防护 #牙膏 #木糖醇牙膏
+Xylitol — soft on teeth, hard on cavity-causing bacteria 🧬 #XylitolSoft #CavityWin #toothpaste | 木糖醇——对牙齿柔软，对龋齿菌强效 #牙膏 #木糖醇牙膏
+Consistent silica cleaning — soft, uniform polish performance 📏 #SilicaClean #SoftPolish #toothpaste | 二氧化硅清洁一致——柔软均匀抛光 #牙膏 #木糖醇牙膏
+Niacinamide calms gum comfort — soft, soothing over time 🧬 #NiacinamideSoft #GumCalm #toothpaste | 烟酰胺安抚牙龈舒适——柔软舒缓随时间 #牙膏 #木糖醇牙膏
+Neutral pH — soft, gentle on enamel, no acid attack ✅ #NeutralpH #EnamelGentle #toothpaste | pH中性——柔软对牙釉质温和无酸蚀 #牙膏 #木糖醇牙膏
+Xylitol supports healthy saliva — soft, natural mouth comfort 💧 #SalivaSoft #MouthComfort #toothpaste | 木糖醇支持健康唾液——柔软天然口腔舒适 #牙膏 #木糖醇牙膏
+Sodium fluoride at dentist-recommended level — soft, professional standard 🧑‍🔬 #FluorideSoft #ProStandard #toothpaste | 牙医推荐水平的氟化钠——柔软专业标准 #牙膏 #木糖醇牙膏
+Niacinamide calms gum comfort — soft, gentle, soothing over time 🧬 #GumSoothe #NiacinamideCare #toothpaste | 烟酰胺安抚牙龈舒适——柔软温和随时间舒缓 #牙膏 #木糖醇牙膏
+Soft abrasivity design — gentle daily brushing, no enamel compromise ✅ #SoftAbrasion #DailyGentle #toothpaste | 柔软研磨设计——日常温和刷牙不伤牙釉质 #牙膏 #木糖醇牙膏
+Sorbitol humectant — soft, consistent texture from first to last use 💧 #SoftTexture #ConsistentPaste #toothpaste | 山梨糖醇保湿——柔软质感从第一到最后一致 #牙膏 #木糖醇牙膏
