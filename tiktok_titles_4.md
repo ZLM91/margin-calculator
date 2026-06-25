@@ -54,7 +54,7 @@ Derm-approved routine: disposable towels at every single step ✅ #DermRoutine #
 Morning rush: splash, disposable towel, go — still camera-ready ⏰ #MorningRush #CameraReady #facetowel | 晨间赶时间：泼水、一次性洗脸巾、走人——仍上镜 #一次性洗脸巾 #洗脸巾
 Night wind-down: hot towel compress, mask, disposable towel, sleep 🌙 #WindDown #FourSteps #facetowel | 夜间放松：热毛巾敷脸、面膜、一次性洗脸巾、睡 #一次性洗脸巾 #洗脸巾
 Post-beach care: rinse, disposable towel, aloe, repeat 🏖 #PostBeach #BeachCare #facetowel | 海滩后：冲、一次性洗脸巾、芦荟、循环 #一次性洗脸巾 #洗脸巾
-Sensitive skin routine: gentle cleanser → soft disposable towel → barrier cream 💕 #SensitiveRoutine #ThreeCalm #facetowel | 敏感肌流程：温和洁面→柔软一次性洗脸巾→屏障霜 #一次性洗脸巾 #洗脸巾
+Sensitive skin routine: gentle cleanser → soft disposable towel → moisturizer 💕 #SensitiveRoutine #ThreeCalm #facetowel | 敏感肌流程：温和洁面→柔软一次性洗脸巾→屏障霜 #一次性洗脸巾 #洗脸巾
 Winter skincare: warm water → thick disposable towel → rich moisturizer ❄️ #WinterRoutine #RichCare #facetowel | 冬季护肤：温水→厚实一次性洗脸巾→丰润面霜 #一次性洗脸巾 #洗脸巾
 Summer skincare: cold water → cooling disposable towel → gel moisturizer ☀️ #SummerRoutine #CoolCare #facetowel | 夏季护肤：冷水→清凉一次性洗脸巾→凝胶面霜 #一次性洗脸巾 #洗脸巾
 3-product routine: cleanser → disposable towel → SPF = skin transformation ✨ #3Products #SkinTransform #facetowel | 3款产品流程：洁面→一次性洗脸巾→防晒=皮肤蜕变 #一次性洗脸巾 #洗脸巾
@@ -65,7 +65,7 @@ PM routine: floss → niacinamide paste → tongue scraper → sleep 🌙 #PMrou
 Post-coffee: water → xylitol gum → silica paste at night ☕ #PostCoffee #TwoStepSave #toothpaste | 喝咖啡后：水→木糖醇口香糖→晚上用二氧化硅牙膏 #牙膏 #木糖醇牙膏
 2-minute AM brush = full dental health upgrade ⏱️ #2Minute #HealthUpgrade #toothpaste | 2分钟晨间刷牙=完整牙科健康升级 #牙膏 #木糖醇牙膏
 Sunday dental reset: deep brush → floss → fluoride rinse → tongue care 🧘 #SundayDental #DeepCare #toothpaste | 周日牙齿重置：深度刷牙→牙线→氟漱口→舌护理 #牙膏 #木糖醇牙膏
-Dentist-recommended brushing order: 45° angle, gum-line first 🪥 #BrushingOrder #DentistOrder #toothpaste | 牙医推荐刷牙顺序：45度角牙龈线先刷 #牙膏 #木糖醇牙膏
+Smart brushing order: 45° angle, gum-line first, gentle circles 🪥 #BrushingOrder #SmartBrushing #toothpaste | 聪明刷牙顺序：45度角牙龈线先刷轻柔打圈 #牙膏 #木糖醇牙膏
 Night upgrade: xylitol paste + waterpik = morning freshness guaranteed 💧 #NightUpgrade #Waterpik #toothpaste | 夜间升级：木糖醇牙膏+水牙线=早晨清新保证 #牙膏 #木糖醇牙膏
 Dentist-approved 3-step: brush → floss → xylitol rinse ✅ #ThreeStep #DentistApproved #toothpaste | 牙医批准3步：刷牙→牙线→木糖醇漱口 #牙膏 #木糖醇牙膏
 5-minute evening routine saves thousands in dental bills 💰 #5MinSave #BillSaver #toothpaste | 5分钟晚间流程省下数千牙科账单 #牙膏 #木糖醇牙膏
