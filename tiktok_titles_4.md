@@ -53,7 +53,7 @@ Microneedling aftercare: disposable towel only, no exceptions 🩹 #MicroAfterca
 Derm-approved routine: disposable towels at every single step ✅ #DermRoutine #EveryStep #facetowel | 皮肤科批准流程：每一步用一次性洗脸巾 #一次性洗脸巾 #洗脸巾
 Morning rush: splash, disposable towel, go — still camera-ready ⏰ #MorningRush #CameraReady #facetowel | 晨间赶时间：泼水、一次性洗脸巾、走人——仍上镜 #一次性洗脸巾 #洗脸巾
 Night wind-down: hot towel compress, mask, disposable towel, sleep 🌙 #WindDown #FourSteps #facetowel | 夜间放松：热毛巾敷脸、面膜、一次性洗脸巾、睡 #一次性洗脸巾 #洗脸巾
-Post-beach care: rinse, disposable towel, aloe, repeat 🏖 #PostBeach #BeachCare #facetowel | 海滩后：冲、一次性洗脸巾、芦荟、循环 #一次性洗脸巾 #洗脸巾
+Post-beach care: rinse, disposable towel, moisturize, repeat 🏖 #PostBeach #BeachCare #facetowel | 海滩后：冲、一次性洗脸巾、保湿、循环 #一次性洗脸巾 #洗脸巾
 Sensitive skin routine: gentle cleanser → soft disposable towel → moisturizer 💕 #SensitiveRoutine #ThreeCalm #facetowel | 敏感肌流程：温和洁面→柔软一次性洗脸巾→屏障霜 #一次性洗脸巾 #洗脸巾
 Winter skincare: warm water → thick disposable towel → rich moisturizer ❄️ #WinterRoutine #RichCare #facetowel | 冬季护肤：温水→厚实一次性洗脸巾→丰润面霜 #一次性洗脸巾 #洗脸巾
 Summer skincare: cold water → cooling disposable towel → gel moisturizer ☀️ #SummerRoutine #CoolCare #facetowel | 夏季护肤：冷水→清凉一次性洗脸巾→凝胶面霜 #一次性洗脸巾 #洗脸巾
