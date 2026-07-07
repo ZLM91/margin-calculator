@@ -10,7 +10,7 @@ Biodegradable in weeks. Plastic-pack-free. Sustainability built in 🌍 #Biodegr
 Quilted, thick, strong — won't fall apart mid-wipe, even on tough messes 💪 #WonTear #QuiltedStrong #wipes #wetwips #toiletpaper | 压花厚实强韧——再脏的清理也不破 #湿厕纸 #益生菌湿厕纸
 Gentle, safe, family-friendly — trusted for everyday use ✅ #FamilySafe #GentleCare #wipes #wetwips #toiletpaper | 温和安全全家友好——日常放心用 #湿厕纸 #益生菌湿厕纸
 Period residue on underwear? These wipes get the fabric clean too 🩸 #PeriodResidue #FabricClean #wipes #wetwips #toiletpaper | 内裤上经期残留？这款也能把布面擦净 #湿厕纸 #益生菌湿厕纸
-Probiotic wet wipes — gentle support for sensitive areas 🦠 #ProbioticCare #GentleSupport #wipes #wetwips #toiletpaper | 双菌株益生菌组合——敏感区加强支持 #湿厕纸 #益生菌湿厕纸
+Probiotic wet wipes — gentle support for sensitive areas 🦠 #ProbioticCare #GentleSupport #wipes #wetwips #toiletpaper | 益生菌+水——敏感区温和支持 #湿厕纸 #益生菌湿厕纸
 After-gym freshness fast — way quicker than a full shower 🏋 #GymFresh #QuickRefresh #wipes #wetwips #toiletpaper | 健身后快速恢复清爽——比淋浴快得多 #湿厕纸 #益生菌湿厕纸
 No clogged pipes — design, worry-free 💧 # #NoClog #wipes #wetwips #toiletpaper | 不堵管道——可冲散设计无烦恼 #湿厥纸 #益生菌湿厥纸
 Probiotic + water — gentle, soothing, fresh clean 🍃 #ProbioticClean #GentleSoothe #wipes #wetwips #toiletpaper | 益生菌+水——温和清洁 #湿厕纸 #益生菌湿厕纸
@@ -31,7 +31,7 @@ Hotel-grade clean without hotel TP — the difference travelers notice 🏨 #Hot
 Post-flight dryness? Marigold hydrates as it cleans ✈️ #HydratingClean #InFlightCare #wipes #wetwips #toiletpaper #travelsize | 飞行后局部干燥？金盏花边清洁边补水 #旅行装湿厕纸 #金盏花
 Marigold — gentle, fresh, no harsh chemicals 🌿 #MarigoldFresh #ChemicalFree #wipes #wetwips #toiletpaper #travelsize | 金盏花——温和清爽无硬化学剂 #旅行装湿厥纸 #金盏花
 Beach, pool, gym — chlorine and salt water rinse off clean 🏊 #PostSwimClean #ChlorineRinse #wipes #wetwips #toiletpaper #travelsize | 海滩、泳池、健身——氯和盐水冲净无残留 #旅行装湿厕纸 #金盏花
-Marigold travel wipes — gentle, no dryness on long trips 🛡 #MarigoldSoft #NoDryness #wipes #wetwips #toiletpaper #travelsize | 配方中维E防止长旅途用后干燥 #旅行装湿厕纸 #金盏花
+Marigold travel wipes — gentle, no dryness on long trips 🛡 #MarigoldSoft #NoDryness #wipes #wetwips #toiletpaper #travelsize | 配方防止长旅途用后干燥 #旅行装湿厕纸 #金盏花
 Single-use sachets = no contamination from sticky fingers in transit 🚫 #NoContam #SingleUse #wipes #wetwips #toiletpaper #travelsize | 单片独立装=旅行中粘手也不污染 #旅行装湿厕纸 #金盏花
 Hostel dorms, Airbnb shared bathrooms — clean comfort anywhere 🛏️ #AnywhereClean #SharedBath #wipes #wetwips #toiletpaper #travelsize | 旅舍宿舍、民宿公用卫——哪都清爽 #旅行装湿厕纸 #金盏花
 Marigold travel wipes — gentle, calming, fragrance-free 🌸 #FragranceFree #MarigoldSoft #wipes #wetwips #toiletpaper #travelsize | 金盏花香味——清淡舒缓不浓烈 #旅行装湿厕纸 #金盏花
