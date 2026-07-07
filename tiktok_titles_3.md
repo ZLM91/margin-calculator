@@ -24,7 +24,7 @@ Gentle ingredients — safe on skin, fresh feel every time 🌊 #GentleIngredien
 Marigold soothes chafing from long flights, hikes, runs 🦵 #CalendulaSoothe #AntiChafe #wipes #wetwips #toiletpaper #travelsize | 金盏花舒缓长飞机、徒步、跑步摩擦红肿 #旅行装湿厕纸 #金盏花
 3-1-1 compliant 10-packs — fits in TSA quart-size bag with room to spare ✅ #TSA311 #QuartFit #wipes #wetwips #toiletpaper #travelsize | 3-1-1合规10片——TSA夸脱袋宽松装下 #旅行装湿厕纸 #金盏花
 Sachet design = zero contamination from sticky travel fingers 🚫 #ZeroContam #SachetSafe #wipes #wetwips #toiletpaper #travelsize | 独立包装=旅行中粘手也零污染 #旅行装湿厕纸 #金盏花
-Marigold travel wipes — post-sun, post-hike, post-flight relief 🌞 #MarigoldSoft #TravelRelief #wipes #wetwips #toiletpaper #travelsize | 金盏花=晒后、徒步后、飞行后舒缓三件套 #旅行装湿厕纸 #金盏花
+Marigold travel wipes — post-sun, post-hike, post-flight relief 🌞 #MarigoldSoft #TravelRelief #wipes #wetwips #toiletpaper #travelsize | 金盏花=晒后、徒步后、飞行后舒缓 #旅行装湿厕纸 #金盏花
 Marigold — gentle, soothing, no sting, no irritation 🔬 #MarigoldCare #GentleSoothe #wipes #wetwips #toiletpaper #travelsize | 金盏花——温和舒缓不刺不痒 #旅行装湿厥纸 #金盏花
 0.05lb per pack — barely registers in backpack weight ⚖️ #LightPack #TravelLight #wipes #wetwips #toiletpaper #travelsize | 单包0.05磅——背包几乎无感 #旅行装湿厕纸 #金盏花
 Marigold — fresh and clean on long transit days 🦠 #FreshTravel #TransitReady #wipes #wetwips #toiletpaper #travelsize | 金盏花——长旅途也清爽干净 #旅行装湿厥纸 #金盏花
@@ -34,7 +34,7 @@ Marigold travel wipes — gentle, no dryness like other wipes 🌿 #MarigoldSoft
 Cruise ship, hostel, Airbnb — clean comfort in any shared bathroom 🛏️ #SharedBath #AnywhereClean #wipes #wetwips #toiletpaper #travelsize | 邮轮、旅舍、民宿——共用卫也清爽 #旅行装湿厕纸 #金盏花
 Marigold travel wipes — gentle, calming, fragrance-free 🌸 #FragranceFree #MarigoldSoft #wipes #wetwips #toiletpaper #travelsize | 金盏花淡香——舒缓不浓烈 #旅行装湿厕纸 #金盏花
 Train, plane, bus, car — motion sickness clean-up ready 🚆 #MotionReady #TransitUse #wipes #wetwips #toiletpaper #travelsize | 火车、飞机、公交、汽车——晕动应急就绪 #旅行装湿厕纸 #金盏花
-Festival porta-potties, public restrooms, roadside stops — the trifecta 🚽 #TransitTrifecta #AnyRestroom #wipes #wetwips #toiletpaper #travelsize | 音乐节公厕、公共卫生间、路边停——三件套搞定 #旅行装湿厕纸 #金盏花
+Festival porta-potties, public restrooms, roadside stops — the trifecta 🚽 #TransitTrifecta #AnyRestroom #wipes #wetwips #toiletpaper #travelsize | 音乐节公厕、公共卫生间、路边停——全搞定 #旅行装湿厕纸 #金盏花
 4×4 inch = single-use portion, no waste, no half-dry sheets 📐 #NoWaste #SinglePortion #wipes #wetwips #toiletpaper #travelsize | 4×4英寸——单次用量不浪费不半干 #旅行装湿厕纸 #金盏花
 Eco-friendly sachet — travel light, leave no trace 🌱 #LeaveNoTrace #EcoTravel #wipes #wetwips #toiletpaper #travelsize | 环保包装——轻装出行无痕旅行 #旅行装湿厥纸 #金盏花
 Post-workout refresh without a shower — gym bag essential 🏋 #GymRefresh #NoShower #wipes #wetwips #toiletpaper #travelsize | 健身后不淋浴也清爽——健身包必备 #旅行装湿厕纸 #金盏花
