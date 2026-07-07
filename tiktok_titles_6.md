@@ -15,7 +15,7 @@ Intimate skin has different needs — soft wipes designed for it 👀 #IntimateC
 Probiotic wet wipes — soft, gentle intimate care 🧬 #ProbioticCare #IntimateSoft #wipes #wetwips #toiletpaper | 益生菌+有益菌组合湿巾——柔软平衡私处护理 #湿厕纸 #益生菌湿厕纸
 Soft wet wipes — free from common skin sensitizers ✅ # #SensitiveSkin #wipes #wetwips #toiletpaper | 柔软低敏湿巾——不含常见皮肤致敏物 #湿厕纸 #益生菌湿厕纸
 Designed to match skin's natural balance — no stinging, no irritation 🧑‍🔬 #NoSting #SkinMatch #wipes #wetwips #toiletpaper | 设计匹配皮肤自然平衡——不刺不痒 #湿厕纸 #益生菌湿厕纸
-Probiotic wet wipes — soft, calming, gentle on skin 🌼 #ProbioticClean #SoftCalm #wipes #wetwips #toiletpaper | 洋甘菊+益生菌组合——柔软镇静平衡肌肤 #湿厕纸 #益生菌湿厕纸
+Probiotic wet wipes — soft, calming, gentle on skin 🌼 #ProbioticClean #SoftCalm #wipes #wetwips #toiletpaper | 益生菌组合——柔软镇静平衡肌肤 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 Marigold wet wipes — soft, soothing, gentle on sensitive travel skin 🧬 #MarigoldCare #TravelGentle #wipes #wetwips #toiletpaper #travelsize | 金盏花湿厕纸——柔软舒缓，温和呵护旅途敏感肌 #旅行装湿厕纸 #金盏花
