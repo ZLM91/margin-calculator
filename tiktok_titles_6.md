@@ -40,7 +40,7 @@ Soft seal that keeps wipes moist — travel-ready freshness 🛢 #SoftSeal #Trav
 ### 🧖 一次性洗脸巾 Disposable Face Towels
 Single-use disposable towels — soft, fresh, no bacteria transfer 🧬 #BacteriaFree #SoftSingle #facetowel | 一次性洗脸巾——柔软清新，零细菌传递 #一次性洗脸巾 #洗脸巾
 Single-use means no cross-contamination — soft, hygienic, safe ✅ #HygieneFirst #SoftSafe #facetowel | 一次性=无交叉污染——柔软卫生安全 #一次性洗脸巾 #洗脸巾
-Bamboo-fiber disposable towels — soft, natural, skin-friendly 🌿 #BambooSoft #NaturalFriendly #facetowel | 竹纤维一次性洗脸巾——柔软天然亲肤 #一次性洗脸巾 #洗脸巾
+Plant-fiber disposable towels — soft, natural, skin-friendly 🌿 #BambooSoft #NaturalFriendly #facetowel | 植物纤维一次性洗脸巾——柔软天然亲肤 #一次性洗脸巾 #洗脸巾
 Disposable towels = no face cloth laundry — soft, simple, water-saving 💧 #SaveWater #SoftSimple #facetowel | 一次性洗脸巾=无面布清洗——柔软简单节水 #一次性洗脸巾 #洗脸巾
 Soft nonwoven technology — gentle, cloud-like feel 🧑‍🔬 #SoftNonwoven #CloudFeels #facetowel | 柔软无纺布技术——温和云朵触感 #一次性洗脸巾 #洗脸巾
 Single-use fresh contact — soft, clean, no buildup, no residue 📊 #FreshContact #SoftClean #facetowel | 一次一巾清新接触——柔软清洁无积累无残留 #一次性洗脸巾 #洗脸巾
