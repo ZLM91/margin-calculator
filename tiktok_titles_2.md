@@ -25,7 +25,7 @@ Marigold wipes — gentle, soothing, fresh on the go 🌼 #MarigoldCare #FreshTr
 TSA-compliant 10-packs: 3-1-1 rule friendly, fits in quart-size bag ✅ #TSACompliant #QuartBagFit #wipes #wetwips #toiletpaper #travelsize | TSA合规10片装——3-1-1规则友好 #旅行装湿厕纸 #金盏花
 Resealable travel pouch — wipes stay moist, no dry-out 🔒 #StaysMoist #SealedFresh #wipes #wetwips #toiletpaper #travelsize | 旅行密封袋——持久保湿不干燥 #旅行装湿厕纸 #金盏花
 Chafing from long walks? Marigold soothes and calms 🦵 #ChafeRelief #MarigoldCalm #wipes #wetwips #toiletpaper #travelsize | 长走摩擦红肿？金盏花舒缓镇静 #旅行装湿厕纸 #金盏花
-Marigold + water — travel-soothing, gentle, fresh 🥒 #MarigoldSoft #TravelGentle #wipes #wetwips #toiletpaper #travelsize | 金盏花=旅行舒缓三件套 #旅行装湿厕纸 #金盏花
+Marigold + water — travel-soothing, gentle, fresh 🥒 #MarigoldSoft #TravelGentle #wipes #wetwips #toiletpaper #travelsize | 金盏花=旅行舒缓 #旅行装湿厕纸 #金盏花
 Compact 0.05lb per pack — lighter than your phone, more useful 📱 #LighterThanPhone #UltraCompact #wipes #wetwips #toiletpaper #travelsize | 单包0.05磅——比手机轻，比手机有用 #旅行装湿厕纸 #金盏花
 Hotel-grade clean without hotel TP — the difference travelers notice 🏨 #HotelGrade #TPdifference #wipes #wetwips #toiletpaper #travelsize | 酒店级清洁不靠酒店厕纸——旅客秒懂 #旅行装湿厕纸 #金盏花
 Post-flight dryness? Marigold hydrates as it cleans ✈️ #HydratingClean #InFlightCare #wipes #wetwips #toiletpaper #travelsize | 飞行后局部干燥？金盏花边清洁边补水 #旅行装湿厕纸 #金盏花
