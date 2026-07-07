@@ -17,14 +17,14 @@ Quilted pattern distributes moisture evenly — no dry spots 🍂 #EvenMoisture 
 Cold in winter, hot in summer — these work at every temperature 🌡️ #AllTemp #YearRound #wipes #wetwips #toiletpaper | 冬冷夏热——全季温度都好用 #湿厕纸 #益生菌湿厕纸
 Resealable lid keeps wipes from drying out between uses 🔒 #ResealLid #StaysMoist #wipes #wetwips #toiletpaper | 翻盖密封防干燥 #湿厕纸 #益生菌湿厕纸
 Plant-based fabric — soft, no plastic microfibers 🌿 #PlantBased #SoftFabric #wipes #wetwips #toiletpaper | 100%植物纤维——竹纤维无塑微纤 #湿厕纸 #益生菌湿厕纸
-Cleansing + deodorizing + soothing in one sheet — three benefits, one wipe ✨ #ThreeInOne #AllBenefits #wipes #wetwips #toiletpaper | 清洁+除味+舒缓——一片三效 #湿厕纸 #益生菌湿厕纸
+Cleansing + deodorizing + soothing in one sheet — three benefits, one wipe ✨ #ThreeInOne #AllBenefits #wipes #wetwips #toiletpaper | 清洁+除味+舒缓——一片温和 #湿厕纸 #益生菌湿厕纸
 Gentle ingredients — safe on skin, fresh feel every time 🌊 #GentleIngredients #SkinSafe #wipes #wetwips #toiletpaper | 温和成分——亲肤每次清爽 #湿厥纸 #益生菌湿厥纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 Marigold soothes chafing from long flights, hikes, runs 🦵 #CalendulaSoothe #AntiChafe #wipes #wetwips #toiletpaper #travelsize | 金盏花舒缓长飞机、徒步、跑步摩擦红肿 #旅行装湿厕纸 #金盏花
 3-1-1 compliant 10-packs — fits in TSA quart-size bag with room to spare ✅ #TSA311 #QuartFit #wipes #wetwips #toiletpaper #travelsize | 3-1-1合规10片——TSA夸脱袋宽松装下 #旅行装湿厕纸 #金盏花
 Sachet design = zero contamination from sticky travel fingers 🚫 #ZeroContam #SachetSafe #wipes #wetwips #toiletpaper #travelsize | 独立包装=旅行中粘手也零污染 #旅行装湿厕纸 #金盏花
-Marigold travel wipes — post-sun, post-hike, post-flight relief 🌞 #MarigoldSoft #TravelRelief #wipes #wetwips #toiletpaper #travelsize | 金盏花+芦荟+维E=晒后、徒步后、飞行后舒缓三件套 #旅行装湿厕纸 #金盏花
+Marigold travel wipes — post-sun, post-hike, post-flight relief 🌞 #MarigoldSoft #TravelRelief #wipes #wetwips #toiletpaper #travelsize | 金盏花=晒后、徒步后、飞行后舒缓三件套 #旅行装湿厕纸 #金盏花
 Marigold — gentle, soothing, no sting, no irritation 🔬 #MarigoldCare #GentleSoothe #wipes #wetwips #toiletpaper #travelsize | 金盏花——温和舒缓不刺不痒 #旅行装湿厥纸 #金盏花
 0.05lb per pack — barely registers in backpack weight ⚖️ #LightPack #TravelLight #wipes #wetwips #toiletpaper #travelsize | 单包0.05磅——背包几乎无感 #旅行装湿厕纸 #金盏花
 Marigold — fresh and clean on long transit days 🦠 #FreshTravel #TransitReady #wipes #wetwips #toiletpaper #travelsize | 金盏花——长旅途也清爽干净 #旅行装湿厥纸 #金盏花
@@ -55,7 +55,7 @@ Removes long-wear foundation, sunscreen, and stage makeup in one wipe 💄 #Make
 Soft enough for baby face, strong enough for eye makeup removal 👶 #BabySoft #MakeupStrong #facetowel | 婴儿脸够软、眼卸妆力够强 #一次性洗脸巾 #洗脸巾
 No dyes, fragrances, or bleach — pure cotton, pure clean 🤍 #PureCotton #ThreeFree #facetowel | 无染料无香精无漂白——纯棉纯净 #一次性洗脸巾 #洗脸巾
 Skip extra laundry loads — fewer wash cycles means less water and energy 💧 #SaveLoads #EcoSmart #facetowel | 省去额外洗衣次数——少洗节水节能 #一次性洗脸巾 #洗脸巾
-Use one side for makeup, flip for cleansing — double the use, half the waste 🔄 #DoubleUse #HalfWaste #facetowel | 一面卸妆翻面清洁——双效减废 #一次性洗脸巾 #洗脸巾
+Use one side for makeup, flip for cleansing — double the use, half the waste 🔄 #DoubleUse #HalfWaste #facetowel | 一面卸妆翻面清洁——温和减废 #一次性洗脸巾 #洗脸巾
 Cold rinse + disposable towel = redness-free post-cleanse finish ❄️ #NoRedness #ColdRinse #facetowel | 冷水+一次性洗脸巾=清洁后零泛红 #一次性洗脸巾 #洗脸巾
 Texture so soft — gentle enough for rosacea and eczema ✅ #SensitiveSafe #GentleSoft #facetowel | 触感极软——温和适合酒渣肌和湿疹 #一次性洗脸巾 #洗脸巾
 80-count pack = full month supply, value that beats cotton rolls 📅 #MonthlyValue #80Count #facetowel | 80片一包=整月用量，超值胜过棉卷 #一次性洗脸巾 #洗脸巾
