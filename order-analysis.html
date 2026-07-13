@@ -286,7 +286,7 @@ td input.wide { width: 120px; }
 <body>
 <div class="container">
   <h1>TikTok Shop 订单盈利分析</h1>
-  <p class="subtitle">上传 TikTok Shop 订单导出文件，自动计算每日盈利 | 收入 = 平台折扣(P) + 折后小计(R) | 样品订单（收入=0且未取消）计入产品成本+尾程运费，不计佣金</p>
+  <p class="subtitle" id="subtitle">上传 TikTok Shop 订单导出文件，自动计算每日盈利 | 收入 = 平台折扣 + 折后小计 | 样品订单（收入=0且未取消）计入产品成本+尾程运费，不计佣金</p>
 
   <!-- Country Tabs -->
   <div class="country-tabs">
@@ -354,10 +354,10 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>达人订单</th>
               <th>样品单</th>
-              <th>总收入($)</th>
-              <th>产品成本($/件)</th>
-              <th>尾程运费($/件)</th>
-              <th>海外仓费($/件)</th>
+              <th>总收入(<span data-cur>$</span>)</th>
+              <th>产品成本(<span data-cur>$</span>/件)</th>
+              <th>尾程运费(<span data-cur>$</span>/件)</th>
+              <th>海外仓费(<span data-cur>$</span>/件)</th>
               <th>达人佣金(%)</th>
               <th>平台扣点(%)</th>
             </tr>
@@ -377,8 +377,8 @@ td input.wide { width: 120px; }
           <tr>
             <th>日期</th>
             <th>订单数</th>
-            <th>总收入($)</th>
-            <th>推广费用($)</th>
+            <th>总收入(<span data-cur>$</span>)</th>
+            <th>推广费用(<span data-cur>$</span>)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -399,15 +399,15 @@ td input.wide { width: 120px; }
               <th>订单数</th>
               <th>样品单</th>
               <th>销量</th>
-              <th>总收入($)</th>
-              <th>产品成本($)</th>
-              <th>尾程运费($)</th>
-              <th>海外仓费($)</th>
-              <th>平台扣点($)</th>
-              <th>达人佣金($)</th>
-              <th>推广费($)</th>
-              <th>总成本($)</th>
-              <th>净利润($)</th>
+              <th>总收入(<span data-cur>$</span>)</th>
+              <th>产品成本(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
+              <th>海外仓费(<span data-cur>$</span>)</th>
+              <th>平台扣点(<span data-cur>$</span>)</th>
+              <th>达人佣金(<span data-cur>$</span>)</th>
+              <th>推广费(<span data-cur>$</span>)</th>
+              <th>总成本(<span data-cur>$</span>)</th>
+              <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
               <th>ROI</th>
             </tr>
@@ -430,15 +430,15 @@ td input.wide { width: 120px; }
               <th>产品名</th>
               <th>订单数</th>
               <th>销量</th>
-              <th>总收入($)</th>
-              <th>产品成本($)</th>
-              <th>尾程运费($)</th>
-              <th>海外仓费($)</th>
-              <th>平台扣点($)</th>
-              <th>达人佣金($)</th>
-              <th>推广费分摊($)</th>
-              <th>总成本($)</th>
-              <th>净利润($)</th>
+              <th>总收入(<span data-cur>$</span>)</th>
+              <th>产品成本(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
+              <th>海外仓费(<span data-cur>$</span>)</th>
+              <th>平台扣点(<span data-cur>$</span>)</th>
+              <th>达人佣金(<span data-cur>$</span>)</th>
+              <th>推广费分摊(<span data-cur>$</span>)</th>
+              <th>总成本(<span data-cur>$</span>)</th>
+              <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
               <th>ROI</th>
             </tr>
@@ -461,6 +461,25 @@ let promoCosts = {};   // { 'MM/DD/YYYY': amount }
 let uniqueDates = [];
 let uniqueSkus = [];
 let statusCounts = {};
+let cur = '$'; // currency symbol: '$' for US, '£' for UK
+
+// ===== Parse amount from Excel (handles "GBP 3.15", "£10.00", plain numbers, etc.) =====
+function parseAmount(val) {
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  const match = String(val).replace(/,/g, '').match(/-?\d+\.?\d*/);
+  return match ? parseFloat(match[0]) : 0;
+}
+
+// Format money with current currency symbol
+function money(amount) { return cur + amount.toFixed(2); }
+
+// Update all static $ labels in HTML to current currency
+function updateCurrencyLabels() {
+  document.querySelectorAll('[data-cur]').forEach(el => {
+    el.textContent = cur;
+  });
+}
 
 // ===== Country Switch =====
 function switchCountry(country) {
@@ -474,9 +493,11 @@ function switchCountry(country) {
 
   // Switch
   currentCountry = country;
+  cur = country === 'UK' ? '£' : '$';
   document.querySelectorAll('.country-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.country === country);
   });
+  updateCurrencyLabels();
 
   // Reset state
   skuSettings = {};
@@ -597,8 +618,8 @@ function parseOrders(rows) {
     }
 
     const sku = String(r[colMap.sku] || 'Unknown').trim();
-    const platformDiscount = parseFloat(r[colMap.platformDiscount]) || 0;
-    const subtotalAfter = parseFloat(r[colMap.subtotalAfter]) || 0;
+    const platformDiscount = parseAmount(r[colMap.platformDiscount]);
+    const subtotalAfter = parseAmount(r[colMap.subtotalAfter]);
     const quantity = parseInt(r[colMap.quantity]) || 1;
     const status = String(r[colMap.orderStatus] || '').trim();
     const creator = (colMap.creatorHandle >= 0 && r[colMap.creatorHandle]) ? String(r[colMap.creatorHandle]).trim() : '';
@@ -919,17 +940,17 @@ function renderCards(orders, revenue, cost, profit) {
     </div>
     <div class="card">
       <div class="card-label">总收入</div>
-      <div class="card-value revenue">$${revenue.toFixed(2)}</div>
-      <div class="card-sub">P + R 之和${sampleCount > 0 ? `（样品单收入=0）` : ''}</div>
+      <div class="card-value revenue">${cur}${revenue.toFixed(2)}</div>
+      <div class="card-sub">平台折扣 + 折后小计${sampleCount > 0 ? `（样品单收入=0）` : ''}</div>
     </div>
     <div class="card">
       <div class="card-label">总成本</div>
-      <div class="card-value" style="color:var(--loss)">$${cost.toFixed(2)}</div>
-      <div class="card-sub">产品+物流+仓+佣金+推广${sampleCost > 0 ? `<br>样品成本 $${sampleCost.toFixed(2)}` : ''}</div>
+      <div class="card-value" style="color:var(--loss)">${cur}${cost.toFixed(2)}</div>
+      <div class="card-sub">产品+物流+仓+佣金+推广${sampleCost > 0 ? `<br>样品成本 ${cur}${sampleCost.toFixed(2)}` : ''}</div>
     </div>
     <div class="card">
       <div class="card-label">净利润</div>
-      <div class="card-value ${profitClass}">$${profit.toFixed(2)}</div>
+      <div class="card-value ${profitClass}">${cur}${profit.toFixed(2)}</div>
       <div class="card-sub">利润率 ${margin}% | ROI ${roi}</div>
     </div>
   `;
@@ -1218,6 +1239,10 @@ window.addEventListener('DOMContentLoaded', () => {
       if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
     } catch(e) {}
   }
+
+  // Set initial currency symbol
+  cur = currentCountry === 'UK' ? '£' : '$';
+  updateCurrencyLabels();
 });
 </script>
 </body>
