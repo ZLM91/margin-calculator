@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恢复 SKU 成本设置</title>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --profit: #16a34a;
+  --profit-bg: #dcfce7;
+  --loss: #dc2626;
+  --loss-bg: #fee2e2;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+h2 { font-size: 20px; font-weight: 600; margin: 24px 0 12px; }
+.subtitle { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.alert {
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.alert-info { background: var(--primary-light); color: var(--primary-dark); border: 1px solid #93c5fd; }
+.alert-success { background: var(--profit-bg); color: #15803d; border: 1px solid #86efac; }
+.alert-warning { background: var(--warning-bg); color: #b45309; border: 1px solid #fcd34d; }
+.alert-danger { background: var(--loss-bg); color: #b91c1c; border: 1px solid #fca5a5; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+thead { background: #f8fafc; }
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  border-bottom: 2px solid var(--border);
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr:hover { background: #f8fafc; }
+.has-value { color: var(--profit); font-weight: 600; }
+.zero-value { color: var(--muted); }
+
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 8px;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: #cbd5e1; }
+
+.country-section { margin-bottom: 32px; }
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.flag { font-size: 28px; }
+
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.stat-item {
+  background: #f8fafc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.stat-item strong { color: var(--primary); font-size: 16px; }
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.raw-data {
+  background: #1e293b;
+  color: #93c5fd;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.copy-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  cursor: pointer;
+  color: var(--muted);
+}
+.copy-btn:hover { background: #f1f5f9; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>SKU 成本设置恢复工具</h1>
+  <p class="subtitle">读取浏览器中保存的 SKU 成本数据 | 如果数据还在，可以直接回到分析页面使用</p>
+
+  <div id="result"></div>
+
+  <div style="margin-top: 24px;">
+    <a href="https://zlm91.github.io/margin-calculator/order-analysis.html" class="btn btn-primary">前往订单分析页面</a>
+    <button class="btn btn-secondary" onclick="location.reload()">重新检测</button>
+  </div>
+</div>
+
+<script>
+function checkData() {
+  const result = document.getElementById('result');
+  let html = '';
+
+  ['US', 'UK'].forEach(country => {
+    const countryName = country === 'US' ? '美国站' : '英国站';
+    const flag = country === 'US' ? '🇺🇸' : '🇬🇧';
+    const key = 'tiktok_order_analysis_' + country;
+    const raw = localStorage.getItem(key);
+
+    html += `<div class="country-section">`;
+    html += `<div class="country-header"><span class="flag">${flag}</span> ${countryName}</div>`;
+
+    if (!raw) {
+      html += `
+        <div class="alert alert-warning">
+          <strong>未找到${countryName}的保存数据</strong><br>
+          浏览器中没有存储过${countryName}的 SKU 设置，或者数据已被清除。
+        </div>`;
+    } else {
+      try {
+        const data = JSON.parse(raw);
+        const skus = data.skuSettings || {};
+        const promo = data.promoCosts || {};
+        const skuKeys = Object.keys(skus);
+
+        // Count SKUs with non-zero values
+        let hasCostCount = 0;
+        let totalCost = 0;
+        skuKeys.forEach(sku => {
+          const s = skus[sku];
+          const cost = (s.productCost || 0) + (s.shipping || 0) + (s.warehouse || 0);
+          if (cost > 0) {
+            hasCostCount++;
+            totalCost += cost;
+          }
+        });
+
+        // Count promo costs
+        let promoCount = 0;
+        let promoTotal = 0;
+        Object.values(promo).forEach(v => {
+          if (v > 0) { promoCount++; promoTotal += v; }
+        });
+
+        if (hasCostCount > 0) {
+          html += `
+            <div class="alert alert-success">
+              <strong>找到了${countryName}的成本数据！</strong><br>
+              共 ${skuKeys.length} 个 SKU，其中 ${hasCostCount} 个已填写成本（产品成本+尾程运费+海外仓费 合计 $${totalCost.toFixed(2)}/件）<br>
+              ${promoCount > 0 ? `推广费用：${promoCount} 天，合计 $${promoTotal.toFixed(2)}` : '无推广费用记录'}
+            </div>`;
+        } else {
+          html += `
+            <div class="alert alert-warning">
+              <strong>${countryName}有保存数据，但所有成本都是 0</strong><br>
+              共 ${skuKeys.length} 个 SKU，但产品成本和运费都未填写或已被重置为 0。
+            </div>`;
+        }
+
+        // Stats
+        html += `<div class="stats">`;
+        html += `<div class="stat-item">SKU 总数: <strong>${skuKeys.length}</strong></div>`;
+        html += `<div class="stat-item">已填成本: <strong>${hasCostCount}</strong></div>`;
+        html += `<div class="stat-item">默认平台扣点: <strong>${data.defaultPlatformPct || 8}%</strong></div>`;
+        html += `<div class="stat-item">默认达人佣金: <strong>${data.defaultCreatorPct || 10}%</strong></div>`;
+        html += `</div>`;
+
+        // SKU table
+        if (skuKeys.length > 0) {
+          html += `
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>SKU</th>
+                  <th>产品成本($/件)</th>
+                  <th>尾程运费($/件)</th>
+                  <th>海外仓费($/件)</th>
+                  <th>达人佣金(%)</th>
+                  <th>平台扣点(%)</th>
+                  <th>合计($/件)</th>
+                </tr>
+              </thead>
+              <tbody>`;
+          skuKeys.sort().forEach((sku, i) => {
+            const s = skus[sku];
+            const cost = (s.productCost || 0) + (s.shipping || 0) + (s.warehouse || 0);
+            const costClass = cost > 0 ? 'has-value' : 'zero-value';
+            html += `
+              <tr>
+                <td>${i + 1}</td>
+                <td><strong>${sku}</strong></td>
+                <td class="${(s.productCost || 0) > 0 ? 'has-value' : 'zero-value'}">${s.productCost || 0}</td>
+                <td class="${(s.shipping || 0) > 0 ? 'has-value' : 'zero-value'}">${s.shipping || 0}</td>
+                <td class="${(s.warehouse || 0) > 0 ? 'has-value' : 'zero-value'}">${s.warehouse || 0}</td>
+                <td>${s.creatorPct || 0}</td>
+                <td>${s.platformPct || 0}</td>
+                <td class="${costClass}">${cost.toFixed(2)}</td>
+              </tr>`;
+          });
+          html += `</tbody></table>`;
+        }
+
+        // Promo costs table
+        const promoKeys = Object.keys(promo).filter(d => promo[d] > 0);
+        if (promoKeys.length > 0) {
+          html += `<h2>推广费用记录</h2>`;
+          html += `<table><thead><tr><th>日期</th><th>推广费用($)</th></tr></thead><tbody>`;
+          promoKeys.sort().forEach(date => {
+            html += `<tr><td>${date}</td><td class="has-value">${promo[date]}</td></tr>`;
+          });
+          html += `</tbody></table>`;
+        }
+
+        // Raw data
+        html += `<h2>原始数据（JSON）</h2>`;
+        html += `<div style="position:relative;">`;
+        html += `<button class="copy-btn" style="position:absolute;top:8px;right:8px;z-index:1;" onclick="copyRaw('${country}')">复制</button>`;
+        html += `<div class="raw-data" id="raw_${country}">${JSON.stringify(data, null, 2)}</div>`;
+        html += `</div>`;
+
+      } catch (e) {
+        html += `
+          <div class="alert alert-danger">
+            <strong>数据解析失败</strong><br>
+            ${countryName}的保存数据格式错误: ${e.message}
+          </div>`;
+      }
+    }
+
+    html += `</div>`;
+  });
+
+  // Overall summary
+  const usRaw = localStorage.getItem('tiktok_order_analysis_US');
+  const ukRaw = localStorage.getItem('tiktok_order_analysis_UK');
+  const oldRaw = localStorage.getItem('tiktok_order_analysis');
+
+  let summary = '<div class="alert alert-info"><strong>诊断结果：</strong><br>';
+  let foundAny = false;
+
+  [ ['US', usRaw], ['UK', ukRaw] ].forEach(([country, raw]) => {
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        const skus = data.skuSettings || {};
+        const hasCost = Object.values(skus).some(s => (s.productCost || 0) + (s.shipping || 0) + (s.warehouse || 0) > 0);
+        if (hasCost) {
+          summary += `${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}：数据完好，可直接使用<br>`;
+          foundAny = true;
+        } else {
+          summary += `${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}：数据存在但成本为 0（可能已丢失）<br>`;
+        }
+      } catch(e) {
+        summary += `${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}：数据格式错误<br>`;
+      }
+    } else {
+      summary += `${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}：无保存数据<br>`;
+    }
+  });
+
+  if (oldRaw) {
+    summary += `<br>⚠️ 发现旧格式数据（tiktok_order_analysis），可能包含原始成本数据`;
+    foundAny = true;
+  }
+
+  if (foundAny) {
+    summary += `<br><br><strong>下一步：</strong>点击下方"前往订单分析页面"，上传你的订单 Excel，系统会自动加载这些保存的成本数据。`;
+  } else {
+    summary += `<br><br><strong>很遗憾，浏览器中没有找到已填写成本的数据。</strong>可能的原因：<br>`;
+    summary += `1. 自动保存未触发（输入后不到 800ms 就上传了新文件）<br>`;
+    summary += `2. 浏览器清除了缓存/数据<br>`;
+    summary += `3. 使用了不同的浏览器或隐私模式<br>`;
+    summary += `4. 之前未填写过成本数据`;
+  }
+  summary += '</div>';
+
+  result.innerHTML = summary + html;
+}
+
+function copyRaw(country) {
+  const el = document.getElementById('raw_' + country);
+  const text = el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('已复制到剪贴板');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('已复制到剪贴板');
+  });
+}
+
+// Run on load
+checkData();
+</script>
+</body>
+</html>
