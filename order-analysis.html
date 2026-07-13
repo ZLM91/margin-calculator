@@ -240,6 +240,32 @@ td input.wide { width: 120px; }
   font-weight: 500;
 }
 
+/* Country Tabs */
+.country-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.country-tab {
+  padding: 10px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.country-tab:hover { color: var(--text); }
+.country-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.country-tab .flag { font-size: 18px; margin-right: 6px; }
+
 /* Loading */
 .loading {
   display: inline-block;
@@ -262,11 +288,17 @@ td input.wide { width: 120px; }
   <h1>TikTok Shop 订单盈利分析</h1>
   <p class="subtitle">上传 TikTok Shop 订单导出文件，自动计算每日盈利 | 收入 = 平台折扣(P) + 折后小计(R) | 样品订单（收入=0且未取消）计入产品成本+尾程运费，不计佣金</p>
 
+  <!-- Country Tabs -->
+  <div class="country-tabs">
+    <button class="country-tab active" data-country="US" onclick="switchCountry('US')"><span class="flag">🇺🇸</span>美国站</button>
+    <button class="country-tab" data-country="UK" onclick="switchCountry('UK')"><span class="flag">🇬🇧</span>英国站</button>
+  </div>
+
   <!-- Upload Area -->
   <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
     <div class="upload-icon">📁</div>
     <p><strong>点击或拖拽 Excel 文件到此处</strong></p>
-    <p>支持 .xlsx / .xls 格式 · TikTok Shop 订单导出文件</p>
+    <p id="uploadHint">支持 .xlsx / .xls 格式 · TikTok Shop 订单导出文件</p>
     <input type="file" id="fileInput" accept=".xlsx,.xls">
   </div>
   <div id="fileInfo"></div>
@@ -421,12 +453,77 @@ td input.wide { width: 120px; }
 
 <script>
 // ===== Global State =====
+let currentCountry = 'US'; // 'US' or 'UK'
+let countryOrders = { US: null, UK: null }; // Store orders per country
 let allOrders = [];
 let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
 let promoCosts = {};   // { 'MM/DD/YYYY': amount }
 let uniqueDates = [];
 let uniqueSkus = [];
 let statusCounts = {};
+
+// ===== Country Switch =====
+function switchCountry(country) {
+  if (country === currentCountry) return;
+
+  // Save current country's settings first
+  saveSettings();
+
+  // Save current orders to the old country
+  countryOrders[currentCountry] = { allOrders: [...allOrders], uniqueSkus: [...uniqueSkus], uniqueDates: [...uniqueDates], statusCounts: { ...statusCounts } };
+
+  // Switch
+  currentCountry = country;
+  document.querySelectorAll('.country-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.country === country);
+  });
+
+  // Reset state
+  skuSettings = {};
+  promoCosts = {};
+
+  // Update upload hint
+  document.getElementById('uploadHint').textContent = `支持 .xlsx / .xls 格式 · ${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'} TikTok Shop 订单导出文件`;
+
+  // Try to load saved settings for the new country
+  const loaded = loadSettings(true);
+
+  // Restore orders for the new country if available
+  const saved = countryOrders[country];
+  if (saved && saved.allOrders && saved.allOrders.length > 0) {
+    allOrders = saved.allOrders;
+    uniqueSkus = saved.uniqueSkus;
+    uniqueDates = saved.uniqueDates;
+    statusCounts = saved.statusCounts;
+
+    // Re-render everything
+    const sampleCount = allOrders.filter(o => o.isSample).length;
+    const cancelledCount = allOrders.filter(o => o.isCancelled).length;
+    document.getElementById('fileInfo').innerHTML =
+      `<div class="file-info">✅ 已加载 ${allOrders.length} 条订单 | ${uniqueSkus.length} 个 SKU | ${uniqueDates.length} 天 | ${uniqueDates[0]} ~ ${uniqueDates[uniqueDates.length-1]}${sampleCount > 0 ? ` | 📦 样品订单 ${sampleCount} 单` : ''}${cancelledCount > 0 ? ` | ❌ 已取消 ${cancelledCount} 单` : ''}</div>`;
+    const sampleInfoEl = document.getElementById('sampleInfo');
+    if (sampleCount > 0) {
+      sampleInfoEl.textContent = `📦 ${sampleCount} 单样品订单（收入=0，状态≠已取消，计入产品成本+尾程运费）`;
+    } else {
+      sampleInfoEl.textContent = '';
+    }
+    document.getElementById('dataSections').classList.remove('hidden');
+    renderStatusFilters();
+    renderSkuTable();
+    renderPromoTable();
+    recalculate();
+  } else {
+    // No orders for this country, show upload area
+    allOrders = [];
+    uniqueSkus = [];
+    uniqueDates = [];
+    statusCounts = {};
+    document.getElementById('dataSections').classList.add('hidden');
+    document.getElementById('fileInfo').innerHTML = `<div class="file-info">${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'} — 请上传${country === 'US' ? '美国站' : '英国站'}订单 Excel 文件</div>`;
+  }
+
+  showToast(`已切换到 ${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}`);
+}
 
 // ===== Column mapping (detected by header name) =====
 let colMap = {};
@@ -528,6 +625,9 @@ function parseOrders(rows) {
   uniqueDates = [...new Set(allOrders.map(o => o.date))].filter(d => d).sort();
   statusCounts = {};
   allOrders.forEach(o => { statusCounts[o.status] = (statusCounts[o.status] || 0) + 1; });
+
+  // Store orders for current country
+  countryOrders[currentCountry] = { allOrders: [...allOrders], uniqueSkus: [...uniqueSkus], uniqueDates: [...uniqueDates], statusCounts: { ...statusCounts } };
 
   // Show file info
   const sampleCount = allOrders.filter(o => o.isSample).length;
@@ -994,8 +1094,8 @@ function autoSave() {
   clearTimeout(autoSaveTimer);
   autoSaveTimer = setTimeout(() => {
     const data = { skuSettings, promoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
-    localStorage.setItem('tiktok_order_analysis', JSON.stringify(data));
-    showToast('✅ 已自动保存');
+    localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
+    showToast('✅ 已自动保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
   }, 800);
 }
 
@@ -1015,14 +1115,14 @@ function showToast(msg) {
 
 function saveSettings() {
   const data = { skuSettings, promoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
-  localStorage.setItem('tiktok_order_analysis', JSON.stringify(data));
-  showToast('✅ 设置已保存到浏览器');
+  localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
+  showToast('✅ 设置已保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
 }
 
 function loadSettings(silent) {
-  const raw = localStorage.getItem('tiktok_order_analysis');
+  const raw = localStorage.getItem('tiktok_order_analysis_' + currentCountry);
   if (!raw) {
-    if (!silent) showToast('⚠️ 未找到已保存的设置');
+    if (!silent) showToast('⚠️ 未找到' + (currentCountry === 'US' ? '美国站' : '英国站') + '的已保存设置');
     return false;
   }
   try {
@@ -1090,12 +1190,20 @@ function exportResults() {
   const ws3 = XLSX.utils.json_to_sheet(settingsData);
   XLSX.utils.book_append_sheet(wb, ws3, 'SKU设置');
 
-  XLSX.writeFile(wb, '订单盈利分析_' + new Date().toISOString().slice(0,10) + '.xlsx');
+  XLSX.writeFile(wb, `订单盈利分析_${currentCountry === 'US' ? '美国站' : '英国站'}_` + new Date().toISOString().slice(0,10) + '.xlsx');
 }
 
 // ===== Init: try auto-load settings =====
 window.addEventListener('DOMContentLoaded', () => {
-  const raw = localStorage.getItem('tiktok_order_analysis');
+  // Migrate old settings to US key (one-time)
+  const oldKey = localStorage.getItem('tiktok_order_analysis');
+  const newKey = localStorage.getItem('tiktok_order_analysis_US');
+  if (oldKey && !newKey) {
+    localStorage.setItem('tiktok_order_analysis_US', oldKey);
+    localStorage.removeItem('tiktok_order_analysis');
+  }
+
+  const raw = localStorage.getItem('tiktok_order_analysis_' + currentCountry);
   if (raw) {
     try {
       const data = JSON.parse(raw);
