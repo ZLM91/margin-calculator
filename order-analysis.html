@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Shop 订单盈利分析</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --profit: #16a34a;
+  --profit-bg: #dcfce7;
+  --loss: #dc2626;
+  --loss-bg: #fee2e2;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+}
+.container { max-width: 1500px; margin: 0 auto; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+h2 { font-size: 20px; font-weight: 600; margin: 24px 0 12px; color: var(--text); }
+.subtitle { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+/* Upload Area */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  background: var(--card-bg);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.upload-area p { color: var(--muted); margin-top: 8px; }
+.upload-icon { font-size: 48px; }
+.upload-area input[type="file"] { display: none; }
+.file-info {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: var(--profit-bg);
+  border-radius: 8px;
+  color: var(--profit);
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* Summary Cards */
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.card-label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.card-value { font-size: 28px; font-weight: 700; }
+.card-value.profit { color: var(--profit); }
+.card-value.loss { color: var(--loss); }
+.card-value.revenue { color: var(--primary); }
+.card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Filter Bar */
+.filter-bar {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+}
+.filter-bar label { font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+.filter-bar input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+.filter-bar .divider { width: 1px; height: 20px; background: var(--border); }
+
+/* Tables */
+.table-wrapper {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead { background: #f8fafc; }
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr:hover { background: #f8fafc; }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Input cells */
+td input, .global-input {
+  width: 80px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: right;
+}
+td input:focus, .global-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+td input.wide { width: 120px; }
+
+/* Profit/Loss cells */
+.profit-cell { color: var(--profit); font-weight: 600; }
+.loss-cell { color: var(--loss); font-weight: 600; }
+.profit-row { background: var(--profit-bg) !important; }
+.loss-row { background: var(--loss-bg) !important; }
+
+/* Global Settings */
+.global-settings {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid var(--border);
+}
+.global-settings .setting-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.global-settings label { font-size: 14px; color: var(--muted); white-space: nowrap; }
+.global-settings input { width: 70px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; text-align: right; }
+
+/* Buttons */
+.btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: #cbd5e1; }
+.btn-export { background: var(--profit); color: white; }
+.btn-export:hover { background: #15803d; }
+
+/* Hidden sections */
+.hidden { display: none !important; }
+
+/* Table scroll */
+.table-scroll { max-height: 500px; overflow: auto; }
+.table-scroll-summary { max-height: 600px; overflow: auto; }
+
+/* Total row */
+.total-row { font-weight: 700; background: #f1f5f9 !important; }
+.total-row td { border-top: 2px solid var(--border); }
+
+/* Tooltip */
+.tooltip { position: relative; cursor: help; }
+.tooltip:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: normal;
+  width: 250px;
+  z-index: 100;
+}
+
+/* Section actions */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 12px;
+}
+.section-header h2 { margin: 0; }
+.section-actions { display: flex; gap: 8px; }
+
+/* Creator badge */
+.creator-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Loading */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Info text */
+.info-text { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.negative { color: var(--loss); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>TikTok Shop 订单盈利分析</h1>
+  <p class="subtitle">上传 TikTok Shop 订单导出文件，自动计算每日盈利 | 收入 = 平台折扣(P) + 折后小计(R) | 样品订单（收入=0且未取消）计入产品成本+尾程运费，不计佣金</p>
+
+  <!-- Upload Area -->
+  <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">📁</div>
+    <p><strong>点击或拖拽 Excel 文件到此处</strong></p>
+    <p>支持 .xlsx / .xls 格式 · TikTok Shop 订单导出文件</p>
+    <input type="file" id="fileInput" accept=".xlsx,.xls">
+  </div>
+  <div id="fileInfo"></div>
+
+  <!-- All data sections hidden until file loaded -->
+  <div id="dataSections" class="hidden">
+
+    <!-- Summary Cards -->
+    <div class="cards-row" id="cardsRow"></div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar" id="filterBar">
+      <span style="font-weight:600;font-size:14px;">订单状态筛选：</span>
+      <span id="statusFilters"></span>
+      <div class="divider"></div>
+      <label><input type="checkbox" id="excludeZeroRevenue" checked> 排除零收入订单（不含样品单）</label>
+      <div class="divider"></div>
+      <label><input type="checkbox" id="onlyCreatorOrders"> 仅看达人订单</label>
+      <div class="divider"></div>
+      <span id="sampleInfo" style="font-size:13px;color:var(--warning);font-weight:500;"></span>
+    </div>
+
+    <!-- Global Settings -->
+    <div class="global-settings">
+      <div class="setting-item">
+        <label>默认平台扣点 %</label>
+        <input type="number" id="defaultPlatformPct" value="8" min="0" max="100" step="0.1">
+      </div>
+      <div class="setting-item">
+        <label>默认达人佣金 %</label>
+        <input type="number" id="defaultCreatorPct" value="10" min="0" max="100" step="0.1">
+      </div>
+      <button class="btn btn-secondary" onclick="applyDefaultsToAll()">应用到所有 SKU</button>
+      <button class="btn btn-secondary" onclick="saveSettings()">💾 手动保存</button>
+      <button class="btn btn-secondary" onclick="loadSettings(false)">📂 手动加载</button>
+      <button class="btn btn-export" onclick="exportResults()">📤 导出结果</button>
+      <span style="font-size:12px;color:var(--muted);margin-left:8px;">💡 填写后自动保存，换文件不用重填</span>
+    </div>
+
+    <!-- SKU Settings Table -->
+    <div class="section-header">
+      <h2>SKU 成本设置</h2>
+      <span class="info-text" id="skuCountInfo"></span>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll">
+        <table id="skuTable">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>产品名</th>
+              <th>订单数</th>
+              <th>销量</th>
+              <th>达人订单</th>
+              <th>样品单</th>
+              <th>总收入($)</th>
+              <th>产品成本($/件)</th>
+              <th>尾程运费($/件)</th>
+              <th>海外仓费($/件)</th>
+              <th>达人佣金(%)</th>
+              <th>平台扣点(%)</th>
+            </tr>
+          </thead>
+          <tbody id="skuTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Daily Promotion Costs -->
+    <div class="section-header">
+      <h2>每日推广费用</h2>
+    </div>
+    <div class="table-wrapper">
+      <table id="promoTable">
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>订单数</th>
+            <th>总收入($)</th>
+            <th>推广费用($)</th>
+            <th>推广占比(%)</th>
+          </tr>
+        </thead>
+        <tbody id="promoTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Daily Profit Summary -->
+    <div class="section-header">
+      <h2>每日盈利汇总</h2>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll-summary">
+        <table id="dailyTable">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>订单数</th>
+              <th>样品单</th>
+              <th>销量</th>
+              <th>总收入($)</th>
+              <th>产品成本($)</th>
+              <th>尾程运费($)</th>
+              <th>海外仓费($)</th>
+              <th>平台扣点($)</th>
+              <th>达人佣金($)</th>
+              <th>推广费($)</th>
+              <th>总成本($)</th>
+              <th>净利润($)</th>
+              <th>利润率(%)</th>
+              <th>ROI</th>
+            </tr>
+          </thead>
+          <tbody id="dailyTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SKU Profit Summary -->
+    <div class="section-header">
+      <h2>SKU 盈利汇总</h2>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll-summary">
+        <table id="skuSummaryTable">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>产品名</th>
+              <th>订单数</th>
+              <th>销量</th>
+              <th>总收入($)</th>
+              <th>产品成本($)</th>
+              <th>尾程运费($)</th>
+              <th>海外仓费($)</th>
+              <th>平台扣点($)</th>
+              <th>达人佣金($)</th>
+              <th>推广费分摊($)</th>
+              <th>总成本($)</th>
+              <th>净利润($)</th>
+              <th>利润率(%)</th>
+              <th>ROI</th>
+            </tr>
+          </thead>
+          <tbody id="skuSummaryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ===== Global State =====
+let allOrders = [];
+let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
+let promoCosts = {};   // { 'MM/DD/YYYY': amount }
+let uniqueDates = [];
+let uniqueSkus = [];
+let statusCounts = {};
+
+// ===== Column mapping (detected by header name) =====
+let colMap = {};
+
+// ===== File Upload =====
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+function handleFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array', cellDates: false });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' });
+      parseOrders(rows);
+    } catch (err) {
+      alert('文件解析失败: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function parseOrders(rows) {
+  if (rows.length < 3) { alert('文件格式不对，至少需要 3 行数据'); return; }
+
+  // Detect columns by header name (row 0)
+  const headers = rows[0].map(h => String(h).trim());
+  colMap = {
+    orderId: headers.indexOf('Order ID'),
+    orderStatus: headers.indexOf('Order Status'),
+    sku: headers.indexOf('Seller SKU'),
+    productName: headers.indexOf('Product Name'),
+    quantity: headers.indexOf('Quantity'),
+    platformDiscount: headers.indexOf('SKU Platform Discount'),
+    subtotalAfter: headers.indexOf('SKU Subtotal After Discount'),
+    createdTime: headers.indexOf('Created Time'),
+    fulfillmentType: headers.indexOf('Fulfillment Type'),
+    creatorHandle: headers.indexOf('Creator Handle'),
+  };
+
+  // Validate critical columns
+  const missing = [];
+  if (colMap.sku < 0) missing.push('Seller SKU (G列)');
+  if (colMap.platformDiscount < 0) missing.push('SKU Platform Discount (P列)');
+  if (colMap.subtotalAfter < 0) missing.push('SKU Subtotal After Discount (R列)');
+  if (colMap.createdTime < 0) missing.push('Created Time');
+  if (missing.length) { alert('缺少必要列: ' + missing.join(', ')); return; }
+
+  // Parse data (skip header row 0 and description row 1)
+  allOrders = [];
+  for (let i = 2; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r || !r[colMap.orderId] && !r[colMap.sku]) continue;
+
+    const createdRaw = r[colMap.createdTime];
+    let dateStr = '';
+    if (createdRaw) {
+      const parts = String(createdRaw).split(' ');
+      dateStr = parts[0]; // MM/DD/YYYY
+    }
+
+    const sku = String(r[colMap.sku] || 'Unknown').trim();
+    const platformDiscount = parseFloat(r[colMap.platformDiscount]) || 0;
+    const subtotalAfter = parseFloat(r[colMap.subtotalAfter]) || 0;
+    const quantity = parseInt(r[colMap.quantity]) || 1;
+    const status = String(r[colMap.orderStatus] || '').trim();
+    const creator = (colMap.creatorHandle >= 0 && r[colMap.creatorHandle]) ? String(r[colMap.creatorHandle]).trim() : '';
+    const productName = colMap.productName >= 0 ? String(r[colMap.productName] || '').substring(0, 40) : '';
+    const fulfillment = colMap.fulfillmentType >= 0 ? String(r[colMap.fulfillmentType] || '').trim() : '';
+
+    // Detect sample order: revenue=0 AND status is not cancelled
+    const isCancelled = status === 'Cancelled' || status === '已取消' || status.toLowerCase().includes('cancel');
+    const isSample = (platformDiscount + subtotalAfter === 0) && !isCancelled;
+
+    allOrders.push({
+      orderId: String(r[colMap.orderId] || ''),
+      sku, productName, quantity, status, creator, fulfillment,
+      platformDiscount, subtotalAfter,
+      revenue: platformDiscount + subtotalAfter,
+      date: dateStr,
+      isSample,
+      isCancelled,
+    });
+  }
+
+  // Build unique lists
+  uniqueSkus = [...new Set(allOrders.map(o => o.sku))].sort();
+  uniqueDates = [...new Set(allOrders.map(o => o.date))].filter(d => d).sort();
+  statusCounts = {};
+  allOrders.forEach(o => { statusCounts[o.status] = (statusCounts[o.status] || 0) + 1; });
+
+  // Show file info
+  const sampleCount = allOrders.filter(o => o.isSample).length;
+  const cancelledCount = allOrders.filter(o => o.isCancelled).length;
+  document.getElementById('fileInfo').innerHTML =
+    `<div class="file-info">✅ 已加载 ${allOrders.length} 条订单 | ${uniqueSkus.length} 个 SKU | ${uniqueDates.length} 天 | ${uniqueDates[0]} ~ ${uniqueDates[uniqueDates.length-1]}${sampleCount > 0 ? ` | 📦 样品订单 ${sampleCount} 单` : ''}${cancelledCount > 0 ? ` | ❌ 已取消 ${cancelledCount} 单` : ''}</div>`;
+
+  // Show sample info in filter bar
+  const sampleInfoEl = document.getElementById('sampleInfo');
+  if (sampleCount > 0) {
+    sampleInfoEl.textContent = `📦 ${sampleCount} 单样品订单（收入=0，状态≠已取消，计入产品成本+尾程运费）`;
+  }
+
+  // Load saved settings (silent - no alert if not found)
+  loadSettings(true);
+
+  // Render all sections
+  document.getElementById('dataSections').classList.remove('hidden');
+  renderStatusFilters();
+  renderSkuTable();
+  renderPromoTable();
+  recalculate();
+}
+
+// ===== Status Filters =====
+function renderStatusFilters() {
+  const container = document.getElementById('statusFilters');
+  container.innerHTML = '';
+  Object.entries(statusCounts).forEach(([status, count]) => {
+    const label = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = true;
+    cb.className = 'status-cb';
+    cb.dataset.status = status;
+    cb.addEventListener('change', recalculate);
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(` ${status} (${count})`));
+    container.appendChild(label);
+  });
+
+  document.getElementById('excludeZeroRevenue').addEventListener('change', recalculate);
+  document.getElementById('onlyCreatorOrders').addEventListener('change', recalculate);
+}
+
+// ===== Get Filtered Orders =====
+function getFilteredOrders() {
+  const checkedStatuses = new Set();
+  document.querySelectorAll('.status-cb:checked').forEach(cb => checkedStatuses.add(cb.dataset.status));
+
+  const excludeZero = document.getElementById('excludeZeroRevenue').checked;
+  const onlyCreator = document.getElementById('onlyCreatorOrders').checked;
+
+  return allOrders.filter(o => {
+    if (!checkedStatuses.has(o.status)) return false;
+    // Exclude zero-revenue orders only if they are NOT samples (i.e., cancelled/other)
+    if (excludeZero && o.revenue === 0 && !o.isSample) return false;
+    if (onlyCreator && !o.creator) return false;
+    return true;
+  });
+}
+
+// ===== Render SKU Settings Table =====
+function renderSkuTable() {
+  const tbody = document.getElementById('skuTableBody');
+  tbody.innerHTML = '';
+  document.getElementById('skuCountInfo').textContent = `共 ${uniqueSkus.length} 个 SKU`;
+
+  // Calculate stats per SKU
+  const skuStats = {};
+  allOrders.forEach(o => {
+    if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
+    skuStats[o.sku].orders++;
+    skuStats[o.sku].qty += o.quantity;
+    skuStats[o.sku].revenue += o.revenue;
+    if (o.creator) skuStats[o.sku].creatorOrders++;
+    if (o.isSample) skuStats[o.sku].sampleOrders++;
+    if (o.productName) skuStats[o.sku].name = o.productName;
+  });
+
+  uniqueSkus.forEach(sku => {
+    const stats = skuStats[sku];
+    if (!skuSettings[sku]) {
+      skuSettings[sku] = {
+        productCost: 0, shipping: 0, warehouse: 0,
+        creatorPct: parseFloat(document.getElementById('defaultCreatorPct').value) || 0,
+        platformPct: parseFloat(document.getElementById('defaultPlatformPct').value) || 0,
+      };
+    }
+    const s = skuSettings[sku];
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${sku}</strong></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${stats.name}">${stats.name}</td>
+      <td>${stats.orders}</td>
+      <td>${stats.qty}</td>
+      <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
+      <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
+      <td>${stats.revenue.toFixed(2)}</td>
+      <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
+      <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
+      <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
+      <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input"></td>
+      <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Attach input listeners
+  document.querySelectorAll('.sku-input').forEach(input => {
+    input.addEventListener('input', e => {
+      const sku = e.target.dataset.sku;
+      const field = e.target.dataset.field;
+      if (!skuSettings[sku]) skuSettings[sku] = {};
+      skuSettings[sku][field] = parseFloat(e.target.value) || 0;
+      recalculate();
+      autoSave();
+    });
+  });
+}
+
+// ===== Render Promotion Table =====
+function renderPromoTable() {
+  const tbody = document.getElementById('promoTableBody');
+  tbody.innerHTML = '';
+
+  // Calculate daily stats
+  const dailyStats = {};
+  allOrders.forEach(o => {
+    if (!dailyStats[o.date]) dailyStats[o.date] = { orders: 0, revenue: 0 };
+    dailyStats[o.date].orders++;
+    dailyStats[o.date].revenue += o.revenue;
+  });
+
+  uniqueDates.forEach(date => {
+    const stats = dailyStats[date] || { orders: 0, revenue: 0 };
+    if (!promoCosts[date]) promoCosts[date] = 0;
+    const promoPct = stats.revenue > 0 ? (promoCosts[date] / stats.revenue * 100).toFixed(1) : '0.0';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${date}</td>
+      <td>${stats.orders}</td>
+      <td>${stats.revenue.toFixed(2)}</td>
+      <td><input type="number" value="${promoCosts[date]}" min="0" step="0.01" data-date="${date}" class="promo-input" style="width:100px;"></td>
+      <td>${promoPct}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.querySelectorAll('.promo-input').forEach(input => {
+    input.addEventListener('input', e => {
+      promoCosts[e.target.dataset.date] = parseFloat(e.target.value) || 0;
+      recalculate();
+      autoSave();
+    });
+  });
+}
+
+// ===== Main Calculation =====
+function recalculate() {
+  const orders = getFilteredOrders();
+  if (orders.length === 0) {
+    renderCards(0, 0, 0, 0);
+    document.getElementById('dailyTableBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('skuSummaryTableBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    return;
+  }
+
+  // Per-order calculation
+  const orderData = orders.map(o => {
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: 0, platformPct: 0 };
+    const productCost = s.productCost * o.quantity;
+    const shippingCost = s.shipping * o.quantity;
+    const warehouseCost = s.warehouse * o.quantity;
+    const platformFee = o.revenue * (s.platformPct / 100);
+    const creatorFee = o.creator ? o.revenue * (s.creatorPct / 100) : 0;
+    const totalCost = productCost + shippingCost + warehouseCost + platformFee + creatorFee;
+    const profit = o.revenue - totalCost;
+
+    return { ...o, productCost, shippingCost, warehouseCost, platformFee, creatorFee, totalCost, profit };
+  });
+
+  // Daily summary
+  const dailyData = {};
+  orderData.forEach(o => {
+    if (!dailyData[o.date]) {
+      dailyData[o.date] = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0 };
+    }
+    const d = dailyData[o.date];
+    d.orders++;
+    if (o.isSample) d.samples++;
+    d.qty += o.quantity;
+    d.revenue += o.revenue;
+    d.productCost += o.productCost;
+    d.shippingCost += o.shippingCost;
+    d.warehouseCost += o.warehouseCost;
+    d.platformFee += o.platformFee;
+    d.creatorFee += o.creatorFee;
+  });
+
+  // Add promo costs and calculate final profit
+  let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0;
+  Object.keys(dailyData).forEach(date => {
+    const d = dailyData[date];
+    d.promo = promoCosts[date] || 0;
+    d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + d.promo;
+    d.profit = d.revenue - d.totalCost;
+    d.margin = d.revenue > 0 ? (d.profit / d.revenue * 100) : 0;
+    d.roi = d.totalCost > 0 ? (d.revenue / d.totalCost) : 0;
+
+    totalRevenue += d.revenue;
+    totalCost += d.totalCost;
+    totalProfit += d.profit;
+    totalOrders += d.orders;
+  });
+
+  // Render cards
+  renderCards(totalOrders, totalRevenue, totalCost, totalProfit);
+
+  // Render daily table
+  renderDailyTable(dailyData);
+
+  // SKU summary
+  const skuData = {};
+  orderData.forEach(o => {
+    if (!skuData[o.sku]) {
+      skuData[o.sku] = { sku: o.sku, name: o.productName, orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, dates: new Set() };
+    }
+    const s = skuData[o.sku];
+    s.orders++;
+    s.qty += o.quantity;
+    s.revenue += o.revenue;
+    s.productCost += o.productCost;
+    s.shippingCost += o.shippingCost;
+    s.warehouseCost += o.warehouseCost;
+    s.platformFee += o.platformFee;
+    s.creatorFee += o.creatorFee;
+    s.dates.add(o.date);
+  });
+
+  // Allocate promo costs proportionally by revenue per SKU per day
+  orderData.forEach(o => {
+    const dayRevenue = dailyData[o.date]?.revenue || 0;
+    const dayPromo = promoCosts[o.date] || 0;
+    const allocatedPromo = dayRevenue > 0 ? dayPromo * (o.revenue / dayRevenue) : 0;
+    if (!skuData[o.sku].promoAllocated) skuData[o.sku].promoAllocated = 0;
+    skuData[o.sku].promoAllocated += allocatedPromo;
+  });
+
+  // Calculate SKU totals
+  Object.values(skuData).forEach(s => {
+    s.totalCost = s.productCost + s.shippingCost + s.warehouseCost + s.platformFee + s.creatorFee + (s.promoAllocated || 0);
+    s.profit = s.revenue - s.totalCost;
+    s.margin = s.revenue > 0 ? (s.profit / s.revenue * 100) : 0;
+    s.roi = s.totalCost > 0 ? (s.revenue / s.totalCost) : 0;
+  });
+
+  renderSkuSummaryTable(skuData);
+}
+
+// ===== Render Summary Cards =====
+function renderCards(orders, revenue, cost, profit) {
+  const margin = revenue > 0 ? (profit / revenue * 100).toFixed(1) : '0.0';
+  const roi = cost > 0 ? (revenue / cost).toFixed(2) : '0.00';
+  const profitClass = profit >= 0 ? 'profit' : 'loss';
+
+  // Count samples in filtered orders
+  const filteredOrders = getFilteredOrders();
+  const sampleCount = filteredOrders.filter(o => o.isSample).length;
+  const sampleCost = filteredOrders.filter(o => o.isSample).reduce((sum, o) => {
+    const s = skuSettings[o.sku] || {};
+    return sum + (s.productCost || 0) * o.quantity + (s.shipping || 0) * o.quantity;
+  }, 0);
+
+  document.getElementById('cardsRow').innerHTML = `
+    <div class="card">
+      <div class="card-label">总订单数</div>
+      <div class="card-value">${orders}</div>
+      <div class="card-sub">${sampleCount > 0 ? `含 ${sampleCount} 单样品` : '筛选后'}</div>
+    </div>
+    <div class="card">
+      <div class="card-label">总收入</div>
+      <div class="card-value revenue">$${revenue.toFixed(2)}</div>
+      <div class="card-sub">P + R 之和${sampleCount > 0 ? `（样品单收入=0）` : ''}</div>
+    </div>
+    <div class="card">
+      <div class="card-label">总成本</div>
+      <div class="card-value" style="color:var(--loss)">$${cost.toFixed(2)}</div>
+      <div class="card-sub">产品+物流+仓+佣金+推广${sampleCost > 0 ? `<br>样品成本 $${sampleCost.toFixed(2)}` : ''}</div>
+    </div>
+    <div class="card">
+      <div class="card-label">净利润</div>
+      <div class="card-value ${profitClass}">$${profit.toFixed(2)}</div>
+      <div class="card-sub">利润率 ${margin}% | ROI ${roi}</div>
+    </div>
+  `;
+}
+
+// ===== Render Daily Table =====
+function renderDailyTable(dailyData) {
+  const tbody = document.getElementById('dailyTableBody');
+  tbody.innerHTML = '';
+
+  const sortedDates = Object.keys(dailyData).sort();
+  let totals = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0 };
+
+  sortedDates.forEach(date => {
+    const d = dailyData[date];
+    const profitClass = d.profit >= 0 ? 'profit-cell' : 'loss-cell';
+    const marginClass = d.margin >= 0 ? 'profit-cell' : 'loss-cell';
+
+    totals.orders += d.orders;
+    totals.samples += d.samples;
+    totals.qty += d.qty;
+    totals.revenue += d.revenue;
+    totals.productCost += d.productCost;
+    totals.shippingCost += d.shippingCost;
+    totals.warehouseCost += d.warehouseCost;
+    totals.platformFee += d.platformFee;
+    totals.creatorFee += d.creatorFee;
+    totals.promo += d.promo;
+    totals.totalCost += d.totalCost;
+    totals.profit += d.profit;
+
+    const tr = document.createElement('tr');
+    if (d.profit < 0) tr.classList.add('loss-row');
+    tr.innerHTML = `
+      <td><strong>${date}</strong></td>
+      <td>${d.orders}</td>
+      <td>${d.samples > 0 ? `<span style="color:var(--warning);">📦${d.samples}</span>` : '—'}</td>
+      <td>${d.qty}</td>
+      <td>${d.revenue.toFixed(2)}</td>
+      <td>${d.productCost.toFixed(2)}</td>
+      <td>${d.shippingCost.toFixed(2)}</td>
+      <td>${d.warehouseCost.toFixed(2)}</td>
+      <td>${d.platformFee.toFixed(2)}</td>
+      <td>${d.creatorFee.toFixed(2)}</td>
+      <td>${d.promo.toFixed(2)}</td>
+      <td>${d.totalCost.toFixed(2)}</td>
+      <td class="${profitClass}">${d.profit.toFixed(2)}</td>
+      <td class="${marginClass}">${d.margin.toFixed(1)}%</td>
+      <td>${d.roi.toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Total row
+  const totalMargin = totals.revenue > 0 ? (totals.profit / totals.revenue * 100).toFixed(1) : '0.0';
+  const totalRoi = totals.totalCost > 0 ? (totals.revenue / totals.totalCost).toFixed(2) : '0.00';
+  const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
+  const tr = document.createElement('tr');
+  tr.classList.add('total-row');
+  tr.innerHTML = `
+    <td><strong>合计</strong></td>
+    <td><strong>${totals.orders}</strong></td>
+    <td>${totals.samples > 0 ? `<strong style="color:var(--warning);">${totals.samples}</strong>` : '<strong>—</strong>'}</td>
+    <td><strong>${totals.qty}</strong></td>
+    <td><strong>${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${totals.productCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.shippingCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.warehouseCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.platformFee.toFixed(2)}</strong></td>
+    <td><strong>${totals.creatorFee.toFixed(2)}</strong></td>
+    <td><strong>${totals.promo.toFixed(2)}</strong></td>
+    <td><strong>${totals.totalCost.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${totals.profit.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
+    <td><strong>${totalRoi}</strong></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// ===== Render SKU Summary Table =====
+function renderSkuSummaryTable(skuData) {
+  const tbody = document.getElementById('skuSummaryTableBody');
+  tbody.innerHTML = '';
+
+  const sortedSkus = Object.values(skuData).sort((a, b) => b.revenue - a.revenue);
+  let totals = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promoAllocated: 0, totalCost: 0, profit: 0 };
+
+  sortedSkus.forEach(s => {
+    const profitClass = s.profit >= 0 ? 'profit-cell' : 'loss-cell';
+    const marginClass = s.margin >= 0 ? 'profit-cell' : 'loss-cell';
+
+    totals.orders += s.orders;
+    totals.qty += s.qty;
+    totals.revenue += s.revenue;
+    totals.productCost += s.productCost;
+    totals.shippingCost += s.shippingCost;
+    totals.warehouseCost += s.warehouseCost;
+    totals.platformFee += s.platformFee;
+    totals.creatorFee += s.creatorFee;
+    totals.promoAllocated += s.promoAllocated || 0;
+    totals.totalCost += s.totalCost;
+    totals.profit += s.profit;
+
+    const tr = document.createElement('tr');
+    if (s.profit < 0) tr.classList.add('loss-row');
+    tr.innerHTML = `
+      <td><strong>${s.sku}</strong></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="${s.name}">${s.name}</td>
+      <td>${s.orders}</td>
+      <td>${s.qty}</td>
+      <td>${s.revenue.toFixed(2)}</td>
+      <td>${s.productCost.toFixed(2)}</td>
+      <td>${s.shippingCost.toFixed(2)}</td>
+      <td>${s.warehouseCost.toFixed(2)}</td>
+      <td>${s.platformFee.toFixed(2)}</td>
+      <td>${s.creatorFee.toFixed(2)}</td>
+      <td>${(s.promoAllocated || 0).toFixed(2)}</td>
+      <td>${s.totalCost.toFixed(2)}</td>
+      <td class="${profitClass}">${s.profit.toFixed(2)}</td>
+      <td class="${marginClass}">${s.margin.toFixed(1)}%</td>
+      <td>${s.roi.toFixed(2)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Total row
+  const totalMargin = totals.revenue > 0 ? (totals.profit / totals.revenue * 100).toFixed(1) : '0.0';
+  const totalRoi = totals.totalCost > 0 ? (totals.revenue / totals.totalCost).toFixed(2) : '0.00';
+  const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
+  const tr = document.createElement('tr');
+  tr.classList.add('total-row');
+  tr.innerHTML = `
+    <td colspan="2"><strong>合计</strong></td>
+    <td><strong>${totals.orders}</strong></td>
+    <td><strong>${totals.qty}</strong></td>
+    <td><strong>${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${totals.productCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.shippingCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.warehouseCost.toFixed(2)}</strong></td>
+    <td><strong>${totals.platformFee.toFixed(2)}</strong></td>
+    <td><strong>${totals.creatorFee.toFixed(2)}</strong></td>
+    <td><strong>${totals.promoAllocated.toFixed(2)}</strong></td>
+    <td><strong>${totals.totalCost.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${totals.profit.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
+    <td><strong>${totalRoi}</strong></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// ===== Apply Defaults to All SKUs =====
+function applyDefaultsToAll() {
+  const platformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
+  const creatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
+  uniqueSkus.forEach(sku => {
+    if (!skuSettings[sku]) skuSettings[sku] = { productCost: 0, shipping: 0, warehouse: 0 };
+    skuSettings[sku].platformPct = platformPct;
+    skuSettings[sku].creatorPct = creatorPct;
+  });
+  renderSkuTable();
+  recalculate();
+  autoSave();
+}
+
+// ===== Save / Load Settings (localStorage) =====
+let autoSaveTimer = null;
+
+function autoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    const data = { skuSettings, promoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+    localStorage.setItem('tiktok_order_analysis', JSON.stringify(data));
+    showToast('✅ 已自动保存');
+  }, 800);
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+}
+
+function saveSettings() {
+  const data = { skuSettings, promoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+  localStorage.setItem('tiktok_order_analysis', JSON.stringify(data));
+  showToast('✅ 设置已保存到浏览器');
+}
+
+function loadSettings(silent) {
+  const raw = localStorage.getItem('tiktok_order_analysis');
+  if (!raw) {
+    if (!silent) showToast('⚠️ 未找到已保存的设置');
+    return false;
+  }
+  try {
+    const data = JSON.parse(raw);
+    if (data.skuSettings) skuSettings = { ...skuSettings, ...data.skuSettings };
+    if (data.promoCosts) promoCosts = { ...promoCosts, ...data.promoCosts };
+    if (data.defaultPlatformPct) document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
+    if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
+    if (uniqueSkus.length) { renderSkuTable(); renderPromoTable(); recalculate(); }
+    if (!silent) showToast('✅ 设置已加载');
+    return true;
+  } catch (e) {
+    if (!silent) showToast('加载失败: ' + e.message);
+    return false;
+  }
+}
+
+// ===== Export Results =====
+function exportResults() {
+  const wb = XLSX.utils.book_new();
+
+  // Daily summary
+  const dailyData = [];
+  document.querySelectorAll('#dailyTableBody tr:not(.total-row)').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 15) {
+      dailyData.push({
+        '日期': cells[0].textContent, '订单数': cells[1].textContent, '样品单': cells[2].textContent,
+        '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
+        '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '平台扣点': cells[8].textContent,
+        '达人佣金': cells[9].textContent, '推广费': cells[10].textContent, '总成本': cells[11].textContent,
+        '净利润': cells[12].textContent, '利润率': cells[13].textContent, 'ROI': cells[14].textContent,
+      });
+    }
+  });
+  const ws1 = XLSX.utils.json_to_sheet(dailyData);
+  XLSX.utils.book_append_sheet(wb, ws1, '每日盈利汇总');
+
+  // SKU summary
+  const skuData = [];
+  document.querySelectorAll('#skuSummaryTableBody tr:not(.total-row)').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 15) {
+      skuData.push({
+        'SKU': cells[0].textContent, '产品名': cells[1].textContent, '订单数': cells[2].textContent,
+        '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
+        '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '平台扣点': cells[8].textContent,
+        '达人佣金': cells[9].textContent, '推广费分摊': cells[10].textContent, '总成本': cells[11].textContent,
+        '净利润': cells[12].textContent, '利润率': cells[13].textContent, 'ROI': cells[14].textContent,
+      });
+    }
+  });
+  const ws2 = XLSX.utils.json_to_sheet(skuData);
+  XLSX.utils.book_append_sheet(wb, ws2, 'SKU盈利汇总');
+
+  // SKU settings
+  const settingsData = uniqueSkus.map(sku => ({
+    'SKU': sku,
+    '产品成本': skuSettings[sku]?.productCost || 0,
+    '尾程运费': skuSettings[sku]?.shipping || 0,
+    '海外仓费': skuSettings[sku]?.warehouse || 0,
+    '达人佣金%': skuSettings[sku]?.creatorPct || 0,
+    '平台扣点%': skuSettings[sku]?.platformPct || 0,
+  }));
+  const ws3 = XLSX.utils.json_to_sheet(settingsData);
+  XLSX.utils.book_append_sheet(wb, ws3, 'SKU设置');
+
+  XLSX.writeFile(wb, '订单盈利分析_' + new Date().toISOString().slice(0,10) + '.xlsx');
+}
+
+// ===== Init: try auto-load settings =====
+window.addEventListener('DOMContentLoaded', () => {
+  const raw = localStorage.getItem('tiktok_order_analysis');
+  if (raw) {
+    try {
+      const data = JSON.parse(raw);
+      if (data.defaultPlatformPct) document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
+      if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
+    } catch(e) {}
+  }
+});
+</script>
+</body>
+</html>
