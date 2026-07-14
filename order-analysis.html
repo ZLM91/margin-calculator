@@ -332,8 +332,8 @@ td input.wide { width: 120px; }
         <input type="number" id="defaultCreatorPct" value="10" min="0" max="100" step="0.1">
       </div>
       <div class="setting-item" id="exchangeRateItem" style="display:none;">
-        <label>汇率 (1$ = ?£)</label>
-        <input type="number" id="exchangeRate" value="0.78" min="0" step="0.001" style="width:90px;">
+        <label>汇率 (1£ = ?$)</label>
+        <input type="number" id="exchangeRate" value="1.336" min="0" step="0.001" style="width:90px;">
       </div>
       <button class="btn btn-secondary" onclick="applyDefaultsToAll()">应用到所有 SKU</button>
       <button class="btn btn-secondary" onclick="saveSettings()">💾 手动保存</button>
@@ -527,7 +527,7 @@ td input.wide { width: 120px; }
     <!-- USD Profit Dashboard -->
     <div class="section-header">
       <h2>美元利润看板</h2>
-      <span class="info-text">所有金额按汇率换算为美元（1 美元 = <span id="usdRateLabel">1</span> 英镑）</span>
+      <span class="info-text">所有金额按汇率换算为美元（1 英镑 = <span id="usdRateLabel">1</span> 美元）</span>
     </div>
     <div class="table-wrapper">
       <div class="table-scroll-summary">
@@ -571,7 +571,7 @@ let uniqueSkus = [];
 let statusCounts = {};
 let cur = '$'; // revenue/product cost/platform fee/creator fee: '$' for US, '£' for UK
 let curUsd = '$'; // always $ for shipping/warehouse/promo (paid in USD even for UK)
-let exchangeRate = 0.78; // USD → GBP, only used for UK to unify totals
+let exchangeRate = 1.336; // GBP→USD, only used for UK to unify totals
 
 // ===== Category State =====
 const CATEGORIES = ['干巾', '湿厕纸', '婴儿湿巾', '其他'];
@@ -620,6 +620,14 @@ function switchCountry(country) {
   // Show/hide exchange rate input (UK only)
   document.getElementById('exchangeRateItem').style.display = country === 'UK' ? '' : 'none';
   updateCurrencyLabels();
+
+  // Auto-fix legacy exchange rate direction: old default was 0.78 (1 USD = 0.78 GBP),
+  // new convention is 1 GBP = ? USD. If stored rate < 1, invert it.
+  if (country === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
+    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
+    const elRate = document.getElementById('exchangeRate');
+    if (elRate) elRate.value = exchangeRate;
+  }
 
   // Reset state
   skuSettings = {};
@@ -1078,7 +1086,7 @@ function renderCategoryDashboard(orderData) {
   CATEGORIES.forEach(cat => {
     const d = catData[cat];
     const promoUsd = categoryPromoCosts[cat] || 0;
-    const promo = promoUsd * rate; // USD→GBP for UK
+    const promo = promoUsd / rate; // USD→GBP for UK (rate = 1 GBP = X USD)
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + promo;
     d.profit = d.revenue - d.totalCost;
     d.margin = d.revenue > 0 ? (d.profit / d.revenue * 100) : 0;
@@ -1198,18 +1206,18 @@ function renderUsdDashboard(orderData) {
   });
 
   const rate = currentCountry === 'UK' ? exchangeRate : 1;
-  // usd = gbp / rate
-  // usd = usd (no conversion)
+  // GBP amounts (revenue/productCost/platformFee/creatorFee) → USD via *rate
+  // USD amounts (shipping/warehouse/promo) stay as is
   orderData.forEach(o => {
     const cat = skuCategories[o.sku] || '其他';
     if (!catData[cat]) { catData[cat] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0 }; catSkus[cat] = new Set(); }
     catData[cat].orders++;
     catData[cat].qty += o.quantity;
-    // GBP amounts (revenue/productCost/platformFee/creatorFee) → USD via /rate
-    catData[cat].revenue += o.revenue / rate;
-    catData[cat].productCost += o.productCost / rate;
-    catData[cat].platformFee += o.platformFee / rate;
-    catData[cat].creatorFee += o.creatorFee / rate;
+    // GBP amounts → USD via *rate
+    catData[cat].revenue += o.revenue * rate;
+    catData[cat].productCost += o.productCost * rate;
+    catData[cat].platformFee += o.platformFee * rate;
+    catData[cat].creatorFee += o.creatorFee * rate;
     // USD amounts (shipping/warehouse/promo) stay as is
     catData[cat].shippingCost += o.shippingCostUsd || 0;
     catData[cat].warehouseCost += o.warehouseCostUsd || 0;
@@ -1328,14 +1336,14 @@ function recalculate() {
   }
 
   // Per-order calculation
-  const rate = currentCountry === 'UK' ? exchangeRate : 1; // USD→GBP for UK
+  const rate = currentCountry === 'UK' ? exchangeRate : 1; // GBP→USD: USD = GBP * rate
   const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
   const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
   const orderData = orders.map(o => {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
-    const shippingCost = s.shipping * o.quantity * rate;
-    const warehouseCost = s.warehouse * o.quantity * rate;
+    const shippingCost = s.shipping * o.quantity / rate;  // USD→GBP
+    const warehouseCost = s.warehouse * o.quantity / rate;  // USD→GBP
     const platformPct = s.platformPct || defaultPlatformPct;
     const creatorPct = s.creatorPct || defaultCreatorPct;
     const platformFee = o.revenue * (platformPct / 100);
@@ -1686,7 +1694,7 @@ function getSettingsData() {
     skuSettings, promoCosts, skuCategories, categoryPromoCosts,
     defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
     defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
-    exchangeRate: el ? el.value : 0.78
+    exchangeRate: el ? el.value : 1.336
   };
 }
 
@@ -1730,11 +1738,11 @@ function loadSettings(silent) {
     }
     if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
     if (data.exchangeRate) {
-      exchangeRate = parseFloat(data.exchangeRate) || 0.78;
+      exchangeRate = parseFloat(data.exchangeRate) || 1.336;
       const el = document.getElementById('exchangeRate');
       if (el) el.value = exchangeRate;
     } else {
-      exchangeRate = 0.78;
+      exchangeRate = 1.336;
     }
     if (uniqueSkus.length) { renderSkuTable(); renderCategoryMapping(); renderPromoTable(); renderCategoryPromoTable(); recalculate(); }
     if (!silent) showToast('✅ 设置已加载');
@@ -1845,6 +1853,13 @@ window.addEventListener('DOMContentLoaded', () => {
   // Load ALL saved settings (not just default percentages)
   loadSettings(true);
 
+  // Auto-fix legacy exchange rate direction on first load too
+  if (currentCountry === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
+    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
+    const elRate = document.getElementById('exchangeRate');
+    if (elRate) elRate.value = exchangeRate;
+  }
+
   // Set initial currency symbol
   cur = currentCountry === 'UK' ? '£' : '$';
   updateCurrencyLabels();
@@ -1861,7 +1876,7 @@ window.addEventListener('beforeunload', () => {
 
 // ===== Exchange rate input auto-save =====
 document.getElementById('exchangeRate').addEventListener('input', e => {
-  exchangeRate = parseFloat(e.target.value) || 0.78;
+  exchangeRate = parseFloat(e.target.value) || 1.336;
   autoSave();
   recalculate();
 });
