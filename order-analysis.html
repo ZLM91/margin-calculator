@@ -997,6 +997,10 @@ function renderCategoryDashboard(orderData) {
   const tbody = document.getElementById('categorySummaryBody');
   tbody.innerHTML = '';
 
+  // Build SKU name lookup
+  const skuNames = {};
+  orderData.forEach(o => { if (o.productName) skuNames[o.sku] = o.productName; });
+
   // Aggregate by category
   const catData = {};
   const catSkus = {};
@@ -1035,10 +1039,16 @@ function renderCategoryDashboard(orderData) {
     totalQty += d.qty;
 
     const profitClass = d.profit >= 0 ? 'profit' : 'loss';
+    const skuSize = catSkus[cat].size;
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><strong>${cat}</strong></td>
-      <td>${catSkus[cat].size}</td>
+      <td>
+        ${skuSize > 0
+          ? `<a href="javascript:void(0)" class="sku-toggle" data-cat="${cat}" style="color:var(--primary);text-decoration:none;cursor:pointer;font-weight:600;"><span class="sku-arrow">▶</span> ${skuSize} 个 SKU</a>`
+          : `<span style="color:var(--muted);">${skuSize}</span>`}
+      </td>
       <td>${d.orders}</td>
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
@@ -1054,6 +1064,27 @@ function renderCategoryDashboard(orderData) {
       <td>${d.roi.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
+
+    // SKU detail sub-row (initially hidden)
+    if (skuSize > 0) {
+      const sortedSkus = Array.from(catSkus[cat]).sort();
+      const skuItems = sortedSkus.map(sku => {
+        const name = skuNames[sku] || '';
+        return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;">
+          <span style="color:var(--text);font-weight:500;">${sku}</span>
+          <span style="color:var(--muted);">${name}</span>
+        </div>`;
+      }).join('');
+      const subTr = document.createElement('tr');
+      subTr.className = 'sku-detail-row';
+      subTr.dataset.cat = cat;
+      subTr.style.display = 'none';
+      subTr.innerHTML = `<td colspan="15" style="background:#f8fafc;padding:12px 24px;">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
+        ${skuItems}
+      </td>`;
+      tbody.appendChild(subTr);
+    }
   });
 
   // Total row
@@ -1073,6 +1104,21 @@ function renderCategoryDashboard(orderData) {
       <td>${totalRoi.toFixed(2)}</td>
     </tr>
   `);
+
+  // Wire up click handlers for SKU toggles
+  document.querySelectorAll('.sku-toggle').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const cat = e.currentTarget.dataset.cat;
+      const detailRow = document.querySelector(`.sku-detail-row[data-cat="${cat}"]`);
+      const arrow = e.currentTarget.querySelector('.sku-arrow');
+      if (detailRow) {
+        const isOpen = detailRow.style.display !== 'none';
+        detailRow.style.display = isOpen ? 'none' : '';
+        if (arrow) arrow.textContent = isOpen ? '▶' : '▼';
+      }
+    });
+  });
 }
 
 // ===== Main Calculation =====
