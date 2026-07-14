@@ -1389,7 +1389,7 @@ function recalculate() {
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0;
   Object.keys(dailyData).forEach(date => {
     const d = dailyData[date];
-    d.promo = (promoCosts[date] || 0) * rate; // convert USD promo to GBP
+    d.promo = (promoCosts[date] || 0) / rate; // convert USD promo to GBP (GBP = USD / rate)
     d.promoUsd = promoCosts[date] || 0; // keep original USD
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + d.promo;
     d.profit = d.revenue - d.totalCost;
@@ -1431,7 +1431,7 @@ function recalculate() {
   // Allocate promo costs proportionally by revenue per SKU per day
   orderData.forEach(o => {
     const dayRevenue = dailyData[o.date]?.revenue || 0;
-    const dayPromo = (promoCosts[o.date] || 0) * rate; // convert to GBP
+    const dayPromo = (promoCosts[o.date] || 0) / rate; // convert USD promo to GBP (GBP = USD / rate)
     const dayPromoUsd = promoCosts[o.date] || 0; // original USD
     const allocatedPromo = dayRevenue > 0 ? dayPromo * (o.revenue / dayRevenue) : 0;
     const allocatedPromoUsd = dayRevenue > 0 ? dayPromoUsd * (o.revenue / dayRevenue) : 0;
