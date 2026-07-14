@@ -619,15 +619,6 @@ function switchCountry(country) {
   });
   // Show/hide exchange rate input (UK only)
   document.getElementById('exchangeRateItem').style.display = country === 'UK' ? '' : 'none';
-  updateCurrencyLabels();
-
-  // Auto-fix legacy exchange rate direction: old default was 0.78 (1 USD = 0.78 GBP),
-  // new convention is 1 GBP = ? USD. If stored rate < 1, invert it.
-  if (country === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
-    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
-    const elRate = document.getElementById('exchangeRate');
-    if (elRate) elRate.value = exchangeRate;
-  }
 
   // Reset state
   skuSettings = {};
@@ -641,10 +632,21 @@ function switchCountry(country) {
   // Try to load saved settings for the new country
   const loaded = loadSettings(true);
 
+  // Auto-fix legacy exchange rate direction: old default was 0.78 (1 USD = 0.78 GBP),
+  // new convention is 1 GBP = ? USD. If loaded rate < 1, invert it now.
+  if (country === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
+    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
+    const elRate = document.getElementById('exchangeRate');
+    if (elRate) elRate.value = exchangeRate;
+    saveSettings(); // persist the corrected value
+  }
+
   // Set country-specific default platform pct if not loaded
   if (!loaded) {
     document.getElementById('defaultPlatformPct').value = country === 'UK' ? '29.6' : '8';
   }
+
+  updateCurrencyLabels();
 
   // Restore orders for the new country if available
   const saved = countryOrders[country];
