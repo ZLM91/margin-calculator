@@ -356,8 +356,8 @@ td input.wide { width: 120px; }
               <th>样品单</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>/件)</th>
-              <th>尾程运费(<span data-cur>$</span>/件)</th>
-              <th>海外仓费(<span data-cur>$</span>/件)</th>
+              <th>尾程运费(<span data-cur-usd>$</span>/件)</th>
+              <th>海外仓费(<span data-cur-usd>$</span>/件)</th>
               <th>达人佣金(%)</th>
               <th>平台扣点(%)</th>
             </tr>
@@ -398,7 +398,7 @@ td input.wide { width: 120px; }
             <th>日期</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费用(<span data-cur>$</span>)</th>
+            <th>推广费用(<span data-cur-usd>$</span>)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -418,7 +418,7 @@ td input.wide { width: 120px; }
             <th>品类</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费(<span data-cur>$</span>)</th>
+            <th>推广费(<span data-cur-usd>$</span>)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -441,11 +441,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur-usd>$</span>)</th>
+              <th>海外仓费(<span data-cur-usd>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费(<span data-cur>$</span>)</th>
+              <th>推广费(<span data-cur-usd>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -472,11 +472,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur-usd>$</span>)</th>
+              <th>海外仓费(<span data-cur-usd>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费分摊(<span data-cur>$</span>)</th>
+              <th>推广费分摊(<span data-cur-usd>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -504,11 +504,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur-usd>$</span>)</th>
+              <th>海外仓费(<span data-cur-usd>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费(<span data-cur>$</span>)</th>
+              <th>推广费(<span data-cur-usd>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -533,7 +533,8 @@ let promoCosts = {};   // { 'MM/DD/YYYY': amount }
 let uniqueDates = [];
 let uniqueSkus = [];
 let statusCounts = {};
-let cur = '$'; // currency symbol: '$' for US, '£' for UK
+let cur = '$'; // revenue/product cost/platform fee/creator fee: '$' for US, '£' for UK
+let curUsd = '$'; // always $ for shipping/warehouse/promo (paid in USD even for UK)
 
 // ===== Category State =====
 const CATEGORIES = ['干巾', '湿厕纸', '婴儿湿巾', '其他'];
@@ -551,10 +552,13 @@ function parseAmount(val) {
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
 
-// Update all static $ labels in HTML to current currency
+// Update all static currency labels in HTML
 function updateCurrencyLabels() {
   document.querySelectorAll('[data-cur]').forEach(el => {
     el.textContent = cur;
+  });
+  document.querySelectorAll('[data-cur-usd]').forEach(el => {
+    el.textContent = curUsd;
   });
 }
 
@@ -978,7 +982,7 @@ function renderCategoryPromoTable() {
       <td>合计</td>
       <td>${orders.length}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
-      <td>${cur}${totalPromo.toFixed(2)}</td>
+      <td>${curUsd}${totalPromo.toFixed(2)}</td>
       <td>${totalPct}%</td>
     </tr>
   `);
@@ -1053,11 +1057,11 @@ function renderCategoryDashboard(orderData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${cur}${d.shippingCost.toFixed(2)}</td>
-      <td>${cur}${d.warehouseCost.toFixed(2)}</td>
+      <td>${curUsd}${d.shippingCost.toFixed(2)}</td>
+      <td>${curUsd}${d.warehouseCost.toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${cur}${promo.toFixed(2)}</td>
+      <td>${curUsd}${promo.toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
