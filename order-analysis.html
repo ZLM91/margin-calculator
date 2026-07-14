@@ -633,6 +633,11 @@ function switchCountry(country) {
   // Try to load saved settings for the new country
   const loaded = loadSettings(true);
 
+  // Set country-specific default platform pct if not loaded
+  if (!loaded) {
+    document.getElementById('defaultPlatformPct').value = country === 'UK' ? '29.6' : '8';
+  }
+
   // Restore orders for the new country if available
   const saved = countryOrders[country];
   if (saved && saved.allOrders && saved.allOrders.length > 0) {
@@ -1324,13 +1329,17 @@ function recalculate() {
 
   // Per-order calculation
   const rate = currentCountry === 'UK' ? exchangeRate : 1; // USD→GBP for UK
+  const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
+  const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
   const orderData = orders.map(o => {
-    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: 0, platformPct: 0 };
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
     const shippingCost = s.shipping * o.quantity * rate;
     const warehouseCost = s.warehouse * o.quantity * rate;
-    const platformFee = o.revenue * (s.platformPct / 100);
-    const creatorFee = o.creator ? o.revenue * (s.creatorPct / 100) : 0;
+    const platformPct = s.platformPct || defaultPlatformPct;
+    const creatorPct = s.creatorPct || defaultCreatorPct;
+    const platformFee = o.revenue * (platformPct / 100);
+    const creatorFee = o.creator ? o.revenue * (creatorPct / 100) : 0;
     const totalCost = productCost + shippingCost + warehouseCost + platformFee + creatorFee;
     const profit = o.revenue - totalCost;
 
@@ -1695,11 +1704,30 @@ function loadSettings(silent) {
   }
   try {
     const data = JSON.parse(raw);
-    if (data.skuSettings) skuSettings = { ...skuSettings, ...data.skuSettings };
+    if (data.skuSettings) {
+      skuSettings = { ...skuSettings, ...data.skuSettings };
+      // Fix UK SKUs with old default platformPct (8) → 29.6
+      if (currentCountry === 'UK') {
+        Object.keys(skuSettings).forEach(sku => {
+          if (!skuSettings[sku].platformPct || skuSettings[sku].platformPct < 10) {
+            skuSettings[sku].platformPct = 29.6;
+          }
+        });
+      }
+    }
     if (data.promoCosts) promoCosts = { ...promoCosts, ...data.promoCosts };
     if (data.skuCategories) skuCategories = { ...skuCategories, ...data.skuCategories };
     if (data.categoryPromoCosts) categoryPromoCosts = { ...categoryPromoCosts, ...data.categoryPromoCosts };
-    if (data.defaultPlatformPct) document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
+    if (data.defaultPlatformPct) {
+      // UK platform fee is 29.6%; override old default of 8
+      if (currentCountry === 'UK' && parseFloat(data.defaultPlatformPct) < 10) {
+        document.getElementById('defaultPlatformPct').value = '29.6';
+      } else {
+        document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
+      }
+    } else {
+      document.getElementById('defaultPlatformPct').value = currentCountry === 'UK' ? '29.6' : '8';
+    }
     if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
     if (data.exchangeRate) {
       exchangeRate = parseFloat(data.exchangeRate) || 0.78;
