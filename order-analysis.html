@@ -331,6 +331,10 @@ td input.wide { width: 120px; }
         <label>默认达人佣金 %</label>
         <input type="number" id="defaultCreatorPct" value="10" min="0" max="100" step="0.1">
       </div>
+      <div class="setting-item" id="exchangeRateItem" style="display:none;">
+        <label>汇率 (1$ = ?£)</label>
+        <input type="number" id="exchangeRate" value="0.78" min="0" step="0.001" style="width:90px;">
+      </div>
       <button class="btn btn-secondary" onclick="applyDefaultsToAll()">应用到所有 SKU</button>
       <button class="btn btn-secondary" onclick="saveSettings()">💾 手动保存</button>
       <button class="btn btn-secondary" onclick="loadSettings(false)">📂 手动加载</button>
@@ -535,6 +539,7 @@ let uniqueSkus = [];
 let statusCounts = {};
 let cur = '$'; // revenue/product cost/platform fee/creator fee: '$' for US, '£' for UK
 let curUsd = '$'; // always $ for shipping/warehouse/promo (paid in USD even for UK)
+let exchangeRate = 0.78; // USD → GBP, only used for UK to unify totals
 
 // ===== Category State =====
 const CATEGORIES = ['干巾', '湿厕纸', '婴儿湿巾', '其他'];
@@ -580,6 +585,8 @@ function switchCountry(country) {
   document.querySelectorAll('.country-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.country === country);
   });
+  // Show/hide exchange rate input (UK only)
+  document.getElementById('exchangeRateItem').style.display = country === 'UK' ? '' : 'none';
   updateCurrencyLabels();
 
   // Reset state
@@ -752,7 +759,7 @@ function parseOrders(rows) {
   // Flush any pending auto-save to ensure latest input values are in localStorage
   clearTimeout(autoSaveTimer);
   if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0 || Object.keys(skuCategories).length > 0 || Object.keys(categoryPromoCosts).length > 0) {
-    const flushData = { skuSettings, promoCosts, skuCategories, categoryPromoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+    const flushData = getSettingsData();
     localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(flushData));
   }
 
@@ -1009,28 +1016,32 @@ function renderCategoryDashboard(orderData) {
   const catData = {};
   const catSkus = {};
   CATEGORIES.forEach(c => {
-    catData[c] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0 };
+    catData[c] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, shippingCostUsd: 0, warehouseCostUsd: 0 };
     catSkus[c] = new Set();
   });
 
   orderData.forEach(o => {
     const cat = skuCategories[o.sku] || '其他';
-    if (!catData[cat]) { catData[cat] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0 }; catSkus[cat] = new Set(); }
+    if (!catData[cat]) { catData[cat] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, shippingCostUsd: 0, warehouseCostUsd: 0 }; catSkus[cat] = new Set(); }
     catData[cat].orders++;
     catData[cat].qty += o.quantity;
     catData[cat].revenue += o.revenue;
     catData[cat].productCost += o.productCost;
     catData[cat].shippingCost += o.shippingCost;
     catData[cat].warehouseCost += o.warehouseCost;
+    catData[cat].shippingCostUsd += o.shippingCostUsd || 0;
+    catData[cat].warehouseCostUsd += o.warehouseCostUsd || 0;
     catData[cat].platformFee += o.platformFee;
     catData[cat].creatorFee += o.creatorFee;
     catSkus[cat].add(o.sku);
   });
 
+  const rate = currentCountry === 'UK' ? exchangeRate : 1;
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0, totalQty = 0;
   CATEGORIES.forEach(cat => {
     const d = catData[cat];
-    const promo = categoryPromoCosts[cat] || 0;
+    const promoUsd = categoryPromoCosts[cat] || 0;
+    const promo = promoUsd * rate; // USD→GBP for UK
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + promo;
     d.profit = d.revenue - d.totalCost;
     d.margin = d.revenue > 0 ? (d.profit / d.revenue * 100) : 0;
@@ -1044,6 +1055,9 @@ function renderCategoryDashboard(orderData) {
 
     const profitClass = d.profit >= 0 ? 'profit' : 'loss';
     const skuSize = catSkus[cat].size;
+    // Display raw USD for shipping/warehouse/promo columns
+    const shippingDisp = currentCountry === 'UK' ? d.shippingCostUsd : d.shippingCost;
+    const warehouseDisp = currentCountry === 'UK' ? d.warehouseCostUsd : d.warehouseCost;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -1057,11 +1071,11 @@ function renderCategoryDashboard(orderData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${curUsd}${d.shippingCost.toFixed(2)}</td>
-      <td>${curUsd}${d.warehouseCost.toFixed(2)}</td>
+      <td>${curUsd}${shippingDisp.toFixed(2)}</td>
+      <td>${curUsd}${warehouseDisp.toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${curUsd}${promo.toFixed(2)}</td>
+      <td>${curUsd}${promoUsd.toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
@@ -1137,24 +1151,34 @@ function recalculate() {
   }
 
   // Per-order calculation
+  const rate = currentCountry === 'UK' ? exchangeRate : 1; // USD→GBP for UK
   const orderData = orders.map(o => {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: 0, platformPct: 0 };
     const productCost = s.productCost * o.quantity;
-    const shippingCost = s.shipping * o.quantity;
-    const warehouseCost = s.warehouse * o.quantity;
+    const shippingCost = s.shipping * o.quantity * rate;
+    const warehouseCost = s.warehouse * o.quantity * rate;
     const platformFee = o.revenue * (s.platformPct / 100);
     const creatorFee = o.creator ? o.revenue * (s.creatorPct / 100) : 0;
     const totalCost = productCost + shippingCost + warehouseCost + platformFee + creatorFee;
     const profit = o.revenue - totalCost;
 
-    return { ...o, productCost, shippingCost, warehouseCost, platformFee, creatorFee, totalCost, profit };
+    // Keep raw USD amounts for display (so user sees original $ value)
+    return {
+      ...o,
+      productCost, // GBP
+      shippingCost, // GBP (converted)
+      warehouseCost, // GBP (converted)
+      shippingCostUsd: s.shipping * o.quantity, // original USD
+      warehouseCostUsd: s.warehouse * o.quantity, // original USD
+      platformFee, creatorFee, totalCost, profit
+    };
   });
 
   // Daily summary
   const dailyData = {};
   orderData.forEach(o => {
     if (!dailyData[o.date]) {
-      dailyData[o.date] = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0 };
+      dailyData[o.date] = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0, shippingCostUsd: 0, warehouseCostUsd: 0, promoUsd: 0 };
     }
     const d = dailyData[o.date];
     d.orders++;
@@ -1164,6 +1188,8 @@ function recalculate() {
     d.productCost += o.productCost;
     d.shippingCost += o.shippingCost;
     d.warehouseCost += o.warehouseCost;
+    d.shippingCostUsd += o.shippingCostUsd || 0;
+    d.warehouseCostUsd += o.warehouseCostUsd || 0;
     d.platformFee += o.platformFee;
     d.creatorFee += o.creatorFee;
   });
@@ -1172,7 +1198,8 @@ function recalculate() {
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0;
   Object.keys(dailyData).forEach(date => {
     const d = dailyData[date];
-    d.promo = promoCosts[date] || 0;
+    d.promo = (promoCosts[date] || 0) * rate; // convert USD promo to GBP
+    d.promoUsd = promoCosts[date] || 0; // keep original USD
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + d.promo;
     d.profit = d.revenue - d.totalCost;
     d.margin = d.revenue > 0 ? (d.profit / d.revenue * 100) : 0;
@@ -1194,7 +1221,7 @@ function recalculate() {
   const skuData = {};
   orderData.forEach(o => {
     if (!skuData[o.sku]) {
-      skuData[o.sku] = { sku: o.sku, name: o.productName, orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, dates: new Set() };
+      skuData[o.sku] = { sku: o.sku, name: o.productName, orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, dates: new Set(), shippingCostUsd: 0, warehouseCostUsd: 0 };
     }
     const s = skuData[o.sku];
     s.orders++;
@@ -1203,6 +1230,8 @@ function recalculate() {
     s.productCost += o.productCost;
     s.shippingCost += o.shippingCost;
     s.warehouseCost += o.warehouseCost;
+    s.shippingCostUsd += o.shippingCostUsd || 0;
+    s.warehouseCostUsd += o.warehouseCostUsd || 0;
     s.platformFee += o.platformFee;
     s.creatorFee += o.creatorFee;
     s.dates.add(o.date);
@@ -1211,10 +1240,14 @@ function recalculate() {
   // Allocate promo costs proportionally by revenue per SKU per day
   orderData.forEach(o => {
     const dayRevenue = dailyData[o.date]?.revenue || 0;
-    const dayPromo = promoCosts[o.date] || 0;
+    const dayPromo = (promoCosts[o.date] || 0) * rate; // convert to GBP
+    const dayPromoUsd = promoCosts[o.date] || 0; // original USD
     const allocatedPromo = dayRevenue > 0 ? dayPromo * (o.revenue / dayRevenue) : 0;
+    const allocatedPromoUsd = dayRevenue > 0 ? dayPromoUsd * (o.revenue / dayRevenue) : 0;
     if (!skuData[o.sku].promoAllocated) skuData[o.sku].promoAllocated = 0;
+    if (!skuData[o.sku].promoAllocatedUsd) skuData[o.sku].promoAllocatedUsd = 0;
     skuData[o.sku].promoAllocated += allocatedPromo;
+    skuData[o.sku].promoAllocatedUsd += allocatedPromoUsd;
   });
 
   // Calculate SKU totals
@@ -1275,7 +1308,7 @@ function renderDailyTable(dailyData) {
   tbody.innerHTML = '';
 
   const sortedDates = Object.keys(dailyData).sort();
-  let totals = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0 };
+  let totals = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, promoUsd: 0, shippingCostUsd: 0, warehouseCostUsd: 0, totalCost: 0, profit: 0 };
 
   sortedDates.forEach(date => {
     const d = dailyData[date];
@@ -1289,11 +1322,17 @@ function renderDailyTable(dailyData) {
     totals.productCost += d.productCost;
     totals.shippingCost += d.shippingCost;
     totals.warehouseCost += d.warehouseCost;
+    totals.shippingCostUsd += d.shippingCostUsd || 0;
+    totals.warehouseCostUsd += d.warehouseCostUsd || 0;
     totals.platformFee += d.platformFee;
     totals.creatorFee += d.creatorFee;
     totals.promo += d.promo;
+    totals.promoUsd += d.promoUsd || 0;
     totals.totalCost += d.totalCost;
     totals.profit += d.profit;
+
+    // Display raw USD for shipping/warehouse/promo (those are originally USD input)
+    const promoDisp = currentCountry === 'UK' ? (d.promoUsd || 0) : d.promo;
 
     const tr = document.createElement('tr');
     if (d.profit < 0) tr.classList.add('loss-row');
@@ -1302,15 +1341,15 @@ function renderDailyTable(dailyData) {
       <td>${d.orders}</td>
       <td>${d.samples > 0 ? `<span style="color:var(--warning);">📦${d.samples}</span>` : '—'}</td>
       <td>${d.qty}</td>
-      <td>${d.revenue.toFixed(2)}</td>
-      <td>${d.productCost.toFixed(2)}</td>
-      <td>${d.shippingCost.toFixed(2)}</td>
-      <td>${d.warehouseCost.toFixed(2)}</td>
-      <td>${d.platformFee.toFixed(2)}</td>
-      <td>${d.creatorFee.toFixed(2)}</td>
-      <td>${d.promo.toFixed(2)}</td>
-      <td>${d.totalCost.toFixed(2)}</td>
-      <td class="${profitClass}">${d.profit.toFixed(2)}</td>
+      <td>${cur}${d.revenue.toFixed(2)}</td>
+      <td>${cur}${d.productCost.toFixed(2)}</td>
+      <td>${curUsd}${(d.shippingCostUsd !== undefined ? d.shippingCostUsd : d.shippingCost).toFixed(2)}</td>
+      <td>${curUsd}${(d.warehouseCostUsd !== undefined ? d.warehouseCostUsd : d.warehouseCost).toFixed(2)}</td>
+      <td>${cur}${d.platformFee.toFixed(2)}</td>
+      <td>${cur}${d.creatorFee.toFixed(2)}</td>
+      <td>${curUsd}${promoDisp.toFixed(2)}</td>
+      <td>${cur}${d.totalCost.toFixed(2)}</td>
+      <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${marginClass}">${d.margin.toFixed(1)}%</td>
       <td>${d.roi.toFixed(2)}</td>
     `;
@@ -1323,20 +1362,21 @@ function renderDailyTable(dailyData) {
   const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
+  const totalPromoDisp = currentCountry === 'UK' ? totals.promoUsd : totals.promo;
   tr.innerHTML = `
     <td><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
     <td>${totals.samples > 0 ? `<strong style="color:var(--warning);">${totals.samples}</strong>` : '<strong>—</strong>'}</td>
     <td><strong>${totals.qty}</strong></td>
-    <td><strong>${totals.revenue.toFixed(2)}</strong></td>
-    <td><strong>${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.shippingCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.warehouseCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.platformFee.toFixed(2)}</strong></td>
-    <td><strong>${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${totals.promo.toFixed(2)}</strong></td>
-    <td><strong>${totals.totalCost.toFixed(2)}</strong></td>
-    <td class="${totalProfitClass}"><strong>${totals.profit.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totalPromoDisp.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
     <td><strong>${totalRoi}</strong></td>
   `;
@@ -1349,7 +1389,7 @@ function renderSkuSummaryTable(skuData) {
   tbody.innerHTML = '';
 
   const sortedSkus = Object.values(skuData).sort((a, b) => b.revenue - a.revenue);
-  let totals = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promoAllocated: 0, totalCost: 0, profit: 0 };
+  let totals = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promoAllocated: 0, promoAllocatedUsd: 0, shippingCostUsd: 0, warehouseCostUsd: 0, totalCost: 0, profit: 0 };
 
   sortedSkus.forEach(s => {
     const profitClass = s.profit >= 0 ? 'profit-cell' : 'loss-cell';
@@ -1361,11 +1401,16 @@ function renderSkuSummaryTable(skuData) {
     totals.productCost += s.productCost;
     totals.shippingCost += s.shippingCost;
     totals.warehouseCost += s.warehouseCost;
+    totals.shippingCostUsd += s.shippingCostUsd || 0;
+    totals.warehouseCostUsd += s.warehouseCostUsd || 0;
     totals.platformFee += s.platformFee;
     totals.creatorFee += s.creatorFee;
     totals.promoAllocated += s.promoAllocated || 0;
+    totals.promoAllocatedUsd += s.promoAllocatedUsd || 0;
     totals.totalCost += s.totalCost;
     totals.profit += s.profit;
+
+    const promoDisp = currentCountry === 'UK' ? (s.promoAllocatedUsd || 0) : (s.promoAllocated || 0);
 
     const tr = document.createElement('tr');
     if (s.profit < 0) tr.classList.add('loss-row');
@@ -1374,15 +1419,15 @@ function renderSkuSummaryTable(skuData) {
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="${s.name}">${s.name}</td>
       <td>${s.orders}</td>
       <td>${s.qty}</td>
-      <td>${s.revenue.toFixed(2)}</td>
-      <td>${s.productCost.toFixed(2)}</td>
-      <td>${s.shippingCost.toFixed(2)}</td>
-      <td>${s.warehouseCost.toFixed(2)}</td>
-      <td>${s.platformFee.toFixed(2)}</td>
-      <td>${s.creatorFee.toFixed(2)}</td>
-      <td>${(s.promoAllocated || 0).toFixed(2)}</td>
-      <td>${s.totalCost.toFixed(2)}</td>
-      <td class="${profitClass}">${s.profit.toFixed(2)}</td>
+      <td>${cur}${s.revenue.toFixed(2)}</td>
+      <td>${cur}${s.productCost.toFixed(2)}</td>
+      <td>${curUsd}${(s.shippingCostUsd !== undefined ? s.shippingCostUsd : s.shippingCost).toFixed(2)}</td>
+      <td>${curUsd}${(s.warehouseCostUsd !== undefined ? s.warehouseCostUsd : s.warehouseCost).toFixed(2)}</td>
+      <td>${cur}${s.platformFee.toFixed(2)}</td>
+      <td>${cur}${s.creatorFee.toFixed(2)}</td>
+      <td>${curUsd}${promoDisp.toFixed(2)}</td>
+      <td>${cur}${s.totalCost.toFixed(2)}</td>
+      <td class="${profitClass}">${cur}${s.profit.toFixed(2)}</td>
       <td class="${marginClass}">${s.margin.toFixed(1)}%</td>
       <td>${s.roi.toFixed(2)}</td>
     `;
@@ -1393,21 +1438,22 @@ function renderSkuSummaryTable(skuData) {
   const totalMargin = totals.revenue > 0 ? (totals.profit / totals.revenue * 100).toFixed(1) : '0.0';
   const totalRoi = totals.totalCost > 0 ? (totals.revenue / totals.totalCost).toFixed(2) : '0.00';
   const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
+  const totalPromoDisp = currentCountry === 'UK' ? totals.promoAllocatedUsd : totals.promoAllocated;
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
   tr.innerHTML = `
     <td colspan="2"><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
     <td><strong>${totals.qty}</strong></td>
-    <td><strong>${totals.revenue.toFixed(2)}</strong></td>
-    <td><strong>${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.shippingCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.warehouseCost.toFixed(2)}</strong></td>
-    <td><strong>${totals.platformFee.toFixed(2)}</strong></td>
-    <td><strong>${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${totals.promoAllocated.toFixed(2)}</strong></td>
-    <td><strong>${totals.totalCost.toFixed(2)}</strong></td>
-    <td class="${totalProfitClass}"><strong>${totals.profit.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totalPromoDisp.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
+    <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
     <td><strong>${totalRoi}</strong></td>
   `;
@@ -1434,9 +1480,7 @@ let autoSaveTimer = null;
 function autoSave() {
   clearTimeout(autoSaveTimer);
   autoSaveTimer = setTimeout(() => {
-    const data = { skuSettings, promoCosts, skuCategories, categoryPromoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
-    localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
-    showToast('✅ 已自动保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
+    saveSettings(true);
   }, 800);
 }
 
@@ -1454,10 +1498,20 @@ function showToast(msg) {
   toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 1500);
 }
 
-function saveSettings() {
-  const data = { skuSettings, promoCosts, skuCategories, categoryPromoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+function getSettingsData() {
+  const el = document.getElementById('exchangeRate');
+  return {
+    skuSettings, promoCosts, skuCategories, categoryPromoCosts,
+    defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
+    defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
+    exchangeRate: el ? el.value : 0.78
+  };
+}
+
+function saveSettings(silent) {
+  const data = getSettingsData();
   localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
-  showToast('✅ 设置已保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
+  if (!silent) showToast('✅ 设置已保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
 }
 
 function loadSettings(silent) {
@@ -1474,6 +1528,13 @@ function loadSettings(silent) {
     if (data.categoryPromoCosts) categoryPromoCosts = { ...categoryPromoCosts, ...data.categoryPromoCosts };
     if (data.defaultPlatformPct) document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
     if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
+    if (data.exchangeRate) {
+      exchangeRate = parseFloat(data.exchangeRate) || 0.78;
+      const el = document.getElementById('exchangeRate');
+      if (el) el.value = exchangeRate;
+    } else {
+      exchangeRate = 0.78;
+    }
     if (uniqueSkus.length) { renderSkuTable(); renderCategoryMapping(); renderPromoTable(); renderCategoryPromoTable(); recalculate(); }
     if (!silent) showToast('✅ 设置已加载');
     return true;
@@ -1575,9 +1636,16 @@ window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('beforeunload', () => {
   clearTimeout(autoSaveTimer);
   if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0 || Object.keys(skuCategories).length > 0 || Object.keys(categoryPromoCosts).length > 0) {
-    const data = { skuSettings, promoCosts, skuCategories, categoryPromoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+    const data = getSettingsData();
     localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
   }
+});
+
+// ===== Exchange rate input auto-save =====
+document.getElementById('exchangeRate').addEventListener('input', e => {
+  exchangeRate = parseFloat(e.target.value) || 0.78;
+  autoSave();
+  recalculate();
 });
 </script>
 </body>
