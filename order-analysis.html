@@ -988,7 +988,7 @@ function renderCategoryPromoTable() {
     <tr class="total-row" style="font-weight:bold;background:#f0f4f8;">
       <td>合计</td>
       <td>${orders.length}</td>
-      <td>${cur}${totalRevenue.toFixed(2)}</td>
+      <td>${cur}${totalRevenue.toFixed(2)}${currentCountry === 'UK' ? `<br><span style="font-weight:normal;font-size:11px;color:var(--muted);">≈ $${(totalRevenue / exchangeRate).toFixed(2)}</span>` : ''}</td>
       <td>${curUsd}${totalPromo.toFixed(2)}</td>
       <td>${totalPct}%</td>
     </tr>
@@ -1114,7 +1114,7 @@ function renderCategoryDashboard(orderData) {
       <td></td>
       <td>${totalOrders}</td>
       <td>${totalQty}</td>
-      <td>${cur}${totalRevenue.toFixed(2)}</td>
+      <td>${cur}${totalRevenue.toFixed(2)}${currentCountry === 'UK' ? `<br><span style="font-weight:normal;font-size:11px;color:var(--muted);">≈ $${(totalRevenue / exchangeRate).toFixed(2)}</span>` : ''}</td>
       <td colspan="6"></td>
       <td>${cur}${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
@@ -1287,7 +1287,7 @@ function renderCards(orders, revenue, cost, profit) {
     <div class="card">
       <div class="card-label">总收入</div>
       <div class="card-value revenue">${cur}${revenue.toFixed(2)}</div>
-      <div class="card-sub">平台折扣 + 折后小计${sampleCount > 0 ? `（样品单收入=0）` : ''}</div>
+      <div class="card-sub">${currentCountry === 'UK' ? `≈ $${(revenue / exchangeRate).toFixed(2)} | ` : ''}平台折扣 + 折后小计${sampleCount > 0 ? `（样品单收入=0）` : ''}</div>
     </div>
     <div class="card">
       <div class="card-label">总成本</div>
@@ -1368,7 +1368,7 @@ function renderDailyTable(dailyData) {
     <td><strong>${totals.orders}</strong></td>
     <td>${totals.samples > 0 ? `<strong style="color:var(--warning);">${totals.samples}</strong>` : '<strong>—</strong>'}</td>
     <td><strong>${totals.qty}</strong></td>
-    <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.revenue.toFixed(2)}${currentCountry === 'UK' ? `<br><span style="font-weight:normal;font-size:11px;color:var(--muted);">≈ $${(totals.revenue / exchangeRate).toFixed(2)}</span>` : ''}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
     <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
     <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
@@ -1445,7 +1445,7 @@ function renderSkuSummaryTable(skuData) {
     <td colspan="2"><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
     <td><strong>${totals.qty}</strong></td>
-    <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.revenue.toFixed(2)}${currentCountry === 'UK' ? `<br><span style="font-weight:normal;font-size:11px;color:var(--muted);">≈ $${(totals.revenue / exchangeRate).toFixed(2)}</span>` : ''}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
     <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
     <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
