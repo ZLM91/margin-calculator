@@ -485,8 +485,10 @@ function updateCurrencyLabels() {
 function switchCountry(country) {
   if (country === currentCountry) return;
 
-  // Save current country's settings first
-  saveSettings();
+  // Save current country's settings first (only if there's data to save)
+  if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0) {
+    saveSettings();
+  }
 
   // Save current orders to the old country
   countryOrders[currentCountry] = { allOrders: [...allOrders], uniqueSkus: [...uniqueSkus], uniqueDates: [...uniqueDates], statusCounts: { ...statusCounts } };
@@ -1231,18 +1233,21 @@ window.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('tiktok_order_analysis');
   }
 
-  const raw = localStorage.getItem('tiktok_order_analysis_' + currentCountry);
-  if (raw) {
-    try {
-      const data = JSON.parse(raw);
-      if (data.defaultPlatformPct) document.getElementById('defaultPlatformPct').value = data.defaultPlatformPct;
-      if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
-    } catch(e) {}
-  }
+  // Load ALL saved settings (not just default percentages)
+  loadSettings(true);
 
   // Set initial currency symbol
   cur = currentCountry === 'UK' ? '£' : '$';
   updateCurrencyLabels();
+});
+
+// ===== Flush pending auto-save before page unload (refresh/close) =====
+window.addEventListener('beforeunload', () => {
+  clearTimeout(autoSaveTimer);
+  if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0) {
+    const data = { skuSettings, promoCosts, defaultPlatformPct: document.getElementById('defaultPlatformPct').value, defaultCreatorPct: document.getElementById('defaultCreatorPct').value };
+    localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
+  }
 });
 </script>
 </body>
