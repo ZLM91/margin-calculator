@@ -556,6 +556,33 @@ td input.wide { width: 120px; }
       </div>
     </div>
 
+    <!-- Sample Orders Detail -->
+    <div class="section-header">
+      <h2>样品单明细</h2>
+      <span class="info-text" id="sampleSummaryText"></span>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll-summary">
+        <table id="sampleOrdersTable">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>订单号</th>
+              <th>SKU</th>
+              <th>产品名</th>
+              <th>数量</th>
+              <th>收入(<span data-cur>$</span>)</th>
+              <th>产品成本(<span data-cur>$</span>)</th>
+              <th>尾程运费(<span data-cur-usd>$</span>)</th>
+              <th>物流类型</th>
+              <th>合计成本(<span data-cur>$</span>)</th>
+            </tr>
+          </thead>
+          <tbody id="sampleOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -767,9 +794,10 @@ function parseOrders(rows) {
     const productName = colMap.productName >= 0 ? String(r[colMap.productName] || '').substring(0, 40) : '';
     const fulfillment = colMap.fulfillmentType >= 0 ? String(r[colMap.fulfillmentType] || '').trim() : '';
 
-    // Detect sample order: revenue=0 AND status is not cancelled
+    // Detect sample order: revenue=0 AND has fulfillment (logistics) AND status is not cancelled
     const isCancelled = status === 'Cancelled' || status === '已取消' || status.toLowerCase().includes('cancel');
-    const isSample = (platformDiscount + subtotalAfter === 0) && !isCancelled;
+    const hasFulfillment = fulfillment !== '' && !fulfillment.toLowerCase().includes('no fulfillment');
+    const isSample = (platformDiscount + subtotalAfter === 0) && !isCancelled && hasFulfillment;
 
     allOrders.push({
       orderId: String(r[colMap.orderId] || ''),
@@ -1325,6 +1353,82 @@ function renderUsdDashboard(orderData) {
   });
 }
 
+// ===== Render Sample Orders Detail =====
+function renderSampleOrders(orderData) {
+  const tbody = document.getElementById('sampleOrdersBody');
+  const summaryEl = document.getElementById('sampleSummaryText');
+  tbody.innerHTML = '';
+
+  // Filter sample orders (revenue=0, has logistics, not cancelled)
+  const samples = orderData.filter(o => o.isSample);
+
+  if (samples.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">无样品订单</td></tr>';
+    summaryEl.textContent = '';
+    return;
+  }
+
+  const rate = currentCountry === 'UK' ? exchangeRate : 1;
+  const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
+
+  let totalQty = 0;
+  let totalProductCost = 0; // GBP
+  let totalShippingUsd = 0; // original USD
+  let totalCost = 0; // GBP
+
+  // Sort by date then order ID
+  samples.sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return a.orderId.localeCompare(b.orderId);
+  });
+
+  samples.forEach(o => {
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0 };
+    const productCost = s.productCost * o.quantity; // GBP
+    const shippingUsd = s.shipping * o.quantity; // original USD
+    const shippingGbp = shippingUsd / rate; // GBP
+    const cost = productCost + shippingGbp; // total cost in GBP
+
+    totalQty += o.quantity;
+    totalProductCost += productCost;
+    totalShippingUsd += shippingUsd;
+    totalCost += cost;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${o.date}</td>
+      <td style="font-size:12px;color:var(--muted);">${o.orderId}</td>
+      <td><strong>${o.sku}</strong></td>
+      <td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${o.productName}">${o.productName}</td>
+      <td>${o.quantity}</td>
+      <td>${cur}${o.revenue.toFixed(2)}</td>
+      <td>${cur}${productCost.toFixed(2)}</td>
+      <td>${curUsd}${shippingUsd.toFixed(2)}</td>
+      <td style="font-size:11px;color:var(--muted);">${o.fulfillment || '—'}</td>
+      <td><strong>${cur}${cost.toFixed(2)}</strong></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Total row
+  const tr = document.createElement('tr');
+  tr.classList.add('total-row');
+  tr.style.background = '#f0f4f8';
+  tr.innerHTML = `
+    <td colspan="4"><strong>合计（${samples.length} 单样品）</strong></td>
+    <td><strong>${totalQty}</strong></td>
+    <td><strong>${cur}0.00</strong></td>
+    <td><strong>${cur}${totalProductCost.toFixed(2)}</strong></td>
+    <td><strong>${curUsd}${totalShippingUsd.toFixed(2)}</strong></td>
+    <td></td>
+    <td><strong>${cur}${totalCost.toFixed(2)}</strong></td>
+  `;
+  tbody.appendChild(tr);
+
+  // Summary text
+  summaryEl.textContent = `共 ${samples.length} 单 | ${totalQty} 件 | 成本合计 ${cur}${totalCost.toFixed(2)}（产品 ${cur}${totalProductCost.toFixed(2)} + 物流 ${curUsd}${totalShippingUsd.toFixed(2)}）`;
+}
+
 // ===== Main Calculation =====
 function recalculate() {
   const orders = getFilteredOrders();
@@ -1334,6 +1438,8 @@ function recalculate() {
     document.getElementById('skuSummaryTableBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
     document.getElementById('categorySummaryBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
     document.getElementById('usdSummaryBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('sampleOrdersBody').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">无样品订单</td></tr>';
+    document.getElementById('sampleSummaryText').textContent = '';
     return;
   }
 
@@ -1454,6 +1560,7 @@ function recalculate() {
   // Category dashboard
   renderCategoryDashboard(orderData);
   renderUsdDashboard(orderData);
+  renderSampleOrders(orderData);
 }
 
 // ===== Render Summary Cards =====
@@ -1838,6 +1945,24 @@ function exportResults() {
   });
   const ws5 = XLSX.utils.json_to_sheet(usdData);
   XLSX.utils.book_append_sheet(wb, ws5, '美元利润看板');
+
+  // Sample orders sheet
+  const sampleData = [];
+  document.querySelectorAll('#sampleOrdersBody tr').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 10) {
+      sampleData.push({
+        '日期': cells[0].textContent, '订单号': cells[1].textContent, 'SKU': cells[2].textContent,
+        '产品名': cells[3].textContent, '数量': cells[4].textContent, '收入': cells[5].textContent,
+        '产品成本': cells[6].textContent, '尾程运费': cells[7].textContent, '物流类型': cells[8].textContent,
+        '合计成本': cells[9].textContent,
+      });
+    }
+  });
+  if (sampleData.length > 0) {
+    const ws6 = XLSX.utils.json_to_sheet(sampleData);
+    XLSX.utils.book_append_sheet(wb, ws6, '样品单明细');
+  }
 
   XLSX.writeFile(wb, `订单盈利分析_${currentCountry === 'US' ? '美国站' : '英国站'}_` + new Date().toISOString().slice(0,10) + '.xlsx');
 }
