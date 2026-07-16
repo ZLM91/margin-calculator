@@ -13,16 +13,16 @@ No more waddling after the bathroom. Fresh walk only 🚶 #FreshFeeling #Bathroo
 The secret to feeling put-together? Starts in the bathroom 🪞 #GlowUp #LittleThings #wipes #wetwips #toiletpaper | 精致感的秘密？从卫生间开始
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Marigold: the flower that fights inflammation while you wipe 🌼 #MarigoldPower #NaturalHealing #wipes #wetwips #toiletpaper #travelsize | 金盏花：边擦边消炎的神奇花朵
-Festival bathrooms? This little pack is your survival kit 🎪 #FestivalEssentials #OutdoorEvents #wipes #wetwips #toiletpaper #travelsize | 音乐节厕所？这小包就是你的生存装备
-Hotel toilet paper vs. your travel wipes — no contest 🏨 #HotelHack #TravelComfort #wipes #wetwips #toiletpaper #travelsize | 酒店厕纸VS你的旅行湿厕纸——没有可比性
-Tiny purse, big protection. That's the travel wipe philosophy 👜 #MiniButMighty #DailyCarry #wipes #wetwips #toiletpaper #travelsize | 小包包大保护，这就是旅行湿巾哲学
-Golden hour glow + golden marigold care = perfect combo 🌅 #GoldenCare #TravelAesthetic #wipes #wetwips #toiletpaper #travelsize | 黄金时刻的光芒+金盏花的呵护=完美搭配
-One wipe after a long flight and you feel human again ✈️😮‍💨 #FlightRecovery #JetLag #wipes #wetwips #toiletpaper #travelsize | 长途飞行后一张湿巾，让你重新像个人
-You packed 7 outfits for a 3-day trip... but forgot wet wipes? 🤨 #PackingFail #TravelReminder #wipes #wetwips #toiletpaper #travelsize | 3天的旅行带了7套衣服...却忘了湿厕纸？
-Beach sand + marigold wipes = the cleanup you actually need 🏖️ #BeachDay #SummerEssentials #wipes #wetwips #toiletpaper #travelsize | 沙滩的沙子+金盏花湿巾=你真正需要的清洁
-Coffee spill on your white pants? Travel wipe to the rescue ☕👖 #EmergencyKit #StainRemover #wipes #wetwips #toiletpaper #travelsize | 白裤子洒了咖啡？旅行湿巾救场
-Marigold isn't just pretty — it's functional skincare for down there 🌸 #BotanicalBeauty #FunctionalSkincare #wipes #wetwips #toiletpaper #travelsize | 金盏花不只是好看，是真正有功能的身体护理
+That public restroom paper roll? You don't want to know how many hands touched it 🧻👀 #RestroomReality #TravelHygiene #wipes #wetwips #toiletpaper #travelsize | 那个公共厕纸卷？你不想知道有多少手碰过它
+Airplane bathroom paper is basically tissue pretending to be toilet paper ✈️🧻 #FlightSurvival #PackYourOwn #wipes #wetwips #toiletpaper #travelsize | 飞机卫生间纸就是面巾纸假装厕纸
+You sanitize your hands AFTER the restroom — but what touches you BEFORE? 🚽🤔 #RestroomLogic #HygieneGap #wipes #wetwips #toiletpaper #travelsize | 卫生间后你消毒双手——但之前碰到你的是什么？
+Hotel "luxury" one-ply toilet paper? Your marigold wipes say no 🏨🌼 #HotelReality #TravelHack #wipes #wetwips #toiletpaper #travelsize | 酒店"奢华"单层厕纸？你的金盏花湿厕纸说不行
+Dry public restroom paper + sensitive skin = a bad combo nobody signed up for ⚠️🧻 #SensitiveSkinTravel #RestroomPain #wipes #wetwips #toiletpaper #travelsize | 干燥公厕纸+敏感肌=没人报名的灾难组合
+"Will there even be toilet paper?" — the travel anxiety that disappears when you pack your own 🤨👜 #TravelAnxiety #PackYourOwn #wipes #wetwips #toiletpaper #travelsize | "会有厕纸吗？"——自带后这种旅行焦虑就消失了
+Gas station bathroom: the place where toilet paper goes to die 🛣️💀 #RoadTripReality #TravelEssentials #wipes #wetwips #toiletpaper #travelsize | 加油站卫生间：厕纸走向死亡的地方
+Marigold calms what that scratchy public restroom paper started 🌼🩹 #MarigoldSoothing #SensitiveTravel #wipes #wetwips #toiletpaper #travelsize | 金盏花安抚粗糙公厕纸留下的刺激不适
+Festival porta-potty: paper gone by noon, but you're the prepared one 🎪🧻 #FestivalSurvival #BePrepared #wipes #wetwips #toiletpaper #travelsize | 音乐节临时厕所纸中午就没，但你是有准备的人
+Every unfamiliar bathroom is a hygiene gamble — travel wipes are your insurance 🎰🛡️ #RestroomGamble #HygieneInsurance #wipes #wetwips #toiletpaper #travelsize | 每个陌生卫生间都是卫生赌博——旅行湿厕纸就是你的保险
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
 That towel hanging in your bathroom? It's a bacteria hotel 🦠🏨 #BacteriaFree #FaceHygiene #facetowel | 挂在卫生间的毛巾？那是细菌招待所
