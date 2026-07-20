@@ -21,44 +21,44 @@ You deserve better than one-ply dry paper #wipes #wetwips #toiletpaper | 你值�
 The itch you ignore? It started with your toilet paper #wipes #wetwips #toiletpaper | 你忽视的瘙痒？从你的厕纸开始 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-That public restroom paper roll has been touched by strangers #wipes #wetwips #toiletpaper #travelsize | 公共卫生间那卷纸被陌生人碰过 #旅行装湿厕纸 #金盏花
-You never know what is on the paper in a public stall #wipes #wetwips #toiletpaper #travelsize | 你永远不知道隔间里的纸上有什么 #旅行装湿厕纸 #金盏花
-Public restroom seats plus rough paper equals skin irritation #wipes #wetwips #toiletpaper #travelsize | 公共马桶座加粗纸等于皮肤刺激 #旅行装湿厕纸 #金盏花
-The paper dispenser in public bathrooms is always empty #wipes #wetwips #toiletpaper #travelsize | 公共卫生间的纸架总是空的 #旅行装湿厕纸 #金盏花
-Airplane bathroom paper is thinner than napkins #wipes #wetwips #toiletpaper #travelsize | 飞机厕所纸比餐巾纸还薄 #旅行装湿厕纸 #金盏花
-Gas station bathroom paper feels like recycled cardboard #wipes #wetwips #toiletpaper #travelsize | 加油站厕所纸像再生纸板 #旅行装湿厕纸 #金盏花
-Train bathroom paper disintegrates in your hand #wipes #wetwips #toiletpaper #travelsize | 火车厕所纸在手里碎掉 #旅行装湿厕纸 #金盏花
-Mall bathroom paper is cheap and scratchy #wipes #wetwips #toiletpaper #travelsize | 商场厕所纸廉价又粗糙 #旅行装湿厕纸 #金盏花
-Festival porta-potty paper is gone by noon #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕所纸中午就没了 #旅行装湿厕纸 #金盏花
-Hotel one-ply paper is not the luxury they promised #wipes #wetwips #toiletpaper #travelsize | 酒店单层纸不是他们承诺的奢华 #旅行装湿厕纸 #金盏花
-Road trip rest stop paper is a gamble #wipes #wetwips #toiletpaper #travelsize | 自驾休息站厕纸全靠运气 #旅行装湿厕纸 #金盏花
-Beach bathroom paper is gritty with sand #wipes #wetwips #toiletpaper #travelsize | 海滩厕所纸里全是沙子 #旅行装湿厕纸 #金盏花
-Stadium bathroom paper runs out before halftime #wipes #wetwips #toiletpaper #travelsize | 体育场厕所纸半场前就空了 #旅行装湿厕纸 #金盏花
-Public pool changing room paper feels like sandpaper #wipes #wetwips #toiletpaper #travelsize | 公共泳池更衣室纸像砂纸 #旅行装湿厕纸 #金盏花
-You sanitize your hands after but the paper touched you first #wipes #wetwips #toiletpaper #travelsize | 你消毒双手但纸先碰到你 #旅行装湿厕纸 #金盏花
-Public restroom toilet seats are not clean and the paper is worse #wipes #wetwips #toiletpaper #travelsize | 公共马桶座不干净，纸更差 #旅行装湿厕纸 #金盏花
-The only thing scarier than a public restroom is no paper in it #wipes #wetwips #toiletpaper #travelsize | 比公共卫生间更可怕的是里面没纸 #旅行装湿厕纸 #金盏花
-Travel wipes mean you never rely on public bathroom supplies #wipes #wetwips #toiletpaper #travelsize | 旅行湿厕纸意味着不依赖公共厕所用品 #旅行装湿厕纸 #金盏花
+Business trip bathroom emergency between meetings #wipes #wetwips #toiletpaper #travelsize | 出差会议间隙上厕所紧急 #旅行装湿厕纸 #金盏花
+Conference bathroom break is rushed and stressful #wipes #wetwips #toiletpaper #travelsize | 会议上厕所又赶又紧张 #旅行装湿厕纸 #金盏花
+Client dinner bathroom with cheap restaurant paper #wipes #wetwips #toiletpaper #travelsize | 客户晚宴上厕所只有差纸 #旅行装湿厕纸 #金盏花
+Hotel checkout time means rushed bathroom with bad paper #wipes #wetwips #toiletpaper #travelsize | 酒店退房时间意味着赶着用差纸 #旅行装湿厕纸 #金盏花
+Trade show bathroom line is 20 minutes long #wipes #wetwips #toiletpaper #travelsize | 展会厕所排队20分钟 #旅行装湿厕纸 #金盏花
+Corporate event bathroom paper is one-ply #wipes #wetwips #toiletpaper #travelsize | 企业活动厕纸是单层 #旅行装湿厕纸 #金盏花
+Office tour bathroom in a new building — no wipes #wipes #wetwips #toiletpaper #travelsize | 新办公室参观上厕所——没湿巾 #旅行装湿厕纸 #金盏花
+Networking event bathroom break is awkward #wipes #wetwips #toiletpaper #travelsize | 社交活动上厕所很尴尬 #旅行装湿厕纸 #金盏花
+Airport business lounge bathroom paper is still rough #wipes #wetwips #toiletpaper #travelsize | 机场商务休息室厕纸仍然粗 #旅行装湿厕纸 #金盏花
+Co-working space bathroom paper runs out fast #wipes #wetwips #toiletpaper #travelsize | 共享办公厕纸很快用完 #旅行装湿厕纸 #金盏花
+Factory visit bathroom is industrial grade rough #wipes #wetwips #toiletpaper #travelsize | 工厂参观厕所是工业级粗纸 #旅行装湿厕纸 #金盏花
+Training day bathroom break is too short #wipes #wetwips #toiletpaper #travelsize | 培训日上厕所时间太短 #旅行装湿厕纸 #金盏花
+Product launch event bathroom is crowded #wipes #wetwips #toiletpaper #travelsize | 产品发布会厕所拥挤 #旅行装湿厕纸 #金盏花
+Job interview bathroom emergency — no wipes #wipes #wetwips #toiletpaper #travelsize | 面试上厕所紧急——没湿巾 #旅行装湿厕纸 #金盏花
+Sales call bathroom break in a strange building #wipes #wetwips #toiletpaper #travelsize | 拜访客户在陌生楼里上厕所 #旅行装湿厕纸 #金盏花
+Trade fair bathroom is a free-for-all #wipes #wetwips #toiletpaper #travelsize | 展销会厕所是混战 #旅行装湿厕纸 #金盏花
+Corporate retreat bathroom is shared and rough #wipes #wetwips #toiletpaper #travelsize | 公司团建厕所共用且粗 #旅行装湿厕纸 #金盏花
+Site visit bathroom is a port-a-john #wipes #wetwips #toiletpaper #travelsize | 工地上厕所是移动厕所 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Bathroom towels absorb moisture and never fully dry #facialtowel #disposable #skincare | 浴室毛巾吸潮永远干不透 #一次性洗脸巾 #护肤
-That towel hanging near the toilet? It's catching spray #facialtowel #disposable #skincare | 挂在马桶旁边的毛巾？在接喷溅 #一次性洗脸巾 #护肤
-Humid bathroom plus damp towel equals mold #facialtowel #disposable #skincare | 潮湿浴室加湿毛巾等于霉菌 #一次性洗脸巾 #护肤
-Your towel smells like mildew? It IS mildew #facialtowel #disposable #skincare | 毛巾闻起来有霉味？那就是霉菌 #一次性洗脸巾 #护肤
-Bathroom without a window means towels never dry #facialtowel #disposable #skincare | 没窗户的浴室毛巾永远干不了 #一次性洗脸巾 #护肤
-That dark spot on your towel? Mold colony #facialtowel #disposable #skincare | 毛巾上的黑点？霉菌菌落 #一次性洗脸巾 #护肤
-Your towel feels stiff? That's bacteria buildup #facialtowel #disposable #skincare | 毛巾发硬？那是细菌堆积 #一次性洗脸巾 #护肤
-Washing towels in cold water doesn't kill bacteria #facialtowel #disposable #skincare | 冷水洗毛巾杀不死细菌 #一次性洗脸巾 #护肤
-Your towel has been damp for 8 hours — bacteria doubled #facialtowel #disposable #skincare | 你的毛巾湿了8小时——细菌翻倍了 #一次性洗脸巾 #护肤
-Bathroom towel bar holds bacteria from every flush #facialtowel #disposable #skincare | 浴室毛巾杆上有每次冲水的细菌 #一次性洗脸巾 #护肤
-That towel you forgot in the laundry basket? Toxic #facialtowel #disposable #skincare | 忘在洗衣篮里的毛巾？有毒 #一次性洗脸巾 #护肤
-Your towel dried overnight but bacteria survived #facialtowel #disposable #skincare | 毛巾过了一夜但细菌还活着 #一次性洗脸巾 #护肤
-Flushing with the lid up sprays bacteria onto your towel #facialtowel #disposable #skincare | 开盖冲水把细菌喷到毛巾上 #一次性洗脸巾 #护肤
-Your bathroom towel is a science experiment #facialtowel #disposable #skincare | 你的浴室毛巾是个科学实验 #一次性洗脸巾 #护肤
-Damp towel in a dark bathroom grows bacteria in 30 minutes #facialtowel #disposable #skincare | 黑暗浴室里湿毛巾30分钟长细菌 #一次性洗脸巾 #护肤
-Your towel smells fine but it's still dirty #facialtowel #disposable #skincare | 毛巾闻着没问题但还是脏的 #一次性洗脸巾 #护肤
-Towels left on the floor? Bacteria playground #facialtowel #disposable #skincare | 毛巾丢地上？细菌游乐场 #一次性洗脸巾 #护肤
-That towel has been wet for so long it's practically alive #facialtowel #disposable #skincare | 那条毛巾湿了太久简直活过来了 #一次性洗脸巾 #护肤
+Still using the same face towel for 3 months? #facialtowel #disposable #skincare | 还在用同一条毛巾擦脸三个月？ #一次性洗脸巾 #护肤
+One towel for face, body and hair? Cross-contamination warning #facialtowel #disposable #skincare | 一条毛巾擦脸擦身擦头？交叉感染警告 #一次性洗脸巾 #护肤
+You wash your face then dry with a dirty towel, why bother washing? #facialtowel #disposable #skincare | 洗完脸用脏毛巾擦干，那脸白洗了 #一次性洗脸巾 #护肤
+5 minutes of skincare ruined by 30 seconds of dirty towel #facialtowel #disposable #skincare | 每天花5分钟护肤，30秒脏毛巾全毁掉 #一次性洗脸巾 #护肤
+You'd never wipe your face with a dirty napkin, so why a dirty towel? #facialtowel #disposable #skincare | 你不会用脏餐巾纸擦脸，那为什么用脏毛巾？ #一次性洗脸巾 #护肤
+Face washed clean but towel is dirty? Net result is zero #facialtowel #disposable #skincare | 脸洗得再干净，毛巾脏了等于零 #一次性洗脸巾 #护肤
+Thousands on serums and creams, paired with a moldy towel? #facialtowel #disposable #skincare | 精华面霜几千块，配一条发霉毛巾？ #一次性洗脸巾 #护肤
+Would you wear the same underwear for a month? Then why the same towel? #facialtowel #disposable #skincare | 你会同一条内裤穿一个月？那为什么同一条毛巾？ #一次性洗脸巾 #护肤
+You change your toothbrush but not your face towel? #facialtowel #disposable #skincare | 你换牙刷却不换洗脸毛巾？ #一次性洗脸巾 #护肤
+Your towel touches your face 700 times a month, still think it's clean? #facialtowel #disposable #skincare | 你的毛巾一个月碰脸700次，还觉得它干净？ #一次性洗脸巾 #护肤
+You wash your hands but dry them on a bacteria towel #facialtowel #disposable #skincare | 你洗了手，却用细菌毛巾擦干 #一次性洗脸巾 #护肤
+Using the same towel as yesterday? You're reapplying yesterday's bacteria #facialtowel #disposable #skincare | 用昨天的毛巾？你在重新抹昨天的细菌 #一次性洗脸巾 #护肤
+Your face is the cleanest after washing, then you ruin it with a dirty towel #facialtowel #disposable #skincare | 你的脸洗完最干净，然后被脏毛巾毁了 #一次性洗脸巾 #护肤
+Would you eat off a plate that hasn't been changed in a week? #facialtowel #disposable #skincare | 你会用一周没换的盘子吃饭吗？ #一次性洗脸巾 #护肤
+You disinfect your phone but not your face towel? #facialtowel #disposable #skincare | 你给手机消毒却不换洗脸毛巾？ #一次性洗脸巾 #护肤
+Expensive cleanser followed by a 3-month-old towel, makes sense? #facialtowel #disposable #skincare | 昂贵洗面奶配三个月老毛巾，合理吗？ #一次性洗脸巾 #护肤
+Your towel is the last thing touching your face before bed #facialtowel #disposable #skincare | 毛巾是你睡前最后碰到脸的东西 #一次性洗脸巾 #护肤
+You change your sheets weekly but your face towel monthly? #facialtowel #disposable #skincare | 床单一周一换，毛巾一月一换？ #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Date night ruined by coffee breath #toothpaste #dentalcare #oralcare | 约会夜被咖啡口气毁掉 #牙膏 #口腔护理
