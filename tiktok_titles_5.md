@@ -41,24 +41,24 @@ Family cruise bathroom is tiny and paper is thin #wipes #wetwips #toiletpaper #t
 Kid's first camping trip — bathroom anxiety #wipes #wetwips #toiletpaper #travelsize | 孩子第一次露营——厕所焦虑 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Hotel towels washed in industrial machines but still shared #facialtowel #disposable #skincare | 酒店毛巾工业洗涤但还是公用的 #一次性洗脸巾 #护肤
-Airbnb towel — how many strangers used it before you? #facialtowel #disposable #skincare | 民宿毛巾——在你之前多少陌生人用过？ #一次性洗脸巾 #护肤
-Gym towel from the front desk? Who used it last? #facialtowel #disposable #skincare | 健身房前台毛巾？上一个用的人是谁？ #一次性洗脸巾 #护肤
-Friend's guest towel — when was it last washed? #facialtowel #disposable #skincare | 朋友家客用毛巾——上次洗是什么时候？ #一次性洗脸巾 #护肤
-College dorm shared bathroom towels are a horror #facialtowel #disposable #skincare | 大学宿舍共用浴室毛巾是恐怖片 #一次性洗脸巾 #护肤
-Hospital towel — necessary but not gentle on skin #facialtowel #disposable #skincare | 医院毛巾——必要但对皮肤不温柔 #一次性洗脸巾 #护肤
-Pool towel rental — hundreds of bodies, one wash #facialtowel #disposable #skincare | 泳池租毛巾——几百个身体一次洗涤 #一次性洗脸巾 #护肤
-Spa towel feels clean but your skin says otherwise #facialtowel #disposable #skincare | SPA毛巾感觉干净但你的皮肤不这么认为 #一次性洗脸巾 #护肤
-Airplane blanket and pillow are like public towels #facialtowel #disposable #skincare | 飞机毛毯和枕头就像公共毛巾 #一次性洗脸巾 #护肤
-Hostel towel is a gamble with your skin #facialtowel #disposable #skincare | 青旅毛巾是拿你的皮肤赌博 #一次性洗脸巾 #护肤
-Camping towel is damp for the entire trip #facialtowel #disposable #skincare | 露营毛巾整个旅程都是湿的 #一次性洗脸巾 #护肤
-Relative's house towel — old, rough, and questionable #facialtowel #disposable #skincare | 亲戚家毛巾——旧、粗、可疑 #一次性洗脸巾 #护肤
-Beach house towel has sand and salt baked in #facialtowel #disposable #skincare | 海边房毛巾有烤进去的沙和盐 #一次性洗脸巾 #护肤
-Rental cabin towel smells like mothballs #facialtowel #disposable #skincare | 租借木屋毛巾闻起来像樟脑丸 #一次性洗脸巾 #护肤
-Towels at a hot spring are shared and steamy #facialtowel #disposable #skincare | 温泉毛巾是公用且湿热的 #一次性洗脸巾 #护肤
-Ski lodge towel is stiff and rough #facialtowel #disposable #skincare | 滑雪小屋毛巾又硬又粗 #一次性洗脸巾 #护肤
-Road trip motel towel is paper-thin and scratchy #facialtowel #disposable #skincare | 自驾汽车旅馆毛巾又薄又刮 #一次性洗脸巾 #护肤
-Your travel towel never dries in the suitcase #facialtowel #disposable #skincare | 你的旅行毛巾在行李箱里永远干不了 #一次性洗脸巾 #护肤
+Bathroom humidity means your towel never truly dries #facialtowel #disposable #skincare | 浴室潮湿毛巾根本干不了 #一次性洗脸巾 #护肤
+Every toilet flush sprays bacteria onto your hanging towel #facialtowel #disposable #skincare | 每次冲马桶都在往毛巾上喷细菌 #一次性洗脸巾 #护肤
+Dorm towel hanging by the bed? Bacteria goes straight to your face #facialtowel #disposable #skincare | 宿舍毛巾挂在床头？细菌直接上脸 #一次性洗脸巾 #护肤
+Shared bathroom towels hanging together? Cross-contamination guaranteed #facialtowel #disposable #skincare | 合租浴室毛巾混挂？互相传染 #一次性洗脸巾 #护肤
+Tiny bathroom no window? Your towel stays damp all day #facialtowel #disposable #skincare | 小浴室没窗户？毛巾一整天都是湿的 #一次性洗脸巾 #护肤
+Your towel hangs 3 feet from the toilet, think about it #facialtowel #disposable #skincare | 你的毛巾离马桶不到一米，想想吧 #一次性洗脸巾 #护肤
+Hostel towel never dries? Bring disposable ones instead #facialtowel #disposable #skincare | 青旅毛巾干不了？带一次性的吧 #一次性洗脸巾 #护肤
+Gym towel in your bag breeds bacteria in 2 hours #facialtowel #disposable #skincare | 健身包装着的毛巾2小时就开始长细菌 #一次性洗脸巾 #护肤
+Your towel is in the most bacteria-filled room of your house #facialtowel #disposable #skincare | 你的毛巾放在全屋细菌最多的房间 #一次性洗脸巾 #护肤
+No exhaust fan? Your towel is soaking in humid bacteria air #facialtowel #disposable #skincare | 没排气扇？你的毛巾泡在潮湿细菌空气中 #一次性洗脸巾 #护肤
+Towel above the toilet? Every flush is a bacteria shower #facialtowel #disposable #skincare | 毛巾挂在马桶上方？每次冲水都是细菌雨 #一次性洗脸巾 #护肤
+Your kids share a towel in the bathroom, trading each other's germs #facialtowel #disposable #skincare | 孩子共用一条毛巾，互相交换细菌 #一次性洗脸巾 #护肤
+Travel towel never dries in the hotel room #facialtowel #disposable #skincare | 旅行带的毛巾在酒店房间根本干不了 #一次性洗脸巾 #护肤
+Your bathroom towel rack is a bacteria distribution center #facialtowel #disposable #skincare | 你的毛巾架是细菌分发中心 #一次性洗脸巾 #护肤
+Studio apartment bathroom? Your towel is basically in the kitchen #facialtowel #disposable #skincare | 单身公寓浴室？你的毛巾基本在厨房里 #一次性洗脸巾 #护肤
+Shared dorm bathroom means your towel catches everyone's bacteria #facialtowel #disposable #skincare | 公共宿舍浴室意味着你的毛巾沾满所有人的细菌 #一次性洗脸巾 #护肤
+Your towel hangs next to the trash can, really? #facialtowel #disposable #skincare | 你的毛巾挂在垃圾桶旁边，认真的？ #一次性洗脸巾 #护肤
+Camping towel damp for days? That's a bacteria festival #facialtowel #disposable #skincare | 露营毛巾好几天不干？那是细菌狂欢节 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Morning breath wakes you up before the alarm #toothpaste #dentalcare #oralcare | 早上口气在你闹钟前把你弄醒 #牙膏 #口腔护理
