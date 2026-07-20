@@ -41,24 +41,24 @@ Scuba diving means salt and sand in uncomfortable places #wipes #wetwips #toilet
 Backpacking through nature means zero bathroom options #wipes #wetwips #toiletpaper #travelsize | 背包穿越自然意味着零厕所选择 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Your family shares towels? That's cross-contamination #facialtowel #disposable #skincare | 家人共用毛巾？那是交叉感染 #一次性洗脸巾 #护肤
-Your partner's towel bacteria is now on your face #facialtowel #disposable #skincare | 你伴侣的毛巾细菌现在在你脸上了 #一次性洗脸巾 #护肤
-Kids share towels and share skin problems #facialtowel #disposable #skincare | 孩子共用毛巾也共用皮肤问题 #一次性洗脸巾 #护肤
-Guest towel that everyone uses? It's the dirtiest in the house #facialtowel #disposable #skincare | 客人用的毛巾？全屋最脏 #一次性洗脸巾 #护肤
-Your baby's skin is too delicate for regular towels #facialtowel #disposable #skincare | 宝宝皮肤太娇嫩不能用普通毛巾 #一次性洗脸巾 #护肤
-Teenager's acne worse? They're not changing their towel #facialtowel #disposable #skincare | 青少年痘痘更严重？他们不换毛巾 #一次性洗脸巾 #护肤
-Husband's stubble plus shared towel equals bacteria highway #facialtowel #disposable #skincare | 丈夫胡茬加共用毛巾等于细菌高速路 #一次性洗脸巾 #护肤
-Your mom visits and uses your towel — bacteria exchange #facialtowel #disposable #skincare | 妈妈来访用你的毛巾——细菌交换 #一次性洗脸巾 #护肤
-Roommate's towel hanging next to yours? Contamination #facialtowel #disposable #skincare | 室友毛巾挂你旁边？污染 #一次性洗脸巾 #护肤
-Family of five, two towels? That's a problem #facialtowel #disposable #skincare | 五口人两条毛巾？问题大了 #一次性洗脸巾 #护肤
-Your towel rack is a bacteria exchange station #facialtowel #disposable #skincare | 你的毛巾架是细菌交换站 #一次性洗脸巾 #护肤
-Everyone in the house has skin issues? Check the towels #facialtowel #disposable #skincare | 全家人都有皮肤问题？查查毛巾 #一次性洗脸巾 #护肤
-Shared towel means shared staph, shared acne #facialtowel #disposable #skincare | 共用毛巾意味着共享葡萄球菌和痘痘 #一次性洗脸巾 #护肤
-Your kid uses your towel without asking — gross #facialtowel #disposable #skincare | 孩子不问就用你的毛巾——恶心 #一次性洗脸巾 #护肤
-Pet rubs against your towel? More bacteria #facialtowel #disposable #skincare | 宠物蹭你的毛巾？更多细菌 #一次性洗脸巾 #护肤
-Hotel towel shared by hundreds before you #facialtowel #disposable #skincare | 酒店毛巾在你之前被几百人用过 #一次性洗脸巾 #护肤
-Gym towel situation is worse than you think #facialtowel #disposable #skincare | 健身房毛巾比你想象的更糟 #一次性洗脸巾 #护肤
-Your face towel and hand towel are the same? Stop #facialtowel #disposable #skincare | 洗脸巾和擦手巾是同一条？快停 #一次性洗脸巾 #护肤
+Dust mites love damp towels, and your face is their dinner #facialtowel #disposable #skincare | 螨虫最爱潮湿毛巾，你的脸就是它们的晚餐 #一次性洗脸巾 #护肤
+Face itching after washing? Mites from your towel are crawling on you #facialtowel #disposable #skincare | 洗完脸发痒？毛巾上的螨虫正爬在你脸上 #一次性洗脸巾 #护肤
+Red bumps that aren't acne? Could be mite bites from your towel #facialtowel #disposable #skincare | 红色小包不是痘？可能是毛巾螨虫咬的 #一次性洗脸巾 #护肤
+Your towel is a 5-star hotel for dust mites #facialtowel #disposable #skincare | 你的毛巾是螨虫的五星级酒店 #一次性洗脸巾 #护肤
+Waking up with bites? Your towel transferred mites to your pillow #facialtowel #disposable #skincare | 早上起来有咬痕？毛巾把螨虫带到了枕头上 #一次性洗脸巾 #护肤
+Face feels crawly after drying? That's mites moving in #facialtowel #disposable #skincare | 擦完脸感觉有东西爬？那是螨虫在安家 #一次性洗脸巾 #护肤
+Allergy skin test negative? It's your towel not the food #facialtowel #disposable #skincare | 过敏源检测阴性？问题在毛巾不在食物 #一次性洗脸巾 #护肤
+Mites in your towel lay eggs every 3 days #facialtowel #disposable #skincare | 毛巾里的螨虫每3天产一次卵 #一次性洗脸巾 #护肤
+Your kid's face rash might be from the shared family towel #facialtowel #disposable #skincare | 孩子脸上的红疹可能是全家共用毛巾引起的 #一次性洗脸巾 #护肤
+Sensitive skin getting worse? Mites from damp towels are to blame #facialtowel #disposable #skincare | 敏感肌越来越严重？潮湿毛巾的螨虫是元凶 #一次性洗脸巾 #护肤
+Every itch on your face could be a mite from your towel #facialtowel #disposable #skincare | 脸上每次痒都可能是毛巾上的螨虫 #一次性洗脸巾 #护肤
+Your bathroom towel has more mites than your mattress #facialtowel #disposable #skincare | 浴室毛巾上的螨虫比床垫还多 #一次性洗脸巾 #护肤
+Damp towel plus warm bathroom = mite paradise #facialtowel #disposable #skincare | 潮湿毛巾加温暖浴室=螨虫天堂 #一次性洗脸巾 #护肤
+Stop scratching your face, start changing your towel #facialtowel #disposable #skincare | 别再挠脸了，先换掉你的毛巾 #一次性洗脸巾 #护肤
+Mites don't live on clean disposable towels #facialtowel #disposable #skincare | 螨虫活不在干净的一次性洗脸巾上 #一次性洗脸巾 #护肤
+Your towel is feeding mites that feed on your face #facialtowel #disposable #skincare | 你的毛巾在养螨虫，螨虫在吃你的脸 #一次性洗脸巾 #护肤
+Red patches around your mouth? Towel mites love that area #facialtowel #disposable #skincare | 嘴周围发红？毛巾螨虫最爱那个位置 #一次性洗脸巾 #护肤
+Dust mites in your towel produce waste that irritates your skin #facialtowel #disposable #skincare | 毛巾里的螨虫排泄物正在刺激你的皮肤 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Your kid runs away when you say it's brushing time #toothpaste #dentalcare #oralcare | 你说刷牙时间到了孩子就跑 #牙膏 #口腔护理
