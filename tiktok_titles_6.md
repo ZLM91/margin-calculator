@@ -41,24 +41,24 @@ Mongolian yurt bathroom is outside in the cold #wipes #wetwips #toiletpaper #tra
 Patagonia trek bathroom is wind and nothing else #wipes #wetwips #toiletpaper #travelsize | 巴塔哥尼亚徒步厕所只有风 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Cotton pads cost a fortune — face towels are cheaper #facialtowel #disposable #skincare | 化妆棉花好多钱——洗脸巾更便宜 #一次性洗脸巾 #护肤
-You go through 3 cotton pads per routine — wasteful #facialtowel #disposable #skincare | 每次护肤用3片化妆棉——浪费 #一次性洗脸巾 #护肤
-Reusable towels cost less but cost your skin more #facialtowel #disposable #skincare | 可重复毛巾省钱但伤皮肤 #一次性洗脸巾 #护肤
-Your towel laundry cost is more than you think #facialtowel #disposable #skincare | 毛巾洗衣成本比你以为的高 #一次性洗脸巾 #护肤
-Buying cotton pads every month adds up fast #facialtowel #disposable #skincare | 每月买化妆棉很快累积 #一次性洗脸巾 #护肤
-Your expensive towel lasts 3 months then smells #facialtowel #disposable #skincare | 贵毛巾用3个月就开始发臭 #一次性洗脸巾 #护肤
-Washcloths shrink and roughen after every wash #facialtowel #disposable #skincare | 洗脸巾每次洗后缩水变粗 #一次性洗脸巾 #护肤
-You're spending money on acne treatments but not fixing the cause #facialtowel #disposable #skincare | 你花钱治痘却不解决根本原因 #一次性洗脸巾 #护肤
-Towel replacement every 3 months is recommended — are you doing it? #facialtowel #disposable #skincare | 建议每3个月换毛巾——你做到了吗？ #一次性洗脸巾 #护肤
-Your skincare budget ignores the most basic item #facialtowel #disposable #skincare | 你的护肤预算忽略了最基本的 #一次性洗脸巾 #护肤
-Cotton rounds leave fibers on your face #facialtowel #disposable #skincare | 化妆棉在脸上留纤维 #一次性洗脸巾 #护肤
-Your towel is falling apart but you still use it #facialtowel #disposable #skincare | 毛巾都散了还在用 #一次性洗脸巾 #护肤
-Quality towels are expensive and still get dirty #facialtowel #disposable #skincare | 好毛巾贵还是会脏 #一次性洗脸巾 #护肤
-You wash towels in hot water but it costs energy #facialtowel #disposable #skincare | 热水洗毛巾但费能源 #一次性洗脸巾 #护肤
-Stop spending on acne creams — fix your towel first #facialtowel #disposable #skincare | 别花痘霜钱了——先换毛巾 #一次性洗脸巾 #护肤
-Cotton pad waste fills your trash can daily #facialtowel #disposable #skincare | 化妆棉每天填满你的垃圾桶 #一次性洗脸巾 #护肤
-Your towel has holes but you refuse to throw it out #facialtowel #disposable #skincare | 毛巾都有洞了还不扔 #一次性洗脸巾 #护肤
-Laundry detergent for towels is an ongoing expense #facialtowel #disposable #skincare | 毛巾洗衣液是持续开销 #一次性洗脸巾 #护肤
+Your 200 dollar serum can't beat a 50 cent dirty towel #facialtowel #disposable #skincare | 200块的精华打不过5毛钱的脏毛巾 #一次性洗脸巾 #护肤
+Expensive skincare routine then a filthy towel, money down the drain #facialtowel #disposable #skincare | 贵妇护肤配脏毛巾，钱全打水漂 #一次性洗脸巾 #护肤
+Your face wash costs 30 dollars but your towel is free bacteria #facialtowel #disposable #skincare | 洗面奶30刀，毛巾免费送细菌 #一次性洗脸巾 #护肤
+Toner, essence, moisturizer, all ruined by one dirty towel wipe #facialtowel #disposable #skincare | 爽肤水精华面霜，一条脏毛巾全毁 #一次性洗脸巾 #护肤
+You invest in skincare but ignore the thing touching your face most #facialtowel #disposable #skincare | 你在护肤上投资却忽略碰脸最多的东西 #一次性洗脸巾 #护肤
+Your skincare works hard, your towel works against it #facialtowel #disposable #skincare | 你的护肤品在努力，你的毛巾在拆台 #一次性洗脸巾 #护肤
+Why buy acne treatments if your towel keeps causing them? #facialtowel #disposable #skincare | 既然毛巾一直致痘，买祛痘产品有什么用？ #一次性洗脸巾 #护肤
+Your luxury cream absorbed then contaminated by towel bacteria #facialtowel #disposable #skincare | 贵妇面霜吸收了，然后被毛巾细菌污染 #一次性洗脸巾 #护肤
+Skincare is an investment, dirty towel is bankruptcy #facialtowel #disposable #skincare | 护肤是投资，脏毛巾是破产 #一次性洗脸巾 #护肤
+Your esthetician bill keeps growing but your towel stays the same #facialtowel #disposable #skincare | 美容院账单越来越厚，毛巾还是那条 #一次性洗脸巾 #护肤
+You spend 30 minutes on skincare and 0 seconds checking your towel #facialtowel #disposable #skincare | 你花30分钟护肤，0秒检查毛巾 #一次性洗脸巾 #护肤
+Your face mask then a 2-week-old towel, what's the point? #facialtowel #disposable #skincare | 敷完面膜用两周前的毛巾，有什么意义？ #一次性洗脸巾 #护肤
+Premium skincare on a bacteria-covered face from dirty towel #facialtowel #disposable #skincare | 高级护肤品抹在脏毛巾弄出的细菌脸上 #一次性洗脸巾 #护肤
+Your retinol fights wrinkles, your towel adds bacteria #facialtowel #disposable #skincare | 你的视黄醇抗皱，你的毛巾加细菌 #一次性洗脸巾 #护肤
+Vitamin C serum then rusty towel water on your face #facialtowel #disposable #skincare | 维C精华然后毛巾上的锈水抹脸上 #一次性洗脸巾 #护肤
+Your skincare works only if your towel lets it #facialtowel #disposable #skincare | 护肤品有效的前提是毛巾不拖后腿 #一次性洗脸巾 #护肤
+Why buy organic skincare and use a chemical-loaded old towel? #facialtowel #disposable #skincare | 买有机护肤品却用满是化学残留的旧毛巾？ #一次性洗脸巾 #护肤
+Your 10-step routine, all negated by one dirty towel #facialtowel #disposable #skincare | 你的十步护肤法，一条脏毛巾全抵消 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Bleeding gums when you brush? That's not normal #toothpaste #dentalcare #oralcare | 刷牙牙龈出血？这不正常 #牙膏 #口腔护理
