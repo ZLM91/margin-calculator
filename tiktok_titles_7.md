@@ -41,24 +41,24 @@ Carnival bathroom is spinning rides plus port-a-potties #wipes #wetwips #toiletp
 Rodeo bathroom is dust and rough paper #wipes #wetwips #toiletpaper #travelsize | 牛仔竞技厕所是灰尘加粗纸 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Morning rush means grabbing yesterday's damp towel #facialtowel #disposable #skincare | 早上赶时间抓昨天的湿毛巾 #一次性洗脸巾 #护肤
-Your evening skincare ends with a bacteria transfer #facialtowel #disposable #skincare | 你的晚间护肤以细菌转移结束 #一次性洗脸巾 #护肤
-Morning face plus night face plus one towel equals problems #facialtowel #disposable #skincare | 早上的脸加晚上的脸加一条毛巾等于问题 #一次性洗脸巾 #护肤
-You wash your face twice a day but use the same towel #facialtowel #disposable #skincare | 每天洗两次脸却用同一条毛巾 #一次性洗脸巾 #护肤
-Your AM routine is flawless until you grab that towel #facialtowel #disposable #skincare | 你的晨间护肤完美直到你拿起那条毛巾 #一次性洗脸巾 #护肤
-PM skincare undone by one towel wipe #facialtowel #disposable #skincare | 晚间护肤被一次擦脸毁掉 #一次性洗脸巾 #护肤
-Your morning towel is damp from last night #facialtowel #disposable #skincare | 早上的毛巾是昨晚的湿的 #一次性洗脸巾 #护肤
-Double cleansing with a dirty towel is pointless #facialtowel #disposable #skincare | 双重清洁配脏毛巾毫无意义 #一次性洗脸巾 #护肤
-Your 10-step routine fails at step 11 — the towel #facialtowel #disposable #skincare | 你的10步护肤在第11步失败——毛巾 #一次性洗脸巾 #护肤
-Morning towel is stiff and rough from overnight drying #facialtowel #disposable #skincare | 早上毛巾因过夜变硬变粗 #一次性洗脸巾 #护肤
-Your night cream plus dirty towel equals clogged pores #facialtowel #disposable #skincare | 晚霜加脏毛巾等于堵塞毛孔 #一次性洗脸巾 #护肤
-You pat dry with a towel full of yesterday's bacteria #facialtowel #disposable #skincare | 你用满是昨天细菌的毛巾按压 #一次性洗脸巾 #护肤
-Your towel is the weakest link in your routine #facialtowel #disposable #skincare | 毛巾是你护肤流程最弱的一环 #一次性洗脸巾 #护肤
-Morning skincare wasted on a dirty towel wipe #facialtowel #disposable #skincare | 晨间护肤被一次脏毛巾擦拭浪费 #一次性洗脸巾 #护肤
-Your evening towel has been collecting bacteria all day #facialtowel #disposable #skincare | 你的晚间毛巾一整天都在积聚细菌 #一次性洗脸巾 #护肤
-Clean face, dirty towel, ruined routine #facialtowel #disposable #skincare | 干净的脸脏毛巾毁掉的流程 #一次性洗脸巾 #护肤
-Your towel undoes everything your cleanser just did #facialtowel #disposable #skincare | 毛巾毁掉了洁面刚做的一切 #一次性洗脸巾 #护肤
-The last thing touching your face at night is bacteria #facialtowel #disposable #skincare | 晚上最后碰到你脸的是细菌 #一次性洗脸巾 #护肤
+Sensitive skin flaring up? Your towel is too rough and too dirty #facialtowel #disposable #skincare | 敏感肌又爆发了？你的毛巾又粗又脏 #一次性洗脸巾 #护肤
+Redness after every wash? Your towel is irritating your skin #facialtowel #disposable #skincare | 每次洗完脸都泛红？你的毛巾在刺激皮肤 #一次性洗脸巾 #护肤
+Stinging sensation when drying your face? Towel is too harsh #facialtowel #disposable #skincare | 擦脸时有刺痛感？毛巾太粗糙了 #一次性洗脸巾 #护肤
+Rosacea getting worse? Stop using regular towels immediately #facialtowel #disposable #skincare | 玫瑰痤疮加重？立刻停用普通毛巾 #一次性洗脸巾 #护肤
+Your fragile skin can't handle a scratchy towel anymore #facialtowel #disposable #skincare | 你脆弱的皮肤承受不了粗糙毛巾了 #一次性洗脸巾 #护肤
+Burning patches on your cheeks? Towel friction is the cause #facialtowel #disposable #skincare | 脸颊灼热发红？毛巾摩擦是原因 #一次性洗脸巾 #护肤
+Eczema around your jaw? Your towel rubs there every day #facialtowel #disposable #skincare | 下巴周围湿疹？你的毛巾每天都在那里蹭 #一次性洗脸巾 #护肤
+Skin feeling tight and sore after drying? Towel is too aggressive #facialtowel #disposable #skincare | 擦完脸又紧又痛？毛巾太暴力了 #一次性洗脸巾 #护肤
+Red patches that appear after washing? Towel-induced irritation #facialtowel #disposable #skincare | 洗完脸就出现的红斑？毛巾引起的刺激 #一次性洗脸巾 #护肤
+Your sensitive skin needs gentle, not a crusty old towel #facialtowel #disposable #skincare | 你的敏感肌需要温柔，不是硬邦邦的老毛巾 #一次性洗脸巾 #护肤
+Thread veins on your cheeks? Rough towel rubbing worsens them #facialtowel #disposable #skincare | 脸颊红血丝？粗糙毛巾摩擦会加重 #一次性洗脸巾 #护肤
+Skin stings when you apply skincare? Micro-scratches from your towel #facialtowel #disposable #skincare | 涂护肤品时刺痛？毛巾造成的微小划痕 #一次性洗脸巾 #护肤
+Your towel is rougher than sandpaper on sensitive skin #facialtowel #disposable #skincare | 你的毛巾对敏感肌比砂纸还粗 #一次性洗脸巾 #护肤
+Perioral dermatitis? Your towel is the missing puzzle piece #facialtowel #disposable #skincare | 口周皮炎？毛巾就是缺失的那块拼图 #一次性洗脸巾 #护肤
+Red inflamed patches that won't heal? Change your towel first #facialtowel #disposable #skincare | 红色炎症退不了？先换毛巾 #一次性洗脸巾 #护肤
+Your towel leaves tiny tears on your sensitive face every day #facialtowel #disposable #skincare | 你的毛巾每天在敏感脸上留下微小撕裂 #一次性洗脸巾 #护肤
+Tight, itchy, red skin? Your towel is the hidden trigger #facialtowel #disposable #skincare | 又紧又痒又红？你的毛巾是隐藏元凶 #一次性洗脸巾 #护肤
+Gentle cleanser then aggressive towel, completely contradictory #facialtowel #disposable #skincare | 温和洗面奶配暴力毛巾，完全矛盾 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Your toothpaste tastes so sweet it's basically dessert #toothpaste #dentalcare #oralcare | 你的牙膏太甜简直是甜品 #牙膏 #口腔护理
