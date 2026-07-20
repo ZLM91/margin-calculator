@@ -41,24 +41,24 @@ Boat bathroom plus waves equals a messy situation #wipes #wetwips #toiletpaper #
 Coach class bathroom line is long — make it worth it #wipes #wetwips #toiletpaper #travelsize | 经济舱厕所排长队——别白等 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-Breaking out and can't figure out why? Check your towel #facialtowel #disposable #skincare | 一直长痘找不到原因？查查你的毛巾 #一次性洗脸巾 #护肤
-Your expensive skincare won't work with a dirty towel #facialtowel #disposable #skincare | 贵的护肤品配脏毛巾等于白费 #一次性洗脸巾 #护肤
-Sensitive skin reacts to towel bacteria — not your products #facialtowel #disposable #skincare | 敏感肌是对毛巾细菌反应——不是对产品 #一次性洗脸巾 #护肤
-That redness after washing? Your towel might be causing it #facialtowel #disposable #skincare | 洗脸后发红？可能是你的毛巾造成的 #一次性洗脸巾 #护肤
-You spend hundreds on skincare but use a 3-day-old towel #facialtowel #disposable #skincare | 花几百块护肤却用3天前的毛巾 #一次性洗脸巾 #护肤
-Your towel is undoing your entire skincare routine #facialtowel #disposable #skincare | 你的毛巾在毁掉你整个护肤流程 #一次性洗脸巾 #护肤
-Acne keeps coming back? Your towel is reinfecting your skin #facialtowel #disposable #skincare | 痘痘反复？你的毛巾在反复感染皮肤 #一次性洗脸巾 #护肤
-Clean face plus dirty towel equals wasted effort #facialtowel #disposable #skincare | 干净的脸加脏毛巾等于白费力气 #一次性洗脸巾 #护肤
-Your serum can't penetrate bacteria-clogged pores from your towel #facialtowel #disposable #skincare | 精华渗透不了被毛巾细菌堵塞的毛孔 #一次性洗脸巾 #护肤
-Switch towels and watch your skin clear up #facialtowel #disposable #skincare | 换掉毛巾看皮肤变好 #一次性洗脸巾 #护肤
-That rough towel texture damages your skin barrier #facialtowel #disposable #skincare | 粗糙的毛巾质地损伤皮肤屏障 #一次性洗脸巾 #护肤
-You change your pillowcase but not your towel? #facialtowel #disposable #skincare | 你换枕套却不换毛巾？ #一次性洗脸巾 #护肤
-Your face is breaking out exactly where your towel touches #facialtowel #disposable #skincare | 你的痘痘就长在毛巾碰过的地方 #一次性洗脸巾 #护肤
-Stop blaming your skin — blame your towel #facialtowel #disposable #skincare | 别怪你的皮肤——怪你的毛巾 #一次性洗脸巾 #护肤
-One towel change could end your acne cycle #facialtowel #disposable #skincare | 换一次毛巾就能终结你的痘痘循环 #一次性洗脸巾 #护肤
-Your towel has more dead skin cells than a loofah #facialtowel #disposable #skincare | 你的毛巾比沐浴球有更多死皮细胞 #一次性洗脸巾 #护肤
-Skincare fails? It might be your towel's fault #facialtowel #disposable #skincare | 护肤失败？可能是毛巾的错 #一次性洗脸巾 #护肤
-You wouldn't put dirty hands on your face — so why a dirty towel? #facialtowel #disposable #skincare | 你不会把脏手放脸上——那为什么用脏毛巾？ #一次性洗脸巾 #护肤
+Damp towels hide dust mites, acne sufferers stop using them now #facialtowel #disposable #skincare | 潮湿毛巾藏螨虫，长痘人群别再用 #一次性洗脸巾 #护肤
+Towel turning yellow and stiff? You're wiping your face with bacteria cloth #facialtowel #disposable #skincare | 毛巾发黄发硬，每天用细菌布擦脸 #一次性洗脸巾 #护肤
+That sour smell on your towel? It's bacteria multiplying #facialtowel #disposable #skincare | 毛巾有股馊味？那是细菌在繁殖 #一次性洗脸巾 #护肤
+Towel not dry in 3 days? It's basically a petri dish #facialtowel #disposable #skincare | 毛巾三天不干=细菌培养皿 #一次性洗脸巾 #护肤
+Towel hanging for 3 days has more germs than your toilet seat #facialtowel #disposable #skincare | 挂了三天的毛巾，比马桶圈还脏 #一次性洗脸巾 #护肤
+Sticky slimy towel? Every wipe smears bacteria on your face #facialtowel #disposable #skincare | 毛巾黏糊糊？每一擦都在往脸上抹细菌 #一次性洗脸巾 #护肤
+How long has that towel been there? Bacteria count is in the millions #facialtowel #disposable #skincare | 你的毛巾挂多久了？细菌已经几亿了 #一次性洗脸巾 #护肤
+Black spots on your towel? Using it is basically self-harm #facialtowel #disposable #skincare | 毛巾发霉有黑点？还在用等于自残 #一次性洗脸巾 #护肤
+Your towel smells even after washing? The bacteria never left #facialtowel #disposable #skincare | 洗过的毛巾还是有味？细菌根本没走 #一次性洗脸巾 #护肤
+That rough scratchy towel? It's tearing your skin barrier #facialtowel #disposable #skincare | 毛巾又粗又硬？它正在撕裂你的皮肤 #一次性洗脸巾 #护肤
+Towel feels crusty? That's dried bacteria and dead skin #facialtowel #disposable #skincare | 毛巾发硬结痂？那是干死的细菌和死皮 #一次性洗脸巾 #护肤
+Your towel turned grey? That's a bacteria colony you're growing #facialtowel #disposable #skincare | 毛巾变灰了？那是你养出来的细菌菌落 #一次性洗脸巾 #护肤
+Still using a stiff yellowed towel? Your face deserves better #facialtowel #disposable #skincare | 还在用发黄发硬的毛巾？你的脸配更好的 #一次性洗脸巾 #护肤
+One wipe with a stiff towel = micro-scratches all over your face #facialtowel #disposable #skincare | 用硬毛巾擦一下=满脸微小划痕 #一次性洗脸巾 #护肤
+Your towel hasn't fully dried since last week #facialtowel #disposable #skincare | 你的毛巾从上周就没真正干过 #一次性洗脸巾 #护肤
+That musty towel smell is bacteria waste on your face #facialtowel #disposable #skincare | 毛巾的霉味就是细菌排泄物抹在你脸上 #一次性洗脸巾 #护肤
+Yellow stains on your towel won't wash out? Bacteria already set in #facialtowel #disposable #skincare | 毛巾上的黄渍洗不掉？细菌已经扎根了 #一次性洗脸巾 #护肤
+Your towel is stiff as cardboard and twice as dirty #facialtowel #disposable #skincare | 你的毛巾硬得像纸板，脏了两倍 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 Ice cream makes you wince? Your teeth are too sensitive #toothpaste #dentalcare #oralcare | 吃冰淇淋会皱眉？牙齿太敏感了 #牙膏 #口腔护理
