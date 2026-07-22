@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FBT 德国运费计算器 | TikTok Shop</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+  color: #1a202c;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 20px;
+}
+.container { max-width: 1280px; margin: 0 auto; }
+.header {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: #fff;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(20, 184, 166, 0.25);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header h1 { font-size: 26px; font-weight: 700; }
+.header .subtitle { font-size: 14px; opacity: 0.92; margin-top: 4px; }
+.header .tiktok-tag {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+}
+.back-link {
+  color: #fff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.back-link:hover { background: rgba(255, 255, 255, 0.25); }
+
+.grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
+}
+@media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+.card h2 {
+  font-size: 16px;
+  color: #0d9488;
+  border-bottom: 2px solid #14b8a6;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card h2 .icon { font-size: 18px; }
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.form-group .hint {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-left: 4px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 7px;
+  font-size: 14px;
+  background: #f7fafc;
+  transition: all 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+.toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #edf2f7;
+  padding: 4px;
+  border-radius: 8px;
+}
+.toggle-group button {
+  background: transparent;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+  transition: all 0.2s;
+}
+.toggle-group button.active {
+  background: #14b8a6;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(20, 184, 166, 0.35);
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: #fff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
+  margin-bottom: 20px;
+}
+.summary-card h2 { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.summary-card .total-amount {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin: 12px 0 6px;
+  letter-spacing: -0.5px;
+}
+.summary-card .total-secondary {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.9;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.summary-row:last-child { border: none; }
+.summary-row .label { opacity: 0.9; }
+.summary-row .value { font-weight: 600; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table th {
+  background: #f7fafc;
+  padding: 9px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid #e2e8f0;
+}
+table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf2f7;
+}
+table tr:hover td { background: #f7fafc; }
+table .num { text-align: right; font-variant-numeric: tabular-nums; }
+table .highlight { background: #f0fdfa; font-weight: 600; color: #0d9488; }
+table .dim { color: #94a3b8; }
+table .warn { color: #b45309; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f0fdfa;
+  color: #0d9488;
+}
+.badge.warn { background: #fef3c7; color: #b45309; }
+.badge.danger { background: #fee2e2; color: #b91c1c; }
+.badge.ok { background: #d1fae5; color: #047857; }
+
+.rate-table { max-height: 280px; overflow-y: auto; }
+.section-title {
+  font-size: 13px;
+  color: #64748b;
+  margin: 12px 0 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #4a5568;
+}
+.checkbox-row input[type="checkbox"] {
+  width: 16px; height: 16px; cursor: pointer;
+}
+.checkbox-row label { cursor: pointer; }
+
+.note {
+  font-size: 12px;
+  color: #64748b;
+  background: #f7fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #14b8a6;
+  margin-top: 10px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: #edf2f7;
+  padding: 4px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.tabs button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+  transition: all 0.2s;
+}
+.tabs button.active {
+  background: #fff;
+  color: #0d9488;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.breakdown-bar {
+  height: 22px;
+  background: #edf2f7;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  margin: 10px 0;
+}
+.breakdown-bar .seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.seg-fulfill { background: #14b8a6; }
+.seg-storage { background: #0ea5e9; }
+.seg-value { background: #8b5cf6; }
+.seg-inbound { background: #f59e0b; }
+.seg-other { background: #64748b; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>📦 FBT 德国 运费计算器</h1>
+      <div class="subtitle">基于 TikTok Shop 德国 FBT 费率表 · 含税/不含税切换 · 实时换算 ¥/$</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="./" class="back-link">← 返回首页</a>
+      <span class="tiktok-tag">Fulfilled by TikTok</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- 左侧：输入区 -->
+    <div>
+      <div class="card">
+        <h2><span class="icon">⚙️</span>SKU 基础信息</h2>
+
+        <div class="form-group">
+          <label>产品名称 <span class="hint">（选填，仅用于显示）</span></label>
+          <input type="text" id="skuName" value="示例SKU" placeholder="例：洗脸巾 80片">
+        </div>
+
+        <div class="form-group">
+          <label>产品尺寸（cm）<span class="hint">长 × 宽 × 高</span></label>
+          <div class="form-row-3">
+            <input type="number" id="length" value="40" min="0" step="0.1">
+            <input type="number" id="width" value="30" min="0" step="0.1">
+            <input type="number" id="height" value="15" min="0" step="0.1">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>毛重 <span class="hint">（含包装，单位：g）</span></label>
+          <input type="number" id="weight" value="800" min="0" step="10">
+        </div>
+
+        <div class="form-group">
+          <label>尺寸分档 <span class="hint">（自动判断，可手动覆盖）</span></label>
+          <select id="sizeTier">
+            <option value="auto">🤖 自动判断</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL（仅德国国内）</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>销售区域</label>
+          <div class="toggle-group" id="regionToggle">
+            <button type="button" data-val="DE" class="active">🇩🇪 德国国内</button>
+            <button type="button" data-val="EU">🇪🇺 欧盟跨境</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">💰</span>销量与库存</h2>
+
+        <div class="form-group">
+          <label>月销量（件）</label>
+          <input type="number" id="monthlySales" value="1000" min="0" step="100">
+        </div>
+
+        <div class="form-group">
+          <label>平均库龄 <span class="hint">（取 0-30/31-90/91-120/120+ 四档之一）</span></label>
+          <select id="avgAge">
+            <option value="0-30">0-30 天</option>
+            <option value="31-90">31-90 天</option>
+            <option value="91-120" selected>91-120 天</option>
+            <option value="120+">120+ 天</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>单 SKU 体积（m³）<span class="hint">自动计算 = 长×宽×高÷1,000,000</span></label>
+          <input type="number" id="volume" value="0.018" min="0" step="0.001" readonly style="background:#f0fdfa; cursor:default;">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">🛠️</span>增值服务</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>退货率 <span class="hint">%</span></label>
+            <input type="number" id="returnRate" value="3" min="0" max="100" step="0.5">
+          </div>
+          <div class="form-group">
+            <label>组套件数 <span class="hint">件/套</span></label>
+            <input type="number" id="kitItems" value="1" min="1" max="20" step="1">
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="enableReturnToMerchant">
+          <label for="enableReturnToMerchant">使用 Return to Merchant（退货还给我）</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="enableDisposal">
+          <label for="enableDisposal">使用 Disposal（FB销毁处置）</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="enableInboundSurcharge">
+          <label for="enableInboundSurcharge">入仓缺陷（按 5% 瑕疵率）</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="enableGoldDiscount" checked>
+          <label for="enableGoldDiscount">使用 Gold 等级 8折 折扣</label>
+        </div>
+
+        <div class="note">
+          💡 Gold 等级：FB处理 ≥10,000单/月 + FBT履单 ≥60%，享 <b>德国国内履单费 8 折</b>（限 2026-04-01~06-30）。
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">💱</span>汇率与税率</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>1 欧元 = ? 人民币</label>
+            <input type="number" id="rateCNY" value="7.85" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>1 欧元 = ? 美元</label>
+            <input type="number" id="rateUSD" value="1.10" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>价格显示</label>
+          <div class="toggle-group" id="priceToggle">
+            <button type="button" data-val="net" class="active">不含税（Net）</button>
+            <button type="button" data-val="gross">含税 19%（Gross）</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧：结果区 -->
+    <div>
+      <div class="summary-card">
+        <h2><span class="icon">💎</span>单件 FBT 总费用</h2>
+        <div class="total-amount" id="totalPerUnit">€0.00</div>
+        <div class="total-secondary" id="totalPerUnitSecondary">≈ ¥0.00 / $0.00</div>
+
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.2);">
+          <div class="summary-row">
+            <span class="label">月度总费用</span>
+            <span class="value" id="totalMonthly">€0.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">年化总费用</span>
+            <span class="value" id="totalYearly">€0.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">占月销售额（按 €20 单价）</span>
+            <span class="value" id="costRatio">0%</span>
+          </div>
+        </div>
+
+        <div class="breakdown-bar" id="breakdownBar">
+          <div class="seg seg-fulfill" style="width:0%">履单</div>
+          <div class="seg seg-storage" style="width:0%">存储</div>
+          <div class="seg seg-value" style="width:0%">增值</div>
+          <div class="seg seg-inbound" style="width:0%">入仓</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">📊</span>费用明细拆解</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>费用项</th>
+              <th class="num">单件 €</th>
+              <th class="num">月度 €</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody id="breakdownTable">
+            <tr><td colspan="4" style="text-align:center; padding:20px; color:#94a3b8;">填入 SKU 信息后自动计算</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">📋</span>费率表速查</h2>
+        <div class="tabs">
+          <button data-tab="ops" class="active">履单费</button>
+          <button data-tab="storage">存储费</button>
+          <button data-tab="vas">增值服务</button>
+          <button data-tab="inbound">入仓附加</button>
+          <button data-tab="returns">退货/买家</button>
+        </div>
+
+        <div class="tab-content active" data-tab="ops">
+          <div class="section-title">🇩🇪 德国国内（不含税）</div>
+          <table>
+            <thead><tr><th>尺寸</th><th class="num">长</th><th class="num">宽</th><th class="num">高</th><th class="num">重量</th><th class="num">费率</th></tr></thead>
+            <tbody>
+              <tr><td><b>XS</b></td><td class="num">33</td><td class="num">23</td><td class="num">4</td><td class="num">500g</td><td class="num">€0.95</td></tr>
+              <tr><td><b>S</b></td><td class="num">40</td><td class="num">30</td><td class="num">15</td><td class="num">3kg</td><td class="num">€1.62</td></tr>
+              <tr><td><b>M</b></td><td class="num">50</td><td class="num">40</td><td class="num">30</td><td class="num">10kg</td><td class="num">€2.40</td></tr>
+              <tr><td><b>L</b></td><td class="num">61</td><td class="num">46</td><td class="num">46</td><td class="num">30kg</td><td class="num">€3.29</td></tr>
+              <tr><td><b>XL*</b> <span class="badge warn">仅 DE</span></td><td class="num">120</td><td class="num">60</td><td class="num">60</td><td class="num">15kg</td><td class="num">€5.54</td></tr>
+            </tbody>
+          </table>
+          <div class="section-title">🇪🇺 欧盟跨境（不含税 · 2025-06-20 生效）</div>
+          <table>
+            <thead><tr><th>尺寸</th><th class="num">长</th><th class="num">宽</th><th class="num">高</th><th class="num">重量</th><th class="num">费率</th></tr></thead>
+            <tbody>
+              <tr><td><b>XS</b></td><td class="num">33</td><td class="num">23</td><td class="num">4</td><td class="num">500g</td><td class="num">€1.04</td></tr>
+              <tr><td><b>S</b></td><td class="num">40</td><td class="num">30</td><td class="num">15</td><td class="num">3kg</td><td class="num">€2.09</td></tr>
+              <tr><td><b>M</b></td><td class="num">50</td><td class="num">40</td><td class="num">30</td><td class="num">10kg</td><td class="num">€5.75</td></tr>
+              <tr><td><b>L</b></td><td class="num">61</td><td class="num">46</td><td class="num">46</td><td class="num">30kg</td><td class="num">€16.04</td></tr>
+            </tbody>
+          </table>
+          <div class="note">📐 尺寸判定：长/宽/高/重量任意一项超过当前档位上限 → 自动升档。Operations Fee 包含 FB 包装材料；自定义包装额外收费。</div>
+        </div>
+
+        <div class="tab-content" data-tab="storage">
+          <div class="section-title">📅 FBT 仓内存储费（不含税）</div>
+          <table>
+            <thead><tr><th>库龄档位</th><th class="num">单价（每 m³/天）</th><th>建议</th></tr></thead>
+            <tbody>
+              <tr><td>0-30 天</td><td class="num">€0.58</td><td>🟢 健康</td></tr>
+              <tr><td>31-90 天</td><td class="num">€0.85</td><td>🟡 注意</td></tr>
+              <tr><td>91-120 天</td><td class="num">€1.06</td><td class="warn">🟠 偏高</td></tr>
+              <tr><td>120+ 天</td><td class="num">€1.33</td><td class="warn">🔴 滞销</td></tr>
+            </tbody>
+          </table>
+          <div class="note">📊 最低计费体积：0.001 m³/SKU/天。每天 23:59:59 结算。包含可售品和残次品。</div>
+        </div>
+
+        <div class="tab-content" data-tab="vas">
+          <div class="section-title">🛠️ 增值服务费（不含税）</div>
+          <table>
+            <thead><tr><th>服务项</th><th class="num">单价</th><th>单位</th></tr></thead>
+            <tbody>
+              <tr><td>Return to Merchant（退货还我）</td><td class="num">€0.39</td><td>件</td></tr>
+              <tr><td>Disposal（销毁处置）</td><td class="num">€0.65</td><td>件</td></tr>
+              <tr><td>Kitting 首 2 件</td><td class="num">€0.45</td><td>组</td></tr>
+              <tr><td>Kitting 第 3 件起</td><td class="num">€0.26</td><td>件</td></tr>
+              <tr><td>Customer Order Return Handling</td><td class="num">€1.92</td><td>件</td></tr>
+              <tr><td>Relabelling（贴标）</td><td class="num">€0.08</td><td>件</td></tr>
+              <tr><td>Pre-packing（预包装）</td><td class="num">€0.64</td><td>件</td></tr>
+            </tbody>
+          </table>
+          <div class="note">📌 Kitting 只适用于扁平纸箱和气泡袋包装。Relabelling/Pre-packing 需在入仓异常后申请。</div>
+        </div>
+
+        <div class="tab-content" data-tab="inbound">
+          <div class="section-title">🚚 入仓附加费（不含税）</div>
+          <table>
+            <thead><tr><th>类型</th><th class="num">费率</th><th>单位</th><th>上限</th></tr></thead>
+            <tbody>
+              <tr><td>入仓缺陷（无条码/条码无效/货损等）</td><td class="num">€0.12</td><td>件</td><td rowspan="2">€600/次</td></tr>
+              <tr><td>缺箱标/箱标重复</td><td class="num">€1.98</td><td>箱</td></tr>
+              <tr><td>预约未到/未提前 24h 通知/IBR 异常</td><td class="num">€25.00</td><td>次</td><td rowspan="2">仅 ≥15 Cbm 拖车</td></tr>
+              <tr><td>托盘异常（不安全/超重/超大）</td><td class="num">€6.25</td><td>板</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-content" data-tab="returns">
+          <div class="section-title">🔄 退货费率（含税）</div>
+          <table>
+            <thead><tr><th>类型</th><th class="num">费率</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td>🇩🇪 德国国内退货 PUDO</td><td class="num">€3.99</td><td>标准件</td></tr>
+              <tr><td>🇪🇺 欧盟跨境退货 PUDO</td><td class="num">€9.99</td><td>标准件</td></tr>
+            </tbody>
+          </table>
+          <div class="section-title">🌍 欧盟境内买家尾程（含税）</div>
+          <table>
+            <thead><tr><th>目的地</th><th class="num">费率</th></tr></thead>
+            <tbody>
+              <tr><td>Belgium / Netherlands</td><td class="num">€2.99</td></tr>
+              <tr><td>Greece</td><td class="num">€3.50</td></tr>
+              <tr><td>Spain / Ireland / Portugal / Austria</td><td class="num">€3.99</td></tr>
+              <tr><td>Italy / France / Germany</td><td class="num">€4.99</td></tr>
+              <tr><td>Czech Republic</td><td class="num">99 Kč</td></tr>
+              <tr><td>Hungary</td><td class="num">1,390 Ft</td></tr>
+              <tr><td>Poland</td><td class="num">10.90 zł</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">💡</span>优化建议</h2>
+        <div id="optimizationTips" style="font-size:13px; line-height:1.8;">
+          <p style="color:#94a3b8;">填入 SKU 信息后自动生成建议</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============== 费率数据 ==============
+const OPS_FEES = {
+  DE: {
+    XS: { l: 33, w: 23, h: 4, wt: 500, fee: 0.95 },
+    S:  { l: 40, w: 30, h: 15, wt: 3000, fee: 1.62 },
+    M:  { l: 50, w: 40, h: 30, wt: 10000, fee: 2.40 },
+    L:  { l: 61, w: 46, h: 46, wt: 30000, fee: 3.29 },
+    XL: { l: 120, w: 60, h: 60, wt: 15000, fee: 5.54 }
+  },
+  EU: {
+    XS: { l: 33, w: 23, h: 4, wt: 500, fee: 1.04 },
+    S:  { l: 40, w: 30, h: 15, wt: 3000, fee: 2.09 },
+    M:  { l: 50, w: 40, h: 30, wt: 10000, fee: 5.75 },
+    L:  { l: 61, w: 46, h: 46, wt: 30000, fee: 16.04 }
+  }
+};
+
+const STORAGE_FEES = {
+  '0-30':   0.58,
+  '31-90':  0.85,
+  '91-120': 1.06,
+  '120+':   1.33
+};
+
+const VAS = {
+  returnToMerchant: 0.39,
+  disposal: 0.65,
+  kittingFirst2: 0.45,
+  kittingAfter: 0.26,
+  returnHandling: 1.92,
+  relabel: 0.08,
+  prepack: 0.64
+};
+
+const INBOUND = {
+  defectItem: 0.12,
+  cartonLabel: 1.98,
+  shipment: 25.00,
+  pallet: 6.25
+};
+
+const VAT_RATE = 0.19;
+
+// ============== 状态 ==============
+let state = {
+  region: 'DE',
+  priceMode: 'net',
+  rateCNY: 7.85,
+  rateUSD: 1.10
+};
+
+// ============== 工具函数 ==============
+function fmtEUR(n) { return '€' + n.toFixed(2); }
+function fmtCNY(n) { return '¥' + n.toFixed(2); }
+function fmtUSD(n) { return '$' + n.toFixed(2); }
+function toGross(n) { return n * (1 + VAT_RATE); }
+
+function autoTier(L, W, H, Wt, region) {
+  const tiers = Object.keys(OPS_FEES[region]);
+  for (const t of tiers) {
+    const r = OPS_FEES[region][t];
+    if (L <= r.l && W <= r.w && H <= r.h && Wt <= r.wt) {
+      return t;
+    }
+  }
+  return tiers[tiers.length - 1];
+}
+
+function getSizeTier() {
+  const override = document.getElementById('sizeTier').value;
+  if (override !== 'auto') return override;
+  const L = +document.getElementById('length').value;
+  const W = +document.getElementById('width').value;
+  const H = +document.getElementById('height').value;
+  const Wt = +document.getElementById('weight').value;
+  return autoTier(L, W, H, Wt, state.region);
+}
+
+function getOpsFee(tier) {
+  let f = OPS_FEES[state.region][tier].fee;
+  if (document.getElementById('enableGoldDiscount').checked && state.region === 'DE') {
+    f = f * 0.8;
+  }
+  return f;
+}
+
+function applyTax(n) {
+  return state.priceMode === 'gross' ? toGross(n) : n;
+}
+
+function recalc() {
+  // 体积
+  const L = +document.getElementById('length').value;
+  const W = +document.getElementById('width').value;
+  const H = +document.getElementById('height').value;
+  const vol = (L * W * H) / 1000000;
+  document.getElementById('volume').value = vol.toFixed(4);
+
+  const tier = getSizeTier();
+  const monthlySales = +document.getElementById('monthlySales').value;
+  const avgAge = document.getElementById('avgAge').value;
+  const returnRate = +document.getElementById('returnRate').value / 100;
+  const kitItems = +document.getElementById('kitItems').value;
+  const rateCNY = +document.getElementById('rateCNY').value;
+  const rateUSD = +document.getElementById('rateUSD').value;
+
+  // ============== 各项费用（不含税）==============
+  const fulfillmentFee = getOpsFee(tier);
+
+  // 存储费：m³ * 每天单价 * 30天（按整月估算）
+  // 库龄越长，单价越高
+  const dailyRate = STORAGE_FEES[avgAge];
+  const monthlyStorageFee = vol * dailyRate * 30;
+
+  // 增值服务
+  let returnHandling = 0;
+  if (document.getElementById('enableReturnToMerchant').checked) {
+    returnHandling = VAS.returnToMerchant;
+  }
+  let disposal = 0;
+  if (document.getElementById('enableDisposal').checked) {
+    disposal = VAS.disposal;
+  }
+  const kittingFee = kitItems <= 1 ? 0 :
+    (kitItems <= 2 ? VAS.kittingFirst2 :
+     VAS.kittingFirst2 + (kitItems - 2) * VAS.kittingAfter);
+
+  // 退货处理费（按退货率）
+  const returnProcFee = returnRate * VAS.returnHandling;
+
+  // 入仓缺陷（按 5% 瑕疵率，分摊到全部件数）
+  let inboundDefectFee = 0;
+  if (document.getElementById('enableInboundSurcharge').checked) {
+    inboundDefectFee = 0.05 * INBOUND.defectItem;
+  }
+
+  // 单件总费用（不含税）
+  const totalNet = fulfillmentFee + (monthlyStorageFee / Math.max(monthlySales, 1)) +
+                   returnHandling + disposal + kittingFee +
+                   returnProcFee + inboundDefectFee;
+  const totalFinal = applyTax(totalNet);
+
+  // 月度总费用
+  const monthlyNet = totalNet * monthlySales;
+  const monthlyFinal = applyTax(monthlyNet);
+
+  // 年化
+  const yearlyFinal = monthlyFinal * 12;
+
+  // 占比
+  const costRatio = (totalFinal / 20 * 100).toFixed(1);
+
+  // ============== 渲染 ==============
+  // 主卡片
+  document.getElementById('totalPerUnit').textContent = fmtEUR(totalFinal);
+  document.getElementById('totalPerUnitSecondary').textContent =
+    '≈ ' + fmtCNY(totalFinal * rateCNY) + ' / ' + fmtUSD(totalFinal * rateUSD);
+  document.getElementById('totalMonthly').textContent = fmtEUR(monthlyFinal);
+  document.getElementById('totalYearly').textContent = fmtEUR(yearlyFinal);
+  document.getElementById('costRatio').textContent = costRatio + '%';
+
+  // 颜色提示
+  const ratioEl = document.getElementById('costRatio');
+  ratioEl.style.color = costRatio > 20 ? '#fbbf24' : costRatio > 10 ? '#fff' : '#fff';
+
+  // 拆解柱状图
+  const storagePerUnit = monthlyStorageFee / Math.max(monthlySales, 1);
+  const breakdown = {
+    '履单': fulfillmentFee,
+    '存储': storagePerUnit,
+    '增值': returnHandling + disposal + kittingFee + returnProcFee,
+    '入仓': inboundDefectFee
+  };
+  const total = Object.values(breakdown).reduce((a, b) => a + b, 0) || 1;
+  const bar = document.getElementById('breakdownBar');
+  bar.innerHTML = '';
+  const colors = { '履单': 'seg-fulfill', '存储': 'seg-storage', '增值': 'seg-value', '入仓': 'seg-inbound' };
+  for (const [k, v] of Object.entries(breakdown)) {
+    if (v < 0.01) continue;
+    const pct = (v / total * 100).toFixed(0);
+    const seg = document.createElement('div');
+    seg.className = 'seg ' + colors[k];
+    seg.style.width = pct + '%';
+    seg.textContent = k + ' ' + pct + '%';
+    bar.appendChild(seg);
+  }
+
+  // 费用明细表
+  const rows = [
+    {
+      name: '履单费（' + tier + '）' + (document.getElementById('enableGoldDiscount').checked && state.region === 'DE' ? ' <span class="badge ok">Gold 8折</span>' : ''),
+      unit: fulfillmentFee,
+      monthly: fulfillmentFee * monthlySales,
+      note: state.region === 'DE' ? '德国国内' : '欧盟跨境'
+    },
+    {
+      name: '存储费（' + avgAge + '）',
+      unit: storagePerUnit,
+      monthly: monthlyStorageFee,
+      note: vol.toFixed(4) + ' m³ × €' + dailyRate + '/m³/天 × 30天'
+    },
+    {
+      name: 'Return to Merchant' + (returnHandling ? '' : ' <span class="dim">（未启用）</span>'),
+      unit: returnHandling,
+      monthly: returnHandling * monthlySales,
+      note: '€0.39/件（退货还给我）'
+    },
+    {
+      name: 'Disposal' + (disposal ? '' : ' <span class="dim">（未启用）</span>'),
+      unit: disposal,
+      monthly: disposal * monthlySales,
+      note: '€0.65/件（销毁处置）'
+    },
+    {
+      name: 'Kitting 组套' + (kittingFee ? '' : ' <span class="dim">（单件无需）</span>'),
+      unit: kittingFee,
+      monthly: kittingFee * monthlySales,
+      note: kitItems + ' 件/套，首 2 件 €0.45，之后 €0.26/件'
+    },
+    {
+      name: '退货处理费',
+      unit: returnProcFee,
+      monthly: returnProcFee * monthlySales,
+      note: '退货率 ' + (returnRate * 100).toFixed(1) + '% × €1.92/件'
+    },
+    {
+      name: '入仓缺陷费' + (inboundDefectFee ? '' : ' <span class="dim">（未启用）</span>'),
+      unit: inboundDefectFee,
+      monthly: inboundDefectFee * monthlySales,
+      note: '5% 瑕疵率 × €0.12/件（€600/次封顶）'
+    }
+  ];
+
+  const tbody = document.getElementById('breakdownTable');
+  tbody.innerHTML = '';
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.name}</td>
+      <td class="num">${fmtEUR(applyTax(r.unit))}</td>
+      <td class="num">${fmtEUR(applyTax(r.monthly))}</td>
+      <td style="font-size:12px; color:#64748b;">${r.note}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+  // 合计行
+  const totalTr = document.createElement('tr');
+  totalTr.className = 'highlight';
+  totalTr.innerHTML = `
+    <td><b>合计</b></td>
+    <td class="num"><b>${fmtEUR(totalFinal)}</b></td>
+    <td class="num"><b>${fmtEUR(monthlyFinal)}</b></td>
+    <td style="font-size:12px;">${state.priceMode === 'gross' ? '含 19% VAT' : '不含税'}</td>
+  `;
+  tbody.appendChild(totalTr);
+
+  // 优化建议
+  renderTips(tier, fulfillmentFee, vol, avgAge, monthlyStorageFee / Math.max(monthlySales, 1), returnRate, totalFinal, monthlySales);
+}
+
+function renderTips(tier, fulfillment, vol, age, storageUnit, returnRate, total, monthly) {
+  const tips = [];
+  tips.push('📦 <b>尺寸分档：' + tier + '</b>，履单费 ' + fmtEUR(applyTax(fulfillment)) + '/件');
+
+  // 尺寸建议
+  const region = state.region;
+  const tierOrder = Object.keys(OPS_FEES[region]);
+  const tierIdx = tierOrder.indexOf(tier);
+  if (tierIdx > 0) {
+    const upper = OPS_FEES[region][tierOrder[tierIdx - 1]];
+    const margin = Math.min(
+      upper.l - (+document.getElementById('length').value),
+      upper.w - (+document.getElementById('width').value),
+      upper.h - (+document.getElementById('height').value),
+      upper.wt - (+document.getElementById('weight').value)
+    );
+    if (margin < 5 && margin > 0) {
+      tips.push('⚠️ <b style="color:#b45309;">临界尺寸！</b> 距离 ' + tierOrder[tierIdx - 1] + ' 档位仅差 ' + margin.toFixed(1) + '（任一维度）。压缩尺寸可省 ' + fmtEUR(applyTax(OPS_FEES[region][tierOrder[tierIdx-1]].fee - fulfillment)) + '/件。');
+    }
+  }
+
+  // 存储建议
+  if (age === '120+') {
+    tips.push('🔴 <b style="color:#b91c1c;">严重滞销！</b> 库龄 120+ 天费率是 0-30 天的 2.3 倍，建议立即清仓或促销。');
+  } else if (age === '91-120') {
+    tips.push('🟠 库龄已 91-120 天，再不周转就要进入 120+ 高费率档（贵 25%）。');
+  } else if (age === '31-90') {
+    tips.push('🟡 库龄健康，但已超过 30 天，存储成本上升 47%。');
+  }
+
+  // 存储费占比
+  if (storageUnit > fulfillment * 0.3) {
+    tips.push('📊 存储费占履单费 ' + (storageUnit / fulfillment * 100).toFixed(0) + '%，偏高。建议补货节奏压缩到 0-30 天库龄内。');
+  }
+
+  // 退货率
+  if (returnRate > 0.08) {
+    tips.push('🔄 退货率 ' + (returnRate * 100).toFixed(1) + '% 偏高，每单退成 €' + (returnRate * 1.92).toFixed(2) + '。建议优化产品描述/包装/视频以降低退货。');
+  }
+
+  // Gold 折扣
+  if (!document.getElementById('enableGoldDiscount').checked && state.region === 'DE') {
+    tips.push('💎 如果月订单 ≥10,000 且 FBT 履单 ≥60%，可申请 Gold 等级 8 折（仅限 2026-06-30 前）。');
+  }
+
+  // 跨境建议
+  if (region === 'EU') {
+    const sameFee = OPS_FEES.DE[tier] ? OPS_FEES.DE[tier].fee : OPS_FEES.DE.L.fee;
+    const extra = (OPS_FEES.EU[tier] ? OPS_FEES.EU[tier].fee : OPS_FEES.EU.L.fee) - sameFee;
+    if (tier === 'L' || tier === 'M') {
+      tips.push('🇪🇺 跨境履单费 €' + (OPS_FEES.EU[tier] ? OPS_FEES.EU[tier].fee : '16.04') + ' 比国内 €' + sameFee.toFixed(2) + ' 贵 €' + extra.toFixed(2) + '/件，<b>考虑开本地 FB 仓</b>。');
+    }
+  }
+
+  // 总成本占比
+  const costPct = total / 20 * 100;
+  if (costPct > 25) {
+    tips.push('💸 FBT 占售价 25% 以上，毛利空间被严重挤压。检查售价或选更优尺寸档。');
+  } else if (costPct < 12) {
+    tips.push('✅ FBT 仅占售价 ' + costPct.toFixed(1) + '%，很健康。');
+  }
+
+  document.getElementById('optimizationTips').innerHTML =
+    tips.map(t => '<div style="padding:6px 0; border-bottom:1px dashed #e2e8f0;">' + t + '</div>').join('');
+}
+
+// ============== 事件绑定 ==============
+['length', 'width', 'height', 'weight', 'monthlySales', 'avgAge', 'returnRate', 'kitItems',
+ 'rateCNY', 'rateUSD', 'sizeTier'].forEach(id => {
+  document.getElementById(id).addEventListener('input', recalc);
+  document.getElementById(id).addEventListener('change', recalc);
+});
+['enableReturnToMerchant', 'enableDisposal', 'enableInboundSurcharge', 'enableGoldDiscount'].forEach(id => {
+  document.getElementById(id).addEventListener('change', recalc);
+});
+
+document.querySelectorAll('#regionToggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#regionToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.region = btn.dataset.val;
+    // EU 不支持 XL
+    const tierSel = document.getElementById('sizeTier');
+    if (state.region === 'EU' && tierSel.value === 'XL') tierSel.value = 'L';
+    Array.from(tierSel.options).forEach(o => {
+      if (o.value === 'XL') o.disabled = (state.region === 'EU');
+    });
+    recalc();
+  });
+});
+
+document.querySelectorAll('#priceToggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#priceToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.priceMode = btn.dataset.val;
+    recalc();
+  });
+});
+
+document.querySelectorAll('.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector('.tab-content[data-tab="' + btn.dataset.tab + '"]').classList.add('active');
+  });
+});
+
+// 初始计算
+recalc();
+</script>
+</body>
+</html>
