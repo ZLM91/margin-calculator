@@ -284,6 +284,7 @@ table .warn { color: #b45309; }
 .seg-storage { background: #0ea5e9; }
 .seg-value { background: #8b5cf6; }
 .seg-inbound { background: #f59e0b; }
+.seg-cross { background: #ef4444; }
 .seg-other { background: #64748b; }
 </style>
 </head>
@@ -343,6 +344,25 @@ table .warn { color: #b45309; }
             <button type="button" data-val="DE" class="active">🇩🇪 德国国内</button>
             <button type="button" data-val="EU">🇪🇺 欧盟跨境</button>
           </div>
+        </div>
+
+        <div class="form-group" id="destinationGroup" style="display:none;">
+          <label>🇪🇺 目的地国家 <span class="hint">（跨境尾程运费因目的国而异）</span></label>
+          <select id="destination">
+            <option value="BE">🇧🇪 比利时 Belgium</option>
+            <option value="NL">🇳🇱 荷兰 Netherlands</option>
+            <option value="GR">🇬🇷 希腊 Greece</option>
+            <option value="ES">🇪🇸 西班牙 Spain</option>
+            <option value="IE">🇮🇪 爱尔兰 Ireland</option>
+            <option value="PT">🇵🇹 葡萄牙 Portugal</option>
+            <option value="AT">🇦🇹 奥地利 Austria</option>
+            <option value="IT">🇮🇹 意大利 Italy</option>
+            <option value="FR">🇫🇷 法国 France</option>
+            <option value="DE">🇩🇪 德国 Germany（视为跨境）</option>
+            <option value="CZ">🇨🇿 捷克 Czech Republic</option>
+            <option value="HU">🇭🇺 匈牙利 Hungary</option>
+            <option value="PL">🇵🇱 波兰 Poland</option>
+          </select>
         </div>
       </div>
 
@@ -633,6 +653,25 @@ const INBOUND = {
   pallet: 6.25
 };
 
+// Intra-EU 跨境尾程运费（VAT incl. 含税，按目的国分组）
+// 来源：FBT Germany Rate Card - Intra-EU Buyer Rate Card
+// 单价已折算为 EUR 方便统一展示（捷克/匈牙利/波兰按 2025-2026 平均汇率）
+const INTRA_EU_SHIPPING = {
+  BE: { name: 'Belgium / Netherlands', local: '€2.99', eur: 2.99 },
+  NL: { name: 'Belgium / Netherlands', local: '€2.99', eur: 2.99 },
+  GR: { name: 'Greece', local: '€3.50', eur: 3.50 },
+  ES: { name: 'Spain / Ireland / Portugal / Austria', local: '€3.99', eur: 3.99 },
+  IE: { name: 'Spain / Ireland / Portugal / Austria', local: '€3.99', eur: 3.99 },
+  PT: { name: 'Spain / Ireland / Portugal / Austria', local: '€3.99', eur: 3.99 },
+  AT: { name: 'Spain / Ireland / Portugal / Austria', local: '€3.99', eur: 3.99 },
+  IT: { name: 'Italy / France / Germany', local: '€4.99', eur: 4.99 },
+  FR: { name: 'Italy / France / Germany', local: '€4.99', eur: 4.99 },
+  DE: { name: 'Italy / France / Germany', local: '€4.99', eur: 4.99 },
+  CZ: { name: 'Czech Republic', local: '99 Kč', eur: 3.96 },   // 99 CZK ≈ €3.96
+  HU: { name: 'Hungary', local: '1,390 Ft', eur: 3.55 },       // 1390 HUF ≈ €3.55
+  PL: { name: 'Poland', local: '10.90 zł', eur: 2.52 }         // 10.90 PLN ≈ €2.52
+};
+
 const VAT_RATE = 0.19;
 
 // ============== 状态 ==============
@@ -728,10 +767,20 @@ function recalc() {
     inboundDefectFee = 0.05 * INBOUND.defectItem;
   }
 
+  // 跨境尾程运费（仅 EU 模式，按目的国）
+  let intraEUShippingFee = 0;
+  let intraEUShippingInfo = null;
+  if (state.region === 'EU') {
+    const dest = document.getElementById('destination').value;
+    intraEUShippingInfo = INTRA_EU_SHIPPING[dest];
+    // 费率表本身就是 VAT incl.（含税），换算回不含税以便统一处理
+    intraEUShippingFee = intraEUShippingInfo.eur / (1 + VAT_RATE);
+  }
+
   // 单件总费用（不含税）
   const totalNet = fulfillmentFee + (monthlyStorageFee / Math.max(monthlySales, 1)) +
                    returnHandling + disposal + kittingFee +
-                   returnProcFee + inboundDefectFee;
+                   returnProcFee + inboundDefectFee + intraEUShippingFee;
   const totalFinal = applyTax(totalNet);
 
   // 月度总费用
@@ -765,10 +814,13 @@ function recalc() {
     '增值': returnHandling + disposal + kittingFee + returnProcFee,
     '入仓': inboundDefectFee
   };
+  if (intraEUShippingFee > 0) {
+    breakdown['跨境'] = intraEUShippingFee;
+  }
   const total = Object.values(breakdown).reduce((a, b) => a + b, 0) || 1;
   const bar = document.getElementById('breakdownBar');
   bar.innerHTML = '';
-  const colors = { '履单': 'seg-fulfill', '存储': 'seg-storage', '增值': 'seg-value', '入仓': 'seg-inbound' };
+  const colors = { '履单': 'seg-fulfill', '存储': 'seg-storage', '增值': 'seg-value', '入仓': 'seg-inbound', '跨境': 'seg-cross' };
   for (const [k, v] of Object.entries(breakdown)) {
     if (v < 0.01) continue;
     const pct = (v / total * 100).toFixed(0);
@@ -824,6 +876,17 @@ function recalc() {
       note: '5% 瑕疵率 × €0.12/件（€600/次封顶）'
     }
   ];
+
+  if (intraEUShippingFee > 0 && intraEUShippingInfo) {
+    const destSelect = document.getElementById('destination');
+    const destLabel = destSelect.options[destSelect.selectedIndex].text;
+    rows.push({
+      name: '🇪🇺 跨境尾程（' + destLabel + '）',
+      unit: intraEUShippingFee,
+      monthly: intraEUShippingFee * monthlySales,
+      note: 'Intra-EU Rate Card：' + intraEUShippingInfo.local + '（含税）→ ' + fmtEUR(intraEUShippingInfo.eur) + '（含税）/ ' + fmtEUR(intraEUShippingFee) + '（不含税）'
+    });
+  }
 
   const tbody = document.getElementById('breakdownTable');
   tbody.innerHTML = '';
@@ -904,6 +967,14 @@ function renderTips(tier, fulfillment, vol, age, storageUnit, returnRate, total,
     if (tier === 'L' || tier === 'M') {
       tips.push('🇪🇺 跨境履单费 €' + (OPS_FEES.EU[tier] ? OPS_FEES.EU[tier].fee : '16.04') + ' 比国内 €' + sameFee.toFixed(2) + ' 贵 €' + extra.toFixed(2) + '/件，<b>考虑开本地 FB 仓</b>。');
     }
+    // 目的国对比建议
+    if (intraEUShippingInfo) {
+      const cheapest = Object.entries(INTRA_EU_SHIPPING).reduce((a, b) => a[1].eur < b[1].eur ? a : b);
+      const diff = intraEUShippingInfo.eur - cheapest[1].eur;
+      if (diff > 0.5) {
+        tips.push('🌍 目的国 ' + intraEUShippingInfo.name + ' 尾程 €' + intraEUShippingInfo.eur.toFixed(2) + '，比最便宜的 ' + cheapest[1].name + '（€' + cheapest[1].eur.toFixed(2) + '）贵 €' + diff.toFixed(2) + '/件。建议优先投流' + cheapest[1].name + '市场。');
+      }
+    }
   }
 
   // 总成本占比
@@ -939,9 +1010,13 @@ document.querySelectorAll('#regionToggle button').forEach(btn => {
     Array.from(tierSel.options).forEach(o => {
       if (o.value === 'XL') o.disabled = (state.region === 'EU');
     });
+    // EU 模式显示目的地选择
+    document.getElementById('destinationGroup').style.display = state.region === 'EU' ? 'block' : 'none';
     recalc();
   });
 });
+
+document.getElementById('destination').addEventListener('change', recalc);
 
 document.querySelectorAll('#priceToggle button').forEach(btn => {
   btn.addEventListener('click', () => {
