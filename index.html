@@ -435,7 +435,10 @@ button:hover { background: #F0EDE6; }
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<div style="position:fixed;top:10px;right:10px;z-index:9999;"><a href="order-analysis.html" style="background:#2563eb;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;">📊 TikTok 订单盈利分析</a></div>
+<div style="position:fixed;top:10px;right:10px;z-index:9999;display:flex;gap:8px;">
+  <a href="fbt-germany.html" target="_blank" style="background:#0d9488;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;box-shadow:0 2px 8px rgba(13,148,136,.35);">📦 FBT 德国运费计算器</a>
+  <a href="order-analysis.html" style="background:#2563eb;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;">📊 TikTok 订单盈利分析</a>
+</div>
 
 <div class="container">
 
@@ -1335,6 +1338,15 @@ button:hover { background: #F0EDE6; }
 <div id="tab-fbt" class="tab-content">
   <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">📦 FBT 运费计算器</h1>
   <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">输入产品重量/尺寸，自动计算 TikTok FBT 中转费 + 尾程履约费</p>
+
+  <!-- 德国 FBT 专用计算器入口 -->
+  <div style="background:linear-gradient(135deg,#14b8a6 0%,#0d9488 100%);color:#fff;padding:16px 20px;border-radius:10px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 2px 12px rgba(13,148,136,.25);">
+    <div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px;">🇩🇪 德国 FBT 详细计算器（含欧盟跨境）</div>
+      <div style="font-size:12px;opacity:.92;">按尺寸档计算履单费 + 库龄分档存储 + 增值服务 + 入仓附加 + 13 国目的国尾程 · 实时汇率换算 · 智能优化建议</div>
+    </div>
+    <a href="fbt-germany.html" target="_blank" style="background:#fff;color:#0d9488;padding:10px 22px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.15);">打开计算器 →</a>
+  </div>
 
   <!-- 计费规则提示 -->
   <div class="fbt-rule-box">
