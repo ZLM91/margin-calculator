@@ -21,24 +21,24 @@ The difference between clean and almost-clean is confidence #wipes #wetwips #toi
 Stop hoping dry paper is enough — know it's not #wipes #wetwips #toiletpaper | 别指望干纸够了——你知道不够 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Foreign bathroom has a bidet but you're not used to it #wipes #wetwips #toiletpaper #travelsize | 国外厕所有智能马桶但不习惯 #旅行装湿厕纸 #金盏花
-Asia travel bathroom is a squat toilet — bring wipes #wipes #wetwips #toiletpaper #travelsize | 亚洲旅行蹲厕——带湿巾 #旅行装湿厕纸 #金盏花
-European train bathroom is a hole in the floor #wipes #wetwips #toiletpaper #travelsize | 欧洲火车厕所是蹲坑 #旅行装湿厕纸 #金盏花
-Middle East bathroom has a hose but no paper #wipes #wetwips #toiletpaper #travelsize | 中东厕所有水管没纸 #旅行装湿厕纸 #金盏花
-Backpacker hostel bathroom paper is communal and rough #wipes #wetwips #toiletpaper #travelsize | 背包客青旅厕纸是公用的又粗 #旅行装湿厕纸 #金盏花
-Safari camp bathroom is a long drop toilet #wipes #wetwips #toiletpaper #travelsize | 野生动物园营厕所是旱厕 #旅行装湿厕纸 #金盏花
-Rickshaw tour bathroom is whatever you find #wipes #wetwips #toiletpaper #travelsize | 三轮车旅行上厕所看运气 #旅行装湿厕纸 #金盏花
-Southeast Asia bathroom means no paper at all #wipes #wetwips #toiletpaper #travelsize | 东南亚厕所根本没纸 #旅行装湿厕纸 #金盏花
-South America bus bathroom is locked or broken #wipes #wetwips #toiletpaper #travelsize | 南美大巴厕所锁着或坏了 #旅行装湿厕纸 #金盏花
-Eastern Europe train bathroom paper is gray #wipes #wetwips #toiletpaper #travelsize | 东欧火车厕纸是灰色的 #旅行装湿厕纸 #金盏花
-India travel bathroom is a culture shock #wipes #wetwips #toiletpaper #travelsize | 印度旅行厕所是文化冲击 #旅行装湿厕纸 #金盏花
-Africa overland bathroom is a bush and a prayer #wipes #wetwips #toiletpaper #travelsize | 非洲穿越上厕所是灌木加祈祷 #旅行装湿厕纸 #金盏花
-Rural China bathroom is a shared trench #wipes #wetwips #toiletpaper #travelsize | 中国农村厕所是公共旱厕 #旅行装湿厕纸 #金盏花
-Island vacation bathroom runs out of paper by noon #wipes #wetwips #toiletpaper #travelsize | 海岛度假厕纸中午就用完 #旅行装湿厕纸 #金盏花
-Trans-Siberian railway bathroom is freezing #wipes #wetwips #toiletpaper #travelsize | 西伯利亚铁路厕所冰冻 #旅行装湿厕纸 #金盏花
-Amazon lodge bathroom paper is wet from humidity #wipes #wetwips #toiletpaper #travelsize | 亚马逊旅馆厕纸因潮湿而湿 #旅行装湿厕纸 #金盏花
-Mongolian yurt bathroom is outside in the cold #wipes #wetwips #toiletpaper #travelsize | 蒙古包厕所在外面挨冻 #旅行装湿厕纸 #金盏花
-Patagonia trek bathroom is wind and nothing else #wipes #wetwips #toiletpaper #travelsize | 巴塔哥尼亚徒步厕所只有风 #旅行装湿厕纸 #金盏花
+Portable travel flushable wet wipes, individually wrapped, gentle on skin #wetwipes #travelsize #marigold | 便携旅行装可冲湿厕纸 独立单片包装 弱酸亲肤 #旅行装湿厕纸 #金盏花
+Mini portable wet wipes — for travel, periods, outdoor, intimate care #wetwipes #travelsize #marigold | 迷你随身湿厕纸 出差经期户外私处清洁湿巾 #旅行装湿厕纸 #金盏花
+Individually wrapped single packs — clean and easy wherever you go #wetwipes #travelsize #marigold | 独立单片装，出门清洁超方便 #旅行装湿厕纸 #金盏花
+Travel essential! Mini portable wet wipes, single packs #wetwipes #travelsize #marigold | 旅行神器！迷你便携湿厕纸 #旅行装湿厕纸 #金盏花
+Compact pack, no more bathroom embarrassment #wetwipes #travelsize #marigold | 小巧一包，告别如厕尴尬 #旅行装湿厕纸 #金盏花
+Single-pack portable flushable wet wipes #wetwipes #travelsize #marigold | 单片便携，可冲湿厕纸 #旅行装湿厕纸 #金盏花
+Fresh on the go, travel with confidence #wetwipes #travelsize #marigold | 随身清爽，出行自在 #旅行装湿厕纸 #金盏花
+Every girl's must-have! Mini travel wet wipes in single packs, clean and hygienic #wetwipes #travelsize #marigold | 女生出门必备随身好物！迷你旅行湿厕纸单片分装，干净卫生 #旅行装湿厕纸 #金盏花
+Long trips, road trips, business trips — public restrooms are the worst! #wetwipes #travelsize #marigold | 长途旅行、自驾出游、短途出差最怕公共卫生间清洁不便！#旅行装湿厕纸 #金盏花
+Individually sealed single packs, pocket-friendly storage #wetwipes #travelsize #marigold | 单片独立密封，口袋小包轻松收纳 #旅行装湿厕纸 #金盏花
+All travel scenarios: trains, road trips, hotels, commutes, periods #wetwipes #travelsize #marigold | 出行多场景适配：高铁、自驾、酒店、通勤、生理期 #旅行装湿厕纸 #金盏花
+Mini portable wet wipes — for travel, periods, outdoor, intimate care #wetwipes #travelsize #marigold | 迷你随身湿厕纸 出差经期户外私处清洁湿巾 #旅行装湿厕纸 #金盏花
+Marigold formula, gentle enough for intimate care #wetwipes #travelsize #marigold | 金盏花配方 温和亲肤 私处清洁也能用 #旅行装湿厕纸 #金盏花
+Pocket-size pack, fresh and clean anytime anywhere #wetwipes #travelsize #marigold | 小小一包放口袋 随时随地清爽洁净 #旅行装湿厕纸 #金盏花
+Single-pack portable wet wipes — no need to carry a whole pack #wetwipes #travelsize #marigold | 便携单片装湿厕纸 出门不必带整包 #旅行装湿厕纸 #金盏花
+Commute-friendly, clean and space-saving #wetwipes #travelsize #marigold | 通勤随身一包 干净不占地 #旅行装湿厕纸 #金盏花
+Don't want to sit on a hotel toilet? Bring wet wipes #wetwipes #travelsize #marigold | 酒店公用马桶不敢坐？带一包湿厕纸 #旅行装湿厕纸 #金盏花
+No shower on the go? Wet wipes clean in one swipe #wetwipes #travelsize #marigold | 出门在外不方便冲洗 湿厕纸一擦就干净 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Your 200 dollar serum can't beat a 50 cent dirty towel #facialtowel #disposable #skincare | 200块的精华打不过5毛钱的脏毛巾 #一次性洗脸巾 #护肤
