@@ -12,7 +12,7 @@ Sticky period days? Wet wipes feel fresh in one swipe, 10x better than dry paper
 Postpartum moms, gentle and non-irritating — worry-free cleansing during recovery #wipes #wetwipes #toiletpaper | 产后妈妈专用，温和无刺激，恶露期/产后恢复期清洁无忧 #湿厕纸 #益生菌湿厕纸
 Hemorrhoid flare-up? Dry paper hurts. Wet wipes are soft and gentle, no sting #wipes #wetwipes #toiletpaper | 痔疮发作期，干纸太痛？湿厕纸柔软亲肤，擦着不刺痛 #湿厕纸 #益生菌湿厕纸
 Family-size bulk pack, less than 1 cent per sheet — affordable daily hygiene for the whole family #wipes #wetwipes #toiletpaper | 家庭共用大容量，平摊到每抽不到1毛钱 #湿厕纸 #益生菌湿厕纸
-Probiotic formula, pH-friendly, doesn't leave skin feeling tight or dry after use #wipes #wetwipes #toiletpaper | 益生菌配方，弱酸亲肤，用完不紧绷 #湿厕纸 #益生菌湿厕纸
+Probiotic formula, gentle on skin, doesn't leave skin feeling tight or dry after use #wipes #wetwipes #toiletpaper | 益生菌配方，弱酸亲肤，用完不紧绷 #湿厕纸 #益生菌湿厕纸
 One-hand pull design, easy and hygienic — no fumbling in the dark bathroom #wipes #wetwipes #toiletpaper | 单手可抽设计，方便又卫生 #湿厕纸 #益生菌湿厕纸
 Dissolves easily in water, worry-free daily disposal — no residue, no clogging #wipes #wetwipes #toiletpaper | 易溶解材质，遇水即散，不留残渣 #湿厕纸 #益生菌湿厕纸
 Student dorms, shared rentals, office bathrooms — wet wipes are clean, fresh, and convenient #wipes #wetwipes #toiletpaper | 学生宿舍/合租/办公卫生间——湿厕纸方便又干净 #湿厕纸 #益生菌湿厕纸
@@ -21,7 +21,7 @@ Sensitive skin days? Wet wipes are gentler than dry paper, no friction or scratc
 Safe for the whole family — wet wipes for babies, pregnant moms, and elders #wipes #wetwipes #toiletpaper | 全家都能用——湿厕纸，宝宝、孕妇、老人都适合 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Portable travel flushable wet wipes, individually wrapped, gentle on skin #wetwipes #travelsize #marigold | 便携旅行装可冲湿厕纸 独立单片包装 弱酸亲肤 #旅行装湿厕纸 #金盏花
+Portable travel flushable wet wipes, individually wrapped, gentle on skin #wetwipes #travelsize #marigold | 便携旅行装可冲湿厕纸 独立单片包装 温和亲肤 #旅行装湿厕纸 #金盏花
 Mini portable wet wipes — for travel, periods, outdoor, intimate care #wetwipes #travelsize #marigold | 迷你随身湿厕纸 出差经期户外私处清洁湿巾 #旅行装湿厕纸 #金盏花
 Individually wrapped single packs — clean and easy wherever you go #wetwipes #travelsize #marigold | 独立单片装，出门清洁超方便 #旅行装湿厕纸 #金盏花
 Travel essential! Mini portable wet wipes, single packs #wetwipes #travelsize #marigold | 旅行神器！迷你便携湿厕纸 #旅行装湿厕纸 #金盏花
