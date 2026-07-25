@@ -12,7 +12,7 @@ Sticky period days? Wet wipes feel fresh in one swipe, 10x better than dry paper
 Postpartum moms, gentle and non-irritating — worry-free cleansing during recovery #wipes #wetwipes #toiletpaper | 产后妈妈专用，温和无刺激，恶露期/产后恢复期清洁无忧 #湿厕纸 #益生菌湿厕纸
 Hemorrhoid flare-up? Dry paper hurts. Wet wipes are soft and gentle, no sting #wipes #wetwipes #toiletpaper | 痔疮发作期，干纸太痛？湿厕纸柔软亲肤，擦着不刺痛 #湿厕纸 #益生菌湿厕纸
 Family-size bulk pack, less than 1 cent per sheet — affordable daily hygiene for the whole family #wipes #wetwipes #toiletpaper | 家庭共用大容量，平摊到每抽不到1毛钱 #湿厕纸 #益生菌湿厕纸
-Probiotic formula, gentle on skin, doesn't leave skin feeling tight or dry after use #wipes #wetwipes #toiletpaper | 益生菌配方，弱酸亲肤，用完不紧绷 #湿厕纸 #益生菌湿厕纸
+Probiotic formula, gentle on skin, doesn't leave skin feeling tight or dry after use #wipes #wetwipes #toiletpaper | 益生菌配方，温和亲肤，用完不紧绷 #湿厕纸 #益生菌湿厕纸
 One-hand pull design, easy and hygienic — no fumbling in the dark bathroom #wipes #wetwipes #toiletpaper | 单手可抽设计，方便又卫生 #湿厕纸 #益生菌湿厕纸
 Dissolves easily in water, worry-free daily disposal — no residue, no clogging #wipes #wetwipes #toiletpaper | 易溶解材质，遇水即散，不留残渣 #湿厕纸 #益生菌湿厕纸
 Student dorms, shared rentals, office bathrooms — wet wipes are clean, fresh, and convenient #wipes #wetwipes #toiletpaper | 学生宿舍/合租/办公卫生间——湿厕纸方便又干净 #湿厕纸 #益生菌湿厕纸
