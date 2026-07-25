@@ -1,13 +1,13 @@
 # 2026-06-21
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Thick wet wipes, soft and lint-free — gentle for periods, postpartum, hemorrhoid care, clean with no residue #wipes #wetwipes #toiletpaper | 加厚湿厕纸，亲肤不掉絮，经期/产后/痔疮友好，擦得干净不残留 #湿厕纸 #益生菌湿厕纸
+Thick wet wipes, soft on skin — gentle for periods, postpartum, hemorrhoid care, clean with no residue #wipes #wetwipes #toiletpaper | 加厚湿厕纸，柔软亲肤，经期/产后/痔疮友好，擦得干净不残留 #湿厕纸 #益生菌湿厕纸
 Family-size pack, 80 sheets per bag, 640 sheets total — enough for home, office, or dorm #wipes #wetwipes #toiletpaper | 家庭装大容量，80抽一包，640抽整箱囤，居家办公宿舍都够用 #湿厕纸 #益生菌湿厕纸
 Probiotic wet wipes, gentle cleansing, safe for intimate care, the whole family can use #wipes #wetwipes #toiletpaper | 益生菌湿厕纸，温和清洁，私密部位放心用，全家通用 #湿厕纸 #益生菌湿厕纸
 Wetter than dry paper, cleaner than dry paper — wet wipes that actually get you clean #wipes #wetwipes #toiletpaper | 比干纸擦得更干净——湿厕纸，湿水强，不留残渣 #湿厕纸 #益生菌湿厕纸
 Single-sheet pull design, no half-torn pieces, cleaner and more hygienic daily bathroom use #wipes #wetwipes #toiletpaper | 单片抽取，干净不连抽，日常如厕更卫生 #湿厕纸 #益生菌湿厕纸
-Plant-based fiber, thick and durable, no lint, no tear — gentle on hemorrhoids, postpartum, and periods #wipes #wetwipes #toiletpaper | 植物纤维加厚，不掉絮、不易破，痔疮/产后/经期温柔呵护 #湿厕纸 #益生菌湿厕纸
-Wet or dry, one pack for all bathroom needs — wet for cleansing, dry for wiping #wipes #wetwipes #toiletpaper | 干湿两用，一包搞定多种场景——湿用清洁，干用擦拭 #湿厕纸 #益生菌湿厕纸
+Plant-based fiber, thick and durable, no tear — gentle on hemorrhoids, postpartum, and periods #wipes #wetwipes #toiletpaper | 植物纤维加厚，柔韧不易破，痔疮/产后/经期温柔呵护 #湿厕纸 #益生菌湿厕纸
+Use once and toss — fresh every visit, no reuse, no bacteria buildup #wipes #wetwipes #toiletpaper | 一次一巾即弃——每次都干净，不重复使用不滋生细菌 #湿厕纸 #益生菌湿厕纸
 Sticky period days? Wet wipes feel fresh in one swipe, 10x better than dry paper #wipes #wetwipes #toiletpaper | 经期黏腻？湿厕纸一擦就清爽，比干纸舒服10倍 #湿厕纸 #益生菌湿厕纸
 Postpartum moms, gentle and non-irritating — worry-free cleansing during recovery #wipes #wetwipes #toiletpaper | 产后妈妈专用，温和无刺激，恶露期/产后恢复期清洁无忧 #湿厕纸 #益生菌湿厕纸
 Hemorrhoid flare-up? Dry paper hurts. Wet wipes are soft and gentle, no sting #wipes #wetwipes #toiletpaper | 痔疮发作期，干纸太痛？湿厕纸柔软亲肤，擦着不刺痛 #湿厕纸 #益生菌湿厕纸
