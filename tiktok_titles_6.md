@@ -1,24 +1,24 @@
 # 2026-06-21
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-That bathroom odor that follows you? Dry paper can't help #wipes #wetwips #toiletpaper | 上完厕所的异味跟着你？干纸帮不了 #湿厕纸 #益生菌湿厕纸
-You can smell who didn't use wet wipes #wipes #wetwips #toiletpaper | 你能闻到谁没用湿厕纸 #湿厕纸 #益生菌湿厕纸
-Confidence starts with feeling clean — dry paper can't do that #wipes #wetwips #toiletpaper | 自信从清爽开始——干纸做不到 #湿厕纸 #益生菌湿厕纸
-Meeting in 5 minutes but feel unclean? We've all been there #wipes #wetwips #toiletpaper | 5分钟后开会但感觉不干净？我们都经历过 #湿厕纸 #益生菌湿厕纸
-Date night disaster starts with poor bathroom hygiene #wipes #wetwips #toiletpaper | 约会灾难从如厕卫生差开始 #湿厕纸 #益生菌湿厕纸
-Stop pretending dry paper is enough — everyone can tell #wipes #wetwips #toiletpaper | 别假装干纸够了——大家都看得出来 #湿厕纸 #益生菌湿厕纸
-That awkward moment when you know you're not fully clean #wipes #wetwips #toiletpaper | 你知道没擦干净的那种尴尬时刻 #湿厕纸 #益生菌湿厕纸
-You change your underwear daily — upgrade your paper too #wipes #wetwips #toiletpaper | 你每天换内裤——也该升级你的纸 #湿厕纸 #益生菌湿厕纸
-Nobody talks about it but everyone feels it #wipes #wetwips #toiletpaper | 没人谈论但每个人都能感觉到 #湿厕纸 #益生菌湿厕纸
-Your coworkers can tell your bathroom secrets #wipes #wetwips #toiletpaper | 你的同事能闻出你的厕所秘密 #湿厕纸 #益生菌湿厕纸
-Freshness is not optional — it's essential #wipes #wetwips #toiletpaper | 清爽不是可选项——是必需品 #湿厕纸 #益生菌湿厕纸
-Stop hiding behind perfume — fix the root cause #wipes #wetwips #toiletpaper | 别用香水掩盖——解决根本问题 #湿厕纸 #益生菌湿厕纸
-Clean means clean — not almost clean #wipes #wetwips #toiletpaper | 干净就是干净——不是差不多干净 #湿厕纸 #益生菌湿厕纸
-That 3 PM bathroom break shouldn't ruin your afternoon #wipes #wetwips #toiletpaper | 下午3点上厕所不该毁掉你的下午 #湿厕纸 #益生菌湿厕纸
-You deserve to feel fresh all day, not just after a shower #wipes #wetwips #toiletpaper | 你该全天清爽，不只是洗完澡后 #湿厕纸 #益生菌湿厕纸
-Bad bathroom habits follow you everywhere #wipes #wetwips #toiletpaper | 差的如厕习惯跟着你到处走 #湿厕纸 #益生菌湿厕纸
-The difference between clean and almost-clean is confidence #wipes #wetwips #toiletpaper | 干净和差不多干净的区别是自信 #湿厕纸 #益生菌湿厕纸
-Stop hoping dry paper is enough — know it's not #wipes #wetwips #toiletpaper | 别指望干纸够了——你知道不够 #湿厕纸 #益生菌湿厕纸
+Thick wet wipes, soft and lint-free — gentle for periods, postpartum, hemorrhoid care, clean with no residue #wipes #wetwipes #toiletpaper | 加厚湿厕纸，亲肤不掉絮，经期/产后/痔疮友好，擦得干净不残留 #湿厕纸 #益生菌湿厕纸
+Family-size pack, 80 sheets per bag, 640 sheets total — enough for home, office, or dorm #wipes #wetwipes #toiletpaper | 家庭装大容量，80抽一包，640抽整箱囤，居家办公宿舍都够用 #湿厕纸 #益生菌湿厕纸
+Probiotic wet wipes, gentle cleansing, safe for intimate care, the whole family can use #wipes #wetwipes #toiletpaper | 益生菌湿厕纸，温和清洁，私密部位放心用，全家通用 #湿厕纸 #益生菌湿厕纸
+Wetter than dry paper, cleaner than dry paper — wet wipes that actually get you clean #wipes #wetwipes #toiletpaper | 比干纸擦得更干净——湿厕纸，湿水强，不留残渣 #湿厕纸 #益生菌湿厕纸
+Single-sheet pull design, no half-torn pieces, cleaner and more hygienic daily bathroom use #wipes #wetwipes #toiletpaper | 单片抽取，干净不连抽，日常如厕更卫生 #湿厕纸 #益生菌湿厕纸
+Plant-based fiber, thick and durable, no lint, no tear — gentle on hemorrhoids, postpartum, and periods #wipes #wetwipes #toiletpaper | 植物纤维加厚，不掉絮、不易破，痔疮/产后/经期温柔呵护 #湿厕纸 #益生菌湿厕纸
+Wet or dry, one pack for all bathroom needs — wet for cleansing, dry for wiping #wipes #wetwipes #toiletpaper | 干湿两用，一包搞定多种场景——湿用清洁，干用擦拭 #湿厕纸 #益生菌湿厕纸
+Sticky period days? Wet wipes feel fresh in one swipe, 10x better than dry paper #wipes #wetwipes #toiletpaper | 经期黏腻？湿厕纸一擦就清爽，比干纸舒服10倍 #湿厕纸 #益生菌湿厕纸
+Postpartum moms, gentle and non-irritating — worry-free cleansing during recovery #wipes #wetwipes #toiletpaper | 产后妈妈专用，温和无刺激，恶露期/产后恢复期清洁无忧 #湿厕纸 #益生菌湿厕纸
+Hemorrhoid flare-up? Dry paper hurts. Wet wipes are soft and gentle, no sting #wipes #wetwipes #toiletpaper | 痔疮发作期，干纸太痛？湿厕纸柔软亲肤，擦着不刺痛 #湿厕纸 #益生菌湿厕纸
+Family-size bulk pack, less than 1 cent per sheet — affordable daily hygiene for the whole family #wipes #wetwipes #toiletpaper | 家庭共用大容量，平摊到每抽不到1毛钱 #湿厕纸 #益生菌湿厕纸
+Probiotic formula, pH-friendly, doesn't leave skin feeling tight or dry after use #wipes #wetwipes #toiletpaper | 益生菌配方，弱酸亲肤，用完不紧绷 #湿厕纸 #益生菌湿厕纸
+One-hand pull design, easy and hygienic — no fumbling in the dark bathroom #wipes #wetwipes #toiletpaper | 单手可抽设计，方便又卫生 #湿厕纸 #益生菌湿厕纸
+Dissolves easily in water, worry-free daily disposal — no residue, no clogging #wipes #wetwipes #toiletpaper | 易溶解材质，遇水即散，不留残渣 #湿厕纸 #益生菌湿厕纸
+Student dorms, shared rentals, office bathrooms — wet wipes are clean, fresh, and convenient #wipes #wetwipes #toiletpaper | 学生宿舍/合租/办公卫生间——湿厕纸方便又干净 #湿厕纸 #益生菌湿厕纸
+80 sheets per pack, lasts about two weeks per bag — affordable and durable daily use #wipes #wetwipes #toiletpaper | 80抽大包装，一包用两周，便宜又耐用 #湿厕纸 #益生菌湿厕纸
+Sensitive skin days? Wet wipes are gentler than dry paper, no friction or scratch #wipes #wetwipes #toiletpaper | 换季敏感期？湿厕纸比干纸更柔和，不摩擦不刺痛 #湿厕纸 #益生菌湿厕纸
+Safe for the whole family — wet wipes for babies, pregnant moms, and elders #wipes #wetwipes #toiletpaper | 全家都能用——湿厕纸，宝宝、孕妇、老人都适合 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 Portable travel flushable wet wipes, individually wrapped, gentle on skin #wetwipes #travelsize #marigold | 便携旅行装可冲湿厕纸 独立单片包装 弱酸亲肤 #旅行装湿厕纸 #金盏花
