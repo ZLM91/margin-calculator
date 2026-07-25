@@ -61,21 +61,21 @@ Towel smells musty after one use? Disposable, no smell, no bacteria #facialtowel
 Pure cotton feel, plant-based fabric, gentle on sensitive skin #facialtowel #disposable #skincare | 棉柔触感，植物纤维，敏感肌放心用 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Bleeding gums when you brush? That's not normal #toothpaste #dentalcare #oralcare | 刷牙牙龈出血？这不正常 #牙膏 #口腔护理
-Your gums recede a little more each year #toothpaste #dentalcare #oralcare | 你的牙龈每年后退一点 #牙膏 #口腔护理
-That dark spot between your teeth? Could be a cavity #toothpaste #dentalcare #oralcare | 牙齿间的黑点？可能是蛀牙 #牙膏 #口腔护理
-Your tooth aches at night but fine by morning #toothpaste #dentalcare #oralcare | 夜间牙疼早上又好了 #牙膏 #口腔护理
-Dentist says you need a filling — again #toothpaste #dentalcare #oralcare | 牙医又说你需要补牙 #牙膏 #口腔护理
-Your teeth have yellow stains that won't come off #toothpaste #dentalcare #oralcare | 牙齿有去不掉的黄渍 #牙膏 #口腔护理
-Gumline is receding and you can see the roots #toothpaste #dentalcare #oralcare | 牙龈线后退能看到牙根 #牙膏 #口腔护理
-Cold sensitivity means enamel is wearing thin #toothpaste #dentalcare #oralcare | 冷敏感意味着牙釉质变薄 #牙膏 #口腔护理
-Your back teeth have visible decay #toothpaste #dentalcare #oralcare | 你的后牙有明显蛀蚀 #牙膏 #口腔护理
-Bleeding when flossing means inflammation #toothpaste #dentalcare #oralcare | 用牙线时出血意味着发炎 #牙膏 #口腔护理
-Your teeth look transparent at the edges #toothpaste #dentalcare #oralcare | 牙齿边缘看起来透明 #牙膏 #口腔护理
-That persistent toothache you keep ignoring #toothpaste #dentalcare #oralcare | 你一直忽视的持续牙疼 #牙膏 #口腔护理
-Your filling fell out and you haven't fixed it #toothpaste #dentalcare #oralcare | 补牙材料掉了你没去修 #牙膏 #口腔护理
-Tartar buildup at the dentist every visit #toothpaste #dentalcare #oralcare | 每次看牙医都有牙结石堆积 #牙膏 #口腔护理
-Your teeth are shifting and you don't know why #toothpaste #dentalcare #oralcare | 牙齿在移动你不知道为什么 #牙膏 #口腔护理
-That crack in your tooth is getting bigger #toothpaste #dentalcare #oralcare | 牙齿上的裂纹在变大 #牙膏 #口腔护理
-Your old fillings are darkening around the edges #toothpaste #dentalcare #oralcare | 旧补牙材料边缘在变暗 #牙膏 #口腔护理
-You need a root canal but keep putting it off #toothpaste #dentalcare #oralcare | 你需要根管治疗但一直拖 #牙膏 #口腔护理
+Xylitol toothpaste — sweet taste, clean teeth, fresh breath, no harsh burn #toothpaste #dentalcare #oralcare | 木糖醇牙膏，清甜口感，牙齿干净，口气清新，不辣嘴 #牙膏 #口腔护理
+Hydrated silica gentle polish — lifts coffee and tea stains without scratching #toothpaste #dentalcare #oralcare | 水合二氧化硅温和抛光，去除咖啡茶渍不刮伤 #牙膏 #口腔护理
+Niacinamide toothpaste — gentle on gums, safe for daily use #toothpaste #dentalcare #oralcare | 烟酰胺牙膏，温和不刺激牙龈，日常使用安心 #牙膏 #口腔护理
+Paraben-free, fragrance-free — clean ingredients you can trust #toothpaste #dentalcare #oralcare | 无 paraben、无香精，成分简单放心 #牙膏 #口腔护理
+Fresh breath from morning to night — xylitol keeps mouth clean all day #toothpaste #dentalcare #oralcare | 从早到晚口气清新——木糖醇配方全天保持洁净 #牙膏 #口腔护理
+Yellow stains from coffee? Silica polish fades them, no hard scrubbing #toothpaste #dentalcare #oralcare | 咖啡留下的黄渍？二氧化硅温和淡化，不用硬刷 #牙膏 #口腔护理
+Whole-family toothpaste — mild taste kids and adults both accept #toothpaste #dentalcare #oralcare | 全家共用牙膏——温和口味大人小孩都爱 #牙膏 #口腔护理
+Sensitive gums? Gentle formula, no sting while brushing #toothpaste #dentalcare #oralcare | 牙龈敏感？温和配方，刷牙不刺痛 #牙膏 #口腔护理
+Small tube for travel — gym, trip, office, always fresh breath #toothpaste #dentalcare #oralcare | 小支便携装——健身旅行办公，口气随时清新 #牙膏 #口腔护理
+Foams just right, rinses clean — no filmy aftertaste #toothpaste #dentalcare #oralcare | 泡沫适中易冲洗——没有膜感残留味 #牙膏 #口腔护理
+Daily surface-smoothing without peroxide — silica polishes away stains #toothpaste #dentalcare #oralcare | 日常去渍不靠漂白——二氧化硅抚平表面色渍 #牙膏 #口腔护理
+Brush twice a day, fresh every time — xylitol fights morning breath #toothpaste #dentalcare #oralcare | 一天刷两次，每次都清新——木糖醇对抗晨起口气 #牙膏 #口腔护理
+No artificial fragrance — just clean, neutral freshness #toothpaste #dentalcare #oralcare | 无人工香精——只有干净的清爽感 #牙膏 #口腔护理
+Gentle enough for kids, effective for adults — one tube for the family #toothpaste #dentalcare #oralcare | 小孩够温和，大人够有效——全家用一管 #牙膏 #口腔护理
+Sticky feel after meals? Silica polish helps keep teeth smooth #toothpaste #dentalcare #oralcare | 饭后黏腻？二氧化硅抛光保持牙齿光滑 #牙膏 #口腔护理
+Minty-light, not burning — comfortable brush even for sensitive mouths #toothpaste #dentalcare #oralcare | 淡淡清凉不辣嘴——敏感口腔也舒服 #牙膏 #口腔护理
+Travel kit essential — pocket-size tube, fresh breath anywhere #toothpaste #dentalcare #oralcare | 出行必备——口袋大小，随时清新 #牙膏 #口腔护理
+Simple 3-ingredient focus: xylitol, silica, niacinamide — clean daily care #toothpaste #dentalcare #oralcare | 简单三成分：木糖醇、二氧化硅、烟酰胺——日常清洁省心 #牙膏 #口腔护理
