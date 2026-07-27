@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德国仓新品价格测算器 · DE/FR/IT/ES</title>
+<style>
+  :root{--bg:#f4f6f9;--card:#fff;--line:#e3e8ef;--text:#1f2937;--muted:#6b7280;--accent:#2563eb;--good:#16a34a;--goodbg:#dcfce7;--bad:#dc2626;--badbg:#fee2e2;--warn:#d97706;}
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:24px;line-height:1.5;}
+  h1{font-size:22px;margin:0 0 4px;} .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;}
+  input[type=number]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;}
+  .row-flex{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;}
+  .seg{display:flex;gap:6px;flex-wrap:wrap;}
+  .seg label{display:flex;align-items:center;gap:4px;background:#eef2ff;border:1px solid #c7d2fe;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:#3730a3;}
+  .seg input{margin:0;}
+  button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;}
+  button:hover{background:#1d4ed8;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{background:#f8fafc;color:var(--muted);font-weight:600;}
+  tr.best td{background:var(--goodbg);font-weight:700;color:var(--good);}
+  .dest-title{font-size:16px;font-weight:700;margin:14px 0 4px;display:flex;align-items:center;gap:8px;}
+  .tag{font-size:11px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.7;}
+  .vol{font-size:12px;color:var(--warn);margin-top:6px;}
+  .err{color:#dc2626;font-size:13px;}
+  details{margin-top:10px;} summary{cursor:pointer;color:var(--accent);font-size:13px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;} @media(max-width:640px){.twocol{grid-template-columns:1fr;}}
+  .rescard{border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px;}
+  .rescard.pos{border-color:#86efac;background:#f0fdf4;}
+  .rescard.neg{border-color:#fca5a5;background:#fef2f2;}
+  .kv{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:13px;margin-top:6px;}
+  .kv .v{font-weight:700;text-align:right;}
+  .profit{font-size:20px;font-weight:800;margin-top:8px;}
+  .profit.pos{color:var(--good);} .profit.neg{color:var(--bad);}
+  .chsel{font-size:13px;margin-top:8px;}
+  select{padding:6px 8px;border:1px solid var(--line);border-radius:8px;font-size:13px;}
+  .small{font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+<h1>🇩🇪 德国仓新品价格测算器</h1>
+<div class="sub">输入商品重量/尺寸 + 成本/售价，自动按「最低价渠道」测算 DE / FR / IT / ES 四国自营总成本、利润、利润率（逻辑参考《欧洲价格测算表_v9》）</div>
+
+<div class="card">
+  <b>① 商品物理参数（决定尾程计费重）</b>
+  <div class="grid" style="margin-top:8px;">
+    <div><label>实重 (kg)</label><input type="number" id="w" value="0.5" step="0.01" min="0"></div>
+    <div><label>长 (cm)</label><input type="number" id="l" value="17" step="1" min="0"></div>
+    <div><label>宽 (cm)</label><input type="number" id="b" value="10" step="1" min="0"></div>
+    <div><label>高 (cm)</label><input type="number" id="h" value="8" step="1" min="0"></div>
+  </div>
+  <div class="row-flex" style="margin-top:14px;">
+    <div><label>参与测算的目的国（默认全选）</label>
+      <div class="seg">
+        <label><input type="checkbox" class="dest" value="DE" checked> 德国 DE</label>
+        <label><input type="checkbox" class="dest" value="FR" checked> 法国 FR</label>
+        <label><input type="checkbox" class="dest" value="IT" checked> 意大利 IT</label>
+        <label><input type="checkbox" class="dest" value="ES" checked> 西班牙 ES</label>
+      </div>
+    </div>
+  </div>
+  <details style="margin-top:12px;">
+    <summary>⚙️ 浮动燃油率（DHL / GLS 每月更新，默认 12% / 10%）</summary>
+    <div class="twocol" style="margin-top:10px;">
+      <div><label>DHL 燃油率 %</label><input type="number" id="fuelDhl" value="12" step="0.5"></div>
+      <div><label>GLS 燃油率 %</label><input type="number" id="fuelGls" value="10" step="0.5"></div>
+    </div>
+  </details>
+</div>
+
+<div class="card">
+  <b>② 成本与售价输入（每件 / 每包裹口径，货币 EUR）</b>
+  <div class="grid" style="margin-top:8px;">
+    <div><label>商品成本 (€/件)</label><input type="number" id="cost" value="2.50" step="0.01"></div>
+    <div><label>头程运费 (€/件)</label><input type="number" id="head" value="1.20" step="0.01" title="国内→德国仓，已分摊到单件"></div>
+    <div><label>出库操作费 (€/件)</label><input type="number" id="out" value="0.80" step="0.01"></div>
+    <div><label>平台佣金率 %</label><input type="number" id="comm" value="25.6" step="0.1"></div>
+  </div>
+  <div class="grid3" style="margin-top:12px;">
+    <div><label>售价 DE (€)</label><input type="number" id="pDE" value="12.90" step="0.01"></div>
+    <div><label>售价 FR (€)</label><input type="number" id="pFR" value="14.90" step="0.01"></div>
+    <div><label>售价 IT (€)</label><input type="number" id="pIT" value="18.90" step="0.01"></div>
+    <div><label>售价 ES (€)</label><input type="number" id="pES" value="19.90" step="0.01"></div>
+  </div>
+  <div class="note">尾程运费（H）取自《20260618 P价谷仓德国尾程物流报价》，按「最低价渠道」自动取。仓储物流小计 O = 头程 + 尾程 + 出库操作费；平台费 P = 售价 × 佣金率；自营总成本 Q = 商品成本 + O + P；利润 = 售价 − Q。</div>
+</div>
+
+<div style="margin-bottom:14px;"><button onclick="calc()">测算利润</button> <span id="volInfo" class="vol"></span></div>
+<div id="errBox" class="err"></div>
+<div id="results"></div>
+
+<script>
+const DATA = {
+ "gcLocal": {
+  "tiers": [
+   [
+    1.0,
+    3.49
+   ],
+   [
+    2.0,
+    3.7
+   ],
+   [
+    3.0,
+    3.93
+   ],
+   [
+    5.0,
+    4.21
+   ],
+   [
+    10.0,
+    4.66
+   ],
+   [
+    15.0,
+    5.23
+   ],
+   [
+    20.0,
+    5.59000344115404
+   ],
+   [
+    25.0,
+    6.08
+   ],
+   [
+    31.5,
+    6.45
+   ]
+  ],
+  "perKg": 0.327619047619048,
+  "fuel": 0.08,
+  "road": 0.25,
+  "sec": 0.03
+ },
+ "gcInt": {
+  "tiers": [
+   {
+    "max": 0.25,
+    "FR": 3.96,
+    "IT": 9.2,
+    "ES": 9.82
+   },
+   {
+    "max": 0.5,
+    "FR": 4.68,
+    "IT": 9.2,
+    "ES": 9.82
+   },
+   {
+    "max": 0.75,
+    "FR": 5.07,
+    "IT": 9.2,
+    "ES": 9.82
+   },
+   {
+    "max": 1.0,
+    "FR": 5.61,
+    "IT": 9.2,
+    "ES": 9.82
+   },
+   {
+    "max": 2.0,
+    "FR": 7.32,
+    "IT": 9.73,
+    "ES": 10.2
+   },
+   {
+    "max": 3.0,
+    "FR": 8.96,
+    "IT": 10.26,
+    "ES": 10.58
+   },
+   {
+    "max": 4.0,
+    "FR": 10.59,
+    "IT": 10.8,
+    "ES": 10.96
+   },
+   {
+    "max": 5.0,
+    "FR": 11.25,
+    "IT": 11.49,
+    "ES": 11.34
+   },
+   {
+    "max": 6.0,
+    "FR": 11.81,
+    "IT": 12.05,
+    "ES": 11.53
+   },
+   {
+    "max": 7.0,
+    "FR": 11.81,
+    "IT": 12.05,
+    "ES": 11.53
+   },
+   {
+    "max": 8.0,
+    "FR": 11.81,
+    "IT": 12.05,
+    "ES": 11.53
+   },
+   {
+    "max": 9.0,
+    "FR": 11.81,
+    "IT": 12.05,
+    "ES": 11.53
+   },
+   {
+    "max": 10.0,
+    "FR": 11.81,
+    "IT": 12.05,
+    "ES": 11.53
+   },
+   {
+    "max": 11.0,
+    "FR": 14.12,
+    "IT": 14.12,
+    "ES": 11.58
+   },
+   {
+    "max": 12.0,
+    "FR": 14.12,
+    "IT": 14.12,
+    "ES": 11.58
+   },
+   {
+    "max": 13.0,
+    "FR": 14.12,
+    "IT": 14.12,
+    "ES": 11.58
+   },
+   {
+    "max": 14.0,
+    "FR": 14.12,
+    "IT": 14.12,
+    "ES": 11.58
+   },
+   {
+    "max": 15.0,
+    "FR": 14.12,
+    "IT": 14.12,
+    "ES": 11.58
+   },
+   {
+    "max": 16.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 17.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 18.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 19.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 20.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 21.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 22.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 23.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 24.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 25.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 26.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 27.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 28.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 29.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 30.0,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   },
+   {
+    "max": 31.5,
+    "FR": 14.25,
+    "IT": 14.25,
+    "ES": 11.58
+   }
+  ],
+  "perKg": {
+   "FR": 0.72,
+   "IT": 0.72,
+   "ES": 0.64
+  },
+  "fuel": 0.04,
+  "road": 0.22,
+  "sec": 0.01
+ },
+ "dhlLocal": {
+  "tiers": [
+   [
+    1.0,
+    4.02
+   ],
+   [
+    2.0,
+    4.21
+   ],
+   [
+    3.0,
+    4.51
+   ],
+   [
+    5.0,
+    4.78
+   ],
+   [
+    10.0,
+    5.38
+   ],
+   [
+    15.0,
+    6.04
+   ],
+   [
+    20.0,
+    6.88
+   ],
+   [
+    25.0,
+    7.81
+   ],
+   [
+    31.5,
+    8.09
+   ]
+  ],
+  "perKg": 0.37,
+  "road": 0.19,
+  "fuelVar": true,
+  "fuelDefault": 0.12
+ },
+ "dhlKlein": {
+  "base1": 3.25,
+  "perKg": 4.55,
+  "maxW": 1,
+  "dim": [
+   35.3,
+   25,
+   8
+  ],
+  "fuelVar": true,
+  "fuelDefault": 0.12
+ },
+ "dpdLocal": {
+  "tiers": [
+   [
+    1.0,
+    3.97
+   ],
+   [
+    2.0,
+    4.17
+   ],
+   [
+    3.0,
+    4.39
+   ],
+   [
+    5.0,
+    4.65
+   ],
+   [
+    8.0,
+    5.14
+   ],
+   [
+    10.0,
+    5.14
+   ],
+   [
+    15.0,
+    5.78
+   ],
+   [
+    20.0,
+    5.96
+   ],
+   [
+    25.0,
+    6.49
+   ],
+   [
+    31.5,
+    6.88
+   ]
+  ],
+  "perKg": 0.31,
+  "fuel": 0.2,
+  "road": 0.25,
+  "sec": 0.03
+ },
+ "glsLocal": {
+  "tiers": [
+   [
+    3.0,
+    3.62
+   ],
+   [
+    5.0,
+    4.7
+   ],
+   [
+    8.0,
+    5.37
+   ],
+   [
+    10.0,
+    5.38
+   ],
+   [
+    15.0,
+    5.52
+   ],
+   [
+    20.0,
+    6.3
+   ],
+   [
+    25.0,
+    6.45
+   ],
+   [
+    31.5,
+    8.74
+   ],
+   [
+    40.0,
+    22.86
+   ]
+  ],
+  "perKg": 0.8,
+  "road": 0.45,
+  "env": 0.043,
+  "fuelVar": true,
+  "fuelDefault": 0.1
+ },
+ "dhlInt": {
+  "FR": [
+   9.51,
+   0.58
+  ],
+  "IT": [
+   10.35,
+   0.42
+  ],
+  "ES": [
+   9.94,
+   0.62
+  ],
+  "fuelVar": true,
+  "fuelDefault": 0.12
+ },
+ "dpdInt": {
+  "FR": [
+   11.98,
+   11.98,
+   14.04,
+   14.04,
+   14.04
+  ],
+  "IT": [
+   12.39,
+   12.39,
+   12.45,
+   12.45,
+   12.45
+  ],
+  "ES": [
+   14.08,
+   14.08,
+   14.08,
+   15.01,
+   15.01
+  ],
+  "tiers": [
+   3,
+   10,
+   15,
+   20,
+   31.5
+  ],
+  "perKg": {
+   "ES": 0.67,
+   "IT": 0.56,
+   "FR": 0.63
+  },
+  "fuel": 0.2,
+  "road": 0.25,
+  "sec": 0.03
+ },
+ "glsInt": {
+  "FR": [
+   10.71,
+   10.91,
+   14.58,
+   14.58,
+   16.55,
+   20.02,
+   31.45
+  ],
+  "IT": [
+   9.02,
+   9.51,
+   13.11,
+   14.58,
+   16.25,
+   20.46,
+   32.75
+  ],
+  "ES": [
+   15.89,
+   15.89,
+   21.47,
+   21.62,
+   21.76,
+   27.77,
+   45.6
+  ],
+  "tiers": [
+   2,
+   5,
+   10,
+   15,
+   25,
+   30,
+   40
+  ],
+  "perKg": {
+   "ES": 1.6,
+   "FR": 1.11,
+   "IT": 1.15
+  },
+  "road": 0.45,
+  "env": 0.043,
+  "fuelVar": true,
+  "fuelDefault": 0.1
+ },
+ "upsInt": {
+  "FR": [
+   [
+    2.0,
+    15.16
+   ],
+   [
+    4.0,
+    15.7
+   ],
+   [
+    7.0,
+    16.32
+   ],
+   [
+    10.0,
+    17.07
+   ],
+   [
+    14.0,
+    17.63
+   ],
+   [
+    20.0,
+    19.25
+   ],
+   [
+    22.0,
+    20.06
+   ],
+   [
+    24.0,
+    20.86
+   ],
+   [
+    26.0,
+    28.04
+   ],
+   [
+    28.0,
+    29.07
+   ],
+   [
+    30.0,
+    30.15
+   ],
+   [
+    32.0,
+    30.87
+   ],
+   [
+    34.0,
+    34.017
+   ],
+   [
+    36.0,
+    36.0126
+   ],
+   [
+    38.0,
+    37.632
+   ],
+   [
+    40.0,
+    39.16
+   ],
+   [
+    42.0,
+    39.16
+   ],
+   [
+    44.0,
+    39.16
+   ],
+   [
+    46.0,
+    41.04
+   ],
+   [
+    48.0,
+    42.6349
+   ],
+   [
+    50.0,
+    44.2847
+   ],
+   [
+    55.0,
+    48.6864
+   ],
+   [
+    60.0,
+    53.9575
+   ],
+   [
+    65.0,
+    57.8816
+   ],
+   [
+    70.0,
+    62.6416
+   ]
+  ],
+  "IT": [
+   [
+    2.0,
+    15.16
+   ],
+   [
+    4.0,
+    15.7
+   ],
+   [
+    7.0,
+    16.32
+   ],
+   [
+    10.0,
+    17.07
+   ],
+   [
+    14.0,
+    17.63
+   ],
+   [
+    20.0,
+    19.25
+   ],
+   [
+    22.0,
+    20.06
+   ],
+   [
+    24.0,
+    20.86
+   ],
+   [
+    26.0,
+    28.04
+   ],
+   [
+    28.0,
+    29.07
+   ],
+   [
+    30.0,
+    30.15
+   ],
+   [
+    32.0,
+    30.87
+   ],
+   [
+    34.0,
+    34.6086
+   ],
+   [
+    36.0,
+    36.0126
+   ],
+   [
+    38.0,
+    37.632
+   ],
+   [
+    40.0,
+    39.0792
+   ],
+   [
+    42.0,
+    39.0792
+   ],
+   [
+    44.0,
+    39.0792
+   ],
+   [
+    46.0,
+    41.04
+   ],
+   [
+    48.0,
+    42.6349
+   ],
+   [
+    50.0,
+    44.2847
+   ],
+   [
+    55.0,
+    48.6864
+   ],
+   [
+    60.0,
+    53.9575
+   ],
+   [
+    65.0,
+    57.8816
+   ],
+   [
+    70.0,
+    62.6416
+   ]
+  ],
+  "ES": [
+   [
+    2.0,
+    15.92
+   ],
+   [
+    4.0,
+    16.64
+   ],
+   [
+    7.0,
+    17.35
+   ],
+   [
+    10.0,
+    22.7
+   ],
+   [
+    14.0,
+    23.61
+   ],
+   [
+    20.0,
+    25.82
+   ],
+   [
+    22.0,
+    26.94
+   ],
+   [
+    24.0,
+    28.05
+   ],
+   [
+    26.0,
+    30.56
+   ],
+   [
+    28.0,
+    31.36
+   ],
+   [
+    30.0,
+    32.52
+   ],
+   [
+    32.0,
+    33.66
+   ],
+   [
+    34.0,
+    36.0244
+   ],
+   [
+    36.0,
+    38.45
+   ],
+   [
+    38.0,
+    40.88
+   ],
+   [
+    40.0,
+    41.76
+   ],
+   [
+    42.0,
+    43.56
+   ],
+   [
+    44.0,
+    45.88
+   ],
+   [
+    46.0,
+    48.18
+   ],
+   [
+    48.0,
+    50.49
+   ],
+   [
+    50.0,
+    52.8
+   ],
+   [
+    55.0,
+    57.024
+   ],
+   [
+    60.0,
+    60.665
+   ],
+   [
+    65.0,
+    66.11
+   ],
+   [
+    70.0,
+    71.544
+   ]
+  ],
+  "perKg": {
+   "FR": 1.26,
+   "IT": 1.26,
+   "ES": 1.44
+  },
+  "fuelVar": true,
+  "fuelDefault": 0.1
+ },
+ "g2gInt": {
+  "FR": [
+   [
+    0.5,
+    9.58
+   ],
+   [
+    1.0,
+    9.58
+   ],
+   [
+    1.5,
+    9.58
+   ],
+   [
+    2.0,
+    9.58
+   ],
+   [
+    2.5,
+    9.58
+   ],
+   [
+    3.0,
+    9.58
+   ],
+   [
+    3.5,
+    9.58
+   ],
+   [
+    4.0,
+    9.58
+   ],
+   [
+    4.5,
+    9.58
+   ],
+   [
+    5.0,
+    9.58
+   ],
+   [
+    5.5,
+    9.58
+   ],
+   [
+    6.0,
+    11.34
+   ],
+   [
+    6.5,
+    12.01
+   ],
+   [
+    7.0,
+    12.55
+   ],
+   [
+    7.5,
+    13.32
+   ],
+   [
+    8.0,
+    13.86
+   ],
+   [
+    8.5,
+    14.55
+   ],
+   [
+    9.0,
+    14.81
+   ],
+   [
+    9.5,
+    15.25
+   ],
+   [
+    10.0,
+    15.52
+   ]
+  ],
+  "IT": [
+   [
+    0.5,
+    9.68
+   ],
+   [
+    1.0,
+    9.68
+   ],
+   [
+    1.5,
+    9.68
+   ],
+   [
+    2.0,
+    9.68
+   ],
+   [
+    2.5,
+    9.68
+   ],
+   [
+    3.0,
+    9.68
+   ],
+   [
+    3.5,
+    9.68
+   ],
+   [
+    4.0,
+    9.68
+   ],
+   [
+    4.5,
+    9.68
+   ],
+   [
+    5.0,
+    9.68
+   ],
+   [
+    5.5,
+    10.0
+   ],
+   [
+    6.0,
+    10.0
+   ],
+   [
+    6.5,
+    10.2
+   ],
+   [
+    7.0,
+    10.2
+   ],
+   [
+    7.5,
+    10.2
+   ],
+   [
+    8.0,
+    10.25
+   ],
+   [
+    8.5,
+    10.39
+   ],
+   [
+    9.0,
+    10.4
+   ],
+   [
+    9.5,
+    10.41
+   ],
+   [
+    10.0,
+    10.41
+   ]
+  ],
+  "ES": [
+   [
+    0.5,
+    11.12
+   ],
+   [
+    1.0,
+    11.12
+   ],
+   [
+    1.5,
+    11.12
+   ],
+   [
+    2.0,
+    11.12
+   ],
+   [
+    2.5,
+    11.12
+   ],
+   [
+    3.0,
+    11.12
+   ],
+   [
+    3.5,
+    11.12
+   ],
+   [
+    4.0,
+    11.12
+   ],
+   [
+    4.5,
+    11.12
+   ],
+   [
+    5.0,
+    11.12
+   ],
+   [
+    5.5,
+    11.32
+   ],
+   [
+    6.0,
+    11.47
+   ],
+   [
+    6.5,
+    11.47
+   ],
+   [
+    7.0,
+    11.71
+   ],
+   [
+    7.5,
+    11.94
+   ],
+   [
+    8.0,
+    12.15
+   ],
+   [
+    8.5,
+    12.39
+   ],
+   [
+    9.0,
+    12.62
+   ],
+   [
+    9.5,
+    12.72
+   ],
+   [
+    10.0,
+    12.93
+   ]
+  ],
+  "perKg": {
+   "FR": 3.88,
+   "IT": 2.61,
+   "ES": 3.24
+  },
+  "fuel": 0.0
+ }
+};
+function tierPrice(tiers, perKg, w){ for(const [up,p] of tiers){ if(w<=up) return p; } return perKg*w; }
+function tierPriceMulti(arr, perKg, w){ for(const t of arr){ if(w<=t[0]) return t[1]; } return perKg*w; }
+function tierPriceGC(objs, country, perKg, w){ for(const t of objs){ if(w<=t.max) return t[country]; } return perKg*w; }
+
+function channelsFor(dest, w, L, B, H, fuelDhl, fuelGls){
+  const volW = L*B*H/5000;
+  const billing = (dest==='DE') ? w : Math.max(w, volW);
+  const D = DATA; const list = [];
+  if(dest==='DE'){
+    const gcl = tierPrice(D.gcLocal.tiers, D.gcLocal.perKg, w);
+    list.push({name:'GC Parcel 本地', price:(gcl+D.gcLocal.road)*(1+D.gcLocal.fuel)+D.gcLocal.sec});
+    const dhl = tierPrice(D.dhlLocal.tiers, D.dhlLocal.perKg, w);
+    list.push({name:'DHL 包裹 本地', price:(dhl+D.dhlLocal.road)*(1+fuelDhl)});
+    if(w<=D.dhlKlein.maxW && L<=D.dhlKlein.dim[0] && B<=D.dhlKlein.dim[1] && H<=D.dhlKlein.dim[2])
+      list.push({name:'DHL Kleinpaket 小包', price:D.dhlKlein.base1*(1+fuelDhl)});
+    else if(w<=D.dhlKlein.maxW)
+      list.push({name:'DHL Kleinpaket 小包', price:D.dhlKlein.base1*(1+fuelDhl), warn:'尺寸超限不可用'});
+    const dpd = tierPrice(D.dpdLocal.tiers, D.dpdLocal.perKg, w);
+    list.push({name:'DPD 本地', price:dpd*(1+D.dpdLocal.fuel)+D.dpdLocal.road+D.dpdLocal.sec});
+    const gls = tierPrice(D.glsLocal.tiers, D.glsLocal.perKg, Math.ceil(w));
+    list.push({name:'GLS 本地', price:(gls+D.glsLocal.road)*(1+fuelGls)+D.glsLocal.env});
+  } else {
+    const gci = tierPriceGC(D.gcInt.tiers, dest, D.gcInt.perKg[dest], billing);
+    list.push({name:'GC Parcel 国际', price:gci*(1+D.gcInt.fuel)+D.gcInt.road+D.gcInt.sec});
+    const dhi = D.dhlInt[dest]; list.push({name:'DHL 国际', price:(dhi[0]+Math.max(0,billing-1)*dhi[1])*(1+fuelDhl)});
+    const dpdi=D.dpdInt[dest], dt=D.dpdInt.tiers; let di=null;
+    for(let i=0;i<dt.length;i++){ if(billing<=dt[i]){ di=dpdi[i]; break; } }
+    if(di===null) di=D.dpdInt.perKg[dest]*billing;
+    list.push({name:'DPD 国际', price:di*(1+D.dpdInt.fuel)+D.dpdInt.road+D.dpdInt.sec});
+    const glsi=D.glsInt[dest], gt=D.glsInt.tiers; let gi=null;
+    for(let i=0;i<gt.length;i++){ if(billing<=gt[i]){ gi=glsi[i]; break; } }
+    if(gi===null) gi=D.glsInt.perKg[dest]*billing;
+    list.push({name:'GLS 国际', price:(gi+D.glsInt.road)*(1+fuelGls)+D.glsInt.env});
+    const upi=D.upsInt[dest]; list.push({name:'UPS Standard 国际', price:tierPriceMulti(upi, D.upsInt.perKg[dest], billing), note:'基础价未含燃油'});
+    const g2=D.g2gInt[dest]; list.push({name:'G2G 国际', price:tierPriceMulti(g2, D.g2gInt.perKg[dest], billing), note:'免燃油全包'});
+  }
+  list.sort((a,b)=>a.price-b.price);
+  return {billing, list};
+}
+
+const destName={DE:'德国 Germany',FR:'法国 France',IT:'意大利 Italy',ES:'西班牙 Spain'};
+function calc(){
+  const w=parseFloat(document.getElementById('w').value), L=parseFloat(document.getElementById('l').value),
+        B=parseFloat(document.getElementById('b').value), H=parseFloat(document.getElementById('h').value);
+  const errBox=document.getElementById('errBox'); errBox.textContent='';
+  if(!(w>0)||!(L>0)||!(B>0)||!(H>0)){ errBox.textContent='请填写有效的重量和尺寸（均大于0）'; return; }
+  const dests=Array.from(document.querySelectorAll('.dest:checked')).map(c=>c.value);
+  if(dests.length===0){ errBox.textContent='请至少选择一个目的国'; return; }
+  const fuelDhl=(parseFloat(document.getElementById('fuelDhl').value)||0)/100;
+  const fuelGls=(parseFloat(document.getElementById('fuelGls').value)||0)/100;
+  const cost=parseFloat(document.getElementById('cost').value)||0;
+  const head=parseFloat(document.getElementById('head').value)||0;
+  const out=parseFloat(document.getElementById('out').value)||0;
+  const comm=(parseFloat(document.getElementById('comm').value)||0)/100;
+  const price={DE:parseFloat(document.getElementById('pDE').value)||0, FR:parseFloat(document.getElementById('pFR').value)||0,
+               IT:parseFloat(document.getElementById('pIT').value)||0, ES:parseFloat(document.getElementById('pES').value)||0};
+
+  const volW=L*B*H/5000;
+  document.getElementById('volInfo').textContent =
+    `体积重=${volW.toFixed(3)}kg ｜ 国际段计费重=max(实重,体积重)=${Math.max(w,volW).toFixed(3)}kg`;
+
+  const results=document.getElementById('results'); results.innerHTML='';
+  dests.forEach(dest=>{
+    const {billing, list}=channelsFor(dest, w, L, B, H, fuelDhl, fuelGls);
+    const p=price[dest];
+    // default cheapest
+    const cheapest=list[0];
+    const O = head + cheapest.price + out;
+    const P = p*comm;
+    const Q = cost + O + P;
+    const profit = p - Q;
+    const margin = p>0 ? profit/p : 0;
+    const pos = profit>=0;
+    const opts = list.map((c,i)=>`<option value="${i}" ${i===0?'selected':''}>${c.name} — ${c.price.toFixed(2)}€${c.warn?' (超限)':''}${c.note?' ('+c.note+')':''}</option>`).join('');
+    const rows = list.map((c,i)=>{
+      const cls=(i===0)?' class="best"':'';
+      const nt=c.warn?`<span style="color:#dc2626">${c.warn}</span>`:(c.note?`<span style="color:#6b7280">${c.note}</span>`:'');
+      return `<tr${cls}><td>${c.name}</td><td>${c.price.toFixed(2)}</td><td>${nt}</td></tr>`;
+    }).join('');
+
+    const html = `<div class="card">
+      <div class="dest-title">📍 ${destName[dest]} <span class="tag">计费重 ${billing.toFixed(2)}kg</span> <span class="tag">售价 ${p.toFixed(2)}€</span></div>
+      <div class="chsel">尾程渠道：<select onchange="recalc(this,'${dest}')" data-dest="${dest}">${opts}</select> <span class="small">（默认=最低价，可改选指定渠道）</span></div>
+      <div class="rescard ${pos?'pos':'neg'}" id="res-${dest}">
+        <div class="kv">
+          <span>商品成本</span><span class="v">${cost.toFixed(2)} €</span>
+          <span>头程运费</span><span class="v">${head.toFixed(2)} €</span>
+          <span>尾程运费 H（选定渠道）</span><span class="v" id="h-${dest}">${cheapest.price.toFixed(2)} €</span>
+          <span>出库操作费</span><span class="v">${out.toFixed(2)} €</span>
+          <span><b>仓储物流小计 O</b></span><span class="v"><b>${O.toFixed(2)} €</b></span>
+          <span>平台费 P（售价×${ (comm*100).toFixed(1) }%）</span><span class="v">${P.toFixed(2)} €</span>
+          <span><b>自营总成本 Q</b></span><span class="v"><b>${Q.toFixed(2)} €</b></span>
+        </div>
+        <div class="profit ${pos?'pos':'neg'}">${pos?'+':''}${profit.toFixed(2)} € ／ 利润率 ${(margin*100).toFixed(1)}%</div>
+      </div>
+      <details><summary>展开全部渠道尾程运费对比</summary>
+        <table><thead><tr><th>物流渠道</th><th>尾程 (EUR)</th><th>说明</th></tr></thead><tbody>${rows}</tbody></table>
+      </details>
+    </div>`;
+    results.insertAdjacentHTML('beforeend', html);
+  });
+}
+function recalc(sel, dest){
+  const w=parseFloat(document.getElementById('w').value), L=parseFloat(document.getElementById('l').value),
+        B=parseFloat(document.getElementById('b').value), H=parseFloat(document.getElementById('h').value);
+  const fuelDhl=(parseFloat(document.getElementById('fuelDhl').value)||0)/100;
+  const fuelGls=(parseFloat(document.getElementById('fuelGls').value)||0)/100;
+  const cost=parseFloat(document.getElementById('cost').value)||0;
+  const head=parseFloat(document.getElementById('head').value)||0;
+  const out=parseFloat(document.getElementById('out').value)||0;
+  const comm=(parseFloat(document.getElementById('comm').value)||0)/100;
+  const price={DE:parseFloat(document.getElementById('pDE').value)||0, FR:parseFloat(document.getElementById('pFR').value)||0,
+               IT:parseFloat(document.getElementById('pIT').value)||0, ES:parseFloat(document.getElementById('pES').value)||0};
+  const {list}=channelsFor(dest, w, L, B, H, fuelDhl, fuelGls);
+  const idx=parseInt(sel.value); const c=list[idx];
+  const p=price[dest]; const O=head+c.price+out; const P=p*comm; const Q=cost+O+P;
+  const profit=p-Q; const margin=p>0?profit/p:0; const pos=profit>=0;
+  const card=document.getElementById('res-'+dest);
+  card.className='rescard '+(pos?'pos':'neg');
+  document.getElementById('h-'+dest).textContent=c.price.toFixed(2)+' €';
+  card.querySelector('.profit').className='profit '+(pos?'pos':'neg');
+  card.querySelector('.profit').textContent=(pos?'+':'')+profit.toFixed(2)+' € ／ 利润率 '+(margin*100).toFixed(1)+'%';
+}
+calc();
+</script>
+</body>
+</html>
