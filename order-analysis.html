@@ -881,8 +881,10 @@ function getFilteredOrders() {
   const onlyCreator = document.getElementById('onlyCreatorOrders').checked;
 
   return allOrders.filter(o => {
+    // Always exclude cancelled orders — they should never count toward revenue/profit
+    if (o.isCancelled) return false;
     if (!checkedStatuses.has(o.status)) return false;
-    // Exclude zero-revenue orders only if they are NOT samples (i.e., cancelled/other)
+    // Exclude zero-revenue orders only if they are NOT samples
     if (excludeZero && o.revenue === 0 && !o.isSample) return false;
     if (onlyCreator && !o.creator) return false;
     return true;
@@ -898,6 +900,8 @@ function renderSkuTable() {
   // Calculate stats per SKU
   const skuStats = {};
   allOrders.forEach(o => {
+    // Exclude cancelled orders — they should not count toward SKU stats
+    if (o.isCancelled) return;
     if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
     skuStats[o.sku].orders++;
     skuStats[o.sku].qty += o.quantity;
@@ -907,8 +911,15 @@ function renderSkuTable() {
     if (o.productName) skuStats[o.sku].name = o.productName;
   });
 
+  // Totals across all SKUs (for summary row)
+  const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0 };
   uniqueSkus.forEach(sku => {
     const stats = skuStats[sku];
+    totals.orders += stats.orders;
+    totals.qty += stats.qty;
+    totals.revenue += stats.revenue;
+    totals.creatorOrders += stats.creatorOrders;
+    totals.sampleOrders += stats.sampleOrders;
     if (!skuSettings[sku]) {
       skuSettings[sku] = {
         productCost: 0, shipping: 0, warehouse: 0,
@@ -936,6 +947,20 @@ function renderSkuTable() {
     tbody.appendChild(tr);
   });
 
+  // Summary row (totals across all SKUs)
+  const totalTr = document.createElement('tr');
+  totalTr.classList.add('total-row');
+  totalTr.innerHTML = `
+    <td colspan="2"><strong>合计</strong></td>
+    <td><strong>${totals.orders}</strong></td>
+    <td><strong>${totals.qty}</strong></td>
+    <td>${totals.creatorOrders > 0 ? `<span class="creator-badge">${totals.creatorOrders}</span>` : '<strong>—</strong>'}</td>
+    <td>${totals.sampleOrders > 0 ? `<strong style="color:var(--warning);">📦 ${totals.sampleOrders}</strong>` : '<strong>—</strong>'}</td>
+    <td><strong>${totals.revenue.toFixed(2)}</strong></td>
+    <td colspan="5"></td>
+  `;
+  tbody.appendChild(totalTr);
+
   // Attach input listeners
   document.querySelectorAll('.sku-input').forEach(input => {
     input.addEventListener('input', e => {
@@ -957,15 +982,22 @@ function renderPromoTable() {
   // Calculate daily stats
   const dailyStats = {};
   allOrders.forEach(o => {
+    // Exclude cancelled orders
+    if (o.isCancelled) return;
     if (!dailyStats[o.date]) dailyStats[o.date] = { orders: 0, revenue: 0 };
     dailyStats[o.date].orders++;
     dailyStats[o.date].revenue += o.revenue;
   });
 
+  let totalOrders = 0, totalRevenue = 0, totalPromo = 0;
   uniqueDates.forEach(date => {
     const stats = dailyStats[date] || { orders: 0, revenue: 0 };
     if (!promoCosts[date]) promoCosts[date] = 0;
     const promoPct = stats.revenue > 0 ? (promoCosts[date] / stats.revenue * 100).toFixed(1) : '0.0';
+
+    totalOrders += stats.orders;
+    totalRevenue += stats.revenue;
+    totalPromo += promoCosts[date];
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -977,6 +1009,19 @@ function renderPromoTable() {
     `;
     tbody.appendChild(tr);
   });
+
+  // Summary row (totals across all dates)
+  const totalPct = totalRevenue > 0 ? (totalPromo / totalRevenue * 100).toFixed(1) : '0.0';
+  const tr = document.createElement('tr');
+  tr.classList.add('total-row');
+  tr.innerHTML = `
+    <td><strong>合计</strong></td>
+    <td><strong>${totalOrders}</strong></td>
+    <td><strong>${totalRevenue.toFixed(2)}</strong></td>
+    <td><strong>${totalPromo.toFixed(2)}</strong></td>
+    <td><strong>${totalPct}%</strong></td>
+  `;
+  tbody.appendChild(tr);
 
   document.querySelectorAll('.promo-input').forEach(input => {
     input.addEventListener('input', e => {
@@ -1085,6 +1130,7 @@ function renderCategoryDashboard(orderData) {
 
   // Build SKU name lookup
   const skuNames = {};
+  const skuLevelStats = {};
   orderData.forEach(o => { if (o.productName) skuNames[o.sku] = o.productName; });
 
   // Aggregate by category
@@ -1109,10 +1155,24 @@ function renderCategoryDashboard(orderData) {
     catData[cat].platformFee += o.platformFee;
     catData[cat].creatorFee += o.creatorFee;
     catSkus[cat].add(o.sku);
+
+    // Per-SKU stats (for expanded detail row)
+    if (!skuLevelStats[o.sku]) skuLevelStats[o.sku] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, shippingCostUsd: 0, warehouseCostUsd: 0 };
+    skuLevelStats[o.sku].orders++;
+    skuLevelStats[o.sku].qty += o.quantity;
+    skuLevelStats[o.sku].revenue += o.revenue;
+    skuLevelStats[o.sku].productCost += o.productCost;
+    skuLevelStats[o.sku].shippingCost += o.shippingCost;
+    skuLevelStats[o.sku].warehouseCost += o.warehouseCost;
+    skuLevelStats[o.sku].platformFee += o.platformFee;
+    skuLevelStats[o.sku].creatorFee += o.creatorFee;
+    skuLevelStats[o.sku].shippingCostUsd += o.shippingCostUsd || 0;
+    skuLevelStats[o.sku].warehouseCostUsd += o.warehouseCostUsd || 0;
   });
 
   const rate = currentCountry === 'UK' ? exchangeRate : 1;
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0, totalQty = 0;
+  let totalProductCost = 0, totalShippingDisp = 0, totalWarehouseDisp = 0, totalPlatformFee = 0, totalCreatorFee = 0, totalPromoUsd = 0;
   CATEGORIES.forEach(cat => {
     const d = catData[cat];
     const promoUsd = categoryPromoCosts[cat] || 0;
@@ -1127,12 +1187,18 @@ function renderCategoryDashboard(orderData) {
     totalProfit += d.profit;
     totalOrders += d.orders;
     totalQty += d.qty;
-
-    const profitClass = d.profit >= 0 ? 'profit' : 'loss';
-    const skuSize = catSkus[cat].size;
     // Display raw USD for shipping/warehouse/promo columns
     const shippingDisp = currentCountry === 'UK' ? d.shippingCostUsd : d.shippingCost;
     const warehouseDisp = currentCountry === 'UK' ? d.warehouseCostUsd : d.warehouseCost;
+    totalProductCost += d.productCost;
+    totalShippingDisp += shippingDisp;
+    totalWarehouseDisp += warehouseDisp;
+    totalPlatformFee += d.platformFee;
+    totalCreatorFee += d.creatorFee;
+    totalPromoUsd += promoUsd;
+
+    const profitClass = d.profit >= 0 ? 'profit' : 'loss';
+    const skuSize = catSkus[cat].size;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -1163,9 +1229,15 @@ function renderCategoryDashboard(orderData) {
       const sortedSkus = Array.from(catSkus[cat]).sort();
       const skuItems = sortedSkus.map(sku => {
         const name = skuNames[sku] || '';
-        return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;">
-          <span style="color:var(--text);font-weight:500;">${sku}</span>
-          <span style="color:var(--muted);">${name}</span>
+        const ss = skuLevelStats[sku] || { orders: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0 };
+        // SKU 净利润 = 收入 - 产品成本 - 尾程运费 - 海外仓费 - 平台扣点 - 达人佣金（不含推广费）
+        const skuProfit = ss.revenue - ss.productCost - ss.shippingCost - ss.warehouseCost - ss.platformFee - ss.creatorFee;
+        const skuProfitClass = skuProfit >= 0 ? 'profit' : 'loss';
+        return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;align-items:center;">
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+            <span style="color:var(--text);font-weight:600;">${sku} <span style="color:var(--muted);font-weight:400;font-size:12px;">${name}</span></span>
+            <span style="color:var(--muted);font-size:11px;">${ss.orders}单 · ${cur}${ss.revenue.toFixed(2)} · 净利 <span class="${skuProfitClass}" style="font-weight:600;">${cur}${skuProfit.toFixed(2)}</span></span>
+          </div>
         </div>`;
       }).join('');
       const subTr = document.createElement('tr');
@@ -1190,7 +1262,12 @@ function renderCategoryDashboard(orderData) {
       <td>${totalOrders}</td>
       <td>${totalQty}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
-      <td colspan="6"></td>
+      <td>${cur}${totalProductCost.toFixed(2)}</td>
+      <td>${curUsd}${totalShippingDisp.toFixed(2)}</td>
+      <td>${curUsd}${totalWarehouseDisp.toFixed(2)}</td>
+      <td>${cur}${totalPlatformFee.toFixed(2)}</td>
+      <td>${cur}${totalCreatorFee.toFixed(2)}</td>
+      <td>${curUsd}${totalPromoUsd.toFixed(2)}</td>
       <td>${cur}${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
@@ -1225,6 +1302,7 @@ function renderUsdDashboard(orderData) {
 
   // Build SKU name lookup
   const skuNames = {};
+  const skuLevelStats = {};
   orderData.forEach(o => { if (o.productName) skuNames[o.sku] = o.productName; });
 
   // Aggregate by category
@@ -1252,9 +1330,21 @@ function renderUsdDashboard(orderData) {
     catData[cat].shippingCost += o.shippingCostUsd || 0;
     catData[cat].warehouseCost += o.warehouseCostUsd || 0;
     catSkus[cat].add(o.sku);
+
+    // Per-SKU stats (for expanded detail row, all in USD)
+    if (!skuLevelStats[o.sku]) skuLevelStats[o.sku] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0 };
+    skuLevelStats[o.sku].orders++;
+    skuLevelStats[o.sku].qty += o.quantity;
+    skuLevelStats[o.sku].revenue += o.revenue * rate;
+    skuLevelStats[o.sku].productCost += o.productCost * rate;
+    skuLevelStats[o.sku].shippingCost += o.shippingCostUsd || 0;
+    skuLevelStats[o.sku].warehouseCost += o.warehouseCostUsd || 0;
+    skuLevelStats[o.sku].platformFee += o.platformFee * rate;
+    skuLevelStats[o.sku].creatorFee += o.creatorFee * rate;
   });
 
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0, totalQty = 0;
+  let totalProductCost = 0, totalShippingDisp = 0, totalWarehouseDisp = 0, totalPlatformFee = 0, totalCreatorFee = 0, totalPromoUsd = 0;
   CATEGORIES.forEach(cat => {
     const d = catData[cat];
     const promoUsd = categoryPromoCosts[cat] || 0;
@@ -1269,6 +1359,12 @@ function renderUsdDashboard(orderData) {
     totalProfit += d.profit;
     totalOrders += d.orders;
     totalQty += d.qty;
+    totalProductCost += d.productCost;
+    totalShippingDisp += d.shippingCost;
+    totalWarehouseDisp += d.warehouseCost;
+    totalPlatformFee += d.platformFee;
+    totalCreatorFee += d.creatorFee;
+    totalPromoUsd += promoUsd;
 
     const profitClass = d.profit >= 0 ? 'profit' : 'loss';
     const skuSize = catSkus[cat].size;
@@ -1302,9 +1398,14 @@ function renderUsdDashboard(orderData) {
       const sortedSkus = Array.from(catSkus[cat]).sort();
       const skuItems = sortedSkus.map(sku => {
         const name = skuNames[sku] || '';
-        return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;">
-          <span style="color:var(--text);font-weight:500;">${sku}</span>
-          <span style="color:var(--muted);">${name}</span>
+        const ss = skuLevelStats[sku] || { orders: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0 };
+        const skuProfit = ss.revenue - ss.productCost - ss.shippingCost - ss.warehouseCost - ss.platformFee - ss.creatorFee;
+        const skuProfitClass = skuProfit >= 0 ? 'profit' : 'loss';
+        return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;align-items:center;">
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+            <span style="color:var(--text);font-weight:600;">${sku} <span style="color:var(--muted);font-weight:400;font-size:12px;">${name}</span></span>
+            <span style="color:var(--muted);font-size:11px;">${ss.orders}单 · $${ss.revenue.toFixed(2)} · 净利 <span class="${skuProfitClass}" style="font-weight:600;">$${skuProfit.toFixed(2)}</span></span>
+          </div>
         </div>`;
       }).join('');
       const subTr = document.createElement('tr');
@@ -1329,7 +1430,12 @@ function renderUsdDashboard(orderData) {
       <td>${totalOrders}</td>
       <td>${totalQty}</td>
       <td>$${totalRevenue.toFixed(2)}</td>
-      <td colspan="6"></td>
+      <td>$${totalProductCost.toFixed(2)}</td>
+      <td>$${totalShippingDisp.toFixed(2)}</td>
+      <td>$${totalWarehouseDisp.toFixed(2)}</td>
+      <td>$${totalPlatformFee.toFixed(2)}</td>
+      <td>$${totalCreatorFee.toFixed(2)}</td>
+      <td>$${totalPromoUsd.toFixed(2)}</td>
       <td>$${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">$${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
