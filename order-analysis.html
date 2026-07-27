@@ -754,6 +754,7 @@ function parseOrders(rows) {
   colMap = {
     orderId: headers.indexOf('Order ID'),
     orderStatus: headers.indexOf('Order Status'),
+    cancellationType: headers.indexOf('Cancellation Type'),
     sku: headers.indexOf('Seller SKU'),
     productName: headers.indexOf('Product Name'),
     quantity: headers.indexOf('Quantity'),
@@ -789,19 +790,23 @@ function parseOrders(rows) {
     const platformDiscount = parseAmount(r[colMap.platformDiscount]);
     const subtotalAfter = parseAmount(r[colMap.subtotalAfter]);
     const quantity = parseInt(r[colMap.quantity]) || 1;
-    const status = String(r[colMap.orderStatus] || '').trim();
+    const status = colMap.orderStatus >= 0 ? String(r[colMap.orderStatus] || '').trim() : '';
+    const cancellationType = colMap.cancellationType >= 0 ? String(r[colMap.cancellationType] || '').trim() : '';
     const creator = (colMap.creatorHandle >= 0 && r[colMap.creatorHandle]) ? String(r[colMap.creatorHandle]).trim() : '';
     const productName = colMap.productName >= 0 ? String(r[colMap.productName] || '').substring(0, 40) : '';
     const fulfillment = colMap.fulfillmentType >= 0 ? String(r[colMap.fulfillmentType] || '').trim() : '';
 
     // Detect sample order: revenue=0 AND has fulfillment (logistics) AND status is not cancelled
-    const isCancelled = status === 'Cancelled' || status === '已取消' || status.toLowerCase().includes('cancel');
+    const isCancelled = [status, cancellationType].some(v => {
+      const normalized = String(v).trim().toLowerCase();
+      return normalized === 'cancelled' || normalized === 'canceled' || normalized === '已取消' || normalized.includes('cancel');
+    });
     const hasFulfillment = fulfillment !== '' && !fulfillment.toLowerCase().includes('no fulfillment');
     const isSample = (platformDiscount + subtotalAfter === 0) && !isCancelled && hasFulfillment;
 
     allOrders.push({
       orderId: String(r[colMap.orderId] || ''),
-      sku, productName, quantity, status, creator, fulfillment,
+      sku, productName, quantity, status, cancellationType, creator, fulfillment,
       platformDiscount, subtotalAfter,
       revenue: platformDiscount + subtotalAfter,
       date: dateStr,
@@ -914,7 +919,7 @@ function renderSkuTable() {
   // Totals across all SKUs (for summary row)
   const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0 };
   uniqueSkus.forEach(sku => {
-    const stats = skuStats[sku];
+    const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
     totals.orders += stats.orders;
     totals.qty += stats.qty;
     totals.revenue += stats.revenue;
