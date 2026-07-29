@@ -61,21 +61,21 @@ Oily skin getting worse? Your towel is full of old grease #facialtowel #disposab
 Inflamed skin that won't calm down? Ditch the dirty towel #facialtowel #disposable #skincare | 皮肤发炎退不下来？丢掉那条脏毛巾 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Still brushing but your breath still smells? That's a problem #toothpaste #dentalcare #oralcare | 天天刷牙还是口臭？有问题 #牙膏 #口腔护理
-Your coworker leans back when you talk — bad breath #toothpaste #dentalcare #oralcare | 同事跟你说话时后仰——口臭 #牙膏 #口腔护理
-You pop mints all day but never fix the root cause #toothpaste #dentalcare #oralcare | 整天吃薄荷糖却从不解决根本问题 #牙膏 #口腔护理
-Morning breath lasts until noon? Your toothpaste isn't working #toothpaste #dentalcare #oralcare | 早上口气持续到中午？牙膏不行 #牙膏 #口腔护理
-That awkward moment when someone offers you gum #toothpaste #dentalcare #oralcare | 有人递口香糖给你的尴尬时刻 #牙膏 #口腔护理
-Bad breath kills first impressions in 3 seconds #toothpaste #dentalcare #oralcare | 口臭3秒毁掉第一印象 #牙膏 #口腔护理
-You brush, you floss, but the smell won't go away #toothpaste #dentalcare #oralcare | 你刷牙用牙线但味道去不掉 #牙膏 #口腔护理
-Your toothpaste freshens for 30 minutes then fails #toothpaste #dentalcare #oralcare | 你的牙膏清爽30分钟就失效 #牙膏 #口腔护理
-Stop masking bad breath — fix it at the source #toothpaste #dentalcare #oralcare | 别掩盖口臭——从源头解决 #牙膏 #口腔护理
-Your partner turns away when you lean in close #toothpaste #dentalcare #oralcare | 你靠近时伴侣转头 #牙膏 #口腔护理
-That burning mint sensation isn't cleaning — it's masking #toothpaste #dentalcare #oralcare | 薄荷灼烧感不是清洁——是掩盖 #牙膏 #口腔护理
-You avoid talking close to people because of your breath #toothpaste #dentalcare #oralcare | 因为口气你不敢靠近人说话 #牙膏 #口腔护理
-Mouthwash plus toothpaste and still not fresh? #toothpaste #dentalcare #oralcare | 漱口加刷牙还是不清爽？ #牙膏 #口腔护理
-Your breath is the elephant in the room #toothpaste #dentalcare #oralcare | 你的口气是房间里的大象 #牙膏 #口腔护理
-Meeting room small talk is a nightmare with bad breath #toothpaste #dentalcare #oralcare | 会议室闲聊加口臭是噩梦 #牙膏 #口腔护理
-You check your breath before every conversation #toothpaste #dentalcare #oralcare | 每次说话前都检查口气 #牙膏 #口腔护理
-Your child tells you the truth about your breath #toothpaste #dentalcare #oralcare | 孩子会告诉你口气的真相 #牙膏 #口腔护理
-Stop wasting money on gum — get better toothpaste #toothpaste #dentalcare #oralcare | 别浪费钱买口香糖——换好牙膏 #牙膏 #口腔护理
+Still brushing but your breath still smells? Xylitol toothpaste gives sweet fresh breath, no sugar mask#toothpaste #dentalcare #oralcare | 天天刷牙还口臭？木糖醇牙膏甜感清新口气，不靠糖掩盖 #牙膏 #口腔护理
+Your coworker leans back when you talk — switch to xylitol fresh-breath paste, sweet taste no sugar#toothpaste #dentalcare #oralcare | 同事说话后仰——换木糖醇清新牙膏，甜味无糖 #牙膏 #口腔护理
+You pop mints all day but never fix the cause — xylitol paste freshens at the source, sweet not sugary#toothpaste #dentalcare #oralcare | 整天吃薄荷糖不解决根本——木糖醇牙膏从源头清新，甜而不糖 #牙膏 #口腔护理
+Morning breath lasts till noon? Xylitol formula keeps breath fresh through the commute#toothpaste #dentalcare #oralcare | 早上口气到中午？木糖醇配方清新撑过通勤 #牙膏 #口腔护理
+That awkward moment someone offers gum — xylitol toothpaste, sweet fresh breath no sugar#toothpaste #dentalcare #oralcare | 有人递口香糖的尴尬——木糖醇牙膏，甜感清新无糖 #牙膏 #口腔护理
+Bad breath kills first impressions — xylitol paste, fresh breath that actually lasts#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象——木糖醇牙膏，清新更持久 #牙膏 #口腔护理
+You brush and floss but the smell stays — xylitol fresh-breath formula, no sugar coating#toothpaste #dentalcare #oralcare | 刷牙用牙线味道还在——木糖醇清新配方，无糖 #牙膏 #口腔护理
+Your toothpaste freshens 30 min then fails — xylitol keeps breath sweet longer#toothpaste #dentalcare #oralcare | 牙膏30分钟就失效——木糖醇让口气甜更久 #牙膏 #口腔护理
+Stop masking breath with gum — xylitol toothpaste fixes it at the source, sweet no sugar#toothpaste #dentalcare #oralcare | 别用口香糖掩盖——木糖醇牙膏从源头解决，甜无糖 #牙膏 #口腔护理
+Partner turns away when you lean in — xylitol fresh breath, gentle sweet taste#toothpaste #dentalcare #oralcare | 你靠近伴侣转头——木糖醇清新口气，温甜 #牙膏 #口腔护理
+Burning mint isn't cleaning, it's masking — xylitol paste freshens without the burn#toothpaste #dentalcare #oralcare | 薄荷灼烧不是清洁是掩盖——木糖醇清新不辣 #牙膏 #口腔护理
+You avoid talking close because of breath — xylitol toothpaste, sweet fresh no sugar#toothpaste #dentalcare #oralcare | 因口气不敢靠近说话——木糖醇牙膏，甜清新无糖 #牙膏 #口腔护理
+Mouthwash plus paste still not fresh — add xylitol fresh-breath formula to the routine#toothpaste #dentalcare #oralcare | 漱口加刷牙还不清爽——加木糖醇清新配方 #牙膏 #口腔护理
+Your breath is the elephant in the room — xylitol paste, fresh breath that lasts past lunch#toothpaste #dentalcare #oralcare | 口气是房间里的大象——木糖醇牙膏，清新撑过午饭 #牙膏 #口腔护理
+Meeting small talk is a nightmare with bad breath — xylitol keeps you fresh through it#toothpaste #dentalcare #oralcare | 会议室闲聊加口臭是噩梦——木糖醇让你全程清新 #牙膏 #口腔护理
+You check breath before every chat — xylitol toothpaste, sweet fresh no sugar worry#toothpaste #dentalcare #oralcare | 每次聊天前查口气——木糖醇牙膏，甜清新无负担 #牙膏 #口腔护理
+Kid tells you the truth about your breath — xylitol fresh paste, gentle sweet taste#toothpaste #dentalcare #oralcare | 孩子说你口气真相——木糖醇清新牙膏，温甜 #牙膏 #口腔护理
+Stop wasting money on gum — xylitol toothpaste freshens at source, sweet no sugar#toothpaste #dentalcare #oralcare | 别浪费钱买口香糖——木糖醇牙膏源头清新，甜无糖 #牙膏 #口腔护理
