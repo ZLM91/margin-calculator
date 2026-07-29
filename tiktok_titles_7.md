@@ -21,24 +21,24 @@ Make every bathroom visit count #wipes #wetwips #toiletpaper | 让每次如厕�
 Your schedule is packed — your hygiene shouldn't suffer #wipes #wetwips #toiletpaper | 行程满了——卫生不该打折扣 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Mini pocket-size wet wipes, carry-on ready, no bathroom embarrassment #wetwipes #travelsize #marigold | 随身湿厕纸，出行干净不尴尬 #旅行装湿厕纸 #金盏花
-Pocket-friendly mini wet wipes, slips into your bag for any outing #wetwipes #travelsize #marigold | 迷你旅行装，揣兜随身带 #旅行装湿厕纸 #金盏花
-Single-pack mini wet wipes solve on-the-go bathroom worries #wetwipes #travelsize #marigold | 小小一包，解决外出如厕烦恼 #旅行装湿厕纸 #金盏花
-Travel-size wet wipes, fresh and clean in one swipe #wetwipes #travelsize #marigold | 便携湿擦，清爽一步到位 #旅行装湿厕纸 #金盏花
-Stay polished on the go — pocket wet wipes for fresh, clean confidence #wetwipes #travelsize #marigold | 出门精致感，藏在小包湿厕纸里 #旅行装湿厕纸 #金盏花
-Period or travel days, gentle cleansing in one mini pack #wetwipes #travelsize #marigold | 经期 / 出游随身备，温柔洁净 #旅行装湿厕纸 #金盏花
-Pocket-sized mini wet wipes — small pack, big comfort on the road #wetwipes #travelsize #marigold | 巴掌大小不占地，干净自在出行 #旅行装湿厕纸 #金盏花
-Hotel or public restroom? Individually wrapped mini wet wipes for clean confidence #wetwipes #travelsize #marigold | 酒店公厕安心擦，便携独立小包 #旅行装湿厕纸 #金盏花
-Commute, road trip, weekend getaway — mini wet wipes go everywhere #wetwipes #travelsize #marigold | 通勤、自驾、短途游必备湿厕纸 #旅行装湿厕纸 #金盏花
-Ditch scratchy dry paper — soft mini wet wipes for cleaner comfort on the go #wetwipes #travelsize #marigold | 告别干纸粗糙，外出洁净更舒适 #旅行装湿厕纸 #金盏花
-Sick of public restrooms? This pocket-size marigold wet wipes pack fits anywhere — luggage, tote, pocket. Pure water gentle formula, fresh and non-sticky after wiping. Rest stops, scenic spots, camping — soft and clean wherever you go, no compromises #wetwipes #travelsize #marigold | 每次出门总被公厕干厕纸劝退？这款迷你旅行装湿厕纸，完美适配行李箱、挎包、口袋。轻薄压缩小包，不占行李空间，纯水温和配方，擦后清爽不黏腻。景区、高速服务区、露营随地都能用，干净柔软，出门再也不用将就。 #旅行装湿厕纸 #金盏花
-Single-packed marigold wet wipes — soft, pocket-sized, travel-ready #wetwipes #travelsize #marigold | 单片独立包装金盏花湿厕纸，柔软迷你随行 #旅行装湿厕纸 #金盏花
-Travel essential: gentle marigold mini wet wipes in single-serve packs #wetwipes #travelsize #marigold | 出行必备金盏花迷你湿厕纸，独立单片装 #旅行装湿厕纸 #金盏花
-Travel light, stay fresh — mini marigold wet wipes for any trip #wetwipes #travelsize #marigold | 轻装出行，自在清新，迷你金盏花湿厕纸常备 #旅行装湿厕纸 #金盏花
-Bag-friendly mini marigold wet wipes for everyday travel comfort #wetwipes #travelsize #marigold | 挎包随身迷你金盏花湿厕纸，日常出行舒适洁净 #旅行装湿厕纸 #金盏花
-Marigold wet wipes, soft on skin, gentle for intimate cleansing on the go #wetwipes #travelsize #marigold | 金盏花湿厕纸，柔软亲肤，外出私处温和洁净 #旅行装湿厕纸 #金盏花
-Mini marigold wet wipes — pocket-sized fresh, single-serve clean #wetwipes #travelsize #marigold | 迷你金盏花湿厕纸，口袋大小，独立包装清爽洁净 #旅行装湿厕纸 #金盏花
-Marigold travel mini wipes — gentle single-serve pack, fits anywhere #wetwipes #travelsize #marigold | 金盏花旅行迷你湿厕纸，独立单片温和装，随处可放 #旅行装湿厕纸 #金盏花
+Concert port-a-potty is the worst bathroom experience #wipes #wetwips #toiletpaper #travelsize | 演唱会移动厕所是最差的如厕体验 #旅行装湿厕纸 #金盏花
+Sports game bathroom line is 50 people deep #wipes #wetwips #toiletpaper #travelsize | 体育比赛厕所排队50人 #旅行装湿厕纸 #金盏花
+Fireworks show bathroom is a dark port-a-potty #wipes #wetwips #toiletpaper #travelsize | 烟花表演厕所是黑暗的移动厕所 #旅行装湿厕纸 #金盏花
+New Year's Eve bathroom is a disaster zone #wipes #wetwips #toiletpaper #travelsize | 除夕厕所是灾难区 #旅行装湿厕纸 #金盏花
+County fair bathroom is a smelling hell #wipes #wetwips #toiletpaper #travelsize | 乡村集市厕所是臭味地狱 #旅行装湿厕纸 #金盏花
+Parade route bathroom is nowhere to be found #wipes #wetwips #toiletpaper #travelsize | 游行路线厕所找不到 #旅行装湿厕纸 #金盏花
+Outdoor wedding bathroom is a decorated port-a-potty #wipes #wetwips #toiletpaper #travelsize | 户外婚礼厕所是装饰过的移动厕所 #旅行装湿厕纸 #金盏花
+Food festival bathroom is gross and paperless #wipes #wetwips #toiletpaper #travelsize | 美食节厕所又恶心又没纸 #旅行装湿厕纸 #金盏花
+Car show bathroom is in a gas station next door #wipes #wetwips #toiletpaper #travelsize | 车展厕所在隔壁加油站 #旅行装湿厕纸 #金盏花
+Air show bathroom is a long walk and a long line #wipes #wetwips #toiletpaper #travelsize | 航展厕所要走很远排很久 #旅行装湿厕纸 #金盏花
+Renaissance faire bathroom is a wooden outhouse #wipes #wetwips #toiletpaper #travelsize | 文艺复兴集市厕所是木屋旱厕 #旅行装湿厕纸 #金盏花
+State fair bathroom paper is a single roll for 1000 people #wipes #wetwips #toiletpaper #travelsize | 州博览会厕纸1000人共用一卷 #旅行装湿厕纸 #金盏花
+Pride parade bathroom is a port-a-potty village #wipes #wetwips #toiletpaper #travelsize | 骄傲游行厕所是移动厕所村 #旅行装湿厕纸 #金盏花
+Marathon finish line bathroom is a desperate sprint #wipes #wetwips #toiletpaper #travelsize | 马拉松终点厕所是拼命冲刺 #旅行装湿厕纸 #金盏花
+Tailgating bathroom is a bush behind the car #wipes #wetwips #toiletpaper #travelsize | 车尾派对厕所是车后的灌木丛 #旅行装湿厕纸 #金盏花
+Outdoor movie bathroom is a dark walk to a dark stall #wipes #wetwips #toiletpaper #travelsize | 露天电影厕所是摸黑走摸黑进 #旅行装湿厕纸 #金盏花
+Carnival bathroom is spinning rides plus port-a-potties #wipes #wetwips #toiletpaper #travelsize | 嘉年华厕所是旋转飞车加移动厕所 #旅行装湿厕纸 #金盏花
+Rodeo bathroom is dust and rough paper #wipes #wetwips #toiletpaper #travelsize | 牛仔竞技厕所是灰尘加粗纸 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Sensitive skin flaring up? Your towel is too rough and too dirty #facialtowel #disposable #skincare | 敏感肌又爆发了？你的毛巾又粗又脏 #一次性洗脸巾 #护肤
@@ -61,21 +61,21 @@ Tight, itchy, red skin? Your towel is the hidden trigger #facialtowel #disposabl
 Gentle cleanser then aggressive towel, completely contradictory #facialtowel #disposable #skincare | 温和洗面奶配暴力毛巾，完全矛盾 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Your toothpaste tastes so sweet it's basically dessert #toothpaste #dentalcare #oralcare | 你的牙膏太甜简直是甜品 #牙膏 #口腔护理
-Mint toothpaste burns your mouth so you use less #toothpaste #dentalcare #oralcare | 薄荷牙膏辣嘴所以你用少 #牙膏 #口腔护理
-Your toothpaste foams so much you can't brush properly #toothpaste #dentalcare #oralcare | 牙膏泡沫太多刷不好 #牙膏 #口腔护理
-That artificial strawberry flavor makes you gag #toothpaste #dentalcare #oralcare | 人工草莓味让你恶心 #牙膏 #口腔护理
-Your toothpaste leaves a weird film on your teeth #toothpaste #dentalcare #oralcare | 牙膏在牙齿上留一层膜 #牙膏 #口腔护理
-Burning sensation after brushing makes you skip it #toothpaste #dentalcare #oralcare | 刷完灼烧感让你不想刷 #牙膏 #口腔护理
-Your toothpaste flavor fades in 10 minutes #toothpaste #dentalcare #oralcare | 牙膏味道10分钟就没了 #牙膏 #口腔护理
-That chalky texture makes brushing unpleasant #toothpaste #dentalcare #oralcare | 粉笔质地让刷牙不愉快 #牙膏 #口腔护理
-Your kids hate the minty burn of adult toothpaste #toothpaste #dentalcare #oralcare | 孩子讨厌成人牙膏的薄荷辣 #牙膏 #口腔护理
-Too much foam makes you want to spit immediately #toothpaste #dentalcare #oralcare | 泡沫太多让你想立刻吐 #牙膏 #口腔护理
-Your toothpaste tastes like chemicals, not freshness #toothpaste #dentalcare #oralcare | 你的牙膏尝起来像化学品不是清新 #牙膏 #口腔护理
-The aftertaste of your toothpaste ruins your breakfast #toothpaste #dentalcare #oralcare | 牙膏余味毁掉你的早餐 #牙膏 #口腔护理
-You dread the burning sensation of strong mint #toothpaste #dentalcare #oralcare | 你害怕强薄荷的灼烧感 #牙膏 #口腔护理
-Your toothpaste is so sweet it gives you a sugar craving #toothpaste #dentalcare #oralcare | 牙膏太甜让你想吃糖 #牙膏 #口腔护理
-Harsh flavor makes you rush through brushing #toothpaste #dentalcare #oralcare | 刺激味道让你赶着刷完 #牙膏 #口腔护理
-Your toothpaste leaves a numb feeling in your mouth #toothpaste #dentalcare #oralcare | 牙膏让嘴发麻 #牙膏 #口腔护理
-That medicinal taste reminds you of the dentist #toothpaste #dentalcare #oralcare | 药味让你想起牙医 #牙膏 #口腔护理
-Your toothpaste flavor is so strong it overpowers everything #toothpaste #dentalcare #oralcare | 牙膏味道太强压过一切 #牙膏 #口腔护理
+Your paste tastes like dessert, too sweet? Xylitol is sweet, no sugar#toothpaste #dentalcare #oralcare | 牙膏像甜品太甜？木糖醇甜，无糖 #牙膏 #口腔护理
+Mint burns your mouth so you use less — xylitol sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴用得少——木糖醇甜清新不辣 #牙膏 #口腔护理
+Paste foams too much, can't brush right — mild xylitol formula, easy rinse#toothpaste #dentalcare #oralcare | 泡沫太多刷不好——温和木糖醇，易漱 #牙膏 #口腔护理
+Artificial strawberry makes you gag — xylitol natural sweet, no fake flavor#toothpaste #dentalcare #oralcare | 人工草莓想吐——木糖醇天然甜，无假味 #牙膏 #口腔护理
+Paste leaves a weird film — xylitol clean feel, no residue#toothpaste #dentalcare #oralcare | 牙膏留膜——木糖醇干净感，无残留 #牙膏 #口腔护理
+Burn after brush makes you skip — xylitol sweet fresh, no sting#toothpaste #dentalcare #oralcare | 刷后灼烧不想刷——木糖醇甜清新不刺 #牙膏 #口腔护理
+Flavor fades in 10 minutes — xylitol sweet breath lasts longer#toothpaste #dentalcare #oralcare | 味道10分钟没——木糖醇甜口气更久 #牙膏 #口腔护理
+Chalky texture is unpleasant — xylitol smooth sweet, easy brush#toothpaste #dentalcare #oralcare | 粉笔质不悦——木糖醇顺滑甜，好刷 #牙膏 #口腔护理
+Kids hate the minty burn — xylitol sweet, no spice#toothpaste #dentalcare #oralcare | 孩子恨薄荷辣——木糖醇甜不辣 #牙膏 #口腔护理
+Too much foam, you want to spit — mild xylitol, less foam more clean#toothpaste #dentalcare #oralcare | 泡沫多想吐——温和木糖醇，少泡更净 #牙膏 #口腔护理
+Paste tastes like chemicals — xylitol sweet fresh, no chemical aftertaste#toothpaste #dentalcare #oralcare | 牙膏像化学品——木糖醇甜清新，无化学余味 #牙膏 #口腔护理
+Aftertaste ruins your breakfast — xylitol sweet, clean not bitter#toothpaste #dentalcare #oralcare | 余味毁早餐——木糖醇甜，净不苦 #牙膏 #口腔护理
+You dread the strong mint burn — xylitol gentle sweet, no fire#toothpaste #dentalcare #oralcare | 怕强薄荷辣——木糖醇温甜不火 #牙膏 #口腔护理
+Paste so sweet gives a sugar craving — xylitol sweet, zero sugar#toothpaste #dentalcare #oralcare | 牙膏甜引想吃糖——木糖醇甜，零糖 #牙膏 #口腔护理
+Harsh flavor makes you rush — xylitol mild sweet, enjoy the 2 minutes#toothpaste #dentalcare #oralcare | 刺激味赶刷——木糖醇温和甜，享2分钟 #牙膏 #口腔护理
+Paste numbs your mouth — xylitol fresh, no numb#toothpaste #dentalcare #oralcare | 牙膏让嘴麻——木糖醇清新不麻 #牙膏 #口腔护理
+Medicinal taste reminds you of the dentist — xylitol sweet fresh, pleasant daily#toothpaste #dentalcare #oralcare | 药味像牙医——木糖醇甜清新，日常愉悦 #牙膏 #口腔护理
+Flavor too strong overpowers everything — xylitol balanced sweet, fresh not loud#toothpaste #dentalcare #oralcare | 味太强压一切——木糖醇平衡甜，清新不冲 #牙膏 #口腔护理
