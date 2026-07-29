@@ -61,21 +61,21 @@ Your clean face starts with a clean disposable towel #facialtowel #disposable #s
 One towel per wash, your skin barrier will recover #facialtowel #disposable #skincare | 一洗一巾，你的皮肤屏障会恢复的 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Coffee stains build up no matter how much you brush #toothpaste #dentalcare #oralcare | 咖啡渍不管怎么刷都在堆积 #牙膏 #口腔护理
-Your teeth are yellow in photos and you hate it #toothpaste #dentalcare #oralcare | 照片里牙齿发黄你很讨厌 #牙膏 #口腔护理
-Red wine leaves purple stains your toothpaste can't remove #toothpaste #dentalcare #oralcare | 红酒留下的紫渍你的牙膏去不掉 #牙膏 #口腔护理
-You smile with closed lips in every photo #toothpaste #dentalcare #oralcare | 每张照片你都闭嘴笑 #牙膏 #口腔护理
-Your teeth were white 5 years ago — what happened? #toothpaste #dentalcare #oralcare | 5年前牙齿是白的——怎么了？ #牙膏 #口腔护理
-Tea drinker? Your teeth show it #toothpaste #dentalcare #oralcare | 喝茶？你的牙齿说明了 #牙膏 #口腔护理
-Your toothpaste claims whitening but nothing changes #toothpaste #dentalcare #oralcare | 牙膏说美白但没变化 #牙膏 #口腔护理
-You've tried whitening strips but they hurt #toothpaste #dentalcare #oralcare | 你试过美白牙贴但会疼 #牙膏 #口腔护理
-Smoking stains your toothpaste can't touch #toothpaste #dentalcare #oralcare | 烟渍你的牙膏碰不了 #牙膏 #口腔护理
-Your front teeth are darker than the back ones #toothpaste #dentalcare #oralcare | 前牙比后牙暗 #牙膏 #口腔护理
-You edit your teeth in photos before posting #toothpaste #dentalcare #oralcare | 发照片前你P牙齿 #牙膏 #口腔护理
-Professional whitening is too expensive #toothpaste #dentalcare #oralcare | 专业美白太贵 #牙膏 #口腔护理
-Your teeth age faster than the rest of you #toothpaste #dentalcare #oralcare | 你的牙齿比其他部位老得快 #牙膏 #口腔护理
-Yellow teeth make you look older than you are #toothpaste #dentalcare #oralcare | 黄牙让你显老 #牙膏 #口腔护理
-You avoid lipstick because it highlights tooth color #toothpaste #dentalcare #oralcare | 你避开口红因为它凸显牙色 #牙膏 #口腔护理
-That one dark tooth bothers you every day #toothpaste #dentalcare #oralcare | 那颗暗牙每天都困扰你 #牙膏 #口腔护理
-Your teeth have surface stains from years of coffee #toothpaste #dentalcare #oralcare | 你的牙齿有多年咖啡表面渍 #牙膏 #口腔护理
-Whitening toothpaste hasn't done anything for months #toothpaste #dentalcare #oralcare | 美白牙膏用了几个月没效果 #牙膏 #口腔护理
+Coffee stains build up no matter how much you brush — hydrated silica lifts surface stains gently#toothpaste #dentalcare #oralcare | 咖啡渍怎么刷都在——水合二氧化硅温和去表面渍 #牙膏 #口腔护理
+Yellow in photos, you hate it — hydrated silica clean look, fresh breath#toothpaste #dentalcare #oralcare | 照片牙黄讨厌——水合二氧化硅干净感，清新 #牙膏 #口腔护理
+Red wine leaves purple stains your paste can't remove — gentle silica buffs them away#toothpaste #dentalcare #oralcare | 红酒紫渍去不掉——温和硅磨掉 #牙膏 #口腔护理
+You smile with closed lips in every photo — hydrated silica bright clean feel#toothpaste #dentalcare #oralcare | 照片闭嘴笑——水合二氧化硅亮净感 #牙膏 #口腔护理
+Teeth were white 5 years ago, what happened — hydrated silica gentle daily lift#toothpaste #dentalcare #oralcare | 5年前牙白怎么了——水合二氧化硅日常温和去渍 #牙膏 #口腔护理
+Tea drinker? Your teeth show it — silica lifts tea stains without scratch#toothpaste #dentalcare #oralcare | 喝茶？牙齿说明——硅去茶渍不刮 #牙膏 #口腔护理
+Your paste promises clean teeth but nothing changes — hydrated silica actually lifts stains#toothpaste #dentalcare #oralcare | 牙膏说能洁齿却没变——水合二氧化硅真去渍 #牙膏 #口腔护理
+Stain strips hurt — gentle silica clean, no burn#toothpaste #dentalcare #oralcare | 去渍贴疼——温和硅清洁不辣 #牙膏 #口腔护理
+Smoking stains your paste can't touch — hydrated silica reaches them gently#toothpaste #dentalcare #oralcare | 烟渍碰不了——水合二氧化硅温和去 #牙膏 #口腔护理
+Front teeth are darker than the back ones — silica evens out surface stains#toothpaste #dentalcare #oralcare | 前牙比后牙暗——硅均表面渍 #牙膏 #口腔护理
+You edit your teeth before posting — hydrated silica clean look, no filter needed#toothpaste #dentalcare #oralcare | 发前P牙——水合二氧化硅净感，无需滤镜 #牙膏 #口腔护理
+Pro dental stain care is too expensive — hydrated silica daily lift at home#toothpaste #dentalcare #oralcare | 专业去渍太贵——水合二氧化硅居家日常去渍 #牙膏 #口腔护理
+Teeth age faster than the rest of you — gentle silica keeps them clean#toothpaste #dentalcare #oralcare | 牙比人老快——温和硅保净 #牙膏 #口腔护理
+Yellow teeth make you look older — hydrated silica bright fresh feel#toothpaste #dentalcare #oralcare | 黄牙显老——水合二氧化硅亮清新感 #牙膏 #口腔护理
+You avoid lipstick because it highlights tooth color — silica clean look, confident smile#toothpaste #dentalcare #oralcare | 避口红显牙色——硅净感，自信笑 #牙膏 #口腔护理
+That one dark tooth bothers you daily — hydrated silica gentle on it#toothpaste #dentalcare #oralcare | 那颗暗牙每天烦——水合二氧化硅温和对待 #牙膏 #口腔护理
+Years of coffee surface stains — silica lifts them, no harsh scrub#toothpaste #dentalcare #oralcare | 多年咖啡表面渍——硅去，不狠刷 #牙膏 #口腔护理
+Stain paste did nothing for months — hydrated silica lifts stains gently#toothpaste #dentalcare #oralcare | 去渍牙膏几个月没用——水合二氧化硅温和去渍 #牙膏 #口腔护理
