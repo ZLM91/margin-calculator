@@ -1,25 +1,24 @@
 # 2026-06-21
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-That bathroom odor that follows you? Dry paper can't help #wipes #wetwips #toiletpaper | 上完厕所的异味跟着你？干纸帮不了 #湿厕纸 #益生菌湿厕纸
-You can smell who didn't use wet wipes #wipes #wetwips #toiletpaper | 你能闻到谁没用湿厕纸 #湿厕纸 #益生菌湿厕纸
-Confidence starts with feeling clean — dry paper can't do that #wipes #wetwips #toiletpaper | 自信从清爽开始——干纸做不到 #湿厕纸 #益生菌湿厕纸
-Meeting in 5 minutes but feel unclean? We've all been there #wipes #wetwips #toiletpaper | 5分钟后开会但感觉不干净？我们都经历过 #湿厕纸 #益生菌湿厕纸
-Date night disaster starts with poor bathroom hygiene #wipes #wetwips #toiletpaper | 约会灾难从如厕卫生差开始 #湿厕纸 #益生菌湿厕纸
-Stop pretending dry paper is enough — everyone can tell #wipes #wetwips #toiletpaper | 别假装干纸够了——大家都看得出来 #湿厕纸 #益生菌湿厕纸
-That awkward moment when you know you're not fully clean #wipes #wetwips #toiletpaper | 你知道没擦干净的那种尴尬时刻 #湿厕纸 #益生菌湿厕纸
-You change your underwear daily — upgrade your paper too #wipes #wetwips #toiletpaper | 你每天换内裤——也该升级你的纸 #湿厕纸 #益生菌湿厕纸
-Nobody talks about it but everyone feels it #wipes #wetwips #toiletpaper | 没人谈论但每个人都能感觉到 #湿厕纸 #益生菌湿厕纸
-Your coworkers can tell your bathroom secrets #wipes #wetwips #toiletpaper | 你的同事能闻出你的厕所秘密 #湿厕纸 #益生菌湿厕纸
-Freshness is not optional — it's essential #wipes #wetwips #toiletpaper | 清爽不是可选项——是必需品 #湿厕纸 #益生菌湿厕纸
-Stop hiding behind perfume — fix the root cause #wipes #wetwips #toiletpaper | 别用香水掩盖——解决根本问题 #湿厕纸 #益生菌湿厕纸
-Clean means clean — not almost clean #wipes #wetwips #toiletpaper | 干净就是干净——不是差不多干净 #湿厕纸 #益生菌湿厕纸
-That 3 PM bathroom break shouldn't ruin your afternoon #wipes #wetwips #toiletpaper | 下午3点上厕所不该毁掉你的下午 #湿厕纸 #益生菌湿厕纸
-You deserve to feel fresh all day, not just after a shower #wipes #wetwips #toiletpaper | 你该全天清爽，不只是洗完澡后 #湿厕纸 #益生菌湿厕纸
-Bad bathroom habits follow you everywhere #wipes #wetwips #toiletpaper | 差的如厕习惯跟着你到处走 #湿厕纸 #益生菌湿厕纸
-The difference between clean and almost-clean is confidence #wipes #wetwips #toiletpaper | 干净和差不多干净的区别是自信 #湿厕纸 #益生菌湿厕纸
-Stop hoping dry paper is enough — know it's not #wipes #wetwips #toiletpaper | 别指望干纸够了——你知道不够 #湿厕纸 #益生菌湿厕纸
-
+Bathroom odor follows you? Dry paper can't help — probiotic wet wipes with water only do #wipes #wetwips #toiletpaper | 异味跟着你？干纸帮不了——益生菌湿厕纸只有水能 #湿厕纸 #益生菌湿厕纸
+You can tell who skipped wet wipes — probiotic + water keeps you fresh #wipes #wetwips #toiletpaper | 你能闻出谁没用湿厕纸——益生菌+水让你清爽 #湿厕纸 #益生菌湿厕纸
+Confidence starts with feeling clean — dry paper can't, probiotic wipes with just water can #wipes #wetwips #toiletpaper | 自信从清爽开始——干纸做不到，益生菌湿厕纸只有水能 #湿厕纸 #益生菌湿厕纸
+Meeting in 5 but feel unclean? Probiotic + water wipes fix it fast #wipes #wetwips #toiletpaper | 5分钟后开会却不清爽？益生菌+水湿厕纸快速解决 #湿厕纸 #益生菌湿厕纸
+Date night disaster starts with poor hygiene — probiotic wet wipes with water only #wipes #wetwips #toiletpaper | 约会灾难从卫生差开始——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+Stop pretending dry paper is enough — everyone can tell, probiotic + water cleans #wipes #wetwips #toiletpaper | 别假装干纸够了——大家都看得出，益生菌+水真擦净 #湿厕纸 #益生菌湿厕纸
+That awkward not-fully-clean moment — probiotic wipes with just water end it #wipes #wetwips #toiletpaper | 没擦干净的尴尬时刻——益生菌湿厕纸只有水终结 #湿厕纸 #益生菌湿厕纸
+You change underwear daily — upgrade your paper to probiotic + water wipes #wipes #wetwips #toiletpaper | 每天换内裤——也该把纸升级成益生菌+水湿厕纸 #湿厕纸 #益生菌湿厕纸
+Nobody talks about it but everyone feels it — probiotic wet wipes with water only #wipes #wetwips #toiletpaper | 没人谈但每个人都感觉——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+Coworkers notice your bathroom secrets — probiotic + water wipes keep you safe #wipes #wetwips #toiletpaper | 同事能闻出厕所秘密——益生菌+水湿厕纸保你安全 #湿厕纸 #益生菌湿厕纸
+Freshness is essential, not optional — probiotic wipes are fragrance-free, water-based #wipes #wetwips #toiletpaper | 清爽是必需不是可选——益生菌湿厕纸无香精水基 #湿厕纸 #益生菌湿厕纸
+Stop hiding behind perfume — probiotic + water fixes the root, no cover-up #wipes #wetwips #toiletpaper | 别用香水掩盖——益生菌+水解决根本，不遮盖 #湿厕纸 #益生菌湿厕纸
+Clean means clean, not almost — probiotic wet wipes with just water deliver #wipes #wetwips #toiletpaper | 干净就是干净不是差不多——益生菌湿厕纸只有水做到 #湿厕纸 #益生菌湿厕纸
+That 3 PM break shouldn't ruin your afternoon — probiotic + water wipes refresh #wipes #wetwips #toiletpaper | 下午3点上厕所不该毁下午——益生菌+水湿厕纸清爽 #湿厕纸 #益生菌湿厕纸
+Feel fresh all day, not just post-shower — probiotic wipes with water only #wipes #wetwips #toiletpaper | 全天清爽不只洗澡后——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+Bad habits follow you everywhere — probiotic + water wipes break the cycle #wipes #wetwips #toiletpaper | 差的如厕习惯跟着你——益生菌+水湿厕纸打破循环 #湿厕纸 #益生菌湿厕纸
+Clean vs almost-clean is confidence — probiotic wet wipes with just water #wipes #wetwips #toiletpaper | 干净和差不多干净差的是自信——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+Stop hoping dry paper is enough — probiotic + water wipes prove it isn't needed #wipes #wetwips #toiletpaper | 别指望干纸够了——益生菌+水湿厕纸证明不必将就 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 Foreign bathroom has a bidet but you're not used to it #wipes #wetwips #toiletpaper #travelsize | 国外厕所有智能马桶但不习惯 #旅行装湿厕纸 #金盏花
 Asia travel bathroom is a squat toilet — bring wipes #wipes #wetwips #toiletpaper #travelsize | 亚洲旅行蹲厕——带湿巾 #旅行装湿厕纸 #金盏花
@@ -79,3 +78,4 @@ Teeth are shifting and you don't know why — mild formula, gentle on gums daily
 That crack in your tooth is growing — niacinamide gentle care, no harsh sting#toothpaste #dentalcare #oralcare | 牙裂纹变大——烟酰胺温和护理，不刺 #牙膏 #口腔护理
 Old fillings darkening at the edges — hydrated silica clean, fresh feel#toothpaste #dentalcare #oralcare | 旧补牙边缘变暗——水合二氧化硅清洁，清新感 #牙膏 #口腔护理
 You need a root canal but keep putting it off — niacinamide gentle on gums daily#toothpaste #dentalcare #oralcare | 需根管却拖——烟酰胺日常对牙龈温柔 #牙膏 #口腔护理
+
