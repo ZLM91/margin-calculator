@@ -61,21 +61,21 @@ Your towel hangs next to the trash can, really? #facialtowel #disposable #skinca
 Camping towel damp for days? That's a bacteria festival #facialtowel #disposable #skincare | 露营毛巾好几天不干？那是细菌狂欢节 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Morning breath wakes you up before the alarm #toothpaste #dentalcare #oralcare | 早上口气在你闹钟前把你弄醒 #牙膏 #口腔护理
-You rush through brushing and miss half your mouth #toothpaste #dentalcare #oralcare | 你赶时间刷牙漏掉一半 #牙膏 #口腔护理
-Your 30-second brush does nothing #toothpaste #dentalcare #oralcare | 你30秒的刷牙等于没刷 #牙膏 #口腔护理
-Morning coffee plus skipped brushing equals disaster #toothpaste #dentalcare #oralcare | 早上咖啡加跳过刷牙等于灾难 #牙膏 #口腔护理
-You brush hard and fast — damaging your gums #toothpaste #dentalcare #oralcare | 你又用力又快地刷——伤牙龈 #牙膏 #口腔护理
-Your morning brush is a formality, not a cleaning #toothpaste #dentalcare #oralcare | 你的晨间刷牙是形式主义，不是清洁 #牙膏 #口腔护理
-You're too tired at night to brush properly #toothpaste #dentalcare #oralcare | 晚上太累不好好刷牙 #牙膏 #口腔护理
-Brushing while checking your phone means missing spots #toothpaste #dentalcare #oralcare | 刷牙看手机意味着漏掉地方 #牙膏 #口腔护理
-Your toothbrush is frayed and ineffective #toothpaste #dentalcare #oralcare | 你的牙刷炸毛了没效果 #牙膏 #口腔护理
-You use the same brush for 6 months #toothpaste #dentalcare #oralcare | 你同一把牙刷用半年 #牙膏 #口腔护理
-Your toothpaste runs out and you skip days #toothpaste #dentalcare #oralcare | 牙膏用完了你就好几天不刷 #牙膏 #口腔护理
-Morning routine is 2 minutes of panic brushing #toothpaste #dentalcare #oralcare | 晨间流程是2分钟恐慌式刷牙 #牙膏 #口腔护理
-You brush before breakfast — then eat and forget #toothpaste #dentalcare #oralcare | 你饭前刷——吃完就忘了 #牙膏 #口腔护理
-Night brushing is the first thing you skip when tired #toothpaste #dentalcare #oralcare | 累了晚上第一件事跳过刷牙 #牙膏 #口腔护理
-Your electric toothbrush died and you didn't replace it #toothpaste #dentalcare #oralcare | 电动牙刷坏了你也没换 #牙膏 #口腔护理
-You wet your brush, apply paste, and brush for 45 seconds #toothpaste #dentalcare #oralcare | 弄湿牙刷涂牙膏刷45秒 #牙膏 #口腔护理
-Your morning rush makes brushing ineffective #toothpaste #dentalcare #oralcare | 早上赶时间让刷牙无效 #牙膏 #口腔护理
-Proper brushing takes 2 minutes — you give it 30 seconds #toothpaste #dentalcare #oralcare | 正确刷牙要2分钟——你只给30秒 #牙膏 #口腔护理
+Morning breath wakes you before the alarm — xylitol fresh breath starts the day sweet#toothpaste #dentalcare #oralcare | 早上口气先醒——木糖醇清新开启甜一天 #牙膏 #口腔护理
+You rush brush, miss half your mouth — xylitol sweet taste makes 2 minutes worth it#toothpaste #dentalcare #oralcare | 赶刷漏一半——木糖醇甜味让2分钟值得 #牙膏 #口腔护理
+Your 30-second brush does nothing — xylitol sweet, you'll actually finish#toothpaste #dentalcare #oralcare | 30秒刷等于没刷——木糖醇甜，你会刷完 #牙膏 #口腔护理
+Morning coffee plus skipped brush equals disaster — xylitol fresh after, sweet no sugar#toothpaste #dentalcare #oralcare | 早上咖啡跳刷=灾难——木糖醇刷后清新，甜无糖 #牙膏 #口腔护理
+You brush hard and fast, hurt gums — gentle xylitol formula, kind to gums#toothpaste #dentalcare #oralcare | 又狠又快伤牙龈——温和木糖醇，对牙龈温柔 #牙膏 #口腔护理
+Morning brush is a formality not a clean — xylitol sweet taste makes it real#toothpaste #dentalcare #oralcare | 晨刷形式主义——木糖醇甜味让它成真清洁 #牙膏 #口腔护理
+Too tired at night to brush — xylitol sweet, quick and pleasant#toothpaste #dentalcare #oralcare | 晚上太累不刷——木糖醇甜，快又舒服 #牙膏 #口腔护理
+Brushing while on the phone misses spots — xylitol fresh breath worth the focus#toothpaste #dentalcare #oralcare | 刷牙看手机漏点——木糖醇清新值得专注 #牙膏 #口腔护理
+Frayed brush ineffective — pair with xylitol sweet paste for a real clean#toothpaste #dentalcare #oralcare | 牙刷炸毛没效——配木糖醇甜牙膏真清洁 #牙膏 #口腔护理
+Same brush for 6 months — xylitol fresh formula keeps the routine effective#toothpaste #dentalcare #oralcare | 同刷半年——木糖醇清新配方保效果 #牙膏 #口腔护理
+Paste runs out, you skip days — keep xylitol stocked, sweet no sugar daily#toothpaste #dentalcare #oralcare | 牙膏用完好几天不刷——备足木糖醇，甜无糖每天 #牙膏 #口腔护理
+Morning is 2 minutes of panic brushing — xylitol sweet makes it calm#toothpaste #dentalcare #oralcare | 晨间2分钟恐慌刷——木糖醇甜让它平静 #牙膏 #口腔护理
+You brush before breakfast then forget — xylitol fresh breath lasts through the meal#toothpaste #dentalcare #oralcare | 饭前刷吃完忘——木糖醇清新撑过饭 #牙膏 #口腔护理
+Night brush is first to skip when tired — xylitol sweet, easy even exhausted#toothpaste #dentalcare #oralcare | 累了先跳夜刷——木糖醇甜，累也轻松 #牙膏 #口腔护理
+Electric brush died, not replaced — xylitol manual brush still sweet clean#toothpaste #dentalcare #oralcare | 电动牙刷坏没换——木糖醇手刷也甜净 #牙膏 #口腔护理
+Wet brush, paste, 45 seconds — xylitol sweet taste earns the full 2 minutes#toothpaste #dentalcare #oralcare | 弄湿涂膏刷45秒——木糖醇甜味赚满2分钟 #牙膏 #口腔护理
+Morning rush makes brushing useless — xylitol fresh, fast and effective#toothpaste #dentalcare #oralcare | 赶时间刷无效——木糖醇清新，快又有效 #牙膏 #口腔护理
+Proper brush takes 2 minutes, you give 30 — xylitol sweet makes the time pass#toothpaste #dentalcare #oralcare | 该刷2分钟你给30秒——木糖醇甜让时间流过 #牙膏 #口腔护理
