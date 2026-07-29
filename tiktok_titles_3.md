@@ -20,24 +20,24 @@ Your bottom deserves face-level care — probiotic wipes with water only are gen
 Dry paper friction causes micro-tears — probiotic + water wipes are soft, no scratch #wipes #wetwips #toiletpaper | 干纸摩擦造成微小撕裂——益生菌+水湿厕纸柔软不刮 #湿厕纸 #益生菌湿厕纸
 Stop settling for okay when clean is possible — probiotic wet wipes with just water #wipes #wetwips #toiletpaper | 能擦干净就别凑合——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Camping means leaves or nothing — bring real wipes #wipes #wetwips #toiletpaper #travelsize | 露营只有树叶或什么都没有——带好湿巾 #旅行装湿厕纸 #金盏花
-Beach day means sand in places you don't want #wipes #wetwips #toiletpaper #travelsize | 海滩日意味着沙子在不该在的地方 #旅行装湿厕纸 #金盏花
-Hiking trail bathroom is behind a bush — be prepared #wipes #wetwips #toiletpaper #travelsize | 徒步上厕所在灌木丛后——准备好 #旅行装湿厕纸 #金盏花
-Ski resort bathroom paper is freezing cold #wipes #wetwips #toiletpaper #travelsize | 滑雪场厕纸冰凉刺骨 #旅行装湿厕纸 #金盏花
-Surfing session means salt where it shouldn't be #wipes #wetwips #toiletpaper #travelsize | 冲浪后盐分在不该在的地方 #旅行装湿厕纸 #金盏花
-Music festival port-a-potty is a war zone #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕所是战场 #旅行装湿厕纸 #金盏花
-Outdoor concert bathroom is chaos #wipes #wetwips #toiletpaper #travelsize | 户外演唱会厕所是混乱 #旅行装湿厕纸 #金盏花
-Tennis court bathroom break has no wipes #wipes #wetwips #toiletpaper #travelsize | 网球场上厕所没有湿巾 #旅行装湿厕纸 #金盏花
-Golf course bathroom is a shed with rough paper #wipes #wetwips #toiletpaper #travelsize | 高尔夫球场厕所是个棚子配粗纸 #旅行装湿厕纸 #金盏花
-Running race port-a-potty line is endless #wipes #wetwips #toiletpaper #travelsize | 跑步比赛移动厕所排无尽 #旅行装湿厕纸 #金盏花
-Yoga retreat bathroom should be zen — bring your own #wipes #wetwips #toiletpaper #travelsize | 瑜伽营厕所该是禅意——自带 #旅行装湿厕纸 #金盏花
-Fishing trip bathroom is over the side of the boat #wipes #wetwips #toiletpaper #travelsize | 钓鱼上厕所在船边 #旅行装湿厕纸 #金盏花
-Kayaking means no bathroom for hours #wipes #wetwips #toiletpaper #travelsize | 皮划艇意味着好几个小时没厕所 #旅行装湿厕纸 #金盏花
-Rock climbing bathroom is literally a cliff #wipes #wetwips #toiletpaper #travelsize | 攀岩上厕所真的是悬崖 #旅行装湿厕纸 #金盏花
-Horseback riding trail has no facilities #wipes #wetwips #toiletpaper #travelsize | 骑马步道没有设施 #旅行装湿厕纸 #金盏花
-Beach volleyball means sand everywhere #wipes #wetwips #toiletpaper #travelsize | 沙滩排球意味着到处是沙 #旅行装湿厕纸 #金盏花
-Scuba diving means salt and sand in uncomfortable places #wipes #wetwips #toiletpaper #travelsize | 潜水意味着盐和沙在不舒服的地方 #旅行装湿厕纸 #金盏花
-Backpacking through nature means zero bathroom options #wipes #wetwips #toiletpaper #travelsize | 背包穿越自然意味着零厕所选择 #旅行装湿厕纸 #金盏花
+Camping means leaves or nothing — marigold + water wipes are thick, gentle, no scratch #wipes #wetwips #toiletpaper #travelsize | 露营只有树叶或没——金盏花+水湿厕纸厚实温和不刮 #旅行装湿厕纸 #金盏花
+Beach day means sand where it shouldn't be — marigold + water wipes rinse it off, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 海滩日沙子在不该在处——金盏花+水湿厕纸冲净独立包装 #旅行装湿厕纸 #金盏花
+Hiking trail bathroom behind a bush — marigold + water wipes in your pack, TSA-friendly #wipes #wetwips #toiletpaper #travelsize | 徒步上厕所在灌木后——包里金盏花+水湿厕纸TSA合规 #旅行装湿厕纸 #金盏花
+Ski resort bathroom paper freezing cold — marigold + water wipes are room-soft, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 滑雪场厕纸冰凉——金盏花+水湿厕纸室温柔软无酒精 #旅行装湿厕纸 #金盏花
+Surfing means salt where it shouldn't be — marigold + water wipes, gentle rinse, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 冲浪后盐分在不该处——金盏花+水湿厕纸温和冲无香精 #旅行装湿厕纸 #金盏花
+Music festival port-a-potty war zone — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕所是战场——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
+Outdoor concert bathroom chaos — marigold + water wipes in your bag, thick, soft #wipes #wetwips #toiletpaper #travelsize | 户外演唱会厕所混乱——包里金盏花+水湿厕纸厚实柔软 #旅行装湿厕纸 #金盏花
+Tennis court break, no wipes in sight — marigold + water wipes, pocket-size, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 网球场上厕所没湿巾——金盏花+水湿厕纸口袋装独立包装 #旅行装湿厕纸 #金盏花
+Golf course bathroom a shed with rough paper — marigold + water wipes are soft, gentle, no scratch #wipes #wetwips #toiletpaper #travelsize | 高尔夫厕所棚配粗纸——金盏花+水湿厕纸柔软温和不刮 #旅行装湿厕纸 #金盏花
+Running race port-a-potty line endless — marigold + water wipes by your bib, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 跑步比赛厕排无尽——号码布旁金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
+Yoga retreat bathroom should be zen — marigold + water wipes, fragrance-free, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 瑜伽营厕所该禅意——金盏花+水湿厕纸无香精无酒精 #旅行装湿厕纸 #金盏花
+Fishing trip bathroom over the boat side — marigold + water wipes in your tackle box, thick #wipes #wetwips #toiletpaper #travelsize | 钓鱼上厕所在船边——钓具箱里金盏花+水湿厕纸厚实 #旅行装湿厕纸 #金盏花
+Kayaking means no bathroom for hours — marigold + water wipes in dry bag, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 皮划艇数小时没厕所——防水袋里金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
+Rock climbing bathroom literally a cliff — marigold + water wipes in your chalk bag, gentle #wipes #wetwips #toiletpaper #travelsize | 攀岩上厕所是悬崖——粉袋里金盏花+水湿厕纸温和 #旅行装湿厕纸 #金盏花
+Horseback riding trail has no facilities — marigold + water wipes in your saddle bag, soft #wipes #wetwips #toiletpaper #travelsize | 骑马步道没设施——鞍袋里金盏花+水湿厕纸柔软 #旅行装湿厕纸 #金盏花
+Beach volleyball means sand everywhere — marigold + water wipes rinse clean, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 沙滩排球到处是沙——金盏花+水湿厕纸冲净无酒精 #旅行装湿厕纸 #金盏花
+Scuba diving means salt and sand uncomfortable — marigold + water wipes, gentle, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 潜水盐沙在不舒服处——金盏花+水湿厕纸温和无香精 #旅行装湿厕纸 #金盏花
+Backpacking through nature, zero bathroom options — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 背包穿越自然零厕所选项——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Dust mites love damp towels, and your face is their dinner #facialtowel #disposable #skincare | 螨虫最爱潮湿毛巾，你的脸就是它们的晚餐 #一次性洗脸巾 #护肤
