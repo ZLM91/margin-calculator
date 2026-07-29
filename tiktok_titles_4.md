@@ -61,21 +61,21 @@ Your towel is the last thing touching your face before bed #facialtowel #disposa
 You change your sheets weekly but your face towel monthly? #facialtowel #disposable #skincare | 床单一周一换，毛巾一月一换？ #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Date night ruined by coffee breath #toothpaste #dentalcare #oralcare | 约会夜被咖啡口气毁掉 #牙膏 #口腔护理
-You cover your mouth when laughing with friends #toothpaste #dentalcare #oralcare | 和朋友笑时你捂嘴 #牙膏 #口腔护理
-Job interview with bad breath — no callback #toothpaste #dentalcare #oralcare | 面试口臭——没回音 #牙膏 #口腔护理
-Your crush stepped back when you whispered #toothpaste #dentalcare #oralcare | 你暗恋对象在你低语时后退 #牙膏 #口腔护理
-Group photos make you self-conscious about your smile #toothpaste #dentalcare #oralcare | 合照让你对笑容不自信 #牙膏 #口腔护理
-You avoid close-talking conversations at parties #toothpaste #dentalcare #oralcare | 派对上你避免近距离交谈 #牙膏 #口腔护理
-Your partner kisses you less — breath issue #toothpaste #dentalcare #oralcare | 伴侣吻你少了——口气问题 #牙膏 #口腔护理
-You rehearse what to say from a safe distance #toothpaste #dentalcare #oralcare | 你在安全距离排练说什么 #牙膏 #口腔护理
-Networking events are hell with bad breath #toothpaste #dentalcare #oralcare | 口臭加社交活动是地狱 #牙膏 #口腔护理
-You always sit in the back to avoid close contact #toothpaste #dentalcare #oralcare | 你总坐后面避免近距离接触 #牙膏 #口腔护理
-Phone calls are fine but video calls terrify you #toothpaste #dentalcare #oralcare | 电话可以但视频通话让你害怕 #牙膏 #口腔护理
-Your confidence drops when someone moves closer #toothpaste #dentalcare #oralcare | 有人靠近你自信就下降 #牙膏 #口腔护理
-You've mastered the far-away nod greeting #toothpaste #dentalcare #oralcare | 你精通远距离点头打招呼 #牙膏 #口腔护理
-Talking to your boss makes you hold your breath #toothpaste #dentalcare #oralcare | 跟老板说话你憋着气 #牙膏 #口腔护理
-First dates are anxiety because of your breath #toothpaste #dentalcare #oralcare | 第一次约会因口气而焦虑 #牙膏 #口腔护理
-You always carry mints but still worry #toothpaste #dentalcare #oralcare | 你总带薄荷糖但还担心 #牙膏 #口腔护理
-Social anxiety starts with your mouth #toothpaste #dentalcare #oralcare | 社交焦虑从你的口腔开始 #牙膏 #口腔护理
-Your smile is your best asset but you hide it #toothpaste #dentalcare #oralcare | 笑容是你最好的资产但你藏起来 #牙膏 #口腔护理
+Date night ruined by coffee breath — xylitol paste, fresh breath sweet no sugar#toothpaste #dentalcare #oralcare | 约会夜被咖啡口气毁——木糖醇牙膏，甜清新无糖 #牙膏 #口腔护理
+You cover your mouth laughing with friends — xylitol fresh breath, confident smile#toothpaste #dentalcare #oralcare | 和朋友笑捂嘴——木糖醇清新口气，自信笑 #牙膏 #口腔护理
+Job interview with bad breath, no callback — xylitol keeps breath fresh, sweet no sugar#toothpaste #dentalcare #oralcare | 面试口臭没回音——木糖醇保清新，甜无糖 #牙膏 #口腔护理
+Crush stepped back when you whispered — xylitol fresh breath, gentle sweet#toothpaste #dentalcare #oralcare | 暗恋对象低语后退——木糖醇清新口气，温甜 #牙膏 #口腔护理
+Group photos make you self-conscious — hydrated silica clean look, fresh breath#toothpaste #dentalcare #oralcare | 合照不自信——水合二氧化硅干净感，清新口气 #牙膏 #口腔护理
+You avoid close talks at parties — xylitol sweet fresh breath, no sugar mask#toothpaste #dentalcare #oralcare | 派对避近聊——木糖醇甜清新，无糖掩盖 #牙膏 #口腔护理
+Partner kisses less, breath issue — xylitol fresh breath, gentle sweet taste#toothpaste #dentalcare #oralcare | 伴侣少吻，口气问题——木糖醇清新，温甜 #牙膏 #口腔护理
+You rehearse from a safe distance — xylitol keeps breath fresh through the chat#toothpaste #dentalcare #oralcare | 安全距离排练——木糖醇聊天全程清新 #牙膏 #口腔护理
+Networking is hell with bad breath — xylitol sweet fresh, no sugar worry#toothpaste #dentalcare #oralcare | 口臭社交地狱——木糖醇甜清新无负担 #牙膏 #口腔护理
+You sit in back to avoid contact — hydrated silica clean teeth, fresh breath#toothpaste #dentalcare #oralcare | 坐后面避接触——水合二氧化硅净齿，清新 #牙膏 #口腔护理
+Phone fine but video calls terrify — xylitol fresh breath on camera#toothpaste #dentalcare #oralcare | 电话行视频怕——木糖醇镜头前清新口气 #牙膏 #口腔护理
+Confidence drops when someone nears — xylitol sweet fresh breath boosts it#toothpaste #dentalcare #oralcare | 人靠近自信降——木糖醇甜清新提自信 #牙膏 #口腔护理
+You mastered the far-away nod — xylitol fresh breath, close talk no fear#toothpaste #dentalcare #oralcare | 精通远距点头——木糖醇清新，近聊不慌 #牙膏 #口腔护理
+Talking to your boss you hold breath — xylitol keeps breath sweet fresh#toothpaste #dentalcare #oralcare | 跟老板说话憋气——木糖醇保口气甜清新 #牙膏 #口腔护理
+First dates anxious from breath — xylitol fresh breath, gentle sweet#toothpaste #dentalcare #oralcare | 初约因口气焦虑——木糖醇清新，温甜 #牙膏 #口腔护理
+You carry mints but still worry — xylitol paste fixes at source, sweet no sugar#toothpaste #dentalcare #oralcare | 带薄荷还担心——木糖醇源头解决，甜无糖 #牙膏 #口腔护理
+Social anxiety starts with your mouth — xylitol fresh breath, confident smile#toothpaste #dentalcare #oralcare | 社交焦虑从嘴起——木糖醇清新，自信笑 #牙膏 #口腔护理
+Smile is your best asset but hidden — hydrated silica clean plus xylitol fresh#toothpaste #dentalcare #oralcare | 笑容是最好的资产却藏——水合二氧化硅净+木糖醇清新 #牙膏 #口腔护理
