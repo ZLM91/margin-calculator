@@ -1,25 +1,24 @@
 # 2026-06-05
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Public toilet paper is rough and thin — your skin deserves better #wipes #wetwips #toiletpaper | 公共厕纸又粗又薄——你的皮肤值得更好的 #湿厕纸 #益生菌湿厕纸
-Ever wiped so hard it hurt? Stop punishing your skin #wipes #wetwips #toiletpaper | 擦到疼过吗？别再折磨你的皮肤了 #湿厕纸 #益生菌湿厕纸
-Diarrhea plus dry paper equals a nightmare #wipes #wetwips #toiletpaper | 腹泻加干纸等于噩梦 #湿厕纸 #益生菌湿厕纸
-Your intimate area is more sensitive than your face — treat it that way #wipes #wetwips #toiletpaper | 私处比脸还敏感——该好好对待 #湿厕纸 #益生菌湿厕纸
-Wiping should take 3 seconds, not 3 minutes #wipes #wetwips #toiletpaper | 擦拭应该3秒搞定，不是3分钟 #湿厕纸 #益生菌湿厕纸
-That not-so-fresh feeling? Your toilet paper is to blame #wipes #wetwips #toiletpaper | 那种不清爽的感觉？都怪你的厕纸 #湿厕纸 #益生菌湿厕纸
-Cheap wipes leave lint where you don't want it #wipes #wetwips #toiletpaper | 便宜湿巾掉屑——落在不该落的地方 #湿厕纸 #益生菌湿厕纸
-Dry paper on sensitive skin is like rubbing a cheese grater #wipes #wetwips #toiletpaper | 干纸擦敏感肌像在用擦菜板 #湿厕纸 #益生菌湿厕纸
-Odor keeps coming back? You're not cleaning properly #wipes #wetwips #toiletpaper | 异味去不掉？你没擦干净 #湿厕纸 #益生菌湿厕纸
-Your bathroom breaks shouldn't end with regret #wipes #wetwips #toiletpaper | 上个厕所不该以后悔收场 #湿厕纸 #益生菌湿厕纸
-Wet wipes that are too wet just make a bigger mess #wipes #wetwips #toiletpaper | 太湿的湿巾只会更麻烦 #湿厕纸 #益生菌湿厕纸
-Stop using baby wipes on adult skin — they're not the same #wipes #wetwips #toiletpaper | 别拿婴儿湿巾擦成人皮肤——不一样的 #湿厕纸 #益生菌湿厕纸
-That unclean feeling ruins your whole day #wipes #wetwips #toiletpaper | 擦不干净的感觉毁掉一整天 #湿厕纸 #益生菌湿厕纸
-Dry paper was invented 150 years ago — time to upgrade #wipes #wetwips #toiletpaper | 干纸是150年前的发明——该升级了 #湿厕纸 #益生菌湿厕纸
-You change your toothbrush every 3 months — what about your toilet paper? #wipes #wetwips #toiletpaper | 牙刷3个月换一次——你的厕纸呢？ #湿厕纸 #益生菌湿厕纸
-Some messes dry paper just cannot handle #wipes #wetwips #toiletpaper | 有些残留干纸根本对付不了 #湿厕纸 #益生菌湿厕纸
-Why does the bathroom always feel rushed and incomplete? #wipes #wetwips #toiletpaper | 为什么上厕所总觉得匆忙没擦干净？ #湿厕纸 #益生菌湿厕纸
-Your skin down there is thinner than your eyelids — protect it #wipes #wetwips #toiletpaper | 私处皮肤比眼皮还薄——保护好它 #湿厕纸 #益生菌湿厕纸
-
+Public toilet paper is rough and thin — probiotic wet wipes with just water are soft and thick #wipes #wetwips #toiletpaper | 公共厕纸又粗又薄——益生菌湿厕纸只有水，柔软厚实 #湿厕纸 #益生菌湿厕纸
+Ever wiped so hard it hurt? Probiotic + water wipes are gentle, no punishment #wipes #wetwips #toiletpaper | 擦到疼过吗？益生菌+水湿厕纸温和，不再折磨 #湿厕纸 #益生菌湿厕纸
+Diarrhea plus dry paper = nightmare — probiotic wipes with water only clean it up fast #wipes #wetwips #toiletpaper | 腹泻加干纸=噩梦——益生菌湿厕纸只有水，快速擦净 #湿厕纸 #益生菌湿厕纸
+Your intimate area is more sensitive than your face — probiotic + water is made gentle #wipes #wetwips #toiletpaper | 私处比脸还敏感——益生菌+水专为温和设计 #湿厕纸 #益生菌湿厕纸
+Wiping should take 3 seconds, not 3 minutes — probiotic wet wipes trap residue at once #wipes #wetwips #toiletpaper | 擦拭该3秒搞定——益生菌湿厕纸一次擦净残留 #湿厕纸 #益生菌湿厕纸
+That not-so-fresh feeling? Probiotic wipes with water leave you clean, fragrance-free #wipes #wetwips #toiletpaper | 不清爽的感觉？益生菌湿厕纸只有水，擦完清爽无香精 #湿厕纸 #益生菌湿厕纸
+Cheap wipes leave lint — probiotic wet wipes are thick, no fallout #wipes #wetwips #toiletpaper | 便宜湿巾掉屑——益生菌湿厕纸厚实，不掉絮 #湿厕纸 #益生菌湿厕纸
+Dry paper on sensitive skin is like a cheese grater — probiotic + water is soft #wipes #wetwips #toiletpaper | 干纸擦敏感肌像擦菜板——益生菌+水温软 #湿厕纸 #益生菌湿厕纸
+Odor keeps coming back? You're not cleaning it — probiotic wipes with just water do #wipes #wetwips #toiletpaper | 异味去不掉？你没擦净——益生菌湿厕纸只有水能擦净 #湿厕纸 #益生菌湿厕纸
+Wet wipes too wet make a mess — ours are probiotic + water, just right #wipes #wetwips #toiletpaper | 太湿的湿巾更麻烦——我们的益生菌+水，刚刚好 #湿厕纸 #益生菌湿厕纸
+Stop using baby wipes on adult skin — probiotic wet wipes are for you, water-based #wipes #wetwips #toiletpaper | 别拿婴儿湿巾擦成人——益生菌湿厕纸是你的，水基 #湿厕纸 #益生菌湿厕纸
+That unclean feeling ruins your day — probiotic + water wipes end it #wipes #wetwips #toiletpaper | 擦不干净毁掉一天——益生菌+水湿厕纸终结它 #湿厕纸 #益生菌湿厕纸
+Dry paper was invented 150 years ago — upgrade to probiotic wipes with just water #wipes #wetwips #toiletpaper | 干纸是150年前的发明——升级到益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+You change your toothbrush every 3 months — probiotic wet wipes upgrade your paper too #wipes #wetwips #toiletpaper | 牙刷3个月换一次——益生菌湿厕纸也升级你的纸 #湿厕纸 #益生菌湿厕纸
+Some messes dry paper can't handle — probiotic wipes with water lift them off #wipes #wetwips #toiletpaper | 有些残留干纸对付不了——益生菌湿厕纸只有水一擦就掉 #湿厕纸 #益生菌湿厕纸
+The bathroom feels rushed and incomplete — probiotic + water makes it done #wipes #wetwips #toiletpaper | 上厕所总觉得匆忙没擦净——益生菌+水让它真正擦完 #湿厕纸 #益生菌湿厕纸
+Your skin down there is thinner than your eyelids — probiotic wipes are gentle, fragrance-free #wipes #wetwips #toiletpaper | 私处皮肤比眼皮薄——益生菌湿厕纸温和无香精 #湿厕纸 #益生菌湿厕纸
+Rough paper daily wears you down — probiotic wet wipes with just water are the soft switch #wipes #wetwips #toiletpaper | 每天粗纸磨人——益生菌湿厕纸只有水，柔软的换法 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 10-hour flight plus dry airplane paper equals discomfort for hours #wipes #wetwips #toiletpaper #travelsize | 10小时飞行加干飞机纸等于数小时不适 #旅行装湿厕纸 #金盏花
 Train ride bathroom breaks are stressful enough #wipes #wetwips #toiletpaper #travelsize | 火车上厕所已经够压力了 #旅行装湿厕纸 #金盏花
@@ -79,3 +78,4 @@ Acidic fruit makes your teeth scream — mild silica formula, calm on sensitive 
 Sensitivity paste not working? Try gentle hydrated silica, no burn#toothpaste #dentalcare #oralcare | 抗敏牙膏没用？试水合二氧化硅，不辣 #牙膏 #口腔护理
 Teeth react to temperature painfully — our mild formula is kind every brush#toothpaste #dentalcare #oralcare | 牙齿对温度反应痛——我们温和配方每次都温柔 #牙膏 #口腔护理
 Stop avoiding cold drinks — hydrated silica lets you brush without the wince#toothpaste #dentalcare #oralcare | 别避冷饮——水合二氧化硅让你刷牙不皱眉 #牙膏 #口腔护理
+
