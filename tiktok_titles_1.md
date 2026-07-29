@@ -20,24 +20,24 @@ Bathroom at work leaves you unclean — probiotic wet wipes with water only fit 
 Summer sweat plus dry paper = discomfort — probiotic wipes keep you fresh, fragrance-free #wipes #wetwips #toiletpaper | 夏天出汗加干纸=不适——益生菌湿厕纸让你清爽，无香精 #湿厕纸 #益生菌湿厕纸
 You shower daily but skip the most important area — probiotic wet wipes with just water close the gap #wipes #wetwips #toiletpaper | 每天洗澡却忽略最重要部位——益生菌湿厕纸只有水补上缺口 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Hotel toilet paper is one-ply sandpaper — bring your own #wipes #wetwips #toiletpaper #travelsize | 酒店单层厕纸像砂纸——自己带 #旅行装湿厕纸 #金盏花
-Public restrooms run out of paper — always be prepared #wipes #wetwips #toiletpaper #travelsize | 公共厕所经常没纸——随时准备好 #旅行装湿厕纸 #金盏花
-Airplane bathroom paper is a joke — pack real wipes #wipes #wetwips #toiletpaper #travelsize | 飞机厕所的纸是笑话——带上真正的湿巾 #旅行装湿厕纸 #金盏花
-Gas station bathroom? Don't trust their paper #wipes #wetwips #toiletpaper #travelsize | 加油站厕所？别信他们的纸 #旅行装湿厕纸 #金盏花
-Train toilet paper feels like cardboard #wipes #wetwips #toiletpaper #travelsize | 火车厕纸像硬纸板 #旅行装湿厕纸 #金盏花
-Festival port-a-potty has no paper at all #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕所根本没纸 #旅行装湿厕纸 #金盏花
-Highway rest stop paper is thinner than tissue #wipes #wetwips #toiletpaper #travelsize | 高速服务区的纸比面巾纸还薄 #旅行装湿厕纸 #金盏花
-Shopping mall bathroom paper is rough and cheap #wipes #wetwips #toiletpaper #travelsize | 商场厕纸又粗又差 #旅行装湿厕纸 #金盏花
-Beach bathroom means sand plus rough paper #wipes #wetwips #toiletpaper #travelsize | 海滩厕所等于沙子加粗纸 #旅行装湿厕纸 #金盏花
-Stadium bathroom paper is a nightmare #wipes #wetwips #toiletpaper #travelsize | 体育场厕纸是噩梦 #旅行装湿厕纸 #金盏花
-Campsite bathroom has no paper — ever #wipes #wetwips #toiletpaper #travelsize | 露营地厕所从没纸 #旅行装湿厕纸 #金盏花
-Foreign country toilet paper feels different and wrong #wipes #wetwips #toiletpaper #travelsize | 国外的厕纸感觉不对劲 #旅行装湿厕纸 #金盏花
-Airport lounge paper is barely better than nothing #wipes #wetwips #toiletpaper #travelsize | 机场休息室的纸跟没有差不多 #旅行装湿厕纸 #金盏花
-Museum bathroom paper is surprisingly rough #wipes #wetwips #toiletpaper #travelsize | 博物馆厕纸出奇地粗 #旅行装湿厕纸 #金盏花
-Theme park bathroom lines are long — be ready when it's your turn #wipes #wetwips #toiletpaper #travelsize | 主题公园厕所排队长——轮到你时得准备好 #旅行装湿厕纸 #金盏花
-Roadside diner bathroom? Pack your own wipes #wipes #wetwips #toiletpaper #travelsize | 路边餐厅厕所？自带湿巾 #旅行装湿厕纸 #金盏花
-Subway station bathroom is a survival situation #wipes #wetwips #toiletpaper #travelsize | 地铁站厕所是生存挑战 #旅行装湿厕纸 #金盏花
-Park bathroom never has paper when you need it #wipes #wetwips #toiletpaper #travelsize | 公园厕所在你需要时从没纸 #旅行装湿厕纸 #金盏花
+Hotel one-ply paper feels like sandpaper — marigold + water wipes, individually wrapped, travel-ready #wipes #wetwips #toiletpaper #travelsize | 酒店单层纸像砂纸——金盏花+水湿厕纸独立包装出行必备 #旅行装湿厕纸 #金盏花
+Airplane toilet paper is a joke — bring marigold + water wipes, TSA-friendly, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 飞机厕纸是笑话——带金盏花+水湿厕纸，TSA合规无酒精 #旅行装湿厕纸 #金盏花
+Gas station bathroom? Don't trust their paper — marigold wipes with water are gentler, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 加油站厕所？别信他们的纸——金盏花+水湿巾更温和无香精 #旅行装湿厕纸 #金盏花
+Train toilet paper feels like cardboard — marigold + water wipes fit your pocket, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 火车厕纸像硬纸板——金盏花+水湿厕纸口袋装独立包装 #旅行装湿厕纸 #金盏花
+Festival port-a-potty has no paper at all — marigold + water wipes, soft and gentle #wipes #wetwips #toiletpaper #travelsize | 音乐节移动厕根本没纸——金盏花+水湿厕纸柔软温和 #旅行装湿厕纸 #金盏花
+Highway rest stop paper is thinner than tissue — marigold + water wipes are thick, no tearing #wipes #wetwips #toiletpaper #travelsize | 高速服务区纸比面巾还薄——金盏花+水湿厕纸厚实不破 #旅行装湿厕纸 #金盏花
+Shopping mall bathroom paper is rough and cheap — marigold wipes with just water are kind, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 商场厕纸又粗又差——金盏花湿厕纸只有水温和无酒精 #旅行装湿厕纸 #金盏花
+Beach bathroom means sand plus rough paper — marigold + water wipes are individually wrapped, sand-free #wipes #wetwips #toiletpaper #travelsize | 海滩厕所等于沙子加粗纸——金盏花+水湿厕纸独立包装无沙 #旅行装湿厕纸 #金盏花
+Stadium bathroom paper is a nightmare — marigold + water wipes fit in your bag, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 体育场厕纸是噩梦——金盏花+水湿厕纸塞包里无香精 #旅行装湿厕纸 #金盏花
+Campsite bathroom has no paper ever — marigold wipes with water are thick, gentle on sensitive skin #wipes #wetwips #toiletpaper #travelsize | 露营厕所从没纸——金盏花+水湿厕纸厚实对敏感肌温和 #旅行装湿厕纸 #金盏花
+Foreign country toilet paper feels wrong — marigold + water wipes, individually wrapped, travel-safe #wipes #wetwips #toiletpaper #travelsize | 国外厕纸感觉不对——金盏花+水湿厕纸独立包装旅行安心 #旅行装湿厕纸 #金盏花
+Airport lounge paper barely exists — marigold + water wipes are TSA-friendly, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 机场休息室纸跟没有差不多——金盏花+水湿厕纸TSA合规无酒精 #旅行装湿厕纸 #金盏花
+Museum bathroom paper is surprisingly rough — marigold wipes with just water are gentle, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 博物馆厕纸出奇粗——金盏花湿厕纸只有水温和无香精 #旅行装湿厕纸 #金盏花
+Theme park bathroom lines are long — marigold + water wipes by your side, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 主题公园厕所排长——身边带金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
+Roadside diner bathroom? Pack your own — marigold + water wipes are thick, soft, no scratch #wipes #wetwips #toiletpaper #travelsize | 路边餐厅厕所？自带——金盏花+水湿厕纸厚实柔软不刮 #旅行装湿厕纸 #金盏花
+Subway station bathroom is a survival situation — marigold + water wipes fit your pocket, gentle #wipes #wetwips #toiletpaper #travelsize | 地铁站厕所是生存挑战——金盏花+水湿厕纸口袋装温和 #旅行装湿厕纸 #金盏花
+Park bathroom never has paper — marigold + water wipes, alcohol-free, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 公园厕所在你需要时从没纸——金盏花+水湿厕纸无酒精无香精 #旅行装湿厕纸 #金盏花
+Public restroom runs out of paper — always carry marigold + water wipes, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 公共厕所没纸了——随身带金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Redness and breakouts won't stop? Your towel is probably the problem #facialtowel #disposable #skincare | 泛红爆痘反复？多半是洗脸巾选错了 #一次性洗脸巾 #护肤
