@@ -61,21 +61,21 @@ Red patches around your mouth? Towel mites love that area #facialtowel #disposab
 Dust mites in your towel produce waste that irritates your skin #facialtowel #disposable #skincare | 毛巾里的螨虫排泄物正在刺激你的皮肤 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Your kid runs away when you say it's brushing time #toothpaste #dentalcare #oralcare | 你说刷牙时间到了孩子就跑 #牙膏 #口腔护理
-Brushing your kid's teeth is a nightly wrestling match #toothpaste #dentalcare #oralcare | 给孩子刷牙是每晚的摔跤比赛 #牙膏 #口腔护理
-Your child's cavities keep coming back #toothpaste #dentalcare #oralcare | 孩子的蛀牙反复发作 #牙膏 #口腔护理
-Your kid swallows toothpaste instead of spitting #toothpaste #dentalcare #oralcare | 孩子吞牙膏不吐 #牙膏 #口腔护理
-Bubblegum flavored toothpaste is basically candy #toothpaste #dentalcare #oralcare | 泡泡糖味牙膏基本是糖 #牙膏 #口腔护理
-Your teen skips brushing and lies about it #toothpaste #dentalcare #oralcare | 你的青少年不刷牙还撒谎 #牙膏 #口腔护理
-Kid's dentist bills are draining your wallet #toothpaste #dentalcare #oralcare | 孩子看牙医账单掏空你的钱包 #牙膏 #口腔护理
-Your toddler screams at the sight of a toothbrush #toothpaste #dentalcare #oralcare | 你的幼儿看到牙刷就尖叫 #牙膏 #口腔护理
-Fruit-flavored kids toothpaste doesn't clean adult teeth #toothpaste #dentalcare #oralcare | 水果味儿童牙膏清洁不了成人牙齿 #牙膏 #口腔护理
-Your kid brushes for 10 seconds and says done #toothpaste #dentalcare #oralcare | 孩子刷10秒就说好了 #牙膏 #口腔护理
-Bedtime routine delayed by 20 minutes of brushing negotiation #toothpaste #dentalcare #oralcare | 睡前流程被20分钟刷牙谈判延误 #牙膏 #口腔护理
-Your child's breath smells despite daily brushing #toothpaste #dentalcare #oralcare | 孩子天天刷牙还是有口臭 #牙膏 #口腔护理
-Sugar from toothpaste causes more cavities #toothpaste #dentalcare #oralcare | 牙膏里的糖导致更多蛀牙 #牙膏 #口腔护理
-Your kid refuses mint toothpaste — too spicy #toothpaste #dentalcare #oralcare | 孩子拒绝薄荷牙膏——太辣 #牙膏 #口腔护理
-School dental check reveals cavities again #toothpaste #dentalcare #oralcare | 学校牙科检查又发现蛀牙 #牙膏 #口腔护理
-Your child's tooth decay is progressing between visits #toothpaste #dentalcare #oralcare | 孩子蛀牙在检查之间恶化 #牙膏 #口腔护理
-Bribing kids to brush is not a long-term solution #toothpaste #dentalcare #oralcare | 贿赂孩子刷牙不是长久之计 #牙膏 #口腔护理
-Your family's dental costs keep rising every year #toothpaste #dentalcare #oralcare | 你家的牙科费用每年上涨 #牙膏 #口腔护理
+Kid runs when you say brush time — xylitol paste tastes sweet, no fight#toothpaste #dentalcare #oralcare | 说刷牙孩子就跑——木糖醇牙膏甜，不闹 #牙膏 #口腔护理
+Brushing kid's teeth is a wrestling match — sweet xylitol makes it easy#toothpaste #dentalcare #oralcare | 给孩子刷牙像摔跤——甜木糖醇变轻松 #牙膏 #口腔护理
+Kid's cavities keep coming back — xylitol sweet paste, no sugar that feeds plaque#toothpaste #dentalcare #oralcare | 孩子蛀牙反复——木糖醇甜牙膏，无糖少负担 #牙膏 #口腔护理
+Kid swallows paste instead of spitting — xylitol is sweet and safe, no harsh chemicals#toothpaste #dentalcare #oralcare | 孩子吞牙膏——木糖醇甜又安全，无刺激 #牙膏 #口腔护理
+Bubblegum paste is basically candy — xylitol gives sweet without the sugar#toothpaste #dentalcare #oralcare | 泡泡糖牙膏像糖——木糖醇甜却不糖 #牙膏 #口腔护理
+Teen skips brushing and lies — xylitol tastes good so they actually do it#toothpaste #dentalcare #oralcare | 青少年不刷牙撒谎——木糖醇好喝所以他们刷 #牙膏 #口腔护理
+Kid dentist bills drain your wallet — xylitol daily care, sweet no sugar#toothpaste #dentalcare #oralcare | 孩子牙医账单掏空——木糖醇日常护理，甜无糖 #牙膏 #口腔护理
+Toddler screams at the toothbrush — mild xylitol paste, gentle sweet taste#toothpaste #dentalcare #oralcare | 幼儿见牙刷尖叫——温和木糖醇，温甜 #牙膏 #口腔护理
+Fruit kids paste doesn't clean adult teeth — xylitol works for the whole family#toothpaste #dentalcare #oralcare | 水果儿童牙膏刷不净成人——木糖醇全家适用 #牙膏 #口腔护理
+Kid brushes 10 sec and says done — sweet xylitol makes the 2 minutes easier#toothpaste #dentalcare #oralcare | 孩子刷10秒就完——甜木糖醇让2分钟不难 #牙膏 #口腔护理
+Bedtime delayed by brush fight — xylitol sweet taste ends the negotiation#toothpaste #dentalcare #oralcare | 睡前被刷牙谈判延误——木糖醇甜味结束拉锯 #牙膏 #口腔护理
+Kid's breath smells despite daily brushing — xylitol fresh breath, sweet no sugar#toothpaste #dentalcare #oralcare | 孩子天天刷还有口臭——木糖醇清新，甜无糖 #牙膏 #口腔护理
+Sugar in paste causes more cavities — xylitol has no sugar, just sweet fresh#toothpaste #dentalcare #oralcare | 牙膏糖致更多蛀牙——木糖醇无糖，只甜清新 #牙膏 #口腔护理
+Kid refuses mint, too spicy — xylitol is sweet, not burning#toothpaste #dentalcare #oralcare | 孩子拒薄荷太辣——木糖醇甜不辣 #牙膏 #口腔护理
+School check finds cavities again — xylitol daily, sweet no sugar defense#toothpaste #dentalcare #oralcare | 学校检查又蛀牙——木糖醇日常，甜无糖 #牙膏 #口腔护理
+Decay progresses between visits — xylitol gentle daily care for kids#toothpaste #dentalcare #oralcare | 蛀牙检查间恶化——木糖醇儿童日常护理 #牙膏 #口腔护理
+Bribing to brush isn't long-term — xylitol sweet taste is the real win#toothpaste #dentalcare #oralcare | 贿赂刷牙不长久——木糖醇甜味才是真招 #牙膏 #口腔护理
+Family dental costs rise every year — xylitol whole-family paste, sweet no sugar#toothpaste #dentalcare #oralcare | 家庭牙科费年涨——木糖醇全家牙膏，甜无糖 #牙膏 #口腔护理
