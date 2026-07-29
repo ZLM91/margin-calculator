@@ -1,6 +1,9 @@
-# 2026-06-21
-
-### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
+# 2026-06-21
+
+
+
+### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
+
 Bathroom odor follows you? Dry paper can't help — probiotic wet wipes with water only do #wipes #wetwips #toiletpaper | 异味跟着你？干纸帮不了——益生菌湿厕纸只有水能 #湿厕纸 #益生菌湿厕纸
 You can tell who skipped wet wipes — probiotic + water keeps you fresh #wipes #wetwips #toiletpaper | 你能闻出谁没用湿厕纸——益生菌+水让你清爽 #湿厕纸 #益生菌湿厕纸
 Confidence starts with feeling clean — dry paper can't, probiotic wipes with just water can #wipes #wetwips #toiletpaper | 自信从清爽开始——干纸做不到，益生菌湿厕纸只有水能 #湿厕纸 #益生菌湿厕纸
@@ -19,47 +22,68 @@ Feel fresh all day, not just post-shower — probiotic wipes with water only #wi
 Bad habits follow you everywhere — probiotic + water wipes break the cycle #wipes #wetwips #toiletpaper | 差的如厕习惯跟着你——益生菌+水湿厕纸打破循环 #湿厕纸 #益生菌湿厕纸
 Clean vs almost-clean is confidence — probiotic wet wipes with just water #wipes #wetwips #toiletpaper | 干净和差不多干净差的是自信——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
 Stop hoping dry paper is enough — probiotic + water wipes prove it isn't needed #wipes #wetwips #toiletpaper | 别指望干纸够了——益生菌+水湿厕纸证明不必将就 #湿厕纸 #益生菌湿厕纸
-### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Foreign bathroom has a bidet but you're not used to it #wipes #wetwips #toiletpaper #travelsize | 国外厕所有智能马桶但不习惯 #旅行装湿厕纸 #金盏花
-Asia travel bathroom is a squat toilet — bring wipes #wipes #wetwips #toiletpaper #travelsize | 亚洲旅行蹲厕——带湿巾 #旅行装湿厕纸 #金盏花
-European train bathroom is a hole in the floor #wipes #wetwips #toiletpaper #travelsize | 欧洲火车厕所是蹲坑 #旅行装湿厕纸 #金盏花
-Middle East bathroom has a hose but no paper #wipes #wetwips #toiletpaper #travelsize | 中东厕所有水管没纸 #旅行装湿厕纸 #金盏花
-Backpacker hostel bathroom paper is communal and rough #wipes #wetwips #toiletpaper #travelsize | 背包客青旅厕纸是公用的又粗 #旅行装湿厕纸 #金盏花
-Safari camp bathroom is a long drop toilet #wipes #wetwips #toiletpaper #travelsize | 野生动物园营厕所是旱厕 #旅行装湿厕纸 #金盏花
-Rickshaw tour bathroom is whatever you find #wipes #wetwips #toiletpaper #travelsize | 三轮车旅行上厕所看运气 #旅行装湿厕纸 #金盏花
-Southeast Asia bathroom means no paper at all #wipes #wetwips #toiletpaper #travelsize | 东南亚厕所根本没纸 #旅行装湿厕纸 #金盏花
-South America bus bathroom is locked or broken #wipes #wetwips #toiletpaper #travelsize | 南美大巴厕所锁着或坏了 #旅行装湿厕纸 #金盏花
-Eastern Europe train bathroom paper is gray #wipes #wetwips #toiletpaper #travelsize | 东欧火车厕纸是灰色的 #旅行装湿厕纸 #金盏花
-India travel bathroom is a culture shock #wipes #wetwips #toiletpaper #travelsize | 印度旅行厕所是文化冲击 #旅行装湿厕纸 #金盏花
-Africa overland bathroom is a bush and a prayer #wipes #wetwips #toiletpaper #travelsize | 非洲穿越上厕所是灌木加祈祷 #旅行装湿厕纸 #金盏花
-Rural China bathroom is a shared trench #wipes #wetwips #toiletpaper #travelsize | 中国农村厕所是公共旱厕 #旅行装湿厕纸 #金盏花
-Island vacation bathroom runs out of paper by noon #wipes #wetwips #toiletpaper #travelsize | 海岛度假厕纸中午就用完 #旅行装湿厕纸 #金盏花
-Trans-Siberian railway bathroom is freezing #wipes #wetwips #toiletpaper #travelsize | 西伯利亚铁路厕所冰冻 #旅行装湿厕纸 #金盏花
-Amazon lodge bathroom paper is wet from humidity #wipes #wetwips #toiletpaper #travelsize | 亚马逊旅馆厕纸因潮湿而湿 #旅行装湿厕纸 #金盏花
-Mongolian yurt bathroom is outside in the cold #wipes #wetwips #toiletpaper #travelsize | 蒙古包厕所在外面挨冻 #旅行装湿厕纸 #金盏花
-Patagonia trek bathroom is wind and nothing else #wipes #wetwips #toiletpaper #travelsize | 巴塔哥尼亚徒步厕所只有风 #旅行装湿厕纸 #金盏花
-
-### 🛀 一次性洗脸巾 Disposable Face Towels
-Your 200 dollar serum can't beat a 50 cent dirty towel #facialtowel #disposable #skincare | 200块的精华打不过5毛钱的脏毛巾 #一次性洗脸巾 #护肤
-Expensive skincare routine then a filthy towel, money down the drain #facialtowel #disposable #skincare | 贵妇护肤配脏毛巾，钱全打水漂 #一次性洗脸巾 #护肤
-Your face wash costs 30 dollars but your towel is free bacteria #facialtowel #disposable #skincare | 洗面奶30刀，毛巾免费送细菌 #一次性洗脸巾 #护肤
-Toner, essence, moisturizer, all ruined by one dirty towel wipe #facialtowel #disposable #skincare | 爽肤水精华面霜，一条脏毛巾全毁 #一次性洗脸巾 #护肤
-You invest in skincare but ignore the thing touching your face most #facialtowel #disposable #skincare | 你在护肤上投资却忽略碰脸最多的东西 #一次性洗脸巾 #护肤
-Your skincare works hard, your towel works against it #facialtowel #disposable #skincare | 你的护肤品在努力，你的毛巾在拆台 #一次性洗脸巾 #护肤
-Why buy acne treatments if your towel keeps causing them? #facialtowel #disposable #skincare | 既然毛巾一直致痘，买祛痘产品有什么用？ #一次性洗脸巾 #护肤
-Your luxury cream absorbed then contaminated by towel bacteria #facialtowel #disposable #skincare | 贵妇面霜吸收了，然后被毛巾细菌污染 #一次性洗脸巾 #护肤
-Skincare is an investment, dirty towel is bankruptcy #facialtowel #disposable #skincare | 护肤是投资，脏毛巾是破产 #一次性洗脸巾 #护肤
-Your esthetician bill keeps growing but your towel stays the same #facialtowel #disposable #skincare | 美容院账单越来越厚，毛巾还是那条 #一次性洗脸巾 #护肤
-You spend 30 minutes on skincare and 0 seconds checking your towel #facialtowel #disposable #skincare | 你花30分钟护肤，0秒检查毛巾 #一次性洗脸巾 #护肤
-Your face mask then a 2-week-old towel, what's the point? #facialtowel #disposable #skincare | 敷完面膜用两周前的毛巾，有什么意义？ #一次性洗脸巾 #护肤
-Premium skincare on a bacteria-covered face from dirty towel #facialtowel #disposable #skincare | 高级护肤品抹在脏毛巾弄出的细菌脸上 #一次性洗脸巾 #护肤
-Your retinol fights wrinkles, your towel adds bacteria #facialtowel #disposable #skincare | 你的视黄醇抗皱，你的毛巾加细菌 #一次性洗脸巾 #护肤
-Vitamin C serum then rusty towel water on your face #facialtowel #disposable #skincare | 维C精华然后毛巾上的锈水抹脸上 #一次性洗脸巾 #护肤
-Your skincare works only if your towel lets it #facialtowel #disposable #skincare | 护肤品有效的前提是毛巾不拖后腿 #一次性洗脸巾 #护肤
-Why buy organic skincare and use a chemical-loaded old towel? #facialtowel #disposable #skincare | 买有机护肤品却用满是化学残留的旧毛巾？ #一次性洗脸巾 #护肤
-Your 10-step routine, all negated by one dirty towel #facialtowel #disposable #skincare | 你的十步护肤法，一条脏毛巾全抵消 #一次性洗脸巾 #护肤
-
-### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
+### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
+Foreign bathroom has a bidet but you're not used to it — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 国外智能马桶不习惯——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
+Asia travel bathroom a squat toilet — marigold + water wipes, individually wrapped, easy to use #wipes #wetwips #toiletpaper #travelsize | 亚洲蹲厕——金盏花+水湿厕纸独立包装好用 #旅行装湿厕纸 #金盏花
+European train bathroom a hole in the floor — marigold + water wipes are thick, no scratch #wipes #wetwips #toiletpaper #travelsize | 欧洲火车厕是蹲坑——金盏花+水湿厕纸厚实不刮 #旅行装湿厕纸 #金盏花
+Middle East bathroom has a hose but no paper — marigold + water wipes, alcohol-free, gentle #wipes #wetwips #toiletpaper #travelsize | 中东厕所有水管没纸——金盏花+水湿厕纸无酒精温和 #旅行装湿厕纸 #金盏花
+Backpacker hostel paper communal and rough — marigold + water wipes, individually wrapped, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 背包客青旅厕纸公用又粗——金盏花+水湿厕纸独立包装无香精 #旅行装湿厕纸 #金盏花
+Safari camp bathroom a long drop toilet — marigold + water wipes in your safari bag, soft #wipes #wetwips #toiletpaper #travelsize | 野生动物园旱厕——野营包里金盏花+水湿厕纸柔软 #旅行装湿厕纸 #金盏花
+Rickshaw tour bathroom is whatever you find — marigold + water wipes, pocket-size, ready #wipes #wetwips #toiletpaper #travelsize | 三轮车旅行厕所看运气——金盏花+水湿厕纸口袋装就绪 #旅行装湿厕纸 #金盏花
+Southeast Asia bathroom no paper at all — marigold + water wipes are essential, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 东南亚厕所根本没纸——金盏花+水湿厕纸必备无酒精 #旅行装湿厕纸 #金盏花
+South America bus bathroom locked or broken — marigold + water wipes in your daypack, gentle #wipes #wetwips #toiletpaper #travelsize | 南美大巴厕锁或坏——日间包里金盏花+水湿厕纸温和 #旅行装湿厕纸 #金盏花
+Eastern Europe train paper gray — marigold + water wipes are clean, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 东欧火车厕纸灰色——金盏花+水湿厕纸干净独立包装 #旅行装湿厕纸 #金盏花
+India travel bathroom culture shock — marigold + water wipes, fragrance-free, gentle on sensitive skin #wipes #wetwips #toiletpaper #travelsize | 印度旅行厕所文化冲击——金盏花+水湿厕纸无香精对敏感肌温和 #旅行装湿厕纸 #金盏花
+Africa overland bathroom bush and a prayer — marigold + water wipes, thick, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 非洲穿越厕灌木加祈祷——金盏花+水湿厕纸厚实无酒精 #旅行装湿厕纸 #金盏花
+Rural China bathroom shared trench — marigold + water wipes in your pack, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 中国农村旱厕——包里金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
+Island vacation bathroom paper out by noon — marigold + water wipes by your beach bag, soft #wipes #wetwips #toiletpaper #travelsize | 海岛度假厕纸中午用完——海滩包金盏花+水湿厕纸柔软 #旅行装湿厕纸 #金盏花
+Trans-Siberian railway bathroom freezing — marigold + water wipes are room-soft, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 西伯利亚铁路厕冰冻——金盏花+水湿厕纸室温柔软无香精 #旅行装湿厕纸 #金盏花
+Amazon lodge bathroom paper wet from humidity — marigold + water wipes stay dry, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 亚马逊旅馆厕纸湿——金盏花+水湿厕纸独立包装保持干燥 #旅行装湿厕纸 #金盏花
+Mongolian yurt bathroom outside in the cold — marigold + water wipes fit your coat pocket, gentle #wipes #wetwips #toiletpaper #travelsize | 蒙古包厕所在外挨冻——外套口袋金盏花+水湿厕纸温和 #旅行装湿厕纸 #金盏花
+Patagonia trek bathroom wind and nothing — marigold + water wipes are thick, no disintegration #wipes #wetwips #toiletpaper #travelsize | 巴塔哥尼亚徒步厕只有风——金盏花+水湿厕纸厚实不散 #旅行装湿厕纸 #金盏花
+
+### 🛀 一次性洗脸巾 Disposable Face Towels
+
+Your 200 dollar serum can't beat a 50 cent dirty towel #facialtowel #disposable #skincare | 200块的精华打不过5毛钱的脏毛巾 #一次性洗脸巾 #护肤
+
+Expensive skincare routine then a filthy towel, money down the drain #facialtowel #disposable #skincare | 贵妇护肤配脏毛巾，钱全打水漂 #一次性洗脸巾 #护肤
+
+Your face wash costs 30 dollars but your towel is free bacteria #facialtowel #disposable #skincare | 洗面奶30刀，毛巾免费送细菌 #一次性洗脸巾 #护肤
+
+Toner, essence, moisturizer, all ruined by one dirty towel wipe #facialtowel #disposable #skincare | 爽肤水精华面霜，一条脏毛巾全毁 #一次性洗脸巾 #护肤
+
+You invest in skincare but ignore the thing touching your face most #facialtowel #disposable #skincare | 你在护肤上投资却忽略碰脸最多的东西 #一次性洗脸巾 #护肤
+
+Your skincare works hard, your towel works against it #facialtowel #disposable #skincare | 你的护肤品在努力，你的毛巾在拆台 #一次性洗脸巾 #护肤
+
+Why buy acne treatments if your towel keeps causing them? #facialtowel #disposable #skincare | 既然毛巾一直致痘，买祛痘产品有什么用？ #一次性洗脸巾 #护肤
+
+Your luxury cream absorbed then contaminated by towel bacteria #facialtowel #disposable #skincare | 贵妇面霜吸收了，然后被毛巾细菌污染 #一次性洗脸巾 #护肤
+
+Skincare is an investment, dirty towel is bankruptcy #facialtowel #disposable #skincare | 护肤是投资，脏毛巾是破产 #一次性洗脸巾 #护肤
+
+Your esthetician bill keeps growing but your towel stays the same #facialtowel #disposable #skincare | 美容院账单越来越厚，毛巾还是那条 #一次性洗脸巾 #护肤
+
+You spend 30 minutes on skincare and 0 seconds checking your towel #facialtowel #disposable #skincare | 你花30分钟护肤，0秒检查毛巾 #一次性洗脸巾 #护肤
+
+Your face mask then a 2-week-old towel, what's the point? #facialtowel #disposable #skincare | 敷完面膜用两周前的毛巾，有什么意义？ #一次性洗脸巾 #护肤
+
+Premium skincare on a bacteria-covered face from dirty towel #facialtowel #disposable #skincare | 高级护肤品抹在脏毛巾弄出的细菌脸上 #一次性洗脸巾 #护肤
+
+Your retinol fights wrinkles, your towel adds bacteria #facialtowel #disposable #skincare | 你的视黄醇抗皱，你的毛巾加细菌 #一次性洗脸巾 #护肤
+
+Vitamin C serum then rusty towel water on your face #facialtowel #disposable #skincare | 维C精华然后毛巾上的锈水抹脸上 #一次性洗脸巾 #护肤
+
+Your skincare works only if your towel lets it #facialtowel #disposable #skincare | 护肤品有效的前提是毛巾不拖后腿 #一次性洗脸巾 #护肤
+
+Why buy organic skincare and use a chemical-loaded old towel? #facialtowel #disposable #skincare | 买有机护肤品却用满是化学残留的旧毛巾？ #一次性洗脸巾 #护肤
+
+Your 10-step routine, all negated by one dirty towel #facialtowel #disposable #skincare | 你的十步护肤法，一条脏毛巾全抵消 #一次性洗脸巾 #护肤
+
+
+
+### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
+
 Bleeding gums when you brush? Gentle niacinamide formula is kind to gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？温和烟酰胺对牙龈温柔 #牙膏 #口腔护理
 Gums recede a little each year — mild paste with niacinamide, gentle daily care#toothpaste #dentalcare #oralcare | 牙龈每年退一点——含烟酰胺温和配方，日常温柔 #牙膏 #口腔护理
 That dark spot between teeth? Gentle hydrated silica cleans without the scratch#toothpaste #dentalcare #oralcare | 牙间黑点？水合二氧化硅温和清洁不刮 #牙膏 #口腔护理
