@@ -21,24 +21,24 @@ Hotel TP is one-ply sandpaper — probiotic + water wipes are thick, soft, no sc
 Helping an older parent in the bathroom? Probiotic wipes with just water are easier than rough paper #wipes #wetwips #toiletpaper | 帮父母上厕所？益生菌湿厕纸只有水比粗纸轻松 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Public bathroom at night has dim lighting — marigold + water wipes by your side, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕所夜间灯光昏暗——身边金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
-Public bathroom stall lock is broken — marigold + water wipes, pocket-size, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所隔间门锁坏——金盏花+水湿厕纸口袋装温和 #旅行装湿厕纸 #金盏花
-Public bathroom stall has gaps in walls — marigold + water wipes, individually wrapped, discreet #wipes #wetwips #toiletpaper #travelsize | 公共厕所隔间墙有缝——金盏花+水湿厕纸独立包装低调 #旅行装湿厕纸 #金盏花
-Public bathroom wet floor is slip hazard — marigold + water wipes, alcohol-free, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 公共厕所湿地滑倒隐患——金盏花+水湿厕纸无酒精无香精 #旅行装湿厕纸 #金盏花
-Public bathroom alone feels unsafe — marigold + water wipes travel with you, soft, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕所独处不安全——金盏花+水湿厕纸随身柔软就绪 #旅行装湿厕纸 #金盏花
-Public bathroom door swings open on you — marigold + water wipes in your bag, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 公共厕所门突然被推开——包里金盏花+水湿厕纸独立包装 #旅行装湿厕纸 #金盏花
-Kids alone in public bathroom risk — marigold + water wipes, individually wrapped, fast cleanup #wipes #wetwips #toiletpaper #travelsize | 孩子独自在公共厕风险——金盏花+水湿厕纸独立包装快速清理 #旅行装湿厕纸 #金盏花
-Public bathroom emergency button is fake — marigold + water wipes by your side, soft, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕所紧急按钮是摆设——身边金盏花+水湿厕纸柔软就绪 #旅行装湿厕纸 #金盏花
-Public bathroom emergency with no one around — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所紧急无人——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
-Public bathroom bulb is burnt out — marigold + water wipes, alcohol-free, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 公共厕所灯泡坏了——金盏花+水湿厕纸无酒精无香精 #旅行装湿厕纸 #金盏花
-Public bathroom sink counter is wet and slippery — marigold + water wipes, thick, no scratch #wipes #wetwips #toiletpaper #travelsize | 公共厕所洗手台湿滑——金盏花+水湿厕纸厚实不刮 #旅行装湿厕纸 #金盏花
-Public bathroom mirror area is too dark — marigold + water wipes, individually wrapped, soft #wipes #wetwips #toiletpaper #travelsize | 公共厕所镜区太暗——金盏花+水湿厕纸独立包装柔软 #旅行装湿厕纸 #金盏花
-Public bathroom stall is too cramped — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 公共厕所隔间太挤——金盏花+水湿厕纸口袋装无酒精 #旅行装湿厕纸 #金盏花
-Public bathroom single stall is risky — marigold + water wipes, individually wrapped, soft #wipes #wetwips #toiletpaper #travelsize | 公共厕所单隔间有风险——金盏花+水湿厕纸独立包装柔软 #旅行装湿厕纸 #金盏花
-Public bathroom privacy is exposed — marigold + water wipes, alcohol-free, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所隐私暴露——金盏花+水湿厕纸无酒精温和 #旅行装湿厕纸 #金盏花
-Public bathroom alone after dark — marigold + water wipes in your coat pocket, ready #wipes #wetwips #toiletpaper #travelsize | 天黑后独自在公共厕所——外套口袋金盏花+水湿厕纸就绪 #旅行装湿厕纸 #金盏花
-Public bathroom emergency you can't call out — marigold + water wipes, individually wrapped, soft #wipes #wetwips #toiletpaper #travelsize | 公共厕所紧急呼救无门——金盏花+水湿厕纸独立包装柔软 #旅行装湿厕纸 #金盏花
-Public bathroom general safety risks — marigold + water wipes, fragrance-free, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所综合安全隐患——金盏花+水湿厕纸无香精温和 #旅行装湿厕纸 #金盏花
+Late night public bathroom — fewer cleanings per day — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 深夜公共厕所——清洁少——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
+Early morning rush shared bathroom — paper used all night — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 清晨高峰共用厕——夜间用过的纸——金盏花+水湿厕纸口袋装无酒精 #旅行装湿厕纸 #金盏花
+Stuck waiting for paper refill in public bathroom — marigold + water wipes, TSA-friendly, soft #wipes #wetwips #toiletpaper #travelsize | 公厕等补纸——金盏花+水湿厕纸TSA合规柔软 #旅行装湿厕纸 #金盏花
+Sick in public restroom — paper too risky — marigold + water wipes, individually wrapped, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 病了在公共厕所——纸太冒险——金盏花+水湿厕纸独立包装无香精 #旅行装湿厕纸 #金盏花
+Travel emergency at gas station — paper you can't trust — marigold + water wipes, pocket-size, ready #wipes #wetwips #toiletpaper #travelsize | 加油站紧急——不信任的纸——金盏花+水湿厕纸口袋装就绪 #旅行装湿厕纸 #金盏花
+Alone at night in public bathroom — paper who knows — marigold + water wipes, TSA-friendly, gentle #wipes #wetwips #toiletpaper #travelsize | 深夜独自在公厕——纸谁知道——金盏花+水湿厕纸TSA合规温和 #旅行装湿厕纸 #金盏花
+Quick public restroom stop — paper barely there — marigold + water wipes, individually wrapped, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 急停公共厕所——纸几乎没了——金盏花+水湿厕纸独立包装无酒精 #旅行装湿厕纸 #金盏花
+Travel day with sick kid — paper that's been there — marigold + water wipes, pocket-size, soft #wipes #wetwips #toiletpaper #travelsize | 孩子病旅行日——一直放在那的纸——金盏花+水湿厕纸口袋装柔软 #旅行装湿厕纸 #金盏花
+Public bathroom out of paper — you need a backup — marigold + water wipes, TSA-friendly, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 公共厕所没纸了——备一份——金盏花+水湿厕纸TSA合规无香精 #旅行装湿厕纸 #金盏花
+Middle of the night airport layover — paper used by all — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 凌晨机场中转——所有人用过的纸——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
+Travel with stomach bug — paper too risky — marigold + water wipes, pocket-size, gentle #wipes #wetwips #toiletpaper #travelsize | 旅行肠胃不适——纸太冒险——金盏花+水湿厕纸口袋装温和 #旅行装湿厕纸 #金盏花
+Long wait at public bathroom — paper touched by many — marigold + water wipes, TSA-friendly, soft #wipes #wetwips #toiletpaper #travelsize | 公厕长等——纸多人碰过——金盏花+水湿厕纸TSA合规柔软 #旅行装湿厕纸 #金盏花
+Hotel paper stained or torn — you need an alternative — marigold + water wipes, individually wrapped, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 酒店纸脏或破——要替代——金盏花+水湿厕纸独立包装无酒精 #旅行装湿厕纸 #金盏花
+Travel day with period — paper worry — marigold + water wipes, pocket-size, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 经期旅行日——纸担忧——金盏花+水湿厕纸口袋装无香精 #旅行装湿厕纸 #金盏花
+Public restroom — paper used by many, you don't know — marigold + water wipes, TSA-friendly, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕所——纸多人用过你不知道——金盏花+水湿厕纸TSA合规就绪 #旅行装湿厕纸 #金盏花
+Public bathroom paper out of stock in your stall — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所隔间没纸——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
+Late flight delayed, public bathroom — paper fatigue — marigold + water wipes, pocket-size, soft #wipes #wetwips #toiletpaper #travelsize | 深夜航班延误公厕——纸疲劳——金盏花+水湿厕纸口袋装柔软 #旅行装湿厕纸 #金盏花
+Public bathroom paper touched by countless before you — marigold + water wipes, TSA-friendly, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 公共厕纸无数人碰过——金盏花+水湿厕纸TSA合规无酒精 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Sensitive skin flaring up? Your towel is too rough and too dirty #facialtowel #disposable #skincare | 敏感肌又爆发了？你的毛巾又粗又脏 #一次性洗脸巾 #护肤
