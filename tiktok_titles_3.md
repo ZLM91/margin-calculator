@@ -20,24 +20,24 @@ Your bottom deserves face-level care — probiotic wipes with water only are gen
 Dry paper friction causes micro-tears — probiotic + water wipes are soft, no scratch #wipes #wetwips #toiletpaper | 干纸摩擦造成微小撕裂——益生菌+水湿厕纸柔软不刮 #湿厕纸 #益生菌湿厕纸
 Stop settling for okay when clean is possible — probiotic wet wipes with just water #wipes #wetwips #toiletpaper | 能擦干净就别凑合——益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Park public bathroom rarely has paper — marigold + water wipes are individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 公园公共厕少有纸——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
-Tourist attraction public bathroom is filthy — marigold + water wipes, thick, soft, no scratch #wipes #wetwips #toiletpaper #travelsize | 景区公共厕很脏——金盏花+水湿厕纸厚实柔软不刮 #旅行装湿厕纸 #金盏花
-Beach public bathroom sandy and gross — marigold + water wipes rinse clean, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 海滩公共厕多沙恶心——金盏花+水湿厕纸冲净无酒精 #旅行装湿厕纸 #金盏花
-Mountain top public bathroom is freezing and rough — marigold + water wipes are room-soft, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 山顶公共厕冰粗——金盏花+水湿厕纸室温柔软无香精 #旅行装湿厕纸 #金盏花
-Campsite public bathroom paper is one-ply — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 露营公共厕纸单层——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
-Hiking trail public bathroom is the worst — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 徒步道公共厕最差——金盏花+水湿厕纸口袋装无酒精 #旅行装湿厕纸 #金盏花
-Riverbank public bathroom is barely a stall — marigold + water wipes by your side, soft, ready #wipes #wetwips #toiletpaper #travelsize | 河岸公共厕就是个棚——身边金盏花+水湿厕纸柔软就绪 #旅行装湿厕纸 #金盏花
-Lakeside public bathroom is damp and rough — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 湖边公共厕湿粗——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
-Forest park public bathroom always smells — marigold + water wipes, alcohol-free, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 森林公园公共厕总臭——金盏花+水湿厕纸无酒精无香精 #旅行装湿厕纸 #金盏花
-National park public bathroom often out of paper — marigold + water wipes travel with you, thick #wipes #wetwips #toiletpaper #travelsize | 国家公园公共厕常没纸——金盏花+水湿厕纸随身厚实 #旅行装湿厕纸 #金盏花
-Botanical garden public bathroom is dusty and rough — marigold + water wipes, soft, no scratch #wipes #wetwips #toiletpaper #travelsize | 植物园公共厕多尘粗——金盏花+水湿厕纸柔软不刮 #旅行装湿厕纸 #金盏花
-Zoo public bathroom is a germ fest — marigold + water wipes, individually wrapped, TSA-friendly #wipes #wetwips #toiletpaper #travelsize | 动物园公共厕菌多——金盏花+水湿厕纸独立包装TSA合规 #旅行装湿厕纸 #金盏花
-Camping area public bathroom is shared and rough — marigold + water wipes, alcohol-free, gentle #wipes #wetwips #toiletpaper #travelsize | 露营区公共厕共用粗——金盏花+水湿厕纸无酒精温和 #旅行装湿厕纸 #金盏花
-RV camp public bathroom is often far away — marigold + water wipes, individually wrapped, soft #wipes #wetwips #toiletpaper #travelsize | 房车营公共厕常远——金盏花+水湿厕纸独立包装柔软 #旅行装湿厕纸 #金盏花
-Wilderness trail bathroom is a hole in the ground — marigold + water wipes in your pack, gentle #wipes #wetwips #toiletpaper #travelsize | 野外步道厕是个坑——包里金盏花+水湿厕纸温和 #旅行装湿厕纸 #金盏花
-Mountain lodge public bathroom smells like sulfur — marigold + water wipes, fragrance-free, soft #wipes #wetwips #toiletpaper #travelsize | 山中小屋公共厕有硫味——金盏花+水湿厕纸无香精柔软 #旅行装湿厕纸 #金盏花
-Remote outdoor public bathroom is barely serviced — marigold + water wipes, thick, no tearing #wipes #wetwips #toiletpaper #travelsize | 偏远户外公共厕少维护——金盏花+水湿厕纸厚实不破 #旅行装湿厕纸 #金盏花
-Scenic spot public bathroom always busy — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 景区公共厕总忙——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
+Park bathroom paper — used by all-day visitors — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 公园厕纸——全天游客用过——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
+Beach restroom — sand plus shared surfaces — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 海滩厕所——沙加共用面——金盏花+水湿厕纸口袋装无酒精 #旅行装湿厕纸 #金盏花
+Trail bathroom — paper used before you — marigold + water wipes, TSA-friendly, soft #wipes #wetwips #toiletpaper #travelsize | 山径厕所——你前有人用过纸——金盏花+水湿厕纸TSA合规柔软 #旅行装湿厕纸 #金盏花
+Campsite bathroom — paper you don't know — marigold + water wipes, individually wrapped, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 露营厕所——不知道的纸——金盏花+水湿厕纸独立包装无香精 #旅行装湿厕纸 #金盏花
+Lake park restroom — paper touched before you — marigold + water wipes, pocket-size, ready #wipes #wetwips #toiletpaper #travelsize | 湖边公园厕所——你前碰过的纸——金盏花+水湿厕纸口袋装就绪 #旅行装湿厕纸 #金盏花
+Mountain trail bathroom — shared with whoever — marigold + water wipes, thick, gentle #wipes #wetwips #toiletpaper #travelsize | 山中小道厕所——不管谁共用——金盏花+水湿厕纸厚实温和 #旅行装湿厕纸 #金盏花
+Zoo bathroom — paper used by crowds — marigold + water wipes, individually wrapped, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 动物园厕所——人群用过的纸——金盏花+水湿厕纸独立包装无酒精 #旅行装湿厕纸 #金盏花
+Botanical garden restroom — used by how many — marigold + water wipes, TSA-friendly, soft #wipes #wetwips #toiletpaper #travelsize | 植物园厕所——多少人用过——金盏花+水湿厕纸TSA合规柔软 #旅行装湿厕纸 #金盏花
+National park bathroom — paper you don't trust — marigold + water wipes, pocket-size, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 国家公园厕所——信不过的纸——金盏花+水湿厕纸口袋装无香精 #旅行装湿厕纸 #金盏花
+RV park bathroom — shared with all campers — marigold + water wipes, individually wrapped, gentle #wipes #wetwips #toiletpaper #travelsize | 房车营厕所——营友共用——金盏花+水湿厕纸独立包装温和 #旅行装湿厕纸 #金盏花
+Picnic area bathroom — paper used since morning — marigold + water wipes, TSA-friendly, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 野餐区厕纸——从早用到现在的——金盏花+水湿厕纸TSA合规无酒精 #旅行装湿厕纸 #金盏花
+Festival grounds bathroom — touched by everyone — marigold + water wipes, thick, no tearing #wipes #wetwips #toiletpaper #travelsize | 节庆场地厕所——所有人都碰过——金盏花+水湿厕纸厚实不破 #旅行装湿厕纸 #金盏花
+Scenic overlook bathroom — same paper all day — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 观景点厕所——全天同一卷纸——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
+Public garden restroom — paper used many times — marigold + water wipes, pocket-size, gentle #wipes #wetwips #toiletpaper #travelsize | 公共花园厕所——纸多次被用——金盏花+水湿厕纸口袋装温和 #旅行装湿厕纸 #金盏花
+Riverside stop bathroom — paper touched by tourists — marigold + water wipes, TSA-friendly, soft #wipes #wetwips #toiletpaper #travelsize | 河边驿站厕所——游客碰过的纸——金盏花+水湿厕纸TSA合规柔软 #旅行装湿厕纸 #金盏花
+Backcountry trail bathroom — paper used by strangers — marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 荒野步道厕所——陌生人用过的纸——金盏花+水湿厕纸独立包装就绪 #旅行装湿厕纸 #金盏花
+Outdoor event venue bathroom — paper touched by crowds — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 户外活动场厕所——人群碰过的纸——金盏花+水湿厕纸口袋装无酒精 #旅行装湿厕纸 #金盏花
+Trailhead bathroom paper — same roll for everyone — marigold + water wipes, TSA-friendly, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 步道口厕纸——同卷共享——金盏花+水湿厕纸TSA合规无香精 #旅行装湿厕纸 #金盏花
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 Dust mites love damp towels, and your face is their dinner #facialtowel #disposable #skincare | 螨虫最爱潮湿毛巾，你的脸就是它们的晚餐 #一次性洗脸巾 #护肤
