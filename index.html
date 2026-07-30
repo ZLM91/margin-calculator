@@ -641,6 +641,7 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
+<label style="font-size:12px;color:#444;margin-right:14px;cursor:pointer;user-select:none;vertical-align:middle;"><input type="checkbox" id="hideZeroChk" checked onchange="toggleHideZeroRevenue(this)"> 隐藏0收入（GMV=0）视频</label>
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
@@ -859,6 +860,7 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
+<label style="font-size:12px;color:#444;margin-right:14px;cursor:pointer;user-select:none;vertical-align:middle;"><input type="checkbox" id="hideZeroChkUK" checked onchange="toggleHideZeroRevenue(this)"> 隐藏0收入（GMV=0）视频</label>
 <div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
@@ -2087,7 +2089,18 @@ const VID_STORAGE = 'maternella_video_data';
 const VID_MAP_KEY = 'maternella_video_mapping_us';
 // GitHub Raw base URL for data files (change branch/tag to update)
 const DATA_BASE = 'https://raw.githubusercontent.com/zlm91/margin-calculator/main/data/';
-let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
+let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null
+let hideZeroRevenue = true;  // 隐藏0收入（GMV=0）视频
+function toggleHideZeroRevenue(el) {
+  hideZeroRevenue = el.checked;
+  var a = document.getElementById('hideZeroChk'); if (a && a !== el) a.checked = el.checked;
+  var b = document.getElementById('hideZeroChkUK'); if (b && b !== el) b.checked = el.checked;
+  if (typeof processJoin === 'function') processJoin();
+  if (typeof processJoinUK === 'function') processJoinUK();
+  if (typeof renderVideoDetail === 'function') renderVideoDetail();
+  if (typeof renderVideoDetailUK === 'function') renderVideoDetailUK();
+}
+;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let customBrandAccounts = {}; // account name -> true, user-marked brand accounts beyond "matern*"
 let customBrandAccountsUK = {}; // UK version
@@ -2993,6 +3006,7 @@ function processJoin() {
       scriptTitle: scriptTitle
     };
   });
+  if (hideZeroRevenue) { joined = joined.filter(function(r) { return r.gmv > 0; }); }
   videoJoined = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 ===
@@ -5064,6 +5078,7 @@ function processJoinUK() {
       scriptTitle: scriptTitle
     };
   });
+  if (hideZeroRevenue) { joined = joined.filter(function(r) { return r.gmv > 0; }); }
   videoJoinedUK = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 (UK) ===
