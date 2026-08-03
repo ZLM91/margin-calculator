@@ -360,8 +360,8 @@ td input.wide { width: 120px; }
               <th>样品单</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>/件)</th>
-              <th>尾程运费(<span data-cur-usd>$</span>/件)</th>
-              <th>海外仓费(<span data-cur-usd>$</span>/件)</th>
+              <th>尾程运费(<span data-cur>$</span>/件)</th>
+              <th>海外仓费(<span data-cur>$</span>/件)</th>
               <th>达人佣金(%)</th>
               <th>平台扣点(%)</th>
             </tr>
@@ -402,7 +402,7 @@ td input.wide { width: 120px; }
             <th>日期</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费用(<span data-cur-usd>$</span>)</th>
+            <th>推广费用(<span data-cur>$</span>)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -422,7 +422,7 @@ td input.wide { width: 120px; }
             <th>品类</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费(<span data-cur-usd>$</span>)</th>
+            <th>推广费(<span data-cur>$</span>)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -445,11 +445,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur-usd>$</span>)</th>
-              <th>海外仓费(<span data-cur-usd>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
+              <th>海外仓费(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费(<span data-cur-usd>$</span>)</th>
+              <th>推广费(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -476,11 +476,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur-usd>$</span>)</th>
-              <th>海外仓费(<span data-cur-usd>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
+              <th>海外仓费(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费分摊(<span data-cur-usd>$</span>)</th>
+              <th>推广费分摊(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -508,11 +508,11 @@ td input.wide { width: 120px; }
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur-usd>$</span>)</th>
-              <th>海外仓费(<span data-cur-usd>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
+              <th>海外仓费(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费(<span data-cur-usd>$</span>)</th>
+              <th>推广费(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -573,7 +573,7 @@ td input.wide { width: 120px; }
               <th>数量</th>
               <th>收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur-usd>$</span>)</th>
+              <th>尾程运费(<span data-cur>$</span>)</th>
               <th>物流类型</th>
               <th>合计成本(<span data-cur>$</span>)</th>
             </tr>
@@ -597,7 +597,7 @@ let uniqueDates = [];
 let uniqueSkus = [];
 let statusCounts = {};
 let cur = '$'; // revenue/product cost/platform fee/creator fee: '$' for US, '£' for UK
-let curUsd = '$'; // always $ for shipping/warehouse/promo (paid in USD even for UK)
+// curUsd 已移除：UK 看板的尾程运费/海外仓费/推广费也统一用 GBP（按汇率换算 USD→GBP）
 let exchangeRate = 1.336; // GBP→USD, only used for UK to unify totals
 
 // ===== Category State =====
@@ -616,14 +616,19 @@ function parseAmount(val) {
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
 
+// 按当前国家把 USD 原始值换算成显示值
+// US: 直接用 USD; UK: USD / exchangeRate → GBP
+function dispUsd(amount) {
+  const v = amount || 0;
+  return currentCountry === 'UK' ? v / exchangeRate : v;
+}
+
 // Update all static currency labels in HTML
 function updateCurrencyLabels() {
   document.querySelectorAll('[data-cur]').forEach(el => {
     el.textContent = cur;
   });
-  document.querySelectorAll('[data-cur-usd]').forEach(el => {
-    el.textContent = curUsd;
-  });
+  // [data-cur-usd] 已合入 [data-cur]，统一跟随 cur 切换
 }
 
 // ===== Country Switch =====
@@ -1114,7 +1119,7 @@ function renderCategoryPromoTable() {
       <td>合计</td>
       <td>${orders.length}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
-      <td>${curUsd}${totalPromo.toFixed(2)}</td>
+      <td>${cur}${dispUsd(totalPromo).toFixed(2)}</td>
       <td>${totalPct}%</td>
     </tr>
   `);
@@ -1217,11 +1222,11 @@ function renderCategoryDashboard(orderData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${curUsd}${shippingDisp.toFixed(2)}</td>
-      <td>${curUsd}${warehouseDisp.toFixed(2)}</td>
+      <td>${cur}${dispUsd(shippingDisp).toFixed(2)}</td>
+      <td>${cur}${dispUsd(warehouseDisp).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${curUsd}${promoUsd.toFixed(2)}</td>
+      <td>${cur}${dispUsd(promoUsd).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
@@ -1268,11 +1273,11 @@ function renderCategoryDashboard(orderData) {
       <td>${totalQty}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
       <td>${cur}${totalProductCost.toFixed(2)}</td>
-      <td>${curUsd}${totalShippingDisp.toFixed(2)}</td>
-      <td>${curUsd}${totalWarehouseDisp.toFixed(2)}</td>
+      <td>${cur}${dispUsd(totalShippingDisp).toFixed(2)}</td>
+      <td>${cur}${dispUsd(totalWarehouseDisp).toFixed(2)}</td>
       <td>${cur}${totalPlatformFee.toFixed(2)}</td>
       <td>${cur}${totalCreatorFee.toFixed(2)}</td>
-      <td>${curUsd}${totalPromoUsd.toFixed(2)}</td>
+      <td>${cur}${dispUsd(totalPromoUsd).toFixed(2)}</td>
       <td>${cur}${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
@@ -1514,7 +1519,7 @@ function renderSampleOrders(orderData) {
       <td>${o.quantity}</td>
       <td>${cur}${o.revenue.toFixed(2)}</td>
       <td>${cur}${productCost.toFixed(2)}</td>
-      <td>${curUsd}${shippingUsd.toFixed(2)}</td>
+      <td>${cur}${dispUsd(shippingUsd).toFixed(2)}</td>
       <td style="font-size:11px;color:var(--muted);">${o.fulfillment || '—'}</td>
       <td><strong>${cur}${cost.toFixed(2)}</strong></td>
     `;
@@ -1530,14 +1535,14 @@ function renderSampleOrders(orderData) {
     <td><strong>${totalQty}</strong></td>
     <td><strong>${cur}0.00</strong></td>
     <td><strong>${cur}${totalProductCost.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totalShippingUsd.toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totalShippingUsd).toFixed(2)}</strong></td>
     <td></td>
     <td><strong>${cur}${totalCost.toFixed(2)}</strong></td>
   `;
   tbody.appendChild(tr);
 
   // Summary text
-  summaryEl.textContent = `共 ${samples.length} 单 | ${totalQty} 件 | 成本合计 ${cur}${totalCost.toFixed(2)}（产品 ${cur}${totalProductCost.toFixed(2)} + 物流 ${curUsd}${totalShippingUsd.toFixed(2)}）`;
+  summaryEl.textContent = `共 ${samples.length} 单 | ${totalQty} 件 | 成本合计 ${cur}${totalCost.toFixed(2)}（产品 ${cur}${totalProductCost.toFixed(2)} + 物流 ${cur}${dispUsd(totalShippingUsd).toFixed(2)}）`;
 }
 
 // ===== Main Calculation =====
@@ -1753,11 +1758,11 @@ function renderDailyTable(dailyData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${curUsd}${(d.shippingCostUsd !== undefined ? d.shippingCostUsd : d.shippingCost).toFixed(2)}</td>
-      <td>${curUsd}${(d.warehouseCostUsd !== undefined ? d.warehouseCostUsd : d.warehouseCost).toFixed(2)}</td>
+      <td>${cur}${dispUsd(d.shippingCostUsd).toFixed(2)}</td>
+      <td>${cur}${dispUsd(d.warehouseCostUsd).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${curUsd}${promoDisp.toFixed(2)}</td>
+      <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${marginClass}">${d.margin.toFixed(1)}%</td>
@@ -1780,11 +1785,11 @@ function renderDailyTable(dailyData) {
     <td><strong>${totals.qty}</strong></td>
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totalPromoDisp.toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
@@ -1831,11 +1836,11 @@ function renderSkuSummaryTable(skuData) {
       <td>${s.qty}</td>
       <td>${cur}${s.revenue.toFixed(2)}</td>
       <td>${cur}${s.productCost.toFixed(2)}</td>
-      <td>${curUsd}${(s.shippingCostUsd !== undefined ? s.shippingCostUsd : s.shippingCost).toFixed(2)}</td>
-      <td>${curUsd}${(s.warehouseCostUsd !== undefined ? s.warehouseCostUsd : s.warehouseCost).toFixed(2)}</td>
+      <td>${cur}${dispUsd(s.shippingCostUsd).toFixed(2)}</td>
+      <td>${cur}${dispUsd(s.warehouseCostUsd).toFixed(2)}</td>
       <td>${cur}${s.platformFee.toFixed(2)}</td>
       <td>${cur}${s.creatorFee.toFixed(2)}</td>
-      <td>${curUsd}${promoDisp.toFixed(2)}</td>
+      <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
       <td>${cur}${s.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${s.profit.toFixed(2)}</td>
       <td class="${marginClass}">${s.margin.toFixed(1)}%</td>
@@ -1857,11 +1862,11 @@ function renderSkuSummaryTable(skuData) {
     <td><strong>${totals.qty}</strong></td>
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totals.shippingCostUsd.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totals.warehouseCostUsd.toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${curUsd}${totalPromoDisp.toFixed(2)}</strong></td>
+    <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
