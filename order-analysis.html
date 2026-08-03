@@ -394,6 +394,7 @@ td input.wide { width: 120px; }
     <!-- Daily Promotion Costs -->
     <div class="section-header">
       <h2>每日推广费用</h2>
+      <span class="info-text">按 USD 录入 · 自动换算为 £</span>
     </div>
     <div class="table-wrapper">
       <table id="promoTable">
@@ -402,7 +403,7 @@ td input.wide { width: 120px; }
             <th>日期</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费用(<span data-cur>$</span>)</th>
+            <th>推广费用($)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -422,7 +423,7 @@ td input.wide { width: 120px; }
             <th>品类</th>
             <th>订单数</th>
             <th>总收入(<span data-cur>$</span>)</th>
-            <th>推广费(<span data-cur>$</span>)</th>
+            <th>推广费($)</th>
             <th>推广占比(%)</th>
           </tr>
         </thead>
@@ -450,6 +451,7 @@ td input.wide { width: 120px; }
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费(<span data-cur>$</span>)</th>
+              <th>推广+佣金(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -481,6 +483,7 @@ td input.wide { width: 120px; }
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费分摊(<span data-cur>$</span>)</th>
+              <th>推广+佣金(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -513,6 +516,7 @@ td input.wide { width: 120px; }
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费(<span data-cur>$</span>)</th>
+              <th>推广+佣金(<span data-cur>$</span>)</th>
               <th>总成本(<span data-cur>$</span>)</th>
               <th>净利润(<span data-cur>$</span>)</th>
               <th>利润率(%)</th>
@@ -545,6 +549,7 @@ td input.wide { width: 120px; }
               <th>平台扣点($)</th>
               <th>达人佣金($)</th>
               <th>推广费($)</th>
+              <th>推广+佣金($)</th>
               <th>总成本($)</th>
               <th>净利润($)</th>
               <th>利润率(%)</th>
@@ -1003,7 +1008,7 @@ function renderPromoTable() {
   uniqueDates.forEach(date => {
     const stats = dailyStats[date] || { orders: 0, revenue: 0 };
     if (!promoCosts[date]) promoCosts[date] = 0;
-    const promoPct = stats.revenue > 0 ? (promoCosts[date] / stats.revenue * 100).toFixed(1) : '0.0';
+    const promoPct = stats.revenue > 0 ? (dispUsd(promoCosts[date]) / stats.revenue * 100).toFixed(1) : '0.0';
 
     totalOrders += stats.orders;
     totalRevenue += stats.revenue;
@@ -1021,7 +1026,7 @@ function renderPromoTable() {
   });
 
   // Summary row (totals across all dates)
-  const totalPct = totalRevenue > 0 ? (totalPromo / totalRevenue * 100).toFixed(1) : '0.0';
+  const totalPct = totalRevenue > 0 ? (dispUsd(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
   tr.innerHTML = `
@@ -1097,7 +1102,7 @@ function renderCategoryPromoTable() {
   CATEGORIES.forEach(cat => {
     if (!categoryPromoCosts[cat]) categoryPromoCosts[cat] = 0;
     const stats = catStats[cat];
-    const promoPct = stats.revenue > 0 ? (categoryPromoCosts[cat] / stats.revenue * 100).toFixed(1) : '0.0';
+    const promoPct = stats.revenue > 0 ? (dispUsd(categoryPromoCosts[cat]) / stats.revenue * 100).toFixed(1) : '0.0';
     totalPromo += categoryPromoCosts[cat];
     totalRevenue += stats.revenue;
 
@@ -1113,7 +1118,7 @@ function renderCategoryPromoTable() {
   });
 
   // Total row
-  const totalPct = totalRevenue > 0 ? (totalPromo / totalRevenue * 100).toFixed(1) : '0.0';
+  const totalPct = totalRevenue > 0 ? (dispUsd(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
   tbody.insertAdjacentHTML('beforeend', `
     <tr class="total-row" style="font-weight:bold;background:#f0f4f8;">
       <td>合计</td>
@@ -1227,6 +1232,7 @@ function renderCategoryDashboard(orderData) {
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoUsd).toFixed(2)}</td>
+      <td>${cur}${(d.creatorFee + promo).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
@@ -1254,7 +1260,7 @@ function renderCategoryDashboard(orderData) {
       subTr.className = 'sku-detail-row';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="15" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="16" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1278,6 +1284,7 @@ function renderCategoryDashboard(orderData) {
       <td>${cur}${totalPlatformFee.toFixed(2)}</td>
       <td>${cur}${totalCreatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(totalPromoUsd).toFixed(2)}</td>
+      <td>${cur}${(totalCreatorFee + totalPromoUsd/rate).toFixed(2)}</td>
       <td>${cur}${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
@@ -1396,6 +1403,7 @@ function renderUsdDashboard(orderData) {
       <td>$${d.platformFee.toFixed(2)}</td>
       <td>$${d.creatorFee.toFixed(2)}</td>
       <td>$${d.promo.toFixed(2)}</td>
+      <td>$${(d.creatorFee + d.promo).toFixed(2)}</td>
       <td>$${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">$${d.profit.toFixed(2)}</td>
       <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
@@ -1422,7 +1430,7 @@ function renderUsdDashboard(orderData) {
       subTr.className = 'sku-detail-row-usd';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="15" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="16" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1446,6 +1454,7 @@ function renderUsdDashboard(orderData) {
       <td>$${totalPlatformFee.toFixed(2)}</td>
       <td>$${totalCreatorFee.toFixed(2)}</td>
       <td>$${totalPromoUsd.toFixed(2)}</td>
+      <td>$${(totalCreatorFee + totalPromoUsd).toFixed(2)}</td>
       <td>$${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">$${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
@@ -1550,10 +1559,10 @@ function recalculate() {
   const orders = getFilteredOrders();
   if (orders.length === 0) {
     renderCards(0, 0, 0, 0);
-    document.getElementById('dailyTableBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('skuSummaryTableBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('categorySummaryBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('usdSummaryBody').innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('dailyTableBody').innerHTML = '<tr><td colspan="16" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('skuSummaryTableBody').innerHTML = '<tr><td colspan="16" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('categorySummaryBody').innerHTML = '<tr><td colspan="16" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('usdSummaryBody').innerHTML = '<tr><td colspan="16" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
     document.getElementById('sampleOrdersBody').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">无样品订单</td></tr>';
     document.getElementById('sampleSummaryText').textContent = '';
     return;
@@ -1763,6 +1772,7 @@ function renderDailyTable(dailyData) {
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
+      <td>${cur}${(d.creatorFee + d.promo).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
       <td class="${marginClass}">${d.margin.toFixed(1)}%</td>
@@ -1790,6 +1800,7 @@ function renderDailyTable(dailyData) {
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
+    <td><strong>${cur}${(totals.creatorFee + totals.promo).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
@@ -1841,6 +1852,7 @@ function renderSkuSummaryTable(skuData) {
       <td>${cur}${s.platformFee.toFixed(2)}</td>
       <td>${cur}${s.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
+      <td>${cur}${(s.creatorFee + (s.promoAllocated || 0)).toFixed(2)}</td>
       <td>${cur}${s.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${s.profit.toFixed(2)}</td>
       <td class="${marginClass}">${s.margin.toFixed(1)}%</td>
@@ -1867,6 +1879,7 @@ function renderSkuSummaryTable(skuData) {
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
+    <td><strong>${cur}${(totals.creatorFee + (totals.promoAllocated || 0)).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${totalMargin}%</strong></td>
@@ -1986,13 +1999,14 @@ function exportResults() {
   const dailyData = [];
   document.querySelectorAll('#dailyTableBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 15) {
+    if (cells.length >= 16) {
       dailyData.push({
         '日期': cells[0].textContent, '订单数': cells[1].textContent, '样品单': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
         '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '平台扣点': cells[8].textContent,
-        '达人佣金': cells[9].textContent, '推广费': cells[10].textContent, '总成本': cells[11].textContent,
-        '净利润': cells[12].textContent, '利润率': cells[13].textContent, 'ROI': cells[14].textContent,
+        '达人佣金': cells[9].textContent, '推广费': cells[10].textContent, '推广+佣金': cells[11].textContent,
+        '总成本': cells[12].textContent, '净利润': cells[13].textContent,
+        '利润率': cells[14].textContent, 'ROI': cells[15].textContent,
       });
     }
   });
@@ -2003,13 +2017,14 @@ function exportResults() {
   const skuData = [];
   document.querySelectorAll('#skuSummaryTableBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 15) {
+    if (cells.length >= 16) {
       skuData.push({
         'SKU': cells[0].textContent, '产品名': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
         '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '平台扣点': cells[8].textContent,
-        '达人佣金': cells[9].textContent, '推广费分摊': cells[10].textContent, '总成本': cells[11].textContent,
-        '净利润': cells[12].textContent, '利润率': cells[13].textContent, 'ROI': cells[14].textContent,
+        '达人佣金': cells[9].textContent, '推广费分摊': cells[10].textContent, '推广+佣金': cells[11].textContent,
+        '总成本': cells[12].textContent, '净利润': cells[13].textContent,
+        '利润率': cells[14].textContent, 'ROI': cells[15].textContent,
       });
     }
   });
@@ -2032,13 +2047,14 @@ function exportResults() {
   const catData = [];
   document.querySelectorAll('#categorySummaryBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 15) {
+    if (cells.length >= 16) {
       catData.push({
         '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
         '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '平台扣点': cells[8].textContent,
-        '达人佣金': cells[9].textContent, '推广费': cells[10].textContent, '总成本': cells[11].textContent,
-        '净利润': cells[12].textContent, '利润率': cells[13].textContent, 'ROI': cells[14].textContent,
+        '达人佣金': cells[9].textContent, '推广费': cells[10].textContent, '推广+佣金': cells[11].textContent,
+        '总成本': cells[12].textContent, '净利润': cells[13].textContent,
+        '利润率': cells[14].textContent, 'ROI': cells[15].textContent,
       });
     }
   });
@@ -2049,13 +2065,14 @@ function exportResults() {
   const usdData = [];
   document.querySelectorAll('#usdSummaryBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 15) {
+    if (cells.length >= 16) {
       usdData.push({
         '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入($)': cells[4].textContent, '产品成本($)': cells[5].textContent,
         '尾程运费($)': cells[6].textContent, '海外仓费($)': cells[7].textContent, '平台扣点($)': cells[8].textContent,
-        '达人佣金($)': cells[9].textContent, '推广费($)': cells[10].textContent, '总成本($)': cells[11].textContent,
-        '净利润($)': cells[12].textContent, '利润率(%)': cells[13].textContent, 'ROI': cells[14].textContent,
+        '达人佣金($)': cells[9].textContent, '推广费($)': cells[10].textContent, '推广+佣金($)': cells[11].textContent,
+        '总成本($)': cells[12].textContent, '净利润($)': cells[13].textContent,
+        '利润率(%)': cells[14].textContent, 'ROI': cells[15].textContent,
       });
     }
   });
