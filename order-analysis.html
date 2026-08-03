@@ -383,8 +383,17 @@ td input.wide { width: 120px; }
       <span class="info-text" id="invCountInfo"></span>
     </div>
     <div class="info-text" style="margin-bottom:8px;">
-      模型：<strong>当前库存 = 期初库存 − 导入订单累计销量</strong>。你只需在下方填「期初库存」（数据起始日的库存），之后每次导入每日订单，系统自动扣减。<br>
+      模型：<strong>当前库存 = 期初库存 − 基准日之后的累计销量</strong>。期初库存是「库存基准日」当天的快照，系统<strong>只扣减该日之后的订单</strong>（之前的不算）。<br>
       补货提前期：🇺🇸 美国 <strong>45 天</strong> / 🇬🇧 英国 <strong>65 天</strong>。安全库存按「天」设定缓冲。
+    </div>
+
+    <div class="section-header" style="margin-top:8px;">
+      <h3 style="margin:0;color:var(--color-text-primary);">📅 库存基准日（期初库存截止日期）</h3>
+    </div>
+    <div style="margin-bottom:12px;">
+      <input type="date" id="invBaseDate" onchange="invBaseDateInput(this)" style="padding:6px 10px;border:1px solid #ccc;border-radius:6px;font-size:14px;">
+      <span class="info-text">填你盘点库存的日期（如 2026-08-03），系统只扣减此日之后的订单</span>
+      <span id="invNoBaseNote" style="display:none;color:var(--warning);font-size:13px;margin-left:8px;">⚠️ 未设基准日，将按全部订单扣减</span>
     </div>
 
     <div class="section-header" style="margin-top:8px;">
@@ -662,8 +671,9 @@ let allOrders = [];
 let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
 
 // ===== Inventory Monitoring =====
-// 期初库存 − 导入订单累计销量 = 当前库存；之后每次导入每日订单，累计销量增长，库存自动减少
+// 期初库存(库存基准日当天快照) − 基准日之后订单累计销量 = 当前库存
 let inventorySettings = {};  // { SKU: { openingStock: Number, safetyDays: Number } }
+let inventoryBaseDate = '';   // 库存基准日，格式 'YYYY-MM-DD'，只扣减该日之后的订单
 // 补货提前期(天)：美国 45 天 / 英国 65 天（如需调整改这里即可）
 const LEAD_TIME = { US: 45, UK: 65 };
 let promoCosts = {};   // { 'MM/DD/YYYY': amount }
@@ -1819,6 +1829,13 @@ function invInput(el) {
   renderInventoryMonitor();
 }
 
+// 库存基准日输入回调：更新 inventoryBaseDate + 自动保存 + 刷新看板
+function invBaseDateInput(el) {
+  inventoryBaseDate = el.value || '';
+  autoSave();
+  renderInventoryMonitor();
+}
+
 // 渲染①维护表（每个SKU一行：期初库存 + 安全库存天数）
 function renderInventoryTable() {
   const tbody = document.getElementById('invTableBody');
@@ -1841,6 +1858,14 @@ function renderInventoryTable() {
   });
 }
 
+// 解析库存基准日（支持 'YYYY-MM-DD' 与 'MM/DD/YYYY'）
+function parseInvBaseDate(s) {
+  if (!s) return null;
+  const iso = String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (iso) { const d = new Date(+iso[1], +iso[2] - 1, +iso[3]); return isNaN(d.getTime()) ? null : d; }
+  return parseDateMDY(s);
+}
+
 // 渲染②补货监控看板
 function renderInventoryMonitor() {
   const tbody = document.getElementById('invMonitorBody');
@@ -1849,49 +1874,62 @@ function renderInventoryMonitor() {
   const asOf = new Date();
   const asOfTime = asOf.getTime();
   const DAY = 24 * 3600 * 1000;
-  const windowStart = asOfTime - 30 * DAY;
   const lead = LEAD_TIME[currentCountry] || 45;
 
-  // 累计销量（全部导入订单，用于扣减库存）
+  // 库存基准日：只扣减该日之后的订单
+  const cutoff = inventoryBaseDate ? parseInvBaseDate(inventoryBaseDate) : null;
+  const cutoffTime = cutoff ? cutoff.getTime() : -Infinity;
+  const noBaseEl = document.getElementById('invNoBaseNote');
+  if (noBaseEl) noBaseEl.style.display = cutoff ? 'none' : '';
+
+  // 订单日期范围（用于确定日均窗口）
+  let maxOrderT = 0;
+  allOrders.forEach(o => { const dt = parseDateMDY(o.date); if (dt && dt.getTime() > maxOrderT) maxOrderT = dt.getTime(); });
+  const latestT = maxOrderT || asOfTime;
+  const rateStart = latestT - 30 * DAY;
+
+  // 累计销量（仅基准日之后订单，用于扣减库存）
   const skuCumSales = {};
-  // 最近30天销量（用于算日均，窗口从今天往前30天）
+  // 最近30天销量（用于算日均，窗口 = [rateStart, latestT] 与基准日之后的交集）
   const skuSales30 = {};
-  let useFallback = false;
   allOrders.forEach(o => {
     if (o.isCancelled) return;
-    const dt = parseDateMDY(o.date);
-    if (!dt) return;
+    const dt = parseDateMDY(o.date); if (!dt) return;
     const t = dt.getTime();
-    skuCumSales[o.sku] = (skuCumSales[o.sku] || 0) + o.quantity;
-    if (t >= windowStart && t <= asOfTime) {
-      skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
-    }
+    const afterCutoff = cutoff ? (t > cutoffTime) : true;   // 只算基准日之后
+    if (afterCutoff) skuCumSales[o.sku] = (skuCumSales[o.sku] || 0) + o.quantity;
+    if (afterCutoff && t >= rateStart && t <= latestT) skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
   });
-  // 若最近30天无销售数据 → 退回用数据中最新30天估算
+  // 若最近30天(基准日后)无销售 → 退回用数据中基准日后最新30天估算
   const totalInWindow = Object.values(skuSales30).reduce((a, b) => a + b, 0);
+  let useFallback = false;
   if (totalInWindow === 0 && allOrders.length) {
     useFallback = true;
-    let maxT = 0;
-    allOrders.forEach(o => { const dt = parseDateMDY(o.date); if (dt && dt.getTime() > maxT) maxT = dt.getTime(); });
-    const fbStart = maxT - 30 * DAY;
+    const fbStart = latestT - 30 * DAY;
     for (const k in skuSales30) delete skuSales30[k];
     allOrders.forEach(o => {
       if (o.isCancelled) return;
       const dt = parseDateMDY(o.date); if (!dt) return;
-      if (dt.getTime() >= fbStart && dt.getTime() <= maxT) skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
+      const t = dt.getTime();
+      if (cutoff ? (t > cutoffTime) : true) {
+        if (t >= fbStart && t <= latestT) skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
+      }
     });
   }
   const fbEl = document.getElementById('invFallbackNote');
   if (fbEl) fbEl.style.display = useFallback ? '' : 'none';
+
+  // 日均窗口实际天数（最多30天，且不超过基准日到最新订单的天数）
+  const windowDays = Math.min(30, Math.max(1, (latestT - Math.max(cutoffTime, rateStart)) / DAY));
 
   let alertCount = 0;
   uniqueSkus.forEach(sku => {
     const inv = inventorySettings[sku] || { openingStock: 0, safetyDays: 7 };
     const opening = inv.openingStock || 0;
     const safetyDays = inv.safetyDays || 0;
-    const cumSold = skuCumSales[sku] || 0;
+    const cumSold = skuCumSales[sku] || 0;          // 仅基准日之后
     const sold30 = skuSales30[sku] || 0;
-    const daily = sold30 / 30;
+    const daily = sold30 / windowDays;
     const current = opening - cumSold;            // 当前库存
     const safetyUnits = safetyDays * daily;       // 安全库存(件)
     const effective = current - safetyUnits;       // 扣除安全库存后的可售量
@@ -2137,7 +2175,7 @@ function showToast(msg) {
 function getSettingsData() {
   const el = document.getElementById('exchangeRate');
   return {
-    skuSettings, promoCosts, skuCategories, categoryPromoCosts, inventorySettings,
+    skuSettings, promoCosts, skuCategories, categoryPromoCosts, inventorySettings, inventoryBaseDate,
     defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
     defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
     exchangeRate: el ? el.value : 1.336
@@ -2173,6 +2211,11 @@ function loadSettings(silent) {
     if (data.skuCategories) skuCategories = { ...skuCategories, ...data.skuCategories };
     if (data.categoryPromoCosts) categoryPromoCosts = { ...categoryPromoCosts, ...data.categoryPromoCosts };
     if (data.inventorySettings) inventorySettings = { ...inventorySettings, ...data.inventorySettings };
+    if (data.inventoryBaseDate) {
+      inventoryBaseDate = data.inventoryBaseDate;
+      const bd = document.getElementById('invBaseDate');
+      if (bd) bd.value = inventoryBaseDate;
+    }
     if (data.defaultPlatformPct) {
       // UK platform fee is 29.6%; override old default of 8
       if (currentCountry === 'UK' && parseFloat(data.defaultPlatformPct) < 10) {
