@@ -281,6 +281,12 @@ td input.wide { width: 120px; }
 /* Info text */
 .info-text { font-size: 13px; color: var(--muted); margin-top: 8px; }
 .negative { color: var(--loss); }
+  /* ===== Inventory Monitoring ===== */
+  .inv-red { color:#dc2626; font-weight:600; }
+  .inv-yellow { color:#d97706; font-weight:600; }
+  .inv-green { color:#16a34a; font-weight:600; }
+  .inv-gray { color:var(--muted); }
+  .inv-status-bar { margin:6px 0 14px; font-size:14px; }
 </style>
 </head>
 <body>
@@ -367,6 +373,63 @@ td input.wide { width: 120px; }
             </tr>
           </thead>
           <tbody id="skuTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== Inventory Monitoring ===== -->
+    <div class="section-header">
+      <h2>📦 SKU 库存监控</h2>
+      <span class="info-text" id="invCountInfo"></span>
+    </div>
+    <div class="info-text" style="margin-bottom:8px;">
+      模型：<strong>当前库存 = 期初库存 − 导入订单累计销量</strong>。你只需在下方填「期初库存」（数据起始日的库存），之后每次导入每日订单，系统自动扣减。<br>
+      补货提前期：🇺🇸 美国 <strong>45 天</strong> / 🇬🇧 英国 <strong>65 天</strong>。安全库存按「天」设定缓冲。
+    </div>
+
+    <div class="section-header" style="margin-top:8px;">
+      <h3 style="margin:0;color:var(--color-text-primary);">① 库存维护（填写期初库存与安全库存天数）</h3>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll">
+        <table id="invTable">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>产品名</th>
+              <th>期初库存</th>
+              <th>安全库存(天)</th>
+            </tr>
+          </thead>
+          <tbody id="invTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:18px;">
+      <h3 style="margin:0;color:var(--color-text-primary);">② 补货监控看板</h3>
+    </div>
+    <div class="inv-status-bar" id="invAlertInfo"></div>
+    <div id="invFallbackNote" style="display:none;color:var(--warning);font-size:13px;margin-bottom:8px;">
+      ⚠️ 最近 30 天无订单数据，已用数据中最新 30 天估算日均销量
+    </div>
+    <div class="table-wrapper">
+      <div class="table-scroll">
+        <table id="invMonitorTable">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>产品名</th>
+              <th>当前库存</th>
+              <th>日均销量(30天)</th>
+              <th>可售天数</th>
+              <th>预计售罄日</th>
+              <th>补货提前期(天)</th>
+              <th>建议补货日</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="invMonitorBody"></tbody>
         </table>
       </div>
     </div>
@@ -597,6 +660,12 @@ let currentCountry = 'US'; // 'US' or 'UK'
 let countryOrders = { US: null, UK: null }; // Store orders per country
 let allOrders = [];
 let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
+
+// ===== Inventory Monitoring =====
+// 期初库存 − 导入订单累计销量 = 当前库存；之后每次导入每日订单，累计销量增长，库存自动减少
+let inventorySettings = {};  // { SKU: { openingStock: Number, safetyDays: Number } }
+// 补货提前期(天)：美国 45 天 / 英国 65 天（如需调整改这里即可）
+const LEAD_TIME = { US: 45, UK: 65 };
 let promoCosts = {};   // { 'MM/DD/YYYY': amount }
 let uniqueDates = [];
 let uniqueSkus = [];
@@ -710,6 +779,8 @@ function switchCountry(country) {
     renderCategoryMapping();
     renderPromoTable();
     renderCategoryPromoTable();
+    renderInventoryTable();
+    renderInventoryMonitor();
     recalculate();
   } else {
     // No orders for this country, show upload area
@@ -863,6 +934,8 @@ function parseOrders(rows) {
   renderCategoryMapping();
   renderPromoTable();
   renderCategoryPromoTable();
+  renderInventoryTable();
+  renderInventoryMonitor();
   recalculate();
 }
 
@@ -1724,6 +1797,141 @@ function renderCards(orders, revenue, cost, profit) {
       <div class="card-sub">利润率 ${margin}% | ROI ${roi}</div>
     </div>
   `;
+  renderInventoryMonitor();
+}
+
+// ===== Inventory Monitoring Functions =====
+function parseDateMDY(s) {
+  if (!s) return null;
+  const m = String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (!m) return null;
+  const d = new Date(+m[3], +m[1] - 1, +m[2]);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+// 维护表输入回调：更新 inventorySettings + 自动保存 + 刷新看板
+function invInput(el) {
+  const sku = el.dataset.sku;
+  const field = el.dataset.field;
+  if (!inventorySettings[sku]) inventorySettings[sku] = { openingStock: 0, safetyDays: 7 };
+  inventorySettings[sku][field] = parseFloat(el.value) || 0;
+  autoSave();
+  renderInventoryMonitor();
+}
+
+// 渲染①维护表（每个SKU一行：期初库存 + 安全库存天数）
+function renderInventoryTable() {
+  const tbody = document.getElementById('invTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  const infoEl = document.getElementById('invCountInfo');
+  if (infoEl) infoEl.textContent = `共 ${uniqueSkus.length} 个 SKU`;
+  uniqueSkus.forEach(sku => {
+    if (!inventorySettings[sku]) inventorySettings[sku] = { openingStock: 0, safetyDays: 7 };
+    const inv = inventorySettings[sku];
+    const name = (allOrders.find(o => o.sku === sku) || {}).productName || '';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${sku}</strong></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${name}">${name}</td>
+      <td><input type="number" min="0" step="1" value="${inv.openingStock}" data-sku="${sku}" data-field="openingStock" oninput="invInput(this)" class="sku-input"></td>
+      <td><input type="number" min="0" step="1" value="${inv.safetyDays}" data-sku="${sku}" data-field="safetyDays" oninput="invInput(this)" class="sku-input"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// 渲染②补货监控看板
+function renderInventoryMonitor() {
+  const tbody = document.getElementById('invMonitorBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  const asOf = new Date();
+  const asOfTime = asOf.getTime();
+  const DAY = 24 * 3600 * 1000;
+  const windowStart = asOfTime - 30 * DAY;
+  const lead = LEAD_TIME[currentCountry] || 45;
+
+  // 累计销量（全部导入订单，用于扣减库存）
+  const skuCumSales = {};
+  // 最近30天销量（用于算日均，窗口从今天往前30天）
+  const skuSales30 = {};
+  let useFallback = false;
+  allOrders.forEach(o => {
+    if (o.isCancelled) return;
+    const dt = parseDateMDY(o.date);
+    if (!dt) return;
+    const t = dt.getTime();
+    skuCumSales[o.sku] = (skuCumSales[o.sku] || 0) + o.quantity;
+    if (t >= windowStart && t <= asOfTime) {
+      skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
+    }
+  });
+  // 若最近30天无销售数据 → 退回用数据中最新30天估算
+  const totalInWindow = Object.values(skuSales30).reduce((a, b) => a + b, 0);
+  if (totalInWindow === 0 && allOrders.length) {
+    useFallback = true;
+    let maxT = 0;
+    allOrders.forEach(o => { const dt = parseDateMDY(o.date); if (dt && dt.getTime() > maxT) maxT = dt.getTime(); });
+    const fbStart = maxT - 30 * DAY;
+    for (const k in skuSales30) delete skuSales30[k];
+    allOrders.forEach(o => {
+      if (o.isCancelled) return;
+      const dt = parseDateMDY(o.date); if (!dt) return;
+      if (dt.getTime() >= fbStart && dt.getTime() <= maxT) skuSales30[o.sku] = (skuSales30[o.sku] || 0) + o.quantity;
+    });
+  }
+  const fbEl = document.getElementById('invFallbackNote');
+  if (fbEl) fbEl.style.display = useFallback ? '' : 'none';
+
+  let alertCount = 0;
+  uniqueSkus.forEach(sku => {
+    const inv = inventorySettings[sku] || { openingStock: 0, safetyDays: 7 };
+    const opening = inv.openingStock || 0;
+    const safetyDays = inv.safetyDays || 0;
+    const cumSold = skuCumSales[sku] || 0;
+    const sold30 = skuSales30[sku] || 0;
+    const daily = sold30 / 30;
+    const current = opening - cumSold;            // 当前库存
+    const safetyUnits = safetyDays * daily;       // 安全库存(件)
+    const effective = current - safetyUnits;       // 扣除安全库存后的可售量
+
+    let daysOfCover, stockoutDate, reorderDate, statusText, statusClass;
+    if (daily <= 0) {
+      daysOfCover = Infinity; stockoutDate = '—'; reorderDate = '—';
+      statusText = '⚪ 无销售'; statusClass = 'inv-gray';
+    } else {
+      daysOfCover = effective / daily;
+      const sd = new Date(asOfTime + daysOfCover * DAY);
+      stockoutDate = sd.toISOString().slice(0, 10);
+      const rd = new Date(asOfTime + (daysOfCover - lead) * DAY);
+      reorderDate = rd.toISOString().slice(0, 10);
+      if (rd <= asOf) { statusText = '🔴 立即补货'; statusClass = 'inv-red'; alertCount++; }
+      else if (rd.getTime() <= asOfTime + 7 * DAY) { statusText = '🟡 准备补货'; statusClass = 'inv-yellow'; }
+      else { statusText = '🟢 安全'; statusClass = 'inv-green'; }
+    }
+
+    const name = (allOrders.find(o => o.sku === sku) || {}).productName || '';
+    const curStr = current < 0 ? `<span class="inv-red">${current}</span>` : String(current);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${sku}</strong></td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;" title="${name}">${name}</td>
+      <td>${curStr}</td>
+      <td>${daily > 0 ? daily.toFixed(2) : '—'}</td>
+      <td>${isFinite(daysOfCover) ? (daysOfCover > 999 ? '>999' : Math.floor(daysOfCover)) : '—'}</td>
+      <td>${stockoutDate}</td>
+      <td>${lead}</td>
+      <td>${reorderDate}</td>
+      <td class="${statusClass}"><strong>${statusText}</strong></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const alertEl = document.getElementById('invAlertInfo');
+  if (alertEl) alertEl.innerHTML = alertCount > 0
+    ? `<span class="inv-red">⚠️ ${alertCount} 个 SKU 需要立即补货</span>`
+    : `<span class="inv-green">✅ 暂无需紧急补货的 SKU</span>`;
 }
 
 // ===== Render Daily Table =====
@@ -1929,7 +2137,7 @@ function showToast(msg) {
 function getSettingsData() {
   const el = document.getElementById('exchangeRate');
   return {
-    skuSettings, promoCosts, skuCategories, categoryPromoCosts,
+    skuSettings, promoCosts, skuCategories, categoryPromoCosts, inventorySettings,
     defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
     defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
     exchangeRate: el ? el.value : 1.336
@@ -1964,6 +2172,7 @@ function loadSettings(silent) {
     if (data.promoCosts) promoCosts = { ...promoCosts, ...data.promoCosts };
     if (data.skuCategories) skuCategories = { ...skuCategories, ...data.skuCategories };
     if (data.categoryPromoCosts) categoryPromoCosts = { ...categoryPromoCosts, ...data.categoryPromoCosts };
+    if (data.inventorySettings) inventorySettings = { ...inventorySettings, ...data.inventorySettings };
     if (data.defaultPlatformPct) {
       // UK platform fee is 29.6%; override old default of 8
       if (currentCountry === 'UK' && parseFloat(data.defaultPlatformPct) < 10) {
@@ -1982,7 +2191,7 @@ function loadSettings(silent) {
     } else {
       exchangeRate = 1.336;
     }
-    if (uniqueSkus.length) { renderSkuTable(); renderCategoryMapping(); renderPromoTable(); renderCategoryPromoTable(); recalculate(); }
+    if (uniqueSkus.length) { renderSkuTable(); renderCategoryMapping(); renderPromoTable(); renderCategoryPromoTable(); renderInventoryTable(); renderInventoryMonitor(); recalculate(); }
     if (!silent) showToast('✅ 设置已加载');
     return true;
   } catch (e) {
@@ -2095,6 +2304,23 @@ function exportResults() {
   if (sampleData.length > 0) {
     const ws6 = XLSX.utils.json_to_sheet(sampleData);
     XLSX.utils.book_append_sheet(wb, ws6, '样品单明细');
+  }
+
+  // Inventory monitor
+  const invData = [];
+  document.querySelectorAll('#invMonitorBody tr').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 9) {
+      invData.push({
+        'SKU': cells[0].textContent, '产品名': cells[1].textContent, '当前库存': cells[2].textContent,
+        '日均销量(30天)': cells[3].textContent, '可售天数': cells[4].textContent, '预计售罄日': cells[5].textContent,
+        '补货提前期(天)': cells[6].textContent, '建议补货日': cells[7].textContent, '状态': cells[8].textContent,
+      });
+    }
+  });
+  if (invData.length > 0) {
+    const ws7 = XLSX.utils.json_to_sheet(invData);
+    XLSX.utils.book_append_sheet(wb, ws7, '库存监控');
   }
 
   XLSX.writeFile(wb, `订单盈利分析_${currentCountry === 'US' ? '美国站' : '英国站'}_` + new Date().toISOString().slice(0,10) + '.xlsx');
