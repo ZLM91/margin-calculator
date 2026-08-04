@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matern'ella 视频提成汇总器</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f7fb; --card:#fff; --ink:#1f2937; --muted:#6b7280;
+    --line:#e5e7eb; --brand:#2B579A; --brand2:#1d4ed8; --warn:#b45309;
+    --green:#16a34a; --chip:#eef2ff;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 18px 60px;}
+  h1{font-size:22px;margin:0 0 4px;color:var(--brand);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .drop{border:2px dashed var(--line);border-radius:12px;padding:34px;text-align:center;
+    color:var(--muted);cursor:pointer;transition:.15s;background:#fafbff;}
+  .drop.drag{border-color:var(--brand);background:#eef2ff;color:var(--brand);}
+  .drop b{color:var(--ink);}
+  .row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-top:14px;}
+  label{font-size:13px;font-weight:600;display:block;margin-bottom:6px;}
+  input[type=number]{width:110px;padding:8px 10px;border:1px solid var(--line);
+    border-radius:8px;font-size:14px;}
+  button{cursor:pointer;border:none;border-radius:8px;padding:10px 18px;font-size:14px;
+    font-weight:600;background:var(--brand);color:#fff;transition:.15s;}
+  button:hover{background:var(--brand2);}
+  button.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand);}
+  .files{margin-top:14px;font-size:13px;}
+  .files span{display:inline-block;background:var(--chip);color:var(--brand2);
+    padding:4px 10px;border-radius:20px;margin:3px;font-size:12px;}
+  .totals{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .tot{background:linear-gradient(135deg,#2B579A,#1d4ed8);color:#fff;border-radius:10px;
+    padding:14px;text-align:center;}
+  .tot.alt{background:linear-gradient(135deg,#0f766e,#16a34a);}
+  .tot .v{font-size:20px;font-weight:700;}
+  .tot .l{font-size:12px;opacity:.9;margin-top:2px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{background:#f8fafc;color:var(--muted);font-weight:600;position:sticky;top:0;}
+  tbody tr:hover{background:#f9fbff;}
+  .sec-title{font-size:15px;font-weight:700;margin:18px 0 6px;color:var(--ink);}
+  .bar{height:6px;border-radius:3px;background:var(--brand);display:inline-block;vertical-align:middle;}
+  .empty{color:var(--muted);padding:24px;text-align:center;}
+  .note{font-size:12px;color:var(--warn);background:#fffbeb;border:1px solid #fde68a;
+    border-radius:8px;padding:10px 12px;margin-top:10px;display:none;}
+  .pill{font-size:11px;padding:2px 8px;border-radius:10px;background:#ecfdf5;color:#047857;margin-left:6px;}
+  details{margin-top:8px;font-size:12px;color:var(--muted);}
+  summary{cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎬 Matern'ella 视频提成汇总器</h1>
+  <div class="sub">把「7月英国自营-2店汇总.xlsx」「US7月自营-2店汇总.xlsx」这类文件扔进来，自动按剪辑/编导汇总 GMV。</div>
+
+  <div class="card">
+    <div class="drop" id="drop">
+      <b>点击选择文件</b> 或 把 .xlsx 拖到这里（可多选 UK + US 两个文件）
+      <div class="files" id="fileList"></div>
+    </div>
+    <input type="file" id="fileInput" accept=".xlsx,.xls" multiple hidden>
+    <div class="row">
+      <div>
+        <label>汇率 1£ = ? $</label>
+        <input type="number" id="rate" value="1.336" min="0" step="0.001">
+      </div>
+      <button id="genBtn">生成汇总</button>
+      <button class="ghost" id="exportBtn" style="display:none;">导出 Excel</button>
+      <button class="ghost" id="clearBtn">清空</button>
+    </div>
+    <div class="note" id="note"></div>
+    <details>
+      <summary>列识别规则（点开看）</summary>
+      自动找：含「视频ID/ID」的列作视频号；含「GMV/销售额」的列作销售额（表头带 £ 判为英镑、带 $ 判为美元，也可用文件名含 英国/UK 或 US/美国 强制）；
+      含「剪辑」的列归剪辑；含「编导」的列归编导。识别不到会弹提示。
+    </details>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script>
+let FILES = []; // {name, wb}
+
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('fileInput');
+drop.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => addFiles(e.target.files));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag');}));
+drop.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+
+function addFiles(fileList){
+  [...fileList].forEach(f=>{
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try{
+        const wb = XLSX.read(new Uint8Array(ev.target.result), {type:'array'});
+        FILES.push({name:f.name, wb});
+        renderFileList();
+      }catch(err){ alert('读取失败：'+f.name+'\n'+err.message); }
+    };
+    reader.readAsArrayBuffer(f);
+  });
+}
+function renderFileList(){
+  document.getElementById('fileList').innerHTML =
+    FILES.map(f=>`<span>${f.name}</span>`).join('');
+}
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  FILES=[]; renderFileList(); document.getElementById('out').innerHTML='';
+  document.getElementById('exportBtn').style.display='none';
+  document.getElementById('note').style.display='none';
+});
+
+function detect(file){
+  const ws = file.wb.Sheets[file.wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
+  if(!rows.length) return {err:'空文件'};
+  const header = rows[0].map(h=>String(h||'').trim());
+  const find = kw => header.findIndex(h=>h.toLowerCase().includes(kw.toLowerCase()));
+  const idx = {
+    id: header.findIndex(h=>/视频id|video\s*id|\bid\b/i.test(h)),
+    gmv: find('GMV')>=0?find('GMV'):find('销售额'),
+    editor: find('剪辑'),
+    director: find('编导'),
+  };
+  // 币种判断
+  let cur = null;
+  const gmvHeader = header[idx.gmv] || '';
+  if(gmvHeader.includes('£')) cur='GBP';
+  else if(gmvHeader.includes('$')) cur='USD';
+  if(/英国|uk\b/i.test(file.name)) cur='GBP';
+  else if(/us\b|美国/i.test(file.name)) cur='USD';
+  if(idx.gmv<0 || idx.editor<0 || idx.director<0){
+    return {err:`列识别不全（GMV:${idx.gmv}, 剪辑:${idx.editor}, 编导:${idx.director}）`};
+  }
+  const data = rows.slice(1).filter(r=>r[idx.id]!=null && r[idx.id]!=='');
+  return {idx, cur, data, header};
+}
+
+let LAST = null;
+document.getElementById('genBtn').addEventListener('click', ()=>{
+  const note = document.getElementById('note');
+  note.style.display='none';
+  if(!FILES.length){ note.textContent='请先选择文件'; note.style.display='block'; return; }
+  const rate = parseFloat(document.getElementById('rate').value)||1.336;
+  const editorGMV={}, directorGMV={}, siteTotals={};
+  let totalVideos=0, warn=[];
+  for(const f of FILES){
+    const d = detect(f);
+    if(d.err){ note.textContent=`${f.name}：${d.err}`; note.style.display='block'; return; }
+    if(!d.cur){ warn.push(`${f.name} 币种未识别，默认按美元`); d.cur='USD'; }
+    const cur = d.cur;
+    siteTotals[cur] = siteTotals[cur]||{sum:0,n:0};
+    for(const r of d.data){
+      const gmv = parseFloat(r[d.idx.gmv])||0;
+      const ed = String(r[d.idx.editor]||'').trim();
+      const dr = String(r[d.idx.director]||'').trim();
+      siteTotals[cur].sum += gmv;
+      siteTotals[cur].n++;
+      totalVideos++;
+      const eo = editorGMV[ed]=editorGMV[ed]||{GBP:0,USD:0}; eo[cur]+=gmv;
+      const dop = directorGMV[dr]=directorGMV[dr]||{GBP:0,USD:0}; dop[cur]+=gmv;
+    }
+  }
+  if(warn.length){ note.textContent=warn.join('；'); note.style.display='block'; }
+  LAST = {rate, editorGMV, directorGMV, siteTotals, totalVideos};
+  render(LAST);
+  document.getElementById('exportBtn').style.display='inline-block';
+});
+
+function toUsd(d, rate){ return d.GBP*rate + d.USD; }
+function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function render(R){
+  const out = document.getElementById('out');
+  const uk = R.siteTotals.GBP||{sum:0,n:0};
+  const us = R.siteTotals.USD||{sum:0,n:0};
+  const ukUsd = uk.sum*R.rate;
+  const grand = ukUsd + us.sum;
+  let html = '<div class="card"><div class="totals">'
+    + totCard(fmt(uk.sum)+' £','英国总销售额 ('+uk.n+' 视频)','')
+    + totCard(fmt(us.sum)+' $','美国总销售额 ('+us.n+' 视频)','')
+    + totCard(fmt(ukUsd)+' $','英国折算 (1£='+R.rate+'$)','alt')
+    + totCard(fmt(grand)+' $','合计总销售额 ('+R.totalVideos+' 视频)','alt')
+    + '</div></div>';
+
+  // 按剪辑
+  html += '<div class="card"><div class="sec-title">✂️ 按剪辑汇总（合计 GMV）</div>';
+  html += tableFor(R.editorGMV, R.rate, grand);
+  html += '</div>';
+
+  // 按编导
+  html += '<div class="card"><div class="sec-title">🎬 按编导汇总（合计 GMV）</div>';
+  html += tableFor(R.directorGMV, R.rate, grand);
+  html += '</div>';
+
+  out.innerHTML = html;
+}
+
+function totCard(v,l,cls){
+  return `<div class="tot ${cls}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+}
+function tableFor(map, rate, grand){
+  const rows = Object.entries(map).sort((a,b)=>toUsd(b[1],rate)-toUsd(a[1],rate));
+  let h = `<table><thead><tr><th>${map===null?'':''}人员</th><th>英国(£)</th><th>美国($)</th><th>合计($)</th><th>占比</th></tr></thead><tbody>`;
+  for(const [name,d] of rows){
+    const usd = toUsd(d,rate);
+    const pct = grand>0 ? (usd/grand*100) : 0;
+    const w = Math.max(4, Math.min(100, pct*2));
+    h += `<tr><td>${name||'(空)'}</td><td>${fmt(d.GBP)}</td><td>${fmt(d.USD)}</td>`
+       + `<td><b>${fmt(usd)}</b></td>`
+       + `<td><span class="bar" style="width:${w}px"></span> ${pct.toFixed(1)}%</td></tr>`;
+  }
+  h += '</tbody></table>';
+  return h;
+}
+
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  if(!LAST) return;
+  const R = LAST;
+  const rows=[];
+  rows.push({项目:'英国总销售额(£)', 数值:R.siteTotals.GBP?.sum||0});
+  rows.push({项目:'美国总销售额($)', 数值:R.siteTotals.USD?.sum||0});
+  rows.push({项目:'英国折算($)', 数值:(R.siteTotals.GBP?.sum||0)*R.rate});
+  rows.push({项目:'合计总销售额($)', 数值:toUsd(R.siteTotals.GBP||{GBP:0,USD:0},R.rate)+(R.siteTotals.USD?.sum||0)});
+  rows.push({项目:'汇率', 数值:R.rate});
+  const aoo = XLSX.utils.aoa_to_sheet([['汇总'],[]].concat(rows.map(r=>[r.项目,r.数值])));
+  const edRows=[['剪辑','英国(£)','美国($)','合计($)']];
+  for(const [n,d] of Object.entries(R.editorGMV).sort((a,b)=>toUsd(b[1],R.rate)-toUsd(a[1],R.rate)))
+    edRows.push([n,d.GBP,d.USD,toUsd(d,R.rate)]);
+  const ed = XLSX.utils.aoa_to_sheet(edRows);
+  const drRows=[['编导','英国(£)','美国($)','合计($)']];
+  for(const [n,d] of Object.entries(R.directorGMV).sort((a,b)=>toUsd(b[1],R.rate)-toUsd(a[1],R.rate)))
+    drRows.push([n,d.GBP,d.USD,toUsd(d,R.rate)]);
+  const dr = XLSX.utils.aoa_to_sheet(drRows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, aoo, '总览');
+  XLSX.utils.book_append_sheet(wb, ed, '按剪辑');
+  XLSX.utils.book_append_sheet(wb, dr, '按编导');
+  XLSX.writeFile(wb, '视频提成汇总.xlsx');
+});
+</script>
+</body>
+</html>
