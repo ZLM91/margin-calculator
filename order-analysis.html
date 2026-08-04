@@ -729,10 +729,8 @@ function updateCurrencyLabels() {
 function switchCountry(country) {
   if (country === currentCountry) return;
 
-  // Save current country's settings first (only if there's data to save)
-  if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0 || Object.keys(skuCategories).length > 0 || Object.keys(categoryPromoCosts).length > 0) {
-    saveSettings();
-  }
+  // Always save current country's settings before switching (so default platform/creator pct edits are never lost or synced to the other country)
+  saveSettings(true);
 
   // Save current orders to the old country
   countryOrders[currentCountry] = { allOrders: [...allOrders], uniqueSkus: [...uniqueSkus], uniqueDates: [...uniqueDates], statusCounts: { ...statusCounts } };
@@ -2438,6 +2436,9 @@ document.getElementById('exchangeRate').addEventListener('input', e => {
   autoSave();
   recalculate();
 });
+// 默认平台扣点% / 达人佣金%：实时保存当前国家 + 重算，保证美英各自独立、不互相串值
+document.getElementById('defaultPlatformPct').addEventListener('input', () => { autoSave(); recalculate(); });
+document.getElementById('defaultCreatorPct').addEventListener('input', () => { autoSave(); recalculate(); });
 </script>
 </body>
 </html>
