@@ -1674,7 +1674,7 @@ function recalculate() {
   const orderData = orders.map(o => {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
-    const ukFeeGbp = o.isSample ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample only
+    const ukFeeGbp = (o.isSample || o.isCancelled) ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample & non-cancelled only
     const shippingCost = s.shipping * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
     const warehouseCost = s.warehouse * o.quantity / rate;  // GBP (converted)
     const platformPct = s.platformPct || defaultPlatformPct;
