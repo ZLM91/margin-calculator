@@ -341,6 +341,11 @@ td input.wide { width: 120px; }
         <label>汇率 (1£ = ?$)</label>
         <input type="number" id="exchangeRate" value="1.336" min="0" step="0.001" style="width:90px;">
       </div>
+      <div class="setting-item" id="ukLogisticsFeeItem" style="display:none;">
+        <label>🇬🇧 英国物流服务费（每笔·非样品，£）</label>
+        <input type="number" id="ukLogisticsFee" value="0.42" min="0" step="0.01" style="width:90px;">
+        <span style="font-size:11px;color:var(--muted);">计入尾程运费</span>
+      </div>
       <button class="btn btn-secondary" onclick="applyDefaultsToAll()">应用到所有 SKU</button>
       <button class="btn btn-secondary" onclick="saveSettings()">💾 手动保存</button>
       <button class="btn btn-secondary" onclick="loadSettings(false)">📂 手动加载</button>
@@ -673,6 +678,7 @@ let currentCountry = 'US'; // 'US' or 'UK'
 let countryOrders = { US: null, UK: null }; // Store orders per country
 let allOrders = [];
 let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
+let ukLogisticsFee = 0.42; // GBP per order, UK non-sample logistics service fee
 
 // ===== Inventory Monitoring =====
 // 期初库存(库存基准日当天快照) − 基准日之后订单累计销量 = 当前库存
@@ -739,6 +745,7 @@ function switchCountry(country) {
   });
   // Show/hide exchange rate input (UK only)
   document.getElementById('exchangeRateItem').style.display = country === 'UK' ? '' : 'none';
+  document.getElementById('ukLogisticsFeeItem').style.display = country === 'UK' ? '' : 'none';
 
   // Reset state
   skuSettings = {};
@@ -1663,11 +1670,13 @@ function recalculate() {
   const rate = currentCountry === 'UK' ? exchangeRate : 1; // GBP→USD: USD = GBP * rate
   const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
   const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
+  const ukFeePerOrder = (currentCountry === 'UK') ? (parseFloat(document.getElementById('ukLogisticsFee').value) || 0) : 0; // GBP per order
   const orderData = orders.map(o => {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
-    const shippingCost = s.shipping * o.quantity / rate;  // USD→GBP
-    const warehouseCost = s.warehouse * o.quantity / rate;  // USD→GBP
+    const ukFeeGbp = o.isSample ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample only
+    const shippingCost = s.shipping * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
+    const warehouseCost = s.warehouse * o.quantity / rate;  // GBP (converted)
     const platformPct = s.platformPct || defaultPlatformPct;
     const creatorPct = s.creatorPct || defaultCreatorPct;
     const platformFee = o.revenue * (platformPct / 100);
@@ -1679,9 +1688,9 @@ function recalculate() {
     return {
       ...o,
       productCost, // GBP
-      shippingCost, // GBP (converted)
+      shippingCost, // GBP (converted, includes UK fee)
       warehouseCost, // GBP (converted)
-      shippingCostUsd: s.shipping * o.quantity, // original USD
+      shippingCostUsd: s.shipping * o.quantity + ukFeeGbp * rate, // original USD + UK fee
       warehouseCostUsd: s.warehouse * o.quantity, // original USD
       platformFee, creatorFee, totalCost, profit
     };
@@ -2190,7 +2199,8 @@ function getSettingsData() {
     skuSettings, promoCosts, skuCategories, categoryPromoCosts, inventorySettings, inventoryBaseDate,
     defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
     defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
-    exchangeRate: el ? el.value : 1.336
+    exchangeRate: el ? el.value : 1.336,
+    ukLogisticsFee: document.getElementById('ukLogisticsFee') ? document.getElementById('ukLogisticsFee').value : 0.42
   };
 }
 
@@ -2245,6 +2255,13 @@ function loadSettings(silent) {
       if (el) el.value = exchangeRate;
     } else {
       exchangeRate = 1.336;
+    }
+    if (data.ukLogisticsFee) {
+      ukLogisticsFee = parseFloat(data.ukLogisticsFee) || 0.42;
+      const elf = document.getElementById('ukLogisticsFee');
+      if (elf) elf.value = ukLogisticsFee;
+    } else {
+      ukLogisticsFee = 0.42;
     }
     if (uniqueSkus.length) { renderSkuTable(); renderCategoryMapping(); renderPromoTable(); renderCategoryPromoTable(); renderInventoryTable(); renderInventoryMonitor(); recalculate(); }
     if (!silent) showToast('✅ 设置已加载');
