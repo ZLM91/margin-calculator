@@ -435,12 +435,9 @@ button:hover { background: #F0EDE6; }
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<div style="position:fixed;top:10px;right:10px;z-index:9999;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:92vw;">
-  <a href="fbt-germany.html" style="background:#7c3aed;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:14px;white-space:nowrap;">🇩🇪 FBT 德国</a>
-  <a href="freight-compare-de.html" style="background:#0891b2;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:14px;white-space:nowrap;">🚚 德国仓运费比价</a>
-  <a href="price-calc-de.html" style="background:#059669;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:14px;white-space:nowrap;">🧮 德国仓价格测算</a>
-  <a href="eu_shipping.html" style="background:#d97706;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:14px;white-space:nowrap;">🌍 欧盟运费</a>
-  <a href="order-analysis.html" style="background:#2563eb;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:14px;white-space:nowrap;">📊 订单盈利分析</a>
+<div style="position:fixed;top:10px;right:10px;z-index:9999;display:flex;gap:8px;">
+  <a href="fbt-germany.html" target="_blank" style="background:#0d9488;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;box-shadow:0 2px 8px rgba(13,148,136,.35);">📦 FBT 德国运费计算器</a>
+  <a href="order-analysis.html" style="background:#2563eb;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;">📊 TikTok 订单盈利分析</a>
 </div>
 
 <div class="container">
@@ -453,6 +450,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn" data-tab="tiktok" onclick="switchTab('tiktok')">📝 TikTok文案</button>
   <button class="tab-btn" data-tab="profit" onclick="switchTab('profit')">💰 SKU利润看板</button>
   <button class="tab-btn" data-tab="fbt" onclick="switchTab('fbt')">📦 FBT运费</button>
+  <button class="tab-btn" data-tab="commission" onclick="switchTab('commission')">🎬 视频提成</button>
 </div>
 <div id="tab-margin" class="tab-content active">
 
@@ -647,7 +645,6 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
-<label style="font-size:12px;color:#444;margin-right:14px;cursor:pointer;user-select:none;vertical-align:middle;"><input type="checkbox" id="hideZeroChk" checked onchange="toggleHideZeroRevenue(this)"> 隐藏0收入（GMV=0）视频</label>
 <div id="videoStatus" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
@@ -866,7 +863,6 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
-<label style="font-size:12px;color:#444;margin-right:14px;cursor:pointer;user-select:none;vertical-align:middle;"><input type="checkbox" id="hideZeroChkUK" checked onchange="toggleHideZeroRevenue(this)"> 隐藏0收入（GMV=0）视频</label>
 <div id="videoStatusUK" style="font-size:12px;color:#888;margin-bottom:12px;min-height:18px;"></div>
 
 <!-- Person cards -->
@@ -1344,6 +1340,21 @@ button:hover { background: #F0EDE6; }
   <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">📦 FBT 运费计算器</h1>
   <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">输入产品重量/尺寸，自动计算 TikTok FBT 中转费 + 尾程履约费</p>
 
+  <!-- 2026/7/10 新价卡通知 -->
+  <div style="background:#FFF8E1;border:1px solid #FAC775;border-radius:var(--border-radius-md);padding:12px 16px;margin-bottom:14px;font-size:12px;">
+    <strong>📢 2026/7/10 新价卡已更新：</strong>新增 Mid Hub（中转费 $0.06 起），East/West Hub 价格分档调整。
+    Mid Hub 当前过渡价至 10/1（之后调价），East 8/15 切换、West 8/16 切换——下方价表已自动按今日日期选择当前生效价，并显示「→未来价」提示。
+  </div>
+
+  <!-- 德国 FBT 专用计算器入口 -->
+  <div style="background:linear-gradient(135deg,#14b8a6 0%,#0d9488 100%);color:#fff;padding:16px 20px;border-radius:10px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 2px 12px rgba(13,148,136,.25);">
+    <div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px;">🇩🇪 德国 FBT 详细计算器（含欧盟跨境）</div>
+      <div style="font-size:12px;opacity:.92;">按尺寸档计算履单费 + 库龄分档存储 + 增值服务 + 入仓附加 + 13 国目的国尾程 · 实时汇率换算 · 智能优化建议</div>
+    </div>
+    <a href="fbt-germany.html" target="_blank" style="background:#fff;color:#0d9488;padding:10px 22px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.15);">打开计算器 →</a>
+  </div>
+
   <!-- 计费规则提示 -->
   <div class="fbt-rule-box">
     <strong>计费规则</strong>（2026年5月1日起）：若实际重量 ≤ 2 lbs 且体积 ≤ 332 立方英寸，按<strong>实际重量</strong>计费；否则取实际重量与体积重（L×W×H÷166）的<strong>较大值</strong>。
@@ -1394,6 +1405,7 @@ button:hover { background: #F0EDE6; }
       <div class="fbt-input-row">
         <label>Hub 中转</label>
         <select id="fbtHub" class="fbt-select" onchange="calcFBT()">
+          <option value="mid">Mid Hub（中部中转仓，2026/7/10 新价卡）</option>
           <option value="west">West Hub（西部中转仓）</option>
           <option value="east">East Hub（东部中转仓）</option>
           <option value="direct">直送 FC（免中转费）</option>
@@ -1417,7 +1429,7 @@ button:hover { background: #F0EDE6; }
       <p style="font-size:12px;color:#666;margin:8px 0;">履约费 / 尾程费（Excel最新版，含oz层级 + 20-50lbs/50+lbs公式）</p>
       <table id="fbtFFTable"><thead><tr><th>计费重量</th><th>1件</th><th>2件</th><th>3件</th><th>4+件</th></tr></thead><tbody></tbody></table>
       <p style="font-size:12px;color:#666;margin:12px 0 8px 0;">中转费 / Hub Placement Fee（West/East，直送FC免费）</p>
-      <table id="fbtHPTable"><thead><tr><th>计费重量</th><th>West Hub</th><th>East Hub</th><th>直送FC</th></tr></thead><tbody></tbody></table>
+      <table id="fbtHPTable"><thead><tr><th>计费重量</th><th>Mid Hub</th><th>East Hub</th><th>West Hub</th><th>直送FC</th></tr></thead><tbody></tbody></table>
     </div>
   </div>
 
@@ -1477,6 +1489,14 @@ button:hover { background: #F0EDE6; }
     </div>
   </div>
 </div>
+
+// ====== 视频提成汇总（iframe 嵌入 commission-summary.html）======
+<div id="tab-commission" class="tab-content">
+  <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">🎬 视频提成汇总</h1>
+  <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">拖入「英国自营-2店」和「US自营-2店」两个 xlsx，自动按剪辑/编导汇总 GMV，并支持汇率换算+导出 Excel</p>
+  <iframe src="commission-summary.html" style="width:100%;height:calc(100vh - 220px);min-height:780px;border:1px solid #E0DBD2;border-radius:10px;background:#fff;" loading="lazy"></iframe>
+  <div style="margin-top:8px;font-size:11px;color:#999;">如需在新窗口打开：<a href="commission-summary.html" target="_blank" style="color:#2B579A;">https://zlm91.github.io/margin-calculator/commission-summary.html ↗</a></div>
+</div><!-- /tab-commission -->
 
 </div><!-- /container -->
 
@@ -2095,18 +2115,7 @@ const VID_STORAGE = 'maternella_video_data';
 const VID_MAP_KEY = 'maternella_video_mapping_us';
 // GitHub Raw base URL for data files (change branch/tag to update)
 const DATA_BASE = 'https://raw.githubusercontent.com/zlm91/margin-calculator/main/data/';
-let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null
-let hideZeroRevenue = true;  // 隐藏0收入（GMV=0）视频
-function toggleHideZeroRevenue(el) {
-  hideZeroRevenue = el.checked;
-  var a = document.getElementById('hideZeroChk'); if (a && a !== el) a.checked = el.checked;
-  var b = document.getElementById('hideZeroChkUK'); if (b && b !== el) b.checked = el.checked;
-  if (typeof processJoin === 'function') processJoin();
-  if (typeof processJoinUK === 'function') processJoinUK();
-  if (typeof renderVideoDetail === 'function') renderVideoDetail();
-  if (typeof renderVideoDetailUK === 'function') renderVideoDetailUK();
-}
-;
+let videoAdData = null, videoMapping = null, videoJoined = null, videoPersonSummary = null, videoDetailFilter = null;
 let editedMapping = { vidToCloud: {}, cloudToPerson: {} }; // user-corrected mappings
 let customBrandAccounts = {}; // account name -> true, user-marked brand accounts beyond "matern*"
 let customBrandAccountsUK = {}; // UK version
@@ -2285,13 +2294,6 @@ function findObjCol(row, candidates) {
   return '';
 }
 
-function extractHashtags(text) {
-  // New ad export dropped the "话题标签" column; recover tags from the video title.
-  if (!text) return '';
-  var m = String(text).match(/#[^\s#]+/g);
-  return m ? m.join(' ') : '';
-}
-
 function isCurrentMonth(dateStr) {
   // Robustly extract year+month from date strings like "2026-05-15", "2026/5/15", "2026-05-15 10:30:00"
   if (!dateStr) return false;
@@ -2323,6 +2325,7 @@ function switchTab(tab) {
   document.getElementById('tab-tiktok').classList.toggle('active', tab === 'tiktok');
   document.getElementById('tab-profit').classList.toggle('active', tab === 'profit');
   document.getElementById('tab-fbt').classList.toggle('active', tab === 'fbt');
+  document.getElementById('tab-commission').classList.toggle('active', tab === 'commission');
   if (tab === 'repurchase' && repurchaseOrders.length > 0) {
     renderRepurchaseDashboard();
   }
@@ -2723,42 +2726,28 @@ function handleAdDataUpload(input) {
     try {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
-      // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片/Product card"或视频ID为N/A）
-      // 兼容中英文列名：Creative type / Video ID / Video title / Gross revenue / SKU orders / Cost / Time posted / Product ad impressions
-      // 新导出表已无 ROI / 话题标签 / 素材类型 三列，分别用 GMV/成本 回算、从标题抓 #tag、由 Creative type 推导补偿
+      // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
       videoAdData = rows.filter(function(r) {
-        var ct = String(findObjCol(r, ['创意作品类型', '创意类型', 'Creative type', 'creative type']) || '');
-        var vid = String(findObjCol(r, ['视频 ID', '视频ID', 'video id', 'video_id', 'Video ID']) || '').trim();
-        var ctL = ct.toLowerCase();
-        return ct === '视频' || ct === 'Video' || ctL.indexOf('商品卡片') >= 0 || ctL.indexOf('product card') >= 0 || vid === 'N/A' || vid === 'n/a';
+        var ct = String(r['创意作品类型'] || '');
+        var vid = String(r['视频 ID'] || '').trim();
+        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
       }).map(function(r) {
-        var rawVid = String(findObjCol(r, ['视频 ID', '视频ID', 'video id', 'video_id', 'Video ID']) || '').trim();
+        var rawVid = String(r['视频 ID'] || '').trim();
         // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
-        var title = String(findObjCol(r, ['视频标题', '视频名', 'Video title', 'video title']) || '');
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', 'TikTok account', '账号']));
-        var gmv = parseFloat(findObjCol(r, ['总收入', 'GMV', 'Gross revenue', 'gross revenue'])) || 0;
-        var orders = parseInt(findObjCol(r, ['SKU 订单数', 'SKU订单', 'SKU orders', 'sku orders'])) || 0;
-        var cost = parseFloat(findObjCol(r, ['成本', 'Cost', 'cost'])) || 0;
-        var roiCol = parseFloat(findObjCol(r, ['ROI', 'roi']));
-        var roi = (!isNaN(roiCol) && roiCol > 0) ? roiCol : (cost > 0 ? Math.round((gmv / cost) * 100) / 100 : 0);
-        var date = String(findObjCol(r, ['发布时间', 'Time posted', 'time posted', '投放时间'])) || '';
-        var views = parseInt(findObjCol(r, ['商品广告曝光数', 'Product ad impressions', 'product ad impressions'])) || 0;
-        var ct = String(findObjCol(r, ['创意作品类型', '创意类型', 'Creative type', 'creative type']) || '');
-        var ctL = ct.toLowerCase();
-        var workType = ctL.indexOf('product card') >= 0 ? '商品卡片' : (ct === '视频' || ct === 'Video' ? '视频' : ct);
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
         return {
           vid: vid,
-          title: title,
-          tags: extractHashtags(title),
-          gmv: gmv,
-          orders: orders,
-          cost: cost,
-          roi: roi,
-          date: date,
-          views: views,
-          workType: workType,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0,
+          workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
           account: acct,
           isBrand: isBrandAccount(acct)
         };
@@ -3012,7 +3001,6 @@ function processJoin() {
       scriptTitle: scriptTitle
     };
   });
-  if (hideZeroRevenue) { joined = joined.filter(function(r) { return r.gmv > 0; }); }
   videoJoined = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 ===
@@ -4906,38 +4894,25 @@ function handleAdDataUploadUK(input) {
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
       videoAdDataUK = rows.filter(function(r) {
-        var ct = String(findObjCol(r, ['创意作品类型', '创意类型', 'Creative type', 'creative type']) || '');
-        var vid = String(findObjCol(r, ['视频 ID', '视频ID', 'video id', 'video_id', 'Video ID']) || '').trim();
-        var ctL = ct.toLowerCase();
-        return ct === '视频' || ct === 'Video' || ctL.indexOf('商品卡片') >= 0 || ctL.indexOf('product card') >= 0 || vid === 'N/A' || vid === 'n/a';
+        var ct = String(r['创意作品类型'] || '');
+        var vid = String(r['视频 ID'] || '').trim();
+        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
       }).map(function(r) {
-        var rawVid = String(findObjCol(r, ['视频 ID', '视频ID', 'video id', 'video_id', 'Video ID']) || '').trim();
-        // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
+        var rawVid = String(r['视频 ID'] || '').trim();
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
         var vid = rawVid;
-        var title = String(findObjCol(r, ['视频标题', '视频名', 'Video title', 'video title']) || '');
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', 'TikTok account', '账号']));
-        var gmv = parseFloat(findObjCol(r, ['总收入', 'GMV', 'Gross revenue', 'gross revenue'])) || 0;
-        var orders = parseInt(findObjCol(r, ['SKU 订单数', 'SKU订单', 'SKU orders', 'sku orders'])) || 0;
-        var cost = parseFloat(findObjCol(r, ['成本', 'Cost', 'cost'])) || 0;
-        var roiCol = parseFloat(findObjCol(r, ['ROI', 'roi']));
-        var roi = (!isNaN(roiCol) && roiCol > 0) ? roiCol : (cost > 0 ? Math.round((gmv / cost) * 100) / 100 : 0);
-        var date = String(findObjCol(r, ['发布时间', 'Time posted', 'time posted', '投放时间'])) || '';
-        var views = parseInt(findObjCol(r, ['商品广告曝光数', 'Product ad impressions', 'product ad impressions'])) || 0;
-        var ct = String(findObjCol(r, ['创意作品类型', '创意类型', 'Creative type', 'creative type']) || '');
-        var ctL = ct.toLowerCase();
-        var workType = ctL.indexOf('product card') >= 0 ? '商品卡片' : (ct === '视频' || ct === 'Video' ? '视频' : ct);
+        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
         return {
           vid: vid,
-          title: title,
-          tags: extractHashtags(title),
-          gmv: gmv,
-          orders: orders,
-          cost: cost,
-          roi: roi,
-          date: date,
-          views: views,
-          workType: workType,
+          title: String(r['视频标题'] || ''),
+          tags: String(r['话题标签'] || ''),
+          gmv: parseFloat(r['总收入']) || 0,
+          orders: parseInt(r['SKU 订单数']) || 0,
+          cost: parseFloat(r['成本']) || 0,
+          roi: parseFloat(r['ROI']) || 0,
+          date: String(r['发布时间'] || ''),
+          views: parseInt(r['商品广告曝光数']) || 0,
+          workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
           account: acct,
           isBrand: isBrandAccount(acct)
         };
@@ -5084,7 +5059,6 @@ function processJoinUK() {
       scriptTitle: scriptTitle
     };
   });
-  if (hideZeroRevenue) { joined = joined.filter(function(r) { return r.gmv > 0; }); }
   videoJoinedUK = joined;
 
   // === 自营素材/商品卡/达人素材 GMV 占比 (UK) ===
@@ -10097,24 +10071,43 @@ var FBT_FF_50_BASE = 41.32, FBT_FF_50_RATE = 0.75;
 var gFbtShippingPerUnit = 0;
 var gFbtQty = 1;
 
-// 中转费价卡 (Hub Placement Fee) - Excel版 2025年8月1日生效
-// [maxWeight_lbs, westFee, eastFee]
+// 中转费价卡 (Hub Placement Fee) - 2026年7月新通知更新
+// [maxWeight_lbs, midCur, midNew, eastCur, eastNew, westCur, westNew]
+// midCur: Mid Hub 当前（2026/7/10 - 10/1 过渡期）
+// midNew: Mid Hub 新价（2026/10/2 起）
+// eastCur: East Hub 当前（2026/8/14 及之前）
+// eastNew: East Hub 新价（2026/8/15 起）
+// westCur: West Hub 当前（2026/8/15 及之前）
+// westNew: West Hub 新价（2026/8/16 起）
 // Direct to FC = 免费
 var FBT_HP_TABLE = [
-  [0.25, 0.04, 0.06], [0.50, 0.07, 0.08], [0.75, 0.09, 0.09], [1.00, 0.11, 0.10],
-  [2.00, 0.17, 0.14], [3.00, 0.45, 0.31], [4.00, 0.63, 0.42], [5.00, 0.73, 0.47],
-  [6.00, 0.83, 0.51], [7.00, 1.16, 0.70], [8.00, 1.52, 0.93], [9.00, 2.30, 1.17],
-  [10.00, 2.87, 1.54], [11.00, 3.21, 1.76], [12.00, 3.35, 1.85], [13.00, 3.49, 2.03],
-  [14.00, 3.67, 2.13], [15.00, 3.86, 2.24], [16.00, 3.92, 2.26], [17.00, 4.26, 2.46],
-  [18.00, 4.47, 2.58], [19.00, 4.56, 2.63], [20.00, 4.65, 2.69], [21.00, 4.90, 2.84],
-  [22.00, 5.14, 2.98], [23.00, 5.38, 3.12], [24.00, 5.62, 3.26], [25.00, 5.86, 3.40],
-  [26.00, 6.10, 3.54], [27.00, 6.34, 3.68], [28.00, 6.58, 3.82], [29.00, 6.82, 3.96],
-  [30.00, 7.06, 4.10], [31.00, 7.30, 4.24], [32.00, 7.54, 4.38], [33.00, 7.78, 4.52],
-  [34.00, 8.02, 4.66], [35.00, 8.26, 4.80], [36.00, 8.50, 4.94], [37.00, 8.74, 5.08],
-  [38.00, 8.98, 5.22], [39.00, 9.22, 5.36], [40.00, 9.46, 5.50], [41.00, 9.70, 5.64],
-  [42.00, 9.94, 5.78], [43.00, 10.18, 5.92], [44.00, 10.42, 6.06], [45.00, 10.66, 6.20],
-  [46.00, 10.90, 6.34], [47.00, 11.14, 6.48], [48.00, 11.38, 6.62], [49.00, 11.62, 6.76],
-  [50.00, 11.86, 6.90]
+  [0.25, 0.00, 0.06, 0.06, 0.07, 0.04, 0.07], [0.50, 0.06, 0.07, 0.08, 0.07, 0.07, 0.07],
+  [0.75, 0.06, 0.08, 0.09, 0.08, 0.09, 0.08], [1.00, 0.06, 0.09, 0.10, 0.09, 0.11, 0.09],
+  [1.25, 0.11, 0.12, 0.14, 0.12, 0.17, 0.12], [2.00, 0.21, 0.21, 0.14, 0.23, 0.17, 0.24],
+  [3.00, 0.40, 0.40, 0.31, 0.41, 0.45, 0.45], [4.00, 0.59, 0.59, 0.42, 0.60, 0.63, 0.67],
+  [5.00, 0.78, 0.78, 0.47, 0.79, 0.73, 0.92], [6.00, 0.86, 0.86, 0.51, 0.87, 0.83, 1.05],
+  [7.00, 1.08, 1.08, 0.70, 1.09, 1.16, 1.30], [8.00, 1.28, 1.28, 0.93, 1.31, 1.52, 1.55],
+  [9.00, 1.59, 1.59, 1.17, 1.61, 2.30, 1.83], [10.00, 1.66, 1.66, 1.54, 1.69, 2.87, 1.92],
+  [11.00, 1.95, 1.95, 1.76, 1.97, 3.21, 2.24], [12.00, 1.98, 1.98, 1.85, 2.00, 3.35, 2.27],
+  [13.00, 2.08, 2.08, 2.03, 2.10, 3.49, 2.37], [14.00, 2.19, 2.19, 2.13, 2.21, 3.67, 2.50],
+  [15.00, 2.28, 2.28, 2.24, 2.31, 3.86, 2.60], [16.00, 3.24, 3.24, 2.26, 3.27, 3.92, 3.66],
+  [17.00, 3.24, 3.24, 2.46, 3.27, 4.26, 3.66], [18.00, 3.50, 3.50, 2.58, 3.51, 4.47, 3.91],
+  [19.00, 3.70, 3.70, 2.63, 3.71, 4.56, 4.13], [20.00, 3.79, 3.79, 2.69, 3.81, 4.65, 4.24],
+  [21.00, 3.93, 3.93, 2.84, 3.96, 4.90, 4.41], [22.00, 4.07, 4.07, 2.98, 4.11, 5.14, 4.56],
+  [23.00, 4.21, 4.21, 3.12, 4.26, 5.38, 4.71], [24.00, 4.35, 4.35, 3.26, 4.39, 5.62, 4.84],
+  [25.00, 4.49, 4.49, 3.40, 4.53, 5.86, 5.00], [26.00, 4.63, 4.63, 3.54, 4.67, 6.10, 5.16],
+  [27.00, 4.77, 4.77, 3.68, 4.81, 6.34, 5.32], [28.00, 4.91, 4.91, 3.82, 4.95, 6.58, 5.47],
+  [29.00, 5.06, 5.06, 3.96, 5.09, 6.82, 5.62], [30.00, 5.25, 5.25, 4.10, 5.29, 7.06, 5.82],
+  [31.00, 5.39, 5.39, 4.24, 5.43, 7.30, 5.96], [32.00, 5.53, 5.53, 4.38, 5.57, 7.54, 6.12],
+  [33.00, 5.67, 5.67, 4.52, 5.71, 7.78, 6.27], [34.00, 5.81, 5.81, 4.66, 5.85, 8.02, 6.42],
+  [35.00, 5.95, 5.95, 4.80, 5.99, 8.26, 6.57], [36.00, 6.09, 6.09, 4.94, 6.13, 8.50, 6.72],
+  [37.00, 6.23, 6.23, 5.08, 6.27, 8.74, 6.87], [38.00, 6.37, 6.37, 5.22, 6.41, 8.98, 7.02],
+  [39.00, 6.51, 6.51, 5.36, 6.55, 9.22, 7.17], [40.00, 6.65, 6.65, 5.50, 6.69, 9.46, 7.33],
+  [41.00, 6.79, 6.79, 5.64, 6.83, 9.70, 7.48], [42.00, 6.93, 6.93, 5.78, 6.97, 9.94, 7.63],
+  [43.00, 7.07, 7.07, 5.92, 7.11, 10.18, 7.78], [44.00, 7.21, 7.21, 6.06, 7.25, 10.42, 7.93],
+  [45.00, 7.35, 7.35, 6.20, 7.39, 10.66, 8.08], [46.00, 7.49, 7.49, 6.34, 7.53, 10.90, 8.23],
+  [47.00, 7.63, 7.63, 6.48, 7.67, 11.14, 8.38], [48.00, 7.77, 7.77, 6.62, 7.81, 11.38, 8.54],
+  [49.00, 7.91, 7.91, 6.76, 7.95, 11.62, 8.69], [50.00, 8.05, 9.05, 6.90, 9.90, 11.86, 11.89]
 ];
 
 var fbtWeightUnit = 'kg';
@@ -10191,9 +10184,19 @@ function lookupFF(weightLbs, qtyIdx) {
   return calcFFByFormula(weightLbs, qtyIdx);
 }
 
+// 根据 hub + 当前日期，返回 FBT_HP_TABLE 中应查询的列索引
+// 列定义：[maxWeight, midCur, midNew, eastCur, eastNew, westCur, westNew]
+function getHPColIdx(hub) {
+  var today = new Date();
+  if (hub === 'mid')  return today < new Date('2026-10-02') ? 1 : 2;  // Mid  Hub
+  if (hub === 'east') return today < new Date('2026-08-15') ? 3 : 4;  // East Hub
+  if (hub === 'west') return today < new Date('2026-08-16') ? 5 : 6;  // West Hub
+  return 1; // fallback
+}
+
 function lookupHP(weightLbs, hub) {
   if (hub === 'direct') return 0;
-  var col = hub === 'east' ? 2 : 1; // west=1, east=2
+  var col = getHPColIdx(hub);
   for (var i = 0; i < FBT_HP_TABLE.length; i++) {
     if (weightLbs <= FBT_HP_TABLE[i][0]) return FBT_HP_TABLE[i][col];
   }
@@ -10236,7 +10239,7 @@ function checkCombinedOptimization(billableLbs, qtyIdx, hub) {
   var ffOpt = checkOptimization(billableLbs, FBT_FF_TABLE, qtyIdx);
   var hpOpt = null;
   if (hub !== 'direct') {
-    var hpCol = hub === 'east' ? 2 : 1;
+    var hpCol = getHPColIdx(hub);
     hpOpt = checkOptimization(billableLbs, FBT_HP_TABLE, hpCol);
   }
 
@@ -10364,13 +10367,33 @@ function renderFbtRefTables() {
   ffHtml += '<tr style="background:#FFFDE7;"><td>50+ lbs</td><td colspan="4">$41.32 + $0.75 × 每超出50lbs的磅数</td></tr>';
   document.querySelector('#fbtFFTable tbody').innerHTML = ffHtml;
 
-  // 中转费表 (West / East)
+  // 中转费表 (Mid / East / West / 直送FC) - 2026/7/10 新价卡
+  // 每格显示「当前价」粗体 + 「→未来价」小字灰
   var hpHtml = '';
+  var today = new Date();
+  var midActive  = today < new Date('2026-10-02') ? 1 : 2; // 1=cur 2=new
+  var eastActive = today < new Date('2026-08-15') ? 3 : 4;
+  var westActive = today < new Date('2026-08-16') ? 5 : 6;
   for (var j = 0; j < FBT_HP_TABLE.length; j++) {
     var r2 = FBT_HP_TABLE[j];
     var prevMax2 = j === 0 ? 0 : FBT_HP_TABLE[j-1][0];
     var label = '>' + wtLabel(prevMax2).replace(/lb\)$/, 'lb)') + ' 至 ' + wtLabel(r2[0]);
-    hpHtml += '<tr><td>' + label + '</td><td>$' + r2[1].toFixed(2) + '</td><td>$' + r2[2].toFixed(2) + '</td><td>免费</td></tr>';
+    // Mid Hub
+    var midCur  = r2[1].toFixed(2), midNew  = r2[2].toFixed(2);
+    var midCell = midActive === 1
+      ? '$' + midCur + ' <span style="color:#999;font-size:10px;">→$' + midNew + '</span>'
+      : '$' + midNew + ' <span style="color:#999;font-size:10px;">↑$' + midCur + '</span>';
+    // East Hub
+    var eastCur  = r2[3].toFixed(2), eastNew  = r2[4].toFixed(2);
+    var eastCell = eastActive === 3
+      ? '$' + eastCur + ' <span style="color:#999;font-size:10px;">→$' + eastNew + '</span>'
+      : '$' + eastNew + ' <span style="color:#999;font-size:10px;">↑$' + eastCur + '</span>';
+    // West Hub
+    var westCur  = r2[5].toFixed(2), westNew  = r2[6].toFixed(2);
+    var westCell = westActive === 5
+      ? '$' + westCur + ' <span style="color:#999;font-size:10px;">→$' + westNew + '</span>'
+      : '$' + westNew + ' <span style="color:#999;font-size:10px;">↑$' + westCur + '</span>';
+    hpHtml += '<tr><td>' + label + '</td><td>' + midCell + '</td><td>' + eastCell + '</td><td>' + westCell + '</td><td>免费</td></tr>';
   }
   document.querySelector('#fbtHPTable tbody').innerHTML = hpHtml;
 }
