@@ -936,9 +936,9 @@ function parseOrders(rows) {
     sampleInfoEl.textContent = `📦 ${sampleCount} 单样品订单（收入=0，状态≠已取消，计入产品成本+尾程运费）`;
   }
 
-  // Flush any pending auto-save to ensure latest input values are in localStorage
+  // Flush any pending auto-save to ensure latest input values are in localStorage (always flush so default % edits are never lost)
   clearTimeout(autoSaveTimer);
-  if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0 || Object.keys(skuCategories).length > 0 || Object.keys(categoryPromoCosts).length > 0) {
+  {
     const flushData = getSettingsData();
     localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(flushData));
   }
@@ -2424,7 +2424,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // ===== Flush pending auto-save before page unload (refresh/close) =====
 window.addEventListener('beforeunload', () => {
   clearTimeout(autoSaveTimer);
-  if (Object.keys(skuSettings).length > 0 || Object.keys(promoCosts).length > 0 || Object.keys(skuCategories).length > 0 || Object.keys(categoryPromoCosts).length > 0) {
+  {
     const data = getSettingsData();
     localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
   }
