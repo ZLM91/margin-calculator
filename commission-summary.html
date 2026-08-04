@@ -58,7 +58,7 @@
 <body>
 <div class="wrap">
   <h1>🎬 Matern'ella 视频提成汇总器</h1>
-  <div class="sub">把「7月英国自营-2店汇总.xlsx」「US7月自营-2店汇总.xlsx」这类文件扔进来，自动按剪辑/编导汇总 GMV。</div>
+  <div class="sub">把「7月英国自营-2店汇总.xlsx」「US7月自营-2店汇总.xlsx」这类文件扔进来，自动按剪辑/编导汇总 GMV，并换算成人民币提成（销售额×提点×占比）。</div>
 
   <div class="card">
     <div class="drop" id="drop">
@@ -68,8 +68,20 @@
     <input type="file" id="fileInput" accept=".xlsx,.xls" multiple hidden>
     <div class="row">
       <div>
-        <label>汇率 1£ = ? $</label>
-        <input type="number" id="rate" value="1.336" min="0" step="0.001">
+        <label>汇率 1£ = ? 元(¥)</label>
+        <input type="number" id="rateGBP" value="9.20" min="0" step="0.01">
+      </div>
+      <div>
+        <label>汇率 1$ = ? 元(¥)</label>
+        <input type="number" id="rateUSD" value="7.18" min="0" step="0.01">
+      </div>
+      <div>
+        <label>提点比例 %</label>
+        <input type="number" id="pct" value="0.3" min="0" step="0.05">
+      </div>
+      <div>
+        <label>剪辑占比 %</label>
+        <input type="number" id="clipShare" value="70" min="0" max="100" step="1">
       </div>
       <button id="genBtn">生成汇总</button>
       <button class="ghost" id="exportBtn" style="display:none;">导出 Excel</button>
@@ -79,7 +91,8 @@
     <details>
       <summary>列识别规则（点开看）</summary>
       自动找：含「视频ID/ID」的列作视频号；含「GMV/销售额」的列作销售额（表头带 £ 判为英镑、带 $ 判为美元，也可用文件名含 英国/UK 或 US/美国 强制）；
-      含「剪辑」的列归剪辑；含「编导」的列归编导。识别不到会弹提示。
+      含「剪辑」的列归剪辑；含「编导」的列归编导。识别不到会弹提示。<br>
+      GMV 按各自币种(£/$)统计，最终统一按你填的人民币汇率，为每个人算提成 = 合计¥ × 提点比例 × 角色占比（剪辑70% / 编导30%）。
     </details>
   </div>
 
@@ -152,7 +165,10 @@ document.getElementById('genBtn').addEventListener('click', ()=>{
   const note = document.getElementById('note');
   note.style.display='none';
   if(!FILES.length){ note.textContent='请先选择文件'; note.style.display='block'; return; }
-  const rate = parseFloat(document.getElementById('rate').value)||1.336;
+  const rateGBP = parseFloat(document.getElementById('rateGBP').value)||9.20;
+  const rateUSD = parseFloat(document.getElementById('rateUSD').value)||7.18;
+  const pct = (parseFloat(document.getElementById('pct').value)||0.3)/100;
+  const clipShare = (parseFloat(document.getElementById('clipShare').value)||70)/100;
   const editorGMV={}, directorGMV={}, siteTotals={};
   let totalVideos=0, warn=[];
   for(const f of FILES){
@@ -173,35 +189,48 @@ document.getElementById('genBtn').addEventListener('click', ()=>{
     }
   }
   if(warn.length){ note.textContent=warn.join('；'); note.style.display='block'; }
-  LAST = {rate, editorGMV, directorGMV, siteTotals, totalVideos};
+  LAST = {rateGBP, rateUSD, pct, clipShare, editorGMV, directorGMV, siteTotals, totalVideos};
   render(LAST);
   document.getElementById('exportBtn').style.display='inline-block';
 });
 
-function toUsd(d, rate){ return d.GBP*rate + d.USD; }
+function toRmb(d, rG, rU){ return d.GBP*rG + d.USD*rU; }
 function fmt(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtCNY(n){ return '¥'+fmt(n); }
 
 function render(R){
   const out = document.getElementById('out');
   const uk = R.siteTotals.GBP||{sum:0,n:0};
   const us = R.siteTotals.USD||{sum:0,n:0};
-  const ukUsd = uk.sum*R.rate;
-  const grand = ukUsd + us.sum;
+  const ukRmb = uk.sum*R.rateGBP;
+  const usRmb = us.sum*R.rateUSD;
+  const grandRmb = ukRmb + usRmb;
+  const totalComm = grandRmb * R.pct;
+  const clipComm = totalComm * R.clipShare;
+  const dirComm = totalComm * (1-R.clipShare);
+  const pctTxt = (R.pct*100).toFixed(2);
   let html = '<div class="card"><div class="totals">'
     + totCard(fmt(uk.sum)+' £','英国总销售额 ('+uk.n+' 视频)','')
     + totCard(fmt(us.sum)+' $','美国总销售额 ('+us.n+' 视频)','')
-    + totCard(fmt(ukUsd)+' $','英国折算 (1£='+R.rate+'$)','alt')
-    + totCard(fmt(grand)+' $','合计总销售额 ('+R.totalVideos+' 视频)','alt')
+    + totCard(fmtCNY(grandRmb),'总销售额 (人民币)','alt')
+    + totCard(fmtCNY(totalComm),'总提成 ('+pctTxt+'%，¥)','alt')
     + '</div></div>';
 
+  html += '<div class="card"><div class="sec-title">💰 提成拆分（销售额×'+pctTxt+'%）</div><div class="totals">'
+    + totCard(fmtCNY(clipComm),'剪辑提成 ('+(R.clipShare*100).toFixed(0)+'%)','')
+    + totCard(fmtCNY(dirComm),'编导提成 ('+((1-R.clipShare)*100).toFixed(0)+'%)','')
+    + '</div>'
+    + '<div style="font-size:12px;color:var(--muted);margin-top:8px;">每条素材：剪辑占 '+(R.clipShare*100).toFixed(0)+'% · 编导占 '+((1-R.clipShare)*100).toFixed(0)+'%；总计 '+fmtCNY(totalComm)+'</div>'
+    + '</div>';
+
   // 按剪辑
-  html += '<div class="card"><div class="sec-title">✂️ 按剪辑汇总（合计 GMV）</div>';
-  html += tableFor(R.editorGMV, R.rate, grand);
+  html += '<div class="card"><div class="sec-title">✂️ 按剪辑汇总（提成 = 合计¥ × '+pctTxt+'% × '+(R.clipShare*100).toFixed(0)+'%）</div>';
+  html += tableFor(R.editorGMV, R.rateGBP, R.rateUSD, R.pct, R.clipShare, grandRmb, totalComm);
   html += '</div>';
 
   // 按编导
-  html += '<div class="card"><div class="sec-title">🎬 按编导汇总（合计 GMV）</div>';
-  html += tableFor(R.directorGMV, R.rate, grand);
+  html += '<div class="card"><div class="sec-title">🎬 按编导汇总（提成 = 合计¥ × '+pctTxt+'% × '+((1-R.clipShare)*100).toFixed(0)+'%）</div>';
+  html += tableFor(R.directorGMV, R.rateGBP, R.rateUSD, R.pct, (1-R.clipShare), grandRmb, totalComm);
   html += '</div>';
 
   out.innerHTML = html;
@@ -210,16 +239,18 @@ function render(R){
 function totCard(v,l,cls){
   return `<div class="tot ${cls}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
 }
-function tableFor(map, rate, grand){
-  const rows = Object.entries(map).sort((a,b)=>toUsd(b[1],rate)-toUsd(a[1],rate));
-  let h = `<table><thead><tr><th>${map===null?'':''}人员</th><th>英国(£)</th><th>美国($)</th><th>合计($)</th><th>占比</th></tr></thead><tbody>`;
+function tableFor(map, rG, rU, pct, share, grandRmb, totalComm){
+  const rows = Object.entries(map).sort((a,b)=>toRmb(b[1],rG,rU)-toRmb(a[1],rG,rU));
+  let h = `<table><thead><tr><th>人员</th><th>英国(£)</th><th>美国($)</th><th>合计(¥)</th><th>提成(¥)</th><th>占全部提成</th></tr></thead><tbody>`;
   for(const [name,d] of rows){
-    const usd = toUsd(d,rate);
-    const pct = grand>0 ? (usd/grand*100) : 0;
-    const w = Math.max(4, Math.min(100, pct*2));
+    const rmb = toRmb(d,rG,rU);
+    const comm = rmb * pct * share;
+    const p = totalComm>0 ? comm/totalComm*100 : 0;
+    const w = Math.max(4, Math.min(100, p*2.5));
     h += `<tr><td>${name||'(空)'}</td><td>${fmt(d.GBP)}</td><td>${fmt(d.USD)}</td>`
-       + `<td><b>${fmt(usd)}</b></td>`
-       + `<td><span class="bar" style="width:${w}px"></span> ${pct.toFixed(1)}%</td></tr>`;
+       + `<td><b>${fmtCNY(rmb)}</b></td>`
+       + `<td><b>${fmtCNY(comm)}</b></td>`
+       + `<td><span class="bar" style="width:${w}px"></span> ${p.toFixed(1)}%</td></tr>`;
   }
   h += '</tbody></table>';
   return h;
@@ -228,25 +259,43 @@ function tableFor(map, rate, grand){
 document.getElementById('exportBtn').addEventListener('click', ()=>{
   if(!LAST) return;
   const R = LAST;
-  const rows=[];
-  rows.push({项目:'英国总销售额(£)', 数值:R.siteTotals.GBP?.sum||0});
-  rows.push({项目:'美国总销售额($)', 数值:R.siteTotals.USD?.sum||0});
-  rows.push({项目:'英国折算($)', 数值:(R.siteTotals.GBP?.sum||0)*R.rate});
-  rows.push({项目:'合计总销售额($)', 数值:toUsd(R.siteTotals.GBP||{GBP:0,USD:0},R.rate)+(R.siteTotals.USD?.sum||0)});
-  rows.push({项目:'汇率', 数值:R.rate});
-  const aoo = XLSX.utils.aoa_to_sheet([['汇总'],[]].concat(rows.map(r=>[r.项目,r.数值])));
-  const edRows=[['剪辑','英国(£)','美国($)','合计($)']];
-  for(const [n,d] of Object.entries(R.editorGMV).sort((a,b)=>toUsd(b[1],R.rate)-toUsd(a[1],R.rate)))
-    edRows.push([n,d.GBP,d.USD,toUsd(d,R.rate)]);
+  const ukRmb = (R.siteTotals.GBP?.sum||0)*R.rateGBP;
+  const usRmb = (R.siteTotals.USD?.sum||0)*R.rateUSD;
+  const grandRmb = ukRmb+usRmb;
+  const totalComm = grandRmb*R.pct;
+  const clipComm = totalComm*R.clipShare;
+  const dirComm = totalComm*(1-R.clipShare);
+  const ov = [
+    ['项目','数值'],
+    ['英国总销售额(£)', R.siteTotals.GBP?.sum||0],
+    ['美国总销售额($)', R.siteTotals.USD?.sum||0],
+    ['英国总销售额(¥)', ukRmb],
+    ['美国总销售额(¥)', usRmb],
+    ['总销售额(¥)', grandRmb],
+    ['提点比例(%)', (R.pct*100)],
+    ['总提成(¥)', totalComm],
+    ['剪辑提成(¥) ['+(R.clipShare*100)+'%]', clipComm],
+    ['编导提成(¥) ['+((1-R.clipShare)*100)+'%]', dirComm],
+    ['汇率 1£=¥', R.rateGBP],
+    ['汇率 1$=¥', R.rateUSD],
+  ];
+  const aoo = XLSX.utils.aoa_to_sheet([['总览'],[]].concat(ov));
+  const edRows=[['剪辑','英国(£)','美国($)','合计(¥)','提成(¥)']];
+  for(const [n,d] of Object.entries(R.editorGMV).sort((a,b)=>toRmb(b[1],R.rateGBP,R.rateUSD)-toRmb(a[1],R.rateGBP,R.rateUSD))){
+    const rmb=toRmb(d,R.rateGBP,R.rateUSD);
+    edRows.push([n,d.GBP,d.USD,rmb,rmb*R.pct*R.clipShare]);
+  }
   const ed = XLSX.utils.aoa_to_sheet(edRows);
-  const drRows=[['编导','英国(£)','美国($)','合计($)']];
-  for(const [n,d] of Object.entries(R.directorGMV).sort((a,b)=>toUsd(b[1],R.rate)-toUsd(a[1],R.rate)))
-    drRows.push([n,d.GBP,d.USD,toUsd(d,R.rate)]);
+  const drRows=[['编导','英国(£)','美国($)','合计(¥)','提成(¥)']];
+  for(const [n,d] of Object.entries(R.directorGMV).sort((a,b)=>toRmb(b[1],R.rateGBP,R.rateUSD)-toRmb(a[1],R.rateGBP,R.rateUSD))){
+    const rmb=toRmb(d,R.rateGBP,R.rateUSD);
+    drRows.push([n,d.GBP,d.USD,rmb,rmb*R.pct*(1-R.clipShare)]);
+  }
   const dr = XLSX.utils.aoa_to_sheet(drRows);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, aoo, '总览');
-  XLSX.utils.book_append_sheet(wb, ed, '按剪辑');
-  XLSX.utils.book_append_sheet(wb, dr, '按编导');
+  XLSX.utils.book_append_sheet(wb, ed, '按剪辑提成');
+  XLSX.utils.book_append_sheet(wb, dr, '按编导提成');
   XLSX.writeFile(wb, '视频提成汇总.xlsx');
 });
 </script>
