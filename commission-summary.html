@@ -69,11 +69,14 @@
     <div class="row">
       <div>
         <label>汇率 1£ = ? 元(¥)</label>
-        <input type="number" id="rateGBP" value="9.20" min="0" step="0.01">
+        <input type="number" id="rateGBP" value="9.07" min="0" step="0.01">
       </div>
       <div>
         <label>汇率 1$ = ? 元(¥)</label>
-        <input type="number" id="rateUSD" value="7.18" min="0" step="0.01">
+        <input type="number" id="rateUSD" value="6.75" min="0" step="0.01">
+      </div>
+      <div style="grid-column:1 / -1; font-size:12px; color:#b45309; background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:6px 10px;">
+        ⚠️ 汇率每天浮动，请填「生成提成当天」的实时汇率（当前默认值为 2026-08-04 实时：1£=9.07¥、1$=6.75¥）。每月/每次生成时按当天实际汇率改这里。
       </div>
       <div>
         <label>提点比例 %</label>
@@ -165,8 +168,8 @@ document.getElementById('genBtn').addEventListener('click', ()=>{
   const note = document.getElementById('note');
   note.style.display='none';
   if(!FILES.length){ note.textContent='请先选择文件'; note.style.display='block'; return; }
-  const rateGBP = parseFloat(document.getElementById('rateGBP').value)||9.20;
-  const rateUSD = parseFloat(document.getElementById('rateUSD').value)||7.18;
+  const rateGBP = parseFloat(document.getElementById('rateGBP').value)||9.07;
+  const rateUSD = parseFloat(document.getElementById('rateUSD').value)||6.75;
   const pct = (parseFloat(document.getElementById('pct').value)||0.3)/100;
   const clipShare = (parseFloat(document.getElementById('clipShare').value)||70)/100;
   const editorGMV={}, directorGMV={}, siteTotals={};
