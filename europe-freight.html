@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>欧洲尾程运费比价 · 谷仓德国国际</title>
+<style>
+:root{--blue:#2B579A;--bg:#F0EDE6;--line:#E0DBD2;--txt:#1E1E1E;--sub:#606060;}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Microsoft YaHei',sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px 18px;line-height:1.5;}
+.wrap{max-width:1080px;margin:0 auto;background:#fff;padding:26px 24px;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.06);}
+h1{font-size:21px;font-weight:600;color:var(--blue);margin:0 0 4px;}
+.sub{font-size:12px;color:var(--sub);margin:0 0 18px;}
+.card{background:#F5F3EE;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px;}
+.card h3{margin:0 0 12px;font-size:14px;color:var(--blue);}
+.row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;}
+.fld{display:flex;flex-direction:column;gap:4px;}
+.fld label{font-size:12px;color:var(--sub);}
+.fld input{width:96px;padding:7px 9px;border:1px solid #C5D3E8;border-radius:7px;font-size:14px;}
+.fld input.fuel{width:74px;}
+.calcbar{background:linear-gradient(135deg,#E8F0FE,#D4E4FC);border:1px solid #A8C8F0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px;color:var(--blue);font-weight:500;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.calcbar b{font-size:18px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:var(--blue);color:#fff;padding:9px 8px;text-align:left;position:sticky;top:0;cursor:pointer;user-select:none;white-space:nowrap;}
+thead th:hover{background:#1E4080;}
+tbody td{padding:8px;border-bottom:1px solid #EDEDED;white-space:nowrap;}
+tbody tr:hover{background:#F5F9FF;}
+.best{font-weight:700;color:#0F6E56;}
+.amt{font-weight:700;color:#A32D2D;}
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;background:#E8F5E9;color:#2E7D32;font-weight:500;}
+.note{font-size:11px;color:#999;margin-top:10px;line-height:1.6;}
+.seasonal{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--sub);}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🇪🇺 欧洲尾程运费比价 · 谷仓德国国际</h1>
+<p class="sub">数据源：20260618 P价谷仓德国尾程物流报价 · 币种 EUR · 仅对比 GC PARCEL / DPD / GLS 三家德国国际包裹渠道 · 自动选出每个国家综合运费最低的物流</p>
+
+<div class="card">
+  <h3>① 包裹参数</h3>
+  <div class="row">
+    <div class="fld"><label>实重 (kg)</label><input id="weight" type="number" value="1" min="0" step="0.1"></div>
+    <div class="fld"><label>长 L (cm)</label><input id="len" type="number" value="20" min="0" step="1"></div>
+    <div class="fld"><label>宽 W (cm)</label><input id="wid" type="number" value="15" min="0" step="1"></div>
+    <div class="fld"><label>高 H (cm)</label><input id="hei" type="number" value="10" min="0" step="1"></div>
+    <div class="fld"><label>体积重 = L×W×H / 5000</label><input id="vol" type="text" value="" readonly style="background:#EFF3F8;color:#444;"></div>
+  </div>
+  <div class="calcbar" style="margin-top:14px;">
+    <span>📦 计费重（实重与体积重取大）</span><b id="chargeW">—</b><span>kg</span>
+    <span id="basisNote" style="font-size:12px;font-weight:400;color:#666;"></span>
+  </div>
+</div>
+
+<div class="card">
+  <h3>② 附加费率（燃油随官网浮动，可按当月实际填写）</h3>
+  <div class="row">
+    <div class="fld"><label>GC PARCEL 燃油 %</label><input id="fuelGc" class="fuel" type="number" value="4" min="0" step="0.1"></div>
+    <div class="fld"><label>DPD 燃油 %</label><input id="fuelDpd" class="fuel" type="number" value="20" min="0" step="0.1"></div>
+    <div class="fld"><label>GLS 燃油 %</label><input id="fuelGls" class="fuel" type="number" value="15" min="0" step="0.1"></div>
+    <label class="seasonal" style="margin-bottom:8px;"><input id="seasonal" type="checkbox"> GLS 物流旺季附加费 (2.3%，每年 4-5月 & 10-12月)</label>
+  </div>
+</div>
+
+<div class="card" style="padding:0;overflow:hidden;">
+  <table id="result">
+    <thead><tr>
+      <th data-k="i">#</th>
+      <th data-k="cn">国家</th>
+      <th data-k="code">代码</th>
+      <th data-k="prov">最便宜物流</th>
+      <th data-k="base">基础运费 €</th>
+      <th data-k="comp">综合运费 €</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<p class="note">
+  <b>综合运费口径</b> = 尾程基础运费 + 各项必收附加费（按各渠道报价表文档公式）：<br>
+  · GC PARCEL：基础×(1+燃油) + 道路费 0.22 + 安全费 0.01（≤15kg 标准件）<br>
+  · DPD：基础×(1+燃油) + 道路费 0.25 + 安全费 0.03<br>
+  · GLS：(基础 + 道路费 0.45) × (1 + 燃油 + 环境费 4.3% + 旺季费 2.3%)；按<b>实重</b>计费<br>
+  <b>未计入</b>：偏远费、超尺寸/超长/超小、重派费、退件费、岛屿附加费等<b>条件性附加费</b>（依实际包裹触发）；这些会因邮编/尺寸而异。GLS 燃油为官网浮动值，默认 15% 仅为示例，请以当月官网为准。<br>
+  超重处理：超过各渠道最大档位重量后，按"计费重 × 续重单价(Per kg)"计（依报价表说明）。DHL 国际（Basic+Per KG 无明确档位公式）暂未纳入，避免误算。
+</p>
+</div>
+
+<script>
+const DATA = {"providers":{"gc_parcel":{"name":"GC PARCEL 德国国际","chargeBasis":"volumetric","brackets":[{"label":"0＜x≤0.25","max":0.25},{"label":"0.25＜x≤0.5","max":0.5},{"label":"0.5＜x≤0.75","max":0.75},{"label":"0.75＜x≤1","max":1.0},{"label":"1＜x≤2","max":2.0},{"label":"2＜x≤3","max":3.0},{"label":"3＜x≤4","max":4.0},{"label":"4＜x≤5","max":5.0},{"label":"5＜x≤6","max":6.0},{"label":"6＜x≤7","max":7.0},{"label":"7＜x≤8","max":8.0},{"label":"8＜x≤9","max":9.0},{"label":"9＜x≤10","max":10.0},{"label":"10＜x≤11","max":11.0},{"label":"11＜x≤12","max":12.0},{"label":"12＜x≤13","max":13.0},{"label":"13＜x≤14","max":14.0},{"label":"14＜x≤15","max":15.0},{"label":"15＜x≤16","max":16.0},{"label":"16＜x≤17","max":17.0},{"label":"17＜x≤18","max":18.0},{"label":"18＜x≤19","max":19.0},{"label":"19＜x≤20","max":20.0},{"label":"20＜x≤21","max":21.0},{"label":"21＜x≤22","max":22.0},{"label":"22＜x≤23","max":23.0},{"label":"23＜x≤24","max":24.0},{"label":"24＜x≤25","max":25.0},{"label":"25＜x≤26","max":26.0},{"label":"26＜x≤27","max":27.0},{"label":"27＜x≤28","max":28.0},{"label":"28＜x≤29","max":29.0},{"label":"29＜x≤30","max":30.0},{"label":"30＜x≤31.5","max":31.5}],"rates":{"FR":[3.96,4.68,5.07,5.61,7.32,8.96,10.59,11.25,11.81,11.81,11.81,11.81,11.81,14.12,14.12,14.12,14.12,14.12,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25,14.25],"IT":[9.82,9.82,9.82,9.82,10.2,10.58,10.96,11.34,11.53,11.53,11.53,11.53,11.53,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58,11.58],"ES":[9.63,9.63,9.63,9.63,10.21,10.78,11.35,11.92,12.49,13.06,13.09,13.09,13.09,13.09,13.09,13.09,13.09,13.09,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96,13.96],"NL":[6.5,6.5,6.5,6.5,6.74,6.98,7.22,7.4,7.4,7.4,7.4,7.4,7.4,7.4,7.4,7.4,7.4,7.4,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75],"PL":[6.26,6.26,6.26,6.26,6.52,6.78,7.03,7.29,7.55,7.81,8.06,8.32,8.58,8.83,9.09,9.35,9.61,9.86,10.12,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17],"AT":[6.43,6.43,6.43,6.43,6.69,6.96,7.23,7.49,7.76,7.94,7.94,7.94,7.94,7.94,7.94,7.94,7.94,7.94,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17,10.17],"BE":[6.63,6.63,6.63,6.63,6.63,6.63,6.71,6.71,6.71,6.71,6.71,6.71,6.71,7.5,7.5,7.5,7.5,7.5,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9,7.9],"CZ":[5.93,5.93,5.93,5.93,6.51,7.09,7.67,8.25,8.83,9.42,10.0,10.58,10.96,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12,11.12]},"overweightPerKg":{"FR":0.72,"IT":0.64,"ES":0.78,"NL":0.43,"PL":0.56,"AT":0.56,"BE":0.44,"CZ":0.62},"fuel":0.04,"road":0.22,"security":0.01,"formulaNote":"基础×(1+燃油4%)+道路0.22+安全0.01（≤15kg标准件；不含偏远/超尺寸等条件附加费）"},"dpd":{"name":"DPD 德国国际包裹","chargeBasis":"volumetric","brackets":[{"label":"0＜x≤3kg","max":3.0},{"label":"3＜x≤10kg","max":10.0},{"label":"10＜x≤15kg","max":15.0},{"label":"15＜x≤20kg","max":20.0},{"label":"20＜x≤31.5kg","max":31.5}],"rates":{"LU":[8.54,8.54,9.1,10.11,11.27],"BG":[32.48,36.62,36.62,41.09,41.09],"BA":[32.8,32.8,32.8,32.8,32.8],"GR":[50.82,54.3,54.3,63.28,63.28],"IS":[32.8,32.8,32.8,32.8,32.8],"RS":[32.8,32.8,32.8,32.8,32.8],"DK":[12.34,12.34,12.34,15.17,15.17],"EE":[18.8,21.71,21.53,21.53,21.53],"FI":[19.35,19.35,27.02,27.02,27.02],"HR":[18.14,18.14,26.1,26.1,26.1],"LT":[24.0,26.92,19.55,19.55,19.55],"LV":[24.0,26.92,20.77,20.77,20.77],"NO":[18.14,18.14,18.14,18.14,18.14],"RO":[33.34,36.62,36.62,41.09,41.09],"CH":[18.14,18.14,18.14,18.14,18.14],"GB":[10.45,10.45,10.45,10.45,10.45],"HU":[10.11,10.11,13.79,13.79,13.79],"LI":[10.45,10.45,10.45,10.45,10.45],"MC":[13.23,13.23,15.49,15.49,15.49],"IE":[15.4,17.26,17.66,17.84,17.84],"PT":[15.57,15.57,31.7,31.7,31.7],"SK":[14.92,17.0,16.94,16.94,16.94],"SI":[15.72,17.62,16.05,16.05,16.05],"SE":[15.04,15.04,15.04,19.01,19.01],"ES":[14.08,14.08,14.08,15.01,15.01],"IT":[12.39,12.39,12.45,12.45,12.45],"FR":[11.98,11.98,14.04,14.04,14.04],"AT":[8.53,8.53,8.53,10.92,10.92],"BE":[7.11,7.2,8.05,8.48,8.48],"NL":[7.93,7.93,7.93,8.32,8.32],"PL":[9.55,9.55,10.92,10.92,10.92],"CZ":[10.12,11.78,11.96,11.96,11.96]},"overweightPerKg":{"LU":0.51,"BG":1.83,"BA":1.46,"GR":2.82,"IS":1.46,"RS":1.46,"DK":0.68,"EE":0.96,"FI":1.21,"HR":1.16,"LT":0.87,"LV":0.93,"NO":0.81,"RO":1.83,"CH":0.81,"GB":0.47,"HU":0.62,"LI":0.47,"MC":0.69,"IE":0.8,"PT":1.41,"SK":0.76,"SI":0.72,"SE":0.85,"ES":0.67,"IT":0.56,"FR":0.63,"AT":0.49,"BE":0.38,"NL":0.37,"PL":0.49,"CZ":0.54},"fuel":0.2,"road":0.25,"security":0.03,"formulaNote":"基础×(1+燃油20%)+道路0.25+安全0.03（≤31.5kg标准件；不含偏远/超尺寸等条件附加费）"},"gls":{"name":"GLS 国际","chargeBasis":"real","brackets":[{"label":"0＜x≤2","max":2.0},{"label":"2＜x≤5","max":5.0},{"label":"5＜x≤10","max":10.0},{"label":"10＜x≤15","max":15.0},{"label":"15＜x≤25","max":25.0},{"label":"25＜x≤30","max":30.0},{"label":"30＜x≤40","max":40.0},{"label":"Per kg","max":null}],"rates":{"AT":[8.69,8.69,11.56,11.57,12.81,17.65,27.31,0.96],"BE":[8.86,8.92,11.56,11.57,13.67,15.87,27.46,0.97],"CZ":[10.86,11.05,12.9,13.22,16.36,21.96,31.88,1.12],"DK":[13.37,14.1,14.81,15.41,17.83,19.26,32.5,1.14],"EE":[13.14,13.14,16.4,19.18,21.82,24.69,30.01,1.06],"ES":[15.89,15.89,21.47,21.62,21.76,27.77,45.6,1.6],"FI":[31.59,34.66,38.69,47.06,56.79,64.73,76.35,2.68],"FR":[10.71,10.91,14.58,14.58,16.55,20.02,31.45,1.11],"GR":[59.87,60.75,72.7,85.02,110.39,128.99,157.89,5.53],"HR":[26.33,31.27,33.2,38.79,44.3,48.18,62.64,2.2],"HU":[11.91,11.91,15.16,18.12,20.8,24.43,30.52,1.07],"IE":[26.54,28.69,31.44,34.07,51.97,57.98,74.78,2.62],"IT":[9.02,9.51,13.11,14.58,16.25,20.46,32.75,1.15],"LT":[13.14,13.14,16.32,19.36,22.02,24.69,30.01,1.06],"LU":[7.49,7.49,11.26,11.93,13.68,16.36,27.31,0.96],"LV":[14.65,14.65,17.85,20.91,23.95,27.02,33.1,1.16],"MK":[68.31,85.27,132.46,166.52,226.12,260.96,380.74,13.33],"NL":[8.6,8.6,11.93,11.93,13.27,16.32,27.13,0.95],"PL":[10.76,11.19,12.91,15.0,17.68,20.3,35.48,1.25],"PT":[31.69,32.44,34.73,37.35,58.34,64.17,80.95,2.84],"RO":[31.25,34.52,39.51,41.99,52.46,62.35,79.92,2.8],"SE":[22.57,23.61,24.88,27.42,43.8,51.85,66.41,1.97],"SI":[22.06,23.38,25.73,32.29,37.36,43.09,53.82,1.6],"SK":[24.04,30.68,33.56,38.44,49.85,56.16,69.49,2.44]},"fuelVariable":true,"road":0.45,"env":0.043,"seasonal":0.023,"formulaNote":"(基础+道路0.45)×(1+燃油+环境4.3%+旺季2.3%)；按实重；燃油随官网浮动"}},"countryNames":{"FR":"法国","IT":"意大利","ES":"西班牙","NL":"荷兰","PL":"波兰","AT":"奥地利","BE":"比利时","CZ":"捷克共和国","LU":"卢森堡","BG":"保加利亚","BA":"波斯尼亚和黑塞哥维那","GR":"希腊","IS":"冰岛","RS":"塞尔维亚","DK":"丹麦","EE":"爱沙尼亚","FI":"芬兰","HR":"克罗地亚","LT":"立陶宛","LV":"拉脱维亚","NO":"挪威","RO":"罗马尼亚","CH":"瑞士","GB":"英国","HU":"匈牙利","LI":"列支敦士登","MC":"摩纳哥","IE":"爱尔兰","PT":"葡萄牙","SK":"斯洛伐克","SI":"斯洛文尼亚","SE":"瑞典","MK":"马其顿","AF":"阿富汗","AL":"阿尔巴尼亚","DZ":"阿尔及利亚","AS":"美属萨摩亚","AD":"安道尔","AO":"安哥拉","AI":"安圭拉","AG":"安提瓜岛和巴布达","AR":"阿根廷","AM":"亚美尼亚","AW":"阿鲁巴","XD":"阿森松","AU":"澳大利亚","AZ":"阿塞拜疆","XH":"亚速尔群岛","BS":"巴哈马","BH":"巴林","XJ":"巴利阿里群岛","BD":"孟加拉","BB":"巴巴多斯岛","BY":"白俄罗斯","BZ":"伯利兹","BJ":"贝宁","BM":"百慕大","BT":"不丹","BO":"玻利维亚","XB":"伯奈尔岛","BW":"博茨瓦纳","BV":"布韦岛","BR":"巴西","IO":"英属印度洋领地","BN":"文莱","BF":"布基纳法索","BI":"布隆迪","KH":"柬埔寨","CM":"喀麦隆","CA":"加拿大","IC":"加那利群岛","CV":"佛得角","XK":"加罗林群岛","KY":"开曼群岛","CF":"中非共和国","TD":"乍得","CL":"智利","CN":"中国","CX":"圣诞岛","CC":"科科斯群岛","CO":"哥伦比亚","KM":"科摩罗","CG":"刚果","CD":"刚果民主共和国","CK":"库克群岛","CR":"哥斯达黎加","CI":"科特迪瓦","CU":"古巴","XC":"库拉索岛(荷兰)","CY":"塞浦路斯","DJ":"吉布提","DM":"多米尼加","DO":"多米尼加共和国","TL":"东帝汶","EC":"厄瓜多尔","EG":"埃及","SV":"萨尔瓦多","GQ":"赤道几内亚","ER":"厄立特里亚","ET":"埃塞俄比亚","FK":"弗兰克群岛","FO":"法罗群岛","FJ":"斐济","FX":"法属美特罗波利坦","GF":"法属圭亚那","PF":"法属波利尼西亚","TF":"法属南部领地","GA":"加蓬","GM":"冈比亚","GE":"乔治亚","DE":"德国","GH":"加纳","GI":"直布罗陀","GL":"格陵兰","GD":"格林纳达","GP":"瓜德罗普","GU":"关岛","GT":"危地马拉","GG":"格恩西岛","GN":"几内亚","GW":"几内亚比绍","GY":"圭亚那","HT":"海地","HM":"赫德和麦克唐纳群岛","HN":"洪都拉斯","IN":"印度","ID":"印度尼西亚","IR":"伊朗","IQ":"伊拉克","IL":"以色列","JM":"牙买加","JP":"日本","JE":"泽西岛","JO":"约旦","KZ":"哈萨克斯坦","KE":"肯尼亚","KI":"基里巴斯","KV":"科索沃","KW":"科威特","KG":"吉尔吉斯斯坦","LA":"老挝","LB":"黎巴嫩","LS":"莱索托","LR":"利比里亚","LY":"利比亚","MG":"马达加斯加","XI":"马德拉岛","MW":"马拉维","MY":"马来西亚","MV":"马尔代夫","ML":"马里","MT":"马耳他","MH":"马绍尔群岛","MQ":"马提尼克","MR":"毛里塔尼亚","MU":"毛里求斯","YT":"马约特岛","MX":"墨西哥","FM":"密克罗尼西亚","MD":"摩尔多瓦","MN":"蒙古","ME":"黑山","MS":"蒙特塞拉特","MA":"摩洛哥","MZ":"莫桑比克","MM":"缅甸","NA":"纳米比亚","NR":"瑙鲁","NP":"尼泊尔","AN":"荷属安地列斯","XN":"尼维斯岛","NC":"新喀里多尼亚","NZ":"新西兰","NI":"尼加拉瓜","NE":"尼日尔","NG":"尼日利亚","NU":"纽埃","NF":"诺福克","KP":"朝鲜","OM":"阿曼","PK":"巴基斯坦","PW":"帕劳群岛","PA":"巴拿马","PG":"巴布亚新几内亚","PY":"巴拉圭","PE":"秘鲁","PH":"菲律宾","PN":"皮特凯恩","QA":"卡塔尔","RE":"留尼旺岛","RU":"俄罗斯","RW":"卢旺达","KN":"圣基茨和尼维斯","PM":"圣皮埃尔和米克隆群岛","VC":"圣文森特和格林纳丁斯","MP":"北马里亚纳群岛","SM":"圣马力诺","ST":"圣多美和普林西比","SA":"沙特阿拉伯","SN":"塞内加尔","SC":"塞舌尔","SL":"塞拉利昂","SG":"新加坡","SB":"所罗门群岛","SO":"索马里","XS":"索马里兰共和国","ZA":"南非","GS":"南乔治亚和南桑德威奇群岛","KR":"韩国","SS":"南苏丹","XG":"北非西班牙属土","LK":"斯里兰卡","SH":"圣赫勒拿","XY":"圣巴特勒米岛","XE":"圣尤斯特歇斯","LC":"圣卢西亚","XM":"圣马腾岛","SD":"苏丹","SR":"苏里南","SJ":"斯瓦尔巴和扬马廷","SZ":"斯威士兰","SY":"叙利亚","TJ":"塔吉克斯坦","TZ":"坦桑尼亚","TH":"泰国","TG":"多哥","TK":"托克劳","TO":"汤加","TT":"特立尼达和多巴哥","TA":"特里斯坦达昆哈","TN":"突尼斯","TR":"土耳其","TM":"土库曼斯坦","TC":"特克斯和凯克特斯群岛","TV":"图瓦卢","UG":"乌干达","UA":"乌克兰","AE":"阿拉伯联合酋长国","US":"美国","UM":"美属外岛","UY":"乌拉圭","UZ":"乌兹别克斯坦","VU":"瓦努阿图","VA":"梵蒂冈","VE":"委内瑞拉","VN":"越南","VG":"维尔京群岛，英属","VI":"维尔京群岛，美属","WF":"瓦利斯和福图纳","EH":"西撒哈拉","WS":"萨摩亚","YE":"也门","JU":"南斯拉夫","ZR":"扎伊尔","ZM":"赞比亚","ZW":"津巴布韦","HK":"中国（香港）","MO":"中国（澳门）","TW":"中国（台湾）","AC":"阿森松岛","AX":"奥兰群岛","BL":"圣巴泰勒米","BQ":"博奈尔","CW":"库拉索","GC":"塞尔维亚,黑山","IM":"曼岛","PR":"波多黎各","PS":"巴勒斯坦","SX":"圣马丁岛 (加勒比海)","MF":"法属圣马丁"}};
+
+const NAMES = DATA.countryNames;
+
+function getChargeWeight(){
+  const w = parseFloat(document.getElementById('weight').value)||0;
+  const l = parseFloat(document.getElementById('len').value)||0;
+  const wd= parseFloat(document.getElementById('wid').value)||0;
+  const h = parseFloat(document.getElementById('hei').value)||0;
+  const vol = (l*wd*h)/5000;
+  document.getElementById('vol').value = vol.toFixed(3);
+  return {real:w, vol:vol};
+}
+
+function baseRate(p, code, weight){
+  const rates = p.rates[code];
+  if(!rates) return null;
+  const br = p.brackets;
+  for(let i=0;i<br.length;i++){
+    if(weight <= br[i].max + 1e-9){
+      const v = rates[i];
+      if(v===null||v===undefined) return null;
+      return v;
+    }
+  }
+  const over = p.overweightPerKg && p.overweightPerKg[code];
+  if(over) return weight * over;
+  return null;
+}
+
+function comprehensive(p, code, weight, inputs){
+  const base = baseRate(p, code, weight);
+  if(base===null) return null;
+  if(p.name.indexOf('GLS')>=0){
+    const fuel = inputs.glsFuel;
+    const env = p.env||0;
+    const season = inputs.seasonal ? (p.seasonal||0) : 0;
+    return (base + (p.road||0)) * (1 + fuel + env + season);
+  } else {
+    const fuel = (p.name.indexOf('GC')>=0)? inputs.gcFuel : inputs.dpdFuel;
+    return base*(1+fuel) + (p.road||0) + (p.security||0);
+  }
+}
+
+function compute(){
+  const cw = getChargeWeight();
+  const wFor = (p)=> p.chargeBasis==='real' ? cw.real : Math.max(cw.real, cw.vol);
+  const chargeDisplay = Math.max(cw.real, cw.vol);
+  document.getElementById('chargeW').textContent = chargeDisplay.toFixed(2);
+  document.getElementById('basisNote').textContent =
+    '(实重 '+cw.real.toFixed(2)+' / 体积重 '+cw.vol.toFixed(2)+'，取大)';
+
+  const inputs = {
+    gcFuel: (parseFloat(document.getElementById('fuelGc').value)||0)/100,
+    dpdFuel:(parseFloat(document.getElementById('fuelDpd').value)||0)/100,
+    glsFuel:(parseFloat(document.getElementById('fuelGls').value)||0)/100,
+    seasonal: document.getElementById('seasonal').checked
+  };
+
+  const countries = new Set();
+  for(const k in DATA.providers){ for(const c in DATA.providers[k].rates) countries.add(c); }
+  const rows=[];
+  countries.forEach(code=>{
+    let best=null;
+    for(const k in DATA.providers){
+      const p=DATA.providers[k];
+      if(!p.rates[code]) continue;
+      const w = wFor(p);
+      const comp = comprehensive(p, code, w, inputs);
+      const base = baseRate(p, code, w);
+      if(comp===null) continue;
+      if(!best || comp < best.comp){
+        best = {prov:p.name, comp:comp, base:base};
+      }
+    }
+    if(best){
+      rows.push({code:code, cn:NAMES[code]||code, prov:best.prov, base:best.base, comp:best.comp});
+    }
+  });
+  rows.sort((a,b)=> a.comp-b.comp);
+  const tb = document.querySelector('#result tbody');
+  tb.innerHTML='';
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML = '<td>'+(i+1)+'</td>'+
+      '<td>'+r.cn+'</td>'+
+      '<td>'+r.code+'</td>'+
+      '<td><span class="pill">'+r.prov+'</span></td>'+
+      '<td>'+r.base.toFixed(2)+'</td>'+
+      '<td class="amt">'+r.comp.toFixed(2)+'</td>';
+    tb.appendChild(tr);
+  });
+}
+
+document.querySelectorAll('#result thead th').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const k=th.dataset.k;
+    const tb=document.querySelector('#result tbody');
+    const rows=[...tb.children];
+    const map={code:2,cn:1,prov:3,base:4,comp:5};
+    if(k==='i'){rows.sort((a,b)=>a.firstChild.textContent-b.firstChild.textContent);}
+    else if(k==='code'||k==='cn'||k==='prov'){rows.sort((a,b)=>a.children[map[k]].textContent.localeCompare(b.children[map[k]].textContent,'zh'));}
+    else if(k==='base'||k==='comp'){rows.sort((a,b)=>parseFloat(a.children[map[k]].textContent)-parseFloat(b.children[map[k]].textContent));}
+    rows.forEach(r=>tb.appendChild(r));
+  });
+});
+
+['weight','len','wid','hei','fuelGc','fuelDpd','fuelGls','seasonal'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',compute);
+});
+compute();
+</script>
+</body>
+</html>
