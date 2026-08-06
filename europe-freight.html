@@ -146,10 +146,12 @@ function compute(){
     seasonal: document.getElementById('seasonal').checked
   };
 
-  const countries = new Set();
-  for(const k in DATA.providers){ for(const c in DATA.providers[k].rates) countries.add(c); }
+  // 只显示用户指定的国家（按给定顺序：法国/德国/意大利/奥地利/比利时/捷克/希腊/匈牙利/西班牙/葡萄牙/波兰/荷兰）
+  const WHITELIST = ["FR","DE","IT","AT","BE","CZ","GR","HU","ES","PT","PL","NL"];
+  const allCountries = new Set();
+  for(const k in DATA.providers){ for(const c in DATA.providers[k].rates) allCountries.add(c); }
   const rows=[];
-  countries.forEach(code=>{
+  WHITELIST.forEach(code=>{
     let best=null;
     for(const k in DATA.providers){
       const p=DATA.providers[k];
@@ -163,20 +165,28 @@ function compute(){
       }
     }
     if(best){
-      rows.push({code:code, cn:NAMES[code]||code, prov:best.prov, base:best.base, comp:best.comp});
+      rows.push({code:code, cn:NAMES[code]||code, prov:best.prov, base:best.base, comp:best.comp, nodata:false});
+    } else {
+      // 白名单内但无数据（如德国本土不在「德国国际」报价表）
+      rows.push({code:code, cn:NAMES[code]||code, prov:"—", base:null, comp:null, nodata:true});
     }
   });
-  rows.sort((a,b)=> a.comp-b.comp);
   const tb = document.querySelector('#result tbody');
   tb.innerHTML='';
   rows.forEach((r,i)=>{
     const tr=document.createElement('tr');
+    const baseTxt = (r.base===null)? "—" : r.base.toFixed(2);
+    const compTxt = (r.comp===null)? "—" : r.comp.toFixed(2);
+    const provTxt = r.nodata
+      ? '<span style="color:#999;">— 国内价不在国际表</span>'
+      : '<span class="pill">'+r.prov+'</span>';
+    const compCls = r.nodata ? '' : ' class="amt"';
     tr.innerHTML = '<td>'+(i+1)+'</td>'+
       '<td>'+r.cn+'</td>'+
       '<td>'+r.code+'</td>'+
-      '<td><span class="pill">'+r.prov+'</span></td>'+
-      '<td>'+r.base.toFixed(2)+'</td>'+
-      '<td class="amt">'+r.comp.toFixed(2)+'</td>';
+      '<td>'+provTxt+'</td>'+
+      '<td>'+baseTxt+'</td>'+
+      '<td'+compCls+'>'+compTxt+'</td>';
     tb.appendChild(tr);
   });
 }
