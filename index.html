@@ -450,6 +450,7 @@ button:hover { background: #F0EDE6; }
   <button class="tab-btn" data-tab="tiktok" onclick="switchTab('tiktok')">📝 TikTok文案</button>
   <button class="tab-btn" data-tab="profit" onclick="switchTab('profit')">💰 SKU利润看板</button>
   <button class="tab-btn" data-tab="fbt" onclick="switchTab('fbt')">📦 FBT运费</button>
+  <button class="tab-btn" data-tab="de-freight" onclick="switchTab('de-freight')">🇩🇪 德国仓运费</button>
   <button class="tab-btn" data-tab="commission" onclick="switchTab('commission')">🎬 视频提成</button>
 </div>
 <div id="tab-margin" class="tab-content active">
@@ -1487,6 +1488,42 @@ button:hover { background: #F0EDE6; }
         <div id="roasResultContent" style="display:none;"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ====== 德国仓运费工具入口 ====== -->
+<div id="tab-de-freight" class="tab-content">
+  <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">🇩🇪 德国仓运费工具</h1>
+  <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 18px 0;">覆盖德国仓发往 DE / FR / IT / ES 的尾程运费、新品成本测算，以及 FBT 德国（含欧盟跨境）费率</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+    <a href="freight-compare-de.html" target="_blank" style="background:#fff;border:1px solid #E0DBD2;border-radius:12px;padding:18px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .2s,transform .15s;display:block;">
+      <div style="font-size:20px;margin-bottom:8px;">⚖️</div>
+      <div style="font-size:15px;font-weight:600;color:#1E1E1E;margin-bottom:6px;">德国仓尾程运费比价</div>
+      <div style="font-size:12px;color:#606060;line-height:1.5;">输入实重与尺寸，自动对比德国仓发往 DE / FR / IT / ES 各物流渠道的尾程运费，并推荐最低价。</div>
+      <div style="margin-top:12px;font-size:12px;color:#2B579A;font-weight:500;">打开工具 →</div>
+    </a>
+
+    <a href="price-calc-de.html" target="_blank" style="background:#fff;border:1px solid #E0DBD2;border-radius:12px;padding:18px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .2s,transform .15s;display:block;">
+      <div style="font-size:20px;margin-bottom:8px;">🧮</div>
+      <div style="font-size:15px;font-weight:600;color:#1E1E1E;margin-bottom:6px;">德国仓新品价格测算</div>
+      <div style="font-size:12px;color:#606060;line-height:1.5;">从采购、头程、入仓、尾程到平台扣点，一键测算德国仓新品的成本、毛利与 ROI。</div>
+      <div style="margin-top:12px;font-size:12px;color:#2B579A;font-weight:500;">打开工具 →</div>
+    </a>
+
+    <a href="fbt-germany.html" target="_blank" style="background:#fff;border:1px solid #E0DBD2;border-radius:12px;padding:18px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:box-shadow .2s,transform .15s;display:block;">
+      <div style="font-size:20px;margin-bottom:8px;">📦</div>
+      <div style="font-size:15px;font-weight:600;color:#1E1E1E;margin-bottom:6px;">FBT 德国费率卡</div>
+      <div style="font-size:12px;color:#606060;line-height:1.5;">整理 FBT 德国官方费率：收货、仓储、履单、增值服务、欧盟内 13 国目的国尾程费率。</div>
+      <div style="margin-top:12px;font-size:12px;color:#2B579A;font-weight:500;">打开工具 →</div>
+    </a>
+  </div>
+
+  <div style="margin-top:18px;background:#F5F3EE;border-radius:10px;padding:14px 16px;font-size:12px;color:#606060;line-height:1.6;">
+    <strong style="color:#1E1E1E;">提示：</strong>以上三个工具都已部署在同一站点，点击卡片会在新标签页打开。如需直接访问，地址分别是：<br>
+    <code style="background:#fff;padding:2px 6px;border-radius:4px;">zlm91.github.io/margin-calculator/freight-compare-de.html</code><br>
+    <code style="background:#fff;padding:2px 6px;border-radius:4px;">zlm91.github.io/margin-calculator/price-calc-de.html</code><br>
+    <code style="background:#fff;padding:2px 6px;border-radius:4px;">zlm91.github.io/margin-calculator/fbt-germany.html</code>
   </div>
 </div>
 
