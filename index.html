@@ -1535,7 +1535,7 @@ button:hover { background: #F0EDE6; }
   </div>
 </div>
 
-// ====== 视频提成汇总（iframe 嵌入 commission-summary.html）======
+<!-- ====== 视频提成汇总（iframe 嵌入 commission-summary.html）====== -->
 <div id="tab-commission" class="tab-content">
   <h1 style="font-size:20px;font-weight:600;color:#2B579A;margin:0 0 4px 0;">🎬 视频提成汇总</h1>
   <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 14px 0;">拖入「英国自营-2店」和「US自营-2店」两个 xlsx，自动按剪辑/编导汇总 GMV，并支持汇率换算+导出 Excel</p>
@@ -2370,6 +2370,7 @@ function switchTab(tab) {
   document.getElementById('tab-tiktok').classList.toggle('active', tab === 'tiktok');
   document.getElementById('tab-profit').classList.toggle('active', tab === 'profit');
   document.getElementById('tab-fbt').classList.toggle('active', tab === 'fbt');
+  document.getElementById('tab-de-freight').classList.toggle('active', tab === 'de-freight');
   document.getElementById('tab-commission').classList.toggle('active', tab === 'commission');
   if (tab === 'repurchase' && repurchaseOrders.length > 0) {
     renderRepurchaseDashboard();
