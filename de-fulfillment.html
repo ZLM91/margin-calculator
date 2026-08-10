@@ -57,7 +57,7 @@
     <button class="btn" onclick="calc()">计算比价</button>
     <div class="note">
       <strong>计费重规则（各家不同，已分别处理）：</strong><br>
-      · 入库处理费：按<strong>实重</strong>分段（不取体积重）<br>
+      · 入库处理费：计费重 = max(实重, 长×宽×高÷<strong>8000</strong>)，按件累加<br>
       · 出库处理费：计费重 = max(实重, 长×宽×高÷<strong>8000</strong>)，按件累加<br>
       · DHL 尾程：按<strong>实重</strong>，不满 1KG 按 1KG 收费<br>
       · DPD 尾程：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
@@ -115,7 +115,8 @@ function fedexPrice(bw){
 
 function channelsFor(dest, w, L, B, H, qty, fuelRate){
   const DISCOUNT = 0.7;  // 易达云尾程 + 附加费 7折；出入库处理费不打折
-  const inbound = stepFee(DATA.INBOUND, DATA.INBOUND_OVER, w);
+  const inBW = Math.max(w, L*B*H/DATA.OUTBOUND_VOL_DIV);  // 入库同样取体积重÷8000
+  const inbound = stepFee(DATA.INBOUND, DATA.INBOUND_OVER, inBW);
   const outBW = Math.max(w, L*B*H/DATA.OUTBOUND_VOL_DIV);
   const outbound = stepFee(DATA.OUTBOUND, DATA.OUTBOUND_OVER, outBW);
   const handling = qty * (inbound + outbound);
