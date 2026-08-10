@@ -42,7 +42,7 @@
 </head>
 <body>
   <h1>🇩🇪 德国仓全链路履约比价</h1>
-  <p class="sub">数据源：易达云配送服务价格表·德国 202606 Q3 ＋ 德国海外仓出入库处理费 ｜ 自动对比 DHL / DPD / GLS（＋法国 FedEx），取<strong>总履约费最低</strong>渠道</p>
+  <p class="sub">数据源：易达云配送服务价格表·德国 202606 Q3 ＋ 德国海外仓出入库处理费 ｜ 自动对比 DHL / DPD / GLS（＋法国 FedEx），取<strong>总履约费最低</strong>渠道<span class="tag">尾程+附加费 7 折</span></p>
 
   <div class="panel">
     <div class="grid">
@@ -63,8 +63,8 @@
       · DPD 尾程：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
       · GLS 尾程：按<strong>实重</strong>（不取体积重）<br>
       · FedEx(法国)：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
-      <strong>总履约费</strong> = 入库处理费×件数 ＋ 出库处理费×件数 ＋ 尾程基础运费 ＋ 燃油附加费(尾程×燃油率)。
-      燃油只按比例加在尾程运费上，<strong>不改变"谁最便宜"的排名</strong>。GEL 重货渠道未纳入（轻件永远不划算）。
+      <strong>总履约费</strong> = 入库处理费×件数 ＋ 出库处理费×件数 ＋ 尾程基础运费(<strong>7折</strong>) ＋ 燃油附加费(7折尾程×燃油率)。
+      易达云<strong>尾程 + 各项附加费按 7 折</strong>计算，<strong>出入库处理费不打折</strong>。燃油只按比例加在尾程运费上，<strong>不改变"谁最便宜"的排名</strong>。GEL 重货渠道未纳入（轻件永远不划算）。
     </div>
   </div>
 
@@ -114,6 +114,7 @@ function fedexPrice(bw){
 }
 
 function channelsFor(dest, w, L, B, H, qty, fuelRate){
+  const DISCOUNT = 0.7;  // 易达云尾程 + 附加费 7折；出入库处理费不打折
   const inbound = stepFee(DATA.INBOUND, DATA.INBOUND_OVER, w);
   const outBW = Math.max(w, L*B*H/DATA.OUTBOUND_VOL_DIV);
   const outbound = stepFee(DATA.OUTBOUND, DATA.OUTBOUND_OVER, outBW);
@@ -121,9 +122,10 @@ function channelsFor(dest, w, L, B, H, qty, fuelRate){
 
   const list = [];
   function add(name, freight){
-    const fuel = freight * fuelRate;
-    const total = handling + freight + fuel;
-    list.push({name, freight, fuel, total, inbound, outbound, handling});
+    const freightD = freight * DISCOUNT;        // 尾程 7折
+    const fuel = freightD * fuelRate;          // 燃油附加费随尾程自动 7折
+    const total = handling + freightD + fuel;
+    list.push({name, freight: freightD, fuel, total, inbound, outbound, handling});
   }
   if(dest === "DE"){
     add("DHL 本地", tierPrice(DATA.DHL_LOCAL, w));
