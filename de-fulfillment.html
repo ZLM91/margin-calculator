@@ -42,7 +42,7 @@
 </head>
 <body>
   <h1>🇩🇪 德国仓全链路履约比价</h1>
-  <p class="sub">数据源：易达云配送服务价格表·德国 202606 Q3 ＋ 德国海外仓出入库处理费 ｜ 自动对比 DHL / DPD / GLS（＋法国 FedEx），取<strong>总履约费最低</strong>渠道<span class="tag">尾程+附加费 7 折</span></p>
+  <p class="sub">数据源：易达云配送服务价格表·德国 202606 Q3 ＋ 德国海外仓出入库处理费 ｜ 自动对比 DHL / DPD / GLS（＋法国 FedEx），取<strong>总履约费最低</strong>渠道<span class="tag">尾程+附加费 7 折</span><span class="tag">各渠道按官方当月燃油率</span></p>
 
   <div class="panel">
     <div class="grid">
@@ -51,7 +51,10 @@
       <div><label>宽 (cm)</label><input id="B" type="number" step="0.1" value="12"></div>
       <div><label>高 (cm)</label><input id="H" type="number" step="0.1" value="29"></div>
       <div><label>件数 (件)</label><input id="qty" type="number" step="1" value="1" min="1"></div>
-      <div><label>燃油费率 % (EDA每周公布)</label><input id="fuel" type="number" step="0.1" value="0"></div>
+      <div><label>DHL 燃油 % (官方)</label><input id="fdhl" type="number" step="0.01" value="3.25"></div>
+      <div><label>DPD 燃油 % (官方)</label><input id="fdpd" type="number" step="0.01" value="31"></div>
+      <div><label>GLS 燃油 % (官方)</label><input id="fgls" type="number" step="0.01" value="24.5"></div>
+      <div><label>FedEx 燃油 % (官方)</label><input id="ffed" type="number" step="0.01" value="40.25"></div>
     </div>
     <div class="err" id="err"></div>
     <button class="btn" onclick="calc()">计算比价</button>
@@ -63,8 +66,8 @@
       · DPD 尾程：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
       · GLS 尾程：按<strong>实重</strong>（不取体积重）<br>
       · FedEx(法国)：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
-      <strong>总履约费</strong> = 入库处理费×件数 ＋ 出库处理费×件数 ＋ 尾程基础运费(<strong>7折</strong>) ＋ 燃油附加费(7折尾程×燃油率)。
-      易达云<strong>尾程 + 各项附加费按 7 折</strong>计算，<strong>出入库处理费不打折</strong>。燃油只按比例加在尾程运费上，<strong>不改变"谁最便宜"的排名</strong>。GEL 重货渠道未纳入（轻件永远不划算）。
+      <strong>总履约费</strong> = 入库处理费×件数 ＋ 出库处理费×件数 ＋ 尾程基础运费(<strong>7折</strong>) ＋ 燃油附加费(7折尾程×该渠道官方燃油率)。
+      <strong>燃油率按承运商分</strong>：DHL / DPD / GLS / FedEx 各自用官网当月值（默认已填 2026-08 实抓值，可手动改）。易达云<strong>尾程 + 各项附加费按 7 折</strong>计算，<strong>出入库处理费不打折</strong>。燃油随尾程自动 7 折，<strong>不改变"谁最便宜"的排名</strong>。GEL 重货渠道未纳入（轻件永远不划算）。
     </div>
   </div>
 
@@ -113,7 +116,7 @@ function fedexPrice(bw){
   return flatTier(DATA.FEDEX_TIERS, DATA.FEDEX_FR, bw);
 }
 
-function channelsFor(dest, w, L, B, H, qty, fuelRate){
+function channelsFor(dest, w, L, B, H, qty, fuelMap){
   const DISCOUNT = 0.7;  // 易达云尾程 + 附加费 7折；出入库处理费不打折
   const inBW = Math.max(w, L*B*H/DATA.OUTBOUND_VOL_DIV);  // 入库同样取体积重÷8000
   const inbound = stepFee(DATA.INBOUND, DATA.INBOUND_OVER, inBW);
@@ -122,11 +125,19 @@ function channelsFor(dest, w, L, B, H, qty, fuelRate){
   const handling = qty * (inbound + outbound);
 
   const list = [];
+  function carrierOf(name){
+    if(name.indexOf('DHL')===0) return 'DHL';
+    if(name.indexOf('DPD')===0) return 'DPD';
+    if(name.indexOf('GLS')===0) return 'GLS';
+    return 'FedEx';
+  }
   function add(name, freight){
     const freightD = freight * DISCOUNT;        // 尾程 7折
-    const fuel = freightD * fuelRate;          // 燃油附加费随尾程自动 7折
+    const carrier = carrierOf(name);
+    const rate = (fuelMap[carrier]||0)/100;     // 该渠道官方当月燃油率
+    const fuel = freightD * rate;               // 燃油附加费随尾程自动 7折
     const total = handling + freightD + fuel;
-    list.push({name, freight: freightD, fuel, total, inbound, outbound, handling});
+    list.push({name, freight: freightD, fuel, total, rate, carrier, inbound, outbound, handling});
   }
   if(dest === "DE"){
     add("DHL 本地", tierPrice(DATA.DHL_LOCAL, w));
@@ -151,7 +162,12 @@ function calc(){
   const B = parseFloat(document.getElementById('B').value);
   const H = parseFloat(document.getElementById('H').value);
   const qty = Math.max(1, parseInt(document.getElementById('qty').value)||1);
-  const fuelRate = (parseFloat(document.getElementById('fuel').value)||0)/100;
+  const fuelMap = {
+    DHL:   parseFloat(document.getElementById('fdhl').value)||0,
+    DPD:   parseFloat(document.getElementById('fdpd').value)||0,
+    GLS:   parseFloat(document.getElementById('fgls').value)||0,
+    FedEx: parseFloat(document.getElementById('ffed').value)||0
+  };
   const err = document.getElementById('err');
   if(!(w>0) || !(L>0) || !(B>0) || !(H>0)){ err.textContent="请填写有效的重量和尺寸（均须 > 0）"; return; }
   err.textContent="";
@@ -160,14 +176,14 @@ function calc(){
   const det = document.getElementById('details');
   rows.innerHTML=""; det.innerHTML="";
   for(const [code, name, flag] of DATA.DEST){
-    const {list, handling, inbound, outbound} = channelsFor(code, w, L, B, H, qty, fuelRate);
+    const {list, handling, inbound, outbound} = channelsFor(code, w, L, B, H, qty, fuelMap);
     const best = list[0];
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class="l"><span class="flag">${flag}</span>${name} ${code}</td>`
       + `<td class="l best">${best.name}</td>`
       + `<td>${fmt(inbound)}</td><td>${fmt(outbound)}</td>`
       + `<td>${fmt(best.freight)}</td>`
-      + `<td>${(fuelRate*100).toFixed(1)}</td>`
+      + `<td>${(best.rate*100).toFixed(2)}</td>`
       + `<td>${fmt(best.fuel)}</td>`
       + `<td class="best">${fmt(best.total)}</td>`;
     rows.appendChild(tr);
