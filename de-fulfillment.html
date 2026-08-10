@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德国仓全链路履约比价 · 易达云 2026Q3</title>
+<style>
+  :root{
+    --bg:#F5F3EE; --card:#fff; --line:#E0DBD2; --ink:#1E1E1E; --sub:#606060;
+    --brand:#2B579A; --brand2:#1F6F54; --warn:#B45309; --red:#C0392B;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;padding:24px;}
+  h1{font-size:20px;font-weight:600;color:var(--brand);margin:0 0 2px;}
+  .sub{font-size:12px;color:var(--sub);margin:0 0 18px;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:18px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  label{display:block;font-size:12px;color:var(--sub);margin-bottom:4px;}
+  input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;}
+  input:focus{outline:none;border-color:var(--brand);}
+  .btn{margin-top:14px;background:var(--brand);color:#fff;border:none;padding:10px 18px;border-radius:8px;
+    font-size:14px;cursor:pointer;}
+  .btn:hover{filter:brightness(1.05);}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;}
+  th{background:#FAF8F4;color:var(--sub);font-weight:600;position:sticky;top:0;}
+  td.l,th.l{text-align:left;}
+  tr:hover td{background:#FBFAF7;}
+  .best{color:var(--brand2);font-weight:600;}
+  .flag{margin-right:4px;}
+  .muted{color:var(--sub);font-size:12px;}
+  .note{background:#F5F3EE;border-radius:10px;padding:12px 14px;font-size:12px;color:var(--sub);line-height:1.6;margin-top:14px;}
+  .err{color:var(--red);font-size:12px;min-height:16px;}
+  details{margin-top:6px;}
+  summary{cursor:pointer;color:var(--brand);font-size:12px;}
+  .det{font-size:12px;color:var(--sub);}
+  code{background:#fff;padding:1px 5px;border-radius:4px;border:1px solid var(--line);}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;background:#EEF3FB;color:var(--brand);margin-left:6px;}
+</style>
+</head>
+<body>
+  <h1>🇩🇪 德国仓全链路履约比价</h1>
+  <p class="sub">数据源：易达云配送服务价格表·德国 202606 Q3 ＋ 德国海外仓出入库处理费 ｜ 自动对比 DHL / DPD / GLS（＋法国 FedEx），取<strong>总履约费最低</strong>渠道</p>
+
+  <div class="panel">
+    <div class="grid">
+      <div><label>实重 (kg)</label><input id="w" type="number" step="0.01" value="0.5"></div>
+      <div><label>长 (cm)</label><input id="L" type="number" step="0.1" value="21"></div>
+      <div><label>宽 (cm)</label><input id="B" type="number" step="0.1" value="12"></div>
+      <div><label>高 (cm)</label><input id="H" type="number" step="0.1" value="29"></div>
+      <div><label>件数 (件)</label><input id="qty" type="number" step="1" value="1" min="1"></div>
+      <div><label>燃油费率 % (EDA每周公布)</label><input id="fuel" type="number" step="0.1" value="0"></div>
+    </div>
+    <div class="err" id="err"></div>
+    <button class="btn" onclick="calc()">计算比价</button>
+    <div class="note">
+      <strong>计费重规则（各家不同，已分别处理）：</strong><br>
+      · 入库处理费：按<strong>实重</strong>分段（不取体积重）<br>
+      · 出库处理费：计费重 = max(实重, 长×宽×高÷<strong>8000</strong>)，按件累加<br>
+      · DHL 尾程：按<strong>实重</strong>，不满 1KG 按 1KG 收费<br>
+      · DPD 尾程：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
+      · GLS 尾程：按<strong>实重</strong>（不取体积重）<br>
+      · FedEx(法国)：计费重 = max(实重, 长×宽×高÷<strong>5000</strong>)<br>
+      <strong>总履约费</strong> = 入库处理费×件数 ＋ 出库处理费×件数 ＋ 尾程基础运费 ＋ 燃油附加费(尾程×燃油率)。
+      燃油只按比例加在尾程运费上，<strong>不改变"谁最便宜"的排名</strong>。GEL 重货渠道未纳入（轻件永远不划算）。
+    </div>
+  </div>
+
+  <div class="panel">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th class="l">目的国</th><th class="l">最便宜渠道</th>
+          <th>入库/件</th><th>出库/件</th><th>尾程基础</th>
+          <th>燃油率%</th><th>燃油附加费</th><th>总履约费</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <details><summary>展开：每个国家各渠道总价对比</summary><div class="det" id="details" style="margin-top:8px;"></div></details>
+  </div>
+
+<script>
+const DATA = {"INBOUND": [[0.5, 0.1], [1, 0.13], [3, 0.25], [5, 0.38], [10, 0.63], [15, 0.82], [23, 1.33], [30, 1.96], [40, 2.59]], "INBOUND_OVER": 0.11, "OUTBOUND": [[0.5, 0.23], [1, 0.26], [3, 0.29], [5, 0.38], [10, 0.58], [15, 0.79], [23, 0.95], [30, 1.77], [40, 2.59]], "OUTBOUND_OVER": 0.14, "OUTBOUND_VOL_DIV": 8000, "DHL_LOCAL": [[1, 4.67], [2, 5.42], [3, 5.67], [5, 5.88], [10, 6.2], [15, 7.19], [20, 7.82], [25, 8.44], [31.5, 8.76]], "DPD_LOCAL": [[3, 6.57], [5, 6.77], [10, 7.16], [15, 7.81], [20, 8.62], [25, 8.7], [31.5, 8.78]], "GLS_LOCAL": [[2, 4.56], [5, 5.36], [10, 6.36], [15, 6.41], [20, 6.89], [25, 9.28], [30, 10.27], [40, 22.67]], "DHL_EU": {"FR": [10.97, 0.68], "IT": [11.5, 0.47], "ES": [11.5, 0.77], "AT": [10.61, 0.56], "BE": [10.97, 0.49], "NL": [8.15, 0.44], "CZ": [8.49, 0.92], "PL": [8.05, 0.44], "PT": [16.62, 1.11], "GR": [14.24, 1.98], "HU": [8.49, 0.81]}, "DPD_EU_TIERS": [3, 5, 10, 15, 20, 25, 31.5], "DPD_EU": {"FR": [15.82, 15.95, 16.06, 16.55, 16.55, 17.17, 17.52], "IT": [18.19, 18.46, 18.72, 19.03, 19.55, 20.31, 20.72], "ES": [20.49, 20.77, 21.11, 21.5, 22.61, 22.91, 23.21], "AT": [9.17, 9.3, 9.36, 9.48, 9.61, 9.74, 10.11], "BE": [10.17, 10.3, 10.36, 10.48, 10.61, 10.74, 11.11], "NL": [10.17, 10.3, 10.36, 10.48, 10.61, 10.74, 11.11], "CZ": [14.6, 14.67, 14.97, 15.0, 15.13, 15.54, 15.84], "PL": [17.22, 17.22, 17.22, 17.22, 17.22, 17.22, 17.22], "PT": [16.51, 16.51, 17.06, 17.06, 17.06, 17.77, 17.53], "GR": [42.84, 47.09, 52.86, 61.75, 71.32, 79.91, 87.68], "HU": [20.66, 22.386, 25.83, 30.99, 36.16, 41.32, 46.5]}, "GLS_EU_TIERS": [2, 5, 10, 15, 25, 30, 40], "GLS_EU": {"FR": [10.49, 11.44, 12.88, 15.52, 17.27, 21.94, 32.01], "IT": [11.86, 14.44, 16.13, 17.2, 21.51, 21.88, 34.79], "ES": [15.06, 19.56, 20.79, 23.12, 26.24, 30.88, 53.03], "AT": [8.88, 9.64, 11.61, 12.67, 16.12, 19.4, 30.06], "BE": [7.82, 8.88, 9.79, 11.15, 12.77, 16.68, 28.81], "NL": [7.82, 8.88, 9.79, 11.15, 12.67, 15.39, 28.81], "CZ": [11.87, 12.87, 13.56, 14.14, 17.8, 21.04, 31.97], "PL": [11.87, 12.87, 13.56, 14.14, 17.8, 21.04, 31.97], "PT": [25.51, 27.44, 30.05, 32.75, 41.12, 42.8, 56.64], "GR": [39.92, 41.39, 48.52, 57.2, 83.06, 96.26, 155.89], "HU": [18.74, 21.98, 24.7, 27.6, 31.65, 35.34, 51.88]}, "FEDEX_TIERS": [5, 10, 15, 20, 25, 32.5], "FEDEX_FR": [11.55, 11.55, 12.36, 12.38, 12.39, 12.45], "DEST": [["DE", "德国", "🇩🇪"], ["FR", "法国", "🇫🇷"], ["IT", "意大利", "🇮🇹"], ["ES", "西班牙", "🇪🇸"], ["AT", "奥地利", "🇦🇹"], ["BE", "比利时", "🇧🇪"], ["CZ", "捷克", "🇨🇿"], ["PL", "波兰", "🇵🇱"], ["PT", "葡萄牙", "🇵🇹"], ["GR", "希腊", "🇬🇷"], ["HU", "匈牙利", "🇭🇺"], ["NL", "荷兰", "🇳🇱"]]};
+
+function tierPrice(tiers, w){
+  for(const [m,p] of tiers){ if(w<=m) return p; }
+  return null;
+}
+function flatTier(tiers, prices, w){
+  // tiers: 扁平重量边界 [3,5,10,...]; prices: 对应价格；w落在第一个边界内即取该价
+  for(let i=0;i<tiers.length;i++){ if(w<=tiers[i]) return prices[i]; }
+  return prices[prices.length-1];
+}
+function stepFee(tiers, over, w){
+  const p = tierPrice(tiers, w);
+  if(p!==null) return p;
+  // >40 续重：基价(40档) + (w-40)*续重
+  const base = tiers[tiers.length-1][1];
+  return base + (w - tiers[tiers.length-1][0]) * over;
+}
+function dhlEuPrice(c, w){
+  const bw = Math.max(1, Math.ceil(w));   // 不满1KG按1KG
+  return c[0] + bw * c[1];
+}
+function dpdEuPrice(prices, tiers, bw){
+  return flatTier(tiers, prices, bw);
+}
+function fedexPrice(bw){
+  if(bw>32.5) return bw*0.83; // >32.5kg 按 0.83/kg
+  return flatTier(DATA.FEDEX_TIERS, DATA.FEDEX_FR, bw);
+}
+
+function channelsFor(dest, w, L, B, H, qty, fuelRate){
+  const inbound = stepFee(DATA.INBOUND, DATA.INBOUND_OVER, w);
+  const outBW = Math.max(w, L*B*H/DATA.OUTBOUND_VOL_DIV);
+  const outbound = stepFee(DATA.OUTBOUND, DATA.OUTBOUND_OVER, outBW);
+  const handling = qty * (inbound + outbound);
+
+  const list = [];
+  function add(name, freight){
+    const fuel = freight * fuelRate;
+    const total = handling + freight + fuel;
+    list.push({name, freight, fuel, total, inbound, outbound, handling});
+  }
+  if(dest === "DE"){
+    add("DHL 本地", tierPrice(DATA.DHL_LOCAL, w));
+    add("DPD 本地", tierPrice(DATA.DPD_LOCAL, w));
+    add("GLS 本地", tierPrice(DATA.GLS_LOCAL, w));
+  } else {
+    if(DATA.DHL_EU[dest]) add("DHL 国际", dhlEuPrice(DATA.DHL_EU[dest], w));
+    const dpdBW = Math.max(w, L*B*H/5000);   // DPD 体积重÷5000
+    if(DATA.DPD_EU[dest]) add("DPD 国际", dpdEuPrice(DATA.DPD_EU[dest], DATA.DPD_EU_TIERS, dpdBW));
+    if(DATA.GLS_EU[dest]) add("GLS 国际", flatTier(DATA.GLS_EU_TIERS, DATA.GLS_EU[dest], w));
+    if(dest === "FR"){ const fxBW = Math.max(w, L*B*H/5000); add("FedEx 法国", fedexPrice(fxBW)); }
+  }
+  list.sort((a,b)=>a.total-b.total);
+  return {list, handling, inbound, outbound};
+}
+
+function fmt(x){ return (Math.round(x*100)/100).toFixed(2); }
+
+function calc(){
+  const w = parseFloat(document.getElementById('w').value);
+  const L = parseFloat(document.getElementById('L').value);
+  const B = parseFloat(document.getElementById('B').value);
+  const H = parseFloat(document.getElementById('H').value);
+  const qty = Math.max(1, parseInt(document.getElementById('qty').value)||1);
+  const fuelRate = (parseFloat(document.getElementById('fuel').value)||0)/100;
+  const err = document.getElementById('err');
+  if(!(w>0) || !(L>0) || !(B>0) || !(H>0)){ err.textContent="请填写有效的重量和尺寸（均须 > 0）"; return; }
+  err.textContent="";
+
+  const rows = document.getElementById('rows');
+  const det = document.getElementById('details');
+  rows.innerHTML=""; det.innerHTML="";
+  for(const [code, name, flag] of DATA.DEST){
+    const {list, handling, inbound, outbound} = channelsFor(code, w, L, B, H, qty, fuelRate);
+    const best = list[0];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="l"><span class="flag">${flag}</span>${name} ${code}</td>`
+      + `<td class="l best">${best.name}</td>`
+      + `<td>${fmt(inbound)}</td><td>${fmt(outbound)}</td>`
+      + `<td>${fmt(best.freight)}</td>`
+      + `<td>${(fuelRate*100).toFixed(1)}</td>`
+      + `<td>${fmt(best.fuel)}</td>`
+      + `<td class="best">${fmt(best.total)}</td>`;
+    rows.appendChild(tr);
+    // details
+    const d = document.createElement('div');
+    d.innerHTML = `<strong>${flag} ${name}</strong>：入库 ${fmt(inbound)} ＋ 出库 ${fmt(outbound)}（×${qty}件 = ${fmt(handling)}）`
+      + list.map(c=>` ｜ ${c.name}: ${fmt(c.total)}`).join("");
+    det.appendChild(d);
+  }
+}
+calc();
+</script>
+</body>
+</html>
