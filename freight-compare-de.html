@@ -39,8 +39,8 @@
 </style>
 </head>
 <body>
-<h1>🇩🇪 德国仓尾程运费比价工具</h1>
-<div class="sub">输入商品实重与尺寸，自动对比德国仓发往 DE / FR / IT / ES 各物流渠道的尾程运费（含燃油/道路/安全等附加），自动选最低价</div>
+<h1>🇩🇪 德国仓尾程运费比价工具 · 12国</h1>
+<div class="sub">输入商品实重与尺寸，自动对比德国仓发往 DE / FR / IT / ES / AT / BE / CZ / GR / HU / PT / PL / NL 各物流渠道的尾程运费（含燃油/道路/安全/环保等附加），自动选最低价并拆解附加费</div>
 
 <div class="card">
   <div class="grid">
@@ -57,6 +57,14 @@
         <label><input type="checkbox" class="dest" value="FR" checked> 法国 FR</label>
         <label><input type="checkbox" class="dest" value="IT" checked> 意大利 IT</label>
         <label><input type="checkbox" class="dest" value="ES" checked> 西班牙 ES</label>
+        <label><input type="checkbox" class="dest" value="AT" checked> 奥地利 AT</label>
+        <label><input type="checkbox" class="dest" value="BE" checked> 比利时 BE</label>
+        <label><input type="checkbox" class="dest" value="CZ" checked> 捷克 CZ</label>
+        <label><input type="checkbox" class="dest" value="GR" checked> 希腊 GR</label>
+        <label><input type="checkbox" class="dest" value="HU" checked> 匈牙利 HU</label>
+        <label><input type="checkbox" class="dest" value="PT" checked> 葡萄牙 PT</label>
+        <label><input type="checkbox" class="dest" value="PL" checked> 波兰 PL</label>
+        <label><input type="checkbox" class="dest" value="NL" checked> 荷兰 NL</label>
       </div>
     </div>
   </div>
@@ -66,7 +74,18 @@
       <div><label>DHL 燃油率 %</label><input type="number" id="fuelDhl" value="12" step="0.5"></div>
       <div><label>GLS 燃油率 %</label><input type="number" id="fuelGls" value="10" step="0.5"></div>
     </div>
-    <div class="note">GC Parcel 燃油固定（本地 8% / 国际 4%）；DPD 固定 20%；G2G 免燃油；UPS 国际表为基础价（未含燃油，实际可能 +10% 左右，可在下方结果中自行估算）。</div>
+    <div class="note">
+    <b>计费规则说明：</b><br>
+    • <b>计费重</b>：本地段（DE→DE）按<b>实重</b>；国际段按<b>实重与体积重取大</b>，体积重 = 长×宽×高 ÷ 5000。<br>
+    • <b>GC Parcel 本地</b>：(基础+道路)×(1+8%燃油)+安全0.03；<b>GC Parcel 国际</b>：基础×(1+4%)+道路0.22+安全0.01（GC 国际<b>不服务</b>希腊/匈牙利/葡萄牙）。<br>
+    • <b>DPD 本地/国际</b>：基础×1.2 + 道路0.25 + 安全0.03。<br>
+    • <b>DHL 包裹本地</b>：(基础+道路0.19)×(1+燃油)；<b>DHL 国际</b>：首重1kg 收 Basic，续重按 Per KG。<br>
+    • <b>GLS 本地/国际</b>：(基础+道路0.45)×(1+燃油)+环境0.043。<br>
+    • <b>G2G 国际</b>：免燃油，基础价即全包（G2G 国际<b>不服务</b>捷克/希腊/匈牙利）。<br>
+    • <b>UPS 国际</b>：表为基础价，<b>未含燃油</b>（实际通常 +10% 左右，请自行估算）。<br>
+    • <b>附加费拆解列</b>：结果表展示「最便宜渠道」的 燃油率% / 燃油附加费€ / 安检费€ / 道路费€ / 环保税€，未发生的费用显示 0。<br>
+    • 所有价格单位 EUR/包裹，数据来自《20260618 P价谷仓德国尾程物流报价》。附加费（超长/超小/退件等）未计入，按正常尺寸普通件估算。
+  </div>
   </details>
   <div style="margin-top:14px;"><button onclick="calc()">计算运费对比</button></div>
   <div id="volInfo" class="vol"></div>
@@ -142,211 +161,386 @@ const DATA = {
     "max": 0.25,
     "FR": 3.96,
     "IT": 9.2,
-    "ES": 9.82
+    "ES": 9.82,
+    "AT": 6.43,
+    "BE": 6.63,
+    "CZ": 5.93,
+    "NL": 6.5,
+    "PL": 6.26
    },
    {
     "max": 0.5,
     "FR": 4.68,
     "IT": 9.2,
-    "ES": 9.82
+    "ES": 9.82,
+    "AT": 6.43,
+    "BE": 6.63,
+    "CZ": 5.93,
+    "NL": 6.5,
+    "PL": 6.26
    },
    {
     "max": 0.75,
     "FR": 5.07,
     "IT": 9.2,
-    "ES": 9.82
+    "ES": 9.82,
+    "AT": 6.43,
+    "BE": 6.63,
+    "CZ": 5.93,
+    "NL": 6.5,
+    "PL": 6.26
    },
    {
     "max": 1.0,
     "FR": 5.61,
     "IT": 9.2,
-    "ES": 9.82
+    "ES": 9.82,
+    "AT": 6.43,
+    "BE": 6.63,
+    "CZ": 5.93,
+    "NL": 6.5,
+    "PL": 6.26
    },
    {
     "max": 2.0,
     "FR": 7.32,
     "IT": 9.73,
-    "ES": 10.2
+    "ES": 10.2,
+    "AT": 6.69,
+    "BE": 6.63,
+    "CZ": 6.51,
+    "NL": 6.74,
+    "PL": 6.52
    },
    {
     "max": 3.0,
     "FR": 8.96,
     "IT": 10.26,
-    "ES": 10.58
+    "ES": 10.58,
+    "AT": 6.96,
+    "BE": 6.63,
+    "CZ": 7.09,
+    "NL": 6.98,
+    "PL": 6.78
    },
    {
     "max": 4.0,
     "FR": 10.59,
     "IT": 10.8,
-    "ES": 10.96
+    "ES": 10.96,
+    "AT": 7.23,
+    "BE": 6.71,
+    "CZ": 7.67,
+    "NL": 7.22,
+    "PL": 7.03
    },
    {
     "max": 5.0,
     "FR": 11.25,
     "IT": 11.49,
-    "ES": 11.34
+    "ES": 11.34,
+    "AT": 7.49,
+    "BE": 6.71,
+    "CZ": 8.25,
+    "NL": 7.4,
+    "PL": 7.29
    },
    {
     "max": 6.0,
     "FR": 11.81,
     "IT": 12.05,
-    "ES": 11.53
+    "ES": 11.53,
+    "AT": 7.76,
+    "BE": 6.71,
+    "CZ": 8.83,
+    "NL": 7.4,
+    "PL": 7.55
    },
    {
     "max": 7.0,
     "FR": 11.81,
     "IT": 12.05,
-    "ES": 11.53
+    "ES": 11.53,
+    "AT": 7.94,
+    "BE": 6.71,
+    "CZ": 9.42,
+    "NL": 7.4,
+    "PL": 7.81
    },
    {
     "max": 8.0,
     "FR": 11.81,
     "IT": 12.05,
-    "ES": 11.53
+    "ES": 11.53,
+    "AT": 7.94,
+    "BE": 6.71,
+    "CZ": 10.0,
+    "NL": 7.4,
+    "PL": 8.06
    },
    {
     "max": 9.0,
     "FR": 11.81,
     "IT": 12.05,
-    "ES": 11.53
+    "ES": 11.53,
+    "AT": 7.94,
+    "BE": 6.71,
+    "CZ": 10.58,
+    "NL": 7.4,
+    "PL": 8.32
    },
    {
     "max": 10.0,
     "FR": 11.81,
     "IT": 12.05,
-    "ES": 11.53
+    "ES": 11.53,
+    "AT": 7.94,
+    "BE": 6.71,
+    "CZ": 10.96,
+    "NL": 7.4,
+    "PL": 8.58
    },
    {
     "max": 11.0,
     "FR": 14.12,
     "IT": 14.12,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 7.94,
+    "BE": 7.5,
+    "CZ": 11.12,
+    "NL": 7.4,
+    "PL": 8.83
    },
    {
     "max": 12.0,
     "FR": 14.12,
     "IT": 14.12,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 7.94,
+    "BE": 7.5,
+    "CZ": 11.12,
+    "NL": 7.4,
+    "PL": 9.09
    },
    {
     "max": 13.0,
     "FR": 14.12,
     "IT": 14.12,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 7.94,
+    "BE": 7.5,
+    "CZ": 11.12,
+    "NL": 7.4,
+    "PL": 9.35
    },
    {
     "max": 14.0,
     "FR": 14.12,
     "IT": 14.12,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 7.94,
+    "BE": 7.5,
+    "CZ": 11.12,
+    "NL": 7.4,
+    "PL": 9.61
    },
    {
     "max": 15.0,
     "FR": 14.12,
     "IT": 14.12,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 7.94,
+    "BE": 7.5,
+    "CZ": 11.12,
+    "NL": 7.4,
+    "PL": 9.86
    },
    {
     "max": 16.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.12
    },
    {
     "max": 17.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 18.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 19.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 20.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 21.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 22.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 23.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 24.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 25.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 26.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 27.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 28.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 29.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 30.0,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    },
    {
     "max": 31.5,
     "FR": 14.25,
     "IT": 14.25,
-    "ES": 11.58
+    "ES": 11.58,
+    "AT": 10.17,
+    "BE": 7.9,
+    "CZ": 11.12,
+    "NL": 7.75,
+    "PL": 10.17
    }
   ],
   "perKg": {
    "FR": 0.72,
    "IT": 0.72,
-   "ES": 0.64
+   "ES": 0.64,
+   "AT": 0.56,
+   "BE": 0.44,
+   "CZ": 0.62,
+   "NL": 0.43,
+   "PL": 0.56
   },
   "fuel": 0.04,
   "road": 0.22,
@@ -515,7 +709,39 @@ const DATA = {
    0.62
   ],
   "fuelVar": true,
-  "fuelDefault": 0.12
+  "fuelDefault": 0.12,
+  "AT": [
+   6.77,
+   0.29
+  ],
+  "BE": [
+   7.01,
+   0.31
+  ],
+  "CZ": [
+   5.89,
+   0.63
+  ],
+  "GR": [
+   9.31,
+   1.65
+  ],
+  "HU": [
+   5.9,
+   0.41
+  ],
+  "PT": [
+   9.18,
+   0.73
+  ],
+  "PL": [
+   6.6,
+   0.28
+  ],
+  "NL": [
+   6.88,
+   0.26
+  ]
  },
  "dpdInt": {
   "FR": [
@@ -549,11 +775,75 @@ const DATA = {
   "perKg": {
    "ES": 0.67,
    "IT": 0.56,
-   "FR": 0.63
+   "FR": 0.63,
+   "AT": 0.49,
+   "BE": 0.38,
+   "CZ": 0.54,
+   "GR": 2.82,
+   "HU": 0.62,
+   "PT": 1.41,
+   "PL": 0.49,
+   "NL": 0.37
   },
   "fuel": 0.2,
   "road": 0.25,
-  "sec": 0.03
+  "sec": 0.03,
+  "AT": [
+   8.53,
+   8.53,
+   8.53,
+   10.92,
+   10.92
+  ],
+  "BE": [
+   7.11,
+   7.2,
+   8.05,
+   8.48,
+   8.48
+  ],
+  "CZ": [
+   10.12,
+   11.78,
+   11.96,
+   11.96,
+   11.96
+  ],
+  "GR": [
+   50.82,
+   54.3,
+   54.3,
+   63.28,
+   63.28
+  ],
+  "HU": [
+   10.11,
+   10.11,
+   13.79,
+   13.79,
+   13.79
+  ],
+  "PT": [
+   15.57,
+   15.57,
+   31.7,
+   31.7,
+   31.7
+  ],
+  "PL": [
+   9.55,
+   9.55,
+   10.92,
+   10.92,
+   10.92
+  ],
+  "NL": [
+   7.93,
+   7.93,
+   7.93,
+   8.32,
+   8.32
+  ]
  },
  "glsInt": {
   "FR": [
@@ -595,12 +885,92 @@ const DATA = {
   "perKg": {
    "ES": 1.6,
    "FR": 1.11,
-   "IT": 1.15
+   "IT": 1.15,
+   "AT": 0.96,
+   "BE": 0.97,
+   "CZ": 1.12,
+   "GR": 5.53,
+   "HU": 1.07,
+   "PT": 2.84,
+   "PL": 1.25,
+   "NL": 0.95
   },
   "road": 0.45,
   "env": 0.043,
   "fuelVar": true,
-  "fuelDefault": 0.1
+  "fuelDefault": 0.1,
+  "AT": [
+   8.69,
+   8.69,
+   11.56,
+   11.57,
+   12.81,
+   17.65,
+   27.31
+  ],
+  "BE": [
+   8.86,
+   8.92,
+   11.56,
+   11.57,
+   13.67,
+   15.87,
+   27.46
+  ],
+  "CZ": [
+   10.86,
+   11.05,
+   12.9,
+   13.22,
+   16.36,
+   21.96,
+   31.88
+  ],
+  "GR": [
+   59.87,
+   60.75,
+   72.7,
+   85.02,
+   110.39,
+   128.99,
+   157.89
+  ],
+  "HU": [
+   11.91,
+   11.91,
+   15.16,
+   18.12,
+   20.8,
+   24.43,
+   30.52
+  ],
+  "PT": [
+   31.69,
+   32.44,
+   34.73,
+   37.35,
+   58.34,
+   64.17,
+   80.95
+  ],
+  "PL": [
+   10.76,
+   11.19,
+   12.91,
+   15.0,
+   17.68,
+   20.3,
+   35.48
+  ],
+  "NL": [
+   8.6,
+   8.6,
+   11.93,
+   11.93,
+   13.27,
+   16.32,
+   27.13
+  ]
  },
  "upsInt": {
   "FR": [
@@ -912,10 +1282,834 @@ const DATA = {
   "perKg": {
    "FR": 1.26,
    "IT": 1.26,
-   "ES": 1.44
+   "ES": 1.44,
+   "AT": 1.15,
+   "BE": 1.15,
+   "CZ": 1.18,
+   "GR": 1.74,
+   "HU": 1.58,
+   "PT": 1.62,
+   "PL": 1.43,
+   "NL": 1.15
   },
   "fuelVar": true,
-  "fuelDefault": 0.1
+  "fuelDefault": 0.1,
+  "AT": [
+   [
+    2.0,
+    12.15
+   ],
+   [
+    4.0,
+    12.26
+   ],
+   [
+    7.0,
+    13.52
+   ],
+   [
+    10.0,
+    14.45
+   ],
+   [
+    14.0,
+    15.16
+   ],
+   [
+    20.0,
+    16.53
+   ],
+   [
+    22.0,
+    17.22
+   ],
+   [
+    24.0,
+    17.89
+   ],
+   [
+    26.0,
+    25.31
+   ],
+   [
+    28.0,
+    25.84
+   ],
+   [
+    30.0,
+    26.79
+   ],
+   [
+    32.0,
+    27.41
+   ],
+   [
+    34.0,
+    29.4489
+   ],
+   [
+    36.0,
+    29.4489
+   ],
+   [
+    38.0,
+    30.7855
+   ],
+   [
+    40.0,
+    32.0694
+   ],
+   [
+    42.0,
+    33.8887
+   ],
+   [
+    44.0,
+    35.708
+   ],
+   [
+    46.0,
+    37.516
+   ],
+   [
+    48.0,
+    39.0867
+   ],
+   [
+    50.0,
+    41.2566
+   ],
+   [
+    55.0,
+    44.5998
+   ],
+   [
+    60.0,
+    49.0287
+   ],
+   [
+    65.0,
+    52.7805
+   ],
+   [
+    70.0,
+    57.1539
+   ]
+  ],
+  "BE": [
+   [
+    2.0,
+    12.15
+   ],
+   [
+    4.0,
+    12.26
+   ],
+   [
+    7.0,
+    13.52
+   ],
+   [
+    10.0,
+    14.45
+   ],
+   [
+    14.0,
+    15.16
+   ],
+   [
+    20.0,
+    16.53
+   ],
+   [
+    22.0,
+    17.22
+   ],
+   [
+    24.0,
+    17.89
+   ],
+   [
+    26.0,
+    25.31
+   ],
+   [
+    28.0,
+    25.84
+   ],
+   [
+    30.0,
+    26.79
+   ],
+   [
+    32.0,
+    27.41
+   ],
+   [
+    34.0,
+    29.4489
+   ],
+   [
+    36.0,
+    29.4489
+   ],
+   [
+    38.0,
+    30.7855
+   ],
+   [
+    40.0,
+    32.0694
+   ],
+   [
+    42.0,
+    33.8887
+   ],
+   [
+    44.0,
+    35.708
+   ],
+   [
+    46.0,
+    37.516
+   ],
+   [
+    48.0,
+    39.0867
+   ],
+   [
+    50.0,
+    41.2566
+   ],
+   [
+    55.0,
+    44.5998
+   ],
+   [
+    60.0,
+    49.0287
+   ],
+   [
+    65.0,
+    52.7805
+   ],
+   [
+    70.0,
+    57.1539
+   ]
+  ],
+  "CZ": [
+   [
+    2.0,
+    12.15
+   ],
+   [
+    4.0,
+    12.43
+   ],
+   [
+    7.0,
+    13.52
+   ],
+   [
+    10.0,
+    14.45
+   ],
+   [
+    14.0,
+    14.35
+   ],
+   [
+    20.0,
+    15.63
+   ],
+   [
+    22.0,
+    17.22
+   ],
+   [
+    24.0,
+    17.89
+   ],
+   [
+    26.0,
+    25.31
+   ],
+   [
+    28.0,
+    25.84
+   ],
+   [
+    30.0,
+    25.84
+   ],
+   [
+    32.0,
+    25.84
+   ],
+   [
+    34.0,
+    27.8284
+   ],
+   [
+    36.0,
+    29.4745
+   ],
+   [
+    38.0,
+    30.8151
+   ],
+   [
+    40.0,
+    32.9574
+   ],
+   [
+    42.0,
+    34.827
+   ],
+   [
+    44.0,
+    36.6966
+   ],
+   [
+    46.0,
+    38.5662
+   ],
+   [
+    48.0,
+    40.185
+   ],
+   [
+    50.0,
+    42.0432
+   ],
+   [
+    55.0,
+    46.683
+   ],
+   [
+    60.0,
+    50.6844
+   ],
+   [
+    65.0,
+    54.207
+   ],
+   [
+    70.0,
+    58.6986
+   ]
+  ],
+  "GR": [
+   [
+    2.0,
+    16.47
+   ],
+   [
+    4.0,
+    17.6
+   ],
+   [
+    7.0,
+    18.62
+   ],
+   [
+    10.0,
+    18.74
+   ],
+   [
+    14.0,
+    20.72
+   ],
+   [
+    20.0,
+    22.65
+   ],
+   [
+    22.0,
+    24.93
+   ],
+   [
+    24.0,
+    28.67
+   ],
+   [
+    26.0,
+    31.97
+   ],
+   [
+    28.0,
+    33.18
+   ],
+   [
+    30.0,
+    35.61
+   ],
+   [
+    32.0,
+    36.87
+   ],
+   [
+    34.0,
+    40.208
+   ],
+   [
+    36.0,
+    43.2677
+   ],
+   [
+    38.0,
+    45.9571
+   ],
+   [
+    40.0,
+    48.6465
+   ],
+   [
+    42.0,
+    51.3359
+   ],
+   [
+    44.0,
+    54.0253
+   ],
+   [
+    46.0,
+    55.209
+   ],
+   [
+    48.0,
+    57.827
+   ],
+   [
+    50.0,
+    60.445
+   ],
+   [
+    55.0,
+    67.001
+   ],
+   [
+    60.0,
+    73.546
+   ],
+   [
+    65.0,
+    80.091
+   ],
+   [
+    70.0,
+    86.647
+   ]
+  ],
+  "HU": [
+   [
+    2.0,
+    15.16
+   ],
+   [
+    4.0,
+    15.7
+   ],
+   [
+    7.0,
+    16.32
+   ],
+   [
+    10.0,
+    17.07
+   ],
+   [
+    14.0,
+    17.63
+   ],
+   [
+    20.0,
+    19.25
+   ],
+   [
+    22.0,
+    20.06
+   ],
+   [
+    24.0,
+    20.86
+   ],
+   [
+    26.0,
+    28.04
+   ],
+   [
+    28.0,
+    29.07
+   ],
+   [
+    30.0,
+    33.53
+   ],
+   [
+    32.0,
+    34.72
+   ],
+   [
+    34.0,
+    37.92
+   ],
+   [
+    36.0,
+    38.8
+   ],
+   [
+    38.0,
+    41.28
+   ],
+   [
+    40.0,
+    43.75
+   ],
+   [
+    42.0,
+    46.22
+   ],
+   [
+    44.0,
+    48.69
+   ],
+   [
+    46.0,
+    51.17
+   ],
+   [
+    48.0,
+    53.64
+   ],
+   [
+    50.0,
+    54.62
+   ],
+   [
+    55.0,
+    60.63
+   ],
+   [
+    60.0,
+    66.65
+   ],
+   [
+    65.0,
+    72.67
+   ],
+   [
+    70.0,
+    78.68
+   ]
+  ],
+  "PT": [
+   [
+    2.0,
+    15.92
+   ],
+   [
+    4.0,
+    16.64
+   ],
+   [
+    7.0,
+    17.23
+   ],
+   [
+    10.0,
+    18.44
+   ],
+   [
+    14.0,
+    19.05
+   ],
+   [
+    20.0,
+    20.65
+   ],
+   [
+    22.0,
+    21.39
+   ],
+   [
+    24.0,
+    22.25
+   ],
+   [
+    26.0,
+    30.56
+   ],
+   [
+    28.0,
+    31.36
+   ],
+   [
+    30.0,
+    32.52
+   ],
+   [
+    32.0,
+    33.66
+   ],
+   [
+    34.0,
+    36.0244
+   ],
+   [
+    36.0,
+    40.04
+   ],
+   [
+    38.0,
+    42.57
+   ],
+   [
+    40.0,
+    45.1
+   ],
+   [
+    42.0,
+    47.63
+   ],
+   [
+    44.0,
+    50.17
+   ],
+   [
+    46.0,
+    52.7
+   ],
+   [
+    48.0,
+    55.23
+   ],
+   [
+    50.0,
+    56.232
+   ],
+   [
+    55.0,
+    62.392
+   ],
+   [
+    60.0,
+    68.563
+   ],
+   [
+    65.0,
+    74.723
+   ],
+   [
+    70.0,
+    80.883
+   ]
+  ],
+  "PL": [
+   [
+    2.0,
+    12.15
+   ],
+   [
+    4.0,
+    12.43
+   ],
+   [
+    7.0,
+    13.88
+   ],
+   [
+    10.0,
+    14.84
+   ],
+   [
+    14.0,
+    16.57
+   ],
+   [
+    20.0,
+    18.08
+   ],
+   [
+    22.0,
+    18.85
+   ],
+   [
+    24.0,
+    19.59
+   ],
+   [
+    26.0,
+    25.31
+   ],
+   [
+    28.0,
+    27.63
+   ],
+   [
+    30.0,
+    28.64
+   ],
+   [
+    32.0,
+    29.63
+   ],
+   [
+    34.0,
+    32.6909
+   ],
+   [
+    36.0,
+    34.9509
+   ],
+   [
+    38.0,
+    37.1996
+   ],
+   [
+    40.0,
+    39.4596
+   ],
+   [
+    42.0,
+    41.7196
+   ],
+   [
+    44.0,
+    43.9683
+   ],
+   [
+    46.0,
+    46.2283
+   ],
+   [
+    48.0,
+    48.4883
+   ],
+   [
+    50.0,
+    50.737
+   ],
+   [
+    55.0,
+    54.879
+   ],
+   [
+    60.0,
+    60.368
+   ],
+   [
+    65.0,
+    65.857
+   ],
+   [
+    70.0,
+    71.346
+   ]
+  ],
+  "NL": [
+   [
+    2.0,
+    12.15
+   ],
+   [
+    4.0,
+    12.26
+   ],
+   [
+    7.0,
+    13.52
+   ],
+   [
+    10.0,
+    14.45
+   ],
+   [
+    14.0,
+    15.16
+   ],
+   [
+    20.0,
+    16.53
+   ],
+   [
+    22.0,
+    17.22
+   ],
+   [
+    24.0,
+    17.89
+   ],
+   [
+    26.0,
+    25.31
+   ],
+   [
+    28.0,
+    25.84
+   ],
+   [
+    30.0,
+    26.79
+   ],
+   [
+    32.0,
+    27.41
+   ],
+   [
+    34.0,
+    29.4489
+   ],
+   [
+    36.0,
+    29.4489
+   ],
+   [
+    38.0,
+    30.7855
+   ],
+   [
+    40.0,
+    32.0694
+   ],
+   [
+    42.0,
+    33.8887
+   ],
+   [
+    44.0,
+    35.708
+   ],
+   [
+    46.0,
+    37.516
+   ],
+   [
+    48.0,
+    39.0867
+   ],
+   [
+    50.0,
+    41.2566
+   ],
+   [
+    55.0,
+    44.5998
+   ],
+   [
+    60.0,
+    49.0287
+   ],
+   [
+    65.0,
+    52.7805
+   ],
+   [
+    70.0,
+    57.1539
+   ]
+  ]
  },
  "g2gInt": {
   "FR": [
@@ -1167,32 +2361,447 @@ const DATA = {
   "perKg": {
    "FR": 3.88,
    "IT": 2.61,
-   "ES": 3.24
+   "ES": 3.24,
+   "AT": 2.67,
+   "BE": 2.18,
+   "NL": 2.61,
+   "PL": 1.91,
+   "PT": 3.58
   },
-  "fuel": 0.0
+  "fuel": 0.0,
+  "AT": [
+   [
+    0.5,
+    6.46
+   ],
+   [
+    1.0,
+    6.5
+   ],
+   [
+    1.5,
+    6.5
+   ],
+   [
+    2.0,
+    6.65
+   ],
+   [
+    2.5,
+    6.65
+   ],
+   [
+    3.0,
+    6.65
+   ],
+   [
+    3.5,
+    6.69
+   ],
+   [
+    4.0,
+    6.73
+   ],
+   [
+    4.5,
+    6.82
+   ],
+   [
+    5.0,
+    6.91
+   ],
+   [
+    5.5,
+    6.91
+   ],
+   [
+    6.0,
+    6.91
+   ],
+   [
+    6.5,
+    7.09
+   ],
+   [
+    7.0,
+    8.27
+   ],
+   [
+    7.5,
+    8.33
+   ],
+   [
+    8.0,
+    8.58
+   ],
+   [
+    8.5,
+    9.82
+   ],
+   [
+    9.0,
+    10.1
+   ],
+   [
+    9.5,
+    10.38
+   ],
+   [
+    10.0,
+    10.68
+   ]
+  ],
+  "BE": [
+   [
+    0.5,
+    6.54
+   ],
+   [
+    1.0,
+    6.54
+   ],
+   [
+    1.5,
+    6.54
+   ],
+   [
+    2.0,
+    6.54
+   ],
+   [
+    2.5,
+    6.54
+   ],
+   [
+    3.0,
+    6.59
+   ],
+   [
+    3.5,
+    6.67
+   ],
+   [
+    4.0,
+    6.78
+   ],
+   [
+    4.5,
+    6.9
+   ],
+   [
+    5.0,
+    7.0
+   ],
+   [
+    5.5,
+    8.14
+   ],
+   [
+    6.0,
+    8.3
+   ],
+   [
+    6.5,
+    8.47
+   ],
+   [
+    7.0,
+    8.48
+   ],
+   [
+    7.5,
+    8.48
+   ],
+   [
+    8.0,
+    8.56
+   ],
+   [
+    8.5,
+    8.6
+   ],
+   [
+    9.0,
+    8.63
+   ],
+   [
+    9.5,
+    8.67
+   ],
+   [
+    10.0,
+    8.7
+   ]
+  ],
+  "NL": [
+   [
+    0.5,
+    6.83
+   ],
+   [
+    1.0,
+    7.0
+   ],
+   [
+    1.5,
+    7.16
+   ],
+   [
+    2.0,
+    7.21
+   ],
+   [
+    2.5,
+    7.35
+   ],
+   [
+    3.0,
+    7.48
+   ],
+   [
+    3.5,
+    7.58
+   ],
+   [
+    4.0,
+    7.58
+   ],
+   [
+    4.5,
+    7.58
+   ],
+   [
+    5.0,
+    7.58
+   ],
+   [
+    5.5,
+    8.16
+   ],
+   [
+    6.0,
+    8.27
+   ],
+   [
+    6.5,
+    8.39
+   ],
+   [
+    7.0,
+    8.49
+   ],
+   [
+    7.5,
+    8.61
+   ],
+   [
+    8.0,
+    8.72
+   ],
+   [
+    8.5,
+    8.83
+   ],
+   [
+    9.0,
+    8.95
+   ],
+   [
+    9.5,
+    9.06
+   ],
+   [
+    10.0,
+    10.44
+   ]
+  ],
+  "PL": [
+   [
+    0.5,
+    6.86
+   ],
+   [
+    1.0,
+    6.86
+   ],
+   [
+    1.5,
+    6.86
+   ],
+   [
+    2.0,
+    6.86
+   ],
+   [
+    2.5,
+    6.86
+   ],
+   [
+    3.0,
+    6.98
+   ],
+   [
+    3.5,
+    7.07
+   ],
+   [
+    4.0,
+    7.07
+   ],
+   [
+    4.5,
+    7.25
+   ],
+   [
+    5.0,
+    7.25
+   ],
+   [
+    5.5,
+    7.25
+   ],
+   [
+    6.0,
+    7.63
+   ],
+   [
+    6.5,
+    7.63
+   ],
+   [
+    7.0,
+    7.63
+   ],
+   [
+    7.5,
+    7.63
+   ],
+   [
+    8.0,
+    7.63
+   ],
+   [
+    8.5,
+    7.63
+   ],
+   [
+    9.0,
+    7.63
+   ],
+   [
+    9.5,
+    7.63
+   ],
+   [
+    10.0,
+    7.63
+   ]
+  ],
+  "PT": [
+   [
+    0.5,
+    10.95
+   ],
+   [
+    1.0,
+    10.95
+   ],
+   [
+    1.5,
+    10.95
+   ],
+   [
+    2.0,
+    10.95
+   ],
+   [
+    2.5,
+    10.95
+   ],
+   [
+    3.0,
+    10.95
+   ],
+   [
+    3.5,
+    10.95
+   ],
+   [
+    4.0,
+    10.95
+   ],
+   [
+    4.5,
+    10.95
+   ],
+   [
+    5.0,
+    10.95
+   ],
+   [
+    5.5,
+    11.52
+   ],
+   [
+    6.0,
+    12.04
+   ],
+   [
+    6.5,
+    12.56
+   ],
+   [
+    7.0,
+    12.59
+   ],
+   [
+    7.5,
+    12.92
+   ],
+   [
+    8.0,
+    12.92
+   ],
+   [
+    8.5,
+    13.26
+   ],
+   [
+    9.0,
+    13.26
+   ],
+   [
+    9.5,
+    13.78
+   ],
+   [
+    10.0,
+    14.3
+   ]
+  ]
  }
 };
 
 function tierPrice(tiers, perKg, w){
-  // tiers: [[upper, price], ...] sorted; perKg fallback
   for(const [up, p] of tiers){ if(w <= up) return p; }
   return perKg * w;
 }
-function tierPriceMulti(tiersArr, perKg, w){ // tiersArr: [[up, price],...]
+function tierPriceMulti(tiersArr, perKg, w){
   for(const t of tiersArr){ if(w <= t[0]) return t[1]; }
   return perKg * w;
 }
-function tierPriceGC(tiersObj, country, perKg, w){ // gcInt tiers: [{max, FR, IT, ES},...]
+function tierPriceGC(tiersObj, country, perKg, w){
   for(const t of tiersObj){ if(w <= t.max) return t[country]; }
   return perKg * w;
 }
 
+
 function calc(){
-  const w = parseFloat(document.getElementById('w').value);
-  const L = parseFloat(document.getElementById('l').value);
-  const B = parseFloat(document.getElementById('b').value);
-  const H = parseFloat(document.getElementById('h').value);
-  const errBox = document.getElementById('errBox');
+  const w  = parseFloat(document.getElementById('w').value);
+  const L  = parseFloat(document.getElementById('l').value);
+  const B  = parseFloat(document.getElementById('b').value);
+  const H  = parseFloat(document.getElementById('h').value);
+  const errBox  = document.getElementById('errBox');
   const volInfo = document.getElementById('volInfo');
   errBox.textContent='';
   if(!(w>0) || !(L>0) || !(B>0) || !(H>0)){ errBox.textContent='请填写有效的重量和尺寸（均大于0）'; return; }
@@ -1208,76 +2817,92 @@ function calc(){
   const results = document.getElementById('results');
   results.innerHTML='';
 
-  // channel definitions
   function channelsFor(dest){
     const list = [];
     const billing = (dest==='DE') ? w : Math.max(w, volW);
-    // ---- DE local ----
     if(dest==='DE'){
-      // GC Parcel 本地
       const gcl = tierPrice(D.gcLocal.tiers, D.gcLocal.perKg, w);
-      list.push({name:'GC Parcel 本地', price: (gcl + D.gcLocal.road)*(1+D.gcLocal.fuel) + D.gcLocal.sec});
-      // DHL 包裹本地
+      const road=D.gcLocal.road, fuel=D.gcLocal.fuel, sec=D.gcLocal.sec;
+      const baseP = gcl + road;
+      list.push({name:'GC Parcel 本地', type:'国内物流', price: baseP*(1+fuel)+sec, fuelRate:fuel, fuelSur:baseP*fuel, sec:sec, road:road, env:0});
       const dhl = tierPrice(D.dhlLocal.tiers, D.dhlLocal.perKg, w);
-      list.push({name:'DHL 包裹 本地', price: (dhl + D.dhlLocal.road)*(1+fuelDhl)});
-      // DHL Kleinpaket (≤1kg & 尺寸<35.3*25*8)
+      const dhlRoad=D.dhlLocal.road, dhlBase=dhl+dhlRoad;
+      list.push({name:'DHL 包裹 本地', type:'国内物流', price: dhlBase*(1+fuelDhl), fuelRate:fuelDhl, fuelSur:dhlBase*fuelDhl, sec:0, road:dhlRoad, env:0});
       if(w<=D.dhlKlein.maxW && L<=D.dhlKlein.dim[0] && B<=D.dhlKlein.dim[1] && H<=D.dhlKlein.dim[2]){
-        list.push({name:'DHL Kleinpaket 小包', price: D.dhlKlein.base1*(1+fuelDhl)});
+        const kb=D.dhlKlein.base1;
+        list.push({name:'DHL Kleinpaket 小包', type:'国内物流', price: kb*(1+fuelDhl), fuelRate:fuelDhl, fuelSur:kb*fuelDhl, sec:0, road:0, env:0});
       } else if(w<=D.dhlKlein.maxW){
-        list.push({name:'DHL Kleinpaket 小包', price: D.dhlKlein.base1*(1+fuelDhl), warn:'尺寸超限不可用'});
+        const kb=D.dhlKlein.base1;
+        list.push({name:'DHL Kleinpaket 小包', type:'国内物流', price: kb*(1+fuelDhl), fuelRate:fuelDhl, fuelSur:kb*fuelDhl, sec:0, road:0, env:0, warn:'尺寸超限不可用'});
       }
-      // DPD 本地
       const dpd = tierPrice(D.dpdLocal.tiers, D.dpdLocal.perKg, w);
-      list.push({name:'DPD 本地', price: dpd*(1+D.dpdLocal.fuel) + D.dpdLocal.road + D.dpdLocal.sec});
-      // GLS 本地
+      const dpdRoad=D.dpdLocal.road, dpdFuel=D.dpdLocal.fuel, dpdSec=D.dpdLocal.sec;
+      list.push({name:'DPD 本地', type:'国内物流', price: dpd*(1+dpdFuel)+dpdRoad+dpdSec, fuelRate:dpdFuel, fuelSur:dpd*dpdFuel, sec:dpdSec, road:dpdRoad, env:0});
       const gls = tierPrice(D.glsLocal.tiers, D.glsLocal.perKg, Math.ceil(w));
-      list.push({name:'GLS 本地', price: (gls + D.glsLocal.road)*(1+fuelGls) + D.glsLocal.env});
+      const glsRoad=D.glsLocal.road, glsFuel=fuelGls, glsEnv=D.glsLocal.env;
+      const glsBase=gls+glsRoad;
+      list.push({name:'GLS 本地', type:'国内物流', price: glsBase*(1+glsFuel)+glsEnv, fuelRate:glsFuel, fuelSur:glsBase*glsFuel, sec:0, road:glsRoad, env:glsEnv});
     } else {
-      // ---- international ----
-      // GC Parcel 国际
-      const gci = tierPriceGC(D.gcInt.tiers, dest, D.gcInt.perKg[dest], billing);
-      list.push({name:'GC Parcel 国际', price: gci*(1+D.gcInt.fuel) + D.gcInt.road + D.gcInt.sec});
-      // DHL 国际
-      const dhi = D.dhlInt[dest];
-      const dhiPrice = dhi[0] + Math.max(0, billing-1)*dhi[1];
-      list.push({name:'DHL 国际', price: dhiPrice*(1+fuelDhl)});
-      // DPD 国际
-      const dpdi = D.dpdInt[dest]; const dpdiTiers = D.dpdInt.tiers;
-      let diBase=null;
-      for(let i=0;i<dpdiTiers.length;i++){ if(billing<=dpdiTiers[i]){ diBase=dpdi[i]; break; } }
-      if(diBase===null) diBase = D.dpdInt.perKg[dest]*billing;
-      list.push({name:'DPD 国际', price: diBase*(1+D.dpdInt.fuel) + D.dpdInt.road + D.dpdInt.sec});
-      // GLS 国际
-      const glsi = D.glsInt[dest]; const glsiTiers = D.glsInt.tiers;
-      let giBase=null;
-      for(let i=0;i<glsiTiers.length;i++){ if(billing<=glsiTiers[i]){ giBase=glsi[i]; break; } }
-      if(giBase===null) giBase = D.glsInt.perKg[dest]*billing;
-      list.push({name:'GLS 国际', price: (giBase + D.glsInt.road)*(1+fuelGls) + D.glsInt.env});
-      // UPS 国际
-      const upi = D.upsInt[dest];
-      let upBase=tierPriceMulti(upi, D.upsInt.perKg[dest], billing);
-      list.push({name:'UPS Standard 国际', price: upBase, note:'基础价未含燃油'});
-      // G2G 国际
-      const g2 = D.g2gInt[dest];
-      let g2Base=tierPriceMulti(g2, D.g2gInt.perKg[dest], billing);
-      list.push({name:'G2G 国际', price: g2Base, note:'免燃油全包'});
+      if(D.gcInt.perKg[dest]!==undefined){
+        const gci = tierPriceGC(D.gcInt.tiers, dest, D.gcInt.perKg[dest], billing);
+        const road=D.gcInt.road, fuel=D.gcInt.fuel, sec=D.gcInt.sec;
+        list.push({name:'GC Parcel 国际', type:'国际物流', price: gci*(1+fuel)+road+sec, fuelRate:fuel, fuelSur:gci*fuel, sec:sec, road:road, env:0});
+      }
+      if(D.dhlInt[dest]!==undefined){
+        const dhi = D.dhlInt[dest];
+        const dhiPrice = dhi[0] + Math.max(0, billing-1)*dhi[1];
+        list.push({name:'DHL 国际', type:'国际物流', price: dhiPrice*(1+fuelDhl), fuelRate:fuelDhl, fuelSur:dhiPrice*fuelDhl, sec:0, road:0, env:0});
+      }
+      if(D.dpdInt[dest]!==undefined){
+        const dpdi=D.dpdInt[dest]; const dpdiTiers=D.dpdInt.tiers;
+        let diBase=null;
+        for(let i=0;i<dpdiTiers.length;i++){ if(billing<=dpdiTiers[i]){ diBase=dpdi[i]; break; } }
+        if(diBase===null) diBase = D.dpdInt.perKg[dest]*billing;
+        const fuel=D.dpdInt.fuel, road=D.dpdInt.road, sec=D.dpdInt.sec;
+        list.push({name:'DPD 国际', type:'国际物流', price: diBase*(1+fuel)+road+sec, fuelRate:fuel, fuelSur:diBase*fuel, sec:sec, road:road, env:0});
+      }
+      if(D.glsInt[dest]!==undefined){
+        const glsi=D.glsInt[dest]; const glsiTiers=D.glsInt.tiers;
+        let giBase=null;
+        for(let i=0;i<glsiTiers.length;i++){ if(billing<=glsiTiers[i]){ giBase=glsi[i]; break; } }
+        if(giBase===null) giBase = D.glsInt.perKg[dest]*billing;
+        const road=D.glsInt.road, fuel=fuelGls, env=D.glsInt.env;
+        const gBase=giBase+road;
+        list.push({name:'GLS 国际', type:'国际物流', price: gBase*(1+fuel)+env, fuelRate:fuel, fuelSur:gBase*fuel, sec:0, road:road, env:env});
+      }
+      if(D.upsInt[dest]!==undefined){
+        const upi=D.upsInt[dest];
+        let upBase=tierPriceMulti(upi, D.upsInt.perKg[dest], billing);
+        list.push({name:'UPS Standard 国际', type:'国际物流', price: upBase, fuelRate:0, fuelSur:0, sec:0, road:0, env:0, note:'基础价未含燃油'});
+      }
+      if(D.g2gInt[dest]!==undefined){
+        const g2=D.g2gInt[dest];
+        let g2Base=tierPriceMulti(g2, D.g2gInt.perKg[dest], billing);
+        list.push({name:'G2G 国际', type:'国际物流', price: g2Base, fuelRate:0, fuelSur:0, sec:0, road:0, env:0, note:'免燃油全包'});
+      }
     }
     return list;
   }
 
-  const destName = {DE:'德国 Germany', FR:'法国 France', IT:'意大利 Italy', ES:'西班牙 Spain'};
-  let html = `<table id="result"><thead><tr><th>目的国</th><th>计费重 (kg)</th><th>推荐物流</th><th>尾程运费 (EUR)</th><th>类型</th></tr></thead><tbody>`;
+  const destName = {
+    DE:'德国 Germany', FR:'法国 France', IT:'意大利 Italy', ES:'西班牙 Spain',
+    AT:'奥地利 Austria', BE:'比利时 Belgium', CZ:'捷克 Czechia', GR:'希腊 Greece',
+    HU:'匈牙利 Hungary', PT:'葡萄牙 Portugal', PL:'波兰 Poland', NL:'荷兰 Netherlands'
+  };
+  let html = `<table id="result"><thead><tr><th>目的国</th><th>计费重(kg)</th><th>推荐物流</th><th>尾程运费(EUR)</th><th>类型</th><th>燃油率%</th><th>燃油附加费€</th><th>安检费€</th><th>道路费€</th><th>环保税€</th></tr></thead><tbody>`;
   dests.forEach(dest=>{
     const list = channelsFor(dest);
     list.sort((a,b)=>a.price-b.price);
     const best = list[0];
     const billing = (dest==='DE') ? w : Math.max(w, volW);
     const tag = (dest==='DE') ? '国内物流（默认）' : '最便宜国际物流';
-    html += `<tr><td>${destName[dest]}</td><td>${billing.toFixed(2)}</td><td style="font-weight:700;color:#16a34a">${best.name}</td><td>${best.price.toFixed(2)}</td><td style="color:#6b7280">${tag}</td></tr>`;
+    const fr = (best.fuelRate*100).toFixed(0);
+    html += `<tr class="best"><td>${destName[dest]}</td><td>${billing.toFixed(2)}</td><td style="font-weight:700;color:#16a34a">${best.name}</td><td>${best.price.toFixed(2)}</td><td style="color:#6b7280">${tag}</td><td>${fr}%</td><td>${best.fuelSur.toFixed(2)}</td><td>${best.sec.toFixed(2)}</td><td>${best.road.toFixed(2)}</td><td>${best.env.toFixed(2)}</td></tr>`;
   });
   html += `</tbody></table>`;
   results.innerHTML = html;
 }
+
 calc();
 </script>
 </body>
