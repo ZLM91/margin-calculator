@@ -2303,6 +2303,45 @@ function findObjCol(row, candidates) {
   return '';
 }
 
+// ====== 双语列名支持 (支持 TikTok Shop 英文 / 中文导出自动识别) ======
+var AD_COLUMN_ALIASES = {
+  '创意作品类型':   ['创意作品类型', '创意类型', 'Creative type', 'Creative Type', 'creative type'],
+  '视频标题':       ['视频标题', 'Video title', 'Video Title', 'video title'],
+  '视频 ID':        ['视频 ID', '视频ID', '视频id', 'Video ID', 'Video id', 'video id', 'Video Id'],
+  'TikTok账号':     ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', 'TikTok account', '账号', 'Account'],
+  '发布时间':       ['发布时间', 'Time posted', 'Time Posted', 'time posted', '投放时间'],
+  '成本':           ['成本', 'Cost', 'cost', '花费', 'Spend'],
+  'SKU 订单数':     ['SKU 订单数', 'SKU orders', 'SKU Orders', 'sku orders'],
+  '总收入':         ['总收入', 'Gross revenue', 'Gross Revenue', 'gross revenue', 'GMV', 'gross sales'],
+  '商品广告曝光数': ['商品广告曝光数', 'Product ad impressions', 'product ad impressions', 'impressions'],
+  '话题标签':       ['话题标签', 'Hashtags', 'hashtags', 'Tags', 'tags'],
+  'ROI':            ['ROI', 'roi', 'ROAS'],
+  '素材类型':       ['素材类型', '创意类型', 'Creative type', 'creative type', 'workType', '创意形式', '素材形式']
+};
+
+// 按内部中文字段名取值，自动匹配中英文列名（忽略空格/下划线/大小写）
+function getField(row, field) {
+  var aliases = AD_COLUMN_ALIASES[field] || [field];
+  for (var i = 0; i < aliases.length; i++) {
+    if (row[aliases[i]] !== undefined && row[aliases[i]] !== null && row[aliases[i]] !== '') return row[aliases[i]];
+    var norm = aliases[i].replace(/[\s_]+/g, '').toLowerCase();
+    var keys = Object.keys(row);
+    for (var k = 0; k < keys.length; k++) {
+      if (keys[k].replace(/[\s_]+/g, '').toLowerCase() === norm) return row[keys[k]];
+    }
+  }
+  return '';
+}
+
+// 创意作品类型中英文归一：video/视频 -> 视频, product card/商品卡片 -> 商品卡片, images/图片 -> 图片
+function normalizeCreativeType(ct) {
+  ct = String(ct || '').trim().toLowerCase();
+  if (ct === '视频' || ct === 'video') return '视频';
+  if (ct.indexOf('商品卡片') >= 0 || ct === 'product card' || ct === 'productcard') return '商品卡片';
+  if (ct === 'images' || ct === '图片' || ct.indexOf('image') >= 0) return '图片';
+  return '';
+}
+
 function isCurrentMonth(dateStr) {
   // Robustly extract year+month from date strings like "2026-05-15", "2026/5/15", "2026-05-15 10:30:00"
   if (!dateStr) return false;
@@ -2737,27 +2776,28 @@ function handleAdDataUpload(input) {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
+      // 支持中英文列名自动识别（TikTok Shop 英文/中文导出均可）
       videoAdData = rows.filter(function(r) {
-        var ct = String(r['创意作品类型'] || '');
-        var vid = String(r['视频 ID'] || '').trim();
-        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
+        var ct = normalizeCreativeType(getField(r, '创意作品类型'));
+        var vid = String(getField(r, '视频 ID') || '').trim();
+        return ct === '视频' || ct === '商品卡片' || vid === 'N/A' || vid === 'n/a';
       }).map(function(r) {
-        var rawVid = String(r['视频 ID'] || '').trim();
+        var rawVid = String(getField(r, '视频 ID') || '').trim();
         // Clean numeric IDs: remove Excel float decimals like "123.0" -> "123"
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
-        var vid = rawVid;
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
+        var ct = normalizeCreativeType(getField(r, '创意作品类型'));
+        var acct = String(getField(r, 'TikTok账号') || '');
         return {
-          vid: vid,
-          title: String(r['视频标题'] || ''),
-          tags: String(r['话题标签'] || ''),
-          gmv: parseFloat(r['总收入']) || 0,
-          orders: parseInt(r['SKU 订单数']) || 0,
-          cost: parseFloat(r['成本']) || 0,
-          roi: parseFloat(r['ROI']) || 0,
-          date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0,
-          workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
+          vid: rawVid,
+          title: String(getField(r, '视频标题') || ''),
+          tags: String(getField(r, '话题标签') || ''),
+          gmv: parseFloat(getField(r, '总收入')) || 0,
+          orders: parseInt(getField(r, 'SKU 订单数')) || 0,
+          cost: parseFloat(getField(r, '成本')) || 0,
+          roi: parseFloat(getField(r, 'ROI')) || 0,
+          date: String(getField(r, '发布时间') || ''),
+          views: parseInt(getField(r, '商品广告曝光数')) || 0,
+          workType: ct || String(getField(r, '素材类型') || ''),
           account: acct,
           isBrand: isBrandAccount(acct)
         };
@@ -4903,26 +4943,27 @@ function handleAdDataUploadUK(input) {
       var wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
       var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
       // 包含视频和商品卡片（商品卡的定义：创意作品类型含"商品卡片"或视频ID为N/A）
+      // 支持中英文列名自动识别（TikTok Shop 英文/中文导出均可）
       videoAdDataUK = rows.filter(function(r) {
-        var ct = String(r['创意作品类型'] || '');
-        var vid = String(r['视频 ID'] || '').trim();
-        return ct === '视频' || ct.includes('商品卡片') || vid === 'N/A' || vid === 'n/a';
+        var ct = normalizeCreativeType(getField(r, '创意作品类型'));
+        var vid = String(getField(r, '视频 ID') || '').trim();
+        return ct === '视频' || ct === '商品卡片' || vid === 'N/A' || vid === 'n/a';
       }).map(function(r) {
-        var rawVid = String(r['视频 ID'] || '').trim();
+        var rawVid = String(getField(r, '视频 ID') || '').trim();
         if (/^\d+\.0+$/.test(rawVid)) rawVid = rawVid.replace(/\.0+$/, '');
-        var vid = rawVid;
-        var acct = String(findObjCol(r, ['TikTok账号', 'TikTok 账号', 'tiktok账号', 'TikTok Account', '账号']));
+        var ct = normalizeCreativeType(getField(r, '创意作品类型'));
+        var acct = String(getField(r, 'TikTok账号') || '');
         return {
-          vid: vid,
-          title: String(r['视频标题'] || ''),
-          tags: String(r['话题标签'] || ''),
-          gmv: parseFloat(r['总收入']) || 0,
-          orders: parseInt(r['SKU 订单数']) || 0,
-          cost: parseFloat(r['成本']) || 0,
-          roi: parseFloat(r['ROI']) || 0,
-          date: String(r['发布时间'] || ''),
-          views: parseInt(r['商品广告曝光数']) || 0,
-          workType: String(findObjCol(r, ['素材类型', '创意类型', '素材类型', 'workType', '创意形式'])) || '',
+          vid: rawVid,
+          title: String(getField(r, '视频标题') || ''),
+          tags: String(getField(r, '话题标签') || ''),
+          gmv: parseFloat(getField(r, '总收入')) || 0,
+          orders: parseInt(getField(r, 'SKU 订单数') || 0),
+          cost: parseFloat(getField(r, '成本')) || 0,
+          roi: parseFloat(getField(r, 'ROI')) || 0,
+          date: String(getField(r, '发布时间') || ''),
+          views: parseInt(getField(r, '商品广告曝光数') || 0),
+          workType: ct || String(getField(r, '素材类型') || ''),
           account: acct,
           isBrand: isBrandAccount(acct)
         };
