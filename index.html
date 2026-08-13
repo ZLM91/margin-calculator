@@ -7888,6 +7888,7 @@ function parseAndRenderTiktok(mdText) {
       else if (catName.indexOf('湿厕纸') >= 0) icon = '🧻';
       else if (catName.indexOf('洗脸巾') >= 0) icon = '🧖';
       else if (catName.indexOf('牙膏') >= 0) icon = '🦷';
+      else if (catName.indexOf('泥膜') >= 0) icon = '🧼';
       else icon = '📌';
       currentCategory = { name: catName, icon: icon, titles: [] };
       categories.push(currentCategory);
@@ -7946,12 +7947,13 @@ function parseAndRenderTiktok(mdText) {
     if (name.indexOf('湿厕纸') >= 0) return 'wetwipes';
     if (name.indexOf('洗脸巾') >= 0) return 'facial';
     if (name.indexOf('牙膏') >= 0) return 'toothpaste';
+    if (name.indexOf('泥膜') >= 0) return 'mudmask';
     return 'other';
   }
   var subHtml = '<button class="tiktok-subtab active" data-cat="all" onclick="filterTiktokCat(\'all\', event)">📋 全部</button>';
   for (var sc = 0; sc < categories.length; sc++) {
     var ck = catKey(categories[sc].name);
-    subHtml += '<button class="tiktok-subtab" data-cat="' + ck + '" onclick="filterTiktokCat(\'' + categories[sc].name + '\', event)">' + categories[sc].icon + ' ' + escapeHtml(categories[sc].name) + '</button>';
+    subHtml += '<button class="tiktok-subtab" data-cat="' + ck + '" onclick="filterTiktokCat(\'' + categories[sc].name.replace(/'/g, "\\'") + '\', event)">' + categories[sc].icon + ' ' + escapeHtml(categories[sc].name) + '</button>';
   }
   document.getElementById('tiktokSubtabs').innerHTML = subHtml;
   document.getElementById('tiktokSubtabs').style.display = 'flex';
