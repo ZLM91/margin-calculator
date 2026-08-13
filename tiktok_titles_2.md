@@ -81,42 +81,21 @@ Your towel is stiff as cardboard and twice as dirty #facialtowel #disposable #sk
 
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-
-Ice cream makes you wince? Gentle hydrated silica cleans without the scrub that hurts#toothpaste #dentalcare #oralcare | 吃冰淇淋皱眉？水合二氧化硅温和清洁，不伤 #牙膏 #口腔护理
-
-Hot coffee plus cold water equals tooth pain — mild silica paste, gentle on sensitive spots#toothpaste #dentalcare #oralcare | 热咖啡加冷水牙疼——温和硅牙膏，敏感处也温柔 #牙膏 #口腔护理
-
-You chew on one side because the other hurts — hydrated silica cleans gently, no burn#toothpaste #dentalcare #oralcare | 只用一边嚼因为另一边疼——水合二氧化硅温和清洁不辣 #牙膏 #口腔护理
-
-Sensitivity makes you skip favorites — gentle silica formula lets you brush without flinching#toothpaste #dentalcare #oralcare | 敏感让你放弃最爱——温和硅配方刷牙不缩 #牙膏 #口腔护理
-
-Cold-water rinse at the dentist makes you cringe — our mild paste is kind to sensitive teeth#toothpaste #dentalcare #oralcare | 牙医冷水让你缩——我们温和牙膏对敏感牙温柔 #牙膏 #口腔护理
-
-Haven't enjoyed ice cream in years — hydrated silica, gentle clean no harsh sting#toothpaste #dentalcare #oralcare | 好几年没享冰淇淋——水合二氧化硅，温和无刺痛 #牙膏 #口腔护理
-
-Sour candy is a pain trigger — mild silica paste won't add to the burn#toothpaste #dentalcare #oralcare | 酸糖是痛触发——温和硅牙膏不再加辣 #牙膏 #口腔护理
-
-Your toothpaste burns sensitive spots — switch to gentle hydrated silica, no sting#toothpaste #dentalcare #oralcare | 牙膏灼烧敏感处——换水合二氧化硅，不刺 #牙膏 #口腔护理
-
-Winter air through teeth equals sharp pain — mild formula, gentle on exposed spots#toothpaste #dentalcare #oralcare | 冷风穿牙刺痛——温和配方，暴露处也温柔 #牙膏 #口腔护理
-
-You drink through a straw to avoid pain — hydrated silica lets you brush normally#toothpaste #dentalcare #oralcare | 用吸管喝避痛——水合二氧化硅让你正常刷 #牙膏 #口腔护理
-
-Harsh scrub paste made sensitivity worse — gentle silica cleans without the scratch#toothpaste #dentalcare #oralcare | 强研磨牙膏让敏感更重——温和硅清洁不刮 #牙膏 #口腔护理
-
-Dentist says teeth are sensitive — our mild silica is gentle, no harsh scrub#toothpaste #dentalcare #oralcare | 牙医说牙敏感——我们温和硅不狠刷 #牙膏 #口腔护理
-
-Hot soup makes your front teeth ache — hydrated silica, soft clean on sensitive areas#toothpaste #dentalcare #oralcare | 热汤前牙疼——水合二氧化硅，敏感区柔刷 #牙膏 #口腔护理
-
-You avoid smiling in cold weather because of tooth pain — gentle paste means less wince#toothpaste #dentalcare #oralcare | 冷天不敢笑因为牙疼——温和牙膏少刺痛 #牙膏 #口腔护理
-
-Acidic fruit makes your teeth scream — mild silica formula, calm on sensitive spots#toothpaste #dentalcare #oralcare | 酸性水果牙齿尖叫——温和硅配方，敏感处也安静 #牙膏 #口腔护理
-
-Sensitivity paste not working? Try gentle hydrated silica, no burn#toothpaste #dentalcare #oralcare | 抗敏牙膏没用？试水合二氧化硅，不辣 #牙膏 #口腔护理
-
-Teeth react to temperature painfully — our mild formula is kind every brush#toothpaste #dentalcare #oralcare | 牙齿对温度反应痛——我们温和配方每次都温柔 #牙膏 #口腔护理
-
-Stop avoiding cold drinks — hydrated silica lets you brush without the wince#toothpaste #dentalcare #oralcare | 别避冷饮——水合二氧化硅让你刷牙不皱眉 #牙膏 #口腔护理
-
-
-
+Coffee & tea stains? Stop scrubbing hard - hydrated silica whitens gently, no enamel damage#toothpaste #dentalcare #oralcare | 咖啡茶渍别乱刷！水合二氧化硅温和亮白，不伤釉质 #牙膏 #口腔护理
+Yellow teeth, scared to smile? Daily brushing can brighten them over time#toothpaste #dentalcare #oralcare | 牙齿发黄不敢笑？日常刷牙也能改善黄牙 #牙膏 #口腔护理
+Smoker's stains got you down? Keep brushing - teeth get cleaner the longer you use it#toothpaste #dentalcare #oralcare | 烟渍牙有救了！坚持刷，牙齿越刷越干净 #牙膏 #口腔护理
+Red wine & coffee purple stains won't budge? Gentle silica buffs surface color away#toothpaste #dentalcare #oralcare | 红酒咖啡紫渍去不掉？温和硅磨走表面色 #牙膏 #口腔护理
+Morning breath is awkward - pick the right paste and say bye to bad breath#toothpaste #dentalcare #oralcare | 晨起口臭太尴尬｜选对牙膏告别口气困扰 #牙膏 #口腔护理
+After garlicky food? Xylitol quickly brings fresh breath back#toothpaste #dentalcare #oralcare | 吃完重口味食物？木糖醇帮你快速恢复清新口气 #牙膏 #口腔护理
+All-day fresh - one brush keeps breath clean till night#toothpaste #dentalcare #oralcare | 长效清新｜刷牙一次，口气持久清爽 #牙膏 #口腔护理
+Mints all day don't fix the cause - xylitol freshens at the source, sweet not sugary#toothpaste #dentalcare #oralcare | 整天嚼口香糖不解决根本｜木糖醇从源头清新 #牙膏 #口腔护理
+Awkward when someone offers gum - xylitol gives sweet fresh breath, no sugar#toothpaste #dentalcare #oralcare | 别人递口香糖的尴尬｜木糖醇甜感清新无糖 #牙膏 #口腔护理
+Gentle gum-care paste - safe even for sensitive teeth#toothpaste #dentalcare #oralcare | 温和护龈牙膏｜敏感牙齿也可以放心用 #牙膏 #口腔护理
+Bleeding gums when brushing? Niacinamide formula is kinder to your gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？烟酰胺配方对牙龈更温柔 #牙膏 #口腔护理
+Wince at hot or cold? Niacinamide soothes sensitivity, gentle every day#toothpaste #dentalcare #oralcare | 冷热一碰就酸？含烟酰胺温和护敏 #牙膏 #口腔护理
+Gums recede a little each year - gentle daily care, don't wait#toothpaste #dentalcare #oralcare | 牙龈每年退一点｜日常温和护理别再拖 #牙膏 #口腔护理
+Stop buying the wrong paste - check the ingredients before you grab one#toothpaste #dentalcare #oralcare | 别再买错牙膏！看清成分再入手 #牙膏 #口腔护理
+Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalcare #oralcare | 无限回购！这支刷牙体验直接拉满 #牙膏 #口腔护理
+Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
+Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
+Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理

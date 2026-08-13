@@ -81,42 +81,21 @@ Dust mites in your towel produce waste that irritates your skin #facialtowel #di
 
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-
-Kid runs when you say brush time — xylitol paste tastes sweet, no fight#toothpaste #dentalcare #oralcare | 说刷牙孩子就跑——木糖醇牙膏甜，不闹 #牙膏 #口腔护理
-
-Brushing kid's teeth is a wrestling match — sweet xylitol makes it easy#toothpaste #dentalcare #oralcare | 给孩子刷牙像摔跤——甜木糖醇变轻松 #牙膏 #口腔护理
-
-Kid's cavities keep coming back — xylitol sweet paste, no sugar that feeds plaque#toothpaste #dentalcare #oralcare | 孩子蛀牙反复——木糖醇甜牙膏，无糖少负担 #牙膏 #口腔护理
-
-Kid swallows paste instead of spitting — xylitol is sweet and safe, no harsh chemicals#toothpaste #dentalcare #oralcare | 孩子吞牙膏——木糖醇甜又安全，无刺激 #牙膏 #口腔护理
-
-Bubblegum paste is basically candy — xylitol gives sweet without the sugar#toothpaste #dentalcare #oralcare | 泡泡糖牙膏像糖——木糖醇甜却不糖 #牙膏 #口腔护理
-
-Teen skips brushing and lies — xylitol tastes good so they actually do it#toothpaste #dentalcare #oralcare | 青少年不刷牙撒谎——木糖醇好喝所以他们刷 #牙膏 #口腔护理
-
-Kid dentist bills drain your wallet — xylitol daily care, sweet no sugar#toothpaste #dentalcare #oralcare | 孩子牙医账单掏空——木糖醇日常护理，甜无糖 #牙膏 #口腔护理
-
-Toddler screams at the toothbrush — mild xylitol paste, gentle sweet taste#toothpaste #dentalcare #oralcare | 幼儿见牙刷尖叫——温和木糖醇，温甜 #牙膏 #口腔护理
-
-Fruit kids paste doesn't clean adult teeth — xylitol works for the whole family#toothpaste #dentalcare #oralcare | 水果儿童牙膏刷不净成人——木糖醇全家适用 #牙膏 #口腔护理
-
-Kid brushes 10 sec and says done — sweet xylitol makes the 2 minutes easier#toothpaste #dentalcare #oralcare | 孩子刷10秒就完——甜木糖醇让2分钟不难 #牙膏 #口腔护理
-
-Bedtime delayed by brush fight — xylitol sweet taste ends the negotiation#toothpaste #dentalcare #oralcare | 睡前被刷牙谈判延误——木糖醇甜味结束拉锯 #牙膏 #口腔护理
-
-Kid's breath smells despite daily brushing — xylitol fresh breath, sweet no sugar#toothpaste #dentalcare #oralcare | 孩子天天刷还有口臭——木糖醇清新，甜无糖 #牙膏 #口腔护理
-
-Sugar in paste causes more cavities — xylitol has no sugar, just sweet fresh#toothpaste #dentalcare #oralcare | 牙膏糖致更多蛀牙——木糖醇无糖，只甜清新 #牙膏 #口腔护理
-
-Kid refuses mint, too spicy — xylitol is sweet, not burning#toothpaste #dentalcare #oralcare | 孩子拒薄荷太辣——木糖醇甜不辣 #牙膏 #口腔护理
-
-School check finds cavities again — xylitol daily, sweet no sugar defense#toothpaste #dentalcare #oralcare | 学校检查又蛀牙——木糖醇日常，甜无糖 #牙膏 #口腔护理
-
-Decay progresses between visits — xylitol gentle daily care for kids#toothpaste #dentalcare #oralcare | 蛀牙检查间恶化——木糖醇儿童日常护理 #牙膏 #口腔护理
-
-Bribing to brush isn't long-term — xylitol sweet taste is the real win#toothpaste #dentalcare #oralcare | 贿赂刷牙不长久——木糖醇甜味才是真招 #牙膏 #口腔护理
-
-Family dental costs rise every year — xylitol whole-family paste, sweet no sugar#toothpaste #dentalcare #oralcare | 家庭牙科费年涨——木糖醇全家牙膏，甜无糖 #牙膏 #口腔护理
-
-
-
+Coffee & tea stains? Stop scrubbing hard - hydrated silica whitens gently, no enamel damage#toothpaste #dentalcare #oralcare | 咖啡茶渍别乱刷！水合二氧化硅温和亮白，不伤釉质 #牙膏 #口腔护理
+Yellow teeth, scared to smile? Daily brushing can brighten them over time#toothpaste #dentalcare #oralcare | 牙齿发黄不敢笑？日常刷牙也能改善黄牙 #牙膏 #口腔护理
+Smoker's stains got you down? Keep brushing - teeth get cleaner the longer you use it#toothpaste #dentalcare #oralcare | 烟渍牙有救了！坚持刷，牙齿越刷越干净 #牙膏 #口腔护理
+Red wine & coffee purple stains won't budge? Gentle silica buffs surface color away#toothpaste #dentalcare #oralcare | 红酒咖啡紫渍去不掉？温和硅磨走表面色 #牙膏 #口腔护理
+Morning breath is awkward - pick the right paste and say bye to bad breath#toothpaste #dentalcare #oralcare | 晨起口臭太尴尬｜选对牙膏告别口气困扰 #牙膏 #口腔护理
+After garlicky food? Xylitol quickly brings fresh breath back#toothpaste #dentalcare #oralcare | 吃完重口味食物？木糖醇帮你快速恢复清新口气 #牙膏 #口腔护理
+All-day fresh - one brush keeps breath clean till night#toothpaste #dentalcare #oralcare | 长效清新｜刷牙一次，口气持久清爽 #牙膏 #口腔护理
+Mints all day don't fix the cause - xylitol freshens at the source, sweet not sugary#toothpaste #dentalcare #oralcare | 整天嚼口香糖不解决根本｜木糖醇从源头清新 #牙膏 #口腔护理
+Awkward when someone offers gum - xylitol gives sweet fresh breath, no sugar#toothpaste #dentalcare #oralcare | 别人递口香糖的尴尬｜木糖醇甜感清新无糖 #牙膏 #口腔护理
+Gentle gum-care paste - safe even for sensitive teeth#toothpaste #dentalcare #oralcare | 温和护龈牙膏｜敏感牙齿也可以放心用 #牙膏 #口腔护理
+Bleeding gums when brushing? Niacinamide formula is kinder to your gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？烟酰胺配方对牙龈更温柔 #牙膏 #口腔护理
+Wince at hot or cold? Niacinamide soothes sensitivity, gentle every day#toothpaste #dentalcare #oralcare | 冷热一碰就酸？含烟酰胺温和护敏 #牙膏 #口腔护理
+Gums recede a little each year - gentle daily care, don't wait#toothpaste #dentalcare #oralcare | 牙龈每年退一点｜日常温和护理别再拖 #牙膏 #口腔护理
+Stop buying the wrong paste - check the ingredients before you grab one#toothpaste #dentalcare #oralcare | 别再买错牙膏！看清成分再入手 #牙膏 #口腔护理
+Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalcare #oralcare | 无限回购！这支刷牙体验直接拉满 #牙膏 #口腔护理
+Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
+Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
+Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理

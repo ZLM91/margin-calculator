@@ -125,44 +125,21 @@ Your 10-step routine, all negated by one dirty towel #facialtowel #disposable #s
 
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-
-
-
-Bleeding gums when you brush? Gentle niacinamide formula is kind to gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？温和烟酰胺对牙龈温柔 #牙膏 #口腔护理
-
-Gums recede a little each year — mild paste with niacinamide, gentle daily care#toothpaste #dentalcare #oralcare | 牙龈每年退一点——含烟酰胺温和配方，日常温柔 #牙膏 #口腔护理
-
-That dark spot between teeth? Gentle hydrated silica cleans without the scratch#toothpaste #dentalcare #oralcare | 牙间黑点？水合二氧化硅温和清洁不刮 #牙膏 #口腔护理
-
-Tooth aches at night, fine by morning — mild formula, kind to sensitive spots#toothpaste #dentalcare #oralcare | 夜间牙疼早好——温和配方，敏感处温柔 #牙膏 #口腔护理
-
-Dentist says you need a filling again — niacinamide gentle care between visits#toothpaste #dentalcare #oralcare | 牙医又说补牙——烟酰胺就诊间温和护理 #牙膏 #口腔护理
-
-Yellow stains won't come off — hydrated silica lifts surface stains gently#toothpaste #dentalcare #oralcare | 黄渍去不掉——水合二氧化硅温和去表面渍 #牙膏 #口腔护理
-
-Gumline receding, roots show — mild niacinamide paste, gentle on gums#toothpaste #dentalcare #oralcare | 牙龈线退露根——温和烟酰胺牙膏，对牙龈柔 #牙膏 #口腔护理
-
-Cold sensitivity, teeth fear the brush — hydrated silica gentle, no harsh scrub#toothpaste #dentalcare #oralcare | 冷敏感牙怕刷——水合二氧化硅温和，不狠刷 #牙膏 #口腔护理
-
-Back teeth have visible decay — gentle silica clean reaches the back#toothpaste #dentalcare #oralcare | 后牙明显蛀蚀——温和硅清洁到后牙 #牙膏 #口腔护理
-
-Bleeding when flossing means irritation — niacinamide formula is kind to gums#toothpaste #dentalcare #oralcare | 牙线出血=刺激——烟酰胺配方对牙龈温柔 #牙膏 #口腔护理
-
-Teeth look transparent at the edges — mild silica, gentle clean every day#toothpaste #dentalcare #oralcare | 牙齿边缘透明——温和硅，日常清洁更温柔 #牙膏 #口腔护理
-
-That persistent toothache you keep ignoring — gentle niacinamide, kind daily care#toothpaste #dentalcare #oralcare | 持续牙疼忽视——温和烟酰胺，日常温柔 #牙膏 #口腔护理
-
-Filling fell out and you haven't fixed it — keep gums calm with niacinamide gentle paste#toothpaste #dentalcare #oralcare | 补牙掉了没修——烟酰胺温和牙膏安抚牙龈 #牙膏 #口腔护理
-
-Tartar buildup at every visit — hydrated silica gentle daily clean#toothpaste #dentalcare #oralcare | 每次牙结石——水合二氧化硅日常温和清洁 #牙膏 #口腔护理
-
-Teeth are shifting and you don't know why — mild formula, gentle on gums daily#toothpaste #dentalcare #oralcare | 牙齿移动不知为何——温和配方，日常对牙龈柔 #牙膏 #口腔护理
-
-That crack in your tooth is growing — niacinamide gentle care, no harsh sting#toothpaste #dentalcare #oralcare | 牙裂纹变大——烟酰胺温和护理，不刺 #牙膏 #口腔护理
-
-Old fillings darkening at the edges — hydrated silica clean, fresh feel#toothpaste #dentalcare #oralcare | 旧补牙边缘变暗——水合二氧化硅清洁，清新感 #牙膏 #口腔护理
-
-You need a root canal but keep putting it off — niacinamide gentle on gums daily#toothpaste #dentalcare #oralcare | 需根管却拖——烟酰胺日常对牙龈温柔 #牙膏 #口腔护理
-
-
-
+Coffee & tea stains? Stop scrubbing hard - hydrated silica whitens gently, no enamel damage#toothpaste #dentalcare #oralcare | 咖啡茶渍别乱刷！水合二氧化硅温和亮白，不伤釉质 #牙膏 #口腔护理
+Yellow teeth, scared to smile? Daily brushing can brighten them over time#toothpaste #dentalcare #oralcare | 牙齿发黄不敢笑？日常刷牙也能改善黄牙 #牙膏 #口腔护理
+Smoker's stains got you down? Keep brushing - teeth get cleaner the longer you use it#toothpaste #dentalcare #oralcare | 烟渍牙有救了！坚持刷，牙齿越刷越干净 #牙膏 #口腔护理
+Red wine & coffee purple stains won't budge? Gentle silica buffs surface color away#toothpaste #dentalcare #oralcare | 红酒咖啡紫渍去不掉？温和硅磨走表面色 #牙膏 #口腔护理
+Morning breath is awkward - pick the right paste and say bye to bad breath#toothpaste #dentalcare #oralcare | 晨起口臭太尴尬｜选对牙膏告别口气困扰 #牙膏 #口腔护理
+After garlicky food? Xylitol quickly brings fresh breath back#toothpaste #dentalcare #oralcare | 吃完重口味食物？木糖醇帮你快速恢复清新口气 #牙膏 #口腔护理
+All-day fresh - one brush keeps breath clean till night#toothpaste #dentalcare #oralcare | 长效清新｜刷牙一次，口气持久清爽 #牙膏 #口腔护理
+Mints all day don't fix the cause - xylitol freshens at the source, sweet not sugary#toothpaste #dentalcare #oralcare | 整天嚼口香糖不解决根本｜木糖醇从源头清新 #牙膏 #口腔护理
+Awkward when someone offers gum - xylitol gives sweet fresh breath, no sugar#toothpaste #dentalcare #oralcare | 别人递口香糖的尴尬｜木糖醇甜感清新无糖 #牙膏 #口腔护理
+Gentle gum-care paste - safe even for sensitive teeth#toothpaste #dentalcare #oralcare | 温和护龈牙膏｜敏感牙齿也可以放心用 #牙膏 #口腔护理
+Bleeding gums when brushing? Niacinamide formula is kinder to your gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？烟酰胺配方对牙龈更温柔 #牙膏 #口腔护理
+Wince at hot or cold? Niacinamide soothes sensitivity, gentle every day#toothpaste #dentalcare #oralcare | 冷热一碰就酸？含烟酰胺温和护敏 #牙膏 #口腔护理
+Gums recede a little each year - gentle daily care, don't wait#toothpaste #dentalcare #oralcare | 牙龈每年退一点｜日常温和护理别再拖 #牙膏 #口腔护理
+Stop buying the wrong paste - check the ingredients before you grab one#toothpaste #dentalcare #oralcare | 别再买错牙膏！看清成分再入手 #牙膏 #口腔护理
+Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalcare #oralcare | 无限回购！这支刷牙体验直接拉满 #牙膏 #口腔护理
+Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
+Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
+Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
