@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Oily combo skin? Clay the T, hydrate the rest 🤝 #OilControl #Hydrating #MudMask | 混油肌？T区泥膜其余保湿 #控油泥膜 #保湿
+
+Dull by Thursday? Clay, then the glow returns ☕ #WakeUpSkin #MidweekPickup #MudMask | 周四暗沉？泥膜后光回来 #控油泥膜 #清洁泥膜
+
+Makeup sits better after a clay base 💄 #MakeupPrep #MatteBase #MudMask | 泥膜打底后粉底更服 #上妆前 #清洁泥膜
+
+Rare mineral, daily use — that's the UK move 💎 #RareClay #Manicouagan #MudMask | 稀有矿日常用——英国这招 #曼尼古根 #控油泥膜
+
+Centella + double clay — clean then calm 🌿 #Centella #DoubleClay #MudMask | 积雪草+双土——先清后静 #积雪草 #双土
+
+Big jar, small effort — spread, wait, rinse 🫙 #BigJar #EasySpread #MudMask | 大罐小力气——抹等冲 #大罐 #清洁泥膜
+
+Shine by noon, calm by night — clay bridges it 🌙 #OilControl #NightRoutine #MudMask | 中午油夜里静——泥膜连起来 #控油泥膜 #睡前
+
+Tea leaf + willow bark — the botanical side 🍃 #Botanical #PlantBased #MudMask | 茶叶+白柳皮——植萃那面 #植物萃取 #清洁泥膜
+
+Coffee seed kick for the 3pm face ☕ #CoffeeSeed #WakeUpSkin #MudMask | 下午3点脸的咖啡籽劲 #控油泥膜 #清洁泥膜
+
+Brown algae locks water while clay clears 💧 #Hydrating #NoTight #MudMask | 褐藻锁水泥膜清 #保湿 #清洁泥膜
+
+Silky, not scratchy — the nose agrees ✨ #SilkyTexture #SensitiveSafe #MudMask | 丝滑不糙——鼻头也认 #丝滑 #敏感肌
+
+Manicouagan pull, kaolin softness — best of two 💎 #DoubleClay #Kaolin #MudMask | 曼尼古根吸高岭土软——两全 #双土 #高岭土
+
+Pre-event, post-gym, Sunday — clay covers all 📅 #EventReady #GymSkin #MudMask | 出门前健身后周日——泥膜全包 #上妆前 #清洁泥膜
+
+No tight, no red — erythritol + centella 💧 #NoTight #Centella #MudMask | 不紧不红——赤藓糖醇+积雪草 #保湿 #积雪草
+
+UK weather swing? Clay stays in the routine ☀️ #SummerSkin #WeeklyMask #MudMask | 英国天气反复？泥膜留在routine #夏天 #控油泥膜
+
+Desk to dinner — clay fits the gap ☕ #OfficeFix #EventReady #MudMask | 工位到饭局——泥膜填空 #通勤 #上妆前
+
+Corn starch softness you feel at rinse 🌽 #SoftBase #SilkyMask #MudMask | 冲时感受到的玉米淀粉软 #丝滑 #清洁泥膜
+
+Matern'ella mud — rare clay, everyday calm 💎 #RareClay #Manicouagan #MudMask | Matern'ella泥——稀有泥日常静 #曼尼古根 #清洁泥膜

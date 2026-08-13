@@ -143,3 +143,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Sunday wind-down — clay mask, tea, done 🫖 #SundayReset #DeepClean #MudMask | 周日慢下来——泥膜茶搞定 #清洁泥膜 #控油
+
+Commute face shiny? Tube clay before the office 🚇 #OfficeFix #TZoneRescue #MudMask | 通勤脸油？上班前泥膜 #通勤 #控油泥膜
+
+Pre-date clay — 10 min, matte, confident 💄 #EventReady #MatteBase #MudMask | 约会前泥膜——10分钟哑光有底气 #上妆前 #清洁泥膜
+
+Gym bag clay — post-sweat reset on the go 🏋️ #GymSkin #QuickMask #MudMask | 健身包里泥膜——出汗后随手重启 #清洁泥膜 #控油
+
+Desk drawer jar — midweek 4pm lift ☕ #MidweekPickup #OfficeFix #MudMask | 抽屉里一罐——周中4点提气 #通勤 #清洁泥膜
+
+Holiday humidity? Clay in the suitcase ☀️ #SummerSkin #TravelMask #MudMask | 度假潮湿？泥膜塞行李箱 #夏天 #清洁泥膜
+
+Night shift skin — clay before sleep 🌙 #NightRoutine #GentleClean #MudMask | 夜班脸——睡前泥膜 #睡前 #清洁泥膜
+
+Bridal prep week — clay keeps the glow calm 💍 #EventReady #MakeupPrep #MudMask | 备婚周——泥膜稳住光感 #上妆前 #清洁泥膜
+
+Exam week stress shine? Clay between papers 📚 #WeeklyMask #OilControl #MudMask | 考试周压力油？赶稿间隙泥膜 #控油泥膜 #清洁泥膜
+
+New mum, no time — 10-min clay win 🍼 #QuickMask #DeepClean #MudMask | 新手妈没空——10分钟泥膜赢 #清洁泥膜 #控油
+
+Travel jet-lag face — clay wakes it up ✈️ #WakeUpSkin #TravelMask #MudMask | 倒时差脸——泥膜唤醒 #控油泥膜 #清洁泥膜
+
+Date night redo — clay, then the good lighting 💡 #EventReady #MatteBase #MudMask | 约会重来——泥膜后氛围灯 #上妆前 #清洁泥膜
+
+Rainy UK week — clay cuts the dull ✨ #FreshFeel #DeepClean #MudMask | 英国阴雨周——泥膜扫暗沉 #清洁泥膜 #控油
+
+Lunch-break mask — back to desk refreshed 🥗 #OfficeFix #QuickMask #MudMask | 午休敷——回工位精神 #通勤 #清洁泥膜
+
+Weekend deep clean — clay + playlist 🎧 #SundayReset #DeepClean #MudMask | 周末深层清——泥膜+歌单 #清洁泥膜 #控油
+
+Pre-photo clay — surface looks even 📸 #EventReady #MakeupPrep #MudMask | 拍照前泥膜——脸显匀 #上妆前 #清洁泥膜
+
+Post-flight clay — reset the tired face ✈️ #TravelMask #WakeUpSkin #MudMask | 落地后泥膜——重启疲惫脸 #控油泥膜 #清洁泥膜
+
+Bedtime ritual — clay, then sleep calm 🌙 #NightRoutine #GentleClean #MudMask | 睡前仪式——泥膜后安睡 #睡前 #清洁泥膜

@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Midday shine again by 3pm? Kaolin soaks it up before it spreads 🧼 #OilControl #Kaolin #MudMask | 下午3点又油？高岭土先吸住不蔓延 #控油泥膜 #清洁泥膜
+
+T-zone rescue — 10 minutes of clay, the oil's gone 🌟 #TZoneRescue #QuickMask #MudMask | T区急救——泥膜10分钟油光退场 #控油泥膜 #T区
+
+Oily nose by lunch? Manicouagan clay pulls the excess 💎 #Manicouagan #NoseOil #MudMask | 午饭鼻头泛油？曼尼古根泥吸走多余 #控油泥膜 #曼尼古根
+
+Skip the powder touch-up — clay keeps the matte going ⏳ #MatteBase #NoRetouch #MudMask | 别补散粉——泥膜让哑光撑更久 #哑光 #清洁泥膜
+
+Shiny forehead in meetings? Quick clay reset at the sink 🚇 #OfficeFix #OilReset #MudMask | 开会额头油？洗手台旁快速泥膜重启 #控油泥膜 #通勤
+
+Two clays, twice the oil grab — kaolin + Manicouagan 🤝 #DoubleClay #OilGrab #MudMask | 双土双倍吸油——高岭土+曼尼古根 #双土 #控油泥膜
+
+Post-gym face shine? Clay on before the shower 🏋️ #GymSkin #DeepClean #MudMask | 健身后脸油？洗澡前先敷泥膜 #清洁泥膜 #控油
+
+Greasy by 2pm daily? Make clay a Monday habit 📅 #WeeklyMask #OilControl #MudMask | 每天2点就油？周一定期敷泥膜 #控油泥膜 #清洁泥膜
+
+No more blotting papers — clay does it weekly 🧻 #SkipBlotting #WeeklyMask #MudMask | 不再用吸油纸——每周泥膜搞定 #控油泥膜 #清洁泥膜
+
+Summer humidity = oil factory? Clay cools it down ☀️ #SummerSkin #NoStrip #MudMask | 夏天潮湿=出油机？泥膜压一压 #夏天 #控油泥膜
+
+Centella soothes while clay controls — no red after-use 🌿 #Centella #GentleClean #MudMask | 积雪草舒缓、泥膜控油——用完不泛红 #积雪草 #清洁泥膜
+
+Big 200g jar — your T-zone's year-round mate 🫙 #BigJar #ValueSize #MudMask | 200g大罐——T区全年搭档 #大罐 #控油泥膜
+
+Makeup melts by noon? Clay base holds it in place 💄 #MakeupPrep #MatteBase #MudMask | 粉底中午花？泥膜打底扛住 #上妆前 #清洁泥膜
+
+Rare mineral clay — oil's quiet enemy 💎 #RareClay #Manicouagan #MudMask | 稀有矿物泥——油的安静克星 #曼尼古根 #控油泥膜
+
+Patchy shine? Clay evens the whole look ✨ #EvenTone #OilControl #MudMask | 局部油光？泥膜把整脸匀干净 #控油泥膜 #清洁泥膜
+
+Desk lunch = shiny? Keep a jar at the office 🏢 #OfficeFix #TZoneRescue #MudMask | 工位午饭脸油？办公室备一罐 #通勤 #控油泥膜
+
+Willow bark + clay — oil control with a plant edge 🌿 #Botanical #PlantBased #MudMask | 白柳皮+泥膜——植萃控油 #植物萃取 #清洁泥膜
+
+One jar, daily T-zone wins 🏆 #OilControl #ClayMask #MudMask | 一罐在手，每天T区稳赢 #控油泥膜 #清洁泥膜

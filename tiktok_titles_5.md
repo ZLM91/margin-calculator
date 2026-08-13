@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+What's Manicouagan clay? A rare crater-lake mineral from Canada 💎 #RareClay #Manicouagan #MudMask | 曼尼古根泥是什么？加拿大陨石坑湖稀有矿 #曼尼古根 #控油泥膜
+
+Kaolin vs Manicouagan — soft base meets deep pull #Kaolin #DoubleClay #MudMask | 高岭土对曼尼古根——软底碰深层吸 #高岭土 #双土
+
+Centella asinica — the calm after the clay 🌿 #Centella #GentleClean #MudMask | 积雪草——泥膜之后的安静 #积雪草 #清洁泥膜
+
+Tea leaf extract in the blend — that clean feel 🍵 #TeaLeaf #Botanical #MudMask | 配方里的茶叶提取物——那股干净感 #植物萃取 #清洁泥膜
+
+Willow bark — clay with a plant-side bonus 🌿 #Botanical #PlantBased #MudMask | 白柳皮——泥膜多一层植萃 #植物萃取 #清洁泥膜
+
+Peony root in the jar — botanical clay care 🌸 #Botanical #PlantBased #MudMask | 罐里牡丹根——植萃泥膜护理 #植物萃取 #清洁泥膜
+
+Coffee seed extract — tired skin gets a nudge ☕ #CoffeeSeed #WakeUpSkin #MudMask | 咖啡籽提取物——疲惫脸推一把 #控油泥膜 #清洁泥膜
+
+Raspberry ketone — the wake-up note in clay 🍓 #WakeUpSkin #ClayMask #MudMask | 覆盆子酮——泥膜里的醒肤音 #清洁泥膜 #控油
+
+Brown algae — moisture while the oil leaves 💧 #Hydrating #NoTight #MudMask | 褐藻——油走时保水 #保湿 #清洁泥膜
+
+Erythritol — that no-tight finish after rinse 💧 #NoTight #Hydrating #MudMask | 赤藓糖醇——冲完不紧绷 #保湿 #清洁泥膜
+
+Corn starch base — soft, spreads like a dream 🌽 #SoftBase #SilkyMask #MudMask | 玉米淀粉基底——软、抹开如梦 #丝滑 #清洁泥膜
+
+Silky texture — the jar says it, the skin feels it ✨ #SilkyTexture #EasySpread #MudMask | 丝滑质地——罐上写、脸感受到 #丝滑 #清洁泥膜
+
+200g of this blend — a season of clay care 🫙 #BigJar #ValueSize #MudMask | 200g这配方——一季泥膜护理 #大罐 #控油泥膜
+
+Two clays, one jar — why pick one when you get both 🤝 #DoubleClay #ClayMask #MudMask | 双土一罐——为啥只选一种 #双土 #清洁泥膜
+
+Controls oil after use — the label claim, lived ✅ #OilControl #FreshFeel #MudMask | 用完控油——标签写的、脸上验的 #控油泥膜 #清洁泥膜
+
+Spreads easily — no tugging, even on the nose ✨ #EasySpread #SilkyMask #MudMask | 好推开——不扯，鼻头也服 #丝滑 #清洁泥膜
+
+UK humidity test — clay holds through the damp ☀️ #SummerSkin #MatteBase #MudMask | 英国潮湿实测——泥膜扛住潮 #夏天 #控油泥膜
+
+Rare mineral, daily jar — that's the Matern'ella way 💎 #RareClay #Manicouagan #MudMask | 稀有矿日常罐——这就是Matern'ella #曼尼古根 #清洁泥膜

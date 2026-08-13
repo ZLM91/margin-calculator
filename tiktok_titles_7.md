@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Blotting paper vs clay — one's a fix, one's a reset 🧻 #SkipBlotting #OilControl #MudMask | 吸油纸对泥膜——一个救急一个重启 #控油泥膜 #清洁泥膜
+
+Powder vs clay base — which holds the matte longer? 💄 #MatteBase #MakeupPrep #MudMask | 散粉对泥膜底——谁哑光更久 #上妆前 #清洁泥膜
+
+Wipes vs clay — surface vs deep clean 🤝 #DeepClean #ClayMask #MudMask | 湿巾对泥膜——表面对深层 #清洁泥膜 #控油
+
+Cheap mask vs this — cakey vs silky ❌ #SilkyTexture #EasySpread #MudMask | 便宜膜对这款——结块对丝滑 #丝滑 #清洁泥膜
+
+One jar vs monthly spa — same calm, less cost 💷 #BigJar #ValueSize #MudMask | 一罐对月月 spa——同款安静少花钱 #大罐 #控油泥膜
+
+Clay that stings vs clay that soothes 🌿 #GentleClean #Centella #MudMask | 刺痛泥膜对舒缓泥膜 #积雪草 #清洁泥膜
+
+Rare clay you can't get at Boots 💎 #RareClay #Manicouagan #MudMask | Boots买不到的稀有泥 #曼尼古根 #控油泥膜
+
+200g vs 50g — maths favours the big jar 🫙 #BigJar #ValueSize #MudMask | 200g对50g——算账大罐赢 #大罐 #清洁泥膜
+
+Double clay vs single — more oil, less wait 🤝 #DoubleClay #OilGrab #MudMask | 双土对单土——更多油更少等 #双土 #控油泥膜
+
+Centella mask vs plain — the after-feel wins 🌿 #Centella #Gentella #MudMask | 积雪草膜对纯泥——事后感赢 #积雪草 #清洁泥膜
+
+Matte that lasts vs matte that fades ⏳ #MatteBase #NoRetouch #MudMask | 持久哑光对褪哑光 #哑光 #清洁泥膜
+
+Tight mask vs this — the no-pull finish 💧 #NoTight #Hydrating #MudMask | 紧绷膜对这款——不扯收尾 #保湿 #清洁泥膜
+
+Crater-lake clay vs plain kaolin 💎 #Manicouagan #Kaolin #MudMask | 陨石坑湖泥对纯高岭土 #曼尼古根 #高岭土
+
+Travel-size vs full jar — the jar travels too ✈️ #BigJar #TravelMask #MudMask | 旅行装对正装——正装也能带 #大罐 #清洁泥膜
+
+Sunday vs daily — clay fits both 📅 #WeeklyMask #DailyMask #MudMask | 周日对每天——泥膜都行 #控油泥膜 #清洁泥膜
+
+UK damp vs clay — the clay wins ☀️ #SummerSkin #MatteBase #MudMask | 英国潮湿对泥膜——泥膜赢 #夏天 #控油泥膜
+
+10 min vs 30 min masks — same calm, less time ⏱️ #QuickMask #EasySpread #MudMask | 10分钟对30分钟膜——同款安静更省时 #清洁泥膜 #控油
+
+Matern'ella jar vs the rest — rare clay inside 💎 #RareClay #Manicouagan #MudMask | Matern'ella罐对其他——里面有稀有泥 #曼尼古根 #清洁泥膜

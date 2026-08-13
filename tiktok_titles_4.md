@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Sensitive and oily? Gentle clay, no sting, no peel 🌸 #SensitiveSafe #GentleMask #MudMask | 又敏感又油？温和泥膜不刺痛不脱皮 #敏感肌 #清洁泥膜
+
+Red after masks before? Centella calms this one 🌿 #Centella #GentleClean #MudMask | 以前敷完脸红？这款积雪草压住 #积雪草 #清洁泥膜
+
+Patch test first — then weekly clay, no drama 🧪 #SensitiveSafe #WeeklyMask #MudMask | 先局部测——再每周泥膜不出事 #敏感肌 #控油泥膜
+
+Kaolin is the soft clay — starts here for tender skin #Kaolin #GentleMask #MudMask | 高岭土是软泥——娇嫩肌从它开始 #高岭土 #清洁泥膜
+
+No tight pull after — erythritol keeps it supple 💧 #NoTight #Hydrating #MudMask | 用完不紧绷——赤藓糖醇保软润 #保湿 #清洁泥膜
+
+Manicouagan clay, fine and rare — not rough on skin 💎 #RareClay #Manicouagan #MudMask | 曼尼古根泥细而稀有——不糙脸 #曼尼古根 #控油泥膜
+
+Botanical blend — willow bark, peony, tea leaf 🍃 #Botanical #PlantBased #MudMask | 植萃组合——白柳皮牡丹茶叶 #植物萃取 #清洁泥膜
+
+Tea leaf in the jar — that clean, calm finish 🍵 #TeaLeaf #GentleClean #MudMask | 罐里有茶叶——干净又安静的收尾 #清洁泥膜 #植物萃取
+
+Raspberry ketone + coffee seed — gentle wake, not burn ☕ #CoffeeSeed #WakeUpSkin #MudMask | 覆盆子酮+咖啡籽——温和醒脸不灼 #控油泥膜 #清洁泥膜
+
+Silky glide, even on reactive skin ✨ #SilkyTexture #SensitiveSafe #MudMask | 丝滑推开，连易敏肌也服 #丝滑 #敏感肌
+
+Big 200g jar — gentle routine for months 🫙 #BigJar #ValueSize #MudMask | 200g大罐——几个月的温和routine #大罐 #清洁泥膜
+
+Night clay, wake with a calmer surface 🌙 #NightRoutine #GentleClean #MudMask | 夜里敷泥膜，醒脸更安静 #睡前 #清洁泥膜
+
+Brown algae holds water in while clay works 💧 #Hydrating #NoTight #MudMask | 褐藻在泥膜干活时锁水 #保湿 #清洁泥膜
+
+Humid UK days? Clay without the sting ☀️ #SummerSkin #GentleMask #MudMask | 英国潮湿天？泥膜不刺痛 #夏天 #清洁泥膜
+
+Makeup prep for sensitive skin — clay, then calm base 💄 #MakeupPrep #SensitiveSafe #MudMask | 敏感肌上妆前——泥膜后安静底 #上妆前 #清洁泥膜
+
+Midweek desk mask — soft reset, no redness ☕ #MidweekPickup #QuickMask #MudMask | 周中工位敷——软重启不泛红 #清洁泥膜 #通勤
+
+Two clays, low fuss — spread, wait, rinse 🤝 #DoubleClay #EasySpread #MudMask | 双土不折腾——抹开等冲 #双土 #清洁泥膜
+
+Warm water, soft circles — that's the whole method 💦 #HowToUse #FreshFeel #MudMask | 温水软圈——就是全部手法 #用法 #清洁泥膜

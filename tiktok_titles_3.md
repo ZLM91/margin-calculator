@@ -99,3 +99,41 @@ Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalc
 Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
 Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
 Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
+
+### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
+
+Nose congestion building? Clay decongests the look 🧼 #Blackheads #DeepClean #MudMask | 鼻头闷堵堆积？泥膜清出干净感 #黑头 #清洁泥膜
+
+Clay doesn't shrink — it clears what sits on top ✨ #PoreCare #ClayMask #MudMask | 泥膜不缩孔——它清掉浮在上面的脏 #毛孔护理 #控油泥膜
+
+Makeup clogs by night? Clay lifts the day's build-up 🌙 #DeepClean #NightRoutine #MudMask | 粉底晚上堵？泥膜提走一天堆积 #清洁泥膜 #睡前
+
+Two clays reach where wipes can't 🤝 #DoubleClay #DeepClean #MudMask | 双土能到湿巾够不到的地方 #双土 #清洁泥膜
+
+Clogged T-zone? Kaolin draws it out, gently #Kaolin #TZoneRescue #MudMask | T区堵？高岭土温和拔出来 #控油泥膜 #高岭土
+
+Smooth finish after rinse — that's the clay work 💧 #FreshFeel #SilkyMask #MudMask | 冲完是平滑感——那是泥膜干的活 #清洁泥膜 #丝滑
+
+Rare Manicouagan clay — deep pull, rare mineral 💎 #RareClay #Manicouagan #MudMask | 稀有曼尼古根泥——深层吸、稀有矿 #曼尼古根 #控油泥膜
+
+Pre-event cleanse — clay clears, skin looks fresh 💄 #MakeupPrep #EventReady #MudMask | 出门前清一清——泥膜清完脸显干净 #上妆前 #清洁泥膜
+
+Centella after clay — calm surface, no tight pull 🌿 #Centella #GentleClean #MudMask | 泥膜后积雪草——表面安静不紧绷 #积雪草 #清洁泥膜
+
+Brown algae + erythritol — hydrated, not flat 💧 #Hydrating #NoTight #MudMask | 褐藻+赤藓糖醇——润而不塌 #保湿 #清洁泥膜
+
+Sunday reset — clay sweeps the week's grime 🫧 #SundayReset #DeepClean #MudMask | 周日重启——泥膜扫掉一周脏污 #清洁泥膜 #控油
+
+Coffee seed wakes the dull look ☕ #CoffeeSeed #WakeUpSkin #MudMask | 咖啡籽唤醒暗沉脸 #控油泥膜 #清洁泥膜
+
+Willow bark + peony root — botanical clay care 🌿 #Botanical #PlantBased #MudMask | 白柳皮+牡丹根——植萃泥膜护理 #植物萃取 #清洁泥膜
+
+200g jar — enough resets for the season 🫙 #BigJar #ValueSize #MudMask | 200g大罐——够用一季的重启 #大罐 #控油泥膜
+
+Humid day shine? Clay keeps it matte ☀️ #SummerSkin #MatteBase #MudMask | 潮湿天泛油？泥膜守住哑光 #夏天 #清洁泥膜
+
+Desk mask midweek — wash, glow, back to work ☕ #MidweekPickup #QuickMask #MudMask | 周中工位敷——洗掉亮回工位 #清洁泥膜 #通勤
+
+Corn starch in the base — that soft, non-cake feel 🌽 #SoftBase #SilkyMask #MudMask | 基底有玉米淀粉——软乎不结块 #清洁泥膜 #丝滑
+
+Rinse in circles, see the fresh difference 💦 #HowToUse #FreshFeel #MudMask | 打圈冲掉，看清爽的差别 #用法 #清洁泥膜
