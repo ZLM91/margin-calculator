@@ -1158,7 +1158,7 @@ button:hover { background: #F0EDE6; }
   <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
     <div style="font-size:48px;margin-bottom:12px;">📝</div>
     <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
-    <div style="font-size:12px;">支持 .md / .txt 格式，每4天自动轮换新一批文案（共8批循环）</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，每4天自动轮换新一批文案（共8批循环）+ 泥膜 / 洁面啫喱专用文案自动加载</div>
   </div>
 </div><!-- /tab-tiktok -->
 
@@ -7826,24 +7826,45 @@ function loadLatestTiktokTitles() {
   var now = new Date();
   var diffMs = now.getTime() - baseDate.getTime();
   var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  // 如果在起始日之前，从文件1开始
   if (diffDays < 0) diffDays = 0;
   var batchIndex = (Math.floor(diffDays / 4) % 8) + 1; // 1-8 循环
-  var filename = 'tiktok_titles_' + batchIndex + '.md';
 
-  var paths = [
-    'https://zlm91.github.io/margin-calculator/' + filename,
-    filename,
-    '../' + filename
+  // 批次文件 + 专用产品文案文件（泥膜、洁面啫喱）
+  var filesToLoad = [
+    'tiktok_titles_' + batchIndex + '.md',
+    'tiktok_titles_mudmask.md',
+    'tiktok_titles_cleanser.md'
   ];
-  var t = Date.now();
-  tryNextPath(0);
 
-  function tryNextPath(i) {
-    if (i >= paths.length) {
-      statusEl.textContent = '⚠️ 未找到文件 ' + filename + '，请使用 📂 按钮手动选择';
-      return;
-    }
+  var baseUrl = 'https://zlm91.github.io/margin-calculator/';
+  var t = Date.now();
+  var results = [];
+  var loadedCount = 0;
+  var batchSource = '';
+
+  filesToLoad.forEach(function(fname, idx) {
+    var paths = [baseUrl + fname, fname, '../' + fname];
+    tryFetchPath(paths, 0, function(text, sourceLabel) {
+      results[idx] = text || '';
+      if (idx === 0 && sourceLabel) batchSource = sourceLabel;
+      loadedCount++;
+      if (loadedCount === filesToLoad.length) {
+        var combined = results.filter(function(r) { return r; }).join('\n\n');
+        if (combined.trim()) {
+          parseAndRenderTiktok(combined);
+          var specialCount = results.slice(1).filter(function(r) { return r; }).length;
+          statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/8' +
+            (batchSource ? '（' + batchSource + '）' : '') +
+            (specialCount > 0 ? ' + 专用产品文案×' + specialCount : '');
+        } else {
+          statusEl.textContent = '⚠️ 未找到文案文件，请使用 📂 按钮手动选择';
+        }
+      }
+    });
+  });
+
+  function tryFetchPath(paths, i, onDone) {
+    if (i >= paths.length) { onDone(null, ''); return; }
     var url = paths[i] + (paths[i].indexOf('?') >= 0 ? '&' : '?') + '_=' + t;
     fetch(url)
       .then(function(res) {
@@ -7851,11 +7872,11 @@ function loadLatestTiktokTitles() {
         throw new Error('not found');
       })
       .then(function(text) {
-        parseAndRenderTiktok(text);
-        statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/8（' + (paths[i].indexOf('github') >= 0 ? 'GitHub Pages' : '本地') + '）';
+        var sourceLabel = paths[i].indexOf('github') >= 0 ? 'GitHub Pages' : '本地';
+        onDone(text, sourceLabel);
       })
       .catch(function() {
-        tryNextPath(i + 1);
+        tryFetchPath(paths, i + 1, onDone);
       });
   }
 }
@@ -7889,6 +7910,7 @@ function parseAndRenderTiktok(mdText) {
       else if (catName.indexOf('洗脸巾') >= 0) icon = '🧖';
       else if (catName.indexOf('牙膏') >= 0) icon = '🦷';
       else if (catName.indexOf('泥膜') >= 0) icon = '🧼';
+      else if (catName.indexOf('洁面') >= 0) icon = '🧴';
       else icon = '📌';
       currentCategory = { name: catName, icon: icon, titles: [] };
       categories.push(currentCategory);
@@ -7948,6 +7970,7 @@ function parseAndRenderTiktok(mdText) {
     if (name.indexOf('洗脸巾') >= 0) return 'facial';
     if (name.indexOf('牙膏') >= 0) return 'toothpaste';
     if (name.indexOf('泥膜') >= 0) return 'mudmask';
+    if (name.indexOf('洁面') >= 0) return 'cleanser';
     return 'other';
   }
   var subHtml = '<button class="tiktok-subtab active" data-cat="all" onclick="filterTiktokCat(\'all\', event)">📋 全部</button>';
