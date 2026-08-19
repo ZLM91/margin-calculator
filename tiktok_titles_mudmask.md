@@ -1,7 +1,5 @@
 # 2026-08-04
 
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
-
 Tired of a shiny T-zone by noon? Kaolin + Manicouagan clay pulls it back 🧼 #OilControl #ClayMask #MudMask | 中午T区就油光？高岭土+曼尼古根泥膜拉回清爽 #控油泥膜 #清洁泥膜
 
 Two clays, one silky jar — kaolin base with a rare Manicouagan mineral boost 🌟 #DoubleClay #SilkyMask #MudMask | 双土一罐丝滑——高岭土打底、稀有曼尼古根矿物加持 #控油泥膜 #清洁泥膜
@@ -39,8 +37,6 @@ Stop midday blotting — let kaolin + centella do the work 🧻 #SkipBlotting #O
 Warm water, circular rinse — that fresh, hydrated finish 💦 #HowToUse #FreshFeel #MudMask | 温水打圈冲——清爽水润的收尾 #清洁泥膜 #用法
 
 # 2026-08-11
-
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
 
 Midday shine again by 3pm? Kaolin soaks it up before it spreads 🧼 #OilControl #Kaolin #MudMask | 下午3点又油？高岭土先吸住不蔓延 #控油泥膜 #清洁泥膜
 
@@ -80,8 +76,6 @@ One jar, daily T-zone wins 🏆 #OilControl #ClayMask #MudMask | 一罐在手，
 
 # 2026-08-18
 
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
-
 Nose congestion building? Clay decongests the look 🧼 #Blackheads #DeepClean #MudMask | 鼻头闷堵堆积？泥膜清出干净感 #黑头 #清洁泥膜
 
 Clay doesn't shrink — it clears what sits on top ✨ #PoreCare #ClayMask #MudMask | 泥膜不缩孔——它清掉浮在上面的脏 #毛孔护理 #控油泥膜
@@ -119,8 +113,6 @@ Corn starch in the base — that soft, non-cake feel 🌽 #SoftBase #SilkyMask #
 Rinse in circles, see the fresh difference 💦 #HowToUse #FreshFeel #MudMask | 打圈冲掉，看清爽的差别 #用法 #清洁泥膜
 
 # 2026-08-25
-
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
 
 Sensitive and oily? Gentle clay, no sting, no peel 🌸 #SensitiveSafe #GentleMask #MudMask | 又敏感又油？温和泥膜不刺痛不脱皮 #敏感肌 #清洁泥膜
 
@@ -160,8 +152,6 @@ Warm water, soft circles — that's the whole method 💦 #HowToUse #FreshFeel #
 
 # 2026-09-01
 
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
-
 What's Manicouagan clay? A rare crater-lake mineral from Canada 💎 #RareClay #Manicouagan #MudMask | 曼尼古根泥是什么？加拿大陨石坑湖稀有矿 #曼尼古根 #控油泥膜
 
 Kaolin vs Manicouagan — soft base meets deep pull #Kaolin #DoubleClay #MudMask | 高岭土对曼尼古根——软底碰深层吸 #高岭土 #双土
@@ -199,8 +189,6 @@ UK humidity test — clay holds through the damp ☀️ #SummerSkin #MatteBase #
 Rare mineral, daily jar — that's the Matern'ella way 💎 #RareClay #Manicouagan #MudMask | 稀有矿日常罐——这就是Matern'ella #曼尼古根 #清洁泥膜
 
 # 2026-09-08
-
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
 
 Sunday wind-down — clay mask, tea, done 🫖 #SundayReset #DeepClean #MudMask | 周日慢下来——泥膜茶搞定 #清洁泥膜 #控油
 
@@ -240,8 +228,6 @@ Bedtime ritual — clay, then sleep calm 🌙 #NightRoutine #GentleClean #MudMas
 
 # 2026-09-15
 
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
-
 Blotting paper vs clay — one's a fix, one's a reset 🧻 #SkipBlotting #OilControl #MudMask | 吸油纸对泥膜——一个救急一个重启 #控油泥膜 #清洁泥膜
 
 Powder vs clay base — which holds the matte longer? 💄 #MatteBase #MakeupPrep #MudMask | 散粉对泥膜底——谁哑光更久 #上妆前 #清洁泥膜
@@ -279,8 +265,6 @@ UK damp vs clay — the clay wins ☀️ #SummerSkin #MatteBase #MudMask | 英�
 Matern'ella jar vs the rest — rare clay inside 💎 #RareClay #Manicouagan #MudMask | Matern'ella罐对其他——里面有稀有泥 #曼尼古根 #清洁泥膜
 
 # 2026-09-22
-
-### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
 
 Oily combo skin? Clay the T, hydrate the rest 🤝 #OilControl #Hydrating #MudMask | 混油肌？T区泥膜其余保湿 #控油泥膜 #保湿
 
