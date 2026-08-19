@@ -1,7 +1,5 @@
 # 2026-08-19
 
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
-
 You wash your face but it's still dirty — gel goes deeper than foam #DeepCleansing #OilControl #CleanserGel | 你的脸洗了跟没洗一样——啫喱比泡沫钻得更深 #洁面啫喱 #深层清洁 #控油
 
 Oily by 11am? Your cleanser isn't lifting the oil — it's just spreading it #OilControl #OilySkin #CleanserGel | 11点就出油？你的洗面奶没在吸油——只是匀开了 #控油 #油皮 #洁面啫喱
@@ -39,8 +37,6 @@ Your cleanser should work, not just foam — gel does the deep lifting #DeepClea
 One gel, one wash, zero grease — the oil control starts at cleansing #OilControl #CleanSkin #CleanserGel | 一支啫喱一次洗零油腻——控油从清洁开始 #控油 #清爽 #洁面啫喱
 
 # 2026-08-26
-
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
 
 See the oil dissolve — gel breaks down sebum on contact #DeepCleansing #OilControl #CleanserGel | 看油脂被融化——啫喱接触即分解皮脂 #深层清洁 #控油 #洁面啫喱
 
@@ -80,8 +76,6 @@ See it, feel it, touch it — gel proves itself in one wash #DeepCleansing #Clea
 
 # 2026-09-02
 
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
-
 Why gel texture reaches deeper than foam — smaller molecules, tighter fit #DeepCleansing #CleanserGel #SkincareTok | 为啥啫喱比泡沫钻得深——分子更小贴得更紧 #深层清洁 #洁面啫喱 #护肤
 
 Gel doesn't foam because foam is air — and air doesn't clean pores #DeepCleansing #CleanserGel #SkincareTok | 啫喱不起泡因为泡沫是空气——空气洗不了毛孔 #深层清洁 #洁面啫喱 #护肤
@@ -119,8 +113,6 @@ The pH of gel respects your barrier — deep clean without the damage #GentleCle
 Gel proves: you don't need foam to clean — you need penetration #DeepCleansing #CleanserGel #SkincareTok | 啫喱证明：清洁不需要泡沫——需要渗透 #深层清洁 #洁面啫喱 #护肤
 
 # 2026-09-09
-
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
 
 Post-gym face shine? Gel before the shower, oil gone #GymSkin #OilControl #CleanserGel | 健身后脸油？洗澡前先用啫喱油就没了 #健身护肤 #控油 #洁面啫喱
 
@@ -160,8 +152,6 @@ Bedtime gel — wash the day's oil off, sleep clean #NightRoutine #DeepCleansing
 
 # 2026-09-16
 
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
-
 Gel vs foam — same skin, different depth #DeepCleansing #CleanserGel #SkincareTok | 啫喱对泡沫——同样的脸不同深度 #深层清洁 #洁面啫喱 #护肤
 
 Soap vs gel — one strips, one cleans #GentleClean #CleanserGel #SkincareTok | 肥皂对啫喱——一个扒皮一个清洁 #温和 #洁面啫喱 #护肤
@@ -199,8 +189,6 @@ Your £3 gel vs this — the ingredient list explains the gap #CleanserGel #Skin
 Gel does what foam promises — deep, clean, no tightness #DeepCleansing #GentleClean #CleanserGel | 啫喱做到了泡沫承诺的——深层干净不紧绷 #深层清洁 #温和 #洁面啫喱
 
 # 2026-09-23
-
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
 
 UK damp morning? Gel keeps the oil from doubling #SummerSkin #OilControl #CleanserGel | 英国潮湿的早上？啫喱让出油不加倍 #夏天 #控油 #洁面啫喱
 
@@ -240,8 +228,6 @@ UK oily skin types — this gel was made for your weather #OilControl #CleanserG
 
 # 2026-09-30
 
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
-
 Warm water + gel + 30 seconds — the only face wash method you need #HowToUse #DeepCleansing #CleanserGel | 温水+啫喱+30秒——你唯一需要的洗脸法 #用法 #深层清洁 #洁面啫喱
 
 Pump, spread, massage 30s, rinse — gel cleanse in 4 steps #HowToUse #CleanserGel #SkincareTok | 泵、抹、按摩30秒、冲——啫喱清洁4步 #用法 #洁面啫喱 #护肤
@@ -279,8 +265,6 @@ Follow with moisturiser on damp skin — gel + hydration = balanced oily skin #H
 Night gel routine: cleanse, pat, sleep — oil-free by morning #HowToUse #NightRoutine #CleanserGel | 夜间啫喱routine：洗按睡——早起不油 #用法 #夜间护肤 #洁面啫喱
 
 # 2026-10-07
-
-### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）
 
 Gel cleanse + mud mask weekly = oil control system #OilControl #SkincareTok #CleanserGel | 啫喱清洁+每周泥膜=控油体系 #控油 #护肤 #洁面啫喱
 
