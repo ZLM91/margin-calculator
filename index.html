@@ -7811,7 +7811,16 @@ function loadTiktokTitles(e) {
   if (!file) return;
   var reader = new FileReader();
   reader.onload = function(ev) {
-    parseAndRenderTiktok(ev.target.result);
+    var text = ev.target.result;
+    // 专用文件没有品类标题，按文件名自动注入
+    var manualInjections = {
+      'tiktok_titles_mudmask.md': "### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）\n\n",
+      'tiktok_titles_cleanser.md': "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n"
+    };
+    if (manualInjections[file.name]) {
+      text = manualInjections[file.name] + text;
+    }
+    parseAndRenderTiktok(text);
     document.getElementById('tiktokStatus').textContent = '已加载: ' + file.name;
   };
   reader.readAsText(file);
@@ -7836,6 +7845,12 @@ function loadLatestTiktokTitles() {
     'tiktok_titles_cleanser.md'
   ];
 
+  // 专用文件没有品类标题，自动注入（这样所有 8 周文案归并到同一个 category 下，不会重复渲染）
+  var categoryInjections = {
+    'tiktok_titles_mudmask.md': "### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）\n\n",
+    'tiktok_titles_cleanser.md': "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n"
+  };
+
   var baseUrl = 'https://zlm91.github.io/margin-calculator/';
   var t = Date.now();
   var results = [];
@@ -7845,6 +7860,9 @@ function loadLatestTiktokTitles() {
   filesToLoad.forEach(function(fname, idx) {
     var paths = [baseUrl + fname, fname, '../' + fname];
     tryFetchPath(paths, 0, function(text, sourceLabel) {
+      if (text && categoryInjections[fname]) {
+        text = categoryInjections[fname] + text;
+      }
       results[idx] = text || '';
       if (idx === 0 && sourceLabel) batchSource = sourceLabel;
       loadedCount++;
