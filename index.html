@@ -1158,7 +1158,7 @@ button:hover { background: #F0EDE6; }
   <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
     <div style="font-size:48px;margin-bottom:12px;">📝</div>
     <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
-    <div style="font-size:12px;">支持 .md / .txt 格式，每4天自动轮换新一批文案（共8批循环）+ 泥膜 / 洁面啫喱专用文案自动加载</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，每4天自动轮换新一批文案（共8批循环）+ 洁面啫喱专用文案按批次轮换</div>
   </div>
 </div><!-- /tab-tiktok -->
 
@@ -7812,13 +7812,10 @@ function loadTiktokTitles(e) {
   var reader = new FileReader();
   reader.onload = function(ev) {
     var text = ev.target.result;
-    // 专用文件没有品类标题，按文件名自动注入
-    var manualInjections = {
-      'tiktok_titles_mudmask.md': "### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）\n\n",
-      'tiktok_titles_cleanser.md': "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n"
-    };
-    if (manualInjections[file.name]) {
-      text = manualInjections[file.name] + text;
+    // 专用文件没有品类标题，按文件名自动注入（洁面啫喱按批次 1-8 拆分）
+    var cleanserInject = "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n";
+    if (/^tiktok_titles_cleanser_\d+\.md$/.test(file.name)) {
+      text = cleanserInject + text;
     }
     parseAndRenderTiktok(text);
     document.getElementById('tiktokStatus').textContent = '已加载: ' + file.name;
@@ -7838,18 +7835,14 @@ function loadLatestTiktokTitles() {
   if (diffDays < 0) diffDays = 0;
   var batchIndex = (Math.floor(diffDays / 4) % 8) + 1; // 1-8 循环
 
-  // 批次文件 + 专用产品文案文件（泥膜、洁面啫喱）
+  // 批次文件（包含湿厕纸/旅行湿厕纸/洗脸巾/牙膏/泥膜）+ 洁面啫喱专用批次文件
   var filesToLoad = [
     'tiktok_titles_' + batchIndex + '.md',
-    'tiktok_titles_mudmask.md',
-    'tiktok_titles_cleanser.md'
+    'tiktok_titles_cleanser_' + batchIndex + '.md'
   ];
 
-  // 专用文件没有品类标题，自动注入（这样所有 8 周文案归并到同一个 category 下，不会重复渲染）
-  var categoryInjections = {
-    'tiktok_titles_mudmask.md': "### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）\n\n",
-    'tiktok_titles_cleanser.md': "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n"
-  };
+  // 洁面啫喱专用文件没有品类标题，自动注入（每批 18 条文案，对应批次文件轮换）
+  var cleanserInject = "### 🧴 深层控油洁面啫喱 Deep Cleansing Gel（Matern'ella · 深层清洁 · 控油）\n\n";
 
   var baseUrl = 'https://zlm91.github.io/margin-calculator/';
   var t = Date.now();
@@ -7860,8 +7853,8 @@ function loadLatestTiktokTitles() {
   filesToLoad.forEach(function(fname, idx) {
     var paths = [baseUrl + fname, fname, '../' + fname];
     tryFetchPath(paths, 0, function(text, sourceLabel) {
-      if (text && categoryInjections[fname]) {
-        text = categoryInjections[fname] + text;
+      if (text && /^tiktok_titles_cleanser_\d+\.md$/.test(fname)) {
+        text = cleanserInject + text;
       }
       results[idx] = text || '';
       if (idx === 0 && sourceLabel) batchSource = sourceLabel;
@@ -7870,10 +7863,10 @@ function loadLatestTiktokTitles() {
         var combined = results.filter(function(r) { return r; }).join('\n\n');
         if (combined.trim()) {
           parseAndRenderTiktok(combined);
-          var specialCount = results.slice(1).filter(function(r) { return r; }).length;
+          var cleanserLoaded = results[1] ? ' + 洁面啫喱×1批' : '';
           statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/8' +
             (batchSource ? '（' + batchSource + '）' : '') +
-            (specialCount > 0 ? ' + 专用产品文案×' + specialCount : '');
+            cleanserLoaded;
         } else {
           statusEl.textContent = '⚠️ 未找到文案文件，请使用 📂 按钮手动选择';
         }
