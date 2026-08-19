@@ -7900,6 +7900,17 @@ function loadLatestTiktokTitles() {
 }
 
 function parseAndRenderTiktok(mdText) {
+  // 品类归一化 key（用于去重：批次文件 + 专用文件可能都有同名品类）
+  function catKey(name) {
+    if (name.indexOf('湿厕纸') >= 0 && name.indexOf('旅行') >= 0) return 'travel';
+    if (name.indexOf('湿厕纸') >= 0) return 'wetwipes';
+    if (name.indexOf('洗脸巾') >= 0) return 'facial';
+    if (name.indexOf('牙膏') >= 0) return 'toothpaste';
+    if (name.indexOf('泥膜') >= 0) return 'mudmask';
+    if (name.indexOf('洁面') >= 0) return 'cleanser';
+    return 'other';
+  }
+
   tiktokAllTitles = [];
   var categories = []; // [{ name, icon, titles: [{en, cn, tags}] }]
   var currentDate = '';
@@ -7930,8 +7941,19 @@ function parseAndRenderTiktok(mdText) {
       else if (catName.indexOf('泥膜') >= 0) icon = '🧼';
       else if (catName.indexOf('洁面') >= 0) icon = '🧴';
       else icon = '📌';
-      currentCategory = { name: catName, icon: icon, titles: [] };
-      categories.push(currentCategory);
+
+      // 去重：如果已有同 catKey 的 category，复用旧的（避免批次文件 + 专用文件都带品类标题时重复渲染）
+      var ck = catKey(catName);
+      var existing = null;
+      for (var k = 0; k < categories.length; k++) {
+        if (catKey(categories[k].name) === ck) { existing = categories[k]; break; }
+      }
+      if (existing) {
+        currentCategory = existing;
+      } else {
+        currentCategory = { name: catName, icon: icon, titles: [] };
+        categories.push(currentCategory);
+      }
       continue;
     }
 
@@ -7982,15 +8004,6 @@ function parseAndRenderTiktok(mdText) {
   document.getElementById('tiktokCategories').innerHTML = html;
 
   // 生成品类子标签页按钮 — 每个品类独立 data-cat 属性 + 图标
-  function catKey(name) {
-    if (name.indexOf('湿厕纸') >= 0 && name.indexOf('旅行') >= 0) return 'travel';
-    if (name.indexOf('湿厕纸') >= 0) return 'wetwipes';
-    if (name.indexOf('洗脸巾') >= 0) return 'facial';
-    if (name.indexOf('牙膏') >= 0) return 'toothpaste';
-    if (name.indexOf('泥膜') >= 0) return 'mudmask';
-    if (name.indexOf('洁面') >= 0) return 'cleanser';
-    return 'other';
-  }
   var subHtml = '<button class="tiktok-subtab active" data-cat="all" onclick="filterTiktokCat(\'all\', event)">📋 全部</button>';
   for (var sc = 0; sc < categories.length; sc++) {
     var ck = catKey(categories[sc].name);
