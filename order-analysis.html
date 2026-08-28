@@ -298,6 +298,7 @@ td input.wide { width: 120px; }
   <div class="country-tabs">
     <button class="country-tab active" data-country="US" onclick="switchCountry('US')"><span class="flag">🇺🇸</span>美国站</button>
     <button class="country-tab" data-country="UK" onclick="switchCountry('UK')"><span class="flag">🇬🇧</span>英国站</button>
+    <button class="country-tab" data-country="EU" onclick="switchCountry('EU')"><span class="flag">🇪🇺</span>欧洲站</button>
   </div>
 
   <!-- Upload Area -->
@@ -338,7 +339,7 @@ td input.wide { width: 120px; }
         <input type="number" id="defaultCreatorPct" value="10" min="0" max="100" step="0.1">
       </div>
       <div class="setting-item" id="exchangeRateItem" style="display:none;">
-        <label>汇率 (1£ = ?$)</label>
+        <label id="exchangeRateLabel">汇率 (1£ = ?$)</label>
         <input type="number" id="exchangeRate" value="1.336" min="0" step="0.001" style="width:90px;">
       </div>
       <div class="setting-item" id="ukLogisticsFeeItem" style="display:none;">
@@ -370,6 +371,7 @@ td input.wide { width: 120px; }
               <th>达人订单</th>
               <th>样品单</th>
               <th>总收入(<span data-cur>$</span>)</th>
+              <th>VAT税(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>/件)</th>
               <th>尾程运费(<span data-cur>$</span>/件)</th>
               <th>海外仓费(<span data-cur>$</span>/件)</th>
@@ -674,8 +676,8 @@ td input.wide { width: 120px; }
 
 <script>
 // ===== Global State =====
-let currentCountry = 'US'; // 'US' or 'UK'
-let countryOrders = { US: null, UK: null }; // Store orders per country
+let currentCountry = 'US'; // 'US' | 'UK' | 'EU'
+let countryOrders = { US: null, UK: null, 	EU: null }; // Store orders per country
 let allOrders = [];
 let skuSettings = {};  // { SKU: { productCost, shipping, warehouse, creatorPct, platformPct } }
 let ukLogisticsFee = 0.42; // GBP per order, UK non-sample logistics service fee
@@ -703,6 +705,13 @@ let categoryPromoCosts = {};  // { '干巾': 100 }
 function parseAmount(val) {
   if (typeof val === 'number') return val;
   if (!val) return 0;
+  // EU exports use comma as decimal separator (e.g. "4,83 EUR"); strip currency words then treat comma as decimal
+  if (currentCountry === 'EU') {
+    let s = String(val).replace(/[^0-9,\.\-]/g, '');
+    if (s.indexOf(',') >= 0) s = s.replace(/\./g, '').replace(',', '.');
+    const m = s.match(/-?\d+\.?\d*/);
+    return m ? parseFloat(m[0]) : 0;
+  }
   const match = String(val).replace(/,/g, '').match(/-?\d+\.?\d*/);
   return match ? parseFloat(match[0]) : 0;
 }
@@ -710,8 +719,8 @@ function parseAmount(val) {
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
 
-// 按当前国家把 USD 原始值换算成显示值
-// US: 直接用 USD; UK: USD / exchangeRate → GBP
+// 按当前国家把原始值换算成显示值
+// US: 直接用 USD; UK: USD / exchangeRate → GBP; EU: EUR 原生，直接显示
 function dispUsd(amount) {
   const v = amount || 0;
   return currentCountry === 'UK' ? v / exchangeRate : v;
@@ -737,13 +746,16 @@ function switchCountry(country) {
 
   // Switch
   currentCountry = country;
-  cur = country === 'UK' ? '£' : '$';
+  cur = country === 'UK' ? '£' : (country === 'EU' ? '€' : '$');
   document.querySelectorAll('.country-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.country === country);
   });
-  // Show/hide exchange rate input (UK only)
-  document.getElementById('exchangeRateItem').style.display = country === 'UK' ? '' : 'none';
+  // Show/hide exchange rate input (UK / EU); UK logistics fee only for UK
+  document.getElementById('exchangeRateItem').style.display = (country === 'UK' || country === 'EU') ? '' : 'none';
   document.getElementById('ukLogisticsFeeItem').style.display = country === 'UK' ? '' : 'none';
+  // Dynamic exchange rate label
+  const exLabel = document.getElementById('exchangeRateLabel');
+  if (exLabel) exLabel.textContent = country === 'UK' ? '汇率 (1£ = ?$)' : '汇率 (1€ = ?$)';
 
   // Reset state
   skuSettings = {};
@@ -752,7 +764,7 @@ function switchCountry(country) {
   categoryPromoCosts = {};
 
   // Update upload hint
-  document.getElementById('uploadHint').textContent = `支持 .xlsx / .xls 格式 · ${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'} TikTok Shop 订单导出文件`;
+  document.getElementById('uploadHint').textContent = `支持 .xlsx / .xls 格式 · ${country === 'US' ? '🇺🇸 美国站' : (country === 'UK' ? '🇬🇧 英国站' : '🇪🇺 欧洲站')} TikTok Shop 订单导出文件`;
 
   // Try to load saved settings for the new country
   const loaded = loadSettings(true);
@@ -768,7 +780,7 @@ function switchCountry(country) {
 
   // Set country-specific default platform pct if not loaded
   if (!loaded) {
-    document.getElementById('defaultPlatformPct').value = country === 'UK' ? '29.6' : '8';
+    document.getElementById('defaultPlatformPct').value = country === 'UK' ? '29.6' : (country === 'EU' ? '8' : '8');
   }
 
   updateCurrencyLabels();
@@ -808,10 +820,10 @@ function switchCountry(country) {
     uniqueDates = [];
     statusCounts = {};
     document.getElementById('dataSections').classList.add('hidden');
-    document.getElementById('fileInfo').innerHTML = `<div class="file-info">${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'} — 请上传${country === 'US' ? '美国站' : '英国站'}订单 Excel 文件</div>`;
+    document.getElementById('fileInfo').innerHTML = `<div class="file-info">${country === 'US' ? '🇺🇸 美国站' : (country === 'UK' ? '🇬🇧 英国站' : '🇪🇺 欧洲站')} — 请上传${country === 'US' ? '美国站' : (country === 'UK' ? '英国站' : '欧洲站')}订单 Excel 文件</div>`;
   }
 
-  showToast(`已切换到 ${country === 'US' ? '🇺🇸 美国站' : '🇬🇧 英国站'}`);
+  showToast(`已切换到 ${country === 'US' ? '🇺🇸 美国站' : (country === 'UK' ? '🇬🇧 英国站' : '🇪🇺 欧洲站')}`);
 }
 
 // ===== Column mapping (detected by header name) =====
@@ -863,6 +875,7 @@ function parseOrders(rows) {
     createdTime: headers.indexOf('Created Time'),
     fulfillmentType: headers.indexOf('Fulfillment Type'),
     creatorHandle: headers.indexOf('Creator Handle'),
+    taxes: headers.indexOf('Taxes'),
   };
 
   // Validate critical columns
@@ -895,6 +908,7 @@ function parseOrders(rows) {
     const creator = (colMap.creatorHandle >= 0 && r[colMap.creatorHandle]) ? String(r[colMap.creatorHandle]).trim() : '';
     const productName = colMap.productName >= 0 ? String(r[colMap.productName] || '').substring(0, 40) : '';
     const fulfillment = colMap.fulfillmentType >= 0 ? String(r[colMap.fulfillmentType] || '').trim() : '';
+    const tax = colMap.taxes >= 0 ? parseAmount(r[colMap.taxes]) : 0;
 
     // Detect sample order: revenue=0 AND has fulfillment (logistics) AND status is not cancelled
     const isCancelled = [status, cancellationType].some(v => {
@@ -907,7 +921,7 @@ function parseOrders(rows) {
     allOrders.push({
       orderId: String(r[colMap.orderId] || ''),
       sku, productName, quantity, status, cancellationType, creator, fulfillment,
-      platformDiscount, subtotalAfter,
+      platformDiscount, subtotalAfter, tax,
       revenue: platformDiscount + subtotalAfter,
       date: dateStr,
       isSample,
@@ -1009,17 +1023,18 @@ function renderSkuTable() {
   allOrders.forEach(o => {
     // Exclude cancelled orders — they should not count toward SKU stats
     if (o.isCancelled) return;
-    if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
+    if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0, tax: 0 };
     skuStats[o.sku].orders++;
     skuStats[o.sku].qty += o.quantity;
     skuStats[o.sku].revenue += o.revenue;
+    skuStats[o.sku].tax += (o.tax || 0);
     if (o.creator) skuStats[o.sku].creatorOrders++;
     if (o.isSample) skuStats[o.sku].sampleOrders++;
     if (o.productName) skuStats[o.sku].name = o.productName;
   });
 
   // Totals across all SKUs (for summary row)
-  const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0 };
+  const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0, tax: 0 };
   uniqueSkus.forEach(sku => {
     const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
     totals.orders += stats.orders;
@@ -1027,6 +1042,7 @@ function renderSkuTable() {
     totals.revenue += stats.revenue;
     totals.creatorOrders += stats.creatorOrders;
     totals.sampleOrders += stats.sampleOrders;
+    totals.tax += stats.tax;
     if (!skuSettings[sku]) {
       skuSettings[sku] = {
         productCost: 0, shipping: 0, warehouse: 0,
@@ -1045,6 +1061,7 @@ function renderSkuTable() {
       <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
       <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
       <td>${stats.revenue.toFixed(2)}</td>
+      <td>${stats.tax.toFixed(2)}</td>
       <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
       <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
       <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
@@ -1064,7 +1081,8 @@ function renderSkuTable() {
     <td>${totals.creatorOrders > 0 ? `<span class="creator-badge">${totals.creatorOrders}</span>` : '<strong>—</strong>'}</td>
     <td>${totals.sampleOrders > 0 ? `<strong style="color:var(--warning);">📦 ${totals.sampleOrders}</strong>` : '<strong>—</strong>'}</td>
     <td><strong>${totals.revenue.toFixed(2)}</strong></td>
-    <td colspan="5"></td>
+    <td><strong>${totals.tax.toFixed(2)}</strong></td>
+    <td colspan="6"></td>
   `;
   tbody.appendChild(totalTr);
 
