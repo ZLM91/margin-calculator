@@ -430,6 +430,16 @@ button:hover { background: #F0EDE6; }
 .roas-target-box .roas-target-result { font-size: 12px; font-weight: 600; }
 .roas-negative { background: #FFF3CD; border: 1px solid #FFC107; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 12px; color: #856404; }
 
+/* ── 世界时钟 ── */
+.world-clock-bar { display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 14px; background: #F5F7FA; border: 1px solid #E0E0E0; border-radius: 10px; margin-bottom: 16px; }
+.world-clock-card { flex: 1; min-width: 120px; background: #fff; border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid #E0E0E0; transition: box-shadow .15s; }
+.world-clock-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.world-clock-label { font-size: 12px; font-weight: 600; color: #333; margin-bottom: 4px; white-space: nowrap; }
+.world-clock-time { font-size: 22px; font-weight: 700; color: #2B579A; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.world-clock-date { font-size: 11px; color: #666; margin-top: 3px; }
+.world-clock-offset { font-size: 10px; color: #888; margin-top: 2px; }
+.world-clock-note { width: 100%; font-size: 11px; color: #888; margin-top: 8px; text-align: right; }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -441,6 +451,17 @@ button:hover { background: #F0EDE6; }
 </div>
 
 <div class="container">
+
+<!-- 世界时钟 -->
+<div class="world-clock-bar" id="worldClockBar">
+  <div class="world-clock-card" data-tz="Asia/Shanghai" data-label="🇨🇳 中国 / 北京"></div>
+  <div class="world-clock-card" data-tz="America/New_York" data-label="🇺🇸 美国 / 纽约"></div>
+  <div class="world-clock-card" data-tz="Europe/London" data-label="🇬🇧 英国 / 伦敦"></div>
+  <div class="world-clock-card" data-tz="Europe/Berlin" data-label="🇪🇺 中欧 / 柏林"></div>
+  <div class="world-clock-card" data-tz="Europe/Athens" data-label="🇬🇷 希腊 / 雅典"></div>
+  <div class="world-clock-card" data-tz="Europe/Lisbon" data-label="🇵🇹 葡萄牙 / 里斯本"></div>
+  <div class="world-clock-note">中欧时区覆盖：德 / 法 / 意 / 西 / 奥 / 比 / 捷 / 匈 / 荷 / 波</div>
+</div>
 
 <div class="tabs-nav">
   <button class="tab-btn active" data-tab="margin" onclick="switchTab('margin')">📊 毛利率计算</button>
@@ -10631,6 +10652,40 @@ switchTab = function(tab) {
   origSwitchTab.call(window, tab);
   if (tab === 'fbt') { calcFBT(); }
 };
+
+/* ── 世界时钟 ── */
+(function initWorldClock() {
+  const offsetFormatters = {};
+  function getOffset(tz, date) {
+    if (!offsetFormatters[tz]) {
+      offsetFormatters[tz] = new Intl.DateTimeFormat('en-GB', { timeZone: tz, timeZoneName: 'shortOffset' });
+    }
+    try {
+      const part = offsetFormatters[tz].formatToParts(date).find(p => p.type === 'timeZoneName');
+      return part ? part.value.replace(/^GMT/, 'UTC') : '';
+    } catch (e) { return ''; }
+  }
+  function updateWorldClock() {
+    const now = new Date();
+    document.querySelectorAll('#worldClockBar .world-clock-card').forEach(card => {
+      const tz = card.dataset.tz;
+      const label = card.dataset.label;
+      const time = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(now);
+      const date = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: tz, month: '2-digit', day: '2-digit', weekday: 'short'
+      }).format(now);
+      const offset = getOffset(tz, now);
+      card.innerHTML = '<div class="world-clock-label">' + label + '</div>' +
+        '<div class="world-clock-time">' + time + '</div>' +
+        '<div class="world-clock-date">' + date + '</div>' +
+        '<div class="world-clock-offset">' + offset + '</div>';
+    });
+  }
+  updateWorldClock();
+  setInterval(updateWorldClock, 1000);
+})();
 
 </script>
 </body>
