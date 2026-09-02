@@ -1036,7 +1036,7 @@ function renderSkuTable() {
   // Totals across all SKUs (for summary row)
   const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0, tax: 0 };
   uniqueSkus.forEach(sku => {
-    const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
+    const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0, tax: 0 };
     totals.orders += stats.orders;
     totals.qty += stats.qty;
     totals.revenue += stats.revenue;
