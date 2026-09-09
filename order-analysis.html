@@ -1096,12 +1096,16 @@ function renderSkuTableHeader() {
       <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
       <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
       <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
+      <th>德国DE<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
+      <th>法国FR<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
+      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
+      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   } else {
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
       <th>总收入(<span data-cur>$</span>)</th><th>产品成本(<span data-cur>$</span>/件)</th>
-      <th>尾程运费(<span data-cur>$</span>/件)</th><th>海外仓费(<span data-cur>$</span>/件)</th>
+      <th>尾程运费(<span data-cur>$</span>/件)</th><th>海外仓费(<span data-cur>$</span>/件)</th><th>样品履约费(<span data-cur>$</span>/件)</th>
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   }
 }
@@ -1141,8 +1145,8 @@ function renderSkuTable() {
         creatorPct: parseFloat(document.getElementById('defaultCreatorPct').value) || 0,
         platformPct: parseFloat(document.getElementById('defaultPlatformPct').value) || 0,
       };
-      if (currentCountry === 'EU') { def.shipping = { DE: 0, FR: 0, IT: 0, ES: 0 }; def.warehouse = { DE: 0, FR: 0, IT: 0, ES: 0 }; }
-      else { def.shipping = 0; def.warehouse = 0; }
+      if (currentCountry === 'EU') { def.shipping = { DE: 0, FR: 0, IT: 0, ES: 0 }; def.warehouse = { DE: 0, FR: 0, IT: 0, ES: 0 }; def.sampleShip = { DE: 0, FR: 0, IT: 0, ES: 0 }; }
+      else { def.shipping = 0; def.warehouse = 0; def.sampleShip = 0; }
       skuSettings[sku] = def;
     }
     // EU: migrate legacy flat cost to per-country object (spread old value across all 4 countries)
@@ -1155,6 +1159,12 @@ function renderSkuTable() {
         const old = skuSettings[sku].warehouse || 0;
         skuSettings[sku].warehouse = { DE: old, FR: old, IT: old, ES: old };
       }
+      if (typeof skuSettings[sku].sampleShip !== 'object' || skuSettings[sku].sampleShip === null) {
+        const old = skuSettings[sku].sampleShip || (skuSettings[sku].shipping && typeof skuSettings[sku].shipping === 'object' ? skuSettings[sku].shipping.DE : 0);
+        skuSettings[sku].sampleShip = { DE: old, FR: old, IT: old, ES: old };
+      }
+    } else {
+      if (typeof skuSettings[sku].sampleShip !== 'number') skuSettings[sku].sampleShip = 0;
     }
     const s = skuSettings[sku];
 
@@ -1166,6 +1176,11 @@ function renderSkuTable() {
           <div style="font-size:9px;color:var(--muted);text-align:left;line-height:1.1;">尾程</div>
           <input type="number" value="${(s.shipping[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="shipping.${code}" class="sku-input" style="width:60px;">
         </td>`).join('');
+      const sampleCells = cc.map(([code]) => `
+        <td style="padding:3px 4px;vertical-align:top;">
+          <div style="font-size:9px;color:var(--muted);text-align:left;line-height:1.1;">样品履约费</div>
+          <input type="number" value="${(s.sampleShip ? (s.sampleShip[code] || 0) : 0)}" min="0" step="0.01" data-sku="${sku}" data-field="sampleShip.${code}" class="sku-input" style="width:60px;">
+        </td>`).join('');
       tr.innerHTML = `
         <td><strong>${sku}</strong></td>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${stats.name}">${stats.name}</td>
@@ -1176,6 +1191,7 @@ function renderSkuTable() {
         <td>${stats.revenue.toFixed(2)}</td>
         <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input" style="width:70px;"></td>
         ${costCells}
+        ${sampleCells}
         <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input" style="width:58px;"></td>
         <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input" style="width:58px;"></td>
       `;
@@ -1191,6 +1207,7 @@ function renderSkuTable() {
         <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
         <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
         <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
+        <td><input type="number" value="${s.sampleShip || 0}" min="0" step="0.01" data-sku="${sku}" data-field="sampleShip" class="sku-input"></td>
         <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input"></td>
         <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input"></td>
       `;
@@ -1201,7 +1218,7 @@ function renderSkuTable() {
   // Summary row (totals across all SKUs)
   const totalTr = document.createElement('tr');
   totalTr.classList.add('total-row');
-  const emptyCols = (currentCountry === 'EU') ? 7 : 5; // EU: 产品成本+4国(每国1格)+达人%+平台% = 7 ; US/UK: 产品成本+尾程+仓费+达人%+平台% = 5
+  const emptyCols = (currentCountry === 'EU') ? 11 : 6; // EU: 产品成本+尾程4国+样品履约费4国+达人%+平台% = 11 ; US/UK: 产品成本+尾程+仓费+样品履约费+达人%+平台% = 6
   totalTr.innerHTML = `
     <td colspan="2"><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
@@ -1758,7 +1775,7 @@ function renderSampleOrders(orderData) {
   samples.forEach(o => {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0) };
     const productCost = s.productCost * o.quantity; // GBP
-    const shipVal = (currentCountry === 'EU') ? readCost(s, 'shipping', o.countryCode || 'DE') : (s.shipping || 0);
+    const shipVal = (currentCountry === 'EU') ? readCost(s, 'sampleShip', o.countryCode || 'DE') : (s.sampleShip || 0);
     const shippingUsd = shipVal * o.quantity; // original USD
     const shippingGbp = shippingUsd / rate; // GBP
     const cost = productCost + shippingGbp; // total cost in GBP
@@ -1835,6 +1852,11 @@ function recalculate() {
     } else {
       shipVal = s.shipping || 0;
       whVal = s.warehouse || 0;
+    }
+    // Sample orders: use 样品履约费 (sample fulfillment fee) instead of 尾程运费, and exclude overseas warehouse fee
+    if (o.isSample) {
+      shipVal = (currentCountry === 'EU') ? readCost(s, 'sampleShip', (o.countryCode || 'DE')) : (s.sampleShip || 0);
+      whVal = 0;
     }
     const shippingCost = shipVal * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
     const warehouseCost = whVal * o.quantity / rate;  // GBP (converted)
@@ -1961,7 +1983,7 @@ function renderCards(orders, revenue, cost, profit) {
   const sampleCount = filteredOrders.filter(o => o.isSample).length;
   const sampleCost = filteredOrders.filter(o => o.isSample).reduce((sum, o) => {
     const s = skuSettings[o.sku] || {};
-    const shipVal = (currentCountry === 'EU') ? readCost(s, 'shipping', o.countryCode || 'DE') : (s.shipping || 0);
+    const shipVal = (currentCountry === 'EU') ? readCost(s, 'sampleShip', o.countryCode || 'DE') : (s.sampleShip || 0);
     return sum + (s.productCost || 0) * o.quantity + shipVal * o.quantity;
   }, 0);
 
@@ -2486,6 +2508,7 @@ function exportResults() {
     '产品成本': skuSettings[sku]?.productCost || 0,
     '尾程运费(DE代表)': costRep(skuSettings[sku]?.shipping),
     ...(isEU ? {} : { '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse) }),
+    '样品履约费(DE代表)': costRep(skuSettings[sku]?.sampleShip),
     '达人佣金%': skuSettings[sku]?.creatorPct || 0,
     '平台扣点%': skuSettings[sku]?.platformPct || 0,
   }));
