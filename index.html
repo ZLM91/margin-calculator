@@ -7848,13 +7848,13 @@ function loadLatestTiktokTitles() {
   var statusEl = document.getElementById('tiktokStatus');
   statusEl.textContent = '正在搜索最新文案...';
 
-  // 每4天轮换一个文案文件，8个文件循环（覆盖32天）
+  // 每4天轮换一个文案文件，9个文件循环（覆盖36天）
   var baseDate = new Date(2026, 5, 1); // 2026-06-01 (月份从0开始)
   var now = new Date();
   var diffMs = now.getTime() - baseDate.getTime();
   var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   if (diffDays < 0) diffDays = 0;
-  var batchIndex = (Math.floor(diffDays / 4) % 8) + 1; // 1-8 循环
+  var batchIndex = (Math.floor(diffDays / 4) % 9) + 1; // 1-9 循环
 
   // 批次文件（包含湿厕纸/旅行湿厕纸/洗脸巾/牙膏/泥膜）+ 洁面啫喱专用批次文件
   var filesToLoad = [
@@ -7885,7 +7885,7 @@ function loadLatestTiktokTitles() {
         if (combined.trim()) {
           parseAndRenderTiktok(combined);
           var cleanserLoaded = results[1] ? ' + 洁面啫喱×1批' : '';
-          statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/8' +
+          statusEl.textContent = '✅ 已加载文案批次 ' + batchIndex + '/9' +
             (batchSource ? '（' + batchSource + '）' : '') +
             cleanserLoaded;
         } else {
