@@ -371,7 +371,6 @@ td input.wide { width: 120px; }
               <th>达人订单</th>
               <th>样品单</th>
               <th>总收入(<span data-cur>$</span>)</th>
-              <th>VAT税(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>/件)</th>
               <th>尾程运费(<span data-cur>$</span>/件)</th>
               <th>海外仓费(<span data-cur>$</span>/件)</th>
@@ -1087,7 +1086,7 @@ function renderSkuTableHeader() {
   if (currentCountry === 'EU') {
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
-      <th>总收入(€)</th><th>VAT税(€)</th><th>产品成本(€/件)</th>
+      <th>总收入(€)</th><th>产品成本(€/件)</th>
       <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
       <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
       <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
@@ -1096,7 +1095,7 @@ function renderSkuTableHeader() {
   } else {
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
-      <th>总收入(<span data-cur>$</span>)</th><th>VAT税(<span data-cur>$</span>)</th><th>产品成本(<span data-cur>$</span>/件)</th>
+      <th>总收入(<span data-cur>$</span>)</th><th>产品成本(<span data-cur>$</span>/件)</th>
       <th>尾程运费(<span data-cur>$</span>/件)</th><th>海外仓费(<span data-cur>$</span>/件)</th>
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   }
@@ -1113,26 +1112,24 @@ function renderSkuTable() {
   allOrders.forEach(o => {
     // Exclude cancelled orders — they should not count toward SKU stats
     if (o.isCancelled) return;
-    if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0, tax: 0 };
+    if (!skuStats[o.sku]) skuStats[o.sku] = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
     skuStats[o.sku].orders++;
     skuStats[o.sku].qty += o.quantity;
     skuStats[o.sku].revenue += o.revenue;
-    skuStats[o.sku].tax += (o.tax || 0);
     if (o.creator) skuStats[o.sku].creatorOrders++;
     if (o.isSample) skuStats[o.sku].sampleOrders++;
     if (o.productName) skuStats[o.sku].name = o.productName;
   });
 
   // Totals across all SKUs (for summary row)
-  const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0, tax: 0 };
+  const totals = { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, sampleOrders: 0 };
   uniqueSkus.forEach(sku => {
-    const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0, tax: 0 };
+    const stats = skuStats[sku] || { orders: 0, qty: 0, revenue: 0, creatorOrders: 0, name: '', sampleOrders: 0 };
     totals.orders += stats.orders;
     totals.qty += stats.qty;
     totals.revenue += stats.revenue;
     totals.creatorOrders += stats.creatorOrders;
     totals.sampleOrders += stats.sampleOrders;
-    totals.tax += stats.tax;
     if (!skuSettings[sku]) {
       const def = {
         productCost: 0,
@@ -1174,7 +1171,6 @@ function renderSkuTable() {
         <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
         <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
         <td>${stats.revenue.toFixed(2)}</td>
-        <td>${stats.tax.toFixed(2)}</td>
         <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input" style="width:70px;"></td>
         ${costCells}
         <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input" style="width:58px;"></td>
@@ -1189,7 +1185,6 @@ function renderSkuTable() {
         <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
         <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
         <td>${stats.revenue.toFixed(2)}</td>
-        <td>${stats.tax.toFixed(2)}</td>
         <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
         <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
         <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
@@ -1211,7 +1206,6 @@ function renderSkuTable() {
     <td>${totals.creatorOrders > 0 ? `<span class="creator-badge">${totals.creatorOrders}</span>` : '<strong>—</strong>'}</td>
     <td>${totals.sampleOrders > 0 ? `<strong style="color:var(--warning);">📦 ${totals.sampleOrders}</strong>` : '<strong>—</strong>'}</td>
     <td><strong>${totals.revenue.toFixed(2)}</strong></td>
-    <td><strong>${totals.tax.toFixed(2)}</strong></td>
     <td colspan="${emptyCols}"></td>
   `;
   tbody.appendChild(totalTr);
