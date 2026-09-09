@@ -523,6 +523,7 @@ body.hide-wh .wh-col { display: none; }
               <th>日期</th>
               <th>订单数</th>
               <th>样品单</th>
+              <th>样品总成本(<span data-cur>$</span>)</th>
               <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
@@ -1807,7 +1808,7 @@ function recalculate() {
   const orders = getFilteredOrders();
   if (orders.length === 0) {
     renderCards(0, 0, 0, 0);
-    document.getElementById('dailyTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('dailyTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 16 : 18}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('skuSummaryTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('categorySummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('usdSummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
@@ -1860,7 +1861,7 @@ function recalculate() {
   const dailyData = {};
   orderData.forEach(o => {
     if (!dailyData[o.date]) {
-      dailyData[o.date] = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0, shippingCostUsd: 0, warehouseCostUsd: 0, promoUsd: 0 };
+      dailyData[o.date] = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, totalCost: 0, profit: 0, shippingCostUsd: 0, warehouseCostUsd: 0, promoUsd: 0, sampleCost: 0 };
     }
     const d = dailyData[o.date];
     d.orders++;
@@ -1874,6 +1875,7 @@ function recalculate() {
     d.warehouseCostUsd += o.warehouseCostUsd || 0;
     d.platformFee += o.platformFee;
     d.creatorFee += o.creatorFee;
+    if (o.isSample) d.sampleCost += o.productCost + o.shippingCost;
   });
 
   // Add promo costs and calculate final profit
@@ -2156,7 +2158,7 @@ function renderDailyTable(dailyData) {
   tbody.innerHTML = '';
 
   const sortedDates = Object.keys(dailyData).sort();
-  let totals = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, promoUsd: 0, shippingCostUsd: 0, warehouseCostUsd: 0, totalCost: 0, profit: 0 };
+  let totals = { orders: 0, samples: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0, promoUsd: 0, shippingCostUsd: 0, warehouseCostUsd: 0, totalCost: 0, profit: 0, sampleCost: 0 };
 
   sortedDates.forEach(date => {
     const d = dailyData[date];
@@ -2178,6 +2180,7 @@ function renderDailyTable(dailyData) {
     totals.promoUsd += d.promoUsd || 0;
     totals.totalCost += d.totalCost;
     totals.profit += d.profit;
+    totals.sampleCost += d.sampleCost;
 
     // Display raw USD for shipping/warehouse/promo (those are originally USD input)
     const promoDisp = currentCountry === 'UK' ? (d.promoUsd || 0) : d.promo;
@@ -2188,6 +2191,7 @@ function renderDailyTable(dailyData) {
       <td><strong>${date}</strong></td>
       <td>${d.orders}</td>
       <td>${d.samples > 0 ? `<span style="color:var(--warning);">📦${d.samples}</span>` : '—'}</td>
+      <td>${d.sampleCost > 0 ? `${cur}${d.sampleCost.toFixed(2)}` : '—'}</td>
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
@@ -2216,8 +2220,9 @@ function renderDailyTable(dailyData) {
   tr.innerHTML = `
     <td><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
-    <td>${totals.samples > 0 ? `<strong style="color:var(--warning);">${totals.samples}</strong>` : '<strong>—</strong>'}</td>
-    <td><strong>${totals.qty}</strong></td>
+      <td>${totals.samples > 0 ? `<strong style="color:var(--warning);">${totals.samples}</strong>` : '<strong>—</strong>'}</td>
+      <td><strong>${cur}${totals.sampleCost.toFixed(2)}</strong></td>
+      <td><strong>${totals.qty}</strong></td>
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
@@ -2442,14 +2447,15 @@ function exportResults() {
   const dailyData = [];
   document.querySelectorAll('#dailyTableBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 17) {
+    if (cells.length >= 18) {
       dailyData.push({
         '日期': cells[0].textContent, '订单数': cells[1].textContent, '样品单': cells[2].textContent,
-        '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
-        '尾程运费': cells[6].textContent, ...(isEU ? {} : { '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent }), '平台扣点': cells[9].textContent,
-        '达人佣金': cells[10].textContent, '推广费': cells[11].textContent, '推广+佣金': cells[12].textContent,
-        '总成本': cells[13].textContent, '净利润': cells[14].textContent,
-        '利润率': cells[15].textContent, 'ROI': cells[16].textContent,
+        '样品总成本': cells[3].textContent,
+        '销量': cells[4].textContent, '总收入': cells[5].textContent, '产品成本': cells[6].textContent,
+        '尾程运费': cells[7].textContent, ...(isEU ? {} : { '海外仓费': cells[8].textContent, '尾程+海外仓': cells[9].textContent }), '平台扣点': cells[10].textContent,
+        '达人佣金': cells[11].textContent, '推广费': cells[12].textContent, '推广+佣金': cells[13].textContent,
+        '总成本': cells[14].textContent, '净利润': cells[15].textContent,
+        '利润率': cells[16].textContent, 'ROI': cells[17].textContent,
       });
     }
   });
