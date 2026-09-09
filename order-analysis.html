@@ -748,6 +748,22 @@ function costRep(v) {
   if (typeof v === 'object' && v !== null) return v['DE'] || 0;
   return v || 0;
 }
+// Fuzzy header lookup: case-insensitive "includes" match against candidate names
+function findHeader(headers, candidates) {
+  const lower = headers.map(h => String(h || '').trim().toLowerCase());
+  for (const cand of candidates) {
+    const c = cand.toLowerCase();
+    const idx = lower.indexOf(c);
+    if (idx >= 0) return idx;
+  }
+  // fallback: partial match (header contains any candidate token)
+  for (let i = 0; i < lower.length; i++) {
+    for (const cand of candidates) {
+      if (lower[i].includes(cand.toLowerCase()) && lower[i].length > 0) return i;
+    }
+  }
+  return -1;
+}
 
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
@@ -909,7 +925,7 @@ function parseOrders(rows) {
     fulfillmentType: headers.indexOf('Fulfillment Type'),
     creatorHandle: headers.indexOf('Creator Handle'),
     taxes: headers.indexOf('Taxes'),
-    country: headers.indexOf('Country'),
+    country: findHeader(headers, ['Country', 'Ship To Country', 'Recipient Country', 'Billing Country', 'Country/Region', '国家', '收货国家', '目的国']),
   };
 
   // Validate critical columns
