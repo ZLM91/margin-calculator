@@ -200,6 +200,8 @@ td input.wide { width: 120px; }
 /* Total row */
 .total-row { font-weight: 700; background: #f1f5f9 !important; }
 .total-row td { border-top: 2px solid var(--border); }
+/* EU 模式隐藏海外仓费两列（美/英站保留） */
+body.hide-wh .wh-col { display: none; }
 
 /* Tooltip */
 .tooltip { position: relative; cursor: help; }
@@ -525,8 +527,8 @@ td input.wide { width: 120px; }
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
               <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
-              <th>尾程+海外仓(<span data-cur>$</span>)</th>
+              <th class="wh-col">海外仓费(<span data-cur>$</span>)</th>
+              <th class="wh-col">尾程+海外仓(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费(<span data-cur>$</span>)</th>
@@ -558,8 +560,8 @@ td input.wide { width: 120px; }
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
               <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
-              <th>尾程+海外仓(<span data-cur>$</span>)</th>
+              <th class="wh-col">海外仓费(<span data-cur>$</span>)</th>
+              <th class="wh-col">尾程+海外仓(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费分摊(<span data-cur>$</span>)</th>
@@ -592,8 +594,8 @@ td input.wide { width: 120px; }
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
               <th>尾程运费(<span data-cur>$</span>)</th>
-              <th>海外仓费(<span data-cur>$</span>)</th>
-              <th>尾程+海外仓(<span data-cur>$</span>)</th>
+              <th class="wh-col">海外仓费(<span data-cur>$</span>)</th>
+              <th class="wh-col">尾程+海外仓(<span data-cur>$</span>)</th>
               <th>平台扣点(<span data-cur>$</span>)</th>
               <th>达人佣金(<span data-cur>$</span>)</th>
               <th>推广费(<span data-cur>$</span>)</th>
@@ -626,8 +628,8 @@ td input.wide { width: 120px; }
               <th>总收入($)</th>
               <th>产品成本($)</th>
               <th>尾程运费($)</th>
-              <th>海外仓费($)</th>
-              <th>尾程+海外仓($)</th>
+              <th class="wh-col">海外仓费($)</th>
+              <th class="wh-col">尾程+海外仓($)</th>
               <th>平台扣点($)</th>
               <th>达人佣金($)</th>
               <th>推广费($)</th>
@@ -795,6 +797,8 @@ function switchCountry(country) {
   // Switch
   currentCountry = country;
   cur = country === 'UK' ? '£' : (country === 'EU' ? '€' : '$');
+  // EU 站隐藏海外仓费两列；US/UK 保留
+  document.body.classList.toggle('hide-wh', country === 'EU');
   document.querySelectorAll('.country-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.country === country);
   });
@@ -1087,10 +1091,10 @@ function renderSkuTableHeader() {
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
       <th>总收入(€)</th><th>产品成本(€/件)</th>
-      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
-      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
-      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
-      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
+      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
+      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
+      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
+      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   } else {
     tr.innerHTML = `
@@ -1160,8 +1164,6 @@ function renderSkuTable() {
         <td style="padding:3px 4px;vertical-align:top;">
           <div style="font-size:9px;color:var(--muted);text-align:left;line-height:1.1;">尾程</div>
           <input type="number" value="${(s.shipping[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="shipping.${code}" class="sku-input" style="width:60px;">
-          <div style="font-size:9px;color:var(--muted);text-align:left;margin-top:2px;line-height:1.1;">仓费</div>
-          <input type="number" value="${(s.warehouse[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse.${code}" class="sku-input" style="width:60px;">
         </td>`).join('');
       tr.innerHTML = `
         <td><strong>${sku}</strong></td>
@@ -1469,8 +1471,8 @@ function renderCategoryDashboard(orderData) {
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
       <td>${cur}${dispUsd(shippingDisp).toFixed(2)}</td>
-      <td>${cur}${dispUsd(warehouseDisp).toFixed(2)}</td>
-      <td>${cur}${dispUsd(shippingDisp + warehouseDisp).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(warehouseDisp).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(shippingDisp + warehouseDisp).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoUsd).toFixed(2)}</td>
@@ -1502,7 +1504,7 @@ function renderCategoryDashboard(orderData) {
       subTr.className = 'sku-detail-row';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="17" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="${currentCountry === 'EU' ? 15 : 17}" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1522,8 +1524,8 @@ function renderCategoryDashboard(orderData) {
       <td>${cur}${totalRevenue.toFixed(2)}</td>
       <td>${cur}${totalProductCost.toFixed(2)}</td>
       <td>${cur}${dispUsd(totalShippingDisp).toFixed(2)}</td>
-      <td>${cur}${dispUsd(totalWarehouseDisp).toFixed(2)}</td>
-      <td>${cur}${dispUsd(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(totalWarehouseDisp).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
       <td>${cur}${totalPlatformFee.toFixed(2)}</td>
       <td>${cur}${totalCreatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(totalPromoUsd).toFixed(2)}</td>
@@ -1642,8 +1644,8 @@ function renderUsdDashboard(orderData) {
       <td>$${d.revenue.toFixed(2)}</td>
       <td>$${d.productCost.toFixed(2)}</td>
       <td>$${d.shippingCost.toFixed(2)}</td>
-      <td>$${d.warehouseCost.toFixed(2)}</td>
-      <td>$${(d.shippingCost + d.warehouseCost).toFixed(2)}</td>
+      <td class="wh-col">$${d.warehouseCost.toFixed(2)}</td>
+      <td class="wh-col">$${(d.shippingCost + d.warehouseCost).toFixed(2)}</td>
       <td>$${d.platformFee.toFixed(2)}</td>
       <td>$${d.creatorFee.toFixed(2)}</td>
       <td>$${d.promo.toFixed(2)}</td>
@@ -1674,7 +1676,7 @@ function renderUsdDashboard(orderData) {
       subTr.className = 'sku-detail-row-usd';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="17" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="${currentCountry === 'EU' ? 15 : 17}" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1694,8 +1696,8 @@ function renderUsdDashboard(orderData) {
       <td>$${totalRevenue.toFixed(2)}</td>
       <td>$${totalProductCost.toFixed(2)}</td>
       <td>$${totalShippingDisp.toFixed(2)}</td>
-      <td>$${totalWarehouseDisp.toFixed(2)}</td>
-      <td>$${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
+      <td class="wh-col">$${totalWarehouseDisp.toFixed(2)}</td>
+      <td class="wh-col">$${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
       <td>$${totalPlatformFee.toFixed(2)}</td>
       <td>$${totalCreatorFee.toFixed(2)}</td>
       <td>$${totalPromoUsd.toFixed(2)}</td>
@@ -1805,10 +1807,10 @@ function recalculate() {
   const orders = getFilteredOrders();
   if (orders.length === 0) {
     renderCards(0, 0, 0, 0);
-    document.getElementById('dailyTableBody').innerHTML = '<tr><td colspan="17" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('skuSummaryTableBody').innerHTML = '<tr><td colspan="17" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('categorySummaryBody').innerHTML = '<tr><td colspan="17" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
-    document.getElementById('usdSummaryBody').innerHTML = '<tr><td colspan="17" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>';
+    document.getElementById('dailyTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('skuSummaryTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('categorySummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('usdSummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('sampleOrdersBody').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">无样品订单</td></tr>';
     document.getElementById('sampleSummaryText').textContent = '';
     return;
@@ -1823,12 +1825,12 @@ function recalculate() {
     const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), warehouse: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
     const ukFeeGbp = (o.isSample || o.isCancelled) ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample & non-cancelled only
-    // EU: pick tail/warehouse cost by destination country (fallback DE); US/UK: flat value
+    // EU: pick tail cost by destination country (fallback DE), 海外仓费已去掉不计; US/UK: flat value
     let shipVal, whVal;
     if (currentCountry === 'EU') {
       const cc = o.countryCode || 'DE';
       shipVal = readCost(s, 'shipping', cc);
-      whVal = readCost(s, 'warehouse', cc);
+      whVal = 0; // EU 站不再单独计算海外仓费（如需可并入尾程）
     } else {
       shipVal = s.shipping || 0;
       whVal = s.warehouse || 0;
@@ -2190,8 +2192,8 @@ function renderDailyTable(dailyData) {
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
       <td>${cur}${dispUsd(d.shippingCostUsd).toFixed(2)}</td>
-      <td>${cur}${dispUsd(d.warehouseCostUsd).toFixed(2)}</td>
-      <td>${cur}${dispUsd(d.shippingCostUsd + d.warehouseCostUsd).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(d.warehouseCostUsd).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(d.shippingCostUsd + d.warehouseCostUsd).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
@@ -2219,8 +2221,8 @@ function renderDailyTable(dailyData) {
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
@@ -2272,8 +2274,8 @@ function renderSkuSummaryTable(skuData) {
       <td>${cur}${s.revenue.toFixed(2)}</td>
       <td>${cur}${s.productCost.toFixed(2)}</td>
       <td>${cur}${dispUsd(s.shippingCostUsd).toFixed(2)}</td>
-      <td>${cur}${dispUsd(s.warehouseCostUsd).toFixed(2)}</td>
-      <td>${cur}${dispUsd(s.shippingCostUsd + s.warehouseCostUsd).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(s.warehouseCostUsd).toFixed(2)}</td>
+      <td class="wh-col">${cur}${dispUsd(s.shippingCostUsd + s.warehouseCostUsd).toFixed(2)}</td>
       <td>${cur}${s.platformFee.toFixed(2)}</td>
       <td>${cur}${s.creatorFee.toFixed(2)}</td>
       <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
@@ -2300,8 +2302,8 @@ function renderSkuSummaryTable(skuData) {
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
@@ -2434,6 +2436,7 @@ function loadSettings(silent) {
 // ===== Export Results =====
 function exportResults() {
   const wb = XLSX.utils.book_new();
+  const isEU = currentCountry === 'EU'; // EU 站导出不含海外仓费两列
 
   // Daily summary
   const dailyData = [];
@@ -2443,7 +2446,7 @@ function exportResults() {
       dailyData.push({
         '日期': cells[0].textContent, '订单数': cells[1].textContent, '样品单': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
-        '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent, '平台扣点': cells[9].textContent,
+        '尾程运费': cells[6].textContent, ...(isEU ? {} : { '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent }), '平台扣点': cells[9].textContent,
         '达人佣金': cells[10].textContent, '推广费': cells[11].textContent, '推广+佣金': cells[12].textContent,
         '总成本': cells[13].textContent, '净利润': cells[14].textContent,
         '利润率': cells[15].textContent, 'ROI': cells[16].textContent,
@@ -2461,7 +2464,7 @@ function exportResults() {
       skuData.push({
         'SKU': cells[0].textContent, '产品名': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
-        '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent, '平台扣点': cells[9].textContent,
+        '尾程运费': cells[6].textContent, ...(isEU ? {} : { '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent }), '平台扣点': cells[9].textContent,
         '达人佣金': cells[10].textContent, '推广费分摊': cells[11].textContent, '推广+佣金': cells[12].textContent,
         '总成本': cells[13].textContent, '净利润': cells[14].textContent,
         '利润率': cells[15].textContent, 'ROI': cells[16].textContent,
@@ -2476,7 +2479,7 @@ function exportResults() {
     'SKU': sku,
     '产品成本': skuSettings[sku]?.productCost || 0,
     '尾程运费(DE代表)': costRep(skuSettings[sku]?.shipping),
-    '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse),
+    ...(isEU ? {} : { '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse) }),
     '达人佣金%': skuSettings[sku]?.creatorPct || 0,
     '平台扣点%': skuSettings[sku]?.platformPct || 0,
   }));
@@ -2491,7 +2494,7 @@ function exportResults() {
       catData.push({
         '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
-        '尾程运费': cells[6].textContent, '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent, '平台扣点': cells[9].textContent,
+        '尾程运费': cells[6].textContent, ...(isEU ? {} : { '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent }), '平台扣点': cells[9].textContent,
         '达人佣金': cells[10].textContent, '推广费': cells[11].textContent, '推广+佣金': cells[12].textContent,
         '总成本': cells[13].textContent, '净利润': cells[14].textContent,
         '利润率': cells[15].textContent, 'ROI': cells[16].textContent,
@@ -2509,7 +2512,7 @@ function exportResults() {
       usdData.push({
         '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
         '销量': cells[3].textContent, '总收入($)': cells[4].textContent, '产品成本($)': cells[5].textContent,
-        '尾程运费($)': cells[6].textContent, '海外仓费($)': cells[7].textContent, '尾程+海外仓($)': cells[8].textContent, '平台扣点($)': cells[9].textContent,
+        '尾程运费($)': cells[6].textContent, ...(isEU ? {} : { '海外仓费($)': cells[7].textContent, '尾程+海外仓($)': cells[8].textContent }), '平台扣点($)': cells[9].textContent,
         '达人佣金($)': cells[10].textContent, '推广费($)': cells[11].textContent, '推广+佣金($)': cells[12].textContent,
         '总成本($)': cells[13].textContent, '净利润($)': cells[14].textContent,
         '利润率(%)': cells[15].textContent, 'ROI': cells[16].textContent,
