@@ -716,6 +716,39 @@ function parseAmount(val) {
   return match ? parseFloat(match[0]) : 0;
 }
 
+// ===== EU destination-country normalization =====
+// TikTok Shop EU exports write the destination country in native language (e.g. "España", "France").
+const EU_COUNTRIES = ['DE', 'FR', 'IT', 'ES']; // 德 / 法 / 意 / 西
+function normalizeCountry(raw) {
+  if (!raw) return null;
+  const lower = String(raw).trim().toLowerCase();
+  const direct = {
+    'españa': 'ES', 'espana': 'ES', 'spain': 'ES', 'espanha': 'ES', 'es': 'ES',
+    'france': 'FR', 'fr': 'FR',
+    'italia': 'IT', 'italy': 'IT', 'it': 'IT',
+    'deutschland': 'DE', 'germany': 'DE', 'de': 'DE', 'allemagne': 'DE',
+    '德国': 'DE', '法国': 'FR', '意大利': 'IT', '西班牙': 'ES'
+  };
+  if (direct[lower]) return direct[lower];
+  const plain = lower.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]/g, '');
+  const plainMap = { 'es': 'ES', 'espana': 'ES', 'fr': 'FR', 'france': 'FR', 'it': 'IT', 'italia': 'IT', 'de': 'DE', 'deutschland': 'DE', 'germany': 'DE' };
+  return plainMap[plain] || null;
+}
+// Read a per-country cost (EU) or flat (US/UK). Falls back to DE when country not matched.
+function readCost(s, field, cc) {
+  const v = s ? s[field] : undefined;
+  if (typeof v === 'object' && v !== null) {
+    if (cc && v[cc] != null) return v[cc] || 0;
+    return (v['DE'] != null) ? (v['DE'] || 0) : 0;
+  }
+  return v || 0;
+}
+// Representative single value for CSV export (EU: DE; else the flat number)
+function costRep(v) {
+  if (typeof v === 'object' && v !== null) return v['DE'] || 0;
+  return v || 0;
+}
+
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
 
@@ -876,6 +909,7 @@ function parseOrders(rows) {
     fulfillmentType: headers.indexOf('Fulfillment Type'),
     creatorHandle: headers.indexOf('Creator Handle'),
     taxes: headers.indexOf('Taxes'),
+    country: headers.indexOf('Country'),
   };
 
   // Validate critical columns
@@ -909,6 +943,8 @@ function parseOrders(rows) {
     const productName = colMap.productName >= 0 ? String(r[colMap.productName] || '').substring(0, 40) : '';
     const fulfillment = colMap.fulfillmentType >= 0 ? String(r[colMap.fulfillmentType] || '').trim() : '';
     const tax = colMap.taxes >= 0 ? parseAmount(r[colMap.taxes]) : 0;
+    const countryName = colMap.country >= 0 ? String(r[colMap.country] || '').trim() : '';
+    const countryCode = normalizeCountry(countryName);
 
     // Detect sample order: revenue=0 AND has fulfillment (logistics) AND status is not cancelled
     const isCancelled = [status, cancellationType].some(v => {
@@ -926,6 +962,7 @@ function parseOrders(rows) {
       date: dateStr,
       isSample,
       isCancelled,
+      countryName, countryCode,
     });
   }
 
@@ -935,14 +972,26 @@ function parseOrders(rows) {
   statusCounts = {};
   allOrders.forEach(o => { statusCounts[o.status] = (statusCounts[o.status] || 0) + 1; });
 
+  // EU: detect orders whose destination country isn't in DE/FR/IT/ES (these fall back to DE cost)
+  const unmatchedCountries = {};
+  if (currentCountry === 'EU') {
+    allOrders.forEach(o => {
+      if (!o.countryCode) { const cn = o.countryName || '(空)'; unmatchedCountries[cn] = (unmatchedCountries[cn] || 0) + 1; }
+    });
+  }
+
   // Store orders for current country
   countryOrders[currentCountry] = { allOrders: [...allOrders], uniqueSkus: [...uniqueSkus], uniqueDates: [...uniqueDates], statusCounts: { ...statusCounts } };
 
   // Show file info
   const sampleCount = allOrders.filter(o => o.isSample).length;
   const cancelledCount = allOrders.filter(o => o.isCancelled).length;
+  const unmatchedCount = Object.values(unmatchedCountries).reduce((a, b) => a + b, 0);
+  const unmatchedMsg = unmatchedCount > 0
+    ? ` | ⚠️ ${unmatchedCount} 单目的国非德法意西(按德国计费): ${Object.entries(unmatchedCountries).map(([k, v]) => k + ':' + v).join(', ')}`
+    : '';
   document.getElementById('fileInfo').innerHTML =
-    `<div class="file-info">✅ 已加载 ${allOrders.length} 条订单 | ${uniqueSkus.length} 个 SKU | ${uniqueDates.length} 天 | ${uniqueDates[0]} ~ ${uniqueDates[uniqueDates.length-1]}${sampleCount > 0 ? ` | 📦 样品订单 ${sampleCount} 单` : ''}${cancelledCount > 0 ? ` | ❌ 已取消 ${cancelledCount} 单` : ''}</div>`;
+    `<div class="file-info">✅ 已加载 ${allOrders.length} 条订单 | ${uniqueSkus.length} 个 SKU | ${uniqueDates.length} 天 | ${uniqueDates[0]} ~ ${uniqueDates[uniqueDates.length-1]}${sampleCount > 0 ? ` | 📦 样品订单 ${sampleCount} 单` : ''}${cancelledCount > 0 ? ` | ❌ 已取消 ${cancelledCount} 单` : ''}${unmatchedMsg}</div>`;
 
   // Show sample info in filter bar
   const sampleInfoEl = document.getElementById('sampleInfo');
@@ -1013,7 +1062,32 @@ function getFilteredOrders() {
 }
 
 // ===== Render SKU Settings Table =====
+function renderSkuTableHeader() {
+  const tbody = document.getElementById('skuTableBody');
+  if (!tbody) return;
+  const tbl = tbody.closest('table');
+  const tr = tbl && tbl.querySelector('thead tr');
+  if (!tr) return;
+  if (currentCountry === 'EU') {
+    tr.innerHTML = `
+      <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
+      <th>总收入(€)</th><th>VAT税(€)</th><th>产品成本(€/件)</th>
+      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
+      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
+      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
+      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程/仓费</span></th>
+      <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
+  } else {
+    tr.innerHTML = `
+      <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
+      <th>总收入(<span data-cur>$</span>)</th><th>VAT税(<span data-cur>$</span>)</th><th>产品成本(<span data-cur>$</span>/件)</th>
+      <th>尾程运费(<span data-cur>$</span>/件)</th><th>海外仓费(<span data-cur>$</span>/件)</th>
+      <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
+  }
+}
+
 function renderSkuTable() {
+  renderSkuTableHeader();
   const tbody = document.getElementById('skuTableBody');
   tbody.innerHTML = '';
   document.getElementById('skuCountInfo').textContent = `共 ${uniqueSkus.length} 个 SKU`;
@@ -1044,36 +1118,76 @@ function renderSkuTable() {
     totals.sampleOrders += stats.sampleOrders;
     totals.tax += stats.tax;
     if (!skuSettings[sku]) {
-      skuSettings[sku] = {
-        productCost: 0, shipping: 0, warehouse: 0,
+      const def = {
+        productCost: 0,
         creatorPct: parseFloat(document.getElementById('defaultCreatorPct').value) || 0,
         platformPct: parseFloat(document.getElementById('defaultPlatformPct').value) || 0,
       };
+      if (currentCountry === 'EU') { def.shipping = { DE: 0, FR: 0, IT: 0, ES: 0 }; def.warehouse = { DE: 0, FR: 0, IT: 0, ES: 0 }; }
+      else { def.shipping = 0; def.warehouse = 0; }
+      skuSettings[sku] = def;
+    }
+    // EU: migrate legacy flat cost to per-country object (spread old value across all 4 countries)
+    if (currentCountry === 'EU') {
+      if (typeof skuSettings[sku].shipping !== 'object' || skuSettings[sku].shipping === null) {
+        const old = skuSettings[sku].shipping || 0;
+        skuSettings[sku].shipping = { DE: old, FR: old, IT: old, ES: old };
+      }
+      if (typeof skuSettings[sku].warehouse !== 'object' || skuSettings[sku].warehouse === null) {
+        const old = skuSettings[sku].warehouse || 0;
+        skuSettings[sku].warehouse = { DE: old, FR: old, IT: old, ES: old };
+      }
     }
     const s = skuSettings[sku];
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong>${sku}</strong></td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${stats.name}">${stats.name}</td>
-      <td>${stats.orders}</td>
-      <td>${stats.qty}</td>
-      <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
-      <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
-      <td>${stats.revenue.toFixed(2)}</td>
-      <td>${stats.tax.toFixed(2)}</td>
-      <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
-      <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
-      <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
-      <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input"></td>
-      <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input"></td>
-    `;
+    if (currentCountry === 'EU') {
+      const cc = [['DE', '德国'], ['FR', '法国'], ['IT', '意大利'], ['ES', '西班牙']];
+      const costCells = cc.map(([code]) => `
+        <td style="padding:3px 4px;vertical-align:top;">
+          <div style="font-size:9px;color:var(--muted);text-align:left;line-height:1.1;">尾程</div>
+          <input type="number" value="${(s.shipping[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="shipping.${code}" class="sku-input" style="width:60px;">
+          <div style="font-size:9px;color:var(--muted);text-align:left;margin-top:2px;line-height:1.1;">仓费</div>
+          <input type="number" value="${(s.warehouse[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse.${code}" class="sku-input" style="width:60px;">
+        </td>`).join('');
+      tr.innerHTML = `
+        <td><strong>${sku}</strong></td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${stats.name}">${stats.name}</td>
+        <td>${stats.orders}</td>
+        <td>${stats.qty}</td>
+        <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
+        <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
+        <td>${stats.revenue.toFixed(2)}</td>
+        <td>${stats.tax.toFixed(2)}</td>
+        <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input" style="width:70px;"></td>
+        ${costCells}
+        <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input" style="width:58px;"></td>
+        <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input" style="width:58px;"></td>
+      `;
+    } else {
+      tr.innerHTML = `
+        <td><strong>${sku}</strong></td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;" title="${stats.name}">${stats.name}</td>
+        <td>${stats.orders}</td>
+        <td>${stats.qty}</td>
+        <td>${stats.creatorOrders > 0 ? `<span class="creator-badge">${stats.creatorOrders}</span>` : '—'}</td>
+        <td>${stats.sampleOrders > 0 ? `<span style="color:var(--warning);font-weight:500;">📦 ${stats.sampleOrders}</span>` : '—'}</td>
+        <td>${stats.revenue.toFixed(2)}</td>
+        <td>${stats.tax.toFixed(2)}</td>
+        <td><input type="number" value="${s.productCost}" min="0" step="0.01" data-sku="${sku}" data-field="productCost" class="sku-input"></td>
+        <td><input type="number" value="${s.shipping}" min="0" step="0.01" data-sku="${sku}" data-field="shipping" class="sku-input"></td>
+        <td><input type="number" value="${s.warehouse}" min="0" step="0.01" data-sku="${sku}" data-field="warehouse" class="sku-input"></td>
+        <td><input type="number" value="${s.creatorPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="creatorPct" class="sku-input"></td>
+        <td><input type="number" value="${s.platformPct}" min="0" max="100" step="0.1" data-sku="${sku}" data-field="platformPct" class="sku-input"></td>
+      `;
+    }
     tbody.appendChild(tr);
   });
 
   // Summary row (totals across all SKUs)
   const totalTr = document.createElement('tr');
   totalTr.classList.add('total-row');
+  const emptyCols = (currentCountry === 'EU') ? 7 : 5; // EU: 产品成本+4国(每国1格)+达人%+平台% = 7 ; US/UK: 产品成本+尾程+仓费+达人%+平台% = 5
   totalTr.innerHTML = `
     <td colspan="2"><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
@@ -1082,17 +1196,24 @@ function renderSkuTable() {
     <td>${totals.sampleOrders > 0 ? `<strong style="color:var(--warning);">📦 ${totals.sampleOrders}</strong>` : '<strong>—</strong>'}</td>
     <td><strong>${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${totals.tax.toFixed(2)}</strong></td>
-    <td colspan="6"></td>
+    <td colspan="${emptyCols}"></td>
   `;
   tbody.appendChild(totalTr);
 
-  // Attach input listeners
+  // Attach input listeners (supports dotted field "shipping.DE" for EU per-country costs)
   document.querySelectorAll('.sku-input').forEach(input => {
     input.addEventListener('input', e => {
       const sku = e.target.dataset.sku;
       const field = e.target.dataset.field;
       if (!skuSettings[sku]) skuSettings[sku] = {};
-      skuSettings[sku][field] = parseFloat(e.target.value) || 0;
+      const parts = field.split('.');
+      if (parts.length > 1) {
+        const top = parts[0];
+        if (typeof skuSettings[sku][top] !== 'object' || skuSettings[sku][top] === null) skuSettings[sku][top] = {};
+        skuSettings[sku][top][parts[1]] = parseFloat(e.target.value) || 0;
+      } else {
+        skuSettings[sku][field] = parseFloat(e.target.value) || 0;
+      }
       recalculate();
       autoSave();
     });
@@ -1622,9 +1743,10 @@ function renderSampleOrders(orderData) {
   });
 
   samples.forEach(o => {
-    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0 };
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0) };
     const productCost = s.productCost * o.quantity; // GBP
-    const shippingUsd = s.shipping * o.quantity; // original USD
+    const shipVal = (currentCountry === 'EU') ? readCost(s, 'shipping', o.countryCode || 'DE') : (s.shipping || 0);
+    const shippingUsd = shipVal * o.quantity; // original USD
     const shippingGbp = shippingUsd / rate; // GBP
     const cost = productCost + shippingGbp; // total cost in GBP
 
@@ -1688,11 +1810,21 @@ function recalculate() {
   const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
   const ukFeePerOrder = (currentCountry === 'UK') ? (parseFloat(document.getElementById('ukLogisticsFee').value) || 0) : 0; // GBP per order
   const orderData = orders.map(o => {
-    const s = skuSettings[o.sku] || { productCost: 0, shipping: 0, warehouse: 0, creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), warehouse: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
     const ukFeeGbp = (o.isSample || o.isCancelled) ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample & non-cancelled only
-    const shippingCost = s.shipping * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
-    const warehouseCost = s.warehouse * o.quantity / rate;  // GBP (converted)
+    // EU: pick tail/warehouse cost by destination country (fallback DE); US/UK: flat value
+    let shipVal, whVal;
+    if (currentCountry === 'EU') {
+      const cc = o.countryCode || 'DE';
+      shipVal = readCost(s, 'shipping', cc);
+      whVal = readCost(s, 'warehouse', cc);
+    } else {
+      shipVal = s.shipping || 0;
+      whVal = s.warehouse || 0;
+    }
+    const shippingCost = shipVal * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
+    const warehouseCost = whVal * o.quantity / rate;  // GBP (converted)
     const platformPct = s.platformPct || defaultPlatformPct;
     const creatorPct = s.creatorPct || defaultCreatorPct;
     const platformFee = o.revenue * (platformPct / 100);
@@ -1706,8 +1838,8 @@ function recalculate() {
       productCost, // GBP
       shippingCost, // GBP (converted, includes UK fee)
       warehouseCost, // GBP (converted)
-      shippingCostUsd: s.shipping * o.quantity + ukFeeGbp * rate, // original USD + UK fee
-      warehouseCostUsd: s.warehouse * o.quantity, // original USD
+      shippingCostUsd: shipVal * o.quantity + ukFeeGbp * rate, // original USD + UK fee
+      warehouseCostUsd: whVal * o.quantity, // original USD
       platformFee, creatorFee, totalCost, profit
     };
   });
@@ -1815,7 +1947,8 @@ function renderCards(orders, revenue, cost, profit) {
   const sampleCount = filteredOrders.filter(o => o.isSample).length;
   const sampleCost = filteredOrders.filter(o => o.isSample).reduce((sum, o) => {
     const s = skuSettings[o.sku] || {};
-    return sum + (s.productCost || 0) * o.quantity + (s.shipping || 0) * o.quantity;
+    const shipVal = (currentCountry === 'EU') ? readCost(s, 'shipping', o.countryCode || 'DE') : (s.shipping || 0);
+    return sum + (s.productCost || 0) * o.quantity + shipVal * o.quantity;
   }, 0);
 
   document.getElementById('cardsRow').innerHTML = `
@@ -2332,8 +2465,8 @@ function exportResults() {
   const settingsData = uniqueSkus.map(sku => ({
     'SKU': sku,
     '产品成本': skuSettings[sku]?.productCost || 0,
-    '尾程运费': skuSettings[sku]?.shipping || 0,
-    '海外仓费': skuSettings[sku]?.warehouse || 0,
+    '尾程运费(DE代表)': costRep(skuSettings[sku]?.shipping),
+    '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse),
     '达人佣金%': skuSettings[sku]?.creatorPct || 0,
     '平台扣点%': skuSettings[sku]?.platformPct || 0,
   }));
