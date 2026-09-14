@@ -474,7 +474,7 @@ body.hide-wh .wh-col { display: none; }
     <!-- Daily Promotion Costs -->
     <div class="section-header">
       <h2>每日推广费用</h2>
-      <span class="info-text">按 USD 录入 · 自动换算为 £</span>
+      <span class="info-text">按美元录入 · 自动换算为当前站点货币</span>
     </div>
     <div class="table-wrapper">
       <table id="promoTable">
@@ -494,7 +494,7 @@ body.hide-wh .wh-col { display: none; }
     <!-- Category Promotion Costs -->
     <div class="section-header">
       <h2>品类推广费</h2>
-      <span class="info-text">按品类填写推广费用 · 自动保存</span>
+      <span class="info-text">按品类填写推广费用（美元）· 自动保存</span>
     </div>
     <div class="table-wrapper">
       <table id="categoryPromoTable">
@@ -615,7 +615,7 @@ body.hide-wh .wh-col { display: none; }
     <!-- USD Profit Dashboard -->
     <div class="section-header">
       <h2>美元利润看板</h2>
-      <span class="info-text">所有金额按汇率换算为美元（1 英镑 = <span id="usdRateLabel">1</span> 美元）</span>
+      <span class="info-text" id="usdBoardNote">所有金额按汇率换算为美元（1 英镑 = <span id="usdRateLabel">1.3360</span> 美元）</span>
     </div>
     <div class="table-wrapper">
       <div class="table-scroll-summary">
@@ -696,7 +696,8 @@ let uniqueSkus = [];
 let statusCounts = {};
 let cur = '$'; // revenue/product cost/platform fee/creator fee: '$' for US, '£' for UK
 // curUsd 已移除：UK 看板的尾程运费/海外仓费/推广费也统一用 GBP（按汇率换算 USD→GBP）
-let exchangeRate = 1.336; // GBP→USD, only used for UK to unify totals
+let exchangeRate = 1.336; // 汇率：1 单位站点货币 = ? 美元（英国站默认 1.35，欧洲站默认 1.16）
+const FX_DEFAULT = { US: 1, UK: 1.35, EU: 1.16 }; // 各站点默认汇率（1 当地货币 = ? 美元，2026-09-14 实时：EUR≈1.16 / GBP≈1.35）
 
 // ===== Category State =====
 const CATEGORIES = ['干巾', '湿厕纸', '婴儿湿巾', '其他'];
@@ -770,11 +771,57 @@ function findHeader(headers, candidates) {
 // Format money with current currency symbol
 function money(amount) { return cur + amount.toFixed(2); }
 
-// 按当前国家把原始值换算成显示值
-// US: 直接用 USD; UK: USD / exchangeRate → GBP; EU: EUR 原生，直接显示
-function dispUsd(amount) {
-  const v = amount || 0;
-  return currentCountry === 'UK' ? v / exchangeRate : v;
+// ===== 汇率换算 =====
+// fx = 1 单位站点货币 = ? 美元。US: 1（本站本身即美元）；UK: 1£ = fx$；EU: 1€ = fx$。
+// 录入口径（三站约定）：
+//   产品成本 / 尾程运费 / 海外仓费 / 样品履约费 → 按【站点货币】录入（EU 为 €、UK 为 £、US 为 $）
+//   推广费                                      → 按【美元】录入
+function localToUsdRate() {
+  if (currentCountry === 'US') return 1;
+  const r = parseFloat(exchangeRate);
+  if (!(r > 0)) return FX_DEFAULT[currentCountry] || 1;
+  return r;
+}
+// 站点货币 → 美元
+function toUsd(local) { return (local || 0) * localToUsdRate(); }
+// 美元 → 站点货币
+function toLocal(usd) {
+  const fx = localToUsdRate();
+  return fx > 0 ? (usd || 0) / fx : (usd || 0);
+}
+// 推广费（按美元录入）→ 站点货币
+function promoLocal(usd) { return toLocal(usd); }
+// 兼容旧调用名（等价于「美元 → 站点货币」）
+function dispUsd(amount) { return toLocal(amount); }
+
+// 汇率方向纠正 + 默认值补齐（EU 默认 1.08，UK 默认 1.336）
+function normalizeFxRate() {
+  if (currentCountry === 'US') return false;
+  const def = FX_DEFAULT[currentCountry] || 1;
+  let r = parseFloat(exchangeRate);
+  if (!(r > 0)) r = def;
+  else if (r < 1) r = parseFloat((1 / r).toFixed(4)); // 旧版方向为 1$=?£ → 翻转
+  // EU 若沿用了英国站默认值视为未设置
+  if (currentCountry === 'EU' && Math.abs(r - FX_DEFAULT.UK) < 0.0005) r = def;
+  if (Math.abs(r - (parseFloat(exchangeRate) || 0)) > 1e-9) {
+    exchangeRate = r;
+    const el = document.getElementById('exchangeRate');
+    if (el) el.value = r;
+    return true;
+  }
+  return false;
+}
+
+// 刷新「美元利润看板」的汇率说明
+function updateUsdNote() {
+  const noteEl = document.getElementById('usdBoardNote');
+  if (!noteEl) return;
+  if (currentCountry === 'US') {
+    noteEl.textContent = '美国站本身即为美元，无需汇率换算';
+    return;
+  }
+  const name = currentCountry === 'EU' ? '欧元' : '英镑';
+  noteEl.innerHTML = '所有金额按汇率换算为美元（1 ' + name + ' = <span id="usdRateLabel">' + localToUsdRate().toFixed(4) + '</span> 美元）';
 }
 
 // Update all static currency labels in HTML
@@ -822,14 +869,13 @@ function switchCountry(country) {
   // Try to load saved settings for the new country
   const loaded = loadSettings(true);
 
-  // Auto-fix legacy exchange rate direction: old default was 0.78 (1 USD = 0.78 GBP),
-  // new convention is 1 GBP = ? USD. If loaded rate < 1, invert it now.
-  if (country === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
-    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
-    const elRate = document.getElementById('exchangeRate');
-    if (elRate) elRate.value = exchangeRate;
-    saveSettings(); // persist the corrected value
+  // 汇率：该站点从未保存过设置时补默认值（EU 1.08 / UK 1.336），再纠正方向
+  if (!loaded) {
+    exchangeRate = FX_DEFAULT[country] || 1;
+    const elRate0 = document.getElementById('exchangeRate');
+    if (elRate0) elRate0.value = exchangeRate;
   }
+  if (normalizeFxRate()) saveSettings(true); // persist the corrected value
 
   // Set country-specific default platform pct if not loaded
   if (!loaded) {
@@ -1092,14 +1138,14 @@ function renderSkuTableHeader() {
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
       <th>总收入(€)</th><th>产品成本(€/件)</th>
-      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
-      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
-      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
-      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程</span></th>
-      <th>德国DE<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
-      <th>法国FR<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
-      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
-      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">样品履约费</span></th>
+      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
+      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
+      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
+      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
+      <th>德国DE<br><span style="font-weight:400;font-size:10px;">样品履约费(€/件)</span></th>
+      <th>法国FR<br><span style="font-weight:400;font-size:10px;">样品履约费(€/件)</span></th>
+      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">样品履约费(€/件)</span></th>
+      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">样品履约费(€/件)</span></th>
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   } else {
     tr.innerHTML = `
@@ -1269,7 +1315,7 @@ function renderPromoTable() {
   uniqueDates.forEach(date => {
     const stats = dailyStats[date] || { orders: 0, revenue: 0 };
     if (!promoCosts[date]) promoCosts[date] = 0;
-    const promoPct = stats.revenue > 0 ? (dispUsd(promoCosts[date]) / stats.revenue * 100).toFixed(1) : '0.0';
+    const promoPct = stats.revenue > 0 ? (promoLocal(promoCosts[date]) / stats.revenue * 100).toFixed(1) : '0.0';
 
     totalOrders += stats.orders;
     totalRevenue += stats.revenue;
@@ -1287,7 +1333,7 @@ function renderPromoTable() {
   });
 
   // Summary row (totals across all dates)
-  const totalPct = totalRevenue > 0 ? (dispUsd(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
+  const totalPct = totalRevenue > 0 ? (promoLocal(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
   tr.innerHTML = `
@@ -1363,7 +1409,7 @@ function renderCategoryPromoTable() {
   CATEGORIES.forEach(cat => {
     if (!categoryPromoCosts[cat]) categoryPromoCosts[cat] = 0;
     const stats = catStats[cat];
-    const promoPct = stats.revenue > 0 ? (dispUsd(categoryPromoCosts[cat]) / stats.revenue * 100).toFixed(1) : '0.0';
+    const promoPct = stats.revenue > 0 ? (promoLocal(categoryPromoCosts[cat]) / stats.revenue * 100).toFixed(1) : '0.0';
     totalPromo += categoryPromoCosts[cat];
     totalRevenue += stats.revenue;
 
@@ -1379,13 +1425,13 @@ function renderCategoryPromoTable() {
   });
 
   // Total row
-  const totalPct = totalRevenue > 0 ? (dispUsd(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
+  const totalPct = totalRevenue > 0 ? (promoLocal(totalPromo) / totalRevenue * 100).toFixed(1) : '0.0';
   tbody.insertAdjacentHTML('beforeend', `
     <tr class="total-row" style="font-weight:bold;background:#f0f4f8;">
       <td>合计</td>
       <td>${orders.length}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
-      <td>${cur}${dispUsd(totalPromo).toFixed(2)}</td>
+      <td>${cur}${promoLocal(totalPromo).toFixed(2)}</td>
       <td>${totalPct}%</td>
     </tr>
   `);
@@ -1446,13 +1492,12 @@ function renderCategoryDashboard(orderData) {
     skuLevelStats[o.sku].warehouseCostUsd += o.warehouseCostUsd || 0;
   });
 
-  const rate = currentCountry === 'UK' ? exchangeRate : 1;
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0, totalQty = 0;
-  let totalProductCost = 0, totalShippingDisp = 0, totalWarehouseDisp = 0, totalPlatformFee = 0, totalCreatorFee = 0, totalPromoUsd = 0;
+  let totalProductCost = 0, totalShippingDisp = 0, totalWarehouseDisp = 0, totalPlatformFee = 0, totalCreatorFee = 0, totalPromoUsd = 0, totalPromoLocal = 0;
   CATEGORIES.forEach(cat => {
     const d = catData[cat];
     const promoUsd = categoryPromoCosts[cat] || 0;
-    const promo = promoUsd / rate; // USD→GBP for UK (rate = 1 GBP = X USD)
+    const promo = promoLocal(promoUsd); // 推广费按美元录入 → 折算为站点货币
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + promo;
     d.profit = d.revenue - d.totalCost;
     d.margin = d.revenue > 0 ? (d.profit / d.revenue * 100) : 0;
@@ -1463,15 +1508,16 @@ function renderCategoryDashboard(orderData) {
     totalProfit += d.profit;
     totalOrders += d.orders;
     totalQty += d.qty;
-    // Display raw USD for shipping/warehouse/promo columns
-    const shippingDisp = currentCountry === 'UK' ? d.shippingCostUsd : d.shippingCost;
-    const warehouseDisp = currentCountry === 'UK' ? d.warehouseCostUsd : d.warehouseCost;
+    // 尾程/海外仓：d.shippingCost / d.warehouseCost 本身已是站点货币（UK 由美元折算为 £，EU 直接是 €）
+    const shippingDisp = d.shippingCost;
+    const warehouseDisp = d.warehouseCost;
     totalProductCost += d.productCost;
     totalShippingDisp += shippingDisp;
     totalWarehouseDisp += warehouseDisp;
     totalPlatformFee += d.platformFee;
     totalCreatorFee += d.creatorFee;
     totalPromoUsd += promoUsd;
+    totalPromoLocal += promo;
 
     const profitClass = d.profit >= 0 ? 'profit' : 'loss';
     const skuSize = catSkus[cat].size;
@@ -1488,12 +1534,12 @@ function renderCategoryDashboard(orderData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${cur}${dispUsd(shippingDisp).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(warehouseDisp).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(shippingDisp + warehouseDisp).toFixed(2)}</td>
+      <td>${cur}${shippingDisp.toFixed(2)}</td>
+      <td class="wh-col">${cur}${warehouseDisp.toFixed(2)}</td>
+      <td class="wh-col">${cur}${(shippingDisp + warehouseDisp).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${cur}${dispUsd(promoUsd).toFixed(2)}</td>
+      <td>${cur}${promo.toFixed(2)}</td>
       <td>${cur}${(d.creatorFee + promo).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
@@ -1541,13 +1587,13 @@ function renderCategoryDashboard(orderData) {
       <td>${totalQty}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
       <td>${cur}${totalProductCost.toFixed(2)}</td>
-      <td>${cur}${dispUsd(totalShippingDisp).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(totalWarehouseDisp).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
+      <td>${cur}${totalShippingDisp.toFixed(2)}</td>
+      <td class="wh-col">${cur}${totalWarehouseDisp.toFixed(2)}</td>
+      <td class="wh-col">${cur}${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
       <td>${cur}${totalPlatformFee.toFixed(2)}</td>
       <td>${cur}${totalCreatorFee.toFixed(2)}</td>
-      <td>${cur}${dispUsd(totalPromoUsd).toFixed(2)}</td>
-      <td>${cur}${(totalCreatorFee + totalPromoUsd/rate).toFixed(2)}</td>
+      <td>${cur}${totalPromoLocal.toFixed(2)}</td>
+      <td>${cur}${(totalCreatorFee + totalPromoLocal).toFixed(2)}</td>
       <td>${cur}${totalCost.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
       <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
@@ -1577,8 +1623,7 @@ function renderUsdDashboard(orderData) {
   tbody.innerHTML = '';
 
   // Update rate label
-  const rateLabel = document.getElementById('usdRateLabel');
-  if (rateLabel) rateLabel.textContent = currentCountry === 'UK' ? exchangeRate.toFixed(4) : '1';
+  updateUsdNote();
 
   // Build SKU name lookup
   const skuNames = {};
@@ -1593,9 +1638,9 @@ function renderUsdDashboard(orderData) {
     catSkus[c] = new Set();
   });
 
-  const rate = currentCountry === 'UK' ? exchangeRate : 1;
-  // GBP amounts (revenue/productCost/platformFee/creatorFee) → USD via *rate
-  // USD amounts (shipping/warehouse/promo) stay as is
+  const rate = localToUsdRate(); // 统一换算为美元的汇率（US=1 / UK=1£=?$ / EU=1€=?$）
+  // 站点货币金额（revenue/productCost/platformFee/creatorFee）→ USD via *rate
+  // 美元金额（shipping/warehouseCostUsd 已折美元、promo 本身即美元）保持原值
   orderData.forEach(o => {
     const cat = skuCategories[o.sku] || '其他';
     if (!catData[cat]) { catData[cat] = { orders: 0, qty: 0, revenue: 0, productCost: 0, shippingCost: 0, warehouseCost: 0, platformFee: 0, creatorFee: 0, promo: 0 }; catSkus[cat] = new Set(); }
@@ -1762,9 +1807,10 @@ function renderSampleOrders(orderData) {
   const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
 
   let totalQty = 0;
-  let totalProductCost = 0; // GBP
-  let totalShippingUsd = 0; // original USD
-  let totalCost = 0; // GBP
+  let totalProductCost = 0; // 站点货币
+  let totalShippingUsd = 0; // 录入值（UK/US 为美元，EU 为欧元）
+  let totalShippingLocal = 0; // 站点货币
+  let totalCost = 0; // 站点货币
 
   // Sort by date then order ID
   samples.sort((a, b) => {
@@ -1777,12 +1823,13 @@ function renderSampleOrders(orderData) {
     const productCost = s.productCost * o.quantity; // GBP
     const shipVal = (currentCountry === 'EU') ? readCost(s, 'sampleShip', o.countryCode || 'DE') : (s.sampleShip || 0);
     const shippingUsd = shipVal * o.quantity; // original USD
-    const shippingGbp = shippingUsd / rate; // GBP
-    const cost = productCost + shippingGbp; // total cost in GBP
+    const shippingLocal = shippingUsd / rate; // 站点货币（UK 由美元折算，EU 直接是 €）
+    const cost = productCost + shippingLocal; // total cost in 站点货币
 
     totalQty += o.quantity;
     totalProductCost += productCost;
     totalShippingUsd += shippingUsd;
+    totalShippingLocal += shippingLocal;
     totalCost += cost;
 
     const tr = document.createElement('tr');
@@ -1794,7 +1841,7 @@ function renderSampleOrders(orderData) {
       <td>${o.quantity}</td>
       <td>${cur}${o.revenue.toFixed(2)}</td>
       <td>${cur}${productCost.toFixed(2)}</td>
-      <td>${cur}${dispUsd(shippingUsd).toFixed(2)}</td>
+      <td>${cur}${shippingLocal.toFixed(2)}</td>
       <td style="font-size:11px;color:var(--muted);">${o.fulfillment || '—'}</td>
       <td><strong>${cur}${cost.toFixed(2)}</strong></td>
     `;
@@ -1810,14 +1857,14 @@ function renderSampleOrders(orderData) {
     <td><strong>${totalQty}</strong></td>
     <td><strong>${cur}0.00</strong></td>
     <td><strong>${cur}${totalProductCost.toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totalShippingUsd).toFixed(2)}</strong></td>
+    <td><strong>${cur}${totalShippingLocal.toFixed(2)}</strong></td>
     <td></td>
     <td><strong>${cur}${totalCost.toFixed(2)}</strong></td>
   `;
   tbody.appendChild(tr);
 
   // Summary text
-  summaryEl.textContent = `共 ${samples.length} 单 | ${totalQty} 件 | 成本合计 ${cur}${totalCost.toFixed(2)}（产品 ${cur}${totalProductCost.toFixed(2)} + 物流 ${cur}${dispUsd(totalShippingUsd).toFixed(2)}）`;
+  summaryEl.textContent = `共 ${samples.length} 单 | ${totalQty} 件 | 成本合计 ${cur}${totalCost.toFixed(2)}（产品 ${cur}${totalProductCost.toFixed(2)} + 物流 ${cur}${totalShippingLocal.toFixed(2)}）`;
 }
 
 // ===== Main Calculation =====
@@ -1835,7 +1882,8 @@ function recalculate() {
   }
 
   // Per-order calculation
-  const rate = currentCountry === 'UK' ? exchangeRate : 1; // GBP→USD: USD = GBP * rate
+  const rate = currentCountry === 'UK' ? localToUsdRate() : 1; // 仅英国站：按美元录入的成本 → £
+  const fx = localToUsdRate(); // 站点货币 → 美元
   const defaultPlatformPct = parseFloat(document.getElementById('defaultPlatformPct').value) || 0;
   const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
   const ukFeePerOrder = (currentCountry === 'UK') ? (parseFloat(document.getElementById('ukLogisticsFee').value) || 0) : 0; // GBP per order
@@ -1858,8 +1906,8 @@ function recalculate() {
       shipVal = (currentCountry === 'EU') ? readCost(s, 'sampleShip', (o.countryCode || 'DE')) : (s.sampleShip || 0);
       whVal = 0;
     }
-    const shippingCost = shipVal * o.quantity / rate + ukFeeGbp;  // GBP (converted) + UK logistics fee
-    const warehouseCost = whVal * o.quantity / rate;  // GBP (converted)
+    const shippingCost = shipVal * o.quantity / rate + ukFeeGbp;  // 站点货币：EU/US 即录入值，UK 由美元折算为 £
+    const warehouseCost = whVal * o.quantity / rate;  // 站点货币
     const platformPct = s.platformPct || defaultPlatformPct;
     const creatorPct = s.creatorPct || defaultCreatorPct;
     const platformFee = o.revenue * (platformPct / 100);
@@ -1867,14 +1915,15 @@ function recalculate() {
     const totalCost = productCost + shippingCost + warehouseCost + platformFee + creatorFee;
     const profit = o.revenue - totalCost;
 
-    // Keep raw USD amounts for display (so user sees original $ value)
+    // 折成美元的金额（供「美元利润看板」用）
     return {
       ...o,
-      productCost, // GBP
-      shippingCost, // GBP (converted, includes UK fee)
-      warehouseCost, // GBP (converted)
-      shippingCostUsd: shipVal * o.quantity + ukFeeGbp * rate, // original USD + UK fee
-      warehouseCostUsd: whVal * o.quantity, // original USD
+      productCost, // 站点货币
+      shippingCost, // 站点货币（含英国物流服务费）
+      warehouseCost, // 站点货币
+      // UK 的尾程/海外仓本身按美元录入 → 原值；EU 按欧元录入 → ×汇率；US 本身即美元
+      shippingCostUsd: currentCountry === 'UK' ? (shipVal * o.quantity + ukFeeGbp * rate) : shipVal * o.quantity * fx,
+      warehouseCostUsd: currentCountry === 'UK' ? whVal * o.quantity : whVal * o.quantity * fx,
       platformFee, creatorFee, totalCost, profit
     };
   });
@@ -1904,7 +1953,7 @@ function recalculate() {
   let totalRevenue = 0, totalCost = 0, totalProfit = 0, totalOrders = 0;
   Object.keys(dailyData).forEach(date => {
     const d = dailyData[date];
-    d.promo = (promoCosts[date] || 0) / rate; // convert USD promo to GBP (GBP = USD / rate)
+    d.promo = promoLocal(promoCosts[date] || 0); // 推广费按美元录入 → 站点货币
     d.promoUsd = promoCosts[date] || 0; // keep original USD
     d.totalCost = d.productCost + d.shippingCost + d.warehouseCost + d.platformFee + d.creatorFee + d.promo;
     d.profit = d.revenue - d.totalCost;
@@ -1946,7 +1995,7 @@ function recalculate() {
   // Allocate promo costs proportionally by revenue per SKU per day
   orderData.forEach(o => {
     const dayRevenue = dailyData[o.date]?.revenue || 0;
-    const dayPromo = (promoCosts[o.date] || 0) / rate; // convert USD promo to GBP (GBP = USD / rate)
+    const dayPromo = promoLocal(promoCosts[o.date] || 0); // 推广费按美元录入 → 站点货币
     const dayPromoUsd = promoCosts[o.date] || 0; // original USD
     const allocatedPromo = dayRevenue > 0 ? dayPromo * (o.revenue / dayRevenue) : 0;
     const allocatedPromoUsd = dayRevenue > 0 ? dayPromoUsd * (o.revenue / dayRevenue) : 0;
@@ -2204,9 +2253,6 @@ function renderDailyTable(dailyData) {
     totals.profit += d.profit;
     totals.sampleCost += d.sampleCost;
 
-    // Display raw USD for shipping/warehouse/promo (those are originally USD input)
-    const promoDisp = currentCountry === 'UK' ? (d.promoUsd || 0) : d.promo;
-
     const tr = document.createElement('tr');
     if (d.profit < 0) tr.classList.add('loss-row');
     tr.innerHTML = `
@@ -2217,12 +2263,12 @@ function renderDailyTable(dailyData) {
       <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${cur}${dispUsd(d.shippingCostUsd).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(d.warehouseCostUsd).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(d.shippingCostUsd + d.warehouseCostUsd).toFixed(2)}</td>
+      <td>${cur}${d.shippingCost.toFixed(2)}</td>
+      <td class="wh-col">${cur}${d.warehouseCost.toFixed(2)}</td>
+      <td class="wh-col">${cur}${(d.shippingCost + d.warehouseCost).toFixed(2)}</td>
       <td>${cur}${d.platformFee.toFixed(2)}</td>
       <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
+      <td>${cur}${d.promo.toFixed(2)}</td>
       <td>${cur}${(d.creatorFee + d.promo).toFixed(2)}</td>
       <td>${cur}${d.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
@@ -2238,7 +2284,6 @@ function renderDailyTable(dailyData) {
   const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
-  const totalPromoDisp = currentCountry === 'UK' ? totals.promoUsd : totals.promo;
   tr.innerHTML = `
     <td><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
@@ -2247,12 +2292,12 @@ function renderDailyTable(dailyData) {
       <td><strong>${totals.qty}</strong></td>
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
-    <td class="wh-col"><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
-    <td class="wh-col"><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.shippingCost.toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${totals.warehouseCost.toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${(totals.shippingCost + totals.warehouseCost).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.promo.toFixed(2)}</strong></td>
     <td><strong>${cur}${(totals.creatorFee + totals.promo).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
@@ -2289,8 +2334,6 @@ function renderSkuSummaryTable(skuData) {
     totals.totalCost += s.totalCost;
     totals.profit += s.profit;
 
-    const promoDisp = currentCountry === 'UK' ? (s.promoAllocatedUsd || 0) : (s.promoAllocated || 0);
-
     const tr = document.createElement('tr');
     if (s.profit < 0) tr.classList.add('loss-row');
     tr.innerHTML = `
@@ -2300,12 +2343,12 @@ function renderSkuSummaryTable(skuData) {
       <td>${s.qty}</td>
       <td>${cur}${s.revenue.toFixed(2)}</td>
       <td>${cur}${s.productCost.toFixed(2)}</td>
-      <td>${cur}${dispUsd(s.shippingCostUsd).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(s.warehouseCostUsd).toFixed(2)}</td>
-      <td class="wh-col">${cur}${dispUsd(s.shippingCostUsd + s.warehouseCostUsd).toFixed(2)}</td>
+      <td>${cur}${s.shippingCost.toFixed(2)}</td>
+      <td class="wh-col">${cur}${s.warehouseCost.toFixed(2)}</td>
+      <td class="wh-col">${cur}${(s.shippingCost + s.warehouseCost).toFixed(2)}</td>
       <td>${cur}${s.platformFee.toFixed(2)}</td>
       <td>${cur}${s.creatorFee.toFixed(2)}</td>
-      <td>${cur}${dispUsd(promoDisp).toFixed(2)}</td>
+      <td>${cur}${(s.promoAllocated || 0).toFixed(2)}</td>
       <td>${cur}${(s.creatorFee + (s.promoAllocated || 0)).toFixed(2)}</td>
       <td>${cur}${s.totalCost.toFixed(2)}</td>
       <td class="${profitClass}">${cur}${s.profit.toFixed(2)}</td>
@@ -2319,7 +2362,6 @@ function renderSkuSummaryTable(skuData) {
   const totalMargin = totals.revenue > 0 ? (totals.profit / totals.revenue * 100).toFixed(1) : '0.0';
   const totalRoi = totals.totalCost > 0 ? (totals.revenue / totals.totalCost).toFixed(2) : '0.00';
   const totalProfitClass = totals.profit >= 0 ? 'profit-cell' : 'loss-cell';
-  const totalPromoDisp = currentCountry === 'UK' ? totals.promoAllocatedUsd : totals.promoAllocated;
   const tr = document.createElement('tr');
   tr.classList.add('total-row');
   tr.innerHTML = `
@@ -2328,12 +2370,12 @@ function renderSkuSummaryTable(skuData) {
     <td><strong>${totals.qty}</strong></td>
     <td><strong>${cur}${totals.revenue.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.productCost.toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totals.shippingCostUsd).toFixed(2)}</strong></td>
-    <td class="wh-col"><strong>${cur}${dispUsd(totals.warehouseCostUsd).toFixed(2)}</strong></td>
-    <td class="wh-col"><strong>${cur}${dispUsd(totals.shippingCostUsd + totals.warehouseCostUsd).toFixed(2)}</strong></td>
+    <td><strong>${cur}${totals.shippingCost.toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${totals.warehouseCost.toFixed(2)}</strong></td>
+    <td class="wh-col"><strong>${cur}${(totals.shippingCost + totals.warehouseCost).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.platformFee.toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.creatorFee.toFixed(2)}</strong></td>
-    <td><strong>${cur}${dispUsd(totalPromoDisp).toFixed(2)}</strong></td>
+    <td><strong>${cur}${(totals.promoAllocated || 0).toFixed(2)}</strong></td>
     <td><strong>${cur}${(totals.creatorFee + (totals.promoAllocated || 0)).toFixed(2)}</strong></td>
     <td><strong>${cur}${totals.totalCost.toFixed(2)}</strong></td>
     <td class="${totalProfitClass}"><strong>${cur}${totals.profit.toFixed(2)}</strong></td>
@@ -2387,7 +2429,7 @@ function getSettingsData() {
     skuSettings, promoCosts, skuCategories, categoryPromoCosts, inventorySettings, inventoryBaseDate,
     defaultPlatformPct: document.getElementById('defaultPlatformPct').value,
     defaultCreatorPct: document.getElementById('defaultCreatorPct').value,
-    exchangeRate: el ? el.value : 1.336,
+    exchangeRate: el ? el.value : (FX_DEFAULT[currentCountry] || 1),
     ukLogisticsFee: document.getElementById('ukLogisticsFee') ? document.getElementById('ukLogisticsFee').value : 0.42
   };
 }
@@ -2395,13 +2437,13 @@ function getSettingsData() {
 function saveSettings(silent) {
   const data = getSettingsData();
   localStorage.setItem('tiktok_order_analysis_' + currentCountry, JSON.stringify(data));
-  if (!silent) showToast('✅ 设置已保存（' + (currentCountry === 'US' ? '美国站' : '英国站') + '）');
+  if (!silent) showToast('✅ 设置已保存（' + (currentCountry === 'US' ? '美国站' : (currentCountry === 'UK' ? '英国站' : '欧洲站')) + '）');
 }
 
 function loadSettings(silent) {
   const raw = localStorage.getItem('tiktok_order_analysis_' + currentCountry);
   if (!raw) {
-    if (!silent) showToast('⚠️ 未找到' + (currentCountry === 'US' ? '美国站' : '英国站') + '的已保存设置');
+    if (!silent) showToast('⚠️ 未找到' + (currentCountry === 'US' ? '美国站' : (currentCountry === 'UK' ? '英国站' : '欧洲站')) + '的已保存设置');
     return false;
   }
   try {
@@ -2438,11 +2480,11 @@ function loadSettings(silent) {
     }
     if (data.defaultCreatorPct) document.getElementById('defaultCreatorPct').value = data.defaultCreatorPct;
     if (data.exchangeRate) {
-      exchangeRate = parseFloat(data.exchangeRate) || 1.336;
+      exchangeRate = parseFloat(data.exchangeRate) || (FX_DEFAULT[currentCountry] || 1);
       const el = document.getElementById('exchangeRate');
       if (el) el.value = exchangeRate;
     } else {
-      exchangeRate = 1.336;
+      exchangeRate = FX_DEFAULT[currentCountry] || 1;
     }
     if (data.ukLogisticsFee) {
       ukLogisticsFee = parseFloat(data.ukLogisticsFee) || 0.42;
@@ -2586,7 +2628,8 @@ function exportResults() {
     XLSX.utils.book_append_sheet(wb, ws7, '库存监控');
   }
 
-  XLSX.writeFile(wb, `订单盈利分析_${currentCountry === 'US' ? '美国站' : '英国站'}_` + new Date().toISOString().slice(0,10) + '.xlsx');
+  const countryName = currentCountry === 'US' ? '美国站' : (currentCountry === 'UK' ? '英国站' : '欧洲站');
+  XLSX.writeFile(wb, `订单盈利分析_${countryName}_` + new Date().toISOString().slice(0,10) + '.xlsx');
 }
 
 // ===== Init: try auto-load settings =====
@@ -2602,16 +2645,13 @@ window.addEventListener('DOMContentLoaded', () => {
   // Load ALL saved settings (not just default percentages)
   loadSettings(true);
 
-  // Auto-fix legacy exchange rate direction on first load too
-  if (currentCountry === 'UK' && exchangeRate < 1 && exchangeRate > 0) {
-    exchangeRate = parseFloat((1 / exchangeRate).toFixed(4));
-    const elRate = document.getElementById('exchangeRate');
-    if (elRate) elRate.value = exchangeRate;
-  }
+  // 汇率方向纠正 + 默认值补齐（首屏）
+  normalizeFxRate();
 
   // Set initial currency symbol
-  cur = currentCountry === 'UK' ? '£' : '$';
+  cur = currentCountry === 'UK' ? '£' : (currentCountry === 'EU' ? '€' : '$');
   updateCurrencyLabels();
+  updateUsdNote();
 });
 
 // ===== Flush pending auto-save before page unload (refresh/close) =====
@@ -2625,7 +2665,7 @@ window.addEventListener('beforeunload', () => {
 
 // ===== Exchange rate input auto-save =====
 document.getElementById('exchangeRate').addEventListener('input', e => {
-  exchangeRate = parseFloat(e.target.value) || 1.336;
+  exchangeRate = parseFloat(e.target.value) || (FX_DEFAULT[currentCountry] || 1);
   autoSave();
   recalculate();
 });
