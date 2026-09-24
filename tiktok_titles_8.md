@@ -1,139 +1,96 @@
-# 2026-06-29
-
-
-
+# 2026-09-24
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Still using dry tissue? It leaves invisible residue — probiotic wipes with just water trap what TP misses #wipes #wetwips #toiletpaper | 还在用干纸巾？看不见的残留才最可怕——益生菌湿厕纸只有水，擦掉干纸留的 #湿厕纸 #益生菌湿厕纸
-Dry tissue can't actually clean — that's why you still feel dirty. Probiotic + water finishes the job #wipes #wetwips #toiletpaper | 干纸巾根本擦不净——所以总觉得没擦干净。益生菌+水补完这一步 #湿厕纸 #益生菌湿厕纸
-Wiping 5 times and still not clean? Dry tissue just smears it. Probiotic wipes trap residue in one go #wipes #wetwips #toiletpaper | 擦5次还不干净？干纸巾只会越擦越花。益生菌湿厕纸一次擦净残留 #湿厕纸 #益生菌湿厕纸
-Itching down there? Rough dry tissue is often the culprit — probiotic + water is gentle on sensitive skin #wipes #wetwips #toiletpaper | 私处瘙痒？粗糙干纸巾常是元凶——益生菌+水对敏感肌温和 #湿厕纸 #益生菌湿厕纸
-Period blood is sticky — dry tissue just smears it around. Probiotic wet wipes lift it off, no rub #wipes #wetwips #toiletpaper | 经血黏腻——干纸巾只会越擦越脏。益生菌湿厕纸一擦就掉，不摩擦 #湿厕纸 #益生菌湿厕纸
-Hemorrhoids flaring up? Dry tissue feels like sandpaper — probiotic + water is soft, no scratch #wipes #wetwips #toiletpaper | 痔疮发作？干纸巾像砂纸——益生菌+水温软，不刮 #湿厕纸 #益生菌湿厕纸
-That not-fresh smell after the bathroom? Dry tissue can't remove it — probiotic wipes leave you clean #wipes #wetwips #toiletpaper | 上完厕所还有异味？干纸巾擦不掉——益生菌湿厕纸让你清爽 #湿厕纸 #益生菌湿厕纸
-Cheap wipes burn — probiotic wipes are alcohol-free and fragrance-free, just water + probiotic #wipes #wetwips #toiletpaper | 便宜湿巾辣皮肤——益生菌湿厕纸无酒精无香精，只有水+益生菌 #湿厕纸 #益生菌湿厕纸
-Thin wipes tear mid-wipe, leaving you exposed — our probiotic wipes are thick and soft, no mess #wipes #wetwips #toiletpaper | 薄湿巾擦一半破了——我们的益生菌湿厕纸厚实柔软，不尴尬 #湿厕纸 #益生菌湿厕纸
-Postpartum and dreading the bathroom? Regular TP is too harsh — probiotic wipes with water only are kinder #wipes #wetwips #toiletpaper | 产后怕上厕所？普通厕纸太刺激——益生菌湿厕纸只有水更温柔 #湿厕纸 #益生菌湿厕纸
-Diarrhea plus dry tissue = a nightmare — probiotic wipes with just water clean it up fast #wipes #wetwips #toiletpaper | 腹泻碰上干纸巾=噩梦——益生菌湿厕纸只有水，快速擦净 #湿厕纸 #益生菌湿厕纸
-The skin down there is thinner than your eyelid — dry tissue scratches it daily. Probiotic + water is made gentle #wipes #wetwips #toiletpaper | 私处皮肤比眼皮还薄——干纸巾天天磨它。益生菌+水温和为它设计 #湿厕纸 #益生菌湿厕纸
-You shower every day but skip the most important spot — probiotic wet wipes with just water close the gap #wipes #wetwips #toiletpaper | 每天洗澡却忽略最重要部位——益生菌湿厕纸只有水补上缺口 #湿厕纸 #益生菌湿厕纸
-Kids can't get clean with dry tissue — probiotic + water wipes are gentle enough even for them #wipes #wetwips #toiletpaper | 孩子用干纸巾擦不干净——益生菌+水湿厕纸对他们也温和 #湿厕纸 #益生菌湿厕纸
-That sticky feeling after #2? Dry tissue can't fix it — probiotic wet wipes with water do #wipes #wetwips #toiletpaper | 上完大号还黏？干纸巾解决不了——益生菌湿厕纸只有水能解决 #湿厕纸 #益生菌湿厕纸
-Office bathroom leaves you unclean? Probiotic wet wipes with water only slip in your bag #wipes #wetwips #toiletpaper | 公司厕所擦不干净？益生菌湿厕纸只有水，塞包里就走 #湿厕纸 #益生菌湿厕纸
-Summer sweat plus dry tissue = all-day discomfort — probiotic wipes keep you fresh, fragrance-free #wipes #wetwips #toiletpaper | 夏天出汗加干纸巾=一整天不适——益生菌湿厕纸让你清爽，无香精 #湿厕纸 #益生菌湿厕纸
-Dry tissue was invented 150 years ago — upgrade to probiotic wipes with just water #wipes #wetwips #toiletpaper | 干纸巾是150年前的发明——升级到益生菌湿厕纸只有水 #湿厕纸 #益生菌湿厕纸
+The old idea that wipes are just for babies ends when the probiotic sheet feels right for adults #wipes #wetwips #toiletpaper | 以为湿厕纸只给娃用，成人用益生菌款才懂舒服 #湿厕纸 #益生菌湿厕纸
+A reused towel stays damp and rough while the disposable wipe is always fresh #wipes #wetwips #toiletpaper | 毛巾反复用又潮又糙，一次性湿厕纸永远干净 #湿厕纸 #益生菌湿厕纸
+The switch clicks once the alcohol free sheet proves gentle every day #wipes #wetwips #toiletpaper | 换用无酒精湿厕纸，每天温和才真香 #湿厕纸 #益生菌湿厕纸
+Building the habit takes one pack by the toilet and the routine sticks #wipes #wetwips #toiletpaper | 马桶边放一包，湿厕纸习惯自然养成 #湿厕纸 #益生菌湿厕纸
+The biodegradable sheet eases the guilt of daily disposable use #wipes #wetwips #toiletpaper | 可降解湿厕纸，天天用也不心虚 #湿厕纸 #益生菌湿厕纸
+The per use cost stays tiny next to a coffee yet the comfort lasts all day #wipes #wetwips #toiletpaper | 单次成本比杯咖啡还低，舒服却撑一整天 #湿厕纸 #益生菌湿厕纸
+The myth that wet wipes feel cold goes away with the soft warm water base #wipes #wetwips #toiletpaper | 以为湿厕纸冰凉，水润柔软款打破偏见 #湿厕纸 #益生菌湿厕纸
+A bulk box by the bathroom turns the new habit into the easy default #wipes #wetwips #toiletpaper | 浴室囤一箱，新习惯变成顺手默认 #湿厕纸 #益生菌湿厕纸
+The fragrance free choice clears the worry about strong scents #wipes #wetwips #toiletpaper | 选无香精湿厕纸，不再担心刺鼻香味 #湿厕纸 #益生菌湿厕纸
+The cloth towel in the heat starts to smell while the probiotic wipe stays clean #wipes #wetwips #toiletpaper | 天热毛巾发味，益生菌湿厕纸始终清爽 #湿厕纸 #益生菌湿厕纸
+The excuse of no time ends with a thick sheet that works in one pass #wipes #wetwips #toiletpaper | 没时间只是借口，厚实湿厕纸一下就干净 #湿厕纸 #益生菌湿厕纸
+The eco worry fades when the biodegradable material breaks down kindly #wipes #wetwips #toiletpaper | 担心不环保，可降解材质让人放心 #湿厕纸 #益生菌湿厕纸
+The belief that dry paper is enough shifts after a gentle compare #wipes #wetwips #toiletpaper | 觉得干纸就够，温和对比后才改观 #湿厕纸 #益生菌湿厕纸
+A small daily cost adds up to comfort not regret with the soft sheet #wipes #wetwips #toiletpaper | 每天花一点点，换来柔软舒适不后悔 #湿厕纸 #益生菌湿厕纸
+The habit builds faster when the probiotic wipe feels nice not clinical #wipes #wetwips #toiletpaper | 益生菌湿厕纸用着舒服不像药，习惯来得快 #湿厕纸 #益生菌湿厕纸
+The worry about harsh feel disappears with the alcohol free formula #wipes #wetwips #toiletpaper | 怕刺激，无酒精配方打消顾虑 #湿厕纸 #益生菌湿厕纸
+The reusable cloth gets forgotten in the wash while the wipe is always there #wipes #wetwips #toiletpaper | 布巾总忘洗，湿厕纸随时都在 #湿厕纸 #益生菌湿厕纸
+The switch feels smart once the per use value finally sinks in #wipes #wetwips #toiletpaper | 算清单次价值，换湿厕纸成了聪明选择 #湿厕纸 #益生菌湿厕纸
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Public restroom tissue — you'll never know who touched it or what for. Marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕所的纸——你永远不知道谁用过、拿它干过什么——金盏花+水湿厕纸，独立包装随身
-That roll of public toilet paper has passed through everyone's hands — bring your own marigold + water wipes, pocket-size #wipes #wetwips #toiletpaper #travelsize | 那卷公共厕纸人人都经手过——自带金盏花+水湿厕纸，口袋装
-Public bathroom paper — you can't control who touched it before you. Marigold + water wipes, alcohol-free, soft #wipes #wetwips #toiletpaper #travelsize | 公共厕所的纸——你管不了上一个人是谁——金盏花+水湿厕纸无酒精柔软
-Airplane restroom paper — handled by every passenger before you. Marigold + water wipes, TSA-friendly, individually wrapped #wipes #wetwips #toiletpaper #travelsize | 飞机厕所的纸——上一位乘客不知是谁——金盏花+水湿厕纸TSA合规独立包装
-Train toilet seat and paper — shared with hundreds of riders. Marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 火车马桶座和纸——几百人共用——金盏花+水湿厕纸口袋装无酒精
-Bus bathroom paper — sitting there all day, touched by all. Marigold + water wipes, individually wrapped, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 大巴厕纸——整日搁着被人碰过——金盏花+水湿厕纸独立包装无香精
-Someone else's left-behind public paper — keep marigold + water wipes by your side, individually wrapped, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 别人留下的公共厕纸——身边备金盏花+水湿厕纸，独立包装无酒精
-Public toilet seat and paper — both handled by who-knows-who. Marigold + water wipes, TSA-friendly, gentle #wipes #wetwips #toiletpaper #travelsize | 公共马桶座和纸——都被不知谁的人碰过——金盏花+水湿厕纸TSA合规温和
-You can't see what that public paper has been through — marigold + water wipes, fragrance-free, ready #wipes #wetwips #toiletpaper #travelsize | 你看不见那张公共纸经历过什么——金盏花+水湿厕纸无香精就绪
-Don't trust the public bathroom paper a stranger left — marigold + water wipes, pocket-size, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 别信陌生人留下的公共厕纸——金盏花+水湿厕纸口袋装无酒精
-Public toilet paper handled by strangers all day — your own marigold + water wipes, thick, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕纸整天被陌生人经手——自己的金盏花+水湿厕纸厚实温和
-The last person to use that public paper? No idea. Marigold + water wipes, individually wrapped, ready #wipes #wetwips #toiletpaper #travelsize | 那张公共纸的上一个使用者？无从得知——金盏花+水湿厕纸独立包装就绪
-Shared restroom paper — you don't know where it's been. Marigold + water wipes, TSA-friendly, fragrance-free #wipes #wetwips #toiletpaper #travelsize | 共用的厕所纸——你不知道它经历过什么——金盏花+水湿厕纸TSA合规无香精
-Public bathroom — someone else's paper is not yours to share. Marigold + water wipes, pocket-size, gentle #wipes #wetwips #toiletpaper #travelsize | 公共厕所——别人的纸不该你来共用——金盏花+水湿厕纸口袋装温和
-That public toilet paper could've been used for anything — marigold + water wipes, individually wrapped, alcohol-free #wipes #wetwips #toiletpaper #travelsize | 那张公共厕纸可能被拿去干过任何事——金盏花+水湿厕纸独立包装无酒精
-Public restroom paper, touched by countless hands — bring your own marigold + water wipes, thick, no tearing #wipes #wetwips #toiletpaper #travelsize | 公共厕所的纸，无数双手碰过——自带金盏花+水湿厕纸厚实不破
-You didn't see who last touched that public paper — marigold + water wipes, pocket-size, soft #wipes #wetwips #toiletpaper #travelsize | 你没看见谁最后碰了那张公共纸——金盏花+水湿厕纸口袋装柔软
-Public toilet paper — not worth the gamble, carry your own. Marigold + water wipes, TSA-friendly, ready #wipes #wetwips #toiletpaper #travelsize | 公共厕纸——不值得赌，自带——金盏花+水湿厕纸TSA合规就绪
+The festival camping lack of faucet feels fine with a pocket marigold sheet #wipes #wetwips #toiletpaper #travelsize | 音乐节露营没水龙头，口袋金盏花湿厕纸救急 #湿厕纸 #旅行装湿厕纸
+A delayed flight turns into hours but the individually wrapped wipe stays ready #wipes #wetwips #toiletpaper #travelsize | 航班延误几小时，独立包装湿厕纸随时待命 #湿厕纸 #旅行装湿厕纸
+The backpacking hostel bath feels safer with a thick alcohol free pack #wipes #wetwips #toiletpaper #travelsize | 背包客青旅浴室，厚实无酒精旅行装更安心 #湿厕纸 #旅行装湿厕纸
+A road trip with kids stays sane with single use marigold wipes #wipes #wetwips #toiletpaper #travelsize | 带娃自驾，单片金盏花湿厕纸稳住场面 #湿厕纸 #旅行装湿厕纸
+The ferry ride gets bumpy but the fragrance free travel sheet keeps calm #wipes #wetwips #toiletpaper #travelsize | 轮渡晃得人晕，无香精旅行湿厕纸保清爽 #湿厕纸 #旅行装湿厕纸
+A mountain cabin with no plumbing feels easier with a pocket wipe #wipes #wetwips #toiletpaper #travelsize | 山间小屋没上下水，口袋湿厕纸更方便 #湿厕纸 #旅行装湿厕纸
+The overseas train journey stays fresh with a TSA friendly pack #wipes #wetwips #toiletpaper #travelsize | 跨国火车长途，TSA合规小包装保清爽 #湿厕纸 #旅行装湿厕纸
+A theme park day of lines feels better with a thick marigold sheet #wipes #wetwips #toiletpaper #travelsize | 乐园排长队，厚实金盏花湿厕纸更从容 #湿厕纸 #旅行装湿厕纸
+The motorbike trip through towns stays tidy with a single wrap #wipes #wetwips #toiletpaper #travelsize | 摩托穿城逛，单片装湿厕纸保持整洁 #湿厕纸 #旅行装湿厕纸
+A solo trip hotel feels cared for with a gentle travel wipe #wipes #wetwips #toiletpaper #travelsize | 一个人旅行住店，温和旅行湿厕纸很贴心 #湿厕纸 #旅行装湿厕纸
+The ski lodge restroom stays no stress with an alcohol free pack #wipes #wetwips #toiletpaper #travelsize | 滑雪场洗手间，无酒精旅行装不慌 #湿厕纸 #旅行装湿厕纸
+A beach resort stay feels fresh with a water based marigold sheet #wipes #wetwips #toiletpaper #travelsize | 海滩度假，水润金盏花湿厕纸保清爽 #湿厕纸 #旅行装湿厕纸
+The long bus tour across the country stays comfortable with a pocket wipe #wipes #wetwips #toiletpaper #travelsize | 全国长途大巴，口袋湿厕纸撑全程 #湿厕纸 #旅行装湿厕纸
+A layover nap on the airport floor feels cleaner with a single use sheet #wipes #wetwips #toiletpaper #travelsize | 转机躺机场地板，单片湿厕纸更干净 #湿厕纸 #旅行装湿厕纸
+The camping music weekend stays easy with a biodegradable travel wipe #wipes #wetwips #toiletpaper #travelsize | 露营音乐周末，可降解旅行湿厕纸省心 #湿厕纸 #旅行装湿厕纸
+A cruise shore excursion feels better with a thick marigold pack #wipes #wetwips #toiletpaper #travelsize | 邮轮岸上游，厚实金盏花湿厕纸更舒服 #湿厕纸 #旅行装湿厕纸
+The roadside stop with no restroom feels covered by a pocket sheet #wipes #wetwips #toiletpaper #travelsize | 路边没厕所，口袋湿厕纸兜得住 #湿厕纸 #旅行装湿厕纸
+A group trip shared bath stays calm with a fragrance free travel wipe #wipes #wetwips #toiletpaper #travelsize | 结伴出游共用浴室，无香精旅行装不尴尬 #湿厕纸 #旅行装湿厕纸
 ### 🛀 一次性洗脸巾 Disposable Face Towels
-
-One disposable towel per use, zero bacteria residue #facialtowel #disposable #skincare | 一次性洗脸巾——用完即弃，细菌零残留 #一次性洗脸巾 #护肤
-
-Clean face deserves a clean towel, every single time #facialtowel #disposable #skincare | 干净的脸配干净的巾，每次都是新的 #一次性洗脸巾 #护肤
-
-Disposable face towels, the savior for acne-prone skin #facialtowel #disposable #skincare | 一次性洗脸巾，痘痘肌的救星 #一次性洗脸巾 #护肤
-
-Say goodbye to yellow stiff towels, disposable is more hygienic #facialtowel #disposable #skincare | 告别发黄发硬，一次性更卫生 #一次性洗脸巾 #护肤
-
-One towel one use, mites have nowhere to live #facialtowel #disposable #skincare | 一巾一用，螨虫无处安身 #一次性洗脸巾 #护肤
-
-Your face changes 365 towels a year, not one for 365 days #facialtowel #disposable #skincare | 你的脸一年换365条毛巾，不是一条用365天 #一次性洗脸巾 #护肤
-
-Disposable towels cost less than your acne medication #facialtowel #disposable #skincare | 一次性洗脸巾比你的祛痘药便宜 #一次性洗脸巾 #护肤
-
-Fresh clean towel every morning, your face will thank you #facialtowel #disposable #skincare | 每天早上干净的新毛巾，你的脸会感谢你 #一次性洗脸巾 #护肤
-
-No more wondering when you last changed your towel #facialtowel #disposable #skincare | 再也不用想上次换毛巾是什么时候 #一次性洗脸巾 #护肤
-
-Disposable means never wiping with yesterday's bacteria #facialtowel #disposable #skincare | 一次性意味着永远不会用昨天的细菌擦脸 #一次性洗脸巾 #护肤
-
-Travel light with disposable towels, no damp towel in your bag #facialtowel #disposable #skincare | 旅行带一次性洗脸巾，包里不再有湿毛巾 #一次性洗脸巾 #护肤
-
-Your face is too important for a reusable bacteria sponge #facialtowel #disposable #skincare | 你的脸太重要了，不该用反复使用的细菌海绵 #一次性洗脸巾 #护肤
-
-Disposable towels, the simplest skincare upgrade you can make #facialtowel #disposable #skincare | 一次性洗脸巾，最简单的护肤升级 #一次性洗脸巾 #护肤
-
-One use, one toss, no bacteria buildup, no mites, no worry #facialtowel #disposable #skincare | 一用一丢，无细菌积累，无螨虫，无担忧 #一次性洗脸巾 #护肤
-
-Clean towel is not a luxury, disposable makes it a daily standard #facialtowel #disposable #skincare | 干净毛巾不是奢侈，一次性让它成为日常 #一次性洗脸巾 #护肤
-
-Stop the bacteria cycle, start the disposable habit #facialtowel #disposable #skincare | 停止细菌循环，开始一次性习惯 #一次性洗脸巾 #护肤
-
-Your clean face starts with a clean disposable towel #facialtowel #disposable #skincare | 干净的脸从干净的一次性洗脸巾开始 #一次性洗脸巾 #护肤
-
-One towel per wash, your skin barrier will recover #facialtowel #disposable #skincare | 一洗一巾，你的皮肤屏障会恢复的 #一次性洗脸巾 #护肤
-
-
-
+The damp towel in the gym bag smells by noon but a fresh XXL sheet stays clean #facialtowel #disposable #skincare | 健身包毛巾中午就馊，XXL新洗脸巾始终干净 #一次性洗脸巾 #护肤
+A breakout week feels safer with a single use towel that never reuses germs #facialtowel #disposable #skincare | 爆痘那周，一次性洗脸巾不重复沾菌更安心 #一次性洗脸巾 #护肤
+The shared office towel stays odd while a biodegradable sheet feels right #facialtowel #disposable #skincare | 办公室公用巾怪怪的，可降解洗脸巾才得体 #一次性洗脸巾 #护肤
+Double cleanse nights run smoother with a thick 25x30cm sheet #facialtowel #disposable #skincare | 夜间二次清洁，25x30cm加厚洗脸巾更顺手 #一次性洗脸巾 #护肤
+The post run face wash feels better with a fresh disposable towel #facialtowel #disposable #skincare | 跑步后洗脸，一次性洗脸巾比公用巾舒服 #一次性洗脸巾 #护肤
+A sleepover guest gets a clean single use face sheet #facialtowel #disposable #skincare | 留宿客人，递一张一次性洗脸巾很周到 #一次性洗脸巾 #护肤
+The sink side towel grows musty but a thick XXL sheet stays neutral #facialtowel #disposable #skincare | 水槽边毛巾发霉味，厚实XXL洗脸巾无异味 #一次性洗脸巾 #护肤
+Makeup melt off stings less with a soft non shedding towel #facialtowel #disposable #skincare | 溶妆时，柔软不掉屑洗脸巾不刺痛 #一次性洗脸巾 #护肤
+Sensitive mornings feel kind with a biodegradable thick towel #facialtowel #disposable #skincare | 敏感肌早晨，可降解加厚洗脸巾很温柔 #一次性洗脸巾 #护肤
+The hotel face towel looks reused so a 25x30cm sheet takes over #facialtowel #disposable #skincare | 酒店毛巾看着像用过的，25x30cm洗脸巾顶上 #一次性洗脸巾 #护肤
+A beach day salt rinse feels gentler with a fresh disposable towel #facialtowel #disposable #skincare | 海边一身盐，新洗脸巾擦得更温和 #一次性洗脸巾 #护肤
+Dorm life shares too many rags so a single use sheet keeps peace #facialtowel #disposable #skincare | 宿舍毛巾共用太乱，一次性洗脸巾各用各 #一次性洗脸巾 #护肤
+The baby's sticky hands after eating wipe clean with a soft sheet #facialtowel #disposable #skincare | 娃吃完手黏，柔软洗脸巾一擦就净 #一次性洗脸巾 #护肤
+Sheet mask cleanup feels tidy with a thick XXL biodegradable towel #facialtowel #disposable #skincare | 敷完面膜收拾，加厚XXL可降解洗脸巾利落 #一次性洗脸巾 #护肤
+The forgotten wet gym towel is rescued by a disposable sheet #facialtowel #disposable #skincare | 健身湿毛巾忘洗，一次性洗脸巾救急 #一次性洗脸巾 #护肤
+Night routine feels complete with a non shedding thick towel #facialtowel #disposable #skincare | 夜间护肤收尾，不掉屑加厚洗脸巾干净 #一次性洗脸巾 #护肤
+The travel hostel sink stays clean with a single use face sheet #facialtowel #disposable #skincare | 住青旅水槽，一次性洗脸巾保持干净 #一次性洗脸巾 #护肤
+Oily forehead blot feels better with a fresh biodegradable towel #facialtowel #disposable #skincare | 额头出油擦一擦，新可降解洗脸巾更舒服 #一次性洗脸巾 #护肤
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
-Coffee & tea stains? Stop scrubbing hard - hydrated silica whitens gently, no enamel damage#toothpaste #dentalcare #oralcare | 咖啡茶渍别乱刷！水合二氧化硅温和亮白，不伤釉质 #牙膏 #口腔护理
-Yellow teeth, scared to smile? Daily brushing can brighten them over time#toothpaste #dentalcare #oralcare | 牙齿发黄不敢笑？日常刷牙也能改善黄牙 #牙膏 #口腔护理
-Smoker's stains got you down? Keep brushing - teeth get cleaner the longer you use it#toothpaste #dentalcare #oralcare | 烟渍牙有救了！坚持刷，牙齿越刷越干净 #牙膏 #口腔护理
-Red wine & coffee purple stains won't budge? Gentle silica buffs surface color away#toothpaste #dentalcare #oralcare | 红酒咖啡紫渍去不掉？温和硅磨走表面色 #牙膏 #口腔护理
-Morning breath is awkward - pick the right paste and say bye to bad breath#toothpaste #dentalcare #oralcare | 晨起口臭太尴尬｜选对牙膏告别口气困扰 #牙膏 #口腔护理
-After garlicky food? Xylitol quickly brings fresh breath back#toothpaste #dentalcare #oralcare | 吃完重口味食物？木糖醇帮你快速恢复清新口气 #牙膏 #口腔护理
-All-day fresh - one brush keeps breath clean till night#toothpaste #dentalcare #oralcare | 长效清新｜刷牙一次，口气持久清爽 #牙膏 #口腔护理
-Mints all day don't fix the cause - xylitol freshens at the source, sweet not sugary#toothpaste #dentalcare #oralcare | 整天嚼口香糖不解决根本｜木糖醇从源头清新 #牙膏 #口腔护理
-Awkward when someone offers gum - xylitol gives sweet fresh breath, no sugar#toothpaste #dentalcare #oralcare | 别人递口香糖的尴尬｜木糖醇甜感清新无糖 #牙膏 #口腔护理
-Gentle gum-care paste - safe even for sensitive teeth#toothpaste #dentalcare #oralcare | 温和护龈牙膏｜敏感牙齿也可以放心用 #牙膏 #口腔护理
-Bleeding gums when brushing? Niacinamide formula is kinder to your gums#toothpaste #dentalcare #oralcare | 刷牙牙龈出血？烟酰胺配方对牙龈更温柔 #牙膏 #口腔护理
-Wince at hot or cold? Niacinamide soothes sensitivity, gentle every day#toothpaste #dentalcare #oralcare | 冷热一碰就酸？含烟酰胺温和护敏 #牙膏 #口腔护理
-Gums recede a little each year - gentle daily care, don't wait#toothpaste #dentalcare #oralcare | 牙龈每年退一点｜日常温和护理别再拖 #牙膏 #口腔护理
-Stop buying the wrong paste - check the ingredients before you grab one#toothpaste #dentalcare #oralcare | 别再买错牙膏！看清成分再入手 #牙膏 #口腔护理
-Repurchase forever - this paste's brushing feel is maxed out#toothpaste #dentalcare #oralcare | 无限回购！这支刷牙体验直接拉满 #牙膏 #口腔护理
-Bad breath ruins first impressions in 3 seconds - xylitol fresh lasts longer#toothpaste #dentalcare #oralcare | 口臭3秒毁第一印象｜木糖醇清新更持久 #牙膏 #口腔护理
-Mint burns so you brush less? Xylitol is sweet fresh, no burn#toothpaste #dentalcare #oralcare | 薄荷辣嘴刷得少？木糖醇甜清新不辣 #牙膏 #口腔护理
-Afraid to lean in before a date? Xylitol fresh breath, smile confident#toothpaste #dentalcare #oralcare | 约会前不敢靠近说话？木糖醇清新口气自信笑 #牙膏 #口腔护理
-
+The garlic dinner breath stays manageable with a xylitol paste #toothpaste #dentalcare #oralcare | 吃完大蒜，木糖醇牙膏压住口气 #牙膏 #口腔护理
+Receding gum worry eases with a niacinamide gentle formula #toothpaste #dentalcare #oralcare | 担心牙龈，烟酰胺温和配方更安心 #牙膏 #口腔护理
+The tea stain on front teeth lifts with hydrated silica #toothpaste #dentalcare #oralcare | 门牙茶渍，水合二氧化硅抛得掉 #牙膏 #口腔护理
+A job interview smile feels safer with fresh xylitol breath #toothpaste #dentalcare #oralcare | 面试微笑，木糖醇口气更稳妥 #牙膏 #口腔护理
+The fear of thinning enamel ends with mild silica #toothpaste #dentalcare #oralcare | 怕牙釉质变薄，温和二氧化硅更放心 #牙膏 #口腔护理
+Flossing companion feels kinder with niacinamide paste #toothpaste #dentalcare #oralcare | 配合牙线，烟酰胺牙膏更温和 #牙膏 #口腔护理
+The late night sugar snack gets a sugar free fresh fix #toothpaste #dentalcare #oralcare | 半夜偷吃甜，无糖木糖醇牙膏救场 #牙膏 #口腔护理
+A phone call close up feels confident with light breath #toothpaste #dentalcare #oralcare | 贴脸讲电话，口气清新更自信 #牙膏 #口腔护理
+Weekly enamel care stays safe with gentle silica #toothpaste #dentalcare #oralcare | 每周温和二氧化硅，牙釉质安心 #牙膏 #口腔护理
+Ice cream zings less with soothing niacinamide paste #toothpaste #dentalcare #oralcare | 吃冰激凌不刺痛，烟酰胺舒缓牙膏 #牙膏 #口腔护理
+The gym session breath stays fresh with a xylitol brush #toothpaste #dentalcare #oralcare | 健身完讲话，木糖醇守住口气 #牙膏 #口腔护理
+A soft polish keeps the wedding photos smiling #toothpaste #dentalcare #oralcare | 柔软抛光，婚礼照片笑容在线 #牙膏 #口腔护理
+Bedtime routine soothes gums with niacinamide #toothpaste #dentalcare #oralcare | 睡前烟酰胺牙膏，安抚牙龈 #牙膏 #口腔护理
+The sweet mint without sugar keeps kids happy #toothpaste #dentalcare #oralcare | 木糖醇甜薄荷无糖，娃也爱刷 #牙膏 #口腔护理
+Harsh paste fear ends with soft silica feel #toothpaste #dentalcare #oralcare | 怕刺激牙膏，柔软二氧化硅更温和 #牙膏 #口腔护理
+A camping trip mouth feels normal with niacinamide #toothpaste #dentalcare #oralcare | 露营在外，烟酰胺牙膏如常 #牙膏 #口腔护理
+Evening brush leaves a clean xylitol finish #toothpaste #dentalcare #oralcare | 晚间刷牙，木糖醇留清爽 #牙膏 #口腔护理
+Tender gums smile thanks to gentle polish niacinamide #toothpaste #dentalcare #oralcare | 牙龈娇嫩也能笑，温和抛光加烟酰胺 #牙膏 #口腔护理
 ### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
-
-Oily combo skin? Clay the T, hydrate the rest 🤝 #OilControl #Hydrating #MudMask | 混油肌？T区泥膜其余保湿 #控油泥膜 #保湿
-
-Dull by Thursday? Clay, then the glow returns ☕ #WakeUpSkin #MidweekPickup #MudMask | 周四暗沉？泥膜后光回来 #控油泥膜 #清洁泥膜
-
-Makeup sits better after a clay base 💄 #MakeupPrep #MatteBase #MudMask | 泥膜打底后粉底更服 #上妆前 #清洁泥膜
-
-Rare mineral, daily use — that's the UK move 💎 #RareClay #Manicouagan #MudMask | 稀有矿日常用——英国这招 #曼尼古根 #控油泥膜
-
-Centella + double clay — clean then calm 🌿 #Centella #DoubleClay #MudMask | 积雪草+双土——先清后静 #积雪草 #双土
-
-Big jar, small effort — spread, wait, rinse 🫙 #BigJar #EasySpread #MudMask | 大罐小力气——抹等冲 #大罐 #清洁泥膜
-
-Shine by noon, calm by night — clay bridges it 🌙 #OilControl #NightRoutine #MudMask | 中午油夜里静——泥膜连起来 #控油泥膜 #睡前
-
-Tea leaf + willow bark — the botanical side 🍃 #Botanical #PlantBased #MudMask | 茶叶+白柳皮——植萃那面 #植物萃取 #清洁泥膜
-
-Coffee seed kick for the 3pm face ☕ #CoffeeSeed #WakeUpSkin #MudMask | 下午3点脸的咖啡籽劲 #控油泥膜 #清洁泥膜
-
-Brown algae locks water while clay clears 💧 #Hydrating #NoTight #MudMask | 褐藻锁水泥膜清 #保湿 #清洁泥膜
-
-Silky, not scratchy — the nose agrees ✨ #SilkyTexture #SensitiveSafe #MudMask | 丝滑不糙——鼻头也认 #丝滑 #敏感肌
-
-Manicouagan pull, kaolin softness — best of two 💎 #DoubleClay #Kaolin #MudMask | 曼尼古根吸高岭土软——两全 #双土 #高岭土
-
-Pre-event, post-gym, Sunday — clay covers all 📅 #EventReady #GymSkin #MudMask | 出门前健身后周日——泥膜全包 #上妆前 #清洁泥膜
-
-No tight, no red — erythritol + centella 💧 #NoTight #Centella #MudMask | 不紧不红——赤藓糖醇+积雪草 #保湿 #积雪草
-
-UK weather swing? Clay stays in the routine ☀️ #SummerSkin #WeeklyMask #MudMask | 英国天气反复？泥膜留在routine #夏天 #控油泥膜
-
-Desk to dinner — clay fits the gap ☕ #OfficeFix #EventReady #MudMask | 工位到饭局——泥膜填空 #通勤 #上妆前
-
-Corn starch softness you feel at rinse 🌽 #SoftBase #SilkyMask #MudMask | 冲时感受到的玉米淀粉软 #丝滑 #清洁泥膜
-
-Matern'ella mud — rare clay, everyday calm 💎 #RareClay #Manicouagan #MudMask | Matern'ella泥——稀有泥日常静 #曼尼古根 #清洁泥膜
+The greasy forehead by afternoon calms with a kaolin manicouagan mask #OilControl #TZone #DoubleClay | 下午额头出油，高岭土曼尼古根泥膜压住 #控油泥膜 #T区
+Reactive skin still deep cleans with a centella gentle mask #Centella #GentleMask #SensitiveSafe | 易反应肌也能深层清洁，积雪草温和泥膜 #清洁泥膜 #积雪草
+Thursday skin fatigue resets with a plant based clay #MidweekPickup #PlantBased #DeepClean | 周四皮肤累，植物萃取泥膜重启 #周中 #植物萃取
+The 200g jar covers many quick night masks #BigJar #NightRoutine #QuickMask | 200g大罐，够多次夜间快膜 #清洁泥膜
+Primer glides on after a mattifying clay prep #MakeupPrep #ClayMask #SilkyTexture | 泥膜打底后上妆服帖，哑光底妆 #哑光底妆 #清洁泥膜
+Coffee seed raspberry ketone revives dull PM skin #CoffeeSeed #WakeUpSkin #Botanical | 咖啡籽覆盆子酮，唤醒暗沉肌 #植物萃取
+Sticky summer shine resets with rare clay #SummerSkin #RareClay #OilReset | 夏天黏腻油光，稀有黏土重置 #曼尼古根 #控油泥膜
+A hydrating mud mask avoids the tight feeling #Hydrating #MudMask #FreshFeel | 保湿泥膜，洗完不紧绷 #保湿 #清洁泥膜
+White willow peony root soothes stressed night skin #NightRoutine #Botanical #SensitiveSafe | 白柳皮牡丹根，安抚熬夜肌 #植物萃取 #清洁泥膜
+Skipping blot paper works with a clay noon touch #SkipBlotting #MidweekPickup #OilControl | 不用吸油纸，中午补泥膜 #控油泥膜 #周中
+Silky texture rinses to a soft glow #SilkyTexture #GlowUp #DeepClean | 丝滑质地，洗后柔光 #清洁泥膜
+Brown algae erythritol leaves a cooled fresh feel #Hydrating #FreshFeel #Botanical | 褐藻赤藓糖醇，敷完清凉 #保湿 #植物萃取
+A gentle mask skips the strip tightness #NoStrip #GentleMask #SensitiveSafe | 温和泥膜不紧绷不撕扯 #清洁泥膜 #积雪草
+Double clay cares for oily nose wings #DoubleClay #TZone #ClayMask | 双重黏土照顾鼻翼油光 #T区 #控油泥膜
+Quick mask before a date keeps skin awake #QuickMask #WakeUpSkin #GlowUp | 约会前快膜，皮肤有精神 #清洁泥膜
+Simple steps spread wait rinse for clean #HowToUse #MudMask #DeepClean | 用法简单：涂开等待洗净 #用法 #清洁泥膜
+Plant clays matte the oily chin #PlantBased #Manicouagan #OilReset | 植物黏土给下巴去油哑光 #曼尼古根 #控油泥膜
+Big jar makes weekly clay a habit #BigJar #ClayMask #SensitiveSafe | 大罐让每周泥膜成习惯 #清洁泥膜
