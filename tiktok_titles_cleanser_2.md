@@ -1,35 +1,37 @@
-See the oil dissolve — gel breaks down sebum on contact #DeepCleansing #OilControl #CleanserGel | 看油脂被融化——啫喱接触即分解皮脂 #深层清洁 #控油 #洁面啫喱
+# 2026-09-24
 
-Before and after — pore visibility drops after one gel cleanse #PoreCare #DeepCleansing #CleanserGel | 用前用后——一次啫喱清洁后毛孔可见度下降 #毛孔 #深层清洁 #洁面啫喱
+Wake up with already greasy skin, a gel wash starts the day clean. #MorningRoutine #OilControl #CleanserGel | 起床脸就油，深层控油洁面啫喱让一天从清爽开始。 #晨间护肤 #控油 #洁面啫喱
 
-Touch your face post-wash — smooth, not slick #CleanSkin #OilControl #CleanserGel | 洗完摸脸——滑而不油 #清爽 #控油 #洁面啫喱
+By late morning the T zone shines again, the gel keeps it from building. #TZone #OilControl #NoBlotting | 快到中午T区又泛光，啫喱不让油堆起来。 #T区 #控油 #不吸油
 
-30-second gel massage — watch the grime lift #DeepCleansing #SkincareTok #CleanserGel | 30秒啫喱按摩——看脏东西被提起来 #深层清洁 #护肤 #洁面啫喱
+Afternoon light hits and the nose gleams, a gel cleanse resets the shine. #OilControl #CleanserGel #PoreCare | 下午一照光鼻头就亮，啫喱把油光重新压下去。 #控油 #洁面啫喱 #毛孔
 
-Rinse and the oil goes with the water — that's gel power #OilControl #CleanserGel #CleanSkin | 冲掉时油跟着水走——这就是啫喱的力量 #控油 #洁面啫喱 #清爽
+The bridge of the nose stays oily through the day, gel reaches that tight spot. #TZone #DeepCleansing #CleanserGel | 鼻梁一整天都油，啫喱钻进这个窄地方。 #T区 #深层清洁 #洁面啫喱
 
-Gel on, oil off — the simplest equation in your routine #OilControl #CleanserGel #SkincareTok | 啫喱上脸油下脸——你routine里最简单的等式 #控油 #洁面啫喱 #护肤
+Evening rolls in and the oil comes back, the gel clears the rebound. #OilControl #CleanserGel #GentleClean | 到了晚上油又回来，啫喱把返油清掉。 #控油 #洁面啫喱 #温和
 
-No squeaky tightness — gel cleans deep without stripping #GentleClean #DeepCleansing #CleanserGel | 不涩不紧——啫喱深层清洁不伤皮 #温和 #深层清洁 #洁面啫喱
+Makeup slips by noon because the base oils up, gel preps a matte start. #MorningRoutine #OilControl #CleanserGel | 底妆中午就花因为脸出油，啫喱打出哑光底。 #晨间护肤 #控油 #洁面啫喱
 
-Foam vs gel — same wash, different depth #DeepCleansing #CleanserGel #SkincareTok | 泡沫对啫喱——同样洗法不同深度 #深层清洁 #洁面啫喱 #护肤
+Washing more often just makes it oilier, a gentle gel balances instead. #GentleClean #OilControl #CleanserGel | 越洗越油，温和的啫喱反而把它摆平。 #温和 #控油 #洁面啫喱
 
-Your nose after gel — visibly less oily by lunch #OilControl #TZone #CleanserGel | 用完啫喱后的鼻头——午饭时明显没那么油 #控油 #T区 #洁面啫喱
+Pre makeup the forehead already gleams, the gel takes the shine down first. #MorningRoutine #OilControl #TZone | 上妆前额头已经亮，啫喱先把油光压下去。 #晨间护肤 #控油 #T区
 
-One pump shows you what was hiding in your pores #DeepCleansing #PoreCare #CleanserGel | 一泵让你看到毛孔里藏着什么 #深层清洁 #毛孔 #洁面啫喱
+The chin greases up by midday, gel gets into the clogged pore there. #PoreCare #DeepCleansing #CleanserGel | 下巴到中午就油，啫喱钻进那里堵住的毛孔。 #毛孔 #深层清洁 #洁面啫喱
 
-Gel doesn't just wash the surface — it pulls from inside the pore #DeepCleansing #CleanserGel #CleanSkin | 啫喱不只洗表面——从毛孔内部往外拔 #深层清洁 #洁面啫喱 #清爽
+Touch the face and fingers come away oily, a gel wash resets it. #OilControl #CleanserGel #CleanSkin | 一摸脸手指就油，啫喱洗一遍重新清爽。 #控油 #洁面啫喱 #清爽
 
-Wash at 7am, still matte by 1pm — gel stretches the oil-free window #OilControl #CleanserGel #SkincareTok | 7点洗到1点还不油——啫喱拉长不出油的时间 #控油 #洁面啫喱 #护肤
+Commute sweat plus oil by the T zone, gel clears the mix gently. #CommuteSkin #OilControl #GentleClean | 通勤出汗加T区出油，啫喱温和清掉这层混合。 #通勤护肤 #控油 #温和
 
-Gel melts the sebum, water carries it away — two steps, one rinse #DeepCleansing #CleanserGel #CleanSkin | 啫喱融皮脂水带走——两步一冲 #深层清洁 #洁面啫喱 #清爽
+The side of the nose stays shiny after lunch, gel reaches the corner. #TZone #OilControl #PoreCare | 午饭后鼻翼还亮，啫喱够到那个角。 #T区 #控油 #毛孔
 
-The oil you see on the tissue after gel wash? That was in your face #OilControl #CleanserGel #SkincareTok | 啫喱洗后纸巾上的油？那原在你脸上 #控油 #洁面啫喱 #护肤
+Skipping wash at night means oil sleeps on skin, gel clears it before bed. #GentleClean #OilControl #CleanserGel | 晚上不洗等于油在脸上过夜，啫喱睡前清掉。 #温和 #控油 #洁面啫喱
 
-Gel grips the grime — foam just pushes it around #DeepCleansing #CleanserGel #CleanSkin | 啫喱抓住脏污——泡沫只是推来推去 #深层清洁 #洁面啫喱 #清爽
+Gym sweat mixes with face oil, the gel rinse clears both after. #GymSkin #OilControl #DeepCleansing | 健身出汗混着脸油，啫喱运动后把两层都清掉。 #健身护肤 #控油 #深层清洁
 
-Post-gel skin = pre-makeup ready, no primer needed #MakeupPrep #OilControl #CleanserGel | 啫喱后的脸=上妆前就绪不用妆前乳 #上妆前 #控油 #洁面啫喱
+Summer heat pushes oil by ten, a gel wash cools the shine down. #SummerSkin #OilControl #CleanserGel | 夏天热气一到上午就出油，啫喱把油光按下去。 #夏天 #控油 #洁面啫喱
 
-Gel = oil's worst enemy — it dissolves what foam leaves behind #OilControl #DeepCleansing #CleanserGel | 啫喱=油的克星——融掉泡沫留下的 #控油 #深层清洁 #洁面啫喱
+Blotting paper wears out by afternoon, the gel keeps the pore calmer. #NoBlotting #OilControl #PoreCare | 吸油纸下午就用废，啫喱让毛孔更安静。 #不吸油 #控油 #毛孔
 
-See it, feel it, touch it — gel proves itself in one wash #DeepCleansing #CleanserGel #SkincareTok | 看得见摸得着——啫喱一次就证明自己 #深层清洁 #洁面啫喱 #护肤
+The forehead line gleams under office light, gel takes it back. #OilControl #CleanserGel #TZone | 办公室灯下额头那条线发亮，啫喱把它收掉。 #控油 #洁面啫喱 #T区
+
+End of day the whole T zone is slick, a gentle gel wash resets it. #GentleClean #OilControl #CleanserGel | 一天结束整个T区都滑，温和啫喱洗一遍重新来过。 #温和 #控油 #洁面啫喱

@@ -1,35 +1,37 @@
-You wash your face but it's still dirty — gel goes deeper than foam #DeepCleansing #OilControl #CleanserGel | 你的脸洗了跟没洗一样——啫喱比泡沫钻得更深 #洁面啫喱 #深层清洁 #控油
+# 2026-09-24
 
-Oily by 11am? Your cleanser isn't lifting the oil — it's just spreading it #OilControl #OilySkin #CleanserGel | 11点就出油？你的洗面奶没在吸油——只是匀开了 #控油 #油皮 #洁面啫喱
+Foam cleansers just skim the top while a gel sinks into the pores. #DeepCleansing #CleanserGel #PoreCare | 泡沫洗面奶只擦表层，深层控油洁面啫喱却钻进毛孔。 #洁面啫喱 #深层清洁 #毛孔
 
-Foam sits on top, gel sinks in — that's why your pores still look clogged #DeepCleansing #PoreCare #CleanserGel | 泡沫浮表面，啫喱渗进去——所以你的毛孔还是堵的 #深层清洁 #毛孔 #洁面啫喱
+Soap leaves a film but a cleansing gel rinses clean from deep down. #DeepCleansing #CleanserGel #GentleClean | 肥皂会留一层膜，洁面啫喱却从深处冲得干干净净。 #洁面啫喱 #温和 #清爽
 
-3 pumps, 30 seconds — the gel melts the oil out of your pores #DeepCleansing #OilControl #CleanserGel | 3泵30秒——啫喱把毛孔里的油融出来 #洁面啫喱 #控油
+Plain water wipes the outside, a gel goes where the grime actually hides. #DeepCleansing #CleanserGel #OilControl | 清水只擦表面，啫喱钻到油污真正藏的地方。 #洁面啫喱 #深层清洁 #控油
 
-Still using soap on your face? It strips the barrier, oil comes back worse #OilySkin #SkincareTok #CleanserGel | 还在用肥皂洗脸？破坏屏障后出油更猛 #油皮 #护肤 #洁面啫喱
+A wet wipe smears oil around, the gel pulls it out of the pores. #DeepCleansing #CleanserGel #PoreCare | 湿巾把油抹来抹去，啫喱把油从毛孔里带出来。 #洁面啫喱 #毛孔 #控油
 
-Your T-zone is an oil factory — gel shuts it down at the source #OilControl #TZone #CleanserGel | 你的T区是产油机——啫喱从源头关掉它 #控油 #T区 #洁面啫喱
+Foam feels bubbly yet misses the gunk stuck in the pore walls. #DeepCleansing #CleanserGel #PoreCare | 泡沫看着热闹，却漏掉黏在毛孔壁上的脏东西。 #洁面啫喱 #深层清洁 #毛孔
 
-Wash, touch, zero grease — that's what a proper gel cleanser feels like #OilControl #CleanSkin #CleanserGel | 洗完摸一下零油腻——这才是正经洁面啫喱的手感 #控油 #清爽 #洁面啫喱
+Bar soap strips then dries, the gel clears oil without wrecking the barrier. #GentleClean #CleanserGel #OilControl | 肥皂洗完又干又绷，啫喱控油还不伤屏障。 #洁面啫喱 #温和 #控油
 
-Gel texture glides, doesn't tug — even sensitive oily skin can use it daily #GentleClean #OilySkin #CleanserGel | 啫喱质地滑不扯——敏感油皮也能天天用 #温和 #油皮 #洁面啫喱
+Regular face wash greases over shine, a gel gets under it for real. #DeepCleansing #CleanserGel #OilControl | 普通洁面只盖住油光，啫喱是真正钻到油底下。 #洁面啫喱 #深层清洁 #控油
 
-Midday shine? You missed the deep clean step — gel fixes what foam can't #DeepCleansing #OilControl #CleanserGel | 中午就泛油？你漏了深层清洁这步——啫喱补上泡沫做不到的 #深层清洁 #控油 #洁面啫喱
+Bubbles pop on the skin, the gel texture slides into the tight spots. #DeepCleansing #CleanserGel #TZone | 泡泡在皮肤上就破了，啫喱质地钻进那些窄缝。 #洁面啫喱 #深层清洁 #T区
 
-Double cleanse without the double effort — one gel, one rinse, done #DeepCleansing #SkincareTok #CleanserGel | 不用两步卸妆清洁——一支啫喱一次冲完 #深层清洁 #护肤 #洁面啫喱
+Foam washes away fast, the gel keeps lifting what foam left behind. #DeepCleansing #CleanserGel #GentleClean | 泡沫很快冲掉，啫喱还在清理泡沫留下的残油。 #洁面啫喱 #温和 #清爽
 
-Oil + sunscreen residue + pollution — gel lifts all three in one wash #DeepCleansing #CleanSkin #CleanserGel | 油脂+防晒残留+污染——啫喱一次全带走 #深层清洁 #清爽 #洁面啫喱
+A quick splash hides oil, a gel wash actually reaches the clogged pore. #DeepCleansing #CleanserGel #PoreCare | 随便泼水只是藏油，啫喱才真正够到堵住的毛孔。 #洁面啫喱 #毛孔 #深层清洁
 
-Pores look smaller after one wash — that's the deep clean working #PoreCare #DeepCleansing #CleanserGel | 洗一次毛孔就显小——深层清洁在干活 #毛孔 #深层清洁 #洁面啫喱
+Soap fights the surface shine, the gel works where the oil keeps building. #DeepCleansing #CleanserGel #OilControl | 肥皂对付表面油光，啫喱对付油一直堆积的地方。 #洁面啫喱 #控油 #T区
 
-Gel melts into pores, foam floats on top — feel the difference #DeepCleansing #CleanserGel #SkincareTok | 啫喱融进毛孔，泡沫浮表面——感受差别 #深层清洁 #洁面啫喱 #护肤
+Foam feels clean then oil returns by noon, gel keeps the pore clearer longer. #OilControl #CleanserGel #NoBlotting | 泡沫洗完中午就返油，啫喱让毛孔更久保持清爽。 #洁面啫喱 #控油 #不吸油
 
-Stop blotting at noon — gel keeps the oil down for hours #OilControl #NoBlotting #CleanserGel | 别再中午吸油——啫喱让出油延后好几小时 #控油 #不吸油 #洁面啫喱
+A wipe just moves dirt, the gel dissolves it from inside the pore. #DeepCleansing #CleanserGel #PoreCare | 湿巾只是挪动脏东西，啫喱从毛孔内部把它化开。 #洁面啫喱 #深层清洁 #毛孔
 
-Oily nose, rough texture? Gel exfoliates gently while it cleanses #GentleExfoliation #OilControl #CleanserGel | 鼻头出油又粗糙？啫喱边清洁边温和代谢 #温和去角质 #控油 #洁面啫喱
+Bubbly wash leaves residue in the T zone, gel clears the corners. #DeepCleansing #CleanserGel #TZone | 泡泡洁面在T区留残渣，啫喱把边角也清干净。 #洁面啫喱 #T区 #温和
 
-UK humidity = extra oil? Gel keeps the shine down through the damp #SummerSkin #OilControl #CleanserGel | 英国潮湿=加倍出油？啫喱扛住潮气不泛油 #夏天 #控油 #洁面啫喱
+Plain cleanser coasts on top, the gel texture grips into the pore mouth. #DeepCleansing #CleanserGel #PoreCare | 普通洁面浮在上面，啫喱质地抓住毛孔口。 #洁面啫喱 #深层清洁 #毛孔
 
-Your cleanser should work, not just foam — gel does the deep lifting #DeepCleansing #CleanserGel #SkincareTok | 洗面奶该干活不是只起泡——啫喱做深层拔 #深层清洁 #洁面啫喱 #护肤
+Soap dries the cheek yet the nose stays greasy, gel evens it out. #GentleClean #CleanserGel #OilControl | 肥皂把脸颊洗干鼻子却还油，啫喱把它摆平。 #洁面啫喱 #温和 #控油
 
-One gel, one wash, zero grease — the oil control starts at cleansing #OilControl #CleanSkin #CleanserGel | 一支啫喱一次洗零油腻——控油从清洁开始 #控油 #清爽 #洁面啫喱
+Foam promises fresh but misses the buildup, gel reaches the stuck layer. #DeepCleansing #CleanserGel #GentleExfoliation | 泡沫说清爽却漏掉堆积层，啫喱够到那层黏住的东西。 #洁面啫喱 #深层清洁 #温和去角质
+
+Water alone never touches the pore gunk, a gel pulls it out gently. #DeepCleansing #CleanserGel #GentleClean | 光用水碰不到毛孔里的脏，啫喱温地把带出来。 #洁面啫喱 #温和 #深层清洁

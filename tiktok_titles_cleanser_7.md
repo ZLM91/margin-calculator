@@ -1,35 +1,37 @@
-Warm water + gel + 30 seconds — the only face wash method you need #HowToUse #DeepCleansing #CleanserGel | 温水+啫喱+30秒——你唯一需要的洗脸法 #用法 #深层清洁 #洁面啫喱
+# 2026-09-24
 
-Pump, spread, massage 30s, rinse — gel cleanse in 4 steps #HowToUse #CleanserGel #SkincareTok | 泵、抹、按摩30秒、冲——啫喱清洁4步 #用法 #洁面啫喱 #护肤
+Warm water and a pump of gel is all it takes to wash the day away | 温水加一泵啫喱，就能把一天的油腻洗掉 #HowToUse #CleanserGel #DeepCleansing | #用法 #洁面啫喱 #深层清洁
 
-Don't rush the gel — let it sit 10 seconds before rinsing #HowToUse #DeepCleansing #CleanserGel | 别急着冲——让啫喱在脸上停10秒 #用法 #深层清洁 #洁面啫喱
+Two pumps cover the whole face without needing foam to feel clean | 两泵就够全脸，不用起泡也能洗得干净 #HowToUse #CleanserGel #CleanSkin | #用法 #洁面啫喱 #清爽
 
-Massage in circles — gel grabs the oil as you move #HowToUse #OilControl #CleanserGel | 打圈按摩——啫喱在移动中抓住油 #用法 #控油 #洁面啫喱
+A thirty second massage is enough to lift oil from the T zone | 按摩 30 秒，就能带走 T 区的油 #HowToUse #TZone #OilControl | #用法 #T区 #控油
 
-Focus the T-zone — gel spends extra time where oil lives #HowToUse #TZone #CleanserGel | 重点T区——啫喱在出油多的地方多停 #用法 #T区 #洁面啫喱
+No foam does not mean no clean the gel reaches where soap cannot | 不起泡不等于没洗干净，啫喱能去肥皂到不了的地方 #CleanserGel #DeepCleansing #GentleClean | #洁面啫喱 #深层清洁 #温和
 
-Rinse with warm not hot — gel + warm water = pore-clearing combo #HowToUse #DeepCleansing #CleanserGel | 温水不热水冲——啫喱+温水=清毛孔组合 #用法 #深层清洁 #洁面啫喱
+Use fingertips in small circles and let the gel do the work | 用指腹轻轻打圈，让啫喱自己发挥作用 #HowToUse #GentleClean #DeepCleansing | #用法 #温和 #深层清洁
 
-Pat dry, don't rub — gel did the work, no need to scrub #HowToUse #GentleClean #CleanserGel | 按干不擦——啫喱已经干了活不用搓 #用法 #温和 #洁面啫喱
+Rinse with cool water to leave skin feeling fresh not tight | 用凉水冲净，洗完清爽不紧绷 #HowToUse #GentleClean #CleanSkin | #用法 #温和 #清爽
 
-Morning gel = light cleanse. Evening gel = deep cleanse — same product, two depths #HowToUse #CleanserGel #SkincareTok | 早上啫喱=轻清洁。晚上啫喱=深清洁——同品两种深度 #用法 #洁面啫喱 #护肤
+One pump in the morning keeps the shine away through the commute | 早上一泵，通勤路上也不泛油光 #MorningRoutine #OilControl #CommuteSkin | #晨间护肤 #控油 #通勤护肤
 
-Less is more — 1-2 pumps of gel is enough for full face #HowToUse #CleanserGel #CleanSkin | 少即是多——1-2泵啫喱够全脸 #用法 #洁面啫喱 #清爽
+A pea sized amount is plenty for the oily zones only | 黄豆大小就够，只涂容易出油的地方 #HowToUse #OilySkin #TZone | #用法 #油皮 #T区
 
-Gel on damp skin — not soaking wet, just slightly moist #HowToUse #CleanserGel #SkincareTok | 啫喱上微湿的脸——不是全湿只是微润 #用法 #洁面啫喱 #护肤
+The gel texture slides into pores that foam skips past | 啫喱质地能滑进泡沫错过的毛孔 #CleanserGel #PoreCare #DeepCleansing | #洁面啫喱 #毛孔 #深层清洁
 
-Neck too — gel doesn't stop at the jawline #HowToUse #CleanserGel #CleanSkin | 脖子也要——啫喱不止到下巴 #用法 #洁面啫喱 #清爽
+Wash at night so the pillow does not meet today's oil | 晚上洗掉，枕头就不会碰到今天的油 #HowToUse #OilControl #CleanSkin | #用法 #控油 #清爽
 
-Double cleanse hack: gel first to dissolve oil, gel again for deep clean #HowToUse #DeepCleansing #CleanserGel | 双重清洁技巧：先啫喱溶油再啫喱深清 #用法 #深层清洁 #洁面啫喱
+Lukewarm water is not fancy it just helps the gel spread | 温水没那么玄，只是帮啫喱推开 #HowToUse #CleanserGel #GentleClean | #用法 #洁面啫喱 #温和
 
-Don't forget the hairline — gel rinses clean, no residue there #HowToUse #CleanserGel #CleanSkin | 别忘发际线——啫喱冲干净不留残 #用法 #洁面啫喱 #清爽
+Press the pump once for the face twice if the day was long | 按一次泵洗脸，日子长就按两次 #HowToUse #CleanserGel #OilControl | #用法 #洁面啫喱 #控油
 
-Gel + konjac sponge = extra gentle exfoliation while cleansing #HowToUse #GentleClean #CleanserGel | 啫喱+洁面海绵=清洁时温和去角质 #用法 #温和 #洁面啫喱
+No scrubbing needed the gel clears build up on its own | 不用用力搓，啫喱自己带走堆积 #GentleClean #DeepCleansing #CleanserGel | #温和 #深层清洁 #洁面啫喱
 
-30-second rule — anything less and the gel can't do its deep work #HowToUse #DeepCleansing #CleanserGel | 30秒法则——少了啫喱就来不及深层干活 #用法 #深层清洁 #洁面啫喱
+After the gym a quick wash keeps the skin from staying greasy | 健身后来一洗，皮肤不再一直油 #GymSkin #OilControl #CleanSkin | #健身护肤 #控油 #清爽
 
-Rinse until no slickness — gel leaves clean, not slippery #HowToUse #CleanSkin #CleanserGel | 冲到不滑——啫喱留的是干净不是滑 #用法 #清爽 #洁面啫喱
+The right way to wash is gentle not harsh on the barrier | 正确的洗法是温和，不是对屏障下手重 #HowToUse #GentleClean #SkincareTok | #用法 #温和 #护肤
 
-Follow with moisturiser on damp skin — gel + hydration = balanced oily skin #HowToUse #OilControl #CleanserGel | 趁湿跟保湿——啫喱+保湿=平衡油皮 #用法 #控油 #洁面啫喱
+Spend the time on the nose and chin where oil loves to hide | 把时间花在鼻子和下巴，油最爱躲在那儿 #HowToUse #TZone #PoreCare | #用法 #T区 #毛孔
 
-Night gel routine: cleanse, pat, sleep — oil-free by morning #HowToUse #NightRoutine #CleanserGel | 夜间啫喱routine：洗按睡——早起不油 #用法 #夜间护肤 #洁面啫喱
+Rinse until the slip is gone so no film is left behind | 冲到不滑了为止，不留下膜感 #HowToUse #CleanSkin #GentleClean | #用法 #清爽 #温和
+
+A clean start needs only water gel and thirty calm seconds | 干净的起点只需要水、啫喱和安稳的 30 秒 #HowToUse #CleanserGel #DeepCleansing | #用法 #洁面啫喱 #深层清洁

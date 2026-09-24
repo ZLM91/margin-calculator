@@ -1,35 +1,37 @@
-UK damp morning? Gel keeps the oil from doubling #SummerSkin #OilControl #CleanserGel | 英国潮湿的早上？啫喱让出油不加倍 #夏天 #控油 #洁面啫喱
+# 2026-09-24
 
-London tube sweat + oil? Gel at the destination sink #CommuteSkin #OilControl #CleanserGel | 伦敦地铁汗+油？到站洗手台用啫喱 #通勤护肤 #控油 #洁面啫喱
+British humidity turns a normal face into an oil slick by lunch #OilControl #SummerSkin #OilySkin | 英国的湿气，到午饭点就把脸泡成油盘 #控油 #夏天 #油皮
 
-UK heatwave = surprise oil? Gel morning routine handles it #SummerSkin #OilControl #CleanserGel | 英国热浪=突然出油？早上啫喱搞定 #夏天 #控油 #洁面啫喱
+Central heating dries the air and the skin answers with more oil #OilControl #GentleClean #CleanSkin | 中央供暖把空气抽干，脸就用出油来还 #控油 #温和 #清爽
 
-Rainy British week, dull skin? Gel brings the fresh back #CleanSkin #CleanserGel #SkincareTok | 英国阴雨周脸暗沉？啫喱找回清爽 #清爽 #洁面啫喱 #护肤
+One step outside and the London drizzle wakes the T-zone up #TZone #OilControl #CommuteSkin | 出趟门，伦敦的细雨就把T区叫醒了 #T区 #控油 #通勤护肤
 
-Office AC drying your oil skin? Gel cleans without making it worse #GentleClean #OilControl #CleanserGel | 办公室空调让油皮更干？啫喱洗了不加重 #温和 #控油 #洁面啫喱
+Hard water leaves that tight squeak no soft gel can hide #GentleClean #DeepCleansing #CleanSkin | 硬水洗完那股涩，温和啫喱都盖不住 #温和 #深层清洁 #清爽
 
-UK hard water + gel = better rinse, less residue #CleanSkin #CleanserGel #SkincareTok | 英国硬水+啫喱=更好冲洗少残留 #清爽 #洁面啫喱 #护肤
+The gap between heated rooms and cold streets makes the skin confused #OilControl #GentleClean #OilySkin | 屋里暖外面冷，脸一下子就乱了阵脚 #控油 #温和 #油皮
 
-British summer humidity spike — gel controls the oil surge #SummerSkin #OilControl #CleanserGel | 英国夏天湿度飙升——啫喱压住出油高峰 #夏天 #控油 #洁面啫喱
+Rainy days in the UK mean shine that no tissue can keep down #NoBlotting #OilControl #CommuteSkin | 英国的雨天，油光纸巾根本压不住 #不吸油 #控油 #通勤护肤
 
-Cold UK wind = skin overcompensating with oil? Gel balances #OilControl #CleanserGel #SkincareTok | 英国冷风=皮肤加倍出油补偿？啫喱平衡 #控油 #洁面啫喱 #护肤
+A UK winter indoors is dry air and an oily forehead at the same time #OilControl #GentleClean #CleanSkin | 英国冬天待室内，脸又干又顶着油额头 #控油 #温和 #清爽
 
-Weekend in Edinburgh, oily forehead from walking? Travel gel sachet #TravelSkin #OilControl #CleanserGel | 爱丁堡周末走路走出额头油？旅行啫喱小样 #旅行护肤 #控油 #洁面啫喱
+London weather swings from damp to dry before the commute ends #CommuteSkin #OilControl #OilySkin | 伦敦天气还没通勤完，就从潮变干 #通勤护肤 #控油 #油皮
 
-UK gym culture — post-workout gel at the changing room sink #GymSkin #CleanserGel #SkincareTok | 英国健身文化——更衣室水台用啫喱洗 #健身护肤 #洁面啫喱 #护肤
+Hard water builds a film the gel has to work through each morning #DeepCleansing #PoreCare #CleanserGel | 硬水结一层膜，啫喱每天早上得先破它 #深层清洁 #毛孔 #洁面啫喱
 
-British festival season — tent wash with gel, oil under control #SummerSkin #OilControl #CleanserGel | 英国音乐节季——帐篷里用啫喱洗出油也能控 #夏天 #控油 #洁面啫喱
+The British damp keeps the pores busy long after the shower #PoreCare #OilControl #SummerSkin | 英国的潮气，洗完澡还让毛孔忙个不停 #毛孔 #控油 #夏天
 
-UK tap water is hard — gel rinses cleaner than foam in hard water #CleanSkin #CleanserGel #SkincareTok | 英国自来水硬——啫喱比泡沫在硬水里更好冲 #清爽 #洁面啫喱 #护肤
+Heating by day and chill by night leave the T-zone shining both ways #TZone #OilControl #NoBlotting | 白天暖夜里凉，T区两边都冒油 #T区 #控油 #不吸油
 
-London pollution + oily skin? Gel lifts the grime before bed #DeepCleansing #OilControl #CleanserGel | 伦敦污染+油皮？睡前啫喱提起脏污 #深层清洁 #控油 #洁面啫喱
+A quick UK rain shower is all it takes to restart the shine #OilControl #CommuteSkin #OilySkin | 英国一阵急雨，就够把油光重启 #控油 #通勤护肤 #油皮
 
-UK indoor heating dries skin, oil rebounds — gel keeps it balanced #OilControl #GentleClean #CleanserGel | 英国暖气烘干皮肤油反弹——啫喱保持平衡 #控油 #温和 #洁面啫喱
+Soft water would be nice; the gel is the next best defence #CleanserGel #GentleClean #DeepCleansing | 软水固然好，啫喱是退而求其次的防线 #洁面啫喱 #温和 #深层清洁
 
-British rainy commute = humid oily face? Gel reset at arrival #CommuteSkin #OilControl #CleanserGel | 英国雨天通勤=潮湿油脸？到了用啫喱重启 #通勤护肤 #控油 #洁面啫喱
+Cold London mornings still end with a warm oily nose by midday #OilControl #TZone #CommuteSkin | 伦敦清晨再冷，中午鼻子还是油乎乎 #控油 #T区 #通勤护肤
 
-UK supermarket cleansers vs Matern'ella gel — you'll feel the gap #CleanserGel #SkincareTok #CleanSkin | 英国超市洗面奶对Matern'ella啫喱——你会感到差距 #洁面啫喱 #护肤 #清爽
+The indoor dry heat pushes the skin to over-oil the cheeks #OilControl #GentleClean #OilySkin | 屋里干热逼着脸在脸颊上猛出油 #控油 #温和 #油皮
 
-British 4 seasons in a day? Gel works through all of them #OilControl #CleanserGel #SkincareTok | 英国一天四季？啫喱全扛得住 #控油 #洁面啫喱 #护肤
+UK humidity and hard water team up on the same poor pores #PoreCare #DeepCleansing #OilControl | 英国潮气加硬水，一起对付同一批毛孔 #毛孔 #深层清洁 #控油
 
-UK oily skin types — this gel was made for your weather #OilControl #CleanserGel #SummerSkin | 英国油皮——这款啫喱为你的天气而生 #控油 #洁面啫喱 #夏天
+A breezy London walk sounds fresh but the T-zone knows better #TZone #OilControl #NoBlotting | 伦敦一阵风听着清爽，T区心里有数 #T区 #控油 #不吸油
+
+The gel keeps the face calm through British weather that never settles #GentleClean #CleanserGel #OilControl | 天气永远不稳的英国，啫喱让脸稳得住 #温和 #洁面啫喱 #控油

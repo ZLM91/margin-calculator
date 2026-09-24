@@ -1,35 +1,37 @@
-Post-gym face shine? Gel before the shower, oil gone #GymSkin #OilControl #CleanserGel | 健身后脸油？洗澡前先用啫喱油就没了 #健身护肤 #控油 #洁面啫喱
+# 2026-09-24
 
-Morning rush — 30 seconds of gel, matte until lunch #MorningRoutine #OilControl #CleanserGel | 早上赶时间——30秒啫喱到午饭都不油 #晨间护肤 #控油 #洁面啫喱
+Gym face is half sweat half oil, gel cuts through both in one wash #GymSkin #OilControl #CleanserGel | 健身完脸上是汗混着油，啫喱一次就把两层都洗掉。 #健身护肤 #控油 #洁面啫喱
 
-Tube commute = oily forehead by arrival — gel at the sink first #CommuteSkin #OilControl #CleanserGel | 地铁通勤到站额头油——先在洗手台用啫喱 #通勤护肤 #控油 #洁面啫喱
+After the workout the shine comes back fast, gel keeps the T-zone calm #GymSkin #TZone #OilControl | 练完没多久T区又开始亮，啫喱让出油慢下来。 #健身护肤 #T区 #控油
 
-Desk drawer gel — 4pm oil reset without leaving the chair #OfficeFix #OilControl #CleanserGel | 抽屉里放啫喱——4点不离开座位就能去油 #办公护肤 #控油 #洁面啫喱
+Tube commute in summer means sweat sitting on top of sebum by the time home #CommuteSkin #SummerSkin #OilControl | 夏天挤地铁回家，脸上汗压着油。 #通勤护肤 #夏天 #控油
 
-Pre-makeup gel — foundation stays put when the base is clean #MakeupPrep #OilControl #CleanserGel | 上妆前用啫喱——底干净粉底就不跑 #上妆前 #控油 #洁面啫喱
+The London commute bakes the face in its own oil, gel resets it at the sink #CommuteSkin #CleanserGel #DeepCleansing | 伦敦通勤把脸闷在自己出的油里，啫喱在洗手台把它归零。 #通勤护肤 #洁面啫喱 #深层清洁
 
-Post-flight oil reset — gel after landing, skin back to normal #TravelSkin #OilControl #CleanserGel | 落地后用啫喱去油——皮肤恢复正常 #旅行护肤 #控油 #洁面啫喱
+Late night out, skin looks dull and greasy by morning, gel wakes it up #MorningRoutine #OilControl #CleanserGel | 熬到深夜，早上脸又暗又油，啫喱把它叫醒。 #晨间护肤 #控油 #洁面啫喱
 
-Night shift skin — gel before sleep, wake up less oily #NightRoutine #OilControl #CleanserGel | 夜班脸——睡前啫喱醒时没那么油 #夜间护肤 #控油 #洁面啫喱
+After a short night the pores look packed, gel clears the surface grease #MorningRoutine #PoreCare #DeepCleansing | 没睡好毛孔像堵了，啫喱把表面油清掉。 #晨间护肤 #毛孔 #深层清洁
 
-UK rain humidity = oil spike? Gel keeps it level #SummerSkin #OilControl #CleanserGel | 英国阴雨潮湿=突然出油？啫喱稳住 #夏天 #控油 #洁面啫喱
+Mask face again, the chin and nose go shiny under the fabric #PoreCare #TZone #OilControl | 又戴口罩脸，鼻翼下巴在布料下泛油光。 #毛孔 #T区 #控油
 
-Lunch-break wash — gel at the office sink, fresh face back to desk #OfficeFix #CleanserGel #CleanSkin | 午休洗一把——办公室水台啫喱洗完回工位 #办公护肤 #洁面啫喱 #清爽
+Seasonal shift makes skin oily then tight, gel cleans without the tightness #GentleClean #CleanserGel #CleanSkin | 换季脸又油又干，啫喱洗了不紧绷。 #温和 #洁面啫喱 #清爽
 
-Pre-date gel — 1 minute, matte, camera-ready #EventReady #OilControl #CleanserGel | 约会前啫喱——1分钟哑光镜头就绪 #约会前 #控油 #洁面啫喱
+All day makeup plus city air leaves a film, gel takes it off clean #DeepCleansing #CleanserGel #CleanSkin | 带妆一整天加上城市空气，脸上糊一层，啫喱洗得干净。 #深层清洁 #洁面啫喱 #清爽
 
-Gym bag essential — gel sachet, post-sweat oil control #GymSkin #CleanserGel #SkincareTok | 健身包必备——啫喱小样出汗后控油 #健身护肤 #洁面啫喱 #护肤
+All day under foundation and the pores feel clogged, gel opens them up #PoreCare #DeepCleansing #CleanserGel | 带妆一整天毛孔像堵住，啫喱给通开。 #毛孔 #深层清洁 #洁面啫喱
 
-Hot UK day = oil factory? Gel morning and night keeps it in check #SummerSkin #OilControl #CleanserGel | 英国热天=产油厂？早晚啫喱压住 #夏天 #控油 #洁面啫喱
+Sweat from the gym sits in the pores, gel pulls it out before it builds #GymSkin #PoreCare #CleanserGel | 健身的汗闷在毛孔里，啫喱趁没堆积先洗掉。 #健身护肤 #毛孔 #洁面啫喱
 
-Deadline week stress oil? Gel between tasks, face resets #StressSkin #OilControl #CleanserGel | 赶稿周压力油？间隙用啫喱脸就重启 #压力护肤 #控油 #洁面啫喱
+The morning after a long shift, skin is greasy before the day starts #MorningRoutine #OilControl #CleanserGel | 连班上完的早晨，一天还没开始脸已经油了。 #晨间护肤 #控油 #洁面啫喱
 
-Sunday reset — gel + warm water, deep pore clear before the week #SundayReset #DeepCleansing #CleanserGel | 周日重启——啫喱+温水为新一周清毛孔 #周日护肤 #深层清洁 #洁面啫喱
+Commute sweat mixes with daytime oil, gel handles the mix in one go #CommuteSkin #OilControl #CleanserGel | 通勤的汗混着白天的油，啫喱一次搞定。 #通勤护肤 #控油 #洁面啫喱
 
-New mum, 1 minute for skincare — gel is all you need #QuickRoutine #OilControl #CleanserGel | 新手妈1分钟护肤——啫喱就够了 #快速护肤 #控油 #洁面啫喱
+Mask wearer shine by noon, gel brings the T-zone back to matte #TZone #OilControl #GentleClean | 戴口罩到中午就泛油，啫喱把T区拉回哑光。 #T区 #控油 #温和
 
-Exam week oily breakout? Gel morning keeps the shine down through papers #StressSkin #OilControl #CleanserGel | 考试周出油爆痘？早上啫喱扛过一整天 #压力护肤 #控油 #洁面啫喱
+Late night screen time leaves a film of oil by the pillow, gel clears it #MorningRoutine #CleanserGel #DeepCleansing | 熬夜刷手机枕边一脸油膜，啫喱清掉它。 #晨间护肤 #洁面啫喱 #深层清洁
 
-Pre-photo gel wash — even skin, no shine flash #EventReady #MakeupPrep #CleanserGel | 拍照前啫喱洗——皮肤匀称无油反光 #约会前 #上妆前 #洁面啫喱
+After a full day worn the makeup slides into the pores, gel lifts it out #PoreCare #DeepCleansing #CleanserGel | 带妆一整天粉卡进毛孔，啫喱把它带出来。 #毛孔 #深层清洁 #洁面啫喱
 
-Bedtime gel — wash the day's oil off, sleep clean #NightRoutine #DeepCleansing #CleanserGel | 睡前啫喱——洗掉一天的油干净睡 #夜间护肤 #深层清洁 #洁面啫喱
+Summer commute turns the face into a grease trap, gel resets it fast #SummerSkin #CommuteSkin #OilControl | 夏天通勤把脸变成油阱，啫喱快速归零。 #夏天 #通勤护肤 #控油
+
+Post-gym mirror shows a shiny forehead, gel takes the shine down #GymSkin #OilControl #CleanserGel | 健身完镜子里的额头亮得反光，啫喱把油光压下去。 #健身护肤 #控油 #洁面啫喱

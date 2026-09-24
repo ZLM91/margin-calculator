@@ -1,35 +1,37 @@
-Why gel texture reaches deeper than foam — smaller molecules, tighter fit #DeepCleansing #CleanserGel #SkincareTok | 为啥啫喱比泡沫钻得深——分子更小贴得更紧 #深层清洁 #洁面啫喱 #护肤
+# 2026-09-24
 
-Gel doesn't foam because foam is air — and air doesn't clean pores #DeepCleansing #CleanserGel #SkincareTok | 啫喱不起泡因为泡沫是空气——空气洗不了毛孔 #深层清洁 #洁面啫喱 #护肤
+Foam washes with air, gel washes into the pores #DeepCleansing #CleanserGel #PoreCare | 泡沫是用空气在洗，啫喱才真正洗进毛孔。 #洁面啫喱 #深层清洁 #毛孔
 
-The science of gel cleanse: oil dissolves oil, water rinses it clean #DeepCleansing #OilControl #CleanserGel | 啫喱清洁的科学：油溶油水冲净 #深层清洁 #控油 #洁面啫喱
+No bubbles doesn't mean no clean, the gel is breaking down the oil #CleanserGel #OilControl #GentleClean | 不起泡不等于没洗干净，啫喱在溶解脸上的油。 #洁面啫喱 #控油 #温和
 
-Gel clings to sebum like a magnet — foam just slides past #OilControl #CleanserGel #SkincareTok | 啫喱像磁铁吸住皮脂——泡沫只是滑过去 #控油 #洁面啫喱 #护肤
+Foam sits on top, gel slides down into the pore and lifts the grease #DeepCleansing #PoreCare #CleanserGel | 泡沫停在表面，啫喱滑进毛孔把油带出来。 #深层清洁 #毛孔 #洁面啫喱
 
-Deep clean ≠ harsh scrub — gel does it without friction #GentleClean #DeepCleansing #CleanserGel | 深层清洁≠猛搓——啫喱不用摩擦就做到 #温和 #深层清洁 #洁面啫喱
+That tight squeaky feel after foam is the barrier getting stripped #GentleClean #CleanserGel #CleanSkin | 泡沫洗完那种紧绷感，其实是屏障被带走了。 #温和 #洁面啫喱 #清爽
 
-Gel penetrates the pore, dissolves the plug, rinses clean — 3-step science #DeepCleansing #PoreCare #CleanserGel | 啫喱渗毛孔融堵塞冲干净——3步科学 #深层清洁 #毛孔 #洁面啫喱
+Gel texture melts the oil instead of just bubbling over it #OilControl #CleanserGel #TZone | 啫喱质地是融掉油脂，而不是只在油上面起泡。 #控油 #洁面啫喱 #T区
 
-Your skin produces oil to protect — gel removes the excess, keeps the barrier #OilControl #GentleClean #CleanserGel | 皮肤出油是保护——啫喱去多余留屏障 #控油 #温和 #洁面啫喱
+Foam cleans the surface, gel goes where the shine actually starts #DeepCleansing #OilySkin #CleanserGel | 泡沫只清表面，啫喱去的是出油的根源。 #深层清洁 #油皮 #洁面啫喱
 
-Gel = oil-soluble cleanser in a water-based formula — best of both #DeepCleansing #CleanserGel #SkincareTok | 啫喱=水基底里的油溶性清洁——两全 #深层清洁 #洁面啫喱 #护肤
+Soap leaves a film behind, gel rinses clean with nothing left on the skin #GentleClean #CleanserGel #CleanSkin | 香皂会留一层膜，啫喱冲完干干净净什么都不留。 #温和 #洁面啫喱 #清爽
 
-Why your foam cleanser leaves a film — it can't break down the oil layer #DeepCleansing #CleanserGel #SkincareTok | 为啥你的泡沫洗面奶留一层膜——它打不透油层 #深层清洁 #洁面啫喱 #护肤
+The gel glides without tugging, no red patches after the wash #GentleClean #CleanserGel #SkincareTok | 啫喱顺滑推开不扯脸，洗完也不泛红。 #温和 #洁面啫喱 #护肤
 
-Gel + warm water = pore-opening deep clean that foam can't match #DeepCleansing #CleanserGel #CleanSkin | 啫喱+温水=泡沫比不了的开孔深层清洁 #深层清洁 #洁面啫喱 #清爽
+Foam fades fast, the gel stays on the skin and keeps working #DeepCleansing #CleanserGel #PoreCare | 泡沫很快散掉，啫喱还贴在脸上继续清洁。 #深层清洁 #洁面啫喱 #毛孔
 
-The gel difference: it works WITH your skin's oil, not against it #OilControl #GentleClean #CleanserGel | 啫喱的区别：跟皮肤的油配合而非对抗 #控油 #温和 #洁面啫喱
+More lather doesn't mean more clean, just more air on the face #OilControl #CleanserGel #GentleClean | 泡沫多不代表洗得干净，脸上只是多了空气。 #控油 #洁面啫喱 #温和
 
-Gel formula reaches the pore lining — where the real blockage starts #DeepCleansing #PoreCare #CleanserGel | 啫喱配方到达毛孔内壁——堵塞的真正起点 #深层清洁 #毛孔 #洁面啫喱
+Gel reaches the gunk foam can't touch near the nose and chin #TZone #PoreCare #DeepCleansing | 啫喱能碰到泡沫够不到的鼻翼下巴脏东西。 #T区 #毛孔 #深层清洁
 
-Clean skin isn't about how much foam — it's about how deep the gel goes #DeepCleansing #CleanserGel #SkincareTok | 干净的脸不在于泡沫多少——在于啫喱钻多深 #深层清洁 #洁面啫喱 #护肤
+Bar soap drags across the skin, gel melts in and rinses without pulling #GentleClean #CleanserGel #CleanSkin | 香皂在脸上硬蹭，啫喱化开就洗掉还不扯。 #温和 #洁面啫喱 #清爽
 
-Gel doesn't need sulfates to clean deep — the texture does the work #GentleClean #DeepCleansing #CleanserGel | 啫喱不需要硫酸盐深层清洁——质地本身在干活 #温和 #深层清洁 #洁面啫喱
+Bubbles pop and vanish, gel binds to the oil and carries it away with water #OilControl #CleanserGel #DeepCleansing | 泡泡一搓就破，啫喱是黏住油随水冲走。 #控油 #洁面啫喱 #深层清洁
 
-Oil control starts at the wash — gel sets the baseline for the whole day #OilControl #CleanserGel #SkincareTok | 控油从洗脸开始——啫喱定全天的基线 #控油 #洁面啫喱 #护肤
+That squeak after foam is dryness, not cleanliness #GentleClean #CleanserGel #SkincareTok | 泡沫洗完的吱吱声是干，不是干净。 #温和 #洁面啫喱 #护肤
 
-Gel = micellar technology without the cotton pad — direct to pore #DeepCleansing #CleanserGel #CleanSkin | 啫喱=不用化妆棉的胶束科技——直达毛孔 #深层清洁 #洁面啫喱 #清爽
+Gel clears the shine without that tight post-wash stretch #OilControl #GentleClean #CleanserGel | 啫喱去油光，却没有洗完那种绷脸感。 #控油 #温和 #洁面啫喱
 
-The pH of gel respects your barrier — deep clean without the damage #GentleClean #DeepCleansing #CleanserGel | 啫喱的pH尊重屏障——深层清洁不伤皮 #温和 #深层清洁 #洁面啫喱
+Foam looks busy, gel actually gets into the pore line #DeepCleansing #PoreCare #CleanserGel | 泡沫看着热闹，啫喱才真的进到毛孔线里。 #深层清洁 #毛孔 #洁面啫喱
 
-Gel proves: you don't need foam to clean — you need penetration #DeepCleansing #CleanserGel #SkincareTok | 啫喱证明：清洁不需要泡沫——需要渗透 #深层清洁 #洁面啫喱 #护肤
+No foam needed when the gel breaks the grease down directly #OilControl #CleanserGel #DeepCleansing | 啫喱直接分解油脂，根本不需要靠泡沫。 #控油 #洁面啫喱 #深层清洁
+
+Smooth gel, no scrubbing, the oil lifts off and rinses away on its own #GentleClean #CleanserGel #CleanSkin | 顺滑啫喱不用搓，油自己就浮起来被冲掉。 #温和 #洁面啫喱 #清爽

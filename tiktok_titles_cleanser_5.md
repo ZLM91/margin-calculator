@@ -1,35 +1,37 @@
-Gel vs foam — same skin, different depth #DeepCleansing #CleanserGel #SkincareTok | 啫喱对泡沫——同样的脸不同深度 #深层清洁 #洁面啫喱 #护肤
+# 2026-09-24
 
-Soap vs gel — one strips, one cleans #GentleClean #CleanserGel #SkincareTok | 肥皂对啫喱——一个扒皮一个清洁 #温和 #洁面啫喱 #护肤
+More foam does not mean a cleaner face; the gel reaches where lather stops #DeepCleansing #OilControl #CleanserGel | 泡沫多不等于洗得干净；啫喱能到泡沫到不了的地方 #洁面啫喱 #深层清洁 #控油
 
-Cheap gel vs this — you feel the difference at rinse #CleanserGel #CleanSkin #SkincareTok | 便宜啫喱对这款——冲的时候就知道 #洁面啫喱 #清爽 #护肤
+Foamy soap strips the skin and the oil comes back twice as strong #OilControl #GentleClean #OilySkin | 皂基把脸洗秃了，油反而反扑得更猛 #控油 #温和 #油皮
 
-Wipes vs gel cleanse — surface vs deep #DeepCleansing #CleanserGel #SkincareTok | 湿巾对啫喱——表面对深层 #深层清洁 #洁面啫喱 #护肤
+Washing the face more often just teaches the skin to make more oil #OilControl #OilySkin #CleanserGel | 洗脸越勤，脸越会自己出油 #控油 #油皮 #洁面啫喱
 
-Foam feels clean but isn't — gel feels calm and IS clean #DeepCleansing #CleanserGel #CleanSkin | 泡沫感觉干净其实不是——啫喱感觉温和但真干净 #深层清洁 #洁面啫喱 #清爽
+Water alone leaves the day's oil sitting inside the pores #PoreCare #DeepCleansing #CleanSkin | 光用清水，一天的油还窝在毛孔里 #毛孔 #深层清洁 #清爽
 
-Your old cleanser vs gel — the oil return time tells the story #OilControl #CleanserGel #SkincareTok | 旧洗面奶对啫喱——出油时间会说话 #控油 #洁面啫喱 #护肤
+A wipe only moves the grease around instead of clearing it #OilControl #PoreCare #CleanserGel | 湿巾只是把油抹匀，根本没清掉 #控油 #毛孔 #洁面啫喱
 
-Gel vs scrub — one dissolves oil, one scratches skin #GentleClean #DeepCleansing #CleanserGel | 啫喱对磨砂——一个溶油一个刮皮 #温和 #深层清洁 #洁面啫喱
+The gel is meant to do the work, not just to bubble up #CleanserGel #DeepCleansing #GentleClean | 啫喱是来干活的，不是只负责起泡的 #洁面啫喱 #深层清洁 #温和
 
-Foam leaves a film? Gel doesn't — rinse and feel the difference #CleanSkin #CleanserGel #SkincareTok | 泡沫留膜？啫喱不留——冲掉就感觉出差别 #清爽 #洁面啫喱 #护肤
+Big bubbles feel clean but miss the gunk inside the pore #PoreCare #DeepCleansing #OilySkin | 大泡泡洗着爽，却漏掉毛孔里的脏东西 #毛孔 #深层清洁 #油皮
 
-Bar soap pH vs gel pH — one damages, one respects #GentleClean #CleanserGel #SkincareTok | 肥皂pH对啫喱pH——一个伤皮一个尊重 #温和 #洁面啫喱 #护肤
+Soap leaves that tight squeaky feel because the barrier took the hit #GentleClean #OilControl #CleanSkin | 肥皂洗完紧绷发干，是屏障挨了打 #温和 #控油 #清爽
 
-Micellar water + cotton pad vs gel + hands — same clean, less waste #DeepCleansing #CleanserGel #CleanSkin | 胶束水+化妆棉对啫喱+手——同样干净少浪费 #深层清洁 #洁面啫喱 #清爽
+Scrubbing harder does not clean deeper, it just stresses the skin #GentleClean #DeepCleansing #PoreCare | 越用力搓不等于越干净，只是折腾脸 #温和 #深层清洁 #毛孔
 
-Foam = air + cleanser. Gel = pure cleanser — no filler #DeepCleansing #CleanserGel #SkincareTok | 泡沫=空气+清洁剂。啫喱=纯清洁剂——没有填充 #深层清洁 #洁面啫喱 #护肤
+Skipping a real cleanse lets midday shine build up by noon #OilControl #NoBlotting #TZone | 省掉认真清洁，中午前就油光满面 #控油 #不吸油 #T区
 
-Tight after foam? That's damage. Calm after gel? That's clean #GentleClean #CleanserGel #SkincareTok | 泡沫后紧绷？那是伤。啫喱后温和？那是干净 #温和 #洁面啫喱 #护肤
+Foam washes the surface; the gel goes where the shine starts #DeepCleansing #OilControl #CleanserGel | 泡沫只洗表面，啫喱钻到出油的根上 #深层清洁 #控油 #洁面啫喱
 
-Gel vs oil cleanser — one for daily, one for makeup removal #CleanserGel #SkincareTok #CleanSkin | 啫喱对卸妆油——一个日常一个卸妆 #洁面啫喱 #护肤 #清爽
+A tight face after washing is not proof it worked, it is a warning #GentleClean #OilControl #CleanSkin | 洗完紧绷不是洗干净的证据，是警报 #温和 #控油 #清爽
 
-Powder cleanser vs gel — which actually removes oil? #OilControl #CleanserGel #SkincareTok | 粉状对啫喱——哪个真能去油？ #控油 #洁面啫喱 #护肤
+Rinsing with water cannot lift the sebum a gel can reach #PoreCare #DeepCleansing #CleanserGel | 清水冲不掉皮脂，啫喱才够得到 #毛孔 #深层清洁 #洁面啫喱
 
-Foam gives instant satisfaction, gel gives lasting oil control #OilControl #CleanserGel #SkincareTok | 泡沫给即时满足，啫喱给持久控油 #控油 #洁面啫喱 #护肤
+Over-washing opens the door to more oil, not less #OilControl #OilySkin #GentleClean | 洗太勤只会招来更多油，不是更少 #控油 #油皮 #温和
 
-Gel vs clay cleanser — both clean, gel is gentler for daily #GentleClean #CleanserGel #SkincareTok | 啫喱对泥膏——都清洁，啫喱更适合日常 #温和 #洁面啫喱 #护肤
+The lather is for show; the cleanse is in the gel #CleanserGel #DeepCleansing #GentleClean | 泡沫是给眼睛看的，清洁在啫喱里 #洁面啫喱 #深层清洁 #温和
 
-Your £3 gel vs this — the ingredient list explains the gap #CleanserGel #SkincareTok #CleanSkin | 你3镑的啫喱对这款——成分表说明差距 #洁面啫喱 #护肤 #清爽
+A squeaky face by night means a shiny face by morning #OilControl #NoBlotting #OilySkin | 晚上洗到吱吱响，早上照样油光光 #控油 #不吸油 #油皮
 
-Gel does what foam promises — deep, clean, no tightness #DeepCleansing #GentleClean #CleanserGel | 啫喱做到了泡沫承诺的——深层干净不紧绷 #深层清洁 #温和 #洁面啫喱
+Believing more foam equals more clean is why the T-zone keeps shining #TZone #OilControl #PoreCare | 以为泡沫多就是干净，T区才一直发光 #T区 #控油 #毛孔
+
+The gel clears the pore without the tight after-feel of soap #GentleClean #PoreCare #CleanserGel | 啫喱清得掉毛孔，却没有肥皂的紧绷感 #温和 #毛孔 #洁面啫喱
