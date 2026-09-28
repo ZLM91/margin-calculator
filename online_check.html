@@ -589,22 +589,11 @@ body.hide-wh .wh-col { display: none; }
           <thead>
             <tr>
               <th>品类</th>
-              <th>SKU数</th>
               <th>订单数</th>
-              <th>销量</th>
               <th>总收入(<span data-cur>$</span>)</th>
               <th>产品成本(<span data-cur>$</span>)</th>
-              <th>尾程运费(<span data-cur>$</span>)</th>
-              <th class="wh-col">海外仓费(<span data-cur>$</span>)</th>
-              <th class="wh-col">尾程+海外仓(<span data-cur>$</span>)</th>
-              <th>平台扣点(<span data-cur>$</span>)</th>
-              <th>达人佣金(<span data-cur>$</span>)</th>
-              <th>推广费(<span data-cur>$</span>)</th>
+              <th>尾程+海外仓(<span data-cur>$</span>)</th>
               <th>推广+佣金(<span data-cur>$</span>)</th>
-              <th>总成本(<span data-cur>$</span>)</th>
-              <th>净利润(<span data-cur>$</span>)</th>
-              <th>利润率(%)</th>
-              <th>ROI</th>
             </tr>
           </thead>
           <tbody id="categorySummaryBody"></tbody>
@@ -623,22 +612,11 @@ body.hide-wh .wh-col { display: none; }
           <thead>
             <tr>
               <th>品类</th>
-              <th>SKU数</th>
               <th>订单数</th>
-              <th>销量</th>
               <th>总收入($)</th>
               <th>产品成本($)</th>
-              <th>尾程运费($)</th>
-              <th class="wh-col">海外仓费($)</th>
-              <th class="wh-col">尾程+海外仓($)</th>
-              <th>平台扣点($)</th>
-              <th>达人佣金($)</th>
-              <th>推广费($)</th>
+              <th>尾程+海外仓($)</th>
               <th>推广+佣金($)</th>
-              <th>总成本($)</th>
-              <th>净利润($)</th>
-              <th>利润率(%)</th>
-              <th>ROI</th>
             </tr>
           </thead>
           <tbody id="usdSummaryBody"></tbody>
@@ -1507,27 +1485,12 @@ function renderCategoryDashboard(orderData) {
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><strong>${cat}</strong></td>
-      <td>
-        ${skuSize > 0
-          ? `<a href="javascript:void(0)" class="sku-toggle" data-cat="${cat}" style="color:var(--primary);text-decoration:none;cursor:pointer;font-weight:600;"><span class="sku-arrow">▶</span> ${skuSize} 个 SKU</a>`
-          : `<span style="color:var(--muted);">${skuSize}</span>`}
-      </td>
+      <td><a href="javascript:void(0)" class="sku-toggle" data-cat="${cat}" style="color:var(--primary);text-decoration:none;cursor:pointer;font-weight:600;"><span class="sku-arrow">▶</span> ${cat}</a></td>
       <td>${d.orders}</td>
-      <td>${d.qty}</td>
       <td>${cur}${d.revenue.toFixed(2)}</td>
       <td>${cur}${d.productCost.toFixed(2)}</td>
-      <td>${cur}${shippingDisp.toFixed(2)}</td>
-      <td class="wh-col">${cur}${warehouseDisp.toFixed(2)}</td>
-      <td class="wh-col">${cur}${(shippingDisp + warehouseDisp).toFixed(2)}</td>
-      <td>${cur}${d.platformFee.toFixed(2)}</td>
-      <td>${cur}${d.creatorFee.toFixed(2)}</td>
-      <td>${cur}${promo.toFixed(2)}</td>
+      <td>${cur}${(shippingDisp + warehouseDisp).toFixed(2)}</td>
       <td>${cur}${(d.creatorFee + promo).toFixed(2)}</td>
-      <td>${cur}${d.totalCost.toFixed(2)}</td>
-      <td class="${profitClass}">${cur}${d.profit.toFixed(2)}</td>
-      <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
-      <td>${d.roi.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
 
@@ -1551,7 +1514,7 @@ function renderCategoryDashboard(orderData) {
       subTr.className = 'sku-detail-row';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="${currentCountry === 'EU' ? 15 : 17}" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="6" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1565,22 +1528,11 @@ function renderCategoryDashboard(orderData) {
   tbody.insertAdjacentHTML('beforeend', `
     <tr class="total-row" style="font-weight:bold;background:#f0f4f8;">
       <td>合计</td>
-      <td></td>
       <td>${totalOrders}</td>
-      <td>${totalQty}</td>
       <td>${cur}${totalRevenue.toFixed(2)}</td>
       <td>${cur}${totalProductCost.toFixed(2)}</td>
-      <td>${cur}${totalShippingDisp.toFixed(2)}</td>
-      <td class="wh-col">${cur}${totalWarehouseDisp.toFixed(2)}</td>
-      <td class="wh-col">${cur}${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
-      <td>${cur}${totalPlatformFee.toFixed(2)}</td>
-      <td>${cur}${totalCreatorFee.toFixed(2)}</td>
-      <td>${cur}${totalPromoLocal.toFixed(2)}</td>
+      <td>${cur}${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
       <td>${cur}${(totalCreatorFee + totalPromoLocal).toFixed(2)}</td>
-      <td>${cur}${totalCost.toFixed(2)}</td>
-      <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${cur}${totalProfit.toFixed(2)}</td>
-      <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
-      <td>${totalRoi.toFixed(2)}</td>
     </tr>
   `);
 
@@ -1679,27 +1631,12 @@ function renderUsdDashboard(orderData) {
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><strong>${cat}</strong></td>
-      <td>
-        ${skuSize > 0
-          ? `<a href="javascript:void(0)" class="sku-toggle-usd" data-cat="${cat}" style="color:var(--primary);text-decoration:none;cursor:pointer;font-weight:600;"><span class="sku-arrow">▶</span> ${skuSize} 个 SKU</a>`
-          : `<span style="color:var(--muted);">${skuSize}</span>`}
-      </td>
+      <td><a href="javascript:void(0)" class="sku-toggle-usd" data-cat="${cat}" style="color:var(--primary);text-decoration:none;cursor:pointer;font-weight:600;"><span class="sku-arrow">▶</span> ${cat}</a></td>
       <td>${d.orders}</td>
-      <td>${d.qty}</td>
       <td>$${d.revenue.toFixed(2)}</td>
       <td>$${d.productCost.toFixed(2)}</td>
-      <td>$${d.shippingCost.toFixed(2)}</td>
-      <td class="wh-col">$${d.warehouseCost.toFixed(2)}</td>
-      <td class="wh-col">$${(d.shippingCost + d.warehouseCost).toFixed(2)}</td>
-      <td>$${d.platformFee.toFixed(2)}</td>
-      <td>$${d.creatorFee.toFixed(2)}</td>
-      <td>$${d.promo.toFixed(2)}</td>
+      <td>$${(d.shippingCost + d.warehouseCost).toFixed(2)}</td>
       <td>$${(d.creatorFee + d.promo).toFixed(2)}</td>
-      <td>$${d.totalCost.toFixed(2)}</td>
-      <td class="${profitClass}">$${d.profit.toFixed(2)}</td>
-      <td class="${profitClass}">${d.margin.toFixed(1)}%</td>
-      <td>${d.roi.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
 
@@ -1722,7 +1659,7 @@ function renderUsdDashboard(orderData) {
       subTr.className = 'sku-detail-row-usd';
       subTr.dataset.cat = cat;
       subTr.style.display = 'none';
-      subTr.innerHTML = `<td colspan="${currentCountry === 'EU' ? 15 : 17}" style="background:#f8fafc;padding:12px 24px;">
+      subTr.innerHTML = `<td colspan="6" style="background:#f8fafc;padding:12px 24px;">
         <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">📦 ${cat} — 包含的 SKU：</div>
         ${skuItems}
       </td>`;
@@ -1736,22 +1673,11 @@ function renderUsdDashboard(orderData) {
   tbody.insertAdjacentHTML('beforeend', `
     <tr class="total-row" style="font-weight:bold;background:#f0f4f8;">
       <td>合计</td>
-      <td></td>
       <td>${totalOrders}</td>
-      <td>${totalQty}</td>
       <td>$${totalRevenue.toFixed(2)}</td>
       <td>$${totalProductCost.toFixed(2)}</td>
-      <td>$${totalShippingDisp.toFixed(2)}</td>
-      <td class="wh-col">$${totalWarehouseDisp.toFixed(2)}</td>
-      <td class="wh-col">$${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
-      <td>$${totalPlatformFee.toFixed(2)}</td>
-      <td>$${totalCreatorFee.toFixed(2)}</td>
-      <td>$${totalPromoUsd.toFixed(2)}</td>
+      <td>$${(totalShippingDisp + totalWarehouseDisp).toFixed(2)}</td>
       <td>$${(totalCreatorFee + totalPromoUsd).toFixed(2)}</td>
-      <td>$${totalCost.toFixed(2)}</td>
-      <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">$${totalProfit.toFixed(2)}</td>
-      <td class="${totalProfit >= 0 ? 'profit' : 'loss'}">${totalMargin.toFixed(1)}%</td>
-      <td>${totalRoi.toFixed(2)}</td>
     </tr>
   `);
 
@@ -1857,8 +1783,8 @@ function recalculate() {
     renderCards(0, 0, 0, 0);
     document.getElementById('dailyTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 16 : 18}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('skuSummaryTableBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
-    document.getElementById('categorySummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
-    document.getElementById('usdSummaryBody').innerHTML = `<tr><td colspan="${currentCountry === 'EU' ? 15 : 17}" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('categorySummaryBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
+    document.getElementById('usdSummaryBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">无符合条件的订单</td></tr>`;
     document.getElementById('sampleOrdersBody').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">无样品订单</td></tr>';
     document.getElementById('sampleSummaryText').textContent = '';
     return;
@@ -2542,14 +2468,11 @@ function exportResults() {
   const catData = [];
   document.querySelectorAll('#categorySummaryBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 17) {
+    if (cells.length >= 6) {
       catData.push({
-        '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
-        '销量': cells[3].textContent, '总收入': cells[4].textContent, '产品成本': cells[5].textContent,
-        '尾程运费': cells[6].textContent, ...(isEU ? {} : { '海外仓费': cells[7].textContent, '尾程+海外仓': cells[8].textContent }), '平台扣点': cells[9].textContent,
-        '达人佣金': cells[10].textContent, '推广费': cells[11].textContent, '推广+佣金': cells[12].textContent,
-        '总成本': cells[13].textContent, '净利润': cells[14].textContent,
-        '利润率': cells[15].textContent, 'ROI': cells[16].textContent,
+        '品类': cells[0].textContent, '订单数': cells[1].textContent,
+        '总收入': cells[2].textContent, '产品成本': cells[3].textContent,
+        '尾程+海外仓': cells[4].textContent, '推广+佣金': cells[5].textContent,
       });
     }
   });
@@ -2560,14 +2483,11 @@ function exportResults() {
   const usdData = [];
   document.querySelectorAll('#usdSummaryBody tr:not(.total-row)').forEach(tr => {
     const cells = tr.querySelectorAll('td');
-    if (cells.length >= 17) {
+    if (cells.length >= 6) {
       usdData.push({
-        '品类': cells[0].textContent, 'SKU数': cells[1].textContent, '订单数': cells[2].textContent,
-        '销量': cells[3].textContent, '总收入($)': cells[4].textContent, '产品成本($)': cells[5].textContent,
-        '尾程运费($)': cells[6].textContent, ...(isEU ? {} : { '海外仓费($)': cells[7].textContent, '尾程+海外仓($)': cells[8].textContent }), '平台扣点($)': cells[9].textContent,
-        '达人佣金($)': cells[10].textContent, '推广费($)': cells[11].textContent, '推广+佣金($)': cells[12].textContent,
-        '总成本($)': cells[13].textContent, '净利润($)': cells[14].textContent,
-        '利润率(%)': cells[15].textContent, 'ROI': cells[16].textContent,
+        '品类': cells[0].textContent, '订单数': cells[1].textContent,
+        '总收入($)': cells[2].textContent, '产品成本($)': cells[3].textContent,
+        '尾程+海外仓($)': cells[4].textContent, '推广+佣金($)': cells[5].textContent,
       });
     }
   });
