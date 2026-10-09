@@ -360,6 +360,7 @@ body.hide-wh .wh-col { display: none; }
     <div class="section-header">
       <h2>SKU 成本设置</h2>
       <span class="info-text" id="skuCountInfo"></span>
+      <span class="info-text" id="euShipHint" style="display:none;color:var(--muted);">EU 站：12 国尾程分列，未填写的国家按德国DE价计算</span>
     </div>
     <div class="table-wrapper">
       <div class="table-scroll">
@@ -699,7 +700,9 @@ function parseAmount(val) {
 
 // ===== EU destination-country normalization =====
 // TikTok Shop EU exports write the destination country in native language (e.g. "España", "France").
-const EU_COUNTRIES = ['DE', 'FR', 'IT', 'ES']; // 德 / 法 / 意 / 西
+const EU_COUNTRIES = ['DE', 'FR', 'IT', 'ES', 'AT', 'BE', 'CZ', 'GR', 'HU', 'NL', 'PL', 'PT']; // 德法意西 + 奥比捷希匈荷波葡（2026-10 新增8国尾程）
+const EU_CC_NAMES = { DE: '德国', FR: '法国', IT: '意大利', ES: '西班牙', AT: '奥地利', BE: '比利时', CZ: '捷克', GR: '希腊', HU: '匈牙利', NL: '荷兰', PL: '波兰', PT: '葡萄牙' };
+const euShipObj = () => Object.fromEntries(EU_COUNTRIES.map(c => [c, 0]));
 function normalizeCountry(raw) {
   if (!raw) return null;
   const lower = String(raw).trim().toLowerCase();
@@ -708,11 +711,28 @@ function normalizeCountry(raw) {
     'france': 'FR', 'fr': 'FR',
     'italia': 'IT', 'italy': 'IT', 'it': 'IT',
     'deutschland': 'DE', 'germany': 'DE', 'de': 'DE', 'allemagne': 'DE',
-    '德国': 'DE', '法国': 'FR', '意大利': 'IT', '西班牙': 'ES'
+    'austria': 'AT', 'österreich': 'AT', 'oesterreich': 'AT', 'autriche': 'AT', 'at': 'AT',
+    'belgium': 'BE', 'belgique': 'BE', 'belgië': 'BE', 'belgie': 'BE', 'be': 'BE',
+    'czech republic': 'CZ', 'czechia': 'CZ', 'tschechien': 'CZ', 'cz': 'CZ',
+    'greece': 'GR', 'griechenland': 'GR', 'grèce': 'GR', 'gr': 'GR',
+    'hungary': 'HU', 'ungarn': 'HU', 'hongrie': 'HU', 'hu': 'HU',
+    'netherlands': 'NL', 'nederland': 'NL', 'pays-bas': 'NL', 'nl': 'NL',
+    'poland': 'PL', 'polen': 'PL', 'polska': 'PL', 'pl': 'PL',
+    'portugal': 'PT', 'pt': 'PT',
+    '德国': 'DE', '法国': 'FR', '意大利': 'IT', '西班牙': 'ES',
+    '奥地利': 'AT', '比利时': 'BE', '捷克': 'CZ', '希腊': 'GR', '匈牙利': 'HU', '荷兰': 'NL', '波兰': 'PL', '葡萄牙': 'PT'
   };
   if (direct[lower]) return direct[lower];
   const plain = lower.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]/g, '');
-  const plainMap = { 'es': 'ES', 'espana': 'ES', 'fr': 'FR', 'france': 'FR', 'it': 'IT', 'italia': 'IT', 'de': 'DE', 'deutschland': 'DE', 'germany': 'DE' };
+  const plainMap = { 'es': 'ES', 'espana': 'ES', 'fr': 'FR', 'france': 'FR', 'it': 'IT', 'italia': 'IT', 'de': 'DE', 'deutschland': 'DE', 'germany': 'DE',
+    'austria': 'AT', 'osterreich': 'AT', 'oesterreich': 'AT', 'autriche': 'AT', 'at': 'AT',
+    'belgium': 'BE', 'belgique': 'BE', 'belgie': 'BE', 'belgien': 'BE', 'be': 'BE',
+    'czechrepublic': 'CZ', 'czechia': 'CZ', 'tschechien': 'CZ', 'cesko': 'CZ', 'tchequie': 'CZ', 'cz': 'CZ',
+    'greece': 'GR', 'griechenland': 'GR', 'gr': 'GR',
+    'hungary': 'HU', 'ungarn': 'HU', 'hongrie': 'HU', 'magyarorszag': 'HU', 'hu': 'HU',
+    'netherlands': 'NL', 'nederland': 'NL', 'paysbas': 'NL', 'nl': 'NL',
+    'poland': 'PL', 'polen': 'PL', 'polska': 'PL', 'pl': 'PL',
+    'portugal': 'PT', 'pt': 'PT' };
   return plainMap[plain] || null;
 }
 // Read a per-country cost (EU) or flat (US/UK). Falls back to DE when country not matched.
@@ -1113,15 +1133,17 @@ function renderSkuTableHeader() {
   const tr = tbl && tbl.querySelector('thead tr');
   if (!tr) return;
   if (currentCountry === 'EU') {
+    const euThs = EU_COUNTRIES.map(c => `<th>${EU_CC_NAMES[c]}${c}<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>`).join('');
+    const hint = document.getElementById('euShipHint');
+    if (hint) hint.style.display = '';
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
       <th>总收入(€)</th><th>产品成本(€/件)</th>
-      <th>德国DE<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
-      <th>法国FR<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
-      <th>意大利IT<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
-      <th>西班牙ES<br><span style="font-weight:400;font-size:10px;">尾程(€/件)</span></th>
+      ${euThs}
       <th>达人佣金(%)</th><th>平台扣点(%)</th>`;
   } else {
+    const hint = document.getElementById('euShipHint');
+    if (hint) hint.style.display = 'none';
     tr.innerHTML = `
       <th>SKU</th><th>产品名</th><th>订单数</th><th>销量</th><th>达人订单</th><th>样品单</th>
       <th>总收入(<span data-cur>$</span>)</th><th>产品成本(<span data-cur>$</span>/件)</th>
@@ -1165,30 +1187,30 @@ function renderSkuTable() {
         creatorPct: parseFloat(document.getElementById('defaultCreatorPct').value) || 0,
         platformPct: parseFloat(document.getElementById('defaultPlatformPct').value) || 0,
       };
-      if (currentCountry === 'EU') { def.shipping = { DE: 0, FR: 0, IT: 0, ES: 0 }; def.warehouse = { DE: 0, FR: 0, IT: 0, ES: 0 }; }
+      if (currentCountry === 'EU') { def.shipping = euShipObj(); def.warehouse = euShipObj(); }
       else { def.shipping = 0; def.warehouse = 0; }
       skuSettings[sku] = def;
     }
-    // EU: migrate legacy flat cost to per-country object (spread old value across all 4 countries)
+    // EU: migrate legacy flat cost to per-country object (spread old value across all 12 countries)
     if (currentCountry === 'EU') {
       if (typeof skuSettings[sku].shipping !== 'object' || skuSettings[sku].shipping === null) {
         const old = skuSettings[sku].shipping || 0;
-        skuSettings[sku].shipping = { DE: old, FR: old, IT: old, ES: old };
+        skuSettings[sku].shipping = Object.fromEntries(EU_COUNTRIES.map(c => [c, old]));
       }
       if (typeof skuSettings[sku].warehouse !== 'object' || skuSettings[sku].warehouse === null) {
         const old = skuSettings[sku].warehouse || 0;
-        skuSettings[sku].warehouse = { DE: old, FR: old, IT: old, ES: old };
+        skuSettings[sku].warehouse = Object.fromEntries(EU_COUNTRIES.map(c => [c, old]));
       }
     }
     const s = skuSettings[sku];
 
     const tr = document.createElement('tr');
     if (currentCountry === 'EU') {
-      const cc = [['DE', '德国'], ['FR', '法国'], ['IT', '意大利'], ['ES', '西班牙']];
+      const cc = EU_COUNTRIES.map(code => [code, EU_CC_NAMES[code]]);
       const costCells = cc.map(([code]) => `
         <td style="padding:3px 4px;vertical-align:top;">
           <div style="font-size:9px;color:var(--muted);text-align:left;line-height:1.1;">尾程</div>
-          <input type="number" value="${(s.shipping[code] || 0)}" min="0" step="0.01" data-sku="${sku}" data-field="shipping.${code}" class="sku-input" style="width:60px;">
+          <input type="number" value="${(s.shipping[code] != null ? s.shipping[code] : '')}" min="0" step="0.01" placeholder="同DE" title="留空则按德国DE尾程价计算" data-sku="${sku}" data-field="shipping.${code}" class="sku-input" style="width:56px;">
         </td>`).join('');
       tr.innerHTML = `
         <td><strong>${sku}</strong></td>
@@ -1225,7 +1247,7 @@ function renderSkuTable() {
   // Summary row (totals across all SKUs)
   const totalTr = document.createElement('tr');
   totalTr.classList.add('total-row');
-  const emptyCols = (currentCountry === 'EU') ? 7 : 5; // EU: 产品成本+尾程4国+达人%+平台% = 7 ; US/UK: 产品成本+尾程+仓费+达人%+平台% = 5（样品单只计产品成本+尾程，无独立样品履约费列）
+  const emptyCols = (currentCountry === 'EU') ? 15 : 5; // EU: 产品成本+尾程12国+达人%+平台% = 15 ; US/UK: 产品成本+尾程+仓费+达人%+平台% = 5（样品单只计产品成本+尾程，无独立样品履约费列）
   totalTr.innerHTML = `
     <td colspan="2"><strong>合计</strong></td>
     <td><strong>${totals.orders}</strong></td>
@@ -1728,7 +1750,7 @@ function renderSampleOrders(orderData) {
   });
 
   samples.forEach(o => {
-    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0) };
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? euShipObj() : 0) };
     const productCost = s.productCost * o.quantity; // GBP
     const shipVal = (currentCountry === 'EU') ? readCost(s, 'shipping', o.countryCode || 'DE') : (s.shipping || 0);
     const shippingUsd = shipVal * o.quantity; // original USD
@@ -1797,7 +1819,7 @@ function recalculate() {
   const defaultCreatorPct = parseFloat(document.getElementById('defaultCreatorPct').value) || 0;
   const ukFeePerOrder = (currentCountry === 'UK') ? (parseFloat(document.getElementById('ukLogisticsFee').value) || 0) : 0; // GBP per order
   const orderData = orders.map(o => {
-    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), warehouse: (currentCountry === 'EU' ? { DE: 0, FR: 0, IT: 0, ES: 0 } : 0), creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
+    const s = skuSettings[o.sku] || { productCost: 0, shipping: (currentCountry === 'EU' ? euShipObj() : 0), warehouse: (currentCountry === 'EU' ? euShipObj() : 0), creatorPct: defaultCreatorPct, platformPct: defaultPlatformPct };
     const productCost = s.productCost * o.quantity;
     const ukFeeGbp = (o.isSample || o.isCancelled) ? 0 : ukFeePerOrder;  // UK logistics fee: per order, non-sample & non-cancelled only
     // EU: pick tail cost by destination country (fallback DE), 海外仓费已去掉不计; US/UK: flat value
@@ -2453,14 +2475,19 @@ function exportResults() {
   XLSX.utils.book_append_sheet(wb, ws2, 'SKU盈利汇总');
 
   // SKU settings
-  const settingsData = uniqueSkus.map(sku => ({
-    'SKU': sku,
-    '产品成本': skuSettings[sku]?.productCost || 0,
-    '尾程运费(DE代表)': costRep(skuSettings[sku]?.shipping),
-    ...(isEU ? {} : { '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse) }),
-    '达人佣金%': skuSettings[sku]?.creatorPct || 0,
-    '平台扣点%': skuSettings[sku]?.platformPct || 0,
-  }));
+  const settingsData = uniqueSkus.map(sku => {
+    const ship = skuSettings[sku]?.shipping;
+    return {
+      'SKU': sku,
+      '产品成本': skuSettings[sku]?.productCost || 0,
+      ...(isEU
+        ? Object.fromEntries(EU_COUNTRIES.map(c => [`尾程(${c})`, (typeof ship === 'object' && ship !== null) ? (ship[c] != null ? ship[c] : `DE:${ship['DE'] || 0}`) : (ship || 0)]))
+        : { '尾程运费(DE代表)': costRep(ship) }),
+      ...(isEU ? {} : { '海外仓费(DE代表)': costRep(skuSettings[sku]?.warehouse) }),
+      '达人佣金%': skuSettings[sku]?.creatorPct || 0,
+      '平台扣点%': skuSettings[sku]?.platformPct || 0,
+    };
+  });
   const ws3 = XLSX.utils.json_to_sheet(settingsData);
   XLSX.utils.book_append_sheet(wb, ws3, 'SKU设置');
 
