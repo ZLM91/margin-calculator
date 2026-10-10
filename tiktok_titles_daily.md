@@ -1,28 +1,28 @@
 # 2026-09-24
 
 ### 🧻 湿厕纸 Wet Wipes（日常款 · 益生菌）
-Dry tissue just smears instead of cleaning #wipes #wetwips #toiletpaper | 干纸巾只会越擦越脏 #湿厕纸 #益生菌湿厕纸
-Rough paper leaves skin red and sore #wipes #wetwips #toiletpaper | 粗糙纸巾擦得又红又疼 #湿厕纸 #益生菌湿厕纸
-Scented wipes sting sensitive skin #wipes #wetwips #toiletpaper | 带香精的湿巾刺痛敏感肌肤 #湿厕纸 #益生菌湿厕纸
-Alcohol wipes leave a burning feeling #wipes #wetwips #toiletpaper | 含酒精的湿巾擦完火辣辣 #湿厕纸 #益生菌湿厕纸
-Thin wipes tear apart mid-use #wipes #wetwips #toiletpaper | 薄款湿巾一扯就破 #湿厕纸 #益生菌湿厕纸
-Plain water feels rough and unfinished #wipes #wetwips #toiletpaper | 只用清水总觉得糙还没擦净 #湿厕纸 #益生菌湿厕纸
-Probiotic water feels calm after spicy food #wipes #wetwips #toiletpaper | 益生菌水配方吃完辣也舒服 #湿厕纸 #益生菌湿厕纸
-Biodegradable wipes vanish, plastic ones don't #wipes #wetwips #toiletpaper | 可降解湿巾会消失塑料款不会 #湿厕纸 #益生菌湿厕纸
-Thick soft sheets don't fall apart #wipes #wetwips #toiletpaper | 厚实柔软的湿巾怎么扯都不破 #湿厕纸 #益生菌湿厕纸
-Shared bathrooms need a fresher option #wipes #wetwips #toiletpaper | 公共卫生间更需要清爽选择 #湿厕纸 #益生菌湿厕纸
+Dry toilet paper just smears — it never actually cleans #wipes #wetwips #toiletpaper | 干纸巾只是把脏抹开，根本没擦净 #湿厕纸 #益生菌湿厕纸
+That burning feeling after wiping with dry paper? It is the paper, not you #wipes #wetwips #toiletpaper | 干纸擦完火辣辣？是纸的问题不是你 #湿厕纸 #益生菌湿厕纸
+Rough dry tissue on soft skin feels like sandpaper #wipes #wetwips #toiletpaper | 粗糙干纸擦娇嫩皮肤像砂纸 #湿厕纸 #益生菌湿厕纸
+Wiping harder with dry paper only makes it redder and sorer #wipes #wetwips #toiletpaper | 干纸越用力擦越红越疼 #湿厕纸 #益生菌湿厕纸
+The not-clean feeling follows you all day after dry paper #wipes #wetwips #toiletpaper | 干纸擦完那股没干净的感觉跟一整天 #湿厕纸 #益生菌湿厕纸
+Dry paper leaves little white bits stuck where you do not want them #wipes #wetwips #toiletpaper | 干纸掉白屑卡在不该卡的地方 #湿厕纸 #益生菌湿厕纸
+Hemorrhoids and dry paper are a terrible combo — it stings every time #wipes #wetwips #toiletpaper | 痔疮碰上干纸简直遭罪，每次都刺痛 #湿厕纸 #益生菌湿厕纸
+Period week already hurts — dry paper makes it worse #wipes #wetwips #toiletpaper | 经期本来就疼，干纸雪上加霜 #湿厕纸 #益生菌湿厕纸
+After spicy food, dry paper just smears the mess around #wipes #wetwips #toiletpaper | 吃完辣，干纸只会把脏抹得到处都是 #湿厕纸 #益生菌湿厕纸
+Sensitive skin down there? Dry paper leaves it red and angry #wipes #wetwips #toiletpaper | 下面皮肤敏感？干纸擦完又红又闹 #湿厕纸 #益生菌湿厕纸
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
-Hotel tissue is scratchy on the go #wipes #wetwips #toiletpaper #travelsize | 出门在外酒店的纸又糙又硬 #湿厕纸 #旅行装湿厕纸
-Big packs burst open in the suitcase #wipes #wetwips #toiletpaper #travelsize | 大包装在行李箱里全挤破了 #湿厕纸 #旅行装湿厕纸
-Airport security tosses oversized liquids #wipes #wetwips #toiletpaper #travelsize | 机场安检把超规液体全扔了 #湿厕纸 #旅行装湿厕纸
-Marigold water soothes after long flights #wipes #wetwips #toiletpaper #travelsize | 金盏花水配方飞久也不难受 #湿厕纸 #旅行装湿厕纸
-Pocket wipes fit the smallest jeans #wipes #wetwips #toiletpaper #travelsize | 口袋装湿巾塞进最小号牛仔裤 #湿厕纸 #旅行装湿厕纸
-Scented travel wipes trigger sniffles #wipes #wetwips #toiletpaper #travelsize | 带香精的旅行湿巾一闻就打喷嚏 #湿厕纸 #旅行装湿厕纸
-Single wraps stay clean in a dirty bag #wipes #wetwips #toiletpaper #travelsize | 独立包装在脏包里也不脏 #湿厕纸 #旅行装湿厕纸
-Thin travel wipes rip at the worst time #wipes #wetwips #toiletpaper #travelsize | 薄旅行湿巾总在最尴尬时破 #湿厕纸 #旅行装湿厕纸
-TSA-friendly size clears the checkpoint #wipes #wetwips #toiletpaper #travelsize | TSA合规尺寸过安检不卡关 #湿厕纸 #旅行装湿厕纸
-Alcohol travel wipes dry the skin out #wipes #wetwips #toiletpaper #travelsize | 含酒精旅行湿巾把皮肤抽干 #湿厕纸 #旅行装湿厕纸
+Hotel toilet paper is thin and rough — it scratches on the road #wipes #wetwips #toiletpaper #travelsize | 酒店厕纸又薄又糙，出门就刮 #湿厕纸 #旅行装湿厕纸
+Public restroom paper has been touched by everyone — who knows where #wipes #wetwips #toiletpaper #travelsize | 公共厕纸人人碰过，谁知道来历 #湿厕纸 #旅行装湿厕纸
+Airplane lavatory paper is thinner than a tissue — useless #wipes #wetwips #toiletpaper #travelsize | 飞机厕纸比面巾纸还薄，没用 #湿厕纸 #旅行装湿厕纸
+Big wet wipe packs burst open in your suitcase and leak #wipes #wetwips #toiletpaper #travelsize | 大包湿巾在行李箱里挤破漏一包 #湿厕纸 #旅行装湿厕纸
+Airport security tosses your oversized liquid wipes — bring the right size #wipes #wetwips #toiletpaper #travelsize | 机场安检把超规液体湿巾扔了，带对尺寸 #湿厕纸 #旅行装湿厕纸
+Train toilet paper sat there all day — would you use it #wipes #wetwips #toiletpaper #travelsize | 火车厕纸搁了一整天，你敢用 #湿厕纸 #旅行装湿厕纸
+Airbnb bathrooms — you do not know the last guest hands #wipes #wetwips #toiletpaper #travelsize | 民宿浴室，你不知道上一位房客的手 #湿厕纸 #旅行装湿厕纸
+Road-trip rest stops have the roughest paper known to man #wipes #wetwips #toiletpaper #travelsize | 自驾服务区厕纸糙到离谱 #湿厕纸 #旅行装湿厕纸
+Thin travel wipes rip at the worst moment — mid-use #wipes #wetwips #toiletpaper #travelsize | 薄旅行湿巾总在最尴尬时破 #湿厕纸 #旅行装湿厕纸
+Camping? The only paper there is scratchy and rough #wipes #wetwips #toiletpaper #travelsize | 露营？那儿唯一的纸又糙又硬 #湿厕纸 #旅行装湿厕纸
 
 ### 🧖 一次性洗脸巾 Disposable Face Towels
 Reused towels breed stuff you can't see #facialtowel | 重复用的毛巾藏着看不见的脏 #一次性洗脸巾 #护肤

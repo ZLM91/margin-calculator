@@ -7849,13 +7849,12 @@ function loadLatestTiktokTitles() {
   statusEl.textContent = '正在搜索最新文案...';
 
   // 默认始终展示【最新批次】：你推了新批次，打开页面立刻可见，不用记轮换日
-  var TOTAL_BATCHES = 10; // 当前最新批次 = 第10批（湿厕纸日常款秋季迭代）；新增批次后改这里即可
-  var batchIndex = TOTAL_BATCHES; // 默认=最新；历史批次用 📂 手动选
-  // —— 如需恢复“按日期自动轮换”旧逻辑，取消下面注释即可 ——
-  // var baseDate = new Date(2026, 5, 1); // 2026-06-01 起算
-  // var diffDays = Math.floor((new Date().getTime() - baseDate.getTime()) / 86400000);
-  // if (diffDays < 0) diffDays = 0;
-  // batchIndex = (Math.floor(diffDays / 4) % TOTAL_BATCHES) + 1; // 1-9 循环
+  var TOTAL_BATCHES = 3; // 当前共 3 个轮换批次（湿厕纸/旅行装/洗脸巾/泥膜均为纯痛点文案）；增减批次改这里即可
+  // —— 按日期自动轮换：每 4 天切一批（1→2→3→1 循环）——
+  var baseDate = new Date(2026, 5, 1); // 2026-06-01 起算
+  var diffDays = Math.floor((new Date().getTime() - baseDate.getTime()) / 86400000);
+  if (diffDays < 0) diffDays = 0;
+  var batchIndex = (Math.floor(diffDays / 4) % TOTAL_BATCHES) + 1; // 1-3 循环，每4天一轮
 
   // 批次文件（包含湿厕纸/旅行湿厕纸/洗脸巾/牙膏/泥膜）+ 洁面啫喱专用批次文件
   var filesToLoad = [
