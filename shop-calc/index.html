@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>多平台电商利润与定价测算器</title>
+<style>
+:root{
+  --bg:#ffffff; --surface:#f7f7f5; --line:#e3e2dd; --line2:#cfcdc6;
+  --text:#2c2c2a; --muted:#6b6a65; --accent:#185fa5; --accent-bg:#e6f1fb;
+  --good:#0f6e56; --good-bg:#e1f5ee; --warn:#854f0b; --warn-bg:#faeeda;
+  --bad:#a32d2d; --bad-bg:#fcebeb;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:14px;line-height:1.6}
+h1{font-size:18px;font-weight:500;margin:0 0 4px}
+h2{font-size:14px;font-weight:500;margin:0 0 12px}
+.sub{color:var(--muted);font-size:12px;margin:0 0 18px}
+.wrap{max-width:1100px;margin:0 auto}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.bar .lb{font-size:12px;color:var(--muted)}
+select,input{width:auto;padding:6px 8px;border:1px solid var(--line2);border-radius:6px;
+  background:#fff;color:var(--text);font-size:13px;font-family:inherit}
+input{width:120px;text-align:right}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.mode{display:flex;gap:4px;background:#fff;border:1px solid var(--line2);border-radius:8px;padding:3px}
+.mode button{padding:6px 14px;border:none;background:transparent;border-radius:6px;
+  font-size:13px;cursor:pointer;color:var(--muted);font-family:inherit}
+.mode button.on{background:var(--accent);color:#fff}
+.pnote{font-size:12px;color:var(--muted);flex:1;min-width:220px}
+.grid{display:grid;grid-template-columns:390px 1fr;gap:14px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.row label{font-size:13px;flex:1}
+.row .hint{font-size:11px;color:var(--muted);display:block;line-height:1.35}
+.hero{background:var(--good-bg);border:1px solid #9fe1cb;border-radius:12px;padding:18px;margin-bottom:14px;text-align:center}
+.hero.alt{background:var(--accent-bg);border-color:#b5d4f4}
+.hero .k{font-size:12px;color:var(--muted)}
+.hero .v{font-size:38px;font-weight:500;color:var(--good);line-height:1.15;margin:2px 0}
+.hero.alt .v{color:var(--accent)}
+.hero .v2{font-size:13px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px}
+.kpi .k{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:19px;font-weight:500;margin-top:2px}
+.kpi.b{background:var(--accent-bg);border-color:#b5d4f4}
+.kpi.w{background:var(--warn-bg);border-color:#fac775}
+.kpi.r{background:var(--bad-bg);border-color:#f7c1c1}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;
+  border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line)}
+th{background:var(--surface);font-weight:500;color:var(--muted);font-size:12px}
+th:first-child,td:first-child{text-align:left}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--accent-bg);font-weight:500}
+.note{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.55}
+.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11px;background:var(--accent-bg);color:var(--accent)}
+.tag.w{background:var(--warn-bg);color:var(--warn)}
+details{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+summary{cursor:pointer;font-size:13px;color:var(--accent);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"▸ "}
+details[open] summary:before{content:"▾ "}
+.btn{width:100%;padding:8px;margin-top:4px;border:1px solid var(--accent);background:var(--accent);
+  color:#fff;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit}
+.warnbox{background:var(--bad-bg);border:1px solid #f7c1c1;border-radius:8px;padding:10px 12px;
+  font-size:13px;color:var(--bad);margin-bottom:12px;display:none}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;background:#fff;border:1px solid var(--line2);
+  font-size:12px;margin:0 4px 4px 0;cursor:pointer}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>多平台电商利润与定价测算器</h1>
+<p class="sub">支持抖音小店 / 淘宝天猫 / 拼多多 / 快手 / 京东 / 微信小店 · 正向算利润、反向倒推售价 · 已含增值税起征点跳档与所得税累进</p>
+
+<div class="bar">
+  <span class="lb">平台</span>
+  <select id="plat">
+    <option value="douyin">抖音小店</option>
+    <option value="taobao">淘宝 / 天猫</option>
+    <option value="pdd">拼多多</option>
+    <option value="kuaishou">快手小店</option>
+    <option value="jd">京东 POP</option>
+    <option value="wx">微信小店</option>
+    <option value="custom">自定义</option>
+  </select>
+  <div class="mode">
+    <button id="mF" class="on">正向：算利润</button>
+    <button id="mR">反向：倒推售价</button>
+  </div>
+  <span class="pnote" id="platNote"></span>
+</div>
+
+<div class="grid">
+<div>
+  <div class="card">
+    <h2>① 成本</h2>
+    <div class="row"><label>单件总成本（元）<span class="hint">货品 + 运费 + 包装 + 退货损耗</span></label>
+      <input id="unitCost" type="number" value="17.06" step="0.1" style="font-size:15px;font-weight:500"></div>
+    <details>
+      <summary>不会算？拆分计算</summary>
+      <div style="margin-top:10px">
+        <div class="row"><label>采购成本</label><input id="cogs" type="number" value="12" step="0.1"></div>
+        <div class="row"><label>上游运费<span class="hint">供应商发货，包邮填 0</span></label><input id="shipIn" type="number" value="0" step="0.1"></div>
+        <div class="row"><label>下游运费<span class="hint">发给买家快递</span></label><input id="shipOut" type="number" value="3.5" step="0.1"></div>
+        <div class="row"><label>包装 / 工具 / 其他</label><input id="other" type="number" value="0.5" step="0.1"></div>
+        <div class="row"><label>退货率 %</label><input id="rr" type="number" value="10" step="1"></div>
+        <div class="row"><label>单次退货运费损失</label><input id="rship" type="number" value="7" step="0.5"></div>
+        <div class="row"><label>退货折损率 %<span class="hint">按采购成本，可二次销售填 0</span></label><input id="rloss" type="number" value="30" step="5"></div>
+        <div class="row"><label><b>合计</b></label><input id="calcCost" type="text" value="—" readonly style="background:#fff"></div>
+        <button class="btn" id="useCalc">用这个数字</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>② 平台费用</h2>
+    <div class="row"><label>技术服务费率 %<span class="hint">切平台会重置为参考值，请按后台改</span></label><input id="pfee" type="number" value="5" step="0.1"></div>
+    <div class="row"><label>推广佣金率 %<span class="hint">达人 / 淘宝客 / 团长，自销填 0</span></label><input id="comm" type="number" value="0" step="0.5"></div>
+    <div class="row"><label>广告 ROI<span class="hint">0 = 不投流</span></label><input id="roi" type="number" value="0" step="0.5"></div>
+    <div class="row"><label>年固定费用（元）<span class="hint">天猫软件服务年费、软件订阅等</span></label><input id="fixed" type="number" value="0" step="1000"></div>
+  </div>
+
+  <div class="card">
+    <h2>③ 规模与主体</h2>
+    <div class="row"><label>预估月单量<span class="hint">决定增值税起征点与所得税档位</span></label><input id="qty" type="number" value="1200" step="50"></div>
+    <div class="row"><label>经营主体</label><select id="entity">
+      <option value="geti">个体工商户</option>
+      <option value="company">有限公司（小微）</option>
+    </select></div>
+  </div>
+
+  <div class="card">
+    <h2>④ 售价 / 目标</h2>
+    <div class="row" id="rowF"><label>售价（元）<span class="hint">含税标价</span></label>
+      <input id="price" type="number" value="39.9" step="0.1" style="font-size:15px;font-weight:500"></div>
+    <div class="row" id="rowR" style="display:none"><label>每件要净赚（元）<span class="hint">扣完全部成本<b>和税</b>之后</span></label>
+      <input id="target" type="number" value="12" step="0.5" style="font-size:15px;font-weight:500"></div>
+    <div class="row"><label>标价尾数<span class="hint">仅反向模式生效</span></label><select id="tail">
+      <option value="0">不取整</option>
+      <option value="9" selected>向上取 .90</option>
+      <option value="99">向上取 .99</option>
+      <option value="int">向上取整</option>
+      <option value="8">向上取 .80</option>
+    </select></div>
+  </div>
+</div>
+
+<div>
+  <div class="warnbox" id="warn"></div>
+
+  <div class="hero" id="hero">
+    <div class="k" id="heroK">单均净利（税后）</div>
+    <div class="v" id="heroV">—</div>
+    <div class="v2" id="heroSub">—</div>
+  </div>
+
+  <div class="card">
+    <h2>单均拆解</h2>
+    <div class="kpis">
+      <div class="kpi b"><div class="k">单均毛利（扣平台费后）</div><div class="v" id="kGross">—</div></div>
+      <div class="kpi"><div class="k">净利率</div><div class="v" id="kNm">—</div></div>
+      <div class="kpi w"><div class="k">单均税负分摊</div><div class="v" id="kTax">—</div></div>
+      <div class="kpi"><div class="k">边际贡献率</div><div class="v" id="kDenom">—</div></div>
+    </div>
+    <table>
+      <thead><tr><th>项目</th><th>金额（元/单）</th><th>占售价</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+    <div class="note" id="vatNote"></div>
+  </div>
+
+  <div class="card">
+    <h2>年度视角</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="k">年 GMV</div><div class="v" id="kGmv">—</div></div>
+      <div class="kpi w"><div class="k">年增值税 + 附加</div><div class="v" id="kVat">—</div></div>
+      <div class="kpi w"><div class="k">年所得税</div><div class="v" id="kIit">—</div></div>
+      <div class="kpi b"><div class="k">税后年净利</div><div class="v" id="kAnn">—</div></div>
+    </div>
+    <div class="note" id="taxDetail"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="sensTitle">敏感度</h2>
+    <table>
+      <thead><tr><th id="sensH0">变量</th><th>售价</th><th>单均净利</th><th>净利率</th><th>税后年净利</th></tr></thead>
+      <tbody id="tbSens"></tbody>
+    </table>
+    <div class="note" id="sensNote"></div>
+  </div>
+
+  <div class="card">
+    <h2>各平台横向对比</h2>
+    <table>
+      <thead><tr><th>平台</th><th>参考费率</th><th>该平台下净利</th><th>达到目标所需售价</th></tr></thead>
+      <tbody id="tbPlat"></tbody>
+    </table>
+    <div class="note">费率为该平台公开资料的区间中值 / 常见值，<b>仅作占位</b>，务必按你类目在后台查到的实际费率修改第②栏。</div>
+  </div>
+</div>
+</div>
+
+<p class="sub" style="margin-top:18px">
+口径：售价为含税标价。增值税按不含税销售额 ×1%，季度销售额 ≤30 万免征、超过则全额计征；附加税费按增值税 ×6%（六税两费减半）；
+个体工商户按经营所得五级累进后对 200 万以内部分减半，小微企业所得税按 5%，均未计分红个税。因税率随售价跳档，反向定价采用数值迭代求解，非线性公式。
+</p>
+</div>
+
+<script>
+var $=function(id){return document.getElementById(id);};
+function n(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+function money(x){return (x<0?'−':'')+Math.abs(x).toFixed(2);}
+function money0(x){return (x<0?'−':'')+Math.round(Math.abs(x)).toLocaleString('zh-CN');}
+function pct(x){return (x*100).toFixed(1)+'%';}
+var mode='F';
+
+var PLAT={
+  douyin:{n:'抖音小店',fee:5,note:'费率由类目 + 成交渠道决定，2026 年 7 月调整过一轮；千川·乘方达标订单可低至 0.6%。'},
+  taobao:{n:'淘宝 / 天猫',fee:5,note:'基础软件服务费 0.6%（按收货金额，<b>退货不退</b>）；天猫另加类目佣金 2%–5%，服饰常见 5%；天猫还有软件服务年费（3 万 / 6 万）。'},
+  pdd:{n:'拼多多',fee:0.6,note:'基础交易服务费 0.6%；多数普通类目无额外扣点，生鲜 / 农产品免佣，百亿补贴及数码珠宝等约 1%–3%。'},
+  kuaishou:{n:'快手小店',fee:3,note:'类目费率约 2%–5%，食品类约 2%。'},
+  jd:{n:'京东 POP',fee:4,note:'交易服务费 0.6% + 类目佣金 1%–8%，多用京东物流则另有仓储配送费。'},
+  wx:{n:'微信小店',fee:3,note:'按类目收取，以视频号小店后台公示为准。'},
+  custom:{n:'自定义',fee:5,note:'自行填写第②栏费率。'}
+};
+
+function iit(t){
+  if(t<=0)return 0;
+  var b=[[30000,.05,0],[90000,.10,1500],[300000,.20,10500],[500000,.30,40500],[Infinity,.35,65500]];
+  for(var i=0;i<b.length;i++){ if(t<=b[i][0]) return Math.max(0,t*b[i][1]-b[i][2]); }
+  return 0;
+}
+
+function cfg(){
+  return {unitCost:n('unitCost'), pfee:n('pfee')/100, comm:n('comm')/100, roi:n('roi'),
+    fixed:n('fixed'), monthlyQty:n('qty'), entity:$('entity').value};
+}
+
+function evalP(P,c){
+  var pf=P*c.pfee, cm=P*c.comm, ad=c.roi>0?P/c.roi:0;
+  var net=P-pf-cm-ad-c.unitCost;
+  var aq=c.monthlyQty*12, ag=P*aq, qg=P*c.monthlyQty*3;
+  var vat=0,sur=0;
+  if(qg>300000){ vat=ag/1.01*0.01; sur=vat*0.06; }
+  var pbt=net*aq-vat-sur-c.fixed;
+  var it;
+  if(c.entity==='geti'){ it=iit(pbt); if(pbt<=2000000) it=it/2; }
+  else { it=pbt<=3000000?pbt*0.05:pbt*0.25; }
+  it=Math.max(0,it);
+  var annNet=pbt-it;
+  return {P:P,pf:pf,cm:cm,ad:ad,net:net,gross:P-pf-c.unitCost,vat:vat,sur:sur,it:it,
+    annNet:annNet,aq:aq,ag:ag,qg:qg,perUnitNet:annNet/aq};
+}
+
+function solve(target,c){
+  var lo=c.unitCost*0.3, hi=Math.max(c.unitCost*30,target*30,300);
+  var f=function(P){ return evalP(P,c).perUnitNet-target; };
+  if(f(hi)<0) return null;
+  var N=2000,best=null,bd=Infinity;
+  for(var i=0;i<=N;i++){ var P=lo+(hi-lo)*i/N,v=f(P),d=Math.abs(v); if(d<bd){bd=d;best=P;} }
+  var st=(hi-lo)/N,a=Math.max(lo,best-st),b=Math.min(hi,best+st);
+  for(var k=0;k<100;k++){ var m=(a+b)/2; if(f(m)<0)a=m; else b=m; }
+  return (a+b)/2;
+}
+
+function roundUp(x,m){
+  if(m==='0')return x;
+  if(m==='int')return Math.ceil(x);
+  if(m==='9')return Math.ceil(x-0.90)+0.90;
+  if(m==='99')return Math.ceil(x-0.99)+0.99;
+  if(m==='8')return Math.ceil(x-0.80)+0.80;
+  return x;
+}
+
+function render(){
+  var c=cfg();
+  var denom=1-c.pfee-c.comm-(c.roi>0?1/c.roi:0);
+  var warn=$('warn');
+  if(denom<=0.02){
+    warn.style.display='block';
+    warn.innerHTML='费率合计过高（平台 '+pct(c.pfee)+' + 佣金 '+pct(c.comm)+' + 广告 1/ROI '+(c.roi>0?pct(1/c.roi):'0%')
+      +'），边际贡献率仅 '+pct(denom)+'，售价每涨 1 元几乎全被吃掉，无解。';
+    return;
+  }
+  warn.style.display='none';
+
+  var P, tgtLabel;
+  if(mode==='F'){
+    P=n('price');
+    tgtLabel=false;
+  } else {
+    var s=solve(n('target'),c);
+    if(s===null){ warn.style.display='block'; warn.innerHTML='目标过高，合理售价区间内无法达成，请下调目标或成本。'; return; }
+    P=roundUp(s,$('tail').value);
+    tgtLabel=true;
+  }
+  var r=evalP(P,c);
+  var taxPer=(r.vat+r.sur+r.it)/r.aq;
+  var fixedPer=c.fixed/r.aq;
+
+  if(mode==='F'){
+    $('hero').className='hero';
+    $('heroK').textContent='单均净利（税后）';
+    $('heroV').textContent='¥ '+money(r.perUnitNet);
+    $('heroSub').innerHTML='售价 ¥'+money(P)+' · 净利率 '+pct(r.perUnitNet/P)
+      +' · <a href="#" id="flipR" style="color:var(--accent)">切换到反向定价 →</a>';
+    var fl=$('flipR'); if(fl) fl.addEventListener('click',function(e){e.preventDefault();setMode('R');});
+  } else {
+    $('hero').className='hero alt';
+    $('heroK').textContent='建议售价（含税标价）';
+    $('heroV').textContent='¥ '+money(P);
+    $('heroSub').innerHTML='精确解 '+money(solve(n('target'),c))+' 元 · 每件净赚 <b>'+money(r.perUnitNet)+'</b> 元（税后，目标 '+money(n('target'))+'）';
+  }
+
+  $('kGross').textContent=money(r.gross);
+  $('kNm').textContent=pct(r.perUnitNet/P);
+  $('kTax').textContent=money(taxPer);
+  $('kDenom').textContent=pct(denom);
+
+  var rows=[
+    ['售价',r.P,1],
+    ['− 平台技术服务费',-r.pf,-r.pf/r.P],
+    ['− 推广佣金',-r.cm,-r.cm/r.P],
+    ['− 广告费',-r.ad,-r.ad/r.P],
+    ['− 单件总成本',-c.unitCost,-c.unitCost/r.P]
+  ];
+  if(c.fixed>0) rows.push(['− 年固定费用分摊',-fixedPer,-fixedPer/r.P]);
+  rows.push(['= 税前单均利润',r.net,r.net/r.P]);
+  rows.push(['− 税负分摊（增值税+附加+所得税）',-taxPer,-taxPer/r.P]);
+  var h='';
+  rows.forEach(function(x){ h+='<tr><td>'+x[0]+'</td><td>'+money(x[1])+'</td><td>'+pct(x[2])+'</td></tr>'; });
+  h+='<tr class="hl"><td>税后单均净利</td><td>'+money(r.perUnitNet)+'</td><td>'+pct(r.perUnitNet/r.P)+'</td></tr>';
+  $('tb').innerHTML=h;
+
+  $('vatNote').innerHTML = r.qg<=300000
+    ? '<span class="tag">增值税免征</span> 预估季度销售额 '+money0(r.qg)+' 元，未超 30 万起征点。'
+    : '<span class="tag w">已超起征点</span> 预估季度销售额 '+money0(r.qg)+' 元，按<b>全额</b> 1% 计征。压到季度 30 万以内可省约 '+money0(r.vat+r.sur)+' 元/年。';
+
+  $('kGmv').textContent=money0(r.ag);
+  $('kVat').textContent=money0(r.vat+r.sur);
+  $('kIit').textContent=money0(r.it);
+  $('kAnn').textContent=money0(r.annNet);
+  $('taxDetail').innerHTML='年单量 '+money0(r.aq)+' 单 · 增值税 '+money0(r.vat)+' + 附加 '+money0(r.sur)
+    +' · 所得税 '+money0(r.it)+'（'+(c.entity==='geti'?'经营所得累进，200 万内减半':'小微企业所得税 5%')+'）· 综合税负率 '
+    +pct((r.vat+r.sur+r.it)/r.ag)+'。';
+
+  var sh=$('sensH0'), st=$('sensTitle'), sn=$('sensNote'), body='';
+  if(mode==='F'){
+    st.textContent='售价敏感度'; sh.textContent='售价';
+    sn.innerHTML='其他参数不变，仅变动售价。标 <span class="tag">当前</span> 行为你输入的售价。';
+    [0.85,0.92,1,1.08,1.15].forEach(function(k){
+      var pp=P*k, rr=evalP(pp,c);
+      var cur=Math.abs(k-1)<0.001;
+      body+='<tr'+(cur?' class="hl"':'')+'><td>¥ '+money(pp)+(cur?' <span class="tag">当前</span>':'')+'</td><td>¥ '+money(pp)
+        +'</td><td>'+money(rr.perUnitNet)+'</td><td>'+pct(rr.perUnitNet/pp)+'</td><td>'+money0(rr.annNet)+'</td></tr>';
+    });
+  } else {
+    st.textContent='目标利润梯度'; sh.textContent='每件想净赚';
+    sn.innerHTML='其他参数不变，仅变动目标净利。标 <span class="tag">当前</span> 行为你设定的目标。';
+    var base=n('target');
+    [base-6,base-3,base,base+3,base+6].forEach(function(t){
+      if(t<=0)return;
+      var pp=solve(t,c); if(pp===null)return;
+      var pl=roundUp(pp,$('tail').value), rr=evalP(pl,c);
+      var cur=Math.abs(t-base)<0.01;
+      body+='<tr'+(cur?' class="hl"':'')+'><td>'+money(t)+' 元'+(cur?' <span class="tag">当前</span>':'')+'</td><td>¥ '+money(pl)
+        +'</td><td>'+money(rr.perUnitNet)+'</td><td>'+pct(rr.perUnitNet/pl)+'</td><td>'+money0(rr.annNet)+'</td></tr>';
+    });
+  }
+  $('tbSens').innerHTML=body;
+
+  var ph='';
+  Object.keys(PLAT).forEach(function(k){
+    if(k==='custom')return;
+    var cc={unitCost:c.unitCost,pfee:PLAT[k].fee/100,comm:c.comm,roi:c.roi,fixed:c.fixed,
+      monthlyQty:c.monthlyQty,entity:c.entity};
+    var netAtP=evalP(P,cc).perUnitNet;
+    var needP=solve(mode==='F'?r.perUnitNet:n('target'),cc);
+    var cur=(k===$('plat').value);
+    ph+='<tr'+(cur?' class="hl"':'')+'><td>'+PLAT[k].n+(cur?' <span class="tag">当前</span>':'')+'</td><td>'+PLAT[k].fee+'%</td><td>'
+      +money(netAtP)+'</td><td>'+(needP?('¥ '+money(roundUp(needP,$('tail').value))):'不可达')+'</td></tr>';
+  });
+  $('tbPlat').innerHTML=ph;
+}
+
+function setMode(m){
+  mode=m;
+  $('mF').className=(m==='F'?'on':'');
+  $('mR').className=(m==='R'?'on':'');
+  $('rowF').style.display=(m==='F'?'flex':'none');
+  $('rowR').style.display=(m==='R'?'flex':'none');
+  render();
+}
+
+function calcCostBlock(){
+  var t=n('cogs')+n('shipIn')+n('shipOut')+n('other')+n('rr')/100*(n('rship')+n('cogs')*n('rloss')/100);
+  $('calcCost').value=money(t);
+  return t;
+}
+
+['unitCost','pfee','comm','roi','fixed','qty','entity','price','target','tail',
+ 'cogs','shipIn','shipOut','other','rr','rship','rloss'].forEach(function(id){
+  var sub=['cogs','shipIn','shipOut','other','rr','rship','rloss'].indexOf(id)>=0;
+  function h(){ if(sub) calcCostBlock(); render(); }
+  $(id).addEventListener('input',h); $(id).addEventListener('change',h);
+});
+$('useCalc').addEventListener('click',function(){ $('unitCost').value=calcCostBlock().toFixed(2); render(); });
+$('mF').addEventListener('click',function(){setMode('F');});
+$('mR').addEventListener('click',function(){setMode('R');});
+$('plat').addEventListener('change',function(){
+  var p=PLAT[$('plat').value];
+  $('pfee').value=p.fee;
+  $('platNote').innerHTML='<b>'+p.n+'</b>：'+p.note;
+  render();
+});
+
+$('platNote').innerHTML='<b>'+PLAT.douyin.n+'</b>：'+PLAT.douyin.note;
+calcCostBlock();
+render();
+</script>
+</body>
+</html>
