@@ -103,6 +103,9 @@ details[open] summary:before{content:"▾ "}
     <h2>① 成本</h2>
     <div class="row"><label>单件总成本（元）<span class="hint">货品 + 运费 + 包装 + 退货损耗</span></label>
       <input id="unitCost" type="number" value="17.06" step="0.1" style="font-size:15px;font-weight:500"></div>
+    <div class="row"><label><input type="checkbox" id="insOn" style="width:auto;vertical-align:middle;margin-right:5px">开通运费险
+      <span class="hint">下单即产生保费，覆盖退货运费（见下方拆分计算）</span></label>
+      <input id="insPrem" type="number" value="1.5" step="0.1" disabled></div>
     <details>
       <summary>不会算？拆分计算</summary>
       <div style="margin-top:10px">
@@ -115,6 +118,7 @@ details[open] summary:before{content:"▾ "}
         <div class="row"><label>退货折损率 %<span class="hint">按采购成本，可二次销售填 0</span></label><input id="rloss" type="number" value="30" step="5"></div>
         <div class="row"><label><b>合计</b></label><input id="calcCost" type="text" value="—" readonly style="background:#fff"></div>
         <button class="btn" id="useCalc">用这个数字</button>
+        <div class="note" id="insNote" style="display:none">运费险已开：退货运费由保险承担，『单次退货运费』不计入合计；保费按每单单独计入主计算。</div>
       </div>
     </details>
   </div>
@@ -210,6 +214,7 @@ details[open] summary:before{content:"▾ "}
 <p class="sub" style="margin-top:18px">
 口径：售价为含税标价。增值税按不含税销售额 ×1%，季度销售额 ≤30 万免征、超过则全额计征；附加税费按增值税 ×6%（六税两费减半）；
 个体工商户按经营所得五级累进后对 200 万以内部分减半，小微企业所得税按 5%，均未计分红个税。因税率随售价跳档，反向定价采用数值迭代求解，非线性公式。
+运费险为每单固定保费，下单即产生、覆盖退货运费，已按每单计入成本；开启运费险后，退货损耗中的「单次退货运费」不再重复计算。
 </p>
 </div>
 
@@ -240,12 +245,14 @@ function iit(t){
 
 function cfg(){
   return {unitCost:n('unitCost'), pfee:n('pfee')/100, comm:n('comm')/100, roi:n('roi'),
-    fixed:n('fixed'), monthlyQty:n('qty'), entity:$('entity').value};
+    fixed:n('fixed'), monthlyQty:n('qty'), entity:$('entity').value,
+    insOn:$('insOn').checked, insPrem:n('insPrem')};
 }
 
 function evalP(P,c){
   var pf=P*c.pfee, cm=P*c.comm, ad=c.roi>0?P/c.roi:0;
-  var net=P-pf-cm-ad-c.unitCost;
+  var ins=c.insOn?c.insPrem:0;
+  var net=P-pf-cm-ad-c.unitCost-ins;
   var aq=c.monthlyQty*12, ag=P*aq, qg=P*c.monthlyQty*3;
   var vat=0,sur=0;
   if(qg>300000){ vat=ag/1.01*0.01; sur=vat*0.06; }
@@ -255,7 +262,7 @@ function evalP(P,c){
   else { it=pbt<=3000000?pbt*0.05:pbt*0.25; }
   it=Math.max(0,it);
   var annNet=pbt-it;
-  return {P:P,pf:pf,cm:cm,ad:ad,net:net,gross:P-pf-c.unitCost,vat:vat,sur:sur,it:it,
+  return {P:P,pf:pf,cm:cm,ad:ad,net:net,ins:ins,gross:P-pf-c.unitCost,vat:vat,sur:sur,it:it,
     annNet:annNet,aq:aq,ag:ag,qg:qg,perUnitNet:annNet/aq};
 }
 
@@ -331,6 +338,7 @@ function render(){
     ['− 广告费',-r.ad,-r.ad/r.P],
     ['− 单件总成本',-c.unitCost,-c.unitCost/r.P]
   ];
+  if(c.insOn) rows.push(['− 运费险保费',-r.ins,-r.ins/r.P]);
   if(c.fixed>0) rows.push(['− 年固定费用分摊',-fixedPer,-fixedPer/r.P]);
   rows.push(['= 税前单均利润',r.net,r.net/r.P]);
   rows.push(['− 税负分摊（增值税+附加+所得税）',-taxPer,-taxPer/r.P]);
@@ -380,7 +388,7 @@ function render(){
   Object.keys(PLAT).forEach(function(k){
     if(k==='custom')return;
     var cc={unitCost:c.unitCost,pfee:PLAT[k].fee/100,comm:c.comm,roi:c.roi,fixed:c.fixed,
-      monthlyQty:c.monthlyQty,entity:c.entity};
+      monthlyQty:c.monthlyQty,entity:c.entity,insOn:c.insOn,insPrem:c.insPrem};
     var netAtP=evalP(P,cc).perUnitNet;
     var needP=solve(mode==='F'?r.perUnitNet:n('target'),cc);
     var cur=(k===$('plat').value);
@@ -400,16 +408,24 @@ function setMode(m){
 }
 
 function calcCostBlock(){
-  var t=n('cogs')+n('shipIn')+n('shipOut')+n('other')+n('rr')/100*(n('rship')+n('cogs')*n('rloss')/100);
+  var rshipEff = $('insOn').checked ? 0 : n('rship');
+  var t=n('cogs')+n('shipIn')+n('shipOut')+n('other')+n('rr')/100*(rshipEff+n('cogs')*n('rloss')/100);
   $('calcCost').value=money(t);
   return t;
 }
 
 ['unitCost','pfee','comm','roi','fixed','qty','entity','price','target','tail',
- 'cogs','shipIn','shipOut','other','rr','rship','rloss'].forEach(function(id){
+ 'cogs','shipIn','shipOut','other','rr','rship','rloss','insPrem'].forEach(function(id){
   var sub=['cogs','shipIn','shipOut','other','rr','rship','rloss'].indexOf(id)>=0;
   function h(){ if(sub) calcCostBlock(); render(); }
   $(id).addEventListener('input',h); $(id).addEventListener('change',h);
+});
+$('insOn').addEventListener('change',function(){
+  var on=this.checked;
+  $('insPrem').disabled=!on;
+  $('rship').disabled=on;
+  $('insNote').style.display=on?'block':'none';
+  calcCostBlock(); render();
 });
 $('useCalc').addEventListener('click',function(){ $('unitCost').value=calcCostBlock().toFixed(2); render(); });
 $('mF').addEventListener('click',function(){setMode('F');});
