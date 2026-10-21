@@ -1,18 +1,18 @@
-Two dogs means double the fur — the glove handles both fast. #doghair #petgrooming | 两只狗等于双倍毛——手套两只都快速搞定 #宠物清洁手套 #掉毛
-The kitten hates the brush but tolerates the glove — gentle wins. #catbath #petgrooming | 小猫讨厌梳子却接受手套——温柔取胜 #宠物清洁手套 #给猫洗澡
-Road trip with a shedding dog — the glove keeps the car fur-free. #doghair #dogwalk | 自驾带掉毛狗——手套让车里没毛 #宠物清洁手套 #遛狗
-Hotel room with pet hair everywhere — the glove does a quick pass. #petcleaning #doghair | 酒店房间狗毛到处都是——手套快速过一遍 #宠物清洁手套 #出差带宠
-The puppy wiggles through every bath — the glove cleans while he squirms. #petgrooming #dogbath | 小狗每次洗澡扭成麻花——手套趁它扭动就擦了 #宠物清洁手套 #给狗洗澡
-Long-haired dog mats overnight — the glove loosens before it tangles. #doghair #petgrooming | 长毛狗一夜打结——手套在打结前先松 #宠物清洁手套 #梳毛
-Three cats and a cloud of fur — the glove clears the air. #catbath #doghair | 三只猫加一团毛云——手套把空气清干净 #宠物清洁手套 #掉毛
-Pet sits on your laptop — the glove sweeps the fur off first. #doghair #petgrooming | 宠物坐你电脑上——手套先把毛扫掉 #宠物清洁手套 #掉毛
-The dog rolled in the yard again — the glove is the post-yard reset. #dogwalk #petcleaning | 狗又在院子里滚了——手套是院子后的重启 #宠物清洁手套 #遛狗
-Allergy season and pet dander — the glove lifts it before it floats. #doghair #petgrooming | 过敏季加宠物皮屑——手套在它飘起前薅掉 #宠物清洁手套 #掉毛
-You forget to brush for a week — the glove catches the backlog. #doghair #petgrooming | 你一周没梳——手套把积压的毛收掉 #宠物清洁手套 #梳毛
-The pet climbs on guests — at least they're fur-free via the glove. #petgrooming #doghair | 宠物往客人身上爬——至少手套让它没毛 #宠物清洁手套 #掉毛
-Winter coat blowout in spring — the glove speeds the shed. #doghair #petgrooming | 春天换毛大爆发——手套加速掉毛 #宠物清洁手套 #掉毛季
-The dog sleeps in your bed — the glove keeps the sheets clear. #doghair #petcleaning | 狗睡你床上——手套让床单没毛 #宠物清洁手套 #掉毛
-Brushing outside means fur in the wind — the glove traps it indoors. #doghair #petgrooming | 户外梳毛毛被风吹走——手套在室内锁住 #宠物清洁手套 #梳毛
-The cat grooms himself but still sheds — the glove catches what he misses. #catbath #doghair | 猫自己舔还是掉毛——手套接住它漏掉的 #宠物清洁手套 #掉毛
-Pet hair in your food prep — the glove clears the counter pet. #doghair #petcleaning | 宠物毛混进做饭——手套清掉台面上的毛 #宠物清洁手套 #掉毛
-Every day is shedding day with this dog — the glove makes peace with it. #doghair #petgrooming | 养这狗每天都是掉毛日——手套让你和它和解 #宠物清洁手套 #掉毛
+Road trip with a dirty dog — the glove keeps the car clean, no water stop. #dogwalk #waterless | 自驾带脏狗——手套让车里干净，不用找水 #宠物清洁手套 #自驾带宠
+Hotel room after a walk — the glove does a quick dry pass, no bathtub. #petcleaning #waterless | 酒店遛完——手套快速干擦一遍，没有浴缸 #宠物清洁手套 #出差带宠
+The puppy wiggles through every bath — the glove cleans while he squirms, dry. #petcleaning #waterless | 小狗每次洗澡扭成麻花——手套趁它扭动就干擦了 #宠物清洁手套 #免水洗
+Long-haired dog mats with trail dirt — the glove loosens the grime before it sets. #petcleaning #dogwalk | 长毛狗沾了路上泥——手套在泥干掉前先擦松 #宠物清洁手套 #遛狗
+Three cats and a dusty layer — the glove freshens them without a tub. #catbath #waterless | 三只猫一身灰——手套不用浴缸也能焕新 #宠物清洁手套 #给猫清洁
+Pet sits on your laptop after a walk — the glove wipes the paws first. #dogwalk #petcleaning | 宠物遛完坐你电脑上——手套先把爪子擦净 #宠物清洁手套 #擦爪
+The dog rolled in the yard again — the glove is the post-yard reset, no rinse. #dogwalk #waterless | 狗又在院子里滚了——手套是院子后的重启，不冲水 #宠物清洁手套 #遛狗
+Allergy season and everyday dust — the glove lifts surface grime before it floats. #petcleaning #waterless | 过敏季一身灰——手套在灰飘起前擦掉表面脏 #宠物清洁手套 #免水洗
+You forget a bath for a week — the glove catches the buildup, dry. #petcleaning #waterless | 你一周没洗——手套把积的脏干擦掉 #宠物清洁手套 #免水洗
+The pet climbs on guests — at least they meet a clean pup via the glove. #petcleaning #pethacks | 宠物往客人身上爬——至少手套让它干净些 #宠物清洁手套 #养狗
+Winter walks mean salt and mud on paws — the glove clears it at the door. #dogwalk #waterless | 冬天遛狗爪上沾盐和泥——手套在门口清掉 #宠物清洁手套 #擦爪
+The dog sleeps in your bed — the glove keeps the sheets clean, no tub. #petcleaning #waterless | 狗睡你床上——手套让床单干净，不用浴缸 #宠物清洁手套 #免水洗
+Wiping outside means dirt in the wind — the glove traps it indoors, dry. #petcleaning #waterless | 户外擦身灰被风吹走——手套在室内干擦锁住 #宠物清洁手套 #免水洗
+The cat grooms himself but still picks up dust — the glove catches what he misses. #catbath #waterless | 猫自己舔还是沾灰——手套接住它漏掉的 #宠物清洁手套 #给猫清洁
+Pet dirt on your food prep — the glove clears the counter. #petcleaning #pethacks | 宠物灰混进做饭——手套清掉台面上的脏 #宠物清洁手套 #养狗
+Every walk is a mess day with this dog — the glove makes peace with it, dry. #dogwalk #waterless | 养这狗每天遛完都脏——手套让你干爽和解 #宠物清洁手套 #遛狗
+Visiting family with a pet — the glove freshens him in the doorway, no bath. #petcleaning #waterless | 带宠回老家——手套在门口就让它焕新，不洗澡 #宠物清洁手套 #免水洗
+Beach day, sandy paws — the glove brushes the sand off before the car. #dogwalk #waterless | 去海边爪子沾沙——手套上车前把沙掸掉 #宠物清洁手套 #遛狗
