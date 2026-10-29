@@ -1,0 +1,21 @@
+; ============================================================
+; 文案源文件格式说明（本文件以半角分号开头的行会被忽略）
+;
+; 每一行一条文案，格式为：
+;   英文标题 #英文标签 #英文标签 | 中文翻译 #中文标签 #中文标签
+;
+; 要点：
+;   1. 英文在左，中文在右，中间用一个竖线 | 分隔
+;   2. 标签紧贴文字，英文标签用 # 开头（不要有空格）
+;   3. 不要写第一人称 I / my / we
+;   4. 不要写功效动词 heal / cure / treat / prevent
+;   5. 没经过检测报告确认的成分一律不写（芦荟、维E、益生菌、99% 之类）
+;   6. 每个批次建议 18 条，三批之间不要重复
+;
+; 下面是真实示例（取自纯水婴儿湿巾批次1）：
+; ============================================================
+The wipe that smells like perfume landing on a rash — why is scent even there #babywipes #babycare #fragrancefree | 带香味的湿巾落在红屁屁上，香精到底图什么 #婴儿湿巾 #无香精 #新生儿
+Thick mess needs a thick wipe — thin ones soak through onto your hand #babywipes #diaperchange #momlife | 厚活儿得配厚湿巾，薄的直接透到手上 #婴儿湿巾 #换尿布 #加厚
+Newborn skin is thinner than yours — rub less, wipe gentler #babywipes #newborn #sensitiveskin | 新生儿皮肤比你薄得多，少搓多柔 #婴儿湿巾 #新生儿 #敏感肌
+Sticky hands and no sink in sight — purified water wipes handle it #babywipes #babycare #momlife | 手黏糊糊又找不到水龙头，纯水湿巾顶上 #婴儿湿巾 #手口清洁 #纯水
+Fluorescent brighteners do not belong in something used every single hour #babywipes #sensitiveskin #babycare | 荧光增白剂不该出现在一天用十几次的东西里 #婴儿湿巾 #无荧光剂 #成分党

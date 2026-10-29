@@ -1,0 +1,35 @@
+{
+  "_说明": "复制本文件为 new_category.json 后填写。所有字段必填，batches 指向文案源文件。",
+
+  "name": "电风扇 Clean Fan（示例 · 请替换成真实品类标题）",
+  "icon": "🌀",
+  "key": "examplekey",
+  "match": "电风扇",
+  "ui_label": "电风扇",
+  "expect_per_batch": 5,
+  "batches": {
+    "1": "tools/example_titles_batch1.txt",
+    "2": "tools/example_titles_batch1.txt",
+    "3": "tools/example_titles_batch1.txt"
+  },
+
+  "_字段解释": {
+    "name": "品类标题全文，会原样写进 md 的 ### 行；建议「中文 英文（括号补充）」",
+    "icon": "一个 emoji，页面分类标签会显示它",
+    "key": "英文小写标识，页面用来做品类去重和子标签页跳转，不要与已有 key 重复",
+    "match": "中文匹配关键词，脚本靠它在 index.html 里生成判断分支；建议取品类最独特的两三个字",
+    "ui_label": "轮播说明文案里显示的名字，通常与 match 相同",
+    "expect_per_batch": "每个批次应有的文案条数，校验时会对不上就报错"
+  },
+
+  "_已有品类key对照": {
+    "wetwipes": "湿厕纸",
+    "travel": "旅行装湿厕纸",
+    "facial": "一次性洗脸巾",
+    "babywipes": "纯水婴儿湿巾",
+    "toothpaste": "牙膏",
+    "mudmask": "控油清洁泥膜",
+    "cleanser": "洁面啫喱",
+    "pet": "宠物清洁手套"
+  }
+}
