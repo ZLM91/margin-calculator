@@ -1179,7 +1179,7 @@ button:hover { background: #F0EDE6; }
   <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
     <div style="font-size:48px;margin-bottom:12px;">📝</div>
     <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
-    <div style="font-size:12px;">支持 .md / .txt 格式，文案按日期每4天自动轮换（共3批，纯痛点：湿厕纸 / 旅行装 / 洗脸巾 / 泥膜 / 洁面啫喱 / 宠物清洁手套）；洁面啫喱、宠物清洁手套专用文案同步轮换；也可用 📂 手动选任意批次文件</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，文案按日期每4天自动轮换（共3批，纯痛点：湿厕纸 / 旅行装 / 洗脸巾 / 婴儿湿巾 / 泥膜 / 洁面啫喱 / 宠物清洁手套）；洁面啫喱、宠物清洁手套专用文案同步轮换；也可用 📂 手动选任意批次文件</div>
   </div>
 </div><!-- /tab-tiktok -->
 
@@ -7927,6 +7927,7 @@ function parseAndRenderTiktok(mdText) {
     if (name.indexOf('湿厕纸') >= 0 && name.indexOf('旅行') >= 0) return 'travel';
     if (name.indexOf('湿厕纸') >= 0) return 'wetwipes';
     if (name.indexOf('洗脸巾') >= 0) return 'facial';
+    if (name.indexOf('婴儿湿巾') >= 0) return 'babywipes';
     if (name.indexOf('牙膏') >= 0) return 'toothpaste';
     if (name.indexOf('泥膜') >= 0) return 'mudmask';
     if (name.indexOf('洁面') >= 0) return 'cleanser';
@@ -7960,6 +7961,7 @@ function parseAndRenderTiktok(mdText) {
       if (catName.indexOf('湿厕纸') >= 0 && catName.indexOf('旅行') >= 0) icon = '🧻✈️';
       else if (catName.indexOf('湿厕纸') >= 0) icon = '🧻';
       else if (catName.indexOf('洗脸巾') >= 0) icon = '🧖';
+      else if (catName.indexOf('婴儿湿巾') >= 0) icon = '👶';
       else if (catName.indexOf('牙膏') >= 0) icon = '🦷';
       else if (catName.indexOf('泥膜') >= 0) icon = '🧼';
       else if (catName.indexOf('洁面') >= 0) icon = '🧴';

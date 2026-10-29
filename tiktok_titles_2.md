@@ -105,3 +105,24 @@ Sensitive and oily is a hard combo — clay manages both #OilControl #ClayMask #
 You rinse and shine returns — clay holds it off #OilControl #ClayMask #MudMask | 一洗油光回——泥膜挡住 #控油泥膜 #清洁泥膜
 Monday skin looks tired — a mask wakes it #OilControl #ClayMask #MudMask | 周一脸显累——泥膜唤醒 #控油泥膜 #清洁泥膜
 
+
+### 👶 纯水婴儿湿巾 Baby Water Wipes（Matern'ella · 纯化水配方 · 无香精无酒精无荧光剂 · 加厚）
+
+One wipe should do it — thin ones turn into three, four, five #babywipes #diaperchange #momlife | 一张就该搞定，薄的得抽到三四五张 #婴儿湿巾 #换尿布 #加厚
+It went straight through the wipe and onto your hand — worst surprise of the day #babywipes #diaperchange #babycare | 透过湿巾糊到手上，这一天最糟的意外 #婴儿湿巾 #加厚 #新手爸妈
+A wipe that tears mid-use leaves you one hand short at the worst time #babywipes #diaperchange #momlife | 擦到一半湿巾破了，等于在最缺手的时候少一只 #婴儿湿巾 #加厚不易破 #换尿布
+Holding down a kicking baby with a flimsy wipe is its own extreme sport #babywipes #diaperchange #babycare | 一手按住乱蹬的娃一手用薄湿巾，算极限运动 #婴儿湿巾 #加厚 #带娃日常
+Thin wipes stretch and give out at the oddest angle #babywipes #diaperchange #babycare | 薄湿巾总在最别扭的角度被拉破 #婴儿湿巾 #加厚不易破 #母婴
+Thick enough that one hand finishes the whole job #babywipes #diaperchange #momlife | 够厚到一只手就能收工 #婴儿湿巾 #加厚 #换尿布
+Whatever is on those hands goes straight into the mouth #babywipes #babycare #toddler | 手上的东西下一秒就进嘴 #婴儿湿巾 #手口湿巾 #带娃
+Sticky fingers sorted, then noticing the table still needs it too #babywipes #babycare #momlife | 黏手擦完才发现桌子还没擦 #婴儿湿巾 #清洁 #吃饭
+The high chair tray after dinner looks like a crime scene #babywipes #babycare #toddler | 晚饭后的餐椅托盘像案发现场 #婴儿湿巾 #辅食 #手口清洁
+Sticky hands in a car seat with nowhere to wash — this is why they ride along #babywipes #babycare #momlife | 手黏、困在安全座椅里、没地方洗，这就是随身带的原因 #婴儿湿巾 #出门必备 #手口湿巾
+Face, hands and the car seat tray — the same wipe covers all three #babywipes #babycare #toddler | 脸、手、安全座椅托盘，一张湿巾三处都擦 #婴儿湿巾 #手口湿巾 #出门
+Grandma asks why plain water wipes cost more — hand her one to try #babywipes #babycare #momlife | 奶奶问为什么纯水湿巾更贵，递一张给她试试 #婴儿湿巾 #纯水 #母婴好物
+Why does every wipe made for babies come with a smell #babywipes #fragrancefree #babycare | 为什么给婴儿做的湿巾非要带个味儿 #婴儿湿巾 #无香精 #成分党
+Turn the pack over and check the back — alcohol should not be on that list #babywipes #alcoholfree #babycare | 翻到背面看配料，酒精不该出现在那一列 #婴儿湿巾 #无酒精 #看成分
+Used ten times a day means the ingredient list matters ten times over #babywipes #babycare #sensitiveskin | 一天用十次，配料表就重要十倍 #婴儿湿巾 #纯水 #成分党
+Skin folds, neck creases, behind the ears — the spots everyone forgets #babywipes #newborn #babycare | 皮肤褶皱、脖子缝、耳后，最容易被忘的地方 #婴儿湿巾 #新生儿 #细节
+Newborns get wiped before every feed, every nap, every change #babywipes #newborn #diaperchange | 新生儿喂奶前、睡前、每次换片都要擦 #婴儿湿巾 #新生儿 #高频使用
+Dry skin meeting a scented product is a fight nobody wins #babywipes #sensitiveskin #babycare | 干燥的皮肤碰上带香的东西，没有赢家 #婴儿湿巾 #敏感肌 #无香精

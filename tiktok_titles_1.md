@@ -105,3 +105,24 @@ Tight, dry skin after a harsh mask? Clay leaves it comfortable #OilControl #Clay
 The grime from city air sits in your pores — clay sweeps it #OilControl #ClayMask #MudMask | 城市空气的脏堵在毛孔——泥膜扫走 #控油泥膜 #清洁泥膜
 Weekend buildup shows Monday — a mask clears the slate #OilControl #ClayMask #MudMask | 周末堆积周一现——泥膜清成白纸 #控油泥膜 #清洁泥膜
 
+
+### 👶 纯水婴儿湿巾 Baby Water Wipes（Matern'ella · 纯化水配方 · 无香精无酒精无荧光剂 · 加厚）
+
+The wipe that smells like perfume landing on a rash — why is scent even there #babywipes #babycare #fragrancefree | 带香味的湿巾落在红屁屁上，香精到底图什么 #婴儿湿巾 #无香精 #新生儿
+Thick mess needs a thick wipe — thin ones soak through onto your hand #babywipes #diaperchange #momlife | 厚活儿得配厚湿巾，薄的直接透到手上 #婴儿湿巾 #换尿布 #加厚
+A mid-change surprise means one wipe is never enough — unless it is thick enough #babywipes #diaperchange #newborn | 换到一半来惊喜，一张从来不够——除非它够厚 #婴儿湿巾 #新手爸妈 #加厚
+Newborn skin is thinner than yours — rub less, wipe gentler #babywipes #newborn #sensitiveskin | 新生儿皮肤比你薄得多，少搓多柔 #婴儿湿巾 #新生儿 #敏感肌
+Alcohol landing on an already red bottom — that sting is unnecessary #babywipes #babycare #alcoholfree | 已经红的屁屁再碰酒精，那一下刺痛纯属多余 #婴儿湿巾 #无酒精 #母婴
+Three thin wipes or one thick one — doing that math at 3am #babywipes #diaperchange #momlife | 三张薄的还是一张厚的，凌晨三点在算这笔账 #婴儿湿巾 #换尿布 #夜奶
+Sticky hands and no sink in sight — purified water wipes handle it #babywipes #babycare #momlife | 手黏糊糊又找不到水龙头，纯水湿巾顶上 #婴儿湿巾 #手口清洁 #纯水
+Dinner ends up on the face, the chin and both hands — the wipe follows every bit #babywipes #babycare #toddler | 晚饭上脸上下巴上两只手，湿巾跟着擦到哪算哪 #婴儿湿巾 #辅食 #手口湿巾
+Teething drool sits on the chin all day and gets wiped ten times over #babywipes #newborn #babycare | 长牙口水整天挂在下巴，一天被擦十遍 #婴儿湿巾 #口水 #新生儿
+Fruit puree goes from the hands to the sofa and then the wall #babywipes #babycare #toddler | 手上的果泥先蹭沙发接着蹭墙 #婴儿湿巾 #清洁 #带娃日常
+Nothing to wash hands with at the park — unless water wipes came along #babywipes #babycare #momlife | 公园里没地方洗手，除非包里备了纯水湿巾 #婴儿湿巾 #出门必备 #母婴
+A wipe labelled gentle that still smells like a perfume counter #babywipes #fragrancefree #babycare | 写着温和却一股香水柜台味 #婴儿湿巾 #无香精 #成分党
+Baby skin reacts to everything — begin by taking fragrance and alcohol out #babywipes #sensitiveskin #newborn | 宝宝皮肤对什么都反应，先去掉香精和酒精再说 #婴儿湿巾 #敏感肌 #成分
+Dry patches meeting anything scented is the worst possible combination #babywipes #sensitiveskin #babycare | 干燥起皮的地方再碰带香的，组合最糟 #婴儿湿巾 #敏感肌 #新生儿
+Fluorescent brighteners do not belong in something used every single hour #babywipes #sensitiveskin #babycare | 荧光增白剂不该出现在一天用十几次的东西里 #婴儿湿巾 #无荧光剂 #成分党
+What touches a newborn eight times a day should read like water #babywipes #newborn #sensitiveskin | 一天往新生儿身上擦八次的东西，配料表就该像水一样干净 #婴儿湿巾 #纯水配方 #新生儿
+Running out of wipes means reaching for whatever is closest — never again #babywipes #diaperchange #momlife | 湿巾用光只能抓到什么用什么，别再经历第二次 #婴儿湿巾 #换尿布 #囤货
+The first week home everything feels unfamiliar — the wipe should not #babywipes #newborn #babycare | 回家第一周什么都陌生，至少湿巾别让人慌 #婴儿湿巾 #新手爸妈 #新生儿
