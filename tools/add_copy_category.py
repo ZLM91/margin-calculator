@@ -154,6 +154,15 @@ def append_to_batches(repo: str, cfg: dict, dry: bool):
 def run_verify(repo: str, key: str, expect: int):
     here = os.path.dirname(os.path.abspath(__file__))
     node = r'C:\Users\C Z\.workbuddy\binaries\node\versions\22.22.2\node.exe'
+    if not os.path.exists(node):
+        # 版本号目录会随 WorkBuddy 升级变化（如 22.22.2-6），回退到 current 与 PATH
+        for candidate in [
+            r'C:\Users\C Z\.workbuddy\binaries\node\versions\current\node.exe',
+            'node',
+        ]:
+            if candidate == 'node' or os.path.exists(candidate):
+                node = candidate
+                break
     script = os.path.join(here, 'verify_copy.js')
     cmd = [node, script, '--repo', repo, '--key', key]
     if expect:

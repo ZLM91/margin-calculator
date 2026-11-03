@@ -126,3 +126,66 @@ Used ten times a day means the ingredient list matters ten times over #babywipes
 Skin folds, neck creases, behind the ears — the spots everyone forgets #babywipes #newborn #babycare | 皮肤褶皱、脖子缝、耳后，最容易被忘的地方 #婴儿湿巾 #新生儿 #细节
 Newborns get wiped before every feed, every nap, every change #babywipes #newborn #diaperchange | 新生儿喂奶前、睡前、每次换片都要擦 #婴儿湿巾 #新生儿 #高频使用
 Dry skin meeting a scented product is a fight nobody wins #babywipes #sensitiveskin #babycare | 干燥的皮肤碰上带香的东西，没有赢家 #婴儿湿巾 #敏感肌 #无香精
+
+### 🧴 宠物沐浴露 Pet Shampoo（500ml · 随盒送刷子 · 洗后蓬松）
+
+A rainy week means four muddy baths — 500ml is sized for that #petshampoo #rainyday #dogbath | 连着下雨一周洗四次，500ml 就是为这个准备的 #宠物沐浴露 #雨天遛狗 #狗狗洗澡
+Foam builds fast on a double coat, no second round needed #petshampoo #lather #doggrooming | 双层毛上泡沫起得快，不用再来第二遍 #宠物沐浴露 #起泡 #洗护
+The brush reaches the chest and belly hands always miss #petshampoo #dogbrush #bathday | 前胸和肚子手总够不着，刷子能到 #宠物沐浴露 #送刷子 #洗澡日
+Drying is the long part — a fluffy wash shortens it #petshampoo #fluffycoat #dogbath | 吹干最费时间，洗得蓬松能把它缩短 #宠物沐浴露 #蓬松毛发 #狗狗洗澡
+One bottle covering a year of bath days sounds like a plan #petshampoo #bigbottle #dogsupplies | 一瓶撑一年的洗澡日，听着就划算 #宠物沐浴露 #大容量 #囤货
+First bath at home beats a slippery sink and a scared puppy #petshampoo #puppy #homebath | 第一次在家洗，比在滑水槽里按着吓坏的幼犬强 #宠物沐浴露 #幼犬 #在家洗澡
+Curly coats trap everything — the brush works it out before rinsing #petshampoo #curlycoat #dogbrush | 卷毛什么都藏，冲水前先用刷子梳开 #宠物沐浴露 #卷毛 #送刷子
+Half a bottle left and the season already changed — that is the point #petshampoo #bigbottle #value | 换季了还剩半瓶，这就是大容量的意义 #宠物沐浴露 #大容量 #耐用
+Bath day used to take two rounds of shampoo — now one #petshampoo #onepass #dogbath | 以前洗澡要上两遍浴液，现在一遍就够 #宠物沐浴露 #一遍净 #狗狗洗澡
+The volume seen after blow-drying starts in the tub #petshampoo #fluffycoat #doggrooming | 吹干后看到的蓬松，其实是从浴缸里开始的 #宠物沐浴露 #蓬松毛发 #洗护
+Hands cramp from scrubbing a big dog — the brush takes over #petshampoo #dogbrush #bigdog | 给大狗搓到手抽筋，交给刷子就行 #宠物沐浴露 #送刷子 #大型犬
+A pump bottle in a wet tub beats a cap that keeps dropping #petshampoo #pumpbottle #pethacks | 湿浴缸里按压瓶比总掉的盖子顺手 #宠物沐浴露 #按压瓶 #养狗技巧
+Long hair mats when the bath skips the brush step #petshampoo #longcoat #dogbrush | 长毛洗澡跳过刷那步，回来就打结 #宠物沐浴露 #长毛犬 #送刷子
+Rinsing clean means less time standing under the shower #petshampoo #easyrinse #homebath | 好冲洗意味着少站一会儿花洒底下 #宠物沐浴露 #好冲洗 #在家洗澡
+Two dogs, one bottle, no mid-bath store run #petshampoo #multidog #bigbottle | 两只狗一瓶够，洗澡中途不用去补货 #宠物沐浴露 #多狗家庭 #大容量
+The brush doubles as a massage the dog leans right into #petshampoo #dogbrush #bonding | 刷子还能当按摩用，狗直接往你身上靠 #宠物沐浴露 #送刷子 #互动
+A coat that stays flat after a bath — shampoo issue, not dryer issue #petshampoo #fluffycoat #doggrooming | 洗完还是塌，那是浴液的问题不是吹风机的问题 #宠物沐浴露 #蓬松毛发 #洗护
+The 500ml sits steady on the shelf instead of tipping in the tub #petshampoo #bigbottle #pethacks | 500ml 放得住，不会在浴缸里东倒西歪 #宠物沐浴露 #大容量 #养狗技巧
+
+### 🐾 宠物洗爪杯 Paw Cleaner Cup（杯体+清洗液一体）
+
+Home from the park, cup at the door, couch still clean #pawcleaner #dogwalk #cleanhome | 出公园回到家，门口一杯，沙发还是干净的 #宠物洗爪杯 #遛狗 #居家清洁
+The cup is sized for the paw, not the whole dog #pawcleaner #pawcare #pethacks | 杯子是按爪子做的，不是按整只狗 #宠物洗爪杯 #爪部清洁 #养狗技巧
+Wet wipes tear on a big muddy paw — this does not #pawcleaner #muddypaws #bigdog | 湿巾擦大泥爪一擦就破，杯子不会 #宠物洗爪杯 #泥爪 #大型犬
+One cup, two dogs, no refilling between them #pawcleaner #multidog #quickclean | 一个杯两只狗，中间不用换水 #宠物洗爪杯 #多狗家庭 #快速清洁
+Cleaning liquid and cup in one box kills the guesswork #pawcleaner #bundle #readytouse | 清洗液和杯子一盒出，不用猜配什么 #宠物洗爪杯 #一体装 #开盖即用
+Snow salt on winter paws wiped before it hits the floor #pawcleaner #winterdog #dogwalk | 冬天爪上的融雪剂，落地前先清掉 #宠物洗爪杯 #冬季养狗 #遛狗
+A towel only smears the mud — the cup takes it off #pawcleaner #muddypaws #pethacks | 毛巾只是把泥抹匀，杯子才是带走 #宠物洗爪杯 #泥爪 #养狗技巧
+Standing at the door beats chasing a dog to the bathroom #pawcleaner #nobath #dogmom | 在门口站着解决，比追着狗去卫生间强 #宠物洗爪杯 #不用洗澡 #养狗日常
+Small dog, deep cup, dirty water stays below the wrist #pawcleaner #smalldog #pawcare | 小狗配深杯，脏水不会过腕线 #宠物洗爪杯 #小型犬 #爪部清洁
+Grass and gravel come out with one twist #pawcleaner #dogwalk #quickclean | 草屑石子，转一圈就出来 #宠物洗爪杯 #遛狗 #快速清洁
+Keeping it by the door turns cleanup into a habit #pawcleaner #cleanhome #pethacks | 放在门口，清洁就变成习惯 #宠物洗爪杯 #居家清洁 #养狗技巧
+Bath day can wait — the paws cannot #pawcleaner #nobath #dogwalk | 洗澡可以等等，爪子等不了 #宠物洗爪杯 #不用洗澡 #遛狗
+The mess goes out with the liquid, not onto the towel #pawcleaner #nomess #cleanhome | 脏跟着液体倒掉，不是蹭到毛巾上 #宠物洗爪杯 #不脏手 #居家清洁
+A dog that hates water still needs clean paws #pawcleaner #sensitivedog #pawcare | 怕水的狗，爪子也得干净 #宠物洗爪杯 #怕水的狗 #爪部清洁
+Trunk kit: water, towel, one paw cup #pawcleaner #cardog #traveldog | 后备箱三件套：水、毛巾、一个洗爪杯 #宠物洗爪杯 #车载 #带狗出门
+Dirt lines on the stairs stop at the doorway #pawcleaner #cleanfloor #dogwalk | 楼梯上的爪印，到门口就断了 #宠物洗爪杯 #地板干净 #遛狗
+Ten seconds a paw, forty seconds a dog #pawcleaner #quickclean #howto | 一只爪十秒，一只狗四十秒 #宠物洗爪杯 #快速清洁 #用法
+A paw cup lives on the floor by the door and earns its spot #pawcleaner #cleanhome #pethacks | 洗爪杯就放门口地上，占地儿但值 #宠物洗爪杯 #居家清洁 #养狗技巧
+
+### 🪥 宠物清洁指套 Pet Finger Sleeves（牙齿/耳廓/眼角等小部位）
+
+A finger in the mouth is easier than a brush in the mouth #petfinger #dogteeth #nobrush | 手指进嘴比牙刷进嘴容易 #宠物清洁指套 #狗牙 #不用牙刷
+Teeth cleaned while the dog is still lying down #petfinger #petteeth #easydog | 狗还躺着的时候牙就擦完了 #宠物清洁指套 #宠物牙齿 #轻松搞定
+Ear edges, chin, tail base — the spots a glove misses #petfinger #earcare #smallspots | 耳沿、下巴、尾根，手套够不到的地方 #宠物清洁指套 #耳部清洁 #小部位
+No handle to hold means one hand stays on the dog #petfinger #howto #pethacks | 没有手柄要握，就空出一只手按着狗 #宠物清洁指套 #用法 #养狗技巧
+Finger pressure tells you where the dirt actually sits #petfinger #pawcare #dailyclean | 手指有触感，哪块脏一摸就知道 #宠物清洁指套 #爪部清洁 #日常清洁
+A sleeve fits in a pocket — a toothbrush kit does not #petfinger #portable #traveldog | 指套能塞进口袋，牙刷套装不行 #宠物清洁指套 #便携 #带狗出门
+Wiping the tooth line after dinner becomes routine #petfinger #dogteeth #routine | 晚饭后擦一下牙线，慢慢就成了习惯 #宠物清洁指套 #狗牙 #日常习惯
+Cats swat at brushes and lean into fingers #petfinger #catcare #catteeth | 猫会把刷子拍飞，却会往手指上蹭 #宠物清洁指套 #猫咪护理 #猫牙
+Toe gaps after a walk are a finger-sized job #petfinger #pawcare #dogwalk | 遛完弯的趾缝，就是要手指这个尺寸 #宠物清洁指套 #爪部清洁 #遛狗
+Small dogs have small mouths and smaller patience #petfinger #smalldog #dogteeth | 小狗嘴小，耐心更小 #宠物清洁指套 #小型犬 #狗牙
+Eye gunk in the corner goes easier soft, not dried #petfinger #eyecare #dogclean | 眼角的眼屎软的时候好擦，干了难 #宠物清洁指套 #眼部清洁 #狗狗清洁
+Use one, toss one — no damp glove sitting in the sink #petfinger #disposable #cleanhome | 用一片丢一片，洗手池里不会泡着手套 #宠物清洁指套 #一次性 #居家清洁
+Reaching the back molars means bending a finger, not a wrist #petfinger #backteeth #howto | 够到后槽牙靠弯手指，不靠弯手腕 #宠物清洁指套 #后槽牙 #用法
+Wrinkle folds need something thin enough to get inside #petfinger #flatface #dogclean | 褶子里得用够薄的东西才进得去 #宠物清洁指套 #扁脸犬 #狗狗清洁
+Wipes for the body, sleeves for the details #petfinger #smallspots #petcleaning | 身上用湿巾，细节用指套 #宠物清洁指套 #小部位 #宠物清洁
+Hotel room, no sink setup, one sleeve does the job #petfinger #traveldog #portable | 住酒店没地方摆洗具，一片指套就够 #宠物清洁指套 #带狗出门 #便携
+Front teeth first, then the sides — same order every time #petfinger #dogteeth #routine | 先门牙再两侧，每次顺序都一样 #宠物清洁指套 #狗牙 #日常习惯
+Dexterity is the whole reason this exists #petfinger #pethacks #smallspots | 灵活就是它存在的全部理由 #宠物清洁指套 #养狗技巧 #小部位

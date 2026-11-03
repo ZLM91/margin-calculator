@@ -1,0 +1,13 @@
+{
+  "name": "宠物清洁指套 Pet Finger Sleeves（牙齿/耳廓/眼角等小部位）",
+  "icon": "🪥",
+  "key": "petfinger",
+  "match": "指套",
+  "ui_label": "宠物清洁指套",
+  "expect_per_batch": 18,
+  "batches": {
+    "1": "tools/pet_finger_b1.txt",
+    "2": "tools/pet_finger_b2.txt",
+    "3": "tools/pet_finger_b3.txt"
+  }
+}

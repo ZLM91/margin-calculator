@@ -1,0 +1,13 @@
+{
+  "name": "宠物沐浴露 Pet Shampoo（500ml · 随盒送刷子 · 洗后蓬松）",
+  "icon": "🧴",
+  "key": "petshampoo",
+  "match": "沐浴露",
+  "ui_label": "宠物沐浴露",
+  "expect_per_batch": 18,
+  "batches": {
+    "1": "tools/pet_shampoo_b1.txt",
+    "2": "tools/pet_shampoo_b2.txt",
+    "3": "tools/pet_shampoo_b3.txt"
+  }
+}

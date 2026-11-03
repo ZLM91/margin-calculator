@@ -1179,7 +1179,7 @@ button:hover { background: #F0EDE6; }
   <div id="tiktokEmpty" style="text-align:center;padding:60px 20px;color:#999;">
     <div style="font-size:48px;margin-bottom:12px;">📝</div>
     <div style="font-size:15px;font-weight:500;margin-bottom:6px;">点击上方按钮加载 TikTok 文案文件</div>
-    <div style="font-size:12px;">支持 .md / .txt 格式，文案按日期每4天自动轮换（共3批，纯痛点：湿厕纸 / 旅行装 / 洗脸巾 / 婴儿湿巾 / 泥膜 / 洁面啫喱 / 宠物清洁手套）；洁面啫喱、宠物清洁手套专用文案同步轮换；也可用 📂 手动选任意批次文件</div>
+    <div style="font-size:12px;">支持 .md / .txt 格式，文案按日期每4天自动轮换（共3批，纯痛点：湿厕纸 / 旅行装 / 洗脸巾 / 婴儿湿巾 / 泥膜 / 洁面啫喱 / 宠物清洁手套 / 宠物沐浴露 / 宠物洗爪杯 / 宠物清洁指套）；洁面啫喱、宠物清洁手套专用文案同步轮换；也可用 📂 手动选任意批次文件</div>
   </div>
 </div><!-- /tab-tiktok -->
 
@@ -7931,7 +7931,10 @@ function parseAndRenderTiktok(mdText) {
     if (name.indexOf('牙膏') >= 0) return 'toothpaste';
     if (name.indexOf('泥膜') >= 0) return 'mudmask';
     if (name.indexOf('洁面') >= 0) return 'cleanser';
-    if (name.indexOf('宠物') >= 0) return 'pet';
+    if (name.indexOf('宠物清洁手套') >= 0) return 'pet';
+    if (name.indexOf('沐浴露') >= 0) return 'petshampoo';
+    if (name.indexOf('洗爪杯') >= 0) return 'pawcup';
+    if (name.indexOf('指套') >= 0) return 'petfinger';
     return 'other';
   }
 
@@ -7965,7 +7968,10 @@ function parseAndRenderTiktok(mdText) {
       else if (catName.indexOf('牙膏') >= 0) icon = '🦷';
       else if (catName.indexOf('泥膜') >= 0) icon = '🧼';
       else if (catName.indexOf('洁面') >= 0) icon = '🧴';
-      else if (catName.indexOf('宠物') >= 0) icon = '🐾';
+      else if (catName.indexOf('宠物清洁手套') >= 0) icon = '🐾';
+      else if (catName.indexOf('沐浴露') >= 0) icon = '🧴';
+      else if (catName.indexOf('洗爪杯') >= 0) icon = '🐾';
+      else if (catName.indexOf('指套') >= 0) icon = '🪥';
       else icon = '📌';
 
       // 去重：如果已有同 catKey 的 category，复用旧的（避免批次文件 + 专用文件都带品类标题时重复渲染）

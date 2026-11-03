@@ -1,0 +1,13 @@
+{
+  "name": "宠物洗爪杯 Paw Cleaner Cup（杯体+清洗液一体）",
+  "icon": "🐾",
+  "key": "pawcup",
+  "match": "洗爪杯",
+  "ui_label": "宠物洗爪杯",
+  "expect_per_batch": 18,
+  "batches": {
+    "1": "tools/pet_pawcup_b1.txt",
+    "2": "tools/pet_pawcup_b2.txt",
+    "3": "tools/pet_pawcup_b3.txt"
+  }
+}
