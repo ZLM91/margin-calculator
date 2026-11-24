@@ -18,3 +18,4 @@ Plain cleanser coasts on top, the gel texture grips into the pore mouth. #DeepCl
 Soap dries the cheek yet the nose stays greasy, gel evens it out. #GentleClean #CleanserGel #OilControl | 肥皂把脸颊洗干鼻子却还油，啫喱把它摆平。 #洁面啫喱 #温和 #控油
 Foam promises fresh but misses the buildup, gel reaches the stuck layer. #DeepCleansing #CleanserGel #GentleExfoliation | 泡沫说清爽却漏掉堆积层，啫喱够到那层黏住的东西。 #洁面啫喱 #深层清洁 #温和去角质
 Water alone never touches the pore gunk, a gel pulls it out gently. #DeepCleansing #CleanserGel #GentleClean | 光用水碰不到毛孔里的脏，啫喱温地把带出来。 #洁面啫喱 #温和 #深层清洁
+Once you switch to a deep cleansing gel, you'll never go back #DeepCleansing #CleanserGel #OilControl | 一旦换成深层控油洁面啫喱，就再也回不去了 #洁面啫喱 #控油

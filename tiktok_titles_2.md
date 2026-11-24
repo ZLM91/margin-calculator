@@ -20,6 +20,7 @@ Dry paper on sensitive days leaves you red and raw #wipes #wetwips #toiletpaper 
 Thin public toilet paper tears the moment it gets wet #wipes #wetwips #toiletpaper | 公共厕纸一湿就破 #湿厕纸 #益生菌湿厕纸
 Dry paper gives microscopic scratches you cannot see #wipes #wetwips #toiletpaper | 干纸留下你看不见的细小划痕 #湿厕纸 #益生菌湿厕纸
 You go back to check because dry paper never feels done #wipes #wetwips #toiletpaper | 你回头再看，因为干纸总像没擦完 #湿厕纸 #益生菌湿厕纸
+Once you switch to wet wipes, going back to dry paper is hard #wipes #wetwips #toiletpaper | 一旦换成湿厕纸，就很难回到干纸巾 #湿厕纸 #日常
 
 ### 🧻✈️ 旅行装湿厕纸 Travel Wet Wipes（金盏花 · Marigold）
 
@@ -41,6 +42,7 @@ Beach trip public baths have the worst paper #wipes #wetwips #toiletpaper #trave
 You pack light but forget the one thing that matters #wipes #wetwips #toiletpaper #travelsize | 你轻装出行却忘带最要紧的那样 #湿厕纸 #旅行装湿厕纸
 A stranger's leftover paper is not your clean #wipes #wetwips #toiletpaper #travelsize | 陌生人留下的纸不是你的干净 #湿厕纸 #旅行装湿厕纸
 Roadside stalls have paper you would not touch #wipes #wetwips #toiletpaper #travelsize | 路边摊的纸你碰都不想碰 #湿厕纸 #旅行装湿厕纸
+Once you switch to travel wet wipes, hotel paper becomes a hard pass #wipes #wetwips #travelsize | 一旦换成旅行装湿厕纸，酒店厕纸就变得难接受 #湿厕纸 #旅行装湿厕纸
 
 ### 🛀 一次性洗脸巾 Disposable Face Towels
 
@@ -62,6 +64,7 @@ Post-workout, a gym towel is the last thing your face wants #facialtowel #dispos
 The same towel every morning spreads yesterday's bacteria #facialtowel #disposable #skincare | 每天同一条毛巾，把昨天的细菌铺开 #一次性洗脸巾 #护肤
 A fresh face towel should be normal, not a treat #facialtowel #disposable #skincare | 干净洗脸巾该是日常不是奖赏 #一次性洗脸巾 #护肤
 You would not reuse a dishcloth on your face — so why the towel #facialtowel #disposable #skincare | 你不会用抹布擦脸，毛巾凭啥 #一次性洗脸巾 #护肤
+Once you switch to hanging disposable face towels, a damp towel feels wrong #facialtowel #disposable #skincare | 一旦换成悬挂式一次性洗脸巾，潮毛巾就变得不对劲 #一次性洗脸巾 #护肤
 
 ### 🦲 牙膏 Toothpaste（木糖醇 · 水合二氧化硅 · 烟酰胺）
 
@@ -83,6 +86,7 @@ Date night confidence starts with breath — xylitol fresh keeps you close #toot
 Bleeding gums scare you? Switch to a gentler niacinamide formula #toothpaste #dentalcare #oralcare | 牙龈出血让你怕？换更温和的烟酰胺配方 #牙膏 #口腔护理
 All-day fresh from one brush — xylitol and silica team up #toothpaste #dentalcare #oralcare | 刷一次管一天清爽——木糖醇和硅联手 #牙膏 #口腔护理
 Tired of toothpaste that stings? Xylitol sweet-fresh is the gentle switch #toothpaste #dentalcare #oralcare | 受够辣嘴牙膏？木糖醇甜清新是温和切换 #牙膏 #口腔护理
+Once you switch to silica toothpaste, going back feels like a step backward #toothpaste #dentalcare #oralcare | 一旦换成水合二氧化硅牙膏，回头都像倒退 #牙膏 #口腔护理
 
 ### 🧼 控油清洁泥膜 Cleansing Mud Mask（Matern'ella · 曼尼古根黏土 + 高岭土）
 
@@ -104,6 +108,7 @@ A shiny forehead ruins photos — clay mattes it #OilControl #ClayMask #MudMask 
 Sensitive and oily is a hard combo — clay manages both #OilControl #ClayMask #MudMask | 又敏又油难搞——泥膜两手管 #控油泥膜 #清洁泥膜
 You rinse and shine returns — clay holds it off #OilControl #ClayMask #MudMask | 一洗油光回——泥膜挡住 #控油泥膜 #清洁泥膜
 Monday skin looks tired — a mask wakes it #OilControl #ClayMask #MudMask | 周一脸显累——泥膜唤醒 #控油泥膜 #清洁泥膜
+Once you switch to a clay mud mask, an oily T-zone is no longer routine #OilControl #ClayMask #MudMask | 一旦换成黏土泥膜，T区出油不再是日常 #控油泥膜 #清洁泥膜
 
 
 ### 👶 纯水婴儿湿巾 Baby Water Wipes（Matern'ella · 纯化水配方 · 无香精无酒精无荧光剂 · 加厚）
@@ -126,6 +131,7 @@ Used ten times a day means the ingredient list matters ten times over #babywipes
 Skin folds, neck creases, behind the ears — the spots everyone forgets #babywipes #newborn #babycare | 皮肤褶皱、脖子缝、耳后，最容易被忘的地方 #婴儿湿巾 #新生儿 #细节
 Newborns get wiped before every feed, every nap, every change #babywipes #newborn #diaperchange | 新生儿喂奶前、睡前、每次换片都要擦 #婴儿湿巾 #新生儿 #高频使用
 Dry skin meeting a scented product is a fight nobody wins #babywipes #sensitiveskin #babycare | 干燥的皮肤碰上带香的东西，没有赢家 #婴儿湿巾 #敏感肌 #无香精
+Once you switch to pure water wipes, scented wipes feel like a compromise #babywipes #babycare #fragrancefree | 一旦换成纯水湿巾，香味湿巾就像妥协 #婴儿湿巾 #无香精
 
 ### 🧴 宠物沐浴露 Pet Shampoo（500ml · 随盒送刷子 · 洗后蓬松）
 
@@ -147,6 +153,7 @@ Two dogs, one bottle, no mid-bath store run #petshampoo #multidog #bigbottle | �
 The brush doubles as a massage the dog leans right into #petshampoo #dogbrush #bonding | 刷子还能当按摩用，狗直接往你身上靠 #宠物沐浴露 #送刷子 #互动
 A coat that stays flat after a bath — shampoo issue, not dryer issue #petshampoo #fluffycoat #doggrooming | 洗完还是塌，那是浴液的问题不是吹风机的问题 #宠物沐浴露 #蓬松毛发 #洗护
 The 500ml sits steady on the shelf instead of tipping in the tub #petshampoo #bigbottle #pethacks | 500ml 放得住，不会在浴缸里东倒西歪 #宠物沐浴露 #大容量 #养狗技巧
+Once you switch to shampoo with the included brush, old bath routines feel slow #petshampoo #dogbrush #pethacks | 一旦换成带刷子的沐浴露，旧洗澡流程就显得慢 #宠物沐浴露 #送刷子
 
 ### 🐾 宠物洗爪杯 Paw Cleaner Cup（杯体+清洗液一体）
 
@@ -168,6 +175,7 @@ Trunk kit: water, towel, one paw cup #pawcleaner #cardog #traveldog | 后备箱�
 Dirt lines on the stairs stop at the doorway #pawcleaner #cleanfloor #dogwalk | 楼梯上的爪印，到门口就断了 #宠物洗爪杯 #地板干净 #遛狗
 Ten seconds a paw, forty seconds a dog #pawcleaner #quickclean #howto | 一只爪十秒，一只狗四十秒 #宠物洗爪杯 #快速清洁 #用法
 A paw cup lives on the floor by the door and earns its spot #pawcleaner #cleanhome #pethacks | 洗爪杯就放门口地上，占地儿但值 #宠物洗爪杯 #居家清洁 #养狗技巧
+Once you switch to a paw cleaner cup, the doorway becomes the cleanup spot #pawcleaner #quickclean #dogwalk | 一旦换成洗爪杯，门口就成了清洁点 #宠物洗爪杯 #快速清洁
 
 ### 🪥 宠物清洁指套 Pet Finger Sleeves（牙齿/耳廓/眼角等小部位）
 
@@ -189,3 +197,4 @@ Wipes for the body, sleeves for the details #petfinger #smallspots #petcleaning 
 Hotel room, no sink setup, one sleeve does the job #petfinger #traveldog #portable | 住酒店没地方摆洗具，一片指套就够 #宠物清洁指套 #带狗出门 #便携
 Front teeth first, then the sides — same order every time #petfinger #dogteeth #routine | 先门牙再两侧，每次顺序都一样 #宠物清洁指套 #狗牙 #日常习惯
 Dexterity is the whole reason this exists #petfinger #pethacks #smallspots | 灵活就是它存在的全部理由 #宠物清洁指套 #养狗技巧 #小部位
+Once you switch to finger sleeves, a big glove feels too blunt for details #petfinger #smallspots #pethacks | 一旦换成指套，大手套做细节就显得粗 #宠物清洁指套 #小部位

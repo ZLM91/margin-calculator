@@ -16,3 +16,4 @@ Wiping paws with a paper towel tears it to bits — the glove is built for the j
 Dog rolls in something nasty at the park — the glove handles cleanup fast, no water. #dogwalk #waterless | 狗在公园滚了脏东西——手套免水洗快速搞定 #宠物清洁手套 #遛狗
 Black work clothes ruined by paw prints — the glove wipes before you leave. #petcleaning #pethacks | 黑西装被爪印毁穿搭——手套出门前就擦掉 #宠物清洁手套 #养狗
 Bath anxiety is real for both of you — the glove turns it into a dry cuddle. #waterless #petcleaning | 洗澡焦虑你俩都有——手套把它变成干爽抱抱 #宠物清洁手套 #免水洗
+Once you switch to waterless cleaning gloves, you'll never go back #waterless #petcleaning #dogwalk | 一旦换成免水洗清洁手套，就再也回不去了 #宠物清洁手套 #免水洗

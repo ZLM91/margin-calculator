@@ -16,3 +16,4 @@ Pet dirt on your food prep — the glove clears the counter. #petcleaning #petha
 Every walk is a mess day with this dog — the glove makes peace with it, dry. #dogwalk #waterless | 养这狗每天遛完都脏——手套让你干爽和解 #宠物清洁手套 #遛狗
 Visiting family with a pet — the glove freshens him in the doorway, no bath. #petcleaning #waterless | 带宠回老家——手套在门口就让它焕新，不洗澡 #宠物清洁手套 #免水洗
 Beach day, sandy paws — the glove brushes the sand off before the car. #dogwalk #waterless | 去海边爪子沾沙——手套上车前把沙掸掉 #宠物清洁手套 #遛狗
+Once you switch to cleaning gloves, you'll never go back to chasing a wet dog #waterless #dogwalk #petcleaning | 一旦换成清洁手套，就再也回不去追湿狗 #宠物清洁手套 #遛狗
